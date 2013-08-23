@@ -1,0 +1,142 @@
+.edit, .trash {
+	font-size: 0px;
+	margin-right: 10px;
+}
+#lead-picture {
+	width: 55px;
+}
+select[name='seo_filter'] {
+	display: none;
+}
+.lead-grav-img {
+margin-right: 10px;
+background: #FCFDFE;
+border: 1px solid #E0E0E0;
+-moz-border-radius: 7px;
+border-radius: 7px;
+}
+.lead_meta_val {
+	display: none;
+}
+.left-float-filter {
+	float: left;
+display: inline-block;
+clear: both;
+padding: 6px;
+padding-left: 0px;
+padding-top: 9px;
+font-size: 18px;
+font-weight: 300;
+}
+.subsubsub {
+margin: 0px;
+padding: 0px;
+vertical-align: top;
+margin-bottom: 10px;
+padding-top: 2px;
+}
+.row-actions {
+	position: relative;
+	width: 500px;
+	margin-top: 3px;
+}
+.tablenav .actions {
+overflow: hidden;
+padding: 2px 8px 0 0;
+padding-right: 0px;
+}
+td.first-name {
+	overflow: visible;
+font-size: 17px;
+padding-top: 8px;
+}
+td.last-name {
+	font-size: 17px;
+padding-top: 8px;
+}
+#cb {
+	width: 22px;
+}
+#conversion-count {
+width: 77px;
+text-align: center;}
+#page-views {
+	width: 73px;
+text-align: center;
+}
+.wp-list-table td.conversion-count, .wp-list-table td.page-views{
+    font-size: 18px;
+    color: #000;
+	margin: 0;
+	text-align: center;
+	padding-top: 15px;
+	border-right: 1px solid #EBEBEA;
+}
+.wp-list-table td.conversion-count {
+border-left: 1px solid #EBEBEA;	
+}
+.mark-viewed {
+	margin-left: 8px;
+font-size: 12px;
+}
+.edit a, .trash a, .clone a, .mark-viewed, .mark-viewed-undo {
+	background: #94BA65 url('/wp-content/plugins/lp-lead-manager/images/leads-button.png') repeat-x top left;
+border: 1px solid rgba(0,0,0,0.15);
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+-webkit-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+-moz-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+color: #fff;
+cursor: pointer;
+display: inline-block;
+font-family: inherit;
+font-size: 14px;
+font-weight: bold;
+padding: 4px 5px;
+text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
+}
+.edit a:hover, .trash a:hover, .clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover  {
+background-image: url('/wp-content/plugins/lp-lead-manager/images/gradhov.png');
+color: #fff;
+}
+.clone a:hover {
+	color:#000;
+}
+.mark-viewed, .mark-viewed-undo {
+	background-color: #4A4845;
+	font-size: 14px;
+	padding: 4px 5px;
+}
+.mark-viewed-undo {
+	display: none ;
+	margin-left: 8px;
+}
+.edit a, .trash a {
+	color:#fff !important;
+}
+.trash a {
+	background-color: #fc5a5a;
+	font-size: 14px;
+}
+.clone a {
+	font-size: 14px;
+	background-color: #f4f4f4;
+border-color: #ccc;
+-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+-moz-box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
+color: #666;
+text-shadow: none;
+}
+li.trash a {
+	background-color: transparent;
+	font-size: 12px;
+	color:#21759b !important;
+	border: none;
+	box-shadow: none;
+	border-radius: none;
+	font-weight: normal;
+	text-shadow: none;
+}
