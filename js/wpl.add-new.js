@@ -1,4 +1,7 @@
 jQuery(document).ready(function($) {
    // put all your jQuery goodness in here.
-   jQuery("#show-hidden-fields").click();
+   jQuery("#wpleads_lead_tab_main_inner").show();
+   jQuery("#wpleads_main_container tr").show();
+  
+   
  });
