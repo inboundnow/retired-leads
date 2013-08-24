@@ -317,6 +317,7 @@ function wp_leads_header_area()
 	</div>
     <?php 
 }
+
 function wp_leads_save_header_area( $post_id )
 {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
