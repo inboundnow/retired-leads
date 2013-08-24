@@ -7,7 +7,6 @@ Version: 1.0.9.7
 Author: David Wells, Hudson Atwell
 Author URI: http://www.inboundnow.com/
 */
-
 		
 define('WP_CTA_CURRENT_VERSION', '1.0.9.7' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
