@@ -12,6 +12,9 @@ overflow: visible !important;
 #wp-cta-notes-area input:focus{
 	color: #000;
 }
+#local-storage-notice {
+	display: none !important;
+}
 .wp-cta-option-area.field-checkbox {
 	vertical-align: bottom;
 }
