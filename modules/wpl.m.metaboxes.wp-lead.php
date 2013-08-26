@@ -504,10 +504,7 @@ function wplead_add_metabox_main() {
 		'normal', // $context
 		'high'); // $priority 
 }
-// Sort Array by date
- function wp_leads_sort_array_datetime($a,$b){
-        return strtotime(end($a['dates']))<strtotime(end($b['dates']))?1:-1;
-};
+
 // Render select template box
 function wpleads_display_metabox_main() {
 	//echo 1; exit;
@@ -650,70 +647,56 @@ function wpleads_display_metabox_main() {
 			<div id="all-lead-history"><ol></ol></div>
 			<div id="lead-conversions" class='lead-activity'>
 				<h2>Landing Page Conversions</h2>
-			<?php 
-			$query = 'SELECT * FROM '.$wpdb->prefix.'lead_tracking WHERE lead_id = "'.$post->ID.'" AND nature="conversion" ORDER BY id DESC';
-			$result = mysql_query($query);
-			if (!$result){ echo $sql; echo mysql_error(); exit; }
 			
-			$i = 0;
-			while ($array = mysql_fetch_array($result))
-			{
-				//echo "here";
-				$row_id = $array['id'];
-				$data = json_decode( $array['data'] , true);
-	
-				//print_r($data);exit;
-				$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
-				$wordpress_date_time =  date_i18n($timezone_format);
-				
-				$sessions = array();
-				foreach ($data as $key => $value)
+			<?php $conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
+				  $conversions_array = json_decode($conversions, true);
+           	//print_r($conversions);
+            // Sort Array by date
+			 function leads_sort_array_datetime($a,$b){
+			        return strtotime($a['datetime'])<strtotime($b['datetime'])?1:-1;
+			};
+       		 uasort($conversions_array,'leads_sort_array_datetime'); // Date sort  
+       		$conversion_count = count($conversions_array);
+          	if ($conversions) 
+          	{
+ 				$i = $conversion_count;
+				foreach ($conversions_array as $key => $value)
 				{	
 					//print_r($value);
-					if (in_array($value['session_id'],$sessions))
-						continue; 
-								
-					if (array_key_exists('converted_page', $value))
-					{
-						$i++;
-						$session_id  = $value['session_id'];
-						$converted_page_id  = $value['converted_page']['page_id'];
+				
+						$converted_page_id  = $value['id'];
 						$converted_page_permalink   = get_permalink($converted_page_id);
 						$converted_page_title = get_the_title($converted_page_id);
 						
-						if (array_key_exists('datetime', $value['converted_page']))
+						if (array_key_exists('datetime', $value))
 						{
-							$converted_page_time = $value['converted_page']['datetime'];
+							$converted_page_time = $value['datetime'];
 						}
 						else
 						{
 							$converted_page_time = $wordpress_date_time;
 						}
 							
-						$date_raw = new DateTime($converted_page_time);
-						$date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
-						$clean_date = $date_raw->format('Y-m-d H:i:s');
+						$conversion_date_raw = new DateTime($converted_page_time);
+						$date_of_conv = $conversion_date_raw->format('F jS, Y \a\t g:ia (l)');
+						$conversion_clean_date = $conversion_date_raw->format('Y-m-d H:i:s');
 						
 						// Display Data
-						echo '<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="'.$clean_date.'">
+						echo '<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="'.$conversion_clean_date.'">
 								<a class="lead-timeline-img" href="#non">
 									<img src="/wp-content/plugins/leads/images/page-view.png" alt="" width="50" height="50" />
 								</a>
 									
 								<div class="lead-timeline-body">
 									<div class="lead-event-text">
-									  <p><span class="lead-item-num">'.$i.'.</span><span class="lead-helper-text">Converted on landing page/form: </span><a href="'.$converted_page_permalink.'" id="lead-session-'.$i.'" rel="'.$i.'" target="_blank">'.$converted_page_title.'</a><span class="conversion-date">'.$date_of_conversion.'</span> <!--<a rel="'.$i.'" href="#view-session-"'.$i.'">(view visit path)</a>--></p>
+									  <p><span class="lead-item-num">'.$i.'.</span><span class="lead-helper-text">Converted on landing page/form: </span><a href="'.$converted_page_permalink.'" id="lead-session-'.$i.'" rel="'.$i.'" target="_blank">'.$converted_page_title.'</a><span class="conversion-date">'.$date_of_conv.'</span> <!--<a rel="'.$i.'" href="#view-session-"'.$i.'">(view visit path)</a>--></p>
 									</div>
 								</div>
 							</div>';
-						
-						
-						$sessions[] = $value['session_id'];
-					}
-				}
-			}
-			
-			if (!$i) {
+						$i--;
+					
+				} 
+			} else {
 				echo "<span id='wpl-message-none'>No conversions found!</span>";
 			}
 		
@@ -727,65 +710,70 @@ function wpleads_display_metabox_main() {
 			$page_views = get_post_meta($post->ID,'page_views', true);
 			
             $page_view_array = json_decode($page_views, true);
-            // echo "First id : ". $page_view_array[1]['id'] . "!"; // Get specific value
-          
-            if ($page_views) {
-            	//echo "<ol>";
-            uasort($page_view_array,'wp_leads_sort_array_datetime'); // Date sort
-             $count = count($page_view_array);
-       
-            foreach($page_view_array as $key=>$val)
+           
+            // Sort Array by date
+			 function wp_leads_sort_array_datetime($a,$b){
+			        return strtotime($a['dates'])<strtotime($b['dates'])?1:-1;
+			};
+       		// uasort($page_view_array,'wp_leads_sort_array_datetime'); // Date sort  
+          	if ($page_views) {
+          		$main_count = 0;
+          		foreach($page_view_array as $key=>$val)
+                {
+                	$main_count += count($page_view_array[$key]);
+                }
+               
+             
+          	 $count = $main_count;
+          	 foreach($page_view_array as $key=>$val)
                 {
                 	
                     $id = $key;
-                    //$type_of_page = $page_view_array[$key]['page_type'];
-
-                    if (strpos($id,'cat_') !== false) {
+       	
+                    foreach ($val as $new_key => $date) {
+                  		
+                  		if (strpos($id,'cat_') !== false) {
                     	$cat_id = str_replace("cat_", "", $id);
                     	$title = get_cat_name($cat_id) . " Category Page";
                     	$tag_names = '';
-                    } 
-                    elseif (strpos($id,'tag_') !== false) {
+                    	$page_url = get_category_link( $cat_id );
+
+                    	} elseif (strpos($id,'tag_') !== false) {
                     	$tag_id = str_replace("tag_", "", $id);
                     	$tag = get_tag( $tag_id );
                     	$title = $tag->name . " - Tag Page";
                     	$tag_names = '';
-                    } 
-                    else {
+                    	$page_url = get_tag_link($tag_id);
+                    	} else {
                     	$title = get_the_title($id);
                     	$tag_names = wp_get_post_tags( $id, array( 'fields' => 'names' ) );
-                    }
-                    
-                   // $display_location = get_permalink($id);
+                    	$page_url = get_permalink( $id );
+                   		}
                   
-                    $date_raw = new DateTime(end($page_view_array[$key]['dates']));
-                    $page_url = $page_view_array[$key]['url'];
-                    $page_view_count = count($page_view_array[$key]['dates']);
-                    $this_post_type = get_post_type($id);
-
-                    ($page_view_count > 1) ? $show_count = "<span class='lead-page-view-count'> (" . $page_view_count . ")</span>" : $show_count = "";
-
-                    $date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
-                    $clean_date = $date_raw->format('Y-m-d H:i:s');
-               		
-               		// Display Data
-                    echo '<div class="lead-timeline recent-conversion-item page-view-item '.$this_post_type.'" title="'.$page_url.'" data-date="'.$clean_date.'">
+                    	$this_post_type = get_post_type($id);
+                    	$date_raw = new DateTime($date);
+                    	$date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
+                    	$clean_date = $date_raw->format('Y-m-d H:i:s');
+                   		// Display Data
+                   		 echo '<div class="lead-timeline recent-conversion-item page-view-item '.$this_post_type.'" title="'.$page_url.'"  data-date="'.$clean_date.'">
 								<a class="lead-timeline-img page-views" href="#non">
 									
 								</a>
 									
 								<div class="lead-timeline-body">
 									<div class="lead-event-text">
-									  <p><span class="lead-item-num">'.$count.'.</span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_url.'" id="lead-session-'.$count.'" rel="'.$count.'" target="_blank">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
+									  <p><span class="lead-item-num">'.$count.'.</span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_url.'" id="lead-session" rel="" target="_blank">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
 									</div>
 								</div>
 							</div>';
-                        foreach ($val as $key => $value) {
-                            //echo $key . "=" . $value;
-                        }
-                    $count--;
-                }
-               // echo "</ol>";
+                    	$count--;
+                    }
+
+                    //$type_of_page = $page_view_array[$key]['page_type'];
+
+                 }
+
+
             } else {
                 echo "<span id='wpl-message-none'>No Page View History Found</span>";
             }   
@@ -1004,6 +992,10 @@ function wpleads_save_user_fields($post_id) {
 
 
 /* ADD CONVERSIONS METABOX */
+// 
+// Currently off for debuging
+// Need to revamp this. Mysql custom table isn't cutting it
+// 
 add_action('add_meta_boxes', 'wplead_add_conversion_path');
 function wplead_add_conversion_path() {
 	global $post;
@@ -1024,6 +1016,7 @@ function wpleads_display_conversion_path() {
 	
 	$query = 'SELECT * FROM '.$wpdb->prefix.'lead_tracking WHERE lead_id = "'.$post->ID.'" AND nature="conversion" ORDER BY id DESC';
 	$result = mysql_query($query);
+	print_r($result);
 	if (!$result){ echo $sql; echo mysql_error(); exit; }
 
 	$num_conversion = mysql_num_rows($result);

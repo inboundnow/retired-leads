@@ -8,20 +8,17 @@ function wpl_track_user_callback()
 	global $wpdb;
 	//echo "here";exit;
 	(isset(	$_POST['wp_lead_id'] )) ? $lead_id = $_POST['wp_lead_id'] : $lead_id = '';
-	(isset(	$_POST['nature'] )) ? $nature = $_POST['nature'] : $nature = 'non-conversion';
+	(isset(	$_POST['nature'] )) ? $nature = $_POST['nature'] : $nature = 'non-conversion'; // what is nature?
 	(isset(	$_POST['json'] )) ? $json = addslashes($_POST['json']) : $json = 0;
 	(isset(	$_POST['wp_lead_uid'] )) ? $wp_lead_uid = $_POST['wp_lead_uid'] : $wp_lead_uid = 0;
 	(isset(	$_POST['page_id'] )) ? $page_id = $_POST['page_id'] : $page_id = 0;
 	(isset(	$_POST['current_url'] )) ? $current_url = $_POST['current_url'] : $current_url = 'notfound';
 	
 	if(isset($_POST['wp_lead_id'])) {
-	//	wp_leads_update_page_view_obj($lead_id, $page_id, $current_url);
+		wp_leads_update_page_view_obj($lead_id, $page_id, $current_url);
 	}
-	//print_r($_POST);
-
  
-//Old non logged in tracking. This updates tracking table. We might need the table in future.
-
+/* Old non logged in tracking. This updates tracking table. We might need the table in future. */
 
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s", $time);
@@ -58,7 +55,11 @@ function wpl_track_user_callback()
 	die();
 
 }
-
+/**
+ * wp_leads_update_page_view_obj updates page_views meta for known leads
+ * @param  string $lead_id     [description]
+ * @param  string $page_id     [description]
+ */
 function wp_leads_update_page_view_obj($lead_id, $page_id, $current_url) {
 
 		if($page_id === "" || empty($page_id)){
@@ -85,32 +86,22 @@ function wp_leads_update_page_view_obj($lead_id, $page_id, $current_url) {
 				
 				// increment view count on page
 				if(isset($page_view_data[$page_id])){
-				$current_count = count($page_view_data[$page_id]['dates']);
-
-				//echo "this view" . $wordpress_date_time . "<br>";
-				$last_view = $page_view_data[$page_id]['dates'][$current_count];
-				//$last_view = "2013-08-14 3:44:02 UTC";
-				//echo "last view" . $last_view . "<br>";
+				$current_count = count($page_view_data[$page_id]);
+				$last_view = $page_view_data[$page_id][$current_count];
 				$timeout = abs(strtotime($last_view) - strtotime($wordpress_date_time));
-				// return out of function?
-				} 
-				
-			$page_view_data[$page_id]['url'] = $current_url; // save url
-			//$page_view_data[$page_id]['page_type'] = $post_type; // save post type
+				}
 
 			// If page hasn't been viewed in past 30 seconds. Log it
 			if ($timeout >= 30) {	
-			$page_view_data[$page_id]['dates'][$current_count + 1] = $wordpress_date_time;
+			$page_view_data[$page_id][$current_count + 1] = $wordpress_date_time;
 			$page_view_data = json_encode($page_view_data);
 			update_post_meta( $lead_id, 'page_views', $page_view_data );
 			}
 
 		} else {
-			// Create page_view meta
-			$page_view_data = array();
-			$page_view_data[$page_id]['url'] = $current_url;
-			//$page_view_data[$page_id]['page_type'] = $post_type;	
-			$page_view_data[$page_id]['dates'][1] = $wordpress_date_time;			
+		// Create page_view meta if it doesn't exist
+			$page_view_data = array();	
+			$page_view_data[$page_id][0] = $wordpress_date_time;			
 			$page_view_data = json_encode($page_view_data);
 			update_post_meta( $lead_id, 'page_views', $page_view_data );
 		}
@@ -157,7 +148,7 @@ function wp_leads_get_meta_data($lead_id){
 
 add_action('wp_ajax_wpl_store_lead', 'wpl_store_lead_callback');
 add_action('wp_ajax_nopriv_wpl_store_lead', 'wpl_store_lead_callback');
-
+/* Not in use. Shared Lead storage in use. inbound_store_lead function */
 function wpl_store_lead_callback() 
 {
 	// Grab form values
@@ -211,7 +202,7 @@ function wpl_store_lead_callback()
 				update_post_meta( $post_ID, 'wpleads_uid', $wp_lead_uid );
 				
 			update_post_meta( $post_ID, 'wpleads_ip_address', $ip_address );
-			update_post_meta( $post_ID, 'page_view_temp', $page_views );
+			//update_post_meta( $post_ID, 'page_view_temp', $page_views );
 			update_post_meta( $post_ID, 'wpleads_landing_page_'.$lp_id, 1 );
 			
 			do_action('wpleads_after_conversion_lead_update',$post_ID);
@@ -237,7 +228,7 @@ function wpl_store_lead_callback()
 			update_post_meta( $post_ID, 'wpleads_ip_address', $ip_address );
 			update_post_meta( $post_ID, 'wpleads_uid', $wp_lead_uid );
 			update_post_meta( $post_ID, 'wpleads_landing_page_'.$lp_id, 1 );
-			update_post_meta( $post_ID, 'page_view_temp', $page_views );
+			update_post_meta( $post_ID, 'page_views', $page_views );
 			$geo_array = unserialize(wpl_remote_connect('http://www.geoplugin.net/php.gp?ip='.$ip_address));
 			
 			

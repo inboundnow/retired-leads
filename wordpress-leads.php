@@ -43,6 +43,7 @@ if (is_admin())
 // Needs optimization
 add_action('wp_head', 'wp_leads_get_page_final_id');
 function wp_leads_get_page_final_id(){
+		global $post;
 		$current_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$current_url = preg_replace('/\?.*/', '', $current_url);
 		
@@ -110,14 +111,25 @@ function wpleads_enqueuescripts_header()
 		wp_enqueue_script('jquery-cookie', WPL_URL . '/js/jquery.cookie.js', array( 'jquery' ));
 		wp_register_script('jquery-total-storage',WPL_URL . '/js/jquery.total-storage.min.js', array( 'jquery' ));
 		wp_enqueue_script('jquery-total-storage');
+
+		if($post_id === 0){
+				$final_page_id = wp_leads_get_page_final_id();
+			} else {
+				$final_page_id = $post_id;
+			}
+
 		wp_enqueue_script( 'funnel-tracking' , WPL_URL . '/js/wpl.funnel-tracking.js', array( 'jquery','jquery-cookie'));
-		wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array));
+		wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => $final_page_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array));
 
 		// Load Lead Page View Tracking
 		$lead_page_view_tracking = get_option( 'page-view-tracking' , 1);
 		if ($lead_page_view_tracking)
 		{	
-			$final_page_id = wp_leads_get_page_final_id();
+			if($post_id === 0){
+				$final_page_id = wp_leads_get_page_final_id();
+			} else {
+				$final_page_id = $post_id;
+			}
 			wp_enqueue_script( 'wpl-nonconversion-tracking' , WPL_URL . '/js/wpl.nonconversion-tracking.js', array( 'jquery','jquery-cookie','funnel-tracking'));
 			wp_localize_script( 'wpl-nonconversion-tracking' , 'wplnct', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'final_page_id' => $final_page_id  ));
 		}

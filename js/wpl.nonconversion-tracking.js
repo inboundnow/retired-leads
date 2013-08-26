@@ -1,4 +1,3 @@
-	
 jQuery(document).ready(function($) {
 	//alert(wplnct.admin_url);
 	
@@ -8,7 +7,7 @@ jQuery(document).ready(function($) {
 	//var data_block = jQuery.parseJSON(trackObj);
 	var json = JSON.stringify(trackObj);
 	var page_id = wplnct.final_page_id;
-	console.log(page_id);
+	//console.log(page_id);
 
 if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {	
 	jQuery.ajax({

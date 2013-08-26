@@ -124,7 +124,7 @@
 				type: 'POST',
 				url: '<?php echo admin_url('admin-ajax.php') ?>',
 				data: {
-					action: 'wpl_store_lead',
+					action: 'inbound_store_lead',
 					emailTo: email, 
 					first_name: firstname, 
 					last_name: lastname,
