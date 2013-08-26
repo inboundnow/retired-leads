@@ -49,7 +49,7 @@ add_action('wp_cta_init', 'inbound_include_template_functions');
 
 if (!function_exists('inbound_include_template_functions')) {
 function inbound_include_template_functions(){
-	include_once('core/functions.templates.php');
+	include_once('shared/functions.templates.php');
 }
 }
 

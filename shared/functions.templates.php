@@ -3,7 +3,7 @@
 // Convert Hex to RGB Value for submit button
 if (!function_exists('inbound_Hex_2_RGB')) {
 	function inbound_Hex_2_RGB($hex) {
-	        $hex = ereg_replace("#", "", $hex);
+	        $hex = preg_replace("/#/", "", $hex);
 	        $color = array();
 	 
 	        if(strlen($hex) == 3) {
