@@ -340,7 +340,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		}
 
 		// begin a table row with
-		echo '<tr class="'.$field['id'].' '.$raw_option_id.' wp-call-to-action-option-row">
+		echo '<tr class="'.$field['id'].' wp-call-to-action-option-row">
 				<th class="wp-call-to-action-table-header '.$label_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></th>
 				<td class="wp-call-to-action-option-td">';
 				switch($field['type']) {
