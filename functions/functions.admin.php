@@ -47,7 +47,8 @@ function wp_cta_admin_enqueue($hook)
 		// Add New and Edit Screens
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
 			//echo wp_create_nonce('wp-cta-nonce');exit;
-
+			
+			add_filter( 'wp_default_editor', 'wp_cta_ab_testing_force_default_editor' );/* force visual editor to open in text mode */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
 			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ) );
 			

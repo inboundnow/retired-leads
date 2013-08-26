@@ -133,8 +133,7 @@ if (is_admin())
 		}
 	}
 	
-	/* force visual editor to open in text mode */
-	add_filter( 'wp_default_editor', 'wp_cta_ab_testing_force_default_editor' );
+	
 	function wp_cta_ab_testing_force_default_editor() {
 		//allowed: tinymce, html, test
 		return 'html';
