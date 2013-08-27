@@ -76,13 +76,15 @@ if (is_admin())
 			$url = site_url();
 			$default = WPL_URL . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-			$response = get_headers($gravatar);
+		/*
+			Super expensive call. Need more elegant solution
+		 	$response = get_headers($gravatar);
 			if ($response[0] === "HTTP/1.0 302 Found"){
     			$gravatar = $url . '/wp-content/plugins/leads/images/gravatar_default_50.jpg';	
 			} else {
 				$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			}
-		
+		*/	
 			  echo'<img class="lead-grav-img" src="'.$gravatar.'">';
 			  break;
 			case "first-name":

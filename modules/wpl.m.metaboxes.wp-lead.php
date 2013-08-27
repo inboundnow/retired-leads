@@ -570,14 +570,7 @@ function wpleads_display_metabox_main() {
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
 		
-			$response = get_headers($gravatar);
-			if ($response[0] === "HTTP/1.0 302 Found"){
-    			$gravatar = $url . '/wp-content/plugins/leads/images/gravatar_default_150.jpg';
-    			$gravatar2 = $url . '/wp-content/plugins/leads/images/gravatar_default_50.jpg';		
-			} else {
-				$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-				$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
-			}
+	
 
 			?>
 			<div id="lead_image">
@@ -1026,7 +1019,7 @@ function wpleads_display_conversion_path() {
 	
 	$query = 'SELECT * FROM '.$wpdb->prefix.'lead_tracking WHERE lead_id = "'.$post->ID.'" AND nature="conversion" ORDER BY id DESC';
 	$result = mysql_query($query);
-	print_r($result);
+	
 	if (!$result){ echo $sql; echo mysql_error(); exit; }
 
 	$num_conversion = mysql_num_rows($result);
@@ -1143,7 +1136,7 @@ function wpleads_display_conversion_path() {
 						$this_page = $pageview['current_page'];
 						$this_page = preg_replace('/\?.*/', '', $this_page);
 						//echo $this_page;
-						$page_id = wpl_url_to_postid($this_page);
+						/* $page_id = wpl_url_to_postid($this_page);
 						$tags = wp_get_post_tags( $page_id, array( 'fields' => 'names' ) );
 						if(!empty($tags)){
 							foreach ($tags as $tag) {
@@ -1151,6 +1144,7 @@ function wpleads_display_conversion_path() {
 							}
 						}
 						// End get tags from pages
+						*/
 					?>
 					<div class="lp-page-view-item">
 						
