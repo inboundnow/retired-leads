@@ -33,7 +33,7 @@ if (is_admin())
 	register_activation_hook(__FILE__, 'wpleads_activate');
 	include_once('modules/wpl.m.activate.php'); 
 	include_once('modules/wpl.m.metaboxes.wp-lead.php'); 
-	include_once('modules/wpl.m.metaboxes.list.php');   
+	//include_once('modules/wpl.m.metaboxes.list.php');   
 	include_once('functions/wpl.f.admin.php'); 	
 	include_once('modules/wpl.m.global-settings.php'); 
 	include_once('modules/wpl.m.dashboard.php');
