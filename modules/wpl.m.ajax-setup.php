@@ -288,7 +288,7 @@ function wpleads_hook_store_lead_post($data)
 		//print_r($data);
 		
 		$json = json_encode($json);
-		$json = addslashes($json);
+		//$json = addslashes($json);
 		
 		//$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
 		//		(lead_id,tracking_id,date,data,nature) VALUES
