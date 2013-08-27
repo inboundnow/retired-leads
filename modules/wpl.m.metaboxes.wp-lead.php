@@ -570,14 +570,7 @@ function wpleads_display_metabox_main() {
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
 		
-			$response = get_headers($gravatar);
-			if ($response[0] === "HTTP/1.0 302 Found"){
-    			$gravatar = $url . '/wp-content/plugins/leads/images/gravatar_default_150.jpg';
-    			$gravatar2 = $url . '/wp-content/plugins/leads/images/gravatar_default_50.jpg';		
-			} else {
-				$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-				$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
-			}
+	
 
 			?>
 			<div id="lead_image">
