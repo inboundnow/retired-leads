@@ -18,7 +18,7 @@ function wpl_track_user_callback()
 		wp_leads_update_page_view_obj($lead_id, $page_id, $current_url);
 	}
  
-/* Old non logged in tracking. This updates tracking table. We might need the table in future. */
+	/* Old non logged in tracking. This updates tracking table. We might need the table in future. */
 
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s", $time);
@@ -288,6 +288,7 @@ function wpleads_hook_store_lead_post($data)
 		//print_r($data);
 		
 		$json = json_encode($json);
+		//$json = addslashes($json);
 		
 		//$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
 		//		(lead_id,tracking_id,date,data,nature) VALUES
@@ -311,12 +312,12 @@ function wpleads_hook_store_lead_post($data)
 		else
 		{
 			//echo "there";
-			$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
+			$query = "INSERT INTO ".$wpdb->prefix."lead_tracking
 					(lead_id,tracking_id,date,data,nature) VALUES
-					("'.$data['lead_id'].'" , "'.$data['wp_lead_uid'].'" , "'.$wordpress_date_time.'" , "'.$json.'" , "conversion")';
+					('".$data['lead_id']."' , '".$data['wp_lead_uid']."' , '".$wordpress_date_time."' , '".$json."' , 'conversion')";
 			
 			$result = mysql_query($query);				
-			if ($result){ echo $query; echo mysql_error(); exit; }
+			if (!$result){ echo $query; echo mysql_error(); exit; }
 			
 			$row_id = mysql_insert_id();
 		}

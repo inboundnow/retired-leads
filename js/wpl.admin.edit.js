@@ -1,5 +1,7 @@
 jQuery(document).ready(function () {
 	
+	jQuery('#wplead_list_category-add-toggle').hide();
+	
 	jQuery('.row-actions').each(function() {
 		var jQuerylist = jQuery(this);
 		var jQueryfirstChecked = jQuerylist.parent().parent().find('.column-first-name');
@@ -9,6 +11,8 @@ jQuery(document).ready(function () {
 
 		jQuerylist.appendTo(jQueryfirstChecked);
 	}); 
+	
+	
 	jQuery("#wpleads_lead_tab_main_inner").fadeIn(1000);
 	jQuery('.touchpoint-value').each(function() {
 		var touch_val = jQuery(this).text();
@@ -155,44 +159,45 @@ jQuery(document).ready(function () {
 
 
 	// Sort by date. http://stackoverflow.com/questions/7211704/jquery-order-by-date-in-data-attribute
-jQuery(document).ready(function($) {
-jQuery("#conversions-data-display .recent-conversion-item").sort(function(a,b){
-    return new Date(jQuery(a).attr("data-date")) > new Date(jQuery(b).attr("data-date"));
-}).each(function(){
-var clone = jQuery(this).clone().addClass("cloned-item");
-    jQuery("#all-lead-history").append(clone);
+	jQuery(document).ready(function($) {
+		jQuery("#conversions-data-display .recent-conversion-item").sort(function(a,b){
+			return new Date(jQuery(a).attr("data-date")) > new Date(jQuery(b).attr("data-date"));
+		}).each(function(){
+		var clone = jQuery(this).clone().addClass("cloned-item");
+			jQuery("#all-lead-history").append(clone);
 
-})
-//jQuery(".cloned-item").wrap("<li>");
-jQuery(".lead-item-num, .lead-activity").hide();
+		})
+		//jQuery(".cloned-item").wrap("<li>");
+		jQuery(".lead-item-num, .lead-activity").hide();
 
 
- var reviews = jQuery('#all-lead-history .recent-conversion-item');
-    reviews.tsort({ attr: 'data-date', order: 'desc' });
-    jQuery('#newest-event').click(function(){
-    	var which_sort = jQuery(".event-order-list").attr("data-change-sort");
-		var the_list = jQuery(which_sort + ' .recent-conversion-item');
-        the_list.tsort({ attr: 'data-date', order: 'desc' });
-        jQuery('.lead-sort-active').removeClass('lead-sort-active');
-        jQuery(this).addClass('lead-sort-active');
-    });
+		 var reviews = jQuery('#all-lead-history .recent-conversion-item');
+		reviews.tsort({ attr: 'data-date', order: 'desc' });
+		jQuery('#newest-event').click(function(){
+			var which_sort = jQuery(".event-order-list").attr("data-change-sort");
+			var the_list = jQuery(which_sort + ' .recent-conversion-item');
+			the_list.tsort({ attr: 'data-date', order: 'desc' });
+			jQuery('.lead-sort-active').removeClass('lead-sort-active');
+			jQuery(this).addClass('lead-sort-active');
+		});
     
-    jQuery('#oldest-event').click(function(){
-    	var which_sort = jQuery(".event-order-list").attr("data-change-sort");
-		var the_list = jQuery(which_sort + ' .recent-conversion-item');
-        the_list.tsort({ attr: 'data-date', order: 'asc' });
-        jQuery('.lead-sort-active').removeClass('lead-sort-active');
-        jQuery(this).addClass('lead-sort-active');
-    });
+		jQuery('#oldest-event').click(function(){
+			var which_sort = jQuery(".event-order-list").attr("data-change-sort");
+			var the_list = jQuery(which_sort + ' .recent-conversion-item');
+			the_list.tsort({ attr: 'data-date', order: 'asc' });
+			jQuery('.lead-sort-active').removeClass('lead-sort-active');
+			jQuery(this).addClass('lead-sort-active');
+		});
  
     jQuery('#highest').click(function(){
-        reviews.tsort({ attr: 'data-rating', order: 'desc' });
-    });
-    
-    jQuery('#lowest').click(function(){
-        reviews.tsort({ attr: 'data-rating', order: 'asc' });
-    });    
- });
+			reviews.tsort({ attr: 'data-rating', order: 'desc' });
+		});
+		
+		jQuery('#lowest').click(function(){
+			reviews.tsort({ attr: 'data-rating', order: 'asc' });
+		});    
+	});
+	
 	// activity toggles
 	jQuery("body").on('click', '.lead-activity-toggle', function (event) {
 		event.preventDefault();

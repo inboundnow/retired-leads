@@ -138,7 +138,7 @@
 						do_action('wpl-lead-collection-add-ajax-data'); 
 					?>
 				},
-				success: function(user_id){
+				success: function(user_id){			
 						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id); 
 						if (form_id)
@@ -152,6 +152,11 @@
 							this_form.unbind('submit');
 							this_form.submit();
 						}
+						
+						jQuery('button, input[type="button"]').css('cursor', 'default');
+						jQuery('input').css('cursor', 'default');
+						jQuery('body').css('cursor', 'default');
+						
 						jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 						jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 						//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
