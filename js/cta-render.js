@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
     var url = cta.url;
     var num = cta.count;
     var behave = cta.behavorial;
-    console.log(behave);
+    //console.log(behave);
     var rand = Math.floor(Math.random()*num);
 }
     
@@ -71,7 +71,25 @@ jQuery(document).ready(function($) {
                 // if frame hidden do this
                 if (check_hidden === "none") {
                    jQuery(this).fadeIn(700); 
-                } 
+                }
+
+                // IE feature detection
+                var isIE9 = document.addEventListener,
+                isIE8 = document.querySelector,
+                isIE7 = window.XMLHttpRequest;
+                // need better window opening
+                if(isIE9){
+                // is IE9
+                 jQuery(this).show();
+                } else if(isIE8) {
+                // is IE8
+                 jQuery(this).show();
+                } else if(isIE7) {
+                // is IE7
+                  jQuery(this).show();
+                }
+
+ 
         });
     });   
 });

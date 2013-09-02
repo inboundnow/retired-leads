@@ -13,7 +13,7 @@ do_action('wp_cta_init');
 
 // Convert Hex to RGB Value for submit button
 function Hex_2_RGB($hex) {
-        $hex = ereg_replace("#", "", $hex);
+        $hex = preg_replace("/#/", "", $hex);
         $color = array();
  
         if(strlen($hex) == 3) {

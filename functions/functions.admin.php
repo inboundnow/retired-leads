@@ -891,7 +891,7 @@ jQuery(document).ready(function($)
 </script>
 <style type="text/css">
 	.select2-container {
-		width: 500px;
+		width: 100%;
 		padding-top: 15px;
 	}
 	.cta-options-label {

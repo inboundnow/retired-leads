@@ -210,29 +210,29 @@ function wp_cta_custom_template($single) {
     return $single;
 }
 
-add_action( 'init', 'wp_cta_debug' );
-
-function wp_cta_debug(){
+add_action( 'init', 'inbound_meta_debug' );
+if (!function_exists('inbound_meta_debug')) {
+	function inbound_meta_debug(){
 	//print all global fields for post
-if (isset($_GET['debug'])) {
-		global $wpdb;
-		$data   =   array();
-		$wpdb->query("
-		  SELECT `meta_key`, `meta_value`
-			FROM $wpdb->postmeta
-			WHERE `post_id` = ".$_GET['post']."
-		");
-		foreach($wpdb->last_result as $k => $v){
-			$data[$v->meta_key] =   $v->meta_value;
-		};
-		if (isset($_GET['post']))
-		{
-			echo "<pre>";
-			print_r( $data);
-			echo "</pre>";
-		}
-	} 
-
+	if (isset($_GET['debug'])) {
+			global $wpdb;
+			$data   =   array();
+			$wpdb->query("
+			  SELECT `meta_key`, `meta_value`
+				FROM $wpdb->postmeta
+				WHERE `post_id` = ".$_GET['post']."
+			");
+			foreach($wpdb->last_result as $k => $v){
+				$data[$v->meta_key] =   $v->meta_value;
+			};
+			if (isset($_GET['post']))
+			{
+				echo "<pre>";
+				print_r( $data);
+				echo "</pre>";
+			}
+		} 
+	}
 }
 
 include_once('modules/module.customizer.php');

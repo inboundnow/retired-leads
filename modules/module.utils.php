@@ -1,20 +1,32 @@
 <?php
-/* 
-function add_first_and_last($output) {
-  $output = preg_replace('/class="menu-item/', 'class="first-menu-item menu-item', $output, 1);
-  $output = substr_replace($output, 'class="last-menu-item menu-item', strripos($output, 'class="menu-item'), strlen('class="menu-item'));
-  return $output;
-}
-add_filter('wp_nav_menu', 'add_first_and_last');
-//Filtering a Class in Navigation Menu Item
-add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
-function special_nav_class($classes, $item){
-     if ( 'wp-call-to-action' == get_post_type() ) {
-             $classes[] = 'wp_cta_explode_menu';
-     }
-     return $classes;
-}*/
+/**
+ * Utility Functions
+ */
 
+add_action( 'init', 'inbound_meta_debug' );
+if (!function_exists('inbound_meta_debug')) {
+	function inbound_meta_debug(){
+	//print all global fields for post
+	if (isset($_GET['debug'])) {
+			global $wpdb;
+			$data   =   array();
+			$wpdb->query("
+			  SELECT `meta_key`, `meta_value`
+				FROM $wpdb->postmeta
+				WHERE `post_id` = ".$_GET['post']."
+			");
+			foreach($wpdb->last_result as $k => $v){
+				$data[$v->meta_key] =   $v->meta_value;
+			};
+			if (isset($_GET['post']))
+			{
+				echo "<pre>";
+				print_r( $data);
+				echo "</pre>";
+			}
+		} 
+	}
+}
 // Fix SEO Title Tags to not use the_title
 //add_action('wp','wpcta_seo_title_filters');
 function wpcta_seo_title_filters() {
@@ -103,12 +115,13 @@ function wp_cta_remove_all_styles()
 /**
  * Debug Activation errors */
 /*
- add_action('activated_plugin','save_error');
+add_action('activated_plugin','save_error');
 function save_error(){
     update_option('plugin_error',  ob_get_contents());
 }
 echo "here" . get_option('plugin_error') . "hi";
- */
+*/
+
 function wpcta_remove_plugin_filters() {
 
     global $wp_filter;

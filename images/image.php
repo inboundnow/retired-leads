@@ -14,7 +14,7 @@ else {
 
 // Convert Hex to RGB Value
 function HexToRGB($hex) {
-        $hex = ereg_replace("#", "", $hex);
+        $hex = preg_replace("/#/", "", $hex);
         $color = array();
  
         if(strlen($hex) == 3) {
