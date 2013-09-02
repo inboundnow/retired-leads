@@ -136,10 +136,10 @@ function wpleads_enqueuescripts_header()
 		}
 
 		// Load form pre-population
-		$form_prepopulation = get_option( 'form-prepopulation' , 1);
+		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1);
 		if ($form_prepopulation)
 		{
-			wp_enqueue_script('form-population', WPL_URL . '/js/wpl.form-population.js', array( 'jquery','jquery-cookie'));	
+			wp_enqueue_script('wpl-main-form-population', WPL_URL . '/js/wpl.form-population.js', array( 'jquery','jquery-cookie'));	
 		}
 		
 		$form_ids = get_option( 'wpl-main-tracking-ids' , 1);
