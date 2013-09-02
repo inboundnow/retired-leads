@@ -405,7 +405,7 @@ function wp_cta_display_meta_box_select_template_container() {
 			?>
 			<div id='template-item' class="<?php echo $cat_slug; ?>">
 				<div id="template-box">
-					<div class="wp_cta_tooltip_templates" title="<?php echo $template_desc; ?>"></div>
+					<div class="wp_cta_tooltip_templates" title="<?php echo $data['info']['description']; ?>"></div>
 				<a class='wp_cta_select_template' href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $this_template; ?>'>
 					<img src="<?php echo $thumbnail; ?>" class='template-thumbnail' alt="<?php echo $data['info']['label']; ?>" id='wp_cta_<?php echo $this_template; ?>'>
 				</a>
