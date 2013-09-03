@@ -47,7 +47,7 @@ function wplead_disable_for_cpt( $default ) {
       // echo 1; exit;
 	   return false;
 	}
-    return $default;
+    return $default; 
 }
 
 
