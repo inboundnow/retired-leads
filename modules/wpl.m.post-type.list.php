@@ -142,8 +142,8 @@ if (is_admin())
 		if ($post->post_type=='list')
 		{		
 
-			$list_title = $_POST['post_title'];	
-			$list_slug = $_POST['post_name'];
+			$list_title = (isset($_POST['post_title'])) ? $_POST['post_title'] : '';	
+			$list_slug = (isset($_POST['post_name'])) ? $_POST['post_name'] : '';
 			
 			$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 			if ($wplead_cat_id)
