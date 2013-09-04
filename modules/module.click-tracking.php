@@ -119,6 +119,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation){
 	$conversion_count = get_post_meta($event_id,'wp-cta-ab-variation-conversions-'.$cta_variation ,true);
 	$conversion_count++;
 	update_post_meta($event_id, 'wp-cta-ab-variation-conversions-'.$cta_variation, $conversion_count);
+	/*
 		if ($event_trigger_log) {
 			$event_trigger_log = json_decode($event_trigger_log,true);
 			// increment trigger count
@@ -142,6 +143,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation){
 			$event_trigger_log = json_encode($event_trigger_log);
 			update_post_meta($event_id, 'leads_triggered', $event_trigger_log);
 		}
+		
 		// Update Trigger Count
 		if(get_post_custom_keys($event_id)&&in_array('wp_cta_trigger_count',get_post_custom_keys($event_id))){
 			$wp_cta_trigger_count = get_post_meta($event_id,'wp_cta_trigger_count',true);
@@ -151,6 +153,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation){
 		}
 		$wp_cta_trigger_count++;
 		update_post_meta($event_id, 'wp_cta_trigger_count', $wp_cta_trigger_count); // update trigger count
+		*/
 		update_post_meta($event_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
 }
 
