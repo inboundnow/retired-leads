@@ -29,9 +29,17 @@ function inbound_store_lead()
 		(isset(	$_SERVER['REMOTE_ADDR'] )) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = "undefined";
 		(isset(	$_POST['wp_lead_uid'] )) ? $wp_lead_uid = $_POST['wp_lead_uid'] : $wp_lead_uid = "null";
 		(isset(	$_POST['lp_id'] )) ? $lp_id = $_POST['lp_id'] : $lp_id = 0;
+		(isset(	$_POST['post_type'] )) ? $post_type = $_POST['post_type'] : $post_type = 'na';
 		(isset(	$_POST['lp_v'] )) ? $lp_variation = $_POST['lp_v'] : $lp_variation = 0;
 		(isset(	$_POST['page_views'] )) ? $page_views = $_POST['page_views'] : $page_views = false;
 		(isset(	$_POST['page_view_count'] )) ? $page_view_count = $_POST['page_view_count'] : $page_view_count = 0;
+		
+		// Update conversions
+		if($post_type === 'landing-page'){
+			$lp_conversions = get_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, true );
+			$lp_conversions++;
+			update_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, $lp_conversions );
+		}
 		
 		//do_action('inbound_store_lead_pre'); // Global lead storage action hook
 		//do_action('lp_store_lead_pre'); // Landing Page specific storage hook (remove)

@@ -130,6 +130,7 @@ jQuery(document).ready(function($) {
 					wp_lead_uid: wp_lead_uid,
 					page_view_count: page_view_count,
 					page_views: page_views,
+					post_type: inbound_ajax.post_type,
 					lp_v: lp_v,
 					json: tracking_obj, // replace with page_view_obj
 					// type: 'form-completion',
@@ -140,7 +141,7 @@ jQuery(document).ready(function($) {
 					*/
 				},
 				success: function(user_id){			
-						//jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
+						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id); 
 						if (form_id)
 						{
