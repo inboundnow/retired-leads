@@ -42,12 +42,12 @@ function wplead_hide_metaboxes($hidden, $screen)
 add_filter( 'user_can_richedit', 'wplead_disable_for_cpt' );
 function wplead_disable_for_cpt( $default ) {
     global $post;
-    if ( $post->post_type == 'wp-lead' )
+    if ( isset ($post) && $post->post_type == 'wp-lead' )
 	{
       // echo 1; exit;
 	   return false;
 	}
-    return $default;
+    return $default; 
 }
 
 
