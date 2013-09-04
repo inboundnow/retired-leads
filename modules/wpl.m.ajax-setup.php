@@ -155,7 +155,7 @@ function wp_leads_get_meta_data($lead_id){
 //function to store additonal lead conversion data - plugins into Wordpress Leads standalone and Landing Pages plugin.
 function wpleads_hook_store_lead_post($data)
 {
-	setcookie('this_running', "EYP",time()+3600,"/"); // Not Firing
+	//setcookie('this_running', "EYP",time()+3600,"/"); // works
 	//print_r($data);
 	if ($data['lead_id'])
 	{
@@ -164,7 +164,7 @@ function wpleads_hook_store_lead_post($data)
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s", $time); 
 
-		 //(isset(	$_POST['nature'] )) ? $nature = $_POST['nature'] : $nature = 1;
+		 // Grab page view obj instead of trackObj
 		(isset(	$_POST['json'] )) ? $json = $_POST['json'] : $json = 0;
 		(isset(	$_POST['page_view_count'] )) ? $view_count = $_POST['page_view_count'] : $view_count = 0;
 		
@@ -214,38 +214,31 @@ function wpleads_hook_store_lead_post($data)
 
 		/* Store number of page views as meta */
 		$current_page_view_count = get_post_meta($data['lead_id'],'wpl-lead-page-view-count', true);
-		if ($current_page_view_count)
+		if (!empty($current_page_view_count) && $current_page_view_count !== '0')
 		{
-			$add_count_views = $view_count;
+			$increment_page_views = $current_page_view_count + $view_count;
 		}
 		else
 		{					
-			$current_page_view_count = 0;
-			$add_count_views = $view_count;			
+			$increment_page_views = 0 + $view_count;			
 		}
-		$increment_page_views = $current_page_view_count + $add_count_views;
+		
 		update_post_meta($data['lead_id'],'wpl-lead-page-view-count', $increment_page_views);
 		/* End Store number of page views as meta */
 
 		/* Store conversions as meta */
-		$conversions = get_post_meta($data['lead_id'],'wpl-lead-conversions', true);
+		$conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
 
 		if ($conversions)
 		{
-			$array_conversions = explode(',',$conversions);
-			$count_of_conversions = count($array_conversions);
-			// if (!in_array($data['lp_id'],$array_conversions)) {
-				$array_conversions[] = $data['lp_id'];
-				//$array_conversions[] = $data['lp_id'];
-			//}
+			$count_of_conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
 		}
 		else
-		{					
-			$array_conversions[] = $data['lp_id'];
+		{	
 			$count_of_conversions = 0;			
 		}
 		
-		update_post_meta($data['lead_id'],'wpl-lead-conversions', implode(',',$array_conversions));
+		// update_post_meta($data['lead_id'],'wpl-lead-conversions', implode(',',$array_conversions)); // old meta
 		/* Store conversions count as meta */
 		$increment_conversions = $count_of_conversions + 1;
 		update_post_meta($data['lead_id'],'wpl-lead-conversion-count', $increment_conversions);
