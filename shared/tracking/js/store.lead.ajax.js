@@ -118,10 +118,25 @@ jQuery(document).ready(function($) {
 			}
 		
 			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
+			
+			function release_form_sub(){
+				jQuery('button, input[type="button"]').css('cursor', 'default');
+				jQuery('input').css('cursor', 'default');
+				jQuery('body').css('cursor', 'default');
+				this_form.unbind('submit');
+				this_form.submit();
+			}
 
+			/* Timeout Fallback
+			setTimeout(function() {
+				console.log('more than 10 seconds has passed. Release form')
+	            release_form_sub();   
+	       	}, 10000);
+			*/
 			jQuery.ajax({
 				type: 'POST',
 				url: inbound_ajax.admin_url,
+				timeout: 10000,
 				data: {
 					action: 'inbound_store_lead',
 					emailTo: email, 
@@ -164,14 +179,83 @@ jQuery(document).ready(function($) {
 						//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
 					   },
 				error: function(MLHttpRequest, textStatus, errorThrown){
-						//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+						//alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+
+					    // Create fallback localstorage object 
+						var conversionObj = new Array();
+						conversionObj.push({ 
+											action: 'inbound_store_lead',
+											emailTo: email, 
+											first_name: firstname, 
+											last_name: lastname,
+											wp_lead_uid: wp_lead_uid,
+											page_view_count: page_view_count,
+											page_views: page_views,
+											post_type: inbound_ajax.post_type,
+											lp_v: lp_v,
+											json: tracking_obj,
+											// type: 'form-completion',
+											raw_post_values_json : post_values_json,
+											lp_id: page_id
+											});
+
+						jQuery.totalStorage('failed_conversion', conversionObj); // store failed data
+						jQuery.cookie("failed_conversion", true, { path: '/', expires: 365 });
+ 
+						// If fail, cookie form data and ajax submit on next page load
+						console.log('ajax fail');
+						release_form_sub();   
 						//die();
 						submit_halt =0;
 					}
-
 			});
+			
+
 			
 		});
 		
 	}
+	// Fallback for form ajax fails
+	var failed_conversion = jQuery.cookie("failed_conversion");
+	var fallback_obj = jQuery.totalStorage('failed_conversion');
+	
+	if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
+		if (typeof fallback_obj =='object' && fallback_obj)
+		{
+			//console.log('fallback ran');	
+				jQuery.ajax({
+					type: 'POST',
+					url: inbound_ajax.admin_url,
+					data: {
+							action: fallback_obj[0].action,
+							emailTo: fallback_obj[0].emailTo, 
+							first_name: fallback_obj[0].first_name, 
+							last_name: fallback_obj[0].last_name,
+							wp_lead_uid: fallback_obj[0].wp_lead_uid,
+							page_view_count: fallback_obj[0].page_view_count,
+							page_views: fallback_obj[0].page_views,
+							post_type: fallback_obj[0].post_type,
+							lp_v: fallback_obj[0].lp_v,
+							json: fallback_obj[0].json, // replace with page_view_obj
+							// type: 'form-completion',
+							raw_post_values_json : fallback_obj[0].raw_post_values_json,
+							lp_id: fallback_obj[0].lp_id
+							/* Replace with jquery hook
+								do_action('wpl-lead-collection-add-ajax-data'); 
+							*/
+						},
+					success: function(user_id){
+						//console.log('Fallback fired');
+						jQuery.removeCookie("failed_conversion"); // remove failed cookie	
+						jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data	
+						   },
+					error: function(MLHttpRequest, textStatus, errorThrown){
+							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+							//die();
+						}
+
+				});
+		}
+	}
+
  });

@@ -11,7 +11,7 @@ if (!function_exists('inbound_store_lead')) {
 function inbound_store_lead() 
 {
 	global $user_ID, $wpdb;
-
+	// header('HTTP/1.0 404 Not found'); exit; // simulate fail
 	// check for set email
 	if (isset( $_POST['emailTo'])&&!empty( $_POST['emailTo'])&&strstr($_POST['emailTo'],'@'))
 	{

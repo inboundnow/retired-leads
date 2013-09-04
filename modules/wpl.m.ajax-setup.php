@@ -152,7 +152,7 @@ function wp_leads_get_meta_data($lead_id){
 	// meta values etc.
 }
 
-//function to store additonal lead conversion data - plugins into Wordpress Leads standalone and Landing Pages plugin.
+// This function might need to just build the page_view meta on the lead and be in /shared/
 function wpleads_hook_store_lead_post($data)
 {
 	//setcookie('this_running', "EYP",time()+3600,"/"); // works
