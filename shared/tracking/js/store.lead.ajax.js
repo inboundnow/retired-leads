@@ -1,15 +1,5 @@
-<?php
-	$current_page = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-	$post_id = wpl_url_to_postid($current_page);
-	(isset($_SERVER['HTTP_REFERER'])) ? $referrer = $_SERVER['HTTP_REFERER'] : $referrer ='direct access';	
-	(isset($_SERVER['REMOTE_ADDR'])) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = '0.0.0.0.0';
-
-	//echo $post_id;exit;
-
-	
-	?>	
-	<script type='text/javascript'>
-	/* WP-leads */
+jQuery(document).ready(function($) {
+/* core tracking script */
 	var form = jQuery('.wpl-track-me');
 
 	if (form.length>0)
@@ -26,15 +16,16 @@
 			var email_check = 1;
 			var submit_halt = 0;
 			
-			<?php
-			do_action('wpl_js_hook_submit_form_pre',null);
-			?>
+			/* Setup hook replacement
+			// do_action('wpl_js_hook_submit_form_pre',null);
+			*/
 			
 			var email = "";
 			var firstname = "";
 			var lastname = "";			
-			var json = JSON.stringify(trackObj);
-			var page_view_count = jQuery(trackObj.items).length;
+			var tracking_obj = JSON.stringify(trackObj);
+			var page_view_count = countProperties(pageviewObj);
+			//console.log("view count" + page_view_count);
 			submit_halt = 1;
 
 			if (!email)
@@ -119,10 +110,18 @@
 			var post_values_json = JSON.stringify(post_values);
 			var wp_lead_uid = jQuery.cookie("wp_lead_uid");	
 			var page_views = JSON.stringify(pageviewObj);
-			
+			var page_id = inbound_ajax.post_id;
+			if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {	
+				var lp_v = landing_path_info.variation;
+			} else {
+				var lp_v = null;
+			}
+		
+			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
+
 			jQuery.ajax({
 				type: 'POST',
-				url: '<?php echo admin_url('admin-ajax.php') ?>',
+				url: inbound_ajax.admin_url,
 				data: {
 					action: 'inbound_store_lead',
 					emailTo: email, 
@@ -131,15 +130,17 @@
 					wp_lead_uid: wp_lead_uid,
 					page_view_count: page_view_count,
 					page_views: page_views,
-					json: json,
-					nature: 'conversion',
+					lp_v: lp_v,
+					json: tracking_obj, // replace with page_view_obj
+					// type: 'form-completion',
 					raw_post_values_json : post_values_json,
-					lp_id: '<?php echo $post_id; ?>'<?php 
+					lp_id: page_id
+					/* Replace with jquery hook
 						do_action('wpl-lead-collection-add-ajax-data'); 
-					?>
+					*/
 				},
 				success: function(user_id){			
-						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
+						//jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id); 
 						if (form_id)
 						{
@@ -172,5 +173,4 @@
 		});
 		
 	}
-
-</script>
+ });

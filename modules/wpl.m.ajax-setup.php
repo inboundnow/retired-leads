@@ -1,5 +1,8 @@
 <?php
 
+/* This file no longer stores leads. Those functions live in /shared/tracking/ */
+
+// Is this in use?
 add_action('wp_ajax_wpl_track_user', 'wpl_track_user_callback');
 add_action('wp_ajax_nopriv_wpl_track_user', 'wpl_track_user_callback');
 // Tracks known leads
@@ -55,6 +58,7 @@ function wpl_track_user_callback()
 	die();
 
 }
+
 /**
  * wp_leads_update_page_view_obj updates page_views meta for known leads
  * @param  string $lead_id     [description]
@@ -118,8 +122,11 @@ if (isset( $_POST['wp_lead_id'])&&!empty( $_POST['wp_lead_id']))
 		wp_leads_get_current_lists($wp_lead_id);
 	}
 }
+
 /**
  * Sets cookie with current lists the lead is a part of
+ * @param  string $lead_id - lead CPT id
+ * @return sets cookie of lists lead belongs to
  */
 function wp_leads_get_current_lists($lead_id){
 		// Set List Cookies if lead is in lists.
@@ -145,129 +152,10 @@ function wp_leads_get_meta_data($lead_id){
 	// meta values etc.
 }
 
-
-add_action('wp_ajax_wpl_store_lead', 'wpl_store_lead_callback');
-add_action('wp_ajax_nopriv_wpl_store_lead', 'wpl_store_lead_callback');
-/* Not in use. Shared Lead storage in use. inbound_store_lead function */
-function wpl_store_lead_callback() 
-{
-	// Grab form values
-	$title = $_POST['emailTo'];
-	$content =	$_POST['first_name'];
-	$wp_lead_uid = $_POST['wp_lead_uid'];
-	$raw_post_values_json = $_POST['raw_post_values_json'];
-	
-	if (isset( $_POST['emailTo'])&&!empty( $_POST['emailTo'])&&strstr($_POST['emailTo'],'@'))
-	{
-		//echo 'here';
-		global $user_ID, $wpdb;
-		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s", $time); 
-		
-		(isset(	$_POST['first_name'] )) ? $first_name = $_POST['first_name'] : $first_name = "";
-		(isset(	$_POST['last_name'] )) ? $last_name = $_POST['last_name'] : $last_name = "";
-		(isset(	$_SERVER['REMOTE_ADDR'] )) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = "undefined";
-		(isset(	$_POST['wp_lead_uid'] )) ? $wp_lead_uid = $_POST['wp_lead_uid'] : $wp_lead_uid = "null";
-		(isset(	$_POST['lp_id'] )) ? $lp_id = $_POST['lp_id'] : $lp_id = 0;
-		(isset(	$_POST['page_views'] )) ? $page_views = $_POST['page_views'] : $page_views = false;
-		
-		do_action('wpl_store_lead_pre');
-		
-		$query = $wpdb->prepare(
-			'SELECT ID FROM ' . $wpdb->posts . '
-			WHERE post_title = %s
-			AND post_type = \'wp-lead\'',
-			$_POST['emailTo']
-		);
-		$wpdb->query( $query );
-
-		if ( $wpdb->num_rows ) {
-			// If lead exists add data/append data to it
-			$post_ID = $wpdb->get_var( $query );
-			//echo "here";
-			//echo $post_ID;
-			$meta = get_post_meta( $post_ID, 'times', TRUE );			
-			$meta++;
-			
-			update_post_meta( $post_ID, 'times', $meta );
-			update_post_meta( $post_ID, 'wpleads_email_address', $title );
-			
-			if (!empty($user_ID))
-				update_post_meta( $post_ID, 'wpleads_wordpress_user_id', $user_ID );				
-			if (!empty($first_name))
-				update_post_meta( $post_ID, 'wpleads_first_name', $first_name );
-			if (!empty($last_name))
-				update_post_meta( $post_ID, 'wpleads_last_name', $last_name );
-			if (!empty($wp_lead_id))
-				update_post_meta( $post_ID, 'wpleads_uid', $wp_lead_uid );
-				
-			update_post_meta( $post_ID, 'wpleads_ip_address', $ip_address );
-			//update_post_meta( $post_ID, 'page_view_temp', $page_views );
-			update_post_meta( $post_ID, 'wpleads_landing_page_'.$lp_id, 1 );
-			
-			do_action('wpleads_after_conversion_lead_update',$post_ID);
-		
-		} else { 
-			// If lead doesn't exist create it
-			$post = array(
-				'post_title'		=> $title, 
-				 //'post_content'		=> $json,
-				'post_status'		=> 'publish',
-				'post_type'		=> 'wp-lead',
-				'post_author'		=> 1
-			);
-			
-			//$post = add_filter('wpl_leads_post_vars',$post);
-			
-			$post_ID = wp_insert_post($post);
-			update_post_meta( $post_ID, 'times', 1 );
-			update_post_meta( $post_ID, 'wpleads_wordpress_user_id', $user_ID );
-			update_post_meta( $post_ID, 'wpleads_email_address', $title );
-			update_post_meta( $post_ID, 'wpleads_first_name', $first_name);
-			update_post_meta( $post_ID, 'wpleads_last_name', $last_name);
-			update_post_meta( $post_ID, 'wpleads_ip_address', $ip_address );
-			update_post_meta( $post_ID, 'wpleads_uid', $wp_lead_uid );
-			update_post_meta( $post_ID, 'wpleads_landing_page_'.$lp_id, 1 );
-			update_post_meta( $post_ID, 'page_views', $page_views );
-			$geo_array = unserialize(wpl_remote_connect('http://www.geoplugin.net/php.gp?ip='.$ip_address));
-			
-			
-			(isset($geo_array['geoplugin_areaCode'])) ? update_post_meta( $post_ID, 'wpleads_areaCode', $geo_array['geoplugin_areaCode'] ) : null;
-			(isset($geo_array['geoplugin_city'])) ? update_post_meta( $post_ID, 'wpleads_city', $geo_array['geoplugin_city'] ) : null;
-			(isset($geo_array['geoplugin_regionName'])) ? update_post_meta( $post_ID, 'wpleads_region_name', $geo_array['geoplugin_regionName'] ) : null;
-			(isset($geo_array['geoplugin_regionCode'])) ? update_post_meta( $post_ID, 'wpleads_region_code', $geo_array['geoplugin_regionCode'] ) : null;
-			(isset($geo_array['geoplugin_countryName'])) ? update_post_meta( $post_ID, 'wpleads_country_name', $geo_array['geoplugin_countryName'] ) : null;
-			(isset($geo_array['geoplugin_countryCode'])) ? update_post_meta( $post_ID, 'wpleads_country_code', $geo_array['geoplugin_countryCode'] ) : null;
-			(isset($geo_array['geoplugin_latitude'])) ? update_post_meta( $post_ID, 'wpleads_latitude', $geo_array['geoplugin_latitude'] ) : null;
-			(isset($geo_array['geoplugin_longitude'])) ? update_post_meta( $post_ID, 'wpleads_longitude', $geo_array['geoplugin_longitude'] ) : null;
-			(isset($geo_array['geoplugin_currencyCode'])) ? update_post_meta( $post_ID, 'wpleads_currency_code', $geo_array['geoplugin_currencyCode'] ) : null;
-			(isset($geo_array['geoplugin_currencySymbol_UTF8'])) ? update_post_meta( $post_ID, 'wpleads_currency_symbol', $geo_array['geoplugin_currencySymbol_UTF8'] ) : null;
-			
-			// hook
-			do_action('wpleads_after_conversion_lead_insert',$post_ID);
-		
-		}
-
-
-		$data['lp_id'] = $lp_id;
-		$data['lead_id'] = $post_ID;
-		$data['first_name'] = $first_name;
-		$data['last_name'] = $last_name;
-		$data['email'] = $title;
-		$data['wp_lead_uid'] = $wp_lead_uid;
-		$data['raw_post_values_json'] = $raw_post_values_json;
-		
-		do_action('wpl_store_lead_post', $data );
-		
-		echo $post_ID;
-		die();
-	}
-}
-
-
 //function to store additonal lead conversion data - plugins into Wordpress Leads standalone and Landing Pages plugin.
 function wpleads_hook_store_lead_post($data)
 {
+	setcookie('this_running', "EYP",time()+3600,"/"); // Not Firing
 	//print_r($data);
 	if ($data['lead_id'])
 	{

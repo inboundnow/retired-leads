@@ -1055,7 +1055,10 @@ function wpleads_display_conversion_path() {
 		$hours_text = $date_obj['h-text'];
 		$minute_text = $date_obj['mm-text']; 
 		//print_r($data);exit;
-	 
+	 	if(empty($data)){
+	 		echo "<h2 style='background:transparent;'>No Conversions Tracked. This person could have javascript disabled or you have a javascript error on your site.</h2>";
+	 		return;
+	 	}
 		$i = 0;
 		$sessions = array();
 		foreach ($data as $key => $value)

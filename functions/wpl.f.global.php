@@ -176,7 +176,7 @@ function wpl_url_to_postid_final($url)
 
 function wpleads_check_active()
 {
-
+ 	
 }
 
 /**
