@@ -38,6 +38,9 @@ jQuery(document).ready(function($) {
 							email = this.value;
 							
 						}
+						else if(jQuery(this).attr("name").toLowerCase().indexOf('e-mail')>-1&&!email) {
+							 email = this.value;
+						}
 						else if(jQuery(this).attr("name").toLowerCase().indexOf('name')>-1&&!firstname) {
 							 firstname = this.value;
 						}
@@ -64,6 +67,9 @@ jQuery(document).ready(function($) {
 						{
 							email = this.value;
 						}
+						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('e-mail')>-1&&!email) {
+							 email =  this.value;
+						}
 						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('name')>-1&&!firstname) {
 							firstname = this.value;
 						}
@@ -71,6 +77,7 @@ jQuery(document).ready(function($) {
 							lastname = this.value;
 						}
 					}
+
 				});
 			}
 
@@ -83,6 +90,9 @@ jQuery(document).ready(function($) {
 						{
 							email = this.value;
 						}
+						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('e-mail')>-1&&!email) {
+							email = this.value;
+						}		
 						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('name')>-1&&!firstname) {
 							firstname = this.value;
 						}
