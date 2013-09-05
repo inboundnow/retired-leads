@@ -4,10 +4,12 @@
  * 
  * - Handles lead creation and storage
  */
+
+if (!function_exists('inbound_store_lead')) {
+
 add_action('wp_ajax_inbound_store_lead', 'inbound_store_lead');
 add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
 
-if (!function_exists('inbound_store_lead')) {
 function inbound_store_lead() 
 {
 	global $user_ID, $wpdb;
