@@ -218,7 +218,7 @@ function save_wp_cta_post_metaboxes($post_id) {
 		}
 		
 		wp_cta_meta_save_loop($custom_wp_cta_metaboxes);
-		wp_cta_meta_save_loop($custom_wp_cta_metaboxes_two);
+		//wp_cta_meta_save_loop($custom_wp_cta_metaboxes_two);
 		//exit;
 		// save taxonomies
 		$post = get_post($post_id);
