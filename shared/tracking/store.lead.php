@@ -38,9 +38,15 @@ function inbound_store_lead()
 		
 		// Update conversions
 		if($post_type === 'landing-page'){
-			$lp_conversions = get_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, true );
-			$lp_conversions++;
-			update_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, $lp_conversions );
+			
+			$disable_admin_tracking = get_option( 'main-landing-page-disable-admin-tracking', '0' );
+			
+			if ( !$disable_admin_tracking || !current_user_can( 'manage_options' ) )
+			{				
+				$lp_conversions = get_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, true );
+				$lp_conversions++;
+				update_post_meta( $lp_id, 'lp-ab-variation-conversions-'.$lp_variation, $lp_conversions );
+			}
 		}
 		
 		//do_action('inbound_store_lead_pre'); // Global lead storage action hook
