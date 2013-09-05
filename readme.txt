@@ -5,9 +5,9 @@ Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable 
-Requires at least: 3.3
-Tested up to: 3.5
-Stable Tag: 1.0.0.3
+Requires at least: 3.4
+Tested up to: 3.6
+Stable Tag: 1.0.4
 
 Capture & store lead information, gather critical lead intelligence, manage web leads from within your site and close more deals.
 
