@@ -190,8 +190,12 @@ add_action( 'restrict_manage_posts', 'wpl_admin_posts_filter_restrict_manage_pos
 function wpl_admin_posts_meta_filter( $query )
 {
     global $pagenow;
-     $screen = @get_current_screen(); //@this function is not working on some wp installation. Look more into this.
-     $screen_id = $screen->id;
+    $screen = @get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+	
+	if (!$screen)
+		return;
+		
+	$screen_id = $screen->id;
  
     if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
         $query->query_vars['meta_key'] = $_GET['wp_leads_filter_field'];

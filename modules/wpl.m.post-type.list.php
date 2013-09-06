@@ -129,7 +129,7 @@ if (is_admin())
 		
 		if (!isset($post))
 			$post = get_post($post_id);
-			
+		
 		if ($post->post_type=='revision' ||  'trash' == get_post_status( $post_id ))
 		{
 			return;
@@ -139,33 +139,14 @@ if (is_admin())
 			return;
 		}
 			
-		if ($post->post_type=='list')
-		{		
+		if ($post->post_type=='list' && isset($_POST) && count($_POST) > 0 )
+		{		 
 
 			$list_title = (isset($_POST['post_title'])) ? $_POST['post_title'] : '';	
 			$list_slug = (isset($_POST['post_name'])) ? $_POST['post_name'] : '';
 			
-			$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
-			if ($wplead_cat_id)
-			{
-				wp_update_term( $wplead_cat_id, 'wplead_list_category', array('name'=>$list_title,'slug'=>$list_slug) );
-			}
-			else
-			{
-				//add category taxonomy in wpleads
-				$term = wp_insert_term( $list_title, 'wplead_list_category', $args = array('slug'=>$list_slug) );
-				if (is_object($term))
-				{
-					$term_error_array = $term->error_data;
-					$term_id = $term_error_array['term_exists'];
-				}
-				else
-				{
-					$term_id = $term['term_id'];
-				}
-				
-				update_post_meta( $post_id, 'wplead_list_category_id', $term_id);
-			}
+			//add list as category to lead cpt and store the category taxonomy as meta pair in list cpt
+			wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug);
 			
 			//now create role
 			$result = add_role($list_slug, $list_title, array(
@@ -237,7 +218,35 @@ if (is_admin())
 		wp_delete_term($wplead_cat_id,'wplead_list_category');
 	}
 	
+	function wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug = null)
+	{
+		
+		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
+		if ($wplead_cat_id)
+		{
+			wp_update_term( $wplead_cat_id, 'wplead_list_category', array('name'=>$list_title) );
+		}
+		else
+		{
+			//add category taxonomy in wpleads
+			$term = wp_insert_term( $list_title, 'wplead_list_category', $args = array('slug'=>$list_slug) );
+
+			if (is_object($term))
+			{
+				$term_error_array = $term->error_data;
+				$term_id = $term_error_array['term_exists'];
+			}
+			else
+			{
+				$term_id = $term['term_id'];
+			}
+			
+			update_post_meta( $post_id, 'wplead_list_category_id', $term_id);
+		}
+	}
+	
 }
+
 
 
 
