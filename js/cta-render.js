@@ -28,33 +28,45 @@ jQuery(document).ready(function($) {
     $( "iframe.wp-cta-display" ).each(function(index, value) { 
         var the_frame = jQuery(this);
         //console.log(the_frame);
+        
         the_frame.load(function() {
+            var popon = false;
             // if admin set height. do this
             var frame_dimensions = the_frame.get(0).contentWindow.cta_options;
             var cta_width = frame_dimensions.cta_width; // might be caching
             var cta_height = frame_dimensions.cta_height; // might be caching
-            
+            var popup_check = jQuery("#wp-cta-popup");
+            if (typeof (popup_check) != "undefined" && popup_check != null && popup_check != "") {
+            var popon = true;
+            } 
             var width_backup = the_frame.contents().find("#cpt_cta_width").text();
             var height_backup = the_frame.contents().find("#cpt_cta_height").text();
             if (typeof (cta_height) != "undefined" && cta_height != null && cta_height != "") {
                  console.log("height set from iframe");
              
                 the_frame.height(cta_height);
-          
+                if(popon){
+                    popup_check.height(cta_height);
+                 
+                }
             }
             // if admin set width do this
              if (typeof (cta_width) != "undefined" && cta_width != null && cta_width != "") {
                 console.log("width set from iframe");
               
                 the_frame.width(cta_width);
-           
+                 if(popon){
+                    popup_check.width(cta_width);
+                }
             }
             // if dimensions not defined
             if (typeof (cta_height) === "undefined" || cta_height == null || cta_height == "") {
                 console.log("no height set from iframe");
                 var setheight = the_frame.contents().find("body").height() + 20;
                 the_frame.height(setheight);
-         
+                 if(popon){
+                    popup_check.height(setheight);
+                }
             }
             // if dimensions not defined
             if (typeof (cta_width) === "undefined" || cta_width == null || cta_width == "") {
@@ -63,7 +75,12 @@ jQuery(document).ready(function($) {
                 var setwidth = the_frame.parent().width();
                 console.log(setwidth);
                 the_frame.width(setwidth);
-            
+                if(popon){
+                    var setpopwidth = the_frame.attr("data-parent"); // use content width;
+                    popup_check.width(setpopwidth);
+                    console.log(setpopwidth);
+                    the_frame.width(setpopwidth);
+                }
             }    
                 jQuery(this).contents().find("#wpadminbar").hide();
                 jQuery(this).contents().find("html").addClass('fix-admin-view');
@@ -72,7 +89,10 @@ jQuery(document).ready(function($) {
                 if (check_hidden === "none") {
                    jQuery(this).fadeIn(700); 
                 }
-
+                if(popon){
+                    popup_check.removeClass("cta_wait_hide");
+                    popup_check.show();
+                }
                 // IE feature detection
                 var isIE9 = document.addEventListener,
                 isIE8 = document.querySelector,

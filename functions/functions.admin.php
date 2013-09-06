@@ -833,7 +833,8 @@ function cta_placements_content_meta_box()
 								<option value='middle' <?php if ($placement=='middle'){echo "selected='true'"; } ?>>Middle of the Content</option>
 								<option value='below' <?php if ($placement=='below'){echo "selected='true'"; } ?>>Below the Content</option>
 								<option value='widget_1' <?php if ($placement=='widget_1'){echo "selected='true'"; } ?>>Sidebar Widget</option>
-								<option value='shortcode' <?php if ($placement=='shortcode'){echo "selected='true'"; } ?>>Shortcode</option>
+								<option value='popup' <?php if ($placement=='popup'){echo "selected='true'"; } ?>>Popup</option>
+								<option value='shortcode' <?php if ($placement=='shortcode'){echo "selected='true'"; } ?>>Shortcode (coming soon)</option>
 							</select>
 						</td>
 					</tr>
