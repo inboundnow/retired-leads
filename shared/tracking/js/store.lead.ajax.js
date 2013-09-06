@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 				 jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
 					if (this.value)
 					{
-						if (jQuery(this).attr("name").toLowerCase().indexOf('email')>-1) {
+						if (jQuery(this).attr("name").toLowerCase().indexOf('email')>-1&&!email) {
 							email = this.value;
 							
 						}
@@ -63,7 +63,7 @@ jQuery(document).ready(function($) {
 				jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
 					if (jQuery(this).closest('li').children('label').length>0)
 					{
-						if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('email')>-1) 
+						if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('email')>-1&&!email) 
 						{
 							email = this.value;
 						}
@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
 				jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
 					if (jQuery(this).closest('div').children('label').length>0)
 					{
-						if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('email')>-1) 
+						if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('email')>-1&&!email) 
 						{
 							email = this.value;
 						}
