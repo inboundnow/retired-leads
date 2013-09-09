@@ -1,12 +1,5 @@
 <?php
 
-add_action('admin_init', 'wpleads_rebuild_permalinks');
-function wpleads_rebuild_permalinks()
-{
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
-
 add_action('init', 'wpleads_register', 11);
 function wpleads_register() {
 	//echo $slug;exit;
