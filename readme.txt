@@ -1,4 +1,4 @@
-=== WordPress Landing Pages ===
+=== WordPress Calls to Action ===
 
 Contributors: David Wells, adbox
 Donate link: mailto:Hudson.Atwell@gmail.com
