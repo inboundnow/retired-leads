@@ -16,10 +16,18 @@ $url = plugins_url();
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('wp_cta_init');
 
+if ( isset($_GET['wp-cta-variation-id']) ){
+  $var_id = $_GET['wp-cta-variation-id'];
+} else {
+   $var_id = 0;
+}
+
 /* Load Regular WordPress $post data and start the loop */
 if (have_posts()) : while (have_posts()) : the_post();
-
-
+$post_id = get_the_ID();
+$width = get_post_meta( $post_id, 'wp_cta_width-'.$var_id, true ) . "px";
+$height = get_post_meta( $post_id, 'wp_cta_height-'.$var_id, true ) . "px";
+$classes = wp_cta_get_value($post, $key, 'classes');
 $content = get_the_content();
 
 ?>
@@ -33,7 +41,8 @@ $content = get_the_content();
   <title><?php wp_title(); ?></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-
+  <style type="text/css">
+  body{ width:<?php echo $width; ?>; height: <?php echo $height; ?>;}</style>
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css">
 
@@ -41,15 +50,15 @@ $content = get_the_content();
   <script src="<?php echo $path; ?>assets/js/modernizr.js"></script>
 
 <!-- Load Normal WordPress wp_head() function -->
-<?php  wp_head(); ?> 
+<?php wp_head(); ?> 
 <!-- Load Landing Pages's custom pre-load hook for 3rd party plugin integration -->
 <?php do_action('wp_cta_head'); ?>
 
 </head>
 
-<body>
+<body <?php // body_class($class); ?>>
 
-<div id="wrapper">
+<div id="wrapper" >
 
 <div id="content-wrapper">
   <div id="content">

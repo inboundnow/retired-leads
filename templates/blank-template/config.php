@@ -32,4 +32,13 @@ array(
         'default'  => '<p>Insert your call to action graphic into the content area below. Don\'t forget to hyperlink it to your final destination</p>', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         )
+    /*
+    array(
+        'label' => 'Custom Body CSS Class', // Name of field
+        'description' => "(Advanced Setting leave this alone if you dont know CSS!) Add custom classes to body wrapper. Comma separated values. Example: class_one, class_two", // what field does
+        'id' => 'classes', // metakey. $key Prefix is appended from parent in array loop
+        'type'  => 'text', // metafield type
+        'default'  => '', // default content
+        'context'  => 'advanced' // Context in screen (advanced layouts in future)
+        ) */
     );
