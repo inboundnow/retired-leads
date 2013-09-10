@@ -33,10 +33,11 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 
 		function __construct()
 		{
-			global $wp_cta_data; 
+			$wp_cta_data = wp_cta_get_extension_data(); 
+			
 			foreach ($wp_cta_data as $key=>$value)
 			{
-				$array_core_templates = array('countdown-lander','default','demo','dropcap','half-and-half','simple-two-column','super-slick','svtle','tubelar','rsvp-envelope');
+				$array_core_templates = array('blank-template','call-out-box','cta-one','demo'); 
 				
 				if ($key!='wp-cta'&&!in_array($key,$array_core_templates)&&substr($key,0,4)!='ext-')
 				{
@@ -62,13 +63,13 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 				
 					$this_data['ID']  = $key;
 					$this_data['template']  = $key;
-					$this_data['name']  = $value['label'];
-					$this_data['category']  = $value['category'];
-					$this_data['description']  = $value['description'];
+					$this_data['name']  = $value['info']['label'];
+					$this_data['category']  = $value['info']['category'];
+					$this_data['description']  = $value['info']['description'];
 					$this_data['thumbnail']  = $thumbnail;
-					if (isset($value['version'])&&!empty($value['version']))
+					if (isset($value['version'])&&!empty($value['info']['version']))
 					{
-						$this_data['version']  = $value['version'];
+						$this_data['version']  = $value['info']['version'];
 					}
 					else
 					{
