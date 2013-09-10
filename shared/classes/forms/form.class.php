@@ -48,6 +48,8 @@ class InboundForms {
             'required'     => 'email',
             'textareas' => '',
             'redirect_url'   => '',
+            'layout' => '',
+            'style'   => '',
             'notify' => $email,
             'button_text'     => 'Submit',
             'button_color'   => 'green',
@@ -85,8 +87,8 @@ class InboundForms {
               var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               return re.test(email);
           }
-		
-		  // Set textarea equal to input width		
+    
+      // Set textarea equal to input width    
           jQuery(".inbound-now-form textarea").each(function(){
               var width = $(this).parent().parent().find("input.inbound-email").width();
               if(width != ""){
@@ -123,7 +125,7 @@ class InboundForms {
           </script>';
 
     echo "<style type='text/css'>
-    	/* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
+      /* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
           .inbound-field { margin-bottom:5px; }
           .inbound-label {min-width:90px; display:inline-block;}
           .inbound-label.text-area-on {vertical-align:top;}
@@ -170,49 +172,65 @@ class InboundForms {
                 $form_data[$field] = strip_tags( $value );
 
             }
-            
+                // Make Option
                 add_filter( 'wp_mail_from', 'wp_leads_mail_from' );
                 function wp_leads_mail_from( $email )
                 {
                     return 'david@inboundnow.com';
                 }
+                // Make Option
                 add_filter( 'wp_mail_from_name', 'wp_leads_mail_from_name' );
                 function wp_leads_mail_from_name( $name )
                 {
                     return 'David';
                 }
-                
-                $to = 'david@inboundnow.com';
-                $subject = 'Hello from my blog!';
-                $message = 'Check it out -- my blog is emailing you!';
+                // Make Option
+                add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+                function set_html_content_type() {
+                return 'text/html';
+                }
 
-                $mail = wp_mail($to, $subject, $message);
-
-                if($mail) echo 'Your message has been sent!';
-                else echo 'There was a problem sending your message. Please try again.';
-                
-
-            print_r($form_data);
+           //print_r($form_data); // debug form data
           
-            /* Might be better email send need to test and look at html edd emails
+            /* Might be better email send need to test and look at html edd emails */
             if ( isset($form_data['email'])) {
+                $to = 'david@inboundnow.com';
                 // get the website's name and puts it in front of the subject
-                $email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'];
+                $email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'] . " - New Lead Conversion";
                 // get the message from the form and add the IP address of the user below it
-                $email_message = $form_data;
+                $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                  <html>
+                    <head>
+                      <meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
+                    </head>
+                    <body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
+                      <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
+                        <tr>';
+                $email_message .= "<div style='padding-top: 10px; padding-left: 15px; font-size: 20px; padding-bottom: 10px; background-color:#E0E0E0; border:solid 1px #CECDCA;'>Conversion on <strong>" . $form_data['inbound_form_name'] ."</strong></div>\n";;
+                foreach ($form_data as $key => $value) {
+                    $name = str_replace(array('-','_'),' ', $key);
+                    $name = ucwords($name);
+                    if($name != "Inbound Submitted") {
+                    $email_message .= "<div style='border:solid 1px #EBEBEA; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><strong>".$name . ": </strong>" . $form_data[$key] ."</div>\n";
+                    }
+                }
+                $email_message .= '</tr>
+                              </table>
+                            </body>
+                          </html>';
                 // set the e-mail headers with the user's name, e-mail address and character encoding
                 $headers  = "From: " . $form_data['first-name'] . " <" . $form_data['email'] . ">\n";
-                $headers .= "Content-Type: text/plain; charset=UTF-8\n";
-                $headers .= "Content-Transfer-Encoding: 8bit\n";
+                $headers .= 'Content-type: text/html';
                 // send the e-mail with the shortcode attribute named 'email' and the POSTed data
-                wp_mail( $email, $email_subject, $email_message, $headers );
+                //wp_mail( $to, $email_subject, $email_message, $headers );
                 // and set the result text to the shortcode attribute named 'success'
                 $result = $success;
                 // ...and switch the $sent variable to TRUE
                 $sent = true;
+                 print_r($email_message); // preview email
                 echo "email sent";
             }
-            */
+          
         }
        
     }
@@ -224,11 +242,14 @@ class InboundForms {
         /*
         * Add filters to shortcode http://sumobi.com/how-to-filter-shortcodes-in-wordpress-3-6/
          */
-
-
+        $layout_style = ''; // default
+        if ($layout = 'stacked'){
+           $layout_style = "style='display: block;'";
+        }
+       
         $form = '<!-- This Inbound Form is Automatically Tracked -->';
         $form .= '<form class="inbound-now-form wpl-track-me" method="post" action="' . get_permalink() . '">';
-       
+        $inputs = "";
         // add nonce
         $fields_fields = explode(",", $fields);
         $count = 0;
@@ -282,7 +303,7 @@ class InboundForms {
           $name = ucwords($name);
           $input_classes = $name . $email_input . $first_name_input . $last_name_input . $phone_input;
           $form .= '<div class="inbound-field '.$name.'">
-                    <label class="inbound-label '.$name. $textarea_on.'" for="'.$name.'">' . $value . ':</label>';
+                    <label '.$layout_style.' class="inbound-label '.$name. $textarea_on.'" for="'.$name.'">' . $value . '</label>';
           if($textarea_on === ' text-area-on') {
            // Textarea input 
            $form .=  '<textarea class="inbound-input inbound-input-textarea '.$input_classes.'" name="'.$name.'" id="in_'.$name.'" '.$req.'/></textarea>';      
