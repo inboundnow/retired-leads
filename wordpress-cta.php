@@ -7,30 +7,36 @@ Version: 1.0.9.7
 Author: David Wells, Hudson Atwell
 Author URI: http://www.inboundnow.com/
 */
-		
+
+/**
+ * DEFINE CONSTANTS AND GLOBAL VARIABLES
+ */
+ 
 define('WP_CTA_CURRENT_VERSION', '1.0.9.7' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PLUGIN_SLUG', 'wp-call-to-actions' );
 define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/wp-call-to-actions/' ); 
 $uploads = wp_upload_dir();
-define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/wp-call-to-actions/templates/' ); 
-define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-call-to-actions/templates/' ); 
+define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/wp-calls-to-action/templates/' ); 
+define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-calls-to-action/templates/' ); 
 
 /**
- * Load Admin Core Files
+ * LOAD BACKEND ONLY FILES
  */
 if (is_admin())
 {
-if(!isset($_SESSION)){@session_start();}
-include_once('functions/functions.admin.php');
-include_once('modules/module.global-settings.php');
-include_once('modules/module.clone.php');
-include_once('modules/module.extension-updater.php');
+	if(!isset($_SESSION)){@session_start();}
+	include_once('functions/functions.admin.php');
+	include_once('modules/module.global-settings.php');
+	include_once('modules/module.clone.php');
+	include_once('modules/module.extension-updater.php');
 }
+
 /**
- * load frontend-only and load global core files
+ * LOAD FILES THAT WILL BE USED ON THE FRONT AND BACKEND
  */
+ 
 include_once('functions/functions.global.php');
 include_once('modules/module.post-type.php');
 include_once('modules/module.track.php');
@@ -45,17 +51,38 @@ include_once('modules/module.cookies.php');
 include_once('modules/module.ab-testing.php');
 
 
+
+
+/**
+ * LOAD COMMONLY USED TEMPLATE TOOLS
+ */ 
+ 
 add_action('wp_cta_init', 'inbound_include_template_functions');
-
-if (!function_exists('inbound_include_template_functions')) {
-function inbound_include_template_functions(){
-	include_once('shared/functions.templates.php');
+if (!function_exists('inbound_include_template_functions')) 
+{
+	function inbound_include_template_functions()
+	{
+		include_once('shared/functions.templates.php');
+	}
 }
+
+
+/**
+ * LOAD CTA TEMPLATES AND EXTENSIONS
+ */ 
+ 
+if (is_admin())
+{
+	//include additional metaboxes
+	include_once('load.extensions.php');
+	include_once('modules/module.metaboxes.php');
 }
 
-// Register Landing Pages
+/**
+ * REGISTER ACTIVATION HOOK
+ */
+ 
 register_activation_hook(__FILE__, 'wp_call_to_action_activate');
-
 function wp_call_to_action_activate()
 {
 
@@ -72,18 +99,10 @@ function wp_call_to_action_activate()
 	
 }
 
-// Prepare Call to Action Templates
-if (is_admin())
-{
-	//include additional metaboxes
-	include_once('load.extensions.php');
-	include_once('modules/module.metaboxes.php');
-}
-
-
 /**
- * Hook function that will apply css, js, and record impressions
+ * APPLY CTA CUSTOM JS AND CUSTOM CSS TO FRONT END 
  */
+ 
 add_action('wp_head','wp_call_to_actions_insert_custom_head');
 function wp_call_to_actions_insert_custom_head() {
 	global $post;
@@ -136,12 +155,17 @@ function wp_call_to_actions_insert_custom_head() {
    }
 }
 
+
+/**
+ * LOAD SUB MENU SECTIONS
+ */
+ 
 if (is_admin())
 {
 	include_once('modules/module.templates.php');
 	include_once('modules/module.store.php');
 
-// Create Sub-menu
+	// Create Sub-menu
 
 	add_action('admin_menu', 'wp_cta_add_menu');
 	
@@ -150,11 +174,12 @@ if (is_admin())
 		if (current_user_can('manage_options'))
 		{
 			
-			// coming soon add_submenu_page('edit.php?post_type=wp-call-to-action', 'Templates', 'Templates', 'manage_options', 'wp_cta_manage_templates','wp_cta_manage_templates',100);	
+			// coming soon 
+			add_submenu_page('edit.php?post_type=wp-call-to-action', 'Templates', 'Templates', 'manage_options', 'wp_cta_manage_templates','wp_cta_manage_templates',100);	
 				
 			// comming soon add_submenu_page('edit.php?post_type=wp-call-to-action', 'Get Addons', 'Add-on Extensions', 'manage_options', 'wp_cta_store','wp_cta_store_display',100);	
 			
-			  add_submenu_page('edit.php?post_type=wp-call-to-action', 'Settings', 'Settings', 'manage_options', 'wp_cta_global_settings','wp_cta_display_global_settings');
+			 add_submenu_page('edit.php?post_type=wp-call-to-action', 'Settings', 'Settings', 'manage_options', 'wp_cta_global_settings','wp_cta_display_global_settings');
 
 			// Add settings page for frontend editor
     		add_submenu_page('edit.php?post_type=wp-call-to-action', __('Editor','Editor'), __('Editor','Editor'), 'manage_options', 'wp-cta-frontend-editor', 'wp_cta_frontend_editor_screen');
@@ -165,12 +190,14 @@ if (is_admin())
 }
 
 /**
- * MAKE SURE WE USE THE RIGHT TEMPLATE
+ * LOAD CORRECT CTA TEMPLATE ON FRONTEND
  */
+ 
 add_filter('single_template', 'wp_cta_custom_template');
 
 function wp_cta_custom_template($single) {
     global $wp_query, $post, $query_string;
+	
 	$template = get_post_meta($post->ID, 'wp-cta-selected-template', true);
 	$template = apply_filters('wp_cta_selected_template',$template);
 	
@@ -210,6 +237,10 @@ function wp_cta_custom_template($single) {
     return $single;
 }
 
+/**
+ * SETUP DEBUG TOOLS
+ */
+
 add_action( 'init', 'inbound_meta_debug' );
 if (!function_exists('inbound_meta_debug')) {
 	function inbound_meta_debug(){
@@ -235,4 +266,10 @@ if (!function_exists('inbound_meta_debug')) {
 	}
 }
 
+/**
+ * LOAD CTA VISUAL CUSTOMIZER
+ */
+
 include_once('modules/module.customizer.php');
+
+?>
