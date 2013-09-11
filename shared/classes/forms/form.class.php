@@ -126,9 +126,18 @@ class InboundForms {
 
     echo "<style type='text/css'>
       /* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
+      /* Stacked Styles */
           .inbound-field { margin-bottom:5px; }
-          .inbound-label {min-width:90px; display:inline-block;}
+          .inbound-label { display:inline-block;}
           .inbound-label.text-area-on {vertical-align:top;}
+          .inbound-stacked { display:block; min-width:90px; }
+      /* End Stacked Styles */
+      /* Horizontal Styles */
+          .inbound-horizontal { display: inline-block; }
+          .inbound-horizontal input {margin-right:10px;}
+          .inbound-horizontal label {margin-right:5px;}
+          .inbound-form-center { text-align:center;}
+      /* End Horizontal Styles */   
           input.invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
                           -moz-box-shadow: 0 0 6px #f8b9b7;
                           box-shadow: 0 0 6px #F8B9B7;
@@ -243,11 +252,18 @@ class InboundForms {
         * Add filters to shortcode http://sumobi.com/how-to-filter-shortcodes-in-wordpress-3-6/
          */
         $layout_style = ''; // default
-        if ($layout = 'stacked'){
-           $layout_style = "style='display: block;'";
+        $layout_style_div = ""; //defualt
+        if ($layout === 'stacked'){
+           $layout_style = " inbound-stacked";
+        }
+        if ($layout === 'horizontal'){
+           $layout_style = " inbound-horizontal";
+           $layout_style_form_div = " inbound-horizontal";
+           $layout_style_div = ' inbound-form-center';
         }
        
         $form = '<!-- This Inbound Form is Automatically Tracked -->';
+        $form .= '<div id="inbound-form-wrapper" class="'.$layout_style_div.'">';
         $form .= '<form class="inbound-now-form wpl-track-me" method="post" action="' . get_permalink() . '">';
         $inputs = "";
         // add nonce
@@ -302,8 +318,8 @@ class InboundForms {
           $name = str_replace(array(' ','_'),'-',$value);
           $name = ucwords($name);
           $input_classes = $name . $email_input . $first_name_input . $last_name_input . $phone_input;
-          $form .= '<div class="inbound-field '.$name.'">
-                    <label '.$layout_style.' class="inbound-label '.$name. $textarea_on.'" for="'.$name.'">' . $value . '</label>';
+          $form .= '<div class="inbound-field '.$name. $layout_style_form_div.'">
+                    <label class="inbound-label '. $name . $textarea_on . $layout_style.'" for="'.$name.'">' . $value . '</label>';
           if($textarea_on === ' text-area-on') {
            // Textarea input 
            $form .=  '<textarea class="inbound-input inbound-input-textarea '.$input_classes.'" name="'.$name.'" id="in_'.$name.'" '.$req.'/></textarea>';      
@@ -315,13 +331,14 @@ class InboundForms {
           $count++;
         }
         // Add input filters here
-        $form .= '<div class="inbound-field inbound-submit-area">
+        $form .= '<div class="inbound-field inbound-submit-area'.$layout_style_form_div.'">
                       <input type="submit" class="button" value="' . $button_text . '" name="send" id="inbound_form_submit" />
                   </div>
                   <input type="hidden" name="inbound_submitted" value="1">
                   <!-- Add in page_views etc -->
                   <input type="hidden" name="inbound_form_name" value="Inbound Form Name">
-                  </form>';
+                  </form>
+                  </div>';
         return $form;
     }
 
