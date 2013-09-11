@@ -165,9 +165,11 @@ jQuery(document).ready(function($) {
 						do_action('wpl-lead-collection-add-ajax-data'); 
 					*/
 				},
-				success: function(user_id){			
+				success: function(user_id){	
+						jQuery(this_form).trigger("inbound_form_complete"); // Trigger custom hook
 						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
-						jQuery.totalStorage('wp_lead_id', user_id); 
+						jQuery.totalStorage('wp_lead_id', user_id);
+						
 						if (form_id)
 						{
 							jQuery('form').unbind('submit');
@@ -225,6 +227,8 @@ jQuery(document).ready(function($) {
 		});
 		
 	}
+
+
 	// Fallback for form ajax fails
 	var failed_conversion = jQuery.cookie("failed_conversion");
 	var fallback_obj = jQuery.totalStorage('failed_conversion');
