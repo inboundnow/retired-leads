@@ -2,14 +2,12 @@
 
 /* This file no longer stores leads. Those functions live in /shared/tracking/ */
 
-// Is this in use?
 add_action('wp_ajax_wpl_track_user', 'wpl_track_user_callback');
 add_action('wp_ajax_nopriv_wpl_track_user', 'wpl_track_user_callback');
 // Tracks known leads
 function wpl_track_user_callback() 
 {
 	global $wpdb;
-	//echo "here";exit;
 	(isset(	$_POST['wp_lead_id'] )) ? $lead_id = $_POST['wp_lead_id'] : $lead_id = '';
 	(isset(	$_POST['nature'] )) ? $nature = $_POST['nature'] : $nature = 'non-conversion'; // what is nature?
 	(isset(	$_POST['json'] )) ? $json = addslashes($_POST['json']) : $json = 0;
@@ -22,7 +20,6 @@ function wpl_track_user_callback()
 	}
  
 	/* Old non logged in tracking. This updates tracking table. We might need the table in future. */
-
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s", $time);
 	
@@ -32,7 +29,6 @@ function wpl_track_user_callback()
 	
 	if (mysql_num_rows($result)>0)
 	{
-		//echo "here";
 		$row = mysql_fetch_array($result);
 		$row_id = $row['id'];
 		
@@ -43,7 +39,6 @@ function wpl_track_user_callback()
 	}
 	else
 	{
-		//echo "there";
 		$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
 				(lead_id,tracking_id,date,data,nature) VALUES
 				("'.$lead_id.'" , "'.$wp_lead_uid.'" , "'.$wordpress_date_time.'" , "'.$json.'" , "non-conversion")';
@@ -78,8 +73,7 @@ function wp_leads_update_page_view_obj($lead_id, $page_id, $current_url) {
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time); 
 
-		$page_view_data = get_post_meta( $lead_id, 'page_views', TRUE );		
-		
+		$page_view_data = get_post_meta( $lead_id, 'page_views', TRUE );
 		//echo $page_id; // for debug
 		
 		// If page_view meta exists do this	
@@ -147,6 +141,7 @@ function wp_leads_get_current_lists($lead_id){
 			//setcookie('check_lead_list' , true, time() + ( 24 * 60 * 60),'/');
 		}
 }
+
 function wp_leads_get_meta_data($lead_id){
 	// function for grabbing any metadata from the backend and displaying to visitor.
 	// meta values etc.
@@ -155,7 +150,7 @@ function wp_leads_get_meta_data($lead_id){
 // This function might need to just build the page_view meta on the lead and be in /shared/
 function wpleads_hook_store_lead_post($data)
 {
-	//setcookie('this_running', "EYP",time()+3600,"/"); // works
+	//setcookie('this_running', "EYP",time()+3600,"/"); // test if firing
 	//print_r($data);
 	if ($data['lead_id'])
 	{
@@ -164,19 +159,14 @@ function wpleads_hook_store_lead_post($data)
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s", $time); 
 
-		 // Grab page view obj instead of trackObj
+		 // note: Grab page view obj instead of trackObj
 		(isset(	$_POST['json'] )) ? $json = $_POST['json'] : $json = 0;
 		(isset(	$_POST['page_view_count'] )) ? $view_count = $_POST['page_view_count'] : $view_count = 0;
 		
 		$json = stripslashes($json);
 		$json = json_decode($json, true);
-		
 		$json[0]['converted_page'] = array( 'page_id'=> $_POST['lp_id'] , 'datetime' => $wordpress_date_time );
-		//print_r($json);
-		//print_r($data);
-		
 		$json = json_encode($json);
-		//$json = addslashes($json);
 		
 		//$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
 		//		(lead_id,tracking_id,date,data,nature) VALUES
@@ -188,7 +178,6 @@ function wpleads_hook_store_lead_post($data)
 		
 		if (mysql_num_rows($result)>0)
 		{
-			//echo "here";
 			$row = mysql_fetch_array($result);
 			$row_id = $row['id'];
 			
@@ -199,7 +188,6 @@ function wpleads_hook_store_lead_post($data)
 		}
 		else
 		{
-			//echo "there";
 			$query = "INSERT INTO ".$wpdb->prefix."lead_tracking
 					(lead_id,tracking_id,date,data,nature) VALUES
 					('".$data['lead_id']."' , '".$data['wp_lead_uid']."' , '".$wordpress_date_time."' , '".$json."' , 'conversion')";
@@ -224,11 +212,9 @@ function wpleads_hook_store_lead_post($data)
 		}
 		
 		update_post_meta($data['lead_id'],'wpl-lead-page-view-count', $increment_page_views);
-		/* End Store number of page views as meta */
 
 		/* Store conversions as meta */
 		$conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
-
 		if ($conversions)
 		{
 			$count_of_conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
@@ -245,10 +231,10 @@ function wpleads_hook_store_lead_post($data)
 		
 		//update raw post data json 
 		$raw_post_data = get_post_meta($data['lead_id'],'wpl-lead-raw-post-data', true);
-					
+		
+		// Auto Mapping for Raw Form Fields
 		$a1 = json_decode( $raw_post_data, true );
 		$a2 = json_decode( stripslashes($data['raw_post_values_json']), true );
-		
 		foreach ($a2 as $key=>$value)
 		{
 			if (stristr($key,'company'))
