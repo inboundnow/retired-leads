@@ -48,6 +48,8 @@ function show_wp_cta_post_metaboxes() {
     echo '</div>'; // end table
 }
 
+add_action( "wordpress_cta_add_meta", "wp_cta_bt_meta_boxes" );
+
 function wp_cta_render_metaboxes($meta_boxes) {
 	global $post, $wpdb;
 	 foreach ($meta_boxes as $field) {
@@ -151,16 +153,6 @@ function wp_cta_render_metaboxes($meta_boxes) {
 				        }
 				    }
 		 			echo "</select><br><span class='description'>'".$field['desc']."'</span>";
-					echo '<script type="text/javascript">
-						jQuery(document).ready(function($) {
-
-							$(".inbound-multi-select").select2({
-								placeholder: "Select one or more calls to action to rotate through",
-					            allowClear: true,
-					        });
-
-					 	});
-						</script>';
 		 			break;
 
 		 			case 'list_type':
