@@ -100,7 +100,7 @@ function wp_cta_admin_enqueue($hook)
 		// List Screen
 		if ( $screen->id == 'edit-wp-call-to-action' ) 
 		{
-			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
+			//wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
 			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'css/admin-wp-call-to-action-list.css');
 			wp_enqueue_script('jqueryui');
 			wp_admin_css('thickbox');
@@ -822,6 +822,8 @@ jQuery(document).ready(function($)
 add_action( 'save_post', 'wp_cta_display_meta_save', 10, 2 );
 function wp_cta_display_meta_save($post_id, $post)
 {   
+	global $post;
+	$post_id = $post->ID;
     if ( isset($_POST['cta_display_list']) ) { // if we get new data
         update_post_meta($post_id, "cta_display_list", $_POST['cta_display_list'] );
     } else {
@@ -831,5 +833,7 @@ function wp_cta_display_meta_save($post_id, $post)
     if ( isset($_POST['wp_cta_content_placement']) ) { // if we get new data
 
         update_post_meta($post_id, "wp_cta_content_placement", $_POST['wp_cta_content_placement'] );
+    } else {
+    	 update_post_meta($post_id, "wp_cta_content_placement", '' );
     }
 }

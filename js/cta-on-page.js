@@ -6,5 +6,9 @@ jQuery(document).ready(function($) {
 	open_link = jQuery(this).attr("href");
 	parent.window.location.href = open_link;
     });
+
+    jQuery('form').each(function(){
+    	jQuery(this).addClass('wpl-track-me');
+	});
    
  });

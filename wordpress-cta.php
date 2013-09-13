@@ -21,6 +21,21 @@ $uploads = wp_upload_dir();
 define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/wp-calls-to-action/templates/' ); 
 define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-calls-to-action/templates/' ); 
 
+
+/* Inbound Core Shared Files. Lead files take presidence */
+
+add_action( 'plugins_loaded', 'inbound_load_shared' );
+if (!function_exists('inbound_load_shared')) {
+	function inbound_load_shared(){
+		if (function_exists('wpleads_check_active') && file_exists( WPL_PATH.'/shared/tracking/store.lead.php')) { 
+			include_once( WPL_PATH.'/shared/tracking/store.lead.php'); // Lead Storage from leads plugin
+		} else {
+			include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
+		}
+	}
+}
+
+
 /**
  * LOAD BACKEND ONLY FILES
  */
@@ -31,12 +46,12 @@ if (is_admin())
 	include_once('modules/module.global-settings.php');
 	include_once('modules/module.clone.php');
 	include_once('modules/module.extension-updater.php');
+	
 }
 
 /**
  * LOAD FILES THAT WILL BE USED ON THE FRONT AND BACKEND
  */
- 
 include_once('functions/functions.global.php');
 include_once('modules/module.post-type.php');
 include_once('modules/module.track.php');
