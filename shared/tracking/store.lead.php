@@ -175,6 +175,7 @@ function inbound_store_lead()
 		$data['raw_post_values_json'] = $raw_post_values_json;
 		
 		do_action('wpl_store_lead_post', $data );
+		do_action('lp_store_lead_post', $data ); //legacy
 		
 		echo $post_ID;
 		die();

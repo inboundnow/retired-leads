@@ -18,13 +18,15 @@ class LLS_LEADS_LISTING extends WP_List_Table
 		
 		$final_data = array();
 		
-		$list = get_post($post->ID);
-		$list_slug = $list->post_name;
+		$wplead_cat_id = get_post_meta($post->ID,'wplead_list_category_id', true);	
 		
 		$args = array(
 			'post_type' => 'wp-lead',
 			'post_status' => 'published',
-			'wplead_list_category' => $list_slug,
+			'tax_query'=>array(
+				'taxonomy'=>'wplead_list_category',
+				'field'=>'id',
+				'term'=> $wplead_cat_id),
 			'numberposts' => -1
 		);
 		
