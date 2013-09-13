@@ -1,24 +1,24 @@
 jQuery(document).ready(function($) {
-/* core tracking script */
-	var form = jQuery('.wpl-track-me');
-
-	if (form.length>0)
-	{
-
-		form.submit(function(e) { 
-			form_id = jQuery(this).attr('id');
+/* Core Inbound Form Tracking Script */
+	
+		jQuery("body").on('submit', '.wpl-track-me', function (e) {
+			
 			this_form = jQuery(this);
+			
+			// process form only once
+			processed = this_form.hasClass('lead_processed');
+			if (processed === true) {
+				return;
+			}
+
+			form_id = jQuery(this).attr('id');
+			form_class = jQuery(this).attr('class');
+
 			jQuery('button, input[type="button"]').css('cursor', 'wait');
 			jQuery('input').css('cursor', 'wait');
 			jQuery('body').css('cursor', 'wait');
 			
-			e.preventDefault();
-			var email_check = 1;
-			var submit_halt = 0;
-			
-			/* Setup hook replacement
-			// do_action('wpl_js_hook_submit_form_pre',null);
-			*/
+			e.preventDefault(); // halt normal form
 			
 			var email = "";
 			var firstname = "";
@@ -26,12 +26,12 @@ jQuery(document).ready(function($) {
 			var tracking_obj = JSON.stringify(trackObj);
 			var page_view_count = countProperties(pageviewObj);
 			//console.log("view count" + page_view_count);
-			submit_halt = 1;
+		
 
 			if (!email)
 			{
 
-				 jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+				 jQuery(this_form).find('input[type=text],input[type=email]').each(function() {
 					if (this.value)
 					{
 						if (jQuery(this).attr("name").toLowerCase().indexOf('email')>-1&&!email) {
@@ -60,7 +60,7 @@ jQuery(document).ready(function($) {
 
 			if (!email)
 			{
-				jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+				jQuery(this_form).find('input[type=text],input[type=email]').each(function() {
 					if (jQuery(this).closest('li').children('label').length>0)
 					{
 						if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('email')>-1&&!email) 
@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
 
 			if (!email)
 			{
-				jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+				jQuery(this_form).find('input[type=text],input[type=email]').each(function() {
 					if (jQuery(this).closest('div').children('label').length>0)
 					{
 						if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('email')>-1&&!email) 
@@ -123,13 +123,15 @@ jQuery(document).ready(function($) {
 			var page_id = inbound_ajax.post_id;
 			if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {	
 				var lp_v = landing_path_info.variation;
+			} else if (typeof (cta_path_info) != "undefined" && cta_path_info != null && cta_path_info != "") {	
+				var lp_v = cta_path_info.variation;
 			} else {
 				var lp_v = null;
 			}
 		
 			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
 			
-			function release_form_sub(){
+			function release_form_sub(this_form){
 				jQuery('button, input[type="button"]').css('cursor', 'default');
 				jQuery('input').css('cursor', 'default');
 				jQuery('body').css('cursor', 'default');
@@ -169,18 +171,11 @@ jQuery(document).ready(function($) {
 						jQuery(this_form).trigger("inbound_form_complete"); // Trigger custom hook
 						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id);
+						this_form.addClass('lead_processed');
+						// Unbind form
+						this_form.unbind('submit');
+						this_form.submit();
 						
-						if (form_id)
-						{
-							jQuery('form').unbind('submit');
-							//jQuery('.wpl-track-me form').submit();
-							jQuery('#'+form_id).submit();
-						}
-						else
-						{
-							this_form.unbind('submit');
-							this_form.submit();
-						}
 						
 						jQuery('button, input[type="button"]').css('cursor', 'default');
 						jQuery('input').css('cursor', 'default');
@@ -216,17 +211,14 @@ jQuery(document).ready(function($) {
  
 						// If fail, cookie form data and ajax submit on next page load
 						console.log('ajax fail');
-						release_form_sub();   
-						//die();
-						submit_halt =0;
+						release_form_sub(this_form);   
+						
 					}
 			});
 			
 
 			
 		});
-		
-	}
 
 
 	// Fallback for form ajax fails
