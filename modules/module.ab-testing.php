@@ -837,43 +837,7 @@ function wp_cta_ab_testing_check_for_variations()
 		update_post_meta($page_id,'wp-cta-ab-variation-conversions-'.$variation_id, $conversions);
 	}
 }
-
-//add ab toggling options to customizer
-add_action('wp_cta_launch_customizer_pre','wp_cta_ab_customizer_print_variation_toggle', 10 , 1);
-function wp_cta_ab_customizer_print_variation_toggle($post)
-{
-	$wp_cta_variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
-
-	$variations = get_post_meta($post->ID,'wp-cta-ab-variations', true);
-	$variations_array = explode(",", $variations);
-	$post_type_is = get_post_type($post->ID);
-	if ($post_type_is !== "wp-call-to-action") { 
-			echo "<style type='text/css'>#variation-list {display:none;}</style>";
-		}
-	if ($variations_array[0] === "")
-	{
-		echo '<div id="variation-list" class="no-abtests"><h3>No A/B Tests running for this page</h3>';
-	} 
-	else 
-	{
-		echo '<div id="variation-list"><h3>Variations:</h3>';
-		echo '<div id="current_variation_id">'.$wp_cta_variation.'</div>';
-	}
 	
-	foreach ($variations_array as $key => $val) 
-	{
-		$letter = wp_cta_ab_key_to_letter($val);
-		$current_view = ($val == $wp_cta_variation) ? 'current-variation-view' : '';
-		echo "<div class='variation-wp-cta ".$current_view."' id=". $val . " rel='".$letter."'>";
-		echo $letter;
-	   
-		// echo $val; number
-		echo "</div>";
-	}
-	
-	echo '</div>';
-	
-}		
 
 add_action('wp_cta_launch_customizer_pre','wp_cta_ab_testing_customizer_enqueue');
 function wp_cta_ab_testing_customizer_enqueue($post)

@@ -1,0 +1,83 @@
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front {
+	display: none !important;
+}
+html.wp-toolbar {
+	padding-top: 0px !important;
+}
+.auto-fold #adminmenuback, .auto-fold #adminmenuwrap, .auto-fold #adminmenu, .auto-fold #adminmenu li.menu-top {
+	width: 0px !important;
+}
+.auto-fold #wpcontent, .auto-fold #wpfooter {
+margin-left: 10px !important;
+}
+/* Need to test */
+#wpbody-content {
+padding-bottom: 60px !important;
+width: 76% !important;
+}
+#submitdiv .handlediv , #submitdiv .hndle {
+	display: none !important;
+}
+#publishing-action {
+text-align: center !important;
+float: none !important;}
+#minor-publishing-actions input, #major-publishing-actions input, #minor-publishing-actions .preview {
+text-align: center !important;
+width: 280px !important;
+margin: auto !important;
+}
+.select2-container {
+	min-width: 100% !important;
+}
+#submitdiv {
+	position: fixed !important;
+bottom: 0px !important;
+z-index: 999999 !important;
+width: 100% !important;
+margin-left: -10px !important;
+padding-bottom: 10px !important;
+margin-bottom: 0px !important;
+
+}
+@media only screen and (max-width: 600px) {
+.media-modal {
+width: 432px !important;
+position: fixed !important;
+height: 484px !important;
+}
+.media-modal-backdrop {
+width: 600px;
+position: fixed !important;
+}
+}
+ul#template-filter {
+	clear: both !important;
+margin: 0px 0;
+padding: 0;
+padding-left: 0px;
+line-height: 28px;
+}
+#wp_cta-cancel-selection {
+display: block;
+float: none;
+width: 70%;
+text-align: center;
+margin: auto;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+#template-item {
+width: 200px;}
+ul#template-filter li {
+display: inline-block;
+
+padding-bottom: 0px;
+padding-top: 0px;
+margin: 0px;
+line-height: 20px;
+}
+.wp_cta-selection-heading h1 {
+	font-size: 18px;
+	display: block;
+	text-align: center;
+}

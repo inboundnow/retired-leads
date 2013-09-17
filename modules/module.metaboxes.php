@@ -261,10 +261,15 @@ function wp_cta_wp_call_to_action_header_area()
     if ( ! $varaition_notes = get_post_meta( $post->ID , 'wp-cta-variation-notes',true ) )
         $varaition_notes = '';
 	
-	$varaition_notes = apply_filters('wp_cta_edit_varaition_notes', $varaition_notes, 1);
+		$varaition_notes = apply_filters('wp_cta_edit_varaition_notes', $varaition_notes, 1);
 		echo "<div id='wp-cta-notes-area'>";
    		wp_cta_display_notes_input('wp-cta-variation-notes',$varaition_notes);
     	echo '</div><div id="wp-cta-current-view">'.$wp_cta_variation.'</div><div id="switch-wp-cta">0</div>';
+
+   	// Set frontend editor params
+    if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {  
+    echo('<input type="hidden" name="frontend" id="frontend-on" value="true" />');
+	}	
 
 }
 

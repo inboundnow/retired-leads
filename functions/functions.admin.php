@@ -77,6 +77,11 @@ function wp_cta_admin_enqueue($hook)
 		// Edit Screen
 		if ( $hook == 'post.php' ) {
 			wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . '/css/admin-post-edit.css');
+			if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
+				//show_admin_bar( false ); // doesnt work
+				wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . '/css/new-customizer-admin.css');
+				wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
+			}
 			/* Error with picker_functions.js for datepicker need new solution
 			wp_enqueue_script('jquery-datepicker', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.min.js');
 			wp_enqueue_script('jquery-datepicker-functions', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/picker_functions.js');
@@ -100,7 +105,7 @@ function wp_cta_admin_enqueue($hook)
 		// List Screen
 		if ( $screen->id == 'edit-wp-call-to-action' ) 
 		{
-			//wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
+			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
 			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'css/admin-wp-call-to-action-list.css');
 			wp_enqueue_script('jqueryui');
 			wp_admin_css('thickbox');
@@ -108,6 +113,28 @@ function wp_cta_admin_enqueue($hook)
 		}
 
 	}
+}
+
+add_filter('admin_url','wp_cta_add_fullscreen_param');
+function wp_cta_add_fullscreen_param( $link ) 
+{
+	if (isset($_GET['page']))
+		return $link;
+
+	if (  ( isset($post) && 'wp-call-to-action' == $post->post_type ) || ( isset($_REQUEST['post_type']) && $_REQUEST['post_type']=='wp-call-to-action' ) ) 
+	{ 
+		$params['frontend'] = 'false';
+		if(isset($_GET['frontend']) && $_GET['frontend'] == 'true') {
+	        $params['frontend'] = 'true';
+	    }
+	    if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+	        $params['frontend'] = 'true';
+	    }
+	    $link = add_query_arg( $params, $link );
+
+	} 
+	
+	return $link;
 }
 
 function wp_cta_list_feature($label,$url=null)

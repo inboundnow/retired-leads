@@ -227,7 +227,7 @@ function wp_cta_ab_testing_add_tabs()
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
 		}
 		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '&wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '&wp-cta-variation-id=0';
-		echo '<a rel="'.$post->guid.'" class="button-primary new-save-wp-cta-frontend" href="'.$post->guid.''.$edit_link.'&cta-template-customize=on">Launch Visual Editor</a>';
+		echo '<a rel="'.$post->guid.'" id="cta-launch-front" class="button-primary new-save-wp-cta-frontend" href="'.$post->guid.''.$edit_link.'&cta-template-customize=on">Launch Visual Editor</a>';
 		echo '</h2>';
 	} 
 	else 
