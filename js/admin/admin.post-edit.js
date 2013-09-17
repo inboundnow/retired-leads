@@ -281,9 +281,14 @@ jQuery(document).ready(function ($) {
     var selected_template = jQuery('#wp_cta_select_template').val();
 	//alert(selected_template);
     var selected_template_id = "#" + selected_template;
+    var clean_template_name = selected_template.replace(/-/g, ' ');
+    function capitaliseFirstLetter(string)
+    {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     var currentlabel = jQuery(".currently_selected");
     jQuery(selected_template_id).parent().addClass("default_template_highlight").prepend(currentlabel);
-    jQuery("#wp_cta_metabox_select_template h3").first().append(' - Current Active Template: <strong>' + selected_template + '</strong>')
+    jQuery("#wp_cta_metabox_select_template h3").first().prepend('<strong>' + capitaliseFirstLetter(clean_template_name) + '</strong> - ')
 
     jQuery('#wp-cta-change-template-button').live('click', function () {
         jQuery(".wrap").fadeOut(500,function(){
@@ -407,6 +412,8 @@ jQuery(document).ready(function ($) {
     });
 
 
+    
+
     var nonce_val = wp_cta_post_edit_ui.wp_call_to_action_meta_nonce; // NEED CORRECT NONCE
     jQuery("body").on('click', '.new-save-wp-cta', function () {
         var type_input = jQuery(this).parent().find("input").attr("type");
@@ -450,6 +457,20 @@ jQuery(document).ready(function ($) {
         var this_meta_id = jQuery(this).attr("id");
         var post_id = jQuery("#post_ID").val();
 
+        function do_reload_preview() {    
+        var cache_bust =  generate_random_cache_bust(35);
+        var reload_url = parent.window.location.href;
+        reload_url = reload_url.replace('cta-template-customize=on','');
+        //alert(reload_url);
+        var current_variation_id = jQuery("#wp-cta-current-view").text();
+    
+        // var reload = jQuery(parent.document).find("#lp-live-preview").attr("src"); 
+        var new_reload = reload_url + "&live-preview-area=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
+        //alert(new_reload);
+        jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
+        // console.log(new_reload);
+        }
+        var frontend_status = jQuery("#frontend-on").val();
         jQuery.ajax({
             type: 'POST',
             url: wp_cta_post_edit_ui.ajaxurl,
@@ -473,6 +494,13 @@ jQuery(document).ready(function ($) {
                 jQuery(worked).appendTo(s_message);
                 jQuery(self).hide();
                 jQuery("#switch-wp-cta").text("0");
+                // RUN RELOAD
+                if (typeof (frontend_status) != "undefined" && frontend_status !== null) {
+                console.log('reload frame');
+                do_reload_preview();
+                } else {
+                console.log('No reload frame');    
+                }
                 //alert("Changes Saved!");
             },
 

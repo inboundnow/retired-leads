@@ -1,4 +1,4 @@
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front {
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front, #wp_call_to_action_categorydiv {
 	display: none !important;
 }
 html.wp-toolbar {
@@ -12,7 +12,7 @@ margin-left: 10px !important;
 }
 /* Need to test */
 #wpbody-content {
-padding-bottom: 60px !important;
+padding-bottom: 90px !important;
 width: 76% !important;
 }
 #submitdiv .handlediv , #submitdiv .hndle {
@@ -25,7 +25,11 @@ float: none !important;}
 text-align: center !important;
 width: 280px !important;
 margin: auto !important;
+height: 44px !important;
+font-size: 17px !important;
 }
+#major-publishing-actions {
+padding: 15px 10px 15px !important;}
 .select2-container {
 	min-width: 100% !important;
 }
@@ -39,6 +43,32 @@ padding-bottom: 10px !important;
 margin-bottom: 0px !important;
 
 }
+.jPicker .Grid {
+	display: none;
+}
+.jPicker .Button {
+text-align: center;
+padding: 0 4px;
+width: 264px;
+position: absolute;
+border-bottom: none;
+left: 0px;
+bottom: 3px;
+}
+.jPicker .Button input {
+	font-size: 18px !important;
+}
+.jPicker .Icon span.Color, .jPicker .Icon span.Alpha {
+width: 97% !important;
+}
+.jPicker .Title {
+width: 254px;
+}
+.jPicker hr {
+	display: none !important;
+}
+table.jPicker {
+width: 430px !important;}
 @media only screen and (max-width: 600px) {
 .media-modal {
 width: 432px !important;
