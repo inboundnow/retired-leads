@@ -155,7 +155,7 @@ function wplead_quick_stats_metabox() {
 		<div class="inside" style='margin-left:-8px;text-align:center;'> 
 
 			<div id="quick-stats-box">
-				<?php do_action('wpleads_before_quickstats'); // Custom Action for additional data ?>
+				<?php do_action('wpleads_before_quickstats', $post); // Custom Action for additional data ?>
 			<div id="page_view_total">Total Page Views <span id="p-view-total"><?php echo $page_view_count; ?></span></div>
 			<div id="conversion_count_total"># of Conversions <span id="conversion-total"><?php echo $conversions_count; ?></span></div>
 			
