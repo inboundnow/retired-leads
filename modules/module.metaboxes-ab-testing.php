@@ -226,15 +226,10 @@ function wp_cta_ab_testing_add_tabs()
 			$letter = wp_cta_ab_key_to_letter($variation_count);
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
 		}
-		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '&wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '&wp-cta-variation-id=0';
-		echo '<a rel="'.$post->guid.'" id="cta-launch-front" class="button-primary new-save-wp-cta-frontend" href="'.$post->guid.''.$edit_link.'&cta-template-customize=on">Launch Visual Editor</a>';
+		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '?wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '?wp-cta-variation-id=0';
+		$post_link = get_permalink($post->ID);
+		$post_link = preg_replace('/\?.*/', '', $post_link);
+		echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary new-save-wp-cta-frontend' href='$post_link$edit_link&cta-template-customize=on'>Launch Visual Editor</a>";
 		echo '</h2>';
 	} 
-	else 
-	{
-		if ($post_type_is === "page" || $post_type_is === "post" ) {
-		// Frontend edit button for other post types
-		//echo '<a class="button-primary new-save-wp-cta-frontend" style="position: fixed;right: 38px; top: 57px;" href="'.$permalink.'?template-customize=on">Launch Visual Editor</a>'; 
-		}
-	}
 }

@@ -693,6 +693,13 @@ function cta_placements_content_meta_box()
 		} else {
 			$placement = 'off';
 		}
+
+		$wp_cta_alignment = get_post_meta($post->ID, 'wp_cta_alignment');
+		if (!empty($wp_cta_alignment)){ 
+			$alignment = $wp_cta_alignment[0];
+		} else {
+			$alignment = 'center';
+		}
 	  
 	//print_r($wp_cta_post_template_ids);
 	   
@@ -718,6 +725,22 @@ function cta_placements_content_meta_box()
 								<option value='widget_1' <?php if ($placement=='widget_1'){echo "selected='true'"; } ?>>Sidebar Widget</option>
 								<option value='popup' <?php if ($placement=='popup'){echo "selected='true'"; } ?>>Popup</option>
 								<option value='shortcode' <?php if ($placement=='shortcode'){echo "selected='true'"; } ?>>Shortcode (coming soon)</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class='cta-options-label'>
+							<label for=keyword>
+								CTA Alignment
+							</label>
+						</td>
+						<td class='cta-options-row'>
+							<select name='wp_cta_alignment'>
+								<option value='cta-aligncenter' <?php if ($alignment=='cta-aligncenter'){echo "selected='true'"; } ?>>Centered (default)</option>
+								<option value='cta-alignright' <?php if ($alignment=='cta-alignright'){echo "selected='true'"; } ?>>Float Right</option>
+								<option value='cta-alignleft' <?php if ($alignment=='cta-alignleft'){echo "selected='true'"; } ?>>Float Left</option>
+								
 							</select>
 						</td>
 					</tr>
@@ -861,6 +884,12 @@ function wp_cta_display_meta_save($post_id, $post)
 
         update_post_meta($post_id, "wp_cta_content_placement", $_POST['wp_cta_content_placement'] );
     } else {
-    	 update_post_meta($post_id, "wp_cta_content_placement", '' );
+    	update_post_meta($post_id, "wp_cta_content_placement", '' );
+    }
+
+    if ( isset($_POST['wp_cta_alignment']) ) { // if we get new data
+        update_post_meta($post_id, "wp_cta_alignment", $_POST['wp_cta_alignment'] );
+    } else {
+    	delete_post_meta($post_id, "wp_cta_alignment", '' );
     }
 }

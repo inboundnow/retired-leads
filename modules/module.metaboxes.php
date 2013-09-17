@@ -48,7 +48,7 @@ function show_wp_cta_post_metaboxes() {
     echo '</div>'; // end table
 }
 
-add_action( "wordpress_cta_add_meta", "wp_cta_bt_meta_boxes" );
+//add_action( "wordpress_cta_add_meta", "wp_cta_bt_meta_boxes" );
 
 function wp_cta_render_metaboxes($meta_boxes) {
 	global $post, $wpdb;

@@ -19,13 +19,19 @@ jQuery(document).ready(function ($) {
                                 placeholder: "Select one or more calls to action to rotate through",
                                 allowClear: true,
      });
-	/* Ajax loading tabs
-		jQuery.koolSwap({
-			swapBox : '#poststuff',
-			outDuration : 550,
-				inDuration : 600,
-		});
-    */
+	jQuery("body").on('click', '#content-tmce', function () {
+        $.cookie("lp-edit-view-choice", "editor", { path: '/', expires: 7 });
+    });
+    jQuery("body").on('click', '#content-html', function () {
+        $.cookie("lp-edit-view-choice", "html", { path: '/', expires: 7 });
+    });
+    var which_editor = $.cookie("lp-edit-view-choice");
+    if(which_editor === null){
+        jQuery("#content-tmce").click();
+    }    
+    if(which_editor === 'editor'){
+        jQuery("#content-tmce").click();
+    }
     /* Tour Start JS
     var tourbutton = '<a class="" id="wp-cta-tour" style="font-size:13px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo("h2:eq(0)");
@@ -288,7 +294,7 @@ jQuery(document).ready(function ($) {
     }
     var currentlabel = jQuery(".currently_selected");
     jQuery(selected_template_id).parent().addClass("default_template_highlight").prepend(currentlabel);
-    jQuery("#wp_cta_metabox_select_template h3").first().prepend('<strong>' + capitaliseFirstLetter(clean_template_name) + '</strong> - ')
+    jQuery("#wp_cta_metabox_select_template h3").first().prepend('<strong>' + capitaliseFirstLetter(clean_template_name) + '</strong> - ');
 
     jQuery('#wp-cta-change-template-button').live('click', function () {
         jQuery(".wrap").fadeOut(500,function(){
