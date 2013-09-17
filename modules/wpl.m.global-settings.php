@@ -24,6 +24,8 @@
 
 		$wpleads_global_settings[$tab_slug]['options'][] = wpleads_add_option($tab_slug,"radio","page-view-tracking","1","Page View Tracking","<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales followups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>", $options=array('1'=>'On','0'=>'Off'));
 
+		$wpleads_global_settings[$tab_slug]['options'][] = wpleads_add_option($tab_slug,"radio","create-roles","1","Create WP Roles for Lists","<p>Turn this on to create WordPress user roles that correspond with Lead lists.</p>", $options=array('1'=>'On','0'=>'Off'));
+
 		$wpleads_global_settings[$tab_slug]['options'][] = wpleads_add_option($tab_slug,"text","extra-lead-data","","Full Contact API Key","<p>Enter your Full contact API key. If you don't have one. Grab a free one here: <a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>here</a></p>", $options=null);
 		/*SETUP END*/
 		

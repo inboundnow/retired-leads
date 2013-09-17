@@ -23,10 +23,13 @@ class LLS_LEADS_LISTING extends WP_List_Table
 		$args = array(
 			'post_type' => 'wp-lead',
 			'post_status' => 'published',
-			'tax_query'=>array(
-				'taxonomy'=>'wplead_list_category',
-				'field'=>'id',
-				'term'=> $wplead_cat_id),
+			'tax_query'=> array(
+					array(
+					'taxonomy'=>'wplead_list_category',
+					'field'=>'term_id',
+					'terms'=> $wplead_cat_id
+					)
+				),
 			'posts_per_page' => -1
 		);
 		
@@ -50,6 +53,8 @@ class LLS_LEADS_LISTING extends WP_List_Table
 			$final_data[$lead_id]['lls_lead_points'] = $points;
 			$i++;
 		endwhile;
+		
+		
 		//print_r($final_data);exit;
 		$this->leads_data = $final_data; 
 		//$this->_args = array();

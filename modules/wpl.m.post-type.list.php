@@ -148,60 +148,56 @@ if (is_admin())
 			//add list as category to lead cpt and store the category taxonomy as meta pair in list cpt
 			wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug);
 			
-			//now create role
-			$result = add_role($list_slug, $list_title, array(
-				'read' => true, // True allows that capability
-				'edit_posts' => false,
-				'delete_posts' => false, // Use false to explicitly deny
-			));
+			//if role creation is turned on
+			$role_creation = get_option('wpl-main-role-creation', 1);
 			
-			if (null !== $result) {
-				//echo 'Yay!  New role created!';
-			} else {
-				//echo 'Oh... the basic_contributor role already exists.';
+			if ($role_creation)
+			{
+				//now create role
+				$result = add_role($list_slug, $list_title, array(
+					'read' => true, // True allows that capability
+					'edit_posts' => false,
+					'delete_posts' => false, // Use false to explicitly deny
+				));
+				
+				if (null !== $result) {
+					//echo 'Yay!  New role created!';
+				} else {
+					//echo 'Oh... the basic_contributor role already exists.';
+				}
 			}
 			
 			do_action('wpleads_save_list_post',$post_id);
 		}
-		else
-		{
+
+		//add in meta pair markers for lists the lead belong to
+		if ($post->post_type=='wp-lead' && isset($_POST) && count($_POST) > 0 )
+		{				
 			
-			if (isset($_POST['wpleads_list_sorting']))
+			if (isset($_POST['tax_input']))
 			{
-				$list_categories = $_POST['wpleads_list_sorting'];
-				
-				//delete all custom post meta related to lists
-				global $wpdb;
-				
-				$data   =   array();
-			
-				$wpdb->query("
-				
-					SELECT `meta_key`, `meta_value`
-					FROM $wpdb->postmeta
-					WHERE `post_id` = ".$post->ID."
-					
-				");
-				
-				foreach($wpdb->last_result as $k => $v){
-					$data[$v->meta_key] =   $v->meta_value;
-				};
-				
-				foreach ($data as $key=>$value)
+				//delete_post_meta($post->ID, 'wpleads_list_ids');
+
+				$tax_input = $_POST['tax_input'];
+				foreach ($tax_input['wplead_list_category'] as $key=>$value)
 				{
-					if (strstr($key,'wpleads_list_sorting'))
-					{
-						delete_post_meta($post->ID,$key);
+					if ($value)
+					{		
+						$store_post = $post;
+						$list = wpleads_get_list_by_taxonomy_id($value);
+						$post = $store_post;
+						$list_name = $list['post_name'];
+						$list_id = $list['ID'];
+						$wpleads_list_ids[$list_name]['list_id'] = $list_id;	
+						$wpleads_list_ids[$list_name]['wplead_list_category_id'] = $value;	
 					}
 				}
+			}
 
-				//rebuild the lists post meta
-				foreach ($list_categories as $key=>$list_id)
-				{
-					update_post_meta( $post->ID , 'wpleads_list_sorting-'.$list_id , 1);					
-				}
-				
-				//hello!
+			if (isset($wpleads_list_ids) && count($wpleads_list_ids) > 0)
+			{			
+				$wpleads_list_ids = json_encode($wpleads_list_ids);
+				$wpleads_list_ids = update_post_meta($post->ID, 'wpleads_list_ids', $wpleads_list_ids);				
 			}
 		}
 	}
@@ -211,8 +207,14 @@ if (is_admin())
 	function wpleads_permanently_delete_post($post_id){
 		global $post;
 		$list_slug = $post->post_name;
-
-		$result = remove_role($list_slug);
+		
+		//if role creation is turned on
+		$role_creation = get_option('wpl-main-role-creation', 1);
+		
+		if ($role_creation)
+		{
+			$result = remove_role($list_slug);
+		}
 		
 		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 		wp_delete_term($wplead_cat_id,'wplead_list_category');
@@ -243,6 +245,24 @@ if (is_admin())
 			
 			update_post_meta( $post_id, 'wplead_list_category_id', $term_id);
 		}
+	}
+	
+	function wpleads_get_list_by_taxonomy_id($term_id)
+	{
+		
+		$args = array(
+			'post_type' => 'list',
+			'post_status' => 'published',
+			'meta_key'=> 'wplead_list_category_id',
+			'meta_value'=> $term_id,
+			'posts_per_page' => 1
+		);
+		
+		$wp_query = new WP_Query( $args );
+		while ($wp_query->have_posts()) : $wp_query->the_post();
+			return array('ID'=>$wp_query->post->ID,'post_name'=>$wp_query->post->post_name , 'post_title'=>$wp_query->post->post_title);
+		endwhile;				
+	
 	}
 	
 }
