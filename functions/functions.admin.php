@@ -884,12 +884,12 @@ function wp_cta_display_meta_save($post_id, $post)
 
         update_post_meta($post_id, "wp_cta_content_placement", $_POST['wp_cta_content_placement'] );
     } else {
-    	update_post_meta($post_id, "wp_cta_content_placement", '' );
+    	delete_post_meta($post_id, "wp_cta_content_placement");
     }
 
     if ( isset($_POST['wp_cta_alignment']) ) { // if we get new data
         update_post_meta($post_id, "wp_cta_alignment", $_POST['wp_cta_alignment'] );
     } else {
-    	delete_post_meta($post_id, "wp_cta_alignment", '' );
+    	delete_post_meta($post_id, "wp_cta_alignment" );
     }
 }
