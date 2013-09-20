@@ -1,5 +1,5 @@
 <?php
-/* Start Global Options */
+/* Start Global Options 
 function wp_cta_display_options(){
     return array(
         '_is_all_wp_cta'  => 'Every Page',
@@ -60,6 +60,33 @@ function wp_cta_admin_process($post_ID) {
             }
         }
     }
+}
+*/
+ add_filter('wp_cta_show_metabox','custom_callback' , 10, 2);
+function custom_callback($field_settings, $key){
+   //prepend width and height as setting. 
+   $width =  array(
+        'label' => 'Width',
+        'description' => "CTA Width",
+        'id'  => 'wp_cta_width',
+        'type'  => 'text',
+        'default'  => '',
+        'context'  => 'priority'
+        );
+  
+   $height = array(
+        'label' => 'Height',
+        'description' => "CTA Height",
+        'id'  => 'wp_cta_height',
+        'type'  => 'text',
+        'default'  => '',
+        'context'  => 'priority'
+        );
+
+ 
+ array_unshift($field_settings, $width, $height);
+ 
+ return $field_settings;
 }
 /* End global Options */
 // Add in Custom Options

@@ -86,5 +86,12 @@ array(
         'id'  => 'submit-button-text',
         'type'  => 'text',
         'default'  => 'Download Now'
+        ),
+      array(
+        'label' => 'Destination Link',
+        'description' => "Where do you want to link people to?",
+        'id'  => 'link_url',
+        'type'  => 'text',
+        'default'  => 'http://www.inboundnow.com'
         )
     );

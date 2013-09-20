@@ -46,6 +46,8 @@ $content_color = wp_cta_get_value($post, $key, 'content-color' );
 $submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color' ); 
 $submit_button_text = wp_cta_get_value($post, $key, 'submit-button-text' ); 
 $content_text_color = wp_cta_get_value($post, $key, 'content-text-color' );
+$link_url = wp_cta_get_value($post, $key, 'link_url' );
+
 
 $content = get_the_content();
 $new_content = wpautop($content);
@@ -447,7 +449,9 @@ vertical-align: top;
 padding-right: 10px;
 margin-bottom: 4px;
 }
-
+#checkMark {
+  text-decoration: none;
+}
  input[type="submit"]:hover {
   background: #f15958;
 }
@@ -499,7 +503,7 @@ if ($content_text_color != ""){
 <?php echo do_shortcode( $new_content  ); ?>
 </div>
 <nav class="demos">
-<div id="checkMark" class="btn"><?php echo $submit_button_text; ?></div>
+<a href="<?php echo $link_url;?>" id="checkMark" class="btn"><?php echo $submit_button_text; ?></a>
 </nav>
 </div>
 </div>
