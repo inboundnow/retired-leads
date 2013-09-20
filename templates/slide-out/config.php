@@ -1,7 +1,7 @@
 <?php
 /**
 * WordPress: WP Calls To Action Template Config File
-* Template Name:  Call Out Box
+* Template Name:  Slideout
 * @package  WordPress Calls to Action
 * @author 	InboundNow
 */
@@ -14,8 +14,8 @@ $key = wp_cta_get_parent_directory(dirname(__FILE__));
 $wp_cta_data[$key]['info'] = 
 array(
 	'version' => "1.0", // Version Number
-	'label' => "Popup Ebook", // Nice Name
-	'category' => 'Popup', // Template Category
+	'label' => "Slideout", // Nice Name
+	'category' => 'wide', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This is the blank template for any image/html/shortcode CTA' // template description
 );
@@ -93,12 +93,5 @@ array(
         'id'  => 'submit-button-text',
         'type'  => 'text',
         'default'  => 'Download Now'
-        ),
-      array(
-        'label' => 'Redirect URL',
-        'description' => "Where to redirect people",
-        'id'  => 'redirect',
-        'type'  => 'text',
-        'default'  => ''
         )
     );

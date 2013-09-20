@@ -1,6 +1,6 @@
 <?php
 /**
-* Template Name:  Blank CTA Template
+* Template Name:  Slideout Template
 *
 * @package  WordPress Landing Pages
 * @author   David Wells
@@ -8,6 +8,48 @@
 * @version  1.0
 * @example link to example page
 */
+
+/** 
+* Run the cta template option array through this to generate usable variable
+* 
+* $wp_cta_data[$key]['settings'] is in the config.php file of cta template.
+* 
+* In this example $options_array is the $wp_cta_data[$key]['settings'] array.
+*/
+ 
+$options_array = 
+array(
+    array(
+        'label' => 'Headline Text Color', // Name of field
+        'description' => "Use this setting to change headline color", // what field does
+        'id'  => 'headline-text-color', // metakey. $key Prefix is appended from parent in array loop
+        'type'  => 'colorpicker', // metafield type
+        'default'  => 'FFFFFF', // default content
+        'context'  => 'normal' // Context in screen (advanced layouts in future)
+        ),
+    array(
+        'label' => 'Header Text',
+        'description' => "Header Text",
+        'id'  => 'header-text',
+        'type'  => 'text',
+        'default'  => 'Awesome Text that makes you want to buy',
+        'context'  => 'normal'
+        )
+      );
+ 
+foreach ($options_array as $key => $value) {
+  $name = str_replace(array('-'),'_', $value['id']);
+//  echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
+//  echo "<br>";  
+}
+ 
+/* Output=
+ 
+$headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
+$header_text = wp_cta_get_value($post, $key, 'header-text' ); 
+ 
+*/
+
 
 /* Declare Template Key */
 $key = wp_cta_get_parent_directory(dirname(__FILE__)); 
@@ -36,7 +78,6 @@ $content_text_color = wp_cta_get_value($post, $key, 'content-text-color' );
 $submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color' ); 
 $submit_button_text_color = wp_cta_get_value($post, $key, 'submit-button-text-color' ); 
 $submit_button_text = wp_cta_get_value($post, $key, 'submit-button-text' );
-$redirect = wp_cta_get_value($post, $key, 'redirect' );
 $content = get_the_content();
 $new_content = wpautop($content);
 ?>
@@ -53,9 +94,10 @@ $new_content = wpautop($content);
   <style type="text/css">
   body{ padding: 0px; margin: 0px; margin: auto; font-family: Arial;}
 #inbound-wrapper {
-  width: 700px;
+  width: 615px;
   padding: 10px;
   padding-bottom: 0px;
+  padding-top: 0px;
 }  
 #inbound-hero {
   width: 35%;
@@ -73,24 +115,138 @@ position: relative;
 .inbound-hero-img {
   width: 100%;
 }
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+.container {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 h1 {
-font-size: 23px;
-padding-top: 0px;
-padding-bottom: 0px;
-margin-top: 5px;
-margin-bottom: 15px;
-}
-p, li {
-font-size: 14px;
-line-height: 1.4;
-margin: 0 0 1.4em;
-}
-li {
+  font-family: "Open Sans", sans;
+  font-weight: 300;
+  text-align: center;
   margin-bottom: 0px;
+margin-top: 0px;
+font-size: 25px;
 }
-.divider_line {
-  clear: both;
+
+.service-details {
+  /*width: 460px;*/
+  height: 250px;
+  /*height: 230px;*/
+  overflow: hidden;
+  position: relative;
 }
+
+.service-details img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: inherit;
+  width: 50%;
+  height: 100%;
+  float: left;
+  transition: all 0.8s;
+  -moz-transition: all 0.8s;
+}
+
+.service-details:hover img {
+  /*opacity: 0.4 !important;*/
+}
+
+.service-details .service-hover-text h3 {
+  padding: 0px;
+  margin: 0px;
+  font-size: 25px;
+  font-weight: 300;
+  font-family: "Open Sans";
+}
+
+.service-details .service-hover-text h4 {
+  padding: 0px;
+  padding-bottom: 13px;
+  margin: 0px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 90%;
+  font-family: "Open Sans";
+
+  border-bottom: 2px solid #000;
+}
+
+.service-details .service-hover-text p {
+  padding-top: 13px;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: "Open Sans";
+}
+
+.service-details .service-hover-text {
+  width: 44%;
+  height: 89%;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  padding: 3% 4%;
+  background: #D90E0E;
+  color: white;
+  /*  display: none;*/
+  transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.4s;
+}
+
+.service-details:hover .service-hover-text {
+  display: block !important;
+  color: white;
+  background: rgba(217, 14, 14, 0.85);
+  left: 0px;
+  top: 0px;
+}
+
+.service-details .service-text {
+  width: 50%;
+  height: inherit;
+  background: #000;
+  float: left;
+  position: absolute;
+  left: 50%;
+}
+
+.service-details .service-text p {
+  padding: 0px 0px 0px 20px;
+font-size: 24px;
+font-family: "Open Sans";
+font-weight: 700;
+  color: #fff;
+}
+
+.service-details .service-text p span {
+  font-family: "Open Sans" !important;
+}
+
+.service-details .service-text a, .service-white .service-text {
+  padding: 0px 0px 0px 20px;
+  font-size: 14px !important;
+  color: #FF5A22 !important;
+  font-family: "Open Sans" !important;
+  text-decoration: none !important;
+}
+
+.service-details .service-text {
+  float: left;
+}
+
+.service-white {
+  background: #eee !important;
+  width: 50% !important;
+  height: inherit !important;
+}
+
+.service-white p {
+  color: #000 !important;
+}
+
 .inbound-horizontal input {
 margin-right: 10px;
 padding: 3px;
@@ -173,24 +329,22 @@ if ($headline_color != "") {
 <div id="inbound-wrapper">
 
 
-<h1><?php echo $header_text;?></h1>
-<div id="inbound-content">
 
-<?php echo do_shortcode( $new_content  ); ?>
-</div>
-<div id="inbound-hero">
-<img class='inbound-hero-img' src="<?php echo $hero;?>">
-</div> 
-
-  <div class="divider_line"></div>
-
-
-  <div id="inbound-form-wrapper">
- 
-<?php echo do_shortcode( '[inbound_form fields="Name, Email" required="" layout="horizontal" redirect="'.$redirect.'" button_text="'.$submit_button_text.'"]' );?>
-
+<div class="container">
+  <h1>Profile CSS Hover Effect</h1>
+  <div class="service-details">
+    <img src="http://i.imgur.com/SkFZNy4.jpg" alt="realm">
+    <div class="service-hover-text">
+      <h4>Header Area Lorem ipsum dolor sit</h4>
+      
+      <p>Nulla rhoncus orci sed odio euismod vestibulum. Praesent porta aliquet nulla, ut mattis velit rhoncus eu duspendisse nibh orci laoreet. </p>
+    </div>
+    <div class="service-white service-text">
+      <p>Jane Doe</p>
+      
+    </div>
   </div>
-
+</div>
 </div>
 
 	

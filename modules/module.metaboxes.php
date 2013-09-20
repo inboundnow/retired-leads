@@ -1,4 +1,67 @@
 <?php
+/* Start Global Options */
+function wp_cta_display_options(){
+    return array(
+        '_is_all_wp_cta'  => 'Every Page',
+        '_is_front_wp_cta' => 'Static Front Page',
+        '_is_page_wp_cta' => 'Single Page',
+        '_is_home_wp_cta' => 'Blog Page',
+        '_is_single_wp_cta' => 'Single Post',
+        '_is_archive_wp_cta' => 'Archive',
+        '_is_author_wp_cta' => 'Author Archive',
+        '_is_404_wp_cta' => '404 Page',
+        '_is_search_wp_cta' => 'Search Page'
+    );
+}
+// Meta box
+add_action('add_meta_boxes', 'wp_cta_add_meta_box');
+function wp_cta_add_meta_box() {
+        add_meta_box('wp-cta-buttons-meta', __('Call To Action Display', 'wp-call-to-action'),  'wp_cta_metabox_admin', 'wp-call-to-action', 'side');
+}
+
+function wp_cta_metabox_admin() {
+    global $post;
+    $display_options = wp_cta_display_options();
+    
+    $default_content = "";
+    $default_content .= '<input type="hidden" name="ctaw_settings_noncename" id="ctaw_settings_noncename" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
+    $default_content .= '<p>Global Settings</p>';
+    $default_content .= '<ul id="inline-sortable">';
+    foreach ($display_options as $ctaw_display=>$ctaw_name) {
+        $default_content .= '<li class="ui-state-default"><label class="selectit"><input value="1" type="checkbox" name="'.$ctaw_display.'" id="post-share-' . $ctaw_display . '"' . checked(get_post_meta($post->ID, $ctaw_display, true), 1, false) . '/> <span>' . __($ctaw_name) . '</span></label></li>';
+    }
+    $default_content .= '</ul>';
+    echo $default_content;
+}
+
+add_action('save_post', 'wp_cta_admin_process');
+function wp_cta_admin_process($post_ID) {
+    if (!isset($_POST['ctaw_settings_noncename']) || !wp_verify_nonce($_POST['ctaw_settings_noncename'], plugin_basename(__FILE__))) {
+        return $post_ID;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        return $post_ID;
+
+    if ('page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_ID))
+            return $post_ID;
+    } else {
+        if (!current_user_can('edit_post', $post_ID))
+            return $post_ID;
+    }
+
+    if (!wp_is_post_revision($post_ID) && !wp_is_post_autosave($post_ID)) {
+        $display_options = wp_cta_display_options();
+        foreach ($display_options as $ctaw_display=>$ctaw_name) {
+            if (isset($_POST[$ctaw_display]) && $_POST[$ctaw_display] != ''){
+                update_post_meta($post_ID, $ctaw_display, 1);
+            } else {
+                update_post_meta($post_ID, $ctaw_display, 0);
+            }
+        }
+    }
+}
+/* End global Options */
 // Add in Custom Options
 function add_wp_cta_post_metaboxes() {
     add_meta_box(

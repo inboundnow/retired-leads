@@ -1,7 +1,7 @@
 <?php
 /**
 * WordPress: WP Calls To Action Template Config File
-* Template Name:  Call Out Box
+* Template Name:  Flat
 * @package  WordPress Calls to Action
 * @author 	InboundNow
 */
@@ -14,8 +14,8 @@ $key = wp_cta_get_parent_directory(dirname(__FILE__));
 $wp_cta_data[$key]['info'] = 
 array(
 	'version' => "1.0", // Version Number
-	'label' => "Popup Ebook", // Nice Name
-	'category' => 'Popup', // Template Category
+	'label' => "Flat CTA", // Nice Name
+	'category' => 'wide', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This is the blank template for any image/html/shortcode CTA' // template description
 );
@@ -34,25 +34,25 @@ array(
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
-        'label' => 'Main Image',
-        'description' => "This is the main graphic with the popup",
-        'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
-        'type'  => 'media',
-        'default'  => '/wp-content/plugins/cta/templates/popup-ebook/img/download.png',
-        'context'  => 'normal'
-        ),
-    array(
         'label' => 'Header Text',
         'description' => "Header Text",
         'id'  => 'header-text',
         'type'  => 'text',
-        'default'  => 'Download our Awesome Ebook it will Teach You XYZ',
+        'default'  => 'Snappy Headline',
+        'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Header Sub Text',
+        'description' => "Header Text",
+        'id'  => 'sub-header-text',
+        'type'  => 'text',
+        'default'  => 'Awesome Subheadline Text Goes here',
         'context'  => 'normal'
         ),
     array(
-        'label' => 'Headline Text Color',
+        'label' => 'Header Text Color',
         'description' => "Use this setting to change headline color",
-        'id'  => 'headline-text-color',
+        'id'  => 'text-color',
         'type'  => 'colorpicker',
         'default'  => '000000',
         'context'  => 'normal'
@@ -62,28 +62,21 @@ array(
         'description' => "Changes background color",
         'id'  => 'content-color',
         'type'  => 'colorpicker',
-        'default'  => 'ffffff',
+        'default'  => '60BCF0',
         'context'  => 'normal'
         ),
-     array(
-        'label' => 'Content Text Color',
-        'description' => "Use this setting to change the content text color",
+    array(
+        'label' => 'Content Text Color (optional)',
+        'description' => "Use this setting to change headline color",
         'id'  => 'content-text-color',
         'type'  => 'colorpicker',
-        'default'  => '000000',
+        'default'  => 'ffffff',
         'context'  => 'normal'
         ),
      array(
         'label' => 'Submit Button Color',
         'description' => "Use this setting to change the template's submit button color.",
         'id'  => 'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => 'E14D4D'
-        ),
-     array(
-        'label' => 'Submit Button Text Color',
-        'description' => "Use this setting to change the template's submit button text color.",
-        'id'  => 'submit-button-text-color',
         'type'  => 'colorpicker',
         'default'  => 'ffffff'
         ),
@@ -93,12 +86,5 @@ array(
         'id'  => 'submit-button-text',
         'type'  => 'text',
         'default'  => 'Download Now'
-        ),
-      array(
-        'label' => 'Redirect URL',
-        'description' => "Where to redirect people",
-        'id'  => 'redirect',
-        'type'  => 'text',
-        'default'  => ''
         )
     );
