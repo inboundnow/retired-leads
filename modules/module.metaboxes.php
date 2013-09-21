@@ -62,8 +62,10 @@ function wp_cta_admin_process($post_ID) {
     }
 }
 */
- add_filter('wp_cta_show_metabox','custom_callback' , 10, 2);
-function custom_callback($field_settings, $key){
+
+//add_filter('wp_cta_show_metabox','wp_cta_add_width_and_height' , 10, 2);
+function wp_cta_add_width_and_height($field_settings, $key){
+   
    //prepend width and height as setting. 
    $width =  array(
         'label' => 'Width',
@@ -86,6 +88,7 @@ function custom_callback($field_settings, $key){
  
  array_unshift($field_settings, $width, $height);
  
+ print_r($field_settings);exit;
  return $field_settings;
 }
 /* End global Options */
@@ -629,6 +632,19 @@ function wp_cta_generate_meta()
 		}
 	}
 	
+}
+
+function wp_cta_show_metabox($post,$key) 
+{
+	$extension_data = wp_cta_get_extension_data();
+	$key = $key['args']['key'];
+	
+	$wp_cta_custom_fields = $extension_data[$key]['settings'];
+	//print_r($wp_cta_custom_fields);exit;
+	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
+	//print_r($wp_cta_custom_fields);exit;
+	//echo $key;exit;
+	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
 }
 
 add_action('save_post', 'wp_cta_save_meta');

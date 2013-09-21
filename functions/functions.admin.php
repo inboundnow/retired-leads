@@ -147,20 +147,6 @@ function wp_cta_list_feature($label,$url=null)
 }
 
 
-// The Callback
-function wp_cta_show_metabox($post,$key) 
-{
-	$extension_data = wp_cta_get_extension_data();
-	$key = $key['args']['key'];
-	
-	$wp_cta_custom_fields = $extension_data[$key]['settings'];
-
-	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
-		//print_r($wp_cta_custom_fields);exit;
-	//echo $key;exit;
-	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
-}
-
 add_action('wp_trash_post', 'wp_cta_trash_lander');
 function wp_cta_trash_lander($post_id) {
 	$extension_data = wp_cta_get_extension_data();
