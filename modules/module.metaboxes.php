@@ -64,12 +64,13 @@ function wp_cta_admin_process($post_ID) {
 */
  add_filter('wp_cta_show_metabox','custom_callback' , 10, 2);
 function custom_callback($field_settings, $key){
-   //prepend width and height as setting. 
+   //prepend width and height as setting.
+    $var_id = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0'; 
    $width =  array(
         'label' => 'Width',
         'description' => "CTA Width",
-        'id'  => 'wp_cta_width',
-        'type'  => 'text',
+        'id'  => 'wp_cta_width-'.$var_id,
+        'type'  => 'number',
         'default'  => '',
         'context'  => 'priority'
         );
@@ -77,8 +78,8 @@ function custom_callback($field_settings, $key){
    $height = array(
         'label' => 'Height',
         'description' => "CTA Height",
-        'id'  => 'wp_cta_height',
-        'type'  => 'text',
+        'id'  => 'wp_cta_height-'.$var_id,
+        'type'  => 'number',
         'default'  => '',
         'context'  => 'priority'
         );
@@ -352,7 +353,7 @@ function wp_cta_wp_call_to_action_header_area()
         $varaition_notes = '';
 	
 		$varaition_notes = apply_filters('wp_cta_edit_varaition_notes', $varaition_notes, 1);
-		echo "<div id='wp-cta-notes-area'>";
+		echo "<div id='wp-cta-notes-area' data-field-type='text'>";
    		wp_cta_display_notes_input('wp-cta-variation-notes',$varaition_notes);
     	echo '</div><div id="wp-cta-current-view">'.$wp_cta_variation.'</div><div id="switch-wp-cta">0</div>';
 

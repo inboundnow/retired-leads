@@ -24,11 +24,7 @@ jQuery(".nav-tab-wrapper.a_b_tabs a").on('click', function (event) {
 	jQuery(parent.document).find(".wp-cta-load-overlay").fadeIn('slow');
 
 });	
-setTimeout(function() {
-jQuery('.inbound-wysiwyg-row iframe').each(function(){
-jQuery(this).css('height', 140);
-});
-}, 1000);
+
 
 
 var open_varaition = jQuery("#open_variation").val();

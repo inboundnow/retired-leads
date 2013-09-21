@@ -68,6 +68,8 @@ margin-left: -15px !important;
 .inbound-wysiwyg-option, .inbound-textarea-option {
 width: 106% !important;
 }
+.inbound-media-row .button-primary.new-save-wp-cta, .inbound-media-row .wp-cta-success-message {
+position: initial !important;}
 .wp_themeSkin .mceStatusbar.mceFirst.mceLast {
 width: 90% !important;
 }

@@ -18,6 +18,25 @@ padding-left: 0px;
 .inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
 position: absolute;
 }
+.inbound-datepicker .button-primary.new-save-wp-cta {
+	display: none;
+}
+.inbound-media-row .button-primary.new-save-wp-cta {
+	position: absolute;
+right: -94px;
+top: 0px;
+text-align: center;
+width: 84px;
+}
+.inbound-media-row .wp-cta-success-message {
+	position: absolute;
+right: -100px;
+top: 0px;
+text-align: center;
+width: 80px;
+margin-top: 3px;
+padding: 0px;
+}
 .inbound-wysiwyg-option .button-primary.new-save-wp-cta, .inbound-wysiwyg-option .wp-cta-success-message {
 	width: 100%;
 margin: auto;

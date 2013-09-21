@@ -88,7 +88,8 @@ $content = get_the_content();
 
 </head>
 <!-- wp_cta_body_class(); Defines Custom Body Classes for Advanced User CSS Customization -->
-<body <?php wp_cta_body_class();?>>
+<?php $class = "custom-class"; // add custom body classes ?>
+<body <?php body_class($class); ?>>
 
 <div id="wrapper">
 <!-- example of conditional statment -->  
@@ -115,7 +116,7 @@ $content = get_the_content();
             echo "Here is the Textarea content:" . $textarea_id . "<br>";
             echo "Here is the Color Picker Hex:" . $color_picker_id . "<br>";
             echo "Here is the Radio Value:" . $radio_id_here . "<br>";
-            echo "Here is the Checkbox Value:" . $checkbox_id_here . "<br>";
+            echo "Here is the Checkbox Value:"; print_r($checkbox_id_here); echo "<br>";
             echo "Here is the Dropdown Value:" . $dropdown_id_here . "<br>";
             echo "Here is the Date Picker Value:" . $date_picker . "<br>";
             echo "Here is the WYSIWYG editor content:" . do_shortcode( $wysiwyg_id ) . "<br>";
