@@ -52,7 +52,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     $button_text = wp_cta_get_value($post, $key, 'button-text');
 
     $submit_button_color = wp_cta_get_value($post, $key, 'button-background-color'); 
-    
+    $ribbon_status = wp_cta_get_value($post, $key, 'link_status' ); 
 
 $RBG_array = Hex_2_RGB($submit_button_color);
 $red = $RBG_array['r'];
@@ -111,7 +111,9 @@ $blue = $RBG_array["b"];
 <body>
 
 <div class="box">
+<?php if ($ribbon_status === "option_on"){ ?> 
   <img class="ribbon" src="http://tempsitebeta.com/img/corner-ribbon.png" />
+  <?php } ?>  
   <h2><?php echo $headline_text; ?></h2>
     <div class='center'><?php the_content();?></div>
   <p class="buy-now"><a href="http://www.google.com" class="cta"><?php echo $button_text; ?></a></p>

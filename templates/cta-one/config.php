@@ -63,5 +63,14 @@ array(
         'type'  => 'text',
         'default'  => 'Buy Now',
         'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Disable Ribbon',
+        'description' => "This will disable the top right ribbon",
+        'id'  => 'link_status', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'type'  => 'dropdown',
+        'default'  => 'option_on',
+        'options' => array('option_on' => 'Ribbon is On','option_off'=>'Ribbon is Off'),    
+        'context'  => 'normal'
         )
     );

@@ -1,7 +1,7 @@
 <?php
 /**
 * WordPress: WP Calls To Action Template Config File
-* Template Name:  Slideout
+* Template Name:  Peek a Boo
 * @package  WordPress Calls to Action
 * @author 	InboundNow
 */
@@ -14,7 +14,7 @@ $key = wp_cta_get_parent_directory(dirname(__FILE__));
 $wp_cta_data[$key]['info'] = 
 array(
 	'version' => "1.0", // Version Number
-	'label' => "Slideout", // Nice Name
+	'label' => "Peek a Boo", // Nice Name
 	'category' => 'wide', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This is the blank template for any image/html/shortcode CTA' // template description
@@ -27,29 +27,21 @@ $wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "Instructions for this call to action template go here", // what field does
+        'description' => "Instructions: This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
-        'default'  => '<p>This is a popup call to action used to promote something. Use the main hero image and the main content area to create your popup</p>', // default content
+        'default'  => '<p>This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page</p>', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
-        'label' => 'Main Image',
-        'description' => "This is the main graphic with the popup",
-        'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
-        'type'  => 'media',
-        'default'  => '/wp-content/plugins/cta/templates/popup-ebook/img/download.png',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => 'Header Text',
-        'description' => "Header Text",
+        'label' => 'Header Text (optional)',
+        'description' => "Header Text. This is optional. Remove the text to make it disappear",
         'id'  => 'header-text',
         'type'  => 'text',
-        'default'  => 'Download our Awesome Ebook it will Teach You XYZ',
+        'default'  => 'This Main Headline Will Rock Your Socks',
         'context'  => 'normal'
         ),
-    array(
+     array(
         'label' => 'Headline Text Color',
         'description' => "Use this setting to change headline color",
         'id'  => 'headline-text-color',
@@ -58,40 +50,74 @@ array(
         'context'  => 'normal'
         ),
     array(
-        'label' => 'Background Color',
+        'label' => 'Main Image',
+        'description' => "This is the main graphic with the popup",
+        'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
+        'type'  => 'media',
+        'default'  => 'http://www.fillmurray.com/250/250',
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Static Background Color',
         'description' => "Changes background color",
-        'id'  => 'content-color',
+        'id'  => 'static-bg-color',
         'type'  => 'colorpicker',
-        'default'  => 'ffffff',
+        'default'  => 'EEEEEE',
         'context'  => 'normal'
         ),
      array(
-        'label' => 'Content Text Color',
+        'label' => 'Static Area Text Color',
         'description' => "Use this setting to change the content text color",
-        'id'  => 'content-text-color',
+        'id'  => 'static-text-color',
         'type'  => 'colorpicker',
         'default'  => '000000',
         'context'  => 'normal'
         ),
      array(
-        'label' => 'Submit Button Color',
-        'description' => "Use this setting to change the template's submit button color.",
-        'id'  => 'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => 'E14D4D'
-        ),
-     array(
-        'label' => 'Submit Button Text Color',
-        'description' => "Use this setting to change the template's submit button text color.",
-        'id'  => 'submit-button-text-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff'
-        ),
-     array(
-        'label' => 'Submit Button Text',
+        'label' => 'Static Teaser Text',
         'description' => "Text on the button.",
+        'id'  => 'teaser-text',
+        'type'  => 'wysiwyg',
+        'default'  => 'Do You Know How to Avoid these common XYZ Mistakes?'
+        ),
+      array(
+        'label' => 'Slideout Background Color',
+        'description' => "Changes background color",
+        'id'  => 'slideout-bg-color',
+        'type'  => 'colorpicker',
+        'default'  => 'D90E0E',
+        'context'  => 'normal'
+        ),
+      array(
+        'label' => 'Slideout Text Color',
+        'description' => "Changes background color",
+        'id'  => 'slideout-text-color',
+        'type'  => 'colorpicker',
+        'default'  => 'ffffff',
+        'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Slideout Area Text',
+        'description' => "This is the slide out area. You can insert copy or a form here. If you use a form. Toggle the link off below",
         'id'  => 'submit-button-text',
+        'type'  => 'wysiwyg',
+        'default'  => '<h4>Header Area Lorem ipsum dolor sit</h4>
+        <p>Nulla rhoncus orci sed odio euismod vestibulum. Praesent porta aliquet nulla, ut mattis velit rhoncus eu duspendisse nibh orci laoreet. </p>'
+        ),
+     array(
+        'label' => 'Link URL',
+        'description' => "Where do you want to send people to?",
+        'id'  => 'link_url',
         'type'  => 'text',
-        'default'  => 'Download Now'
+        'default'  => 'http://www.inboundnow.com'
+        ),
+     array(
+        'label' => 'Disable Link and Use form in CTA',
+        'description' => "This will disable the link and let you use a small form in the CTA",
+        'id'  => 'link_status', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'type'  => 'dropdown',
+        'default'  => 'option_on',
+        'options' => array('option_on' => 'Link is On','option_off'=>'Link is Off'),    
+        'context'  => 'normal'
         )
     );

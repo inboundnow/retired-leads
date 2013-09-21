@@ -19,30 +19,99 @@
  
 $options_array = 
 array(
-    array(
-        'label' => 'Headline Text Color', // Name of field
-        'description' => "Use this setting to change headline color", // what field does
-        'id'  => 'headline-text-color', // metakey. $key Prefix is appended from parent in array loop
-        'type'  => 'colorpicker', // metafield type
-        'default'  => 'FFFFFF', // default content
+     array(
+        'label' => 'Instructions', // Name of field
+        'description' => "Instructions: This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page", // what field does
+        'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
+        'type'  => 'description-block', // metafield type
+        'default'  => '<p>This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page</p>', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
-        'label' => 'Header Text',
+        'label' => 'Header Text (optional)',
         'description' => "Header Text",
         'id'  => 'header-text',
         'type'  => 'text',
-        'default'  => 'Awesome Text that makes you want to buy',
+        'default'  => 'This Main Headline Will Rock Your Socks',
         'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Headline Text Color',
+        'description' => "Use this setting to change headline color",
+        'id'  => 'headline-text-color',
+        'type'  => 'colorpicker',
+        'default'  => '000000',
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Main Image',
+        'description' => "This is the main graphic with the popup",
+        'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
+        'type'  => 'media',
+        'default'  => 'http://www.fillmurray.com/250/250',
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Static Background Color',
+        'description' => "Changes background color",
+        'id'  => 'static-bg-color',
+        'type'  => 'colorpicker',
+        'default'  => 'EEEEEE',
+        'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Static Area Text Color',
+        'description' => "Use this setting to change the content text color",
+        'id'  => 'static-text-color',
+        'type'  => 'colorpicker',
+        'default'  => '000000',
+        'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Static Teaser Text',
+        'description' => "Text on the button.",
+        'id'  => 'teaser-text',
+        'type'  => 'text',
+        'default'  => 'Do You Know How to Avoid these common XYZ Mistakes?'
+        ),
+      array(
+        'label' => 'Slideout Background Color',
+        'description' => "Changes background color",
+        'id'  => 'slideout-bg-color',
+        'type'  => 'colorpicker',
+        'default'  => 'D90E0E',
+        'context'  => 'normal'
+        ),
+      array(
+        'label' => 'Slideout Text Color',
+        'description' => "Changes background color",
+        'id'  => 'slideout-text-color',
+        'type'  => 'colorpicker',
+        'default'  => 'ffffff',
+        'context'  => 'normal'
+        ),
+     array(
+        'label' => 'Slideout Button Text',
+        'description' => "Text on the button.",
+        'id'  => 'submit-button-text',
+        'type'  => 'text',
+        'default'  => 'Download Now'
+        ),
+     array(
+        'label' => 'Link URL',
+        'description' => "Where do you want to send people to?",
+        'id'  => 'link_url',
+        'type'  => 'text',
+        'default'  => 'http://www.inboundnow.com'
         )
       );
- 
+/* 
 foreach ($options_array as $key => $value) {
   $name = str_replace(array('-'),'_', $value['id']);
-//  echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
-//  echo "<br>";  
+ echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
+ echo "<br>";  
 }
- 
+/**/ 
 /* Output=
  
 $headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
@@ -50,6 +119,23 @@ $header_text = wp_cta_get_value($post, $key, 'header-text' );
  
 */
 
+/* 
+echo "<pre>";
+foreach ($options_array as $key => $value) {
+  $name = str_replace(array('-'),'_', $value['id']);
+  if($value['type'] === 'colorpicker') {
+// echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
+ //echo "<br>";  
+  echo "\n";
+  echo "if (" . " $" . "$name " . "!= \"\" ) {";
+  echo "\n";
+  echo "echo \".css_element { color: #$" . "".$name."" . ";}\"; \n"; // change sidebar color
+  echo "}";
+  echo "\n";
+  }
+}
+echo "</pre>";
+/**/ 
 
 /* Declare Template Key */
 $key = wp_cta_get_parent_directory(dirname(__FILE__)); 
@@ -70,14 +156,19 @@ $post_id = get_the_ID();
 $width = get_post_meta( $post_id, 'wp_cta_width-'.$var_id, true ) . "px";
 $height = get_post_meta( $post_id, 'wp_cta_height-'.$var_id, true ) . "px";
 
+
+$header_text = wp_cta_get_value($post, $key, 'header-text' ); 
 $headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
-$header_text = wp_cta_get_value($post, $key, 'header-text' );
-$hero = wp_cta_get_value($post, $key, 'hero' );
-$content_color = wp_cta_get_value($post, $key, 'content-color' ); 
-$content_text_color = wp_cta_get_value($post, $key, 'content-text-color' ); 
-$submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color' ); 
-$submit_button_text_color = wp_cta_get_value($post, $key, 'submit-button-text-color' ); 
-$submit_button_text = wp_cta_get_value($post, $key, 'submit-button-text' );
+$hero = wp_cta_get_value($post, $key, 'hero' ); 
+$static_bg_color = wp_cta_get_value($post, $key, 'static-bg-color' ); 
+$static_text_color = wp_cta_get_value($post, $key, 'static-text-color' ); 
+$teaser_text = wp_cta_get_value($post, $key, 'teaser-text' ); 
+$slideout_bg_color = wp_cta_get_value($post, $key, 'slideout-bg-color' ); 
+$slideout_text_color = wp_cta_get_value($post, $key, 'slideout-text-color' ); 
+$submit_button_text = wp_cta_get_value($post, $key, 'submit-button-text' ); 
+$link_status = wp_cta_get_value($post, $key, 'link_status' ); 
+$link_url = wp_cta_get_value($post, $key, 'link_url' ); 
+
 $content = get_the_content();
 $new_content = wpautop($content);
 ?>
@@ -91,228 +182,34 @@ $new_content = wpautop($content);
   <title><?php wp_title(); ?></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
+   <link rel="stylesheet" href="<?php echo $path; ?>style.css">
   <style type="text/css">
-  body{ padding: 0px; margin: 0px; margin: auto; font-family: Arial;}
-#inbound-wrapper {
-  width: 615px;
-  padding: 10px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-}  
-#inbound-hero {
-  width: 35%;
-float: left;
-margin-right: 4%;
-margin-left: 4%;
-position: relative;
-}
-#inbound-content {
-width: 50%;
-float: left;
-padding-left: 20px;
-position: relative;
-}
-.inbound-hero-img {
-  width: 100%;
-}
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
-.container {
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  a { text-decoration: none; }
+  <?php
+  if ( $headline_text_color != "" ) {
+echo "h1 { color: #$headline_text_color;}"; 
 }
 
-h1 {
-  font-family: "Open Sans", sans;
-  font-weight: 300;
-  text-align: center;
-  margin-bottom: 0px;
-margin-top: 0px;
-font-size: 25px;
+if ( $static_bg_color != "" ) {
+echo ".service-white { background: #$static_bg_color !important;}"; 
 }
 
-.service-details {
-  /*width: 460px;*/
-  height: 250px;
-  /*height: 230px;*/
-  overflow: hidden;
-  position: relative;
+if ( $static_text_color != "" ) {
+echo ".service-white p { color: #$static_text_color !important;}"; 
 }
 
-.service-details img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: inherit;
-  width: 50%;
-  height: 100%;
-  float: left;
-  transition: all 0.8s;
-  -moz-transition: all 0.8s;
+if ( $slideout_bg_color != "" ) {
+ $new_color = inbound_Hex_2_RGB($slideout_bg_color);
+ $red = $new_color['r'];
+ $green = $new_color['g'];
+ $blue = $new_color['b'];
+echo ".service-details .service-hover-text, .service-details:hover .service-hover-text { background: rgba($red, $green, $blue, 0.85);}"; 
 }
 
-.service-details:hover img {
-  /*opacity: 0.4 !important;*/
+if ( $slideout_text_color != "" ) {
+echo ".service-details .service-hover-text, .service-details:hover .service-hover-text { color: #$slideout_text_color;}"; 
 }
-
-.service-details .service-hover-text h3 {
-  padding: 0px;
-  margin: 0px;
-  font-size: 25px;
-  font-weight: 300;
-  font-family: "Open Sans";
-}
-
-.service-details .service-hover-text h4 {
-  padding: 0px;
-  padding-bottom: 13px;
-  margin: 0px;
-  font-size: 14px;
-  letter-spacing: 3px;
-  width: 90%;
-  font-family: "Open Sans";
-
-  border-bottom: 2px solid #000;
-}
-
-.service-details .service-hover-text p {
-  padding-top: 13px;
-  font-size: 14px;
-  line-height: 20px;
-  font-family: "Open Sans";
-}
-
-.service-details .service-hover-text {
-  width: 44%;
-  height: 89%;
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  padding: 3% 4%;
-  background: #D90E0E;
-  color: white;
-  /*  display: none;*/
-  transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.4s;
-}
-
-.service-details:hover .service-hover-text {
-  display: block !important;
-  color: white;
-  background: rgba(217, 14, 14, 0.85);
-  left: 0px;
-  top: 0px;
-}
-
-.service-details .service-text {
-  width: 50%;
-  height: inherit;
-  background: #000;
-  float: left;
-  position: absolute;
-  left: 50%;
-}
-
-.service-details .service-text p {
-  padding: 0px 0px 0px 20px;
-font-size: 24px;
-font-family: "Open Sans";
-font-weight: 700;
-  color: #fff;
-}
-
-.service-details .service-text p span {
-  font-family: "Open Sans" !important;
-}
-
-.service-details .service-text a, .service-white .service-text {
-  padding: 0px 0px 0px 20px;
-  font-size: 14px !important;
-  color: #FF5A22 !important;
-  font-family: "Open Sans" !important;
-  text-decoration: none !important;
-}
-
-.service-details .service-text {
-  float: left;
-}
-
-.service-white {
-  background: #eee !important;
-  width: 50% !important;
-  height: inherit !important;
-}
-
-.service-white p {
-  color: #000 !important;
-}
-
-.inbound-horizontal input {
-margin-right: 10px;
-padding: 3px;
-padding-top: 2px;
-
-}
-.inbound-horizontal {
-display: inline-block;
-vertical-align: middle;
-}
-.inbound-horizontal label {
-margin-right: 5px;
-font-size: 20px;
-vertical-align: middle;
-}
-input[type="submit"] {
-background: #E14D4D;
-border: none;
-border-radius: 5px;
-color: #FFF;
-font-size: 23px;
-font-weight: bold;
-padding: 0px;
-padding-left: 10px;
-text-align: center;
-vertical-align: top;
-padding-right: 10px;
-margin-bottom: 4px;
-}
-
- input[type="submit"]:hover {
-  background: #f15958;
-}
-<?php 
-if ($width !="") {
-            echo "#content {width: $width;}"; // change header color
-}
-if ($height !="") {
-            echo "#content {height: $height;}"; // change header color
-}
-if ($content_color !="") {
-            echo "#inbound-wrapper {background-color: #$content_color;}"; // change header color
-}
-if ($content_text_color !="") {
-            echo "#inbound-content {color: #$content_text_color;}";
-            echo "#content, #content-wrapper p {color: #$content_text_color; }";
-            echo ".inbound-horizontal label {color: #$content_text_color; }";
-}
-if ($headline_text_color != ""){
-   echo "h1 {color:#$headline_text_color;";
-}
-if ($submit_button_color != "") {
-         echo ".button {background: #$submit_button_color; border-bottom: 3px solid $darker;}";
-         echo ".button:hover { background: $darker; border-bottom: 3px solid #$submit_button_color;}";
-          //echo".button { background: #$submit_button_color;}";
-          //echo ".button:hover { background: $darker; border-bottom: 3px solid #DB3D3D;}";
-          //regulr background: #DB3D3D; border-bottom: 3px solid #C12424;
-          // hover .button:hover {background: #C12424;border-bottom: 3px solid #DB3D3D;}
-}
-if ($submit_button_text_color != "") {
-          echo".button { color: #$submit_button_text_color;}";
-}
-if ($headline_color != "") {
-          echo"h1#main-headline { color: #$headline_color; margin-top: 0px; padding-top: 10px; line-height: 36px; margin-bottom: 10px;}";
-}
-?> 
+  ?>
 </style>
 
 <!-- Load Normal WordPress wp_head() function -->
@@ -325,26 +222,29 @@ if ($headline_color != "") {
 <body class="pop-up-container lightbox-pop">
 
 
-
 <div id="inbound-wrapper">
 
-
-
+<?php if ($link_status === "option_on"){ ?> 
+<a href="<?php echo $link_url;?>">
+<?php } ?>  
 <div class="container">
-  <h1>Profile CSS Hover Effect</h1>
+  <?php if ($header_text != "") { ?>
+  <h1><?php echo $header_text;?></h1>
+  <?php } ?>
   <div class="service-details">
-    <img src="http://i.imgur.com/SkFZNy4.jpg" alt="realm">
+    <img src="<?php echo $hero;?>" alt="realm">
     <div class="service-hover-text">
-      <h4>Header Area Lorem ipsum dolor sit</h4>
-      
-      <p>Nulla rhoncus orci sed odio euismod vestibulum. Praesent porta aliquet nulla, ut mattis velit rhoncus eu duspendisse nibh orci laoreet. </p>
+      <?php echo do_shortcode( $submit_button_text ); ?>
     </div>
     <div class="service-white service-text">
-      <p>Jane Doe</p>
+      <?php $new_teaser = wpautop($teaser_text); echo do_shortcode( $new_teaser ); ?>
       
     </div>
   </div>
 </div>
+<?php if ($link_status === "option_on"){ ?> 
+</a>
+<?php } ?>
 </div>
 
 	
