@@ -63,14 +63,15 @@ function wp_cta_admin_process($post_ID) {
 }
 */
 
-//add_filter('wp_cta_show_metabox','wp_cta_add_width_and_height' , 10, 2);
+add_filter('wp_cta_show_metabox','wp_cta_add_width_and_height' , 10, 2);
 function wp_cta_add_width_and_height($field_settings, $key){
    
    //prepend width and height as setting. 
    $width =  array(
         'label' => 'Width',
-        'description' => "CTA Width",
-        'id'  => 'wp_cta_width',
+        'description' => "Calculate height/width
+Enter the Width of the CTA in pixels. Example: 300 or 300px",
+        'id'  => 'width',
         'type'  => 'text',
         'default'  => '',
         'context'  => 'priority'
@@ -78,8 +79,8 @@ function wp_cta_add_width_and_height($field_settings, $key){
   
    $height = array(
         'label' => 'Height',
-        'description' => "CTA Height",
-        'id'  => 'wp_cta_height',
+        'description' => "Enter the Height of the CTA in pixels. Example: 300 or 300px",
+        'id'  => 'height',
         'type'  => 'text',
         'default'  => '',
         'context'  => 'priority'
@@ -88,7 +89,6 @@ function wp_cta_add_width_and_height($field_settings, $key){
  
  array_unshift($field_settings, $width, $height);
  
- print_r($field_settings);exit;
  return $field_settings;
 }
 /* End global Options */
@@ -640,10 +640,9 @@ function wp_cta_show_metabox($post,$key)
 	$key = $key['args']['key'];
 	
 	$wp_cta_custom_fields = $extension_data[$key]['settings'];
-	//print_r($wp_cta_custom_fields);exit;
+
 	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
-	//print_r($wp_cta_custom_fields);exit;
-	//echo $key;exit;
+
 	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
 }
 
