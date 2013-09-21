@@ -3,20 +3,17 @@
 Plugin Name: WordPress Calls to Action
 Plugin URI: http://www.inboundnow.com/wp-call-to-actions/
 Description: Display Targeted Calls to Action on your wordpress site
-Version: 1.0.9.7
+Version: 1.0.1
 Author: David Wells, Hudson Atwell
 Author URI: http://www.inboundnow.com/
 */
 
-/**
- * DEFINE CONSTANTS AND GLOBAL VARIABLES
- */
- 
+// DEFINE CONSTANTS AND GLOBAL VARIABLES
 define('WP_CTA_CURRENT_VERSION', '1.0.9.7' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-define('WP_CTA_PLUGIN_SLUG', 'wp-call-to-actions' );
-define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/wp-call-to-actions/' ); 
+define('WP_CTA_PLUGIN_SLUG', 'cta' );
+define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' ); 
 $uploads = wp_upload_dir();
 define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/wp-calls-to-action/templates/' ); 
 define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-calls-to-action/templates/' ); 
@@ -46,7 +43,6 @@ if (is_admin())
 	include_once('modules/module.global-settings.php');
 	include_once('modules/module.clone.php');
 	include_once('modules/module.extension-updater.php');
-	
 }
 
 /**
@@ -280,11 +276,6 @@ if (!function_exists('inbound_meta_debug')) {
 		} 
 	}
 }
-
-/**
- * LOAD CTA VISUAL CUSTOMIZER
- */
-
+// Load visual editor scripts
 include_once('modules/module.customizer.php');
-
 ?>
