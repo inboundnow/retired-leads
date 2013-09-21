@@ -185,6 +185,7 @@ $new_content = wpautop($content);
    <link rel="stylesheet" href="<?php echo $path; ?>style.css">
   <style type="text/css">
   a { text-decoration: none; }
+  .inboundheader-box {text-align: center;}
   <?php
   if ( $headline_text_color != "" ) {
 echo "h1 { color: #$headline_text_color;}"; 
@@ -209,6 +210,12 @@ echo ".service-details .service-hover-text, .service-details:hover .service-hove
 if ( $slideout_text_color != "" ) {
 echo ".service-details .service-hover-text, .service-details:hover .service-hover-text { color: #$slideout_text_color;}"; 
 }
+  if ( $width != "" ) {
+echo "#inbound-wrapper, .service-details, .inboundheader-box { width: $width;}"; 
+}
+  if ( $height != "" ) {
+echo "#inbound-wrapper,.service-details { height: $height;}"; 
+}
   ?>
 </style>
 
@@ -229,7 +236,9 @@ echo ".service-details .service-hover-text, .service-details:hover .service-hove
 <?php } ?>  
 <div class="container">
   <?php if ($header_text != "") { ?>
+  <div class="inboundheader-box">
   <h1><?php echo $header_text;?></h1>
+  </div>
   <?php } ?>
   <div class="service-details">
     <img src="<?php echo $hero;?>" alt="realm">

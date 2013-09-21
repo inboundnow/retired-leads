@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
 		var clean_spaces = clean_2.replace(/\s{2,}/g, ' '); // remove more than one space
 		var this_id =  clean_spaces.replace(/[.\s]+$/g, ""); // remove trailing whitespace
 		console.log(this_id);
-		var parent_el = jQuery( "." + this_id + " .wp-call-to-action-table-header");
+		var parent_el = jQuery( "." + this_id + " .wp-call-to-action-table-headerz");
 		jQuery(parent_el).find(".wp-cta-success-message").remove();
 		jQuery(parent_el).find(".new-save-wp-cta-frontend").remove();
 		var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta-frontend" id="' + this_id + '" style="margin-left:10px;">Update</span>');

@@ -19,18 +19,20 @@ jQuery(document).ready(function ($) {
                                 placeholder: "Select one or more calls to action to rotate through",
                                 allowClear: true,
      });
-	jQuery("body").on('click', '#content-tmce', function () {
+	jQuery("body").on('click', '#content-tmce, .wp-switch-editor.switch-tmce', function () {
         $.cookie("lp-edit-view-choice", "editor", { path: '/', expires: 7 });
     });
-    jQuery("body").on('click', '#content-html', function () {
+    jQuery("body").on('click', '#content-html, .wp-switch-editor.switch-html', function () {
         $.cookie("lp-edit-view-choice", "html", { path: '/', expires: 7 });
     });
     var which_editor = $.cookie("lp-edit-view-choice");
     if(which_editor === null){
         jQuery("#content-tmce").click();
+        jQuery(".wp-switch-editor.switch-tmce").click();
     }    
     if(which_editor === 'editor'){
         jQuery("#content-tmce").click();
+        jQuery(".wp-switch-editor.switch-tmce").click();
     }
     /* Tour Start JS
     var tourbutton = '<a class="" id="wp-cta-tour" style="font-size:13px;">Need help? Take the tour</a>';
@@ -380,27 +382,46 @@ jQuery(document).ready(function ($) {
     }
 
     // Ajax Saving for metadata
-    jQuery('#wp_cta_metabox_select_template input, #wp_cta_metabox_select_template select, #wp_cta_metabox_select_template textarea').on("change keyup", function (e) {
+    jQuery('#wp_cta_metabox_select_template input, #wp_cta_metabox_select_template select, #wp_cta_metabox_select_template textarea, #wp-cta-notes-area input, .inbound-wysiwyg-option iframe').on("change keyup", function (e) {
         // iframe content change needs its own change function $("#iFrame").contents().find("#someDiv")
         // media uploader needs its own change function
         var this_id = jQuery(this).attr("id");
         var parent_el = jQuery(this).parent();
+        var field_type = jQuery(this).parent().attr('data-field-type');
+        if (typeof (field_type) === "undefined") {
+           var field_type = 'editor';
+        }    
         jQuery(parent_el).find(".wp-cta-success-message").remove();
         jQuery(parent_el).find(".new-save-wp-cta").remove();
-        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" id="' + this_id + '" style="margin-left:10px">Update</span>');
-        //console.log(parent_el);
-        jQuery(ajax_save_button).appendTo(parent_el);
-    });
-    jQuery('#wp-cta-notes-area input').on("change keyup", function (e) {
-       var this_id = jQuery(this).attr("id");
-        var parent_el = jQuery(this).parent();
-        jQuery(parent_el).find(".wp-cta-success-message").remove();
-        jQuery(parent_el).find(".new-save-wp-cta").remove();
-        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" id="' + this_id + '" style="margin-left:10px">Update</span>');
+        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" data-field-type="'+field_type+'" id="' + this_id + '" style="margin-left:10px">Update</span>');
         //console.log(parent_el);
         jQuery(ajax_save_button).appendTo(parent_el);
     });
 
+   
+
+setTimeout(function() {  
+ 
+    jQuery('.inbound-wysiwyg-option iframe').contents().find('body').on("change keyup", function (e) {
+        // iframe content change needs its own change function $("#iFrame").contents().find("#someDiv")
+        // media uploader needs its own change function
+     
+        console.log('change');
+        var actual_id = "#inbound-" + jQuery(this).attr('onload').replace("window.parent.tinyMCE.get('",'').replace("').onLoad.dispatch();",'');
+        console.log(actual_id);
+       
+        var this_html = jQuery(this).html();
+        console.log(this_html);
+  
+        var field_type = 'iframe';
+        var this_id = jQuery(actual_id).attr('data-actual');
+        jQuery(actual_id).find(".wp-cta-success-message").remove();
+        jQuery(actual_id).find(".new-save-wp-cta").remove();
+        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" data-field-type="'+field_type+'" id="' + this_id + '" style="margin-left:10px">Update</span>');
+        //console.log(parent_el);
+        jQuery(ajax_save_button).appendTo(actual_id);
+    });
+}, 3000);
         jQuery('#main-title-area input').on("change keyup", function (e) {
         // iframe content change needs its own change function $("#iFrame").contents().find("#someDiv")
         // media uploader needs its own change function
@@ -422,45 +443,37 @@ jQuery(document).ready(function ($) {
 
     var nonce_val = wp_cta_post_edit_ui.wp_call_to_action_meta_nonce; // NEED CORRECT NONCE
     jQuery("body").on('click', '.new-save-wp-cta', function () {
-        var type_input = jQuery(this).parent().find("input").attr("type");
-        var type_select = jQuery(this).parent().find("select");
+
+        jQuery('body').css('cursor', 'wait');
         jQuery(this).parent().find(".wp-cta-success-message").hide();
-        var type_textarea = jQuery(this).parent().find("textarea");
-        if (typeof (type_input) != "undefined" && type_input !== null) {
-            var type_of_field = type_input;
-        } else if (typeof (type_textarea) != "undefined" && type_textarea !== null) {
-            var type_of_field = 'textarea';
-        } else {
-            (typeof (type_select) != "undefined" && type_select)
-            var type_of_field = 'select';
-        }
+        var input_type = jQuery(this).attr('data-field-type');
 
-        console.log(type_of_field);
-        var new_value_meta_input = jQuery(this).parent().find("input").val();
-        // console.log(new_value_meta_input); 
-        var new_value_meta_select = jQuery(this).parent().find("select").val();
-        var new_value_meta_textarea = jQuery(this).parent().find("textarea").val();
-        //console.log(new_value_meta_select); 
-        var new_value_meta_radio = jQuery(this).parent().find("input:checked").val();
-        var new_value_meta_checkbox = jQuery(this).parent().find('input[type="checkbox"]:checked').val();
-
+        console.log(input_type);
+        var this_meta_id = jQuery(this).attr("id");
+        console.log(this_meta_id);
         // prep data
-        if (typeof (new_value_meta_input) != "undefined" && new_value_meta_input !== null && type_of_field == "text") {
-            var meta_to_save = new_value_meta_input;
-        } else if (typeof (new_value_meta_textarea) != "undefined" && new_value_meta_textarea !== null && type_of_field == "textarea") {
-            var meta_to_save = new_value_meta_textarea;
-        } else if (typeof (new_value_meta_select) != "undefined" && new_value_meta_select !== null) {
-            var meta_to_save = new_value_meta_select;
-        } else if (typeof (new_value_meta_radio) != "undefined" && new_value_meta_radio !== null && type_of_field == "radio") {
-            var meta_to_save = new_value_meta_radio;
-        } else if (typeof (new_value_meta_checkbox) != "undefined" && new_value_meta_checkbox !== null && type_of_field == "checkbox") {
-            var meta_to_save = new_value_meta_checkbox;
+        if (input_type == "text") {
+            var meta_to_save = jQuery(this).parent().find("input").val();
+        } else if (input_type == "textarea") {
+            var meta_to_save = jQuery(this).parent().find("textarea").val();
+        } else if (input_type == "select") {
+            var meta_to_save = jQuery(this).parent().find("select").val();
+        } else if (input_type == "dropdown") {
+            var meta_to_save = jQuery(this).parent().find("select").val();
+        } else if (input_type == "radio") {
+            var meta_to_save = jQuery(this).parent().find("input:checked").val();
+        } else if (input_type == "checkbox") {
+            var meta_to_save = jQuery(this).parent().find('input[type="checkbox"]:checked').val();
+        } else if (input_type == "editor") {
+            var meta_to_save = jQuery(this).parent().find('textarea').val();
+        } else if (input_type == "iframe") {
+            var meta_to_save = jQuery(".iframe-options-"+this_meta_id+" iframe").contents().find('body').html();
         } else {
             var meta_to_save = "";
         }
-
+        console.log(meta_to_save);
         // if data exists save it
-        var this_meta_id = jQuery(this).attr("id");
+        
         var post_id = jQuery("#post_ID").val();
 
         function do_reload_preview() {    
@@ -491,7 +504,7 @@ jQuery(document).ready(function ($) {
 
             success: function (data) {
                 var self = this;
-
+                jQuery('body').css('cursor', 'default');
                 //alert(data);
                 // jQuery('.wp-cta-form').unbind('submit').submit();
                 //var worked = '<span class="success-message-map">Success! ' + this_meta_id + ' set to ' + meta_to_save + '</span>';

@@ -78,72 +78,88 @@ array(
 // Define Meta Options for template
 $wp_cta_data[$key]['settings'] = 
 array(
-    array(
-        'label' => 'Text Field Label Here', // Name of field
-        'description' => "Text Field Description Here", // what field does
-        'id' => 'text-box-id', // metakey. $key Prefix is appended from parent in array loop
-        'type'  => 'text', // metafield type
-        'default'  => 'Default', // default content
-        'context'  => 'normal' // Context in screen (advanced layouts in future)
+    /* Text field Example */
+    array(  
+        'label' => 'Text Field Label', // Label of field
+        'description' => "Text field Description", // field description
+        'id' => 'text-box-id', // metakey. The $key Prefix is appended making the meta value demo-text-box-id
+        'type'  => 'text', // text metafield type
+        'default'  => '2013-1-31 13:00', // default content
+        'context'  => 'normal' // Context in screen for organizing options
         ),
+    /* Textarea Example */
     array(
-        'label' => 'Headline Text Color',
-        'description' => "Use this setting to change headline color",
-        'id'  => 'headline-text-color',
-        'type'  => 'colorpicker',
-        'default'  => 'FFFFFF',
+        'label' => 'Textarea Label',
+        'description' => "Textarea description to the user",
+        'id'  => 'textarea-id', // called in template's index.php file with lp_get_value($post, $key, 'textarea-id');
+        'type'  => 'textarea',
+        'default'  => 'Default text in textarea',
         'context'  => 'normal'
         ),
+    /* Colorpicker Example */
     array(
-        'label' => 'Header Text',
-        'description' => "Header Text",
-        'id'  => 'header-text',
-        'type'  => 'text',
-        'default'  => 'Awesome Text that makes you want to buy',
+        'label' => 'ColorPicker Label',
+        'description' => "Colorpicker field description",
+        'id'  => 'color-picker-id', // called in template's index.php file with lp_get_value($post, $key, 'color-picker-id');
+        'type'  => 'colorpicker',
+        'default'  => 'ffffff',
         'context'  => 'normal'
         ),
+    /* Radio Button Example */
     array(
-        'label' => 'Background Color',
-        'description' => "Changes background color",
-        'id'  => 'background-color',
-        'type'  => 'colorpicker',
-        'default'  => '222222',
+        'label' => 'Radio Label',
+        'description' => "Radio field description",
+        'id'  => 'radio-id-here', // called in template's index.php file with lp_get_value($post, $key, 'radio-id-here');
+        'type'  => 'radio',
+        'default'  => '1',
+        'options' => array('1' => 'on','0'=>'off'),
         'context'  => 'normal'
         ),
-     array(
-        'label' => 'Content Text Color',
-        'description' => "Use this setting to change the content text color",
-        'id'  => 'content-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '222222',
+    /* Checkbox Example */
+    array(
+        'label' => 'Checkbox Label',
+        'description' => "Example Checkbox Description",
+        'id'  => 'checkbox-id-here', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'type'  => 'checkbox',
+        'default'  => 'on',
+        'options' => array('option_on' => 'on','option_off'=>'off'),    
         'context'  => 'normal'
         ),
-     array(
-        'label' => 'Button Background Color',
-        'description' => "Use this setting to change the template's submit button color.",
-        'id'  => 'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => 'db3d3d'
+    /* Dropdown Example */
+    array(
+        'label' => 'Dropdown Label',
+        'description' => "Dropdown option description",
+        'id'  => 'dropdown-id-here', // called in template's index.php file with lp_get_value($post, $key, 'dropdown-id-here');
+        'type'  => 'dropdown',
+        'default'  => 'default',        
+        'options' => array('right'=>'Float right','left'=>'Float left', 'default'=>'Default option'),
+        'context'  => 'normal'
         ),
+    /* Date Picker Example */
      array(
-        'label' => 'Button Text Color',
-        'description' => "Use this setting to change the template's submit button text color.",
-        'id'  => 'submit-button-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff'
+        'label' => 'Date Picker Label',
+        'description' => "Date Picker Description",
+        'id'  => 'date-picker', // called in template's index.php file with lp_get_value($post, $key, 'date-picker');
+        'type'  => 'datepicker',
+        'default'  => '2013-12-27',
+        'context'  => 'normal'
         ),
+     /* WYSIWYG Example */
      array(
-        'label' => 'Button Link',
-        'description' => "Link on the button.",
-        'id'  => 'submit-button-link',
-        'type'  => 'text',
-        'default'  => 'http://www.inboundnow.com'
+        'label' => 'Main Content Box 2',
+        'description' => "wysiwyg description",
+        'id'  => 'wysiwyg-id', // called in template's index.php file with lp_get_value($post, $key, 'wysiwyg-id');
+        'type'  => 'wysiwyg',
+        'default'  => 'Default WYSIWYG content',                
+        'context'  => 'normal'
         ),
+     /* Media Uploaded Example */
      array(
-        'label' => 'Button Text',
-        'description' => "Text on the button.",
-        'id'  => 'submit-button-text',
-        'type'  => 'text',
-        'default'  => 'Click here'
+        'label' => 'File/Image Upload Label',
+        'description' => "File/Image Upload Description",
+        'id'  => 'media-id', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
+        'type'  => 'media',
+        'default'  => 'http://www.fillmurray.com/200/300',
+        'context'  => 'normal'
         )
     );

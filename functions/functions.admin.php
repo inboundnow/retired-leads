@@ -76,21 +76,22 @@ function wp_cta_admin_enqueue($hook)
 		
 		// Edit Screen
 		if ( $hook == 'post.php' ) {
-			wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . '/css/admin-post-edit.css');
+			wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . 'css/admin-post-edit.css');
 			if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
 				//show_admin_bar( false ); // doesnt work
-				wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . '/css/new-customizer-admin.css');
+				wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
 				wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 			}
-			/* Error with picker_functions.js for datepicker need new solution
+			
 			wp_enqueue_script('jquery-datepicker', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.min.js');
 			wp_enqueue_script('jquery-datepicker-functions', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/picker_functions.js');
 			wp_enqueue_script('jquery-datepicker-base', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.js');
 			wp_enqueue_script('jquery-datepicker-datepair', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/datepair.js');
 			wp_localize_script( 'jquery-datepicker', 'jquery_datepicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jquery-datepicker/' ));
 			wp_enqueue_style('jquery-timepicker-css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.css');
-			wp_enqueue_style('jquery-datepicker-base.css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');	
-			 *//*
+			wp_enqueue_style('jquery-datepicker-base.css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');
+			wp_enqueue_style('inbound-metaboxes', WP_CTA_URLPATH . 'shared/metaboxes/inbound-metaboxes.css');		
+			/*
 			wp_enqueue_script('jquery-intro', WP_CTA_URLPATH . 'js/admin/intro.js', array( 'jquery' ));
 			wp_enqueue_style('intro-css', WP_CTA_URLPATH . 'css/admin-tour.css'); */
 		}
@@ -353,11 +354,15 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 	echo "<input type='hidden' name='wp_cta_{$key}_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 
 	// Begin the field table and loop
-	echo '<table class="form-table" >';
+	echo '<div class="form-table" id="inbound-meta">';
 	//print_r($custom_fields);exit;
 	foreach ($custom_fields as $field) {
 		$field_id = $key . "-" .$field['id'];
+		$field_name = $field['id'];
 		$label_class = $field['id'] . "-label";
+		$type_class = " inbound-" . $field['type'];
+		$type_class_row = " inbound-" . $field['type'] . "-row";
+		$type_class_option = " inbound-" . $field['type'] . "-option";
 		// get value of this field if it exists for this post
 		$meta = get_post_meta($post->ID, $field_id, true);
 
@@ -370,9 +375,9 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		}
 
 		// begin a table row with
-		echo '<tr class="'.$field['id'].' wp-call-to-action-option-row">
-				<th class="wp-call-to-action-table-header '.$label_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></th>
-				<td class="wp-call-to-action-option-td">';
+		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">
+				<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>
+				<div class="wp-call-to-action-option-td inbound-meta-box-option '.$type_class_option.'" data-field-type="'.$field['type'].'">';
 				switch($field['type']) {
 					// default content for the_content
 					case 'default-content':
@@ -387,11 +392,11 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						{
 							$meta = $field['default'];
 						}
-						echo '<input type="text" class="jpicker" style="background-color:#'.$meta.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="5" /><span class="button-primary new-save-wp-cta" id="'.$field_id.'" style="margin-left:10px; display:none;">Update</span>
+						echo '<input type="text" class="jpicker" style="background-color:#'.$meta.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="5" /><span class="button-primary new-save-wp-cta" data-field-type="text" id="'.$field_id.'" style="margin-left:10px; display:none;">Update</span>
 								<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
 						break;
 					case 'datepicker':
-						echo '<div class="jquery-date-picker" id="date-picking">	
+						echo '<div class="jquery-date-picker" id="date-picking" data-field-type="text">	
 						<span class="datepair" data-language="javascript">	
 									Date: <input type="text" id="date-picker-'.$key.'" class="date start" /></span>
 									Time: <input id="time-picker-'.$key.'" type="text" class="time time-picker" />
@@ -410,8 +415,9 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						break;
 					// wysiwyg
 					case 'wysiwyg':
-						wp_editor( $meta, $field_id, $settings = array() );
-						echo	'<p class="description">'.$field['description'].'</p>';							
+						echo "<div class='iframe-options iframe-options-".$field_id."' id='".$field['id']."'>";
+						wp_editor( $meta, $field_id, $settings = array( 'editor_class' => $field_name ) );
+						echo	'<p class="description">'.$field['description'].'</p></div>';							
 						break;
 					// media					
 					case 'media':
@@ -435,7 +441,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 								echo "<tr>";
 								$i=1;
 							}
-								echo '<td><input type="checkbox" name="'.$field_id.'[]" id="'.$field_id.'" value="'.$value.'" ',in_array($value,$meta) ? ' checked="checked"' : '','/>';
+								echo '<td data-field-type="checkbox"><input type="checkbox" name="'.$field_id.'[]" id="'.$field_id.'" value="'.$value.'" ',in_array($value,$meta) ? ' checked="checked"' : '','/>';
 								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';					
 							if ($i==4)
 							{
@@ -468,9 +474,9 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 
 
 				} //end switch
-		echo '</td></tr>';
+		echo '</div></div>';
 	} // end foreach
-	echo '</table>'; // end table
+	echo '</div>'; // end table
 	//exit;
 }
 

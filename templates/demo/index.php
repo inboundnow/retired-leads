@@ -118,7 +118,7 @@ $content = get_the_content();
             echo "Here is the Checkbox Value:" . $checkbox_id_here . "<br>";
             echo "Here is the Dropdown Value:" . $dropdown_id_here . "<br>";
             echo "Here is the Date Picker Value:" . $date_picker . "<br>";
-            echo "Here is the WYSIWYG editor content:" . $wysiwyg_id . "<br>";
+            echo "Here is the WYSIWYG editor content:" . do_shortcode( $wysiwyg_id ) . "<br>";
             echo "Here is the Media upload path:" . $media_id; ?>
 
       </div>
