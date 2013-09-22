@@ -21,12 +21,18 @@ position: absolute;
 .inbound-datepicker .button-primary.new-save-wp-cta {
 	display: none;
 }
+.inbound-description-block-option {
+	max-width: 55%;
+}
 .inbound-media-row .button-primary.new-save-wp-cta {
 	position: absolute;
 right: -94px;
 top: 0px;
 text-align: center;
 width: 84px;
+}
+#inbound-meta .inbound-custom-css-row {
+	padding: 0px;
 }
 .inbound-media-row .wp-cta-success-message {
 	position: absolute;

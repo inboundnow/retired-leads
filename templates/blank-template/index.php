@@ -41,11 +41,15 @@ $content = get_the_content();
   <title><?php wp_title(); ?></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <style type="text/css">
-  body{ width:<?php echo $width; ?>; height: <?php echo $height; ?>;}</style>
+ 
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="<?php echo $path; ?>assets/css/style.css">
-
+ <style type="text/css">
+  body{ width:<?php echo $width; ?>; height: <?php echo $height; ?>;}
+  #content-wrapper img.alignleft, #content-wrapper .wp-caption.alignleft {
+    margin: 0px;
+    }
+  </style>
   <!-- Included JS Files -->
   <script src="<?php echo $path; ?>assets/js/modernizr.js"></script>
 

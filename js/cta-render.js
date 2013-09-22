@@ -5,6 +5,7 @@ jQuery(document).ready(function($) {
     var url = cta.url;
     var num = cta.count;
     var behave = cta.behavorial;
+    jQuery("#cta-popup-id").text(cta.id);
     //console.log(behave);
     var rand = Math.floor(Math.random()*num);
 }

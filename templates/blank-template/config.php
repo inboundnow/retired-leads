@@ -26,10 +26,10 @@ $wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "<p>Insert your call to action graphic into the content area below. Don't forget to hyperlink it to your final destination</p>", // what field does
+        'description' => "<div class='cta-description-box'><span class='calc button-secondary'>Calculate height/width</span></div><p>Insert your call to action graphic into the content area below. Don't forget to hyperlink it to your final destination</p>", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
-        'default'  => '<p>Insert your call to action graphic into the content area below. Don\'t forget to hyperlink it to your final destination</p>', // default content
+        'default'  => '<p><b>Insert your call to action graphic into the content area below</b>. Don\'t forget to hyperlink it to your final destination</p>', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         )
     /*

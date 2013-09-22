@@ -73,6 +73,9 @@ position: initial !important;}
 .wp_themeSkin .mceStatusbar.mceFirst.mceLast {
 width: 90% !important;
 }
+.inbound-description-block-option {
+	max-width: 100% !important;
+}
 .inbound-wysiwyg-row .wp-cta-success-message {
 margin-right: 10px !important;
 text-align: center;

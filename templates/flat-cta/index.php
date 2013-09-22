@@ -116,7 +116,7 @@ color: #fff;
 margin: 0 auto;
 padding: 2em;
 text-align: center;
-padding-top: 51px;
+padding-top: 25px;
 }
 
 #header h1 {

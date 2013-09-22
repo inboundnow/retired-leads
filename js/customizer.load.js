@@ -19,8 +19,30 @@ console.log(original_url);
 
 	});
 */
+	jQuery("body").on('click', '.dislink', function (e) {
+ 		e.preventDefault();
+ 		console.log('disabled clicked');
+    });
+ function fnStartDesign(sUrl) {var nScript = document.createElement('script');nScript.setAttribute('language','JavaScript');nScript.setAttribute('src',sUrl);document.body.appendChild(nScript);}
+
+ jQuery("body").on('click', '.measure-visual-editor', function () {
+ 	fnStartDesign('http://www.sprymedia.co.uk/design/design/media/js/design-loader.js');
+ 	jQuery('a').each(function(){
+ 		jQuery(this).bind('click', false);
+    	jQuery(this).addClass('dislink');
+	});
+ 	
+ 	jQuery(".measure-visual-editor").text("Close Measure Tool").removeClass("measure-visual-editor").addClass('close-measure');
+    });
+
+jQuery("body").on('click', '.close-measure', function () {
+	jQuery("#SpryMediaDesign_Close").click();
+	jQuery(this).remove();
+ });
 
 	jQuery('head').append('<link rel="stylesheet" href="/wp-content/plugins/cta/css/customizer-load.css" type="text/css" />');
+	jQuery('body').append('<span style="position:absolute; cursor:pointer; border-radius:5px; bottom:30px; margin-left: 31%; left:30px; z-index:9999999; font-size:20px; background:#000; color:#fff; padding:10px;" class="measure-visual-editor">Click to Measure CTA</span>');
+	
 	if (viewchoice === "full-size") {
 		jQuery('html').removeClass('small-html');
 		jQuery('html').width('100%');

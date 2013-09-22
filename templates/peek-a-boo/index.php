@@ -1,6 +1,6 @@
 <?php
 /**
-* Template Name:  Slideout Template
+* Template Name:  Peek a Boo Template
 *
 * @package  WordPress Landing Pages
 * @author   David Wells
@@ -16,126 +16,6 @@
 * 
 * In this example $options_array is the $wp_cta_data[$key]['settings'] array.
 */
- 
-$options_array = 
-array(
-     array(
-        'label' => 'Instructions', // Name of field
-        'description' => "Instructions: This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page", // what field does
-        'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
-        'type'  => 'description-block', // metafield type
-        'default'  => '<p>This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page</p>', // default content
-        'context'  => 'normal' // Context in screen (advanced layouts in future)
-        ),
-    array(
-        'label' => 'Header Text (optional)',
-        'description' => "Header Text",
-        'id'  => 'header-text',
-        'type'  => 'text',
-        'default'  => 'This Main Headline Will Rock Your Socks',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => 'Headline Text Color',
-        'description' => "Use this setting to change headline color",
-        'id'  => 'headline-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '000000',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => 'Main Image',
-        'description' => "This is the main graphic with the popup",
-        'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
-        'type'  => 'media',
-        'default'  => 'http://www.fillmurray.com/250/250',
-        'context'  => 'normal'
-        ),
-    array(
-        'label' => 'Static Background Color',
-        'description' => "Changes background color",
-        'id'  => 'static-bg-color',
-        'type'  => 'colorpicker',
-        'default'  => 'EEEEEE',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => 'Static Area Text Color',
-        'description' => "Use this setting to change the content text color",
-        'id'  => 'static-text-color',
-        'type'  => 'colorpicker',
-        'default'  => '000000',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => 'Static Teaser Text',
-        'description' => "Text on the button.",
-        'id'  => 'teaser-text',
-        'type'  => 'text',
-        'default'  => 'Do You Know How to Avoid these common XYZ Mistakes?'
-        ),
-      array(
-        'label' => 'Slideout Background Color',
-        'description' => "Changes background color",
-        'id'  => 'slideout-bg-color',
-        'type'  => 'colorpicker',
-        'default'  => 'D90E0E',
-        'context'  => 'normal'
-        ),
-      array(
-        'label' => 'Slideout Text Color',
-        'description' => "Changes background color",
-        'id'  => 'slideout-text-color',
-        'type'  => 'colorpicker',
-        'default'  => 'ffffff',
-        'context'  => 'normal'
-        ),
-     array(
-        'label' => 'Slideout Button Text',
-        'description' => "Text on the button.",
-        'id'  => 'submit-button-text',
-        'type'  => 'text',
-        'default'  => 'Download Now'
-        ),
-     array(
-        'label' => 'Link URL',
-        'description' => "Where do you want to send people to?",
-        'id'  => 'link_url',
-        'type'  => 'text',
-        'default'  => 'http://www.inboundnow.com'
-        )
-      );
-/* 
-foreach ($options_array as $key => $value) {
-  $name = str_replace(array('-'),'_', $value['id']);
- echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
- echo "<br>";  
-}
-/**/ 
-/* Output=
- 
-$headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
-$header_text = wp_cta_get_value($post, $key, 'header-text' ); 
- 
-*/
-
-/* 
-echo "<pre>";
-foreach ($options_array as $key => $value) {
-  $name = str_replace(array('-'),'_', $value['id']);
-  if($value['type'] === 'colorpicker') {
-// echo "$" . $name  . " = " .  'wp_cta_get_value(' . '$'. 'post, ' . '$'. 'key, '. " '" . $value['id'] . "' " . ');' . "\n";
- //echo "<br>";  
-  echo "\n";
-  echo "if (" . " $" . "$name " . "!= \"\" ) {";
-  echo "\n";
-  echo "echo \".css_element { color: #$" . "".$name."" . ";}\"; \n"; // change sidebar color
-  echo "}";
-  echo "\n";
-  }
-}
-echo "</pre>";
-/**/ 
 
 /* Declare Template Key */
 $key = wp_cta_get_parent_directory(dirname(__FILE__)); 
@@ -156,6 +36,7 @@ $post_id = get_the_ID();
 $width = get_post_meta( $post_id, 'wp_cta_width-'.$var_id, true ) . "px";
 $height = get_post_meta( $post_id, 'wp_cta_height-'.$var_id, true ) . "px";
 
+$test =  wp_cta_get_value($post, $key, 'wp_cta_height' ); 
 
 $header_text = wp_cta_get_value($post, $key, 'header-text' ); 
 $headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
@@ -256,7 +137,7 @@ echo "#inbound-wrapper,.service-details { height: $height;}";
 <?php } ?>
 </div>
 
-	
+  
 
 
 <?php 

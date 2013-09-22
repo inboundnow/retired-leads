@@ -75,6 +75,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'id'  => 'wp_cta_width-'.$var_id,
         'type'  => 'dimension',
         'default'  => '',
+        'class' => 'cta-width',
         'context'  => 'priority'
         );
   
@@ -84,6 +85,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'id'  => 'wp_cta_height-'.$var_id,
         'type'  => 'dimension',
         'default'  => '',
+        'class' => 'cta-height',
         'context'  => 'priority'
         );
 
@@ -135,31 +137,27 @@ function wp_cta_save_custom_height_width( $post_id )
 function add_wp_cta_post_metaboxes() {
     add_meta_box(
         'wp_cta_tracking_metabox', // $id
-        'Global Call to Action Options', // $title
-        'show_wp_cta_post_metaboxes', // $callback
+        'Advanced Call to Action Options', // $title
+        'wp_cta_show_advanced_settings_metabox', // $callback
         'wp-call-to-action', // $page
         'normal', // $context
-        'high'); // $priority
+        'low'); // $priority
 }
 
-//add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
-// Field Array
+add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
 $var_id = wp_cta_ab_testing_get_current_variation_id();
-
 $custom_wp_cta_metaboxes = array(
     array(
-        'label' => 'Global Category Placement',
-        'desc'  => 'Do you want to display this elsewhere?',
-        'id'    => 'cat_placement',
-        'options_area' => 'basic',
-        'class' => 'cta-width',
-        'type'  => 'text'
+        'label' => 'Open Links',
+        'description' => "How do you want links on the call to action to work?",
+        'id'  => 'link_open_option', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'type'  => 'dropdown',
+        'default'  => 'this_window',
+        'options' => array('this_window' => 'Open Links in Same Window (default)','new_tab'=>'Open Links in New Tab'),    
+        'context'  => 'normal'
         )
- 
 );
-
-// The Callback
-function show_wp_cta_post_metaboxes() {
+function wp_cta_show_advanced_settings_metabox() {
     global $custom_wp_cta_metaboxes, $custom_wp_cta_metaboxes_two, $post;
     // Use nonce for verification
     //echo '<input type="hidden" name="custom_wp_cta_metaboxes_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
@@ -168,12 +166,10 @@ function show_wp_cta_post_metaboxes() {
     echo '<div class="form-table">';
     echo '<div class="cta-description-box"><span class="calc button-secondary">Calculate height/width</span></div>';
    	wp_cta_render_metaboxes($custom_wp_cta_metaboxes);
-    do_action( "wordpress_cta_add_meta" ); // Add extra meta boxes/options
+    do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
     echo '</div>'; // end table
 }
-
-//add_action( "wordpress_cta_add_meta", "wp_cta_bt_meta_boxes" );
-
+// This function is going to be replace by Global
 function wp_cta_render_metaboxes($meta_boxes) {
 	global $post, $wpdb;
 	 foreach ($meta_boxes as $field) {
@@ -196,7 +192,13 @@ function wp_cta_render_metaboxes($meta_boxes) {
                     case 'html-block':
                         echo '<div class="'.$field['class'].'">'.$field['desc'].'</div>';
                     break;
-                
+                    case 'dropdown':
+                        echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$field['class'].'">';
+                        foreach ($field['options'] as $value=>$label) {
+                            echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+                        }
+                        echo '</select><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+                    break;
                     // textarea
                     case 'textarea':
                         echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="250" rows="6">'.$meta.'</textarea>
@@ -455,7 +457,7 @@ function wp_cta_display_meta_box_select_template() {
 	echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 	?>
 	
-	<div id="wp_cta_template_change"><h2><a class="button-primary" id="wp-cta-change-template-button">Choose Another Template</a></div>
+	<div id="wp_cta_template_change"><h2><a class="button" id="wp-cta-change-template-button">Choose Another Template</a></div>
 	<input type='hidden' id='wp_cta_select_template' name='<?php echo $name; ?>' value='<?php echo $template; ?>'>
 		<div id="template-display-options"></div>							
 	

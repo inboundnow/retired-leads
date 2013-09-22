@@ -27,10 +27,10 @@ $wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "Instructions for this call to action template go here", // what field does
+        'description' => "Fill in the below fields to configure the flat CTA. Make sure to insert the height and width of your call to action. Use the visual editor to see live changes and for faster editing", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
-        'default'  => '<p>This is a popup call to action used to promote something. Use the main hero image and the main content area to create your popup</p>', // default content
+        'default'  => '', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
         ),
     array(
@@ -43,7 +43,7 @@ array(
         ),
      array(
         'label' => 'Header Sub Text',
-        'description' => "Header Text",
+        'description' => "Sub Header Text",
         'id'  => 'sub-header-text',
         'type'  => 'text',
         'default'  => 'Awesome Subheadline Text Goes here',
@@ -93,5 +93,12 @@ array(
         'id'  => 'link_url',
         'type'  => 'text',
         'default'  => 'http://www.inboundnow.com'
+        ),
+      array(
+        'label' => 'turn-off-editor',
+        'description' => "Turn off editor",
+        'id'  => 'turn-off-editor',
+        'type'  => 'custom-css',
+        'default'  => '#postdivrich {display:none !important;}'
         )
     );

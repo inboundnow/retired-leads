@@ -19,21 +19,27 @@ jQuery(document).ready(function ($) {
                                 placeholder: "Select one or more calls to action to rotate through",
                                 allowClear: true,
      });
-	jQuery("body").on('click', '#content-tmce, .wp-switch-editor.switch-tmce', function () {
-        $.cookie("lp-edit-view-choice", "editor", { path: '/', expires: 7 });
-    });
-    jQuery("body").on('click', '#content-html, .wp-switch-editor.switch-html', function () {
-        $.cookie("lp-edit-view-choice", "html", { path: '/', expires: 7 });
-    });
-    var which_editor = $.cookie("lp-edit-view-choice");
-    if(which_editor === null){
-        jQuery("#content-tmce").click();
-        jQuery(".wp-switch-editor.switch-tmce").click();
-    }    
-    if(which_editor === 'editor'){
-        jQuery("#content-tmce").click();
-        jQuery(".wp-switch-editor.switch-tmce").click();
-    }
+	
+       jQuery("body").on('click', '#content-tmce, .wp-switch-editor.switch-tmce', function () {
+            $.cookie("lp-edit-view-choice", "editor", { path: '/', expires: 7 });
+        });
+        jQuery("body").on('click', '#content-html, .wp-switch-editor.switch-html', function () {
+            $.cookie("lp-edit-view-choice", "html", { path: '/', expires: 7 });
+        });
+        var which_editor = $.cookie("lp-edit-view-choice");
+        if(which_editor === null){
+           setTimeout(function() {
+            jQuery("#content-tmce").click();
+            jQuery(".wp-switch-editor.switch-tmce").click();
+            }, 1000);
+       
+        }    
+        if(which_editor === 'editor'){
+          setTimeout(function() {
+            jQuery("#content-tmce").click();
+            jQuery(".wp-switch-editor.switch-tmce").click();
+            }, 1000);
+        }
     /* Tour Start JS
     var tourbutton = '<a class="" id="wp-cta-tour" style="font-size:13px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo("h2:eq(0)");
@@ -65,7 +71,7 @@ jQuery(document).ready(function ($) {
 	
     var calc = jQuery(".calc.button-secondary");
 
-    jQuery("input.cta-width").after(calc);
+    jQuery("input.cta-width").parent().find(".wp_cta_tooltip").after(calc);
     jQuery(".calc.button-secondary").css('display', 'inline-block');
 	
     // Fix Split testing iframe size
@@ -376,9 +382,13 @@ jQuery(document).ready(function ($) {
             alert("Must publish this page before you can use the visual editor!");
         });
         var subbox = jQuery("#submitdiv");
-        jQuery("#wp_cta_ab_display_stats_metabox").before(subbox)
+        jQuery("#wp_cta_ab_display_stats_metabox").before(subbox);
+        jQuery("body").on('click', '#content-html', function () {
+           // alert('Ut oh! Hit publish to use text editor OR refresh the page.');
+        });
     } else {
         jQuery("#publish").val("Update All");
+     
     }
 
 function getURLParameter(name) {

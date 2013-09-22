@@ -27,11 +27,27 @@ $wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "Instructions: This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page", // what field does
+        'description' => "<strong>Template Instructions:</strong> This call to action has two modes. By default the entire CTA is hyperlinked with the \"Link URL\" option below but you can also insert a form in either editor box and toggle the link off.", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
         'default'  => '<p>This entire call to action is linked with your destination URL. Clicking anywhere will send people to your landing page</p>', // default content
         'context'  => 'normal' // Context in screen (advanced layouts in future)
+        ),
+    array(
+        'label' => 'CTA Link URL',
+        'description' => "Where do you want to send people to when they click the CTA?",
+        'id'  => 'link_url',
+        'type'  => 'text',
+        'default'  => 'http://www.inboundnow.com'
+        ),
+     array(
+        'label' => 'Disable Link and Use form in CTA',
+        'description' => "This will disable the link and let you use a small form in the CTA template in one of the editor areas below",
+        'id'  => 'link_status', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'type'  => 'dropdown',
+        'default'  => 'option_on',
+        'options' => array('option_on' => 'Link is On','option_off'=>'Link is Off'),    
+        'context'  => 'normal'
         ),
     array(
         'label' => 'Header Text (optional)',
@@ -105,19 +121,10 @@ array(
         <p>Nulla rhoncus orci sed odio euismod vestibulum. Praesent porta aliquet nulla, ut mattis velit rhoncus eu duspendisse nibh orci laoreet. </p>'
         ),
      array(
-        'label' => 'Link URL',
-        'description' => "Where do you want to send people to?",
-        'id'  => 'link_url',
-        'type'  => 'text',
-        'default'  => 'http://www.inboundnow.com'
-        ),
-     array(
-        'label' => 'Disable Link and Use form in CTA',
-        'description' => "This will disable the link and let you use a small form in the CTA",
-        'id'  => 'link_status', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
-        'type'  => 'dropdown',
-        'default'  => 'option_on',
-        'options' => array('option_on' => 'Link is On','option_off'=>'Link is Off'),    
-        'context'  => 'normal'
+        'label' => 'turn-off-editor',
+        'description' => "Turn off editor",
+        'id'  => 'turn-off-editor',
+        'type'  => 'custom-css',
+        'default'  => '#postdivrich {display:none !important;}'
         )
     );

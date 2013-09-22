@@ -337,7 +337,16 @@ function wp_cta_add_option($key,$type,$id,$default=null,$label=null,$description
 			'type'  => 'dimension',
 			'default'  => $default
 			);
-			break;				
+			break;
+		case "custom-css":
+			return array(
+			'label' => $label,
+			'description'  => $description,
+			'id'    => $id,
+			'type'  => 'turn-off-editor',
+			'default'  => $default // inline css
+			);
+			break;						
 	}
 }
 
@@ -358,6 +367,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		$type_class = " inbound-" . $field['type'];
 		$type_class_row = " inbound-" . $field['type'] . "-row";
 		$type_class_option = " inbound-" . $field['type'] . "-option";
+		$option_class = (isset($field['class'])) ? $field['class'] : '';
 		// get value of this field if it exists for this post
 		$meta = get_post_meta($post->ID, $field_id, true);
 		$global_meta = get_post_meta($post->ID, $field_name, true);
@@ -372,7 +382,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 
 		// begin a table row with
 		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">';
-				if ($field['type'] != "description-block") {
+				if ($field['type'] != "description-block" && $field['type'] != "custom-css" ) {
 				echo '<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>'; 
 				}
 
@@ -384,7 +394,10 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						break;
 					case 'description-block':
 						echo '<div id="'.$field_id.'" class="description-block">'.$field['description'].'</div>';
-						break;	
+						break;
+					case 'custom-css':
+						echo '<style type="text/css">'.$field['default'].'</style>';
+						break;		
 					// text
 					case 'colorpicker':
 						if (!$meta)
@@ -410,9 +423,9 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						break;
 					case 'dimension':
 						
-						echo '<input type="number" name="'.$field_name.'" id="'.$field_name.'" value="'.$global_meta.'" size="30" />
+						echo '<input type="number" class="'.$option_class.'" name="'.$field_name.'" id="'.$field_name.'" value="'.$global_meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
-								
+
 						break;	
 					// textarea
 					case 'textarea':
