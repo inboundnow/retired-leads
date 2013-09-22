@@ -146,21 +146,6 @@ function wp_cta_list_feature($label,$url=null)
 		);	
 }
 
-
-// The Callback
-function wp_cta_show_metabox($post,$key) 
-{
-	$extension_data = wp_cta_get_extension_data();
-	$key = $key['args']['key'];
-	
-	$wp_cta_custom_fields = $extension_data[$key]['settings'];
-
-	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
-		//print_r($wp_cta_custom_fields);exit;
-	//echo $key;exit;
-	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
-}
-
 add_action('wp_trash_post', 'wp_cta_trash_lander');
 function wp_cta_trash_lander($post_id) {
 	$extension_data = wp_cta_get_extension_data();
@@ -344,7 +329,7 @@ function wp_cta_add_option($key,$type,$id,$default=null,$label=null,$description
 			'default'  => $default
 			);
 			break;
-		case "number":
+		case "dimension":
 			return array(
 			'label' => $label,
 			'description'  => $description,
@@ -365,6 +350,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 	// Begin the field table and loop
 	echo '<div class="form-table" id="inbound-meta">';
 	//print_r($custom_fields);exit;
+	$current_var = wp_cta_ab_testing_get_current_variation_id();
 	foreach ($custom_fields as $field) {
 		$field_id = $key . "-" .$field['id'];
 		$field_name = $field['id'];
@@ -374,6 +360,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		$type_class_option = " inbound-" . $field['type'] . "-option";
 		// get value of this field if it exists for this post
 		$meta = get_post_meta($post->ID, $field_id, true);
+		$global_meta = get_post_meta($post->ID, $field_name, true);
 
 		//print_r($field);
 		if ((!isset($meta)&&isset($field['default'])&&!is_numeric($meta))||isset($meta)&&empty($meta)&&isset($field['default'])&&!is_numeric($meta))
@@ -384,9 +371,12 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		}
 
 		// begin a table row with
-		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">
-				<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>
-				<div class="wp-call-to-action-option-td inbound-meta-box-option '.$type_class_option.'" data-field-type="'.$field['type'].'">';
+		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">';
+				if ($field['type'] != "description-block") {
+				echo '<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>'; 
+				}
+
+				echo '<div class="wp-call-to-action-option-td inbound-meta-box-option '.$type_class_option.'" data-field-type="'.$field['type'].'">';
 				switch($field['type']) {
 					// default content for the_content
 					case 'default-content':
@@ -418,9 +408,11 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						echo '<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 						break;
-					case 'number':
-						echo '<input type="text" name="'.$field_name.'" id="'.$field_name.'" value="'.$meta.'" size="30" />
+					case 'dimension':
+						
+						echo '<input type="number" name="'.$field_name.'" id="'.$field_name.'" value="'.$global_meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+								
 						break;	
 					// textarea
 					case 'textarea':
@@ -893,7 +885,7 @@ add_action( 'save_post', 'wp_cta_display_meta_save', 10, 2 );
 function wp_cta_display_meta_save($post_id, $post)
 {   
 	global $post;
-	$post_id = $post->ID;
+
     if ( isset($_POST['cta_display_list']) ) { // if we get new data
         update_post_meta($post_id, "cta_display_list", $_POST['cta_display_list'] );
     } else {

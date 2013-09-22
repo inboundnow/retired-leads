@@ -19,10 +19,8 @@ console.log(original_url);
 
 	});
 */
-	jQuery('html').addClass('small-html').css('overflow', 'auto').css('padding-bottom', '40px');
-	jQuery('html').width('125%');
-	jQuery('body').height('100%');
-	jQuery('head').append('<link rel="stylesheet" href="/wp-content/plugins/wordpress-cta/css/customizer-load.css" type="text/css" />');
+
+	jQuery('head').append('<link rel="stylesheet" href="/wp-content/plugins/cta/css/customizer-load.css" type="text/css" />');
 	if (viewchoice === "full-size") {
 		jQuery('html').removeClass('small-html');
 		jQuery('html').width('100%');

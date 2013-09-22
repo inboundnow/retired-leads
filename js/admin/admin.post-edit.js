@@ -381,11 +381,33 @@ jQuery(document).ready(function ($) {
         jQuery("#publish").val("Update All");
     }
 
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
+// Clone ID fixes
+var clone_id = getURLParameter('clone');
+if (clone_id != null) {
+    jQuery("#wp_cta_width-" + clone_id).attr('name', 'wp_cta_width');
+    jQuery("#wp_cta_height-" + clone_id).attr('name', 'wp_cta_height');
+}
+
     // Ajax Saving for metadata
     jQuery('#wp_cta_metabox_select_template input, #wp_cta_metabox_select_template select, #wp_cta_metabox_select_template textarea, #wp-cta-notes-area input, .inbound-wysiwyg-option iframe').on("change keyup", function (e) {
         // iframe content change needs its own change function $("#iFrame").contents().find("#someDiv")
         // media uploader needs its own change function
+        var new_meta_key = getURLParameter('new_meta_key');
+        var clone_id = getURLParameter('clone');
+        
+
         var this_id = jQuery(this).attr("id");
+        if (new_meta_key != null){
+            var this_id = this_id.replace(clone_id, new_meta_key)
+        } else {
+         
+        }
         var parent_el = jQuery(this).parent();
         var field_type = jQuery(this).parent().attr('data-field-type');
         if (typeof (field_type) === "undefined") {
@@ -393,7 +415,7 @@ jQuery(document).ready(function ($) {
         }    
         jQuery(parent_el).find(".wp-cta-success-message").remove();
         jQuery(parent_el).find(".new-save-wp-cta").remove();
-        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" data-field-type="'+field_type+'" id="' + this_id + '" style="margin-left:10px">Update</span>');
+        var ajax_save_button = jQuery('<span class="button-primary new-save-wp-cta" data-field-type="'+field_type+'" id="' + this_id +'" style="margin-left:10px">Update</span>');
         //console.log(parent_el);
         jQuery(ajax_save_button).appendTo(parent_el);
     });
@@ -452,7 +474,7 @@ setTimeout(function() {
         var this_meta_id = jQuery(this).attr("id");
         console.log(this_meta_id);
         // prep data
-        if (input_type == "text") {
+        if (input_type == "text" || input_type == "dimension") {
             var meta_to_save = jQuery(this).parent().find("input").val();
         } else if (input_type == "textarea") {
             var meta_to_save = jQuery(this).parent().find("textarea").val();

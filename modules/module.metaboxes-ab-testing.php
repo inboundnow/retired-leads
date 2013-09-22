@@ -171,6 +171,12 @@ function wp_cta_ab_testing_add_tabs()
 	{
 		$current_variation_id = wp_cta_ab_testing_get_current_variation_id();
 		echo "<input type='hidden' id='open_variation' value='{$current_variation_id}'>";
+		if (isset($_GET['new_meta_key'])) {
+		echo "<input type='hidden' id='variation_new_meta_key' value='".$_GET['new_meta_key']."'>";
+		}
+		if (isset($_GET['clone'])) {
+		echo "<input type='hidden' id='clone_variation_id' value='".$_GET['clone']."'>";
+		}
 		
 		$variations = get_post_meta($post->ID,'wp-cta-ab-variations', true);
 		$array_variations = explode(',',$variations);

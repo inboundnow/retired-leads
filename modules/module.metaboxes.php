@@ -62,66 +62,99 @@ function wp_cta_admin_process($post_ID) {
     }
 }
 */
- add_filter('wp_cta_show_metabox','custom_callback' , 10, 2);
-function custom_callback($field_settings, $key){
+ add_filter('wp_cta_show_metabox','wp_cta_add_global_demensions' , 10, 2);
+function wp_cta_add_global_demensions($field_settings, $key){
    //prepend width and height as setting.
-    $var_id = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0'; 
+    $var_id = wp_cta_ab_testing_get_current_variation_id(); 
+    if (isset($_GET['clone'])) {
+    $var_id = $_GET['clone'];
+    }
    $width =  array(
-        'label' => 'Width',
-        'description' => "CTA Width",
+        'label' => 'CTA Width',
+        'description' => "Enter the Width of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_width-'.$var_id,
-        'type'  => 'number',
+        'type'  => 'dimension',
         'default'  => '',
         'context'  => 'priority'
         );
   
    $height = array(
-        'label' => 'Height',
-        'description' => "CTA Height",
+        'label' => 'CTA Height',
+        'description' => "Enter the Height of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_height-'.$var_id,
-        'type'  => 'number',
+        'type'  => 'dimension',
         'default'  => '',
         'context'  => 'priority'
         );
 
- 
  array_unshift($field_settings, $width, $height);
  
  return $field_settings;
 }
+/*
+$height_key = 'wp_cta_height-1';
+$var_id = 1;
+$key_fix = 2;
+$height_key = str_replace($var_id, $key_fix, $height_key);
+echo $height_key;
+*/
+add_action( 'save_post', 'wp_cta_save_custom_height_width' );
+function wp_cta_save_custom_height_width( $post_id )
+{
+    global $post;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+
+    if ( ! current_user_can( 'edit_post', $post_id ) )
+        return;
+    if ($post->post_type=='wp-call-to-action') {
+       
+      
+        $var_id = wp_cta_ab_testing_get_current_variation_id();  
+        $height_key = 'wp_cta_height-'.$var_id;
+        $width_key = 'wp_cta_width-'.$var_id;
+  
+        if ( isset ( $_POST[ $height_key ] ) ) {
+            update_post_meta( $post_id, $height_key, $_POST[ $height_key ] );
+        } else {
+            delete_post_meta( $post_id, $height_key ); 
+        }
+
+        if ( isset ( $_POST[ $width_key ] ) ) {
+            update_post_meta( $post_id, $width_key, $_POST[ $width_key ] );
+        } else {
+            delete_post_meta( $post_id, $width_key ); 
+        }
+    }
+}
+
+
+
 /* End global Options */
 // Add in Custom Options
 function add_wp_cta_post_metaboxes() {
     add_meta_box(
         'wp_cta_tracking_metabox', // $id
-        'Call to Action Options', // $title
+        'Global Call to Action Options', // $title
         'show_wp_cta_post_metaboxes', // $callback
         'wp-call-to-action', // $page
         'normal', // $context
         'high'); // $priority
 }
 
-add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
+//add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
 // Field Array
 $var_id = wp_cta_ab_testing_get_current_variation_id();
 
 $custom_wp_cta_metaboxes = array(
     array(
-        'label' => 'CTA Width',
-        'desc'  => 'Enter the Width of the CTA in pixels. Example: 300 or 300px',
-        'id'    => 'wp_cta_width-'.$var_id,
+        'label' => 'Global Category Placement',
+        'desc'  => 'Do you want to display this elsewhere?',
+        'id'    => 'cat_placement',
         'options_area' => 'basic',
         'class' => 'cta-width',
         'type'  => 'text'
-        ),
-    array(
-        'label' => 'CTA Height',
-        'desc'  => 'Enter the Height of the CTA in pixels. Example: 300 or 300px',
-        'id'    => 'wp_cta_height-'.$var_id,
-        'options_area' => 'basic',
-        'class' => 'cta-height',
-        'type'  => 'text'
-        ),
+        )
  
 );
 
@@ -380,6 +413,7 @@ function wp_cta_save_notes_area( $post_id )
 	//echo 1; exit;
     delete_post_meta( $post_id, $key );
 }
+
 
 
 add_filter( 'enter_title_here', 'wp_cta_change_enter_title_text', 10, 2 );  

@@ -201,8 +201,8 @@ if (is_admin())
 		
 		if (!$varaition_notes)
 		{
-			//echo 1;exit;
-			get_post_meta($_GET['post'],'wp-cta-variation-notes', true);
+			$post_id = (isset($_GET['post'])) ? $_GET['post'] : '0';
+			get_post_meta($post_id ,'wp-cta-variation-notes', true);
 		}
 		
 		return $varaition_notes;
