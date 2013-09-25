@@ -47,7 +47,7 @@ class InboundForms {
             'labels'     => 'Email',
             'required'     => 'email',
             'textareas' => '',
-            'redirect_url'   => '',
+            'redirect'   => '',
             'layout' => '',
             'style'   => '',
             'notify' => $email,
@@ -69,8 +69,8 @@ class InboundForms {
     static function print_script() {
     if ( ! self::$add_script )
       return;
-    wp_print_scripts('preloadify-js');
-    wp_enqueue_style( 'preloadify-css' );
+    //wp_print_scripts('preloadify-js');
+    //wp_enqueue_style( 'preloadify-css' );
      }
 
     // move to file 
@@ -87,7 +87,8 @@ class InboundForms {
               var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               return re.test(email);
           }
-    
+          var parent_redirect = parent.window.location.href;
+          jQuery("#inbound_parent_page").val(parent_redirect);
       // Set textarea equal to input width    
           jQuery(".inbound-now-form textarea").each(function(){
               var width = $(this).parent().parent().find("input.inbound-email").width();
@@ -155,6 +156,11 @@ class InboundForms {
       // Cross reference with EDD email class for HTML sends
       // Add PHP processing for lead data
         if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') {
+            $redirect_status = false;
+          if(isset($_POST['inbound_redirect']) && $_POST['inbound_redirect'] != "") {
+            $redirect = $_POST['inbound_redirect'];
+            $redirect_status = true;
+          }
 
           foreach ( $_POST as $field => $value ) {
                 if ( get_magic_quotes_gpc() ) {
@@ -215,11 +221,12 @@ class InboundForms {
                     <body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
                       <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
                         <tr>';
-                $email_message .= "<div style='padding-top: 10px; padding-left: 15px; font-size: 20px; padding-bottom: 10px; background-color:#E0E0E0; border:solid 1px #CECDCA;'>Conversion on <strong>" . $form_data['inbound_form_name'] ."</strong></div>\n";;
+                $email_message .= "<div style='padding-top: 10px; padding-left: 15px; font-size: 20px; padding-bottom: 10px; background-color:#E0E0E0; border:solid 1px #CECDCA;'>Conversion on <strong>" . $form_data['inbound_form_name'] ."</strong></div>\n";
+                $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Parent Page' );
                 foreach ($form_data as $key => $value) {
                     $name = str_replace(array('-','_'),' ', $key);
                     $name = ucwords($name);
-                    if($name != "Inbound Submitted") {
+                    if(!in_array($name, $exclude_array)) {
                     $email_message .= "<div style='border:solid 1px #EBEBEA; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><strong>".$name . ": </strong>" . $form_data[$key] ."</div>\n";
                     }
                 }
@@ -231,13 +238,18 @@ class InboundForms {
                 $headers  = "From: " . $form_data['first-name'] . " <" . $form_data['email'] . ">\n";
                 $headers .= 'Content-type: text/html';
                 // send the e-mail with the shortcode attribute named 'email' and the POSTed data
-                //wp_mail( $to, $email_subject, $email_message, $headers );
+                wp_mail( $to, $email_subject, $email_message, $headers );
                 // and set the result text to the shortcode attribute named 'success'
                 $result = $success;
                 // ...and switch the $sent variable to TRUE
                 $sent = true;
-                 print_r($email_message); // preview email
-                echo "email sent";
+                // print_r($email_message); // preview email
+                //echo "email sent";
+                // Do redirect
+                if ($redirect_status === true) {
+                header("HTTP/1.1 302 Temporary Redirect");
+                header("Location:" . $redirect);
+                }
             }
           
         }
@@ -253,6 +265,7 @@ class InboundForms {
          */
         $layout_style = ''; // default
         $layout_style_div = ""; //defualt
+        $layout_style_form_div = ""; 
         if ($layout === 'stacked'){
            $layout_style = " inbound-stacked";
         }
@@ -336,7 +349,9 @@ class InboundForms {
                   </div>
                   <input type="hidden" name="inbound_submitted" value="1">
                   <!-- Add in page_views etc -->
-                  <input type="hidden" name="inbound_form_name" value="Inbound Form Name">
+                  <input type="hidden" name="inbound_form_name" value="Inbound Form XYZ">
+                  <input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">
+                  <input type="hidden" id="inbound_parent_page" name="inbound_parent_page" value="">
                   </form>
                   </div>';
         return $form;

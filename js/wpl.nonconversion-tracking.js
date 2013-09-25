@@ -32,8 +32,8 @@ if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != ""
 	});
 }
 // Check for Lead lists
-var expired = jQuery.cookie("lead_session_expire"); // check for session
-if (expired != "false") {
+var expired = jQuery.cookie("lead_session_list_check"); // check for session
+if (expired != "true") {
 	//var data_to_lookup = global-localized-vars;
 	if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
 		jQuery.ajax({
@@ -45,7 +45,7 @@ if (expired != "false") {
 						
 					},
 					success: function(user_id){
-							//jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
+							jQuery.cookie("lead_session_list_check", true, { path: '/', expires: 1 });
 							console.log("checked");
 						   },
 					error: function(MLHttpRequest, textStatus, errorThrown){

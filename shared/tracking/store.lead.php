@@ -64,7 +64,7 @@ function inbound_store_lead()
 		
 		//do_action('inbound_store_lead_pre'); // Global lead storage action hook
 		//do_action('lp_store_lead_pre'); // Landing Page specific storage hook (remove)
-		do_action('wpl_store_lead_pre'); // Leads specific storage hook (remove)
+		do_action('wpl_store_lead_pre'); // Leads specific storage hook
 		
 		$query = $wpdb->prepare(
 			'SELECT ID FROM ' . $wpdb->posts . '

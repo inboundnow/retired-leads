@@ -4,7 +4,7 @@ Plugin Name: WordPress Leads
 Plugin URI: http://www.inboundnow.com/landing-pages/downloads/lead-management/
 Description: Wordpress Lead Manager provides CRM (Customer Relationship Management) applications for WordPress Landing Page plugin. Lead Manager Plugin provides a record management interface for viewing, editing, and exporting lead data collected by Landing Page Plugin. 
 Author: Hudson Atwell(@atwellpub), David Wells (@inboundnow)
-Version: 1.0.6
+Version: 1.0.7
 Author URI: http://www.inboundnow.com/landing-pages/
 */
 
@@ -20,7 +20,7 @@ include_once('functions/wpl.f.global.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 include_once( 'shared/tracking/store.lead.php'); // Lead Storage
-include_once( 'shared/classes/forms/form.class.php'); // Form Builder
+include_once( 'shared/classes/form.class.php'); // Form Builder
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
@@ -35,8 +35,8 @@ if (is_admin())
 	$lp_global_settings[$tab_slug]['options'][] = lp_add_option($tab_slug,"license-key","lead-manager","","Lead Manager","Head to http://www.inboundnow.com/landing-pages/account/ to retrieve your license key for Lead Manager for Landing Pages", $options=null);
 
 	/*SETUP END*/
-	
 	register_activation_hook(__FILE__, 'wpleads_activate');
+
 	include_once('modules/wpl.m.activate.php'); 
 	include_once('modules/wpl.m.metaboxes.wp-lead.php'); 
 	include_once('modules/wpl.m.wp_list_table-leads.php');   
@@ -170,10 +170,16 @@ function wpleads_enqueuescripts_header()
 		}
 
 		// Load form pre-population
-		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1);
-		if ($form_prepopulation)
-		{
-			wp_enqueue_script('wpl-main-form-population', WPL_URL . '/js/wpl.form-population.js', array( 'jquery','jquery-cookie'));	
+		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
+		$lp_form_prepopulation = get_option( 'main-landing-page-prepopulate-forms' , 1);
+		if ($lp_form_prepopulation === "1") {
+			$form_prepopulation = "1";
+		}
+
+		if ($form_prepopulation === "1") {
+			wp_enqueue_script('form-population', WPL_URL . '/js/wpl.form-population.js', array( 'jquery','jquery-cookie'));	
+		} else {
+			wp_dequeue_script('form-population');
 		}
 		
 		// Load form tracking class
