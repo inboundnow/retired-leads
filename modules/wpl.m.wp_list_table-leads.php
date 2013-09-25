@@ -23,17 +23,20 @@ class LLS_LEADS_LISTING extends WP_List_Table
 		$args = array(
 			'post_type' => 'wp-lead',
 			'post_status' => 'published',
-			'tax_query'=>array(
-				'taxonomy'=>'wplead_list_category',
-				'field'=>'id',
-				'term'=> $wplead_cat_id),
-			'numberposts' => -1
+			'tax_query'=> array(
+					array(
+					'taxonomy'=>'wplead_list_category',
+					'field'=>'term_id',
+					'terms'=> $wplead_cat_id
+					)
+				),
+			'posts_per_page' => -1
 		);
 		
 		$wp_query = new WP_Query( $args );
-		
+		$i= 0;
 		while ($wp_query->have_posts()) : $wp_query->the_post();
-
+		
 		
 			$lead_id = $wp_query->post->ID;
 			$final_data[$lead_id]['ID'] = $lead_id;
@@ -48,9 +51,10 @@ class LLS_LEADS_LISTING extends WP_List_Table
 			
 			$points = get_post_meta($lead_id, 'lls_points', true);
 			$final_data[$lead_id]['lls_lead_points'] = $points;
-		
+			$i++;
 		endwhile;
-
+		
+		
 		//print_r($final_data);exit;
 		$this->leads_data = $final_data; 
 		//$this->_args = array();
@@ -126,7 +130,7 @@ class LLS_LEADS_LISTING extends WP_List_Table
 			usort( $this->leads_data, array( &$this, 'usort_reorder' ) );
 		}
 		
-		$per_page = 25;
+		$per_page = 500;
 		$current_page = $this->get_pagenum();
 		
 		$total_items = count( $this->leads_data );
