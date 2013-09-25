@@ -2,7 +2,7 @@
 /*
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/wp-call-to-actions/
-Description: Display Targeted Calls to Action on your wordpress site
+Description: Display Targeted Calls to Action on your WordPress site.
 Version: 1.0.1
 Author: David Wells, Hudson Atwell
 Author URI: http://www.inboundnow.com/
