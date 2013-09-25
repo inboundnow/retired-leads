@@ -27,6 +27,21 @@ jQuery(document).ready(function($) {
 			var page_view_count = countProperties(pageviewObj);
 			//console.log("view count" + page_view_count);
 		
+			function inbound_find_form_fields(element) {
+					if (element.attr("name").toLowerCase().indexOf('email')>-1&&!email) {
+							email = this.value;
+							
+					}
+					else if(element.attr("name").toLowerCase().indexOf('e-mail')>-1&&!email) {
+							 email = this.value;
+					}
+					else if(element.attr("name").toLowerCase().indexOf('name')>-1&&!firstname) {
+							 firstname = this.value;
+					}
+					else if (element.attr("name").toLowerCase().indexOf('name')>-1) {
+							 lastname = this.value;
+					}
+			}		
 
 			if (!email)
 			{

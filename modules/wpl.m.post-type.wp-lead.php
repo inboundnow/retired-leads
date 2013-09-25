@@ -197,6 +197,45 @@ function wpl_admin_posts_meta_filter( $query )
     }
 }
 
+add_filter( 'parse_query', 'wp_leads_lead_email_filter' );
+function wp_leads_lead_email_filter( $query )
+{
+    global $pagenow;
+    $screen = @get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+	
+	if (!$screen)
+		return;
+		
+	$screen_id = $screen->id;
+ 
+    if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
+        $query->query_vars['meta_key'] = 'wpleads_email_address';
+    if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
+        $query->query_vars['meta_value'] = $_GET['lead-email'];
+    }
+}
+// Redirect clicks from lead emails to lead profiles.
+add_action('admin_init', 'wp_lead_redirect_with_email');
+function wp_lead_redirect_with_email() {
+	global $wpdb;
+		if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
+		$lead_id = 	$_GET['lead-email-redirect'];
+		$query = $wpdb->prepare(
+				'SELECT ID FROM ' . $wpdb->posts . '
+				WHERE post_title = %s
+				AND post_type = \'wp-lead\'',
+				$lead_id
+				);
+				$wpdb->query( $query );
+				if ( $wpdb->num_rows ) {
+					$lead_ID = $wpdb->get_var( $query );
+					$url = admin_url();
+					$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
+					wp_redirect( $redirect, 301 ); exit;
+				}
+		}
+}
+
 function wpl_admin_posts_filter_restrict_manage_posts()
 {
     global $wpdb;
