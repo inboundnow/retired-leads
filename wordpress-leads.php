@@ -20,7 +20,7 @@ include_once('functions/wpl.f.global.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 include_once( 'shared/tracking/store.lead.php'); // Lead Storage
-include_once( 'shared/classes/forms/form.class.php'); // Form Builder
+include_once( 'shared/classes/form.class.php'); // Form Builder
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
