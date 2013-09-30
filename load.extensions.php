@@ -146,13 +146,26 @@ function wp_cta_get_extension_template_paths()
 function wp_cta_get_extension_data_cats($extension_data)
 {
 
+	//print_r($extension_data);
 	foreach ($extension_data as $key=>$val)
 	{
 		
 		if ($key=='wp-cta'||!isset($val['info']['category']))
 			continue;
 
-		$cat_value = $val['info']['category'];
+		/* allot for older lp_data model */		
+		if (isset($val['category']))
+		{
+			$cat_value = $val['category'];
+		}
+		else
+		{
+			if (isset($val['info']['category']))
+			{
+				$cat_value = $val['info']['category'];
+			}
+		}
+
 		$name = str_replace(array('-','_'),' ',$cat_value);
 		$name = ucwords($name);
 		if (!isset($template_cats[$cat_value]))

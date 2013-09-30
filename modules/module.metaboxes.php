@@ -104,14 +104,14 @@ add_action( 'save_post', 'wp_cta_save_custom_height_width' );
 function wp_cta_save_custom_height_width( $post_id )
 {
     global $post;
+
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
         return;
 
     if ( ! current_user_can( 'edit_post', $post_id ) )
         return;
-    if ($post->post_type=='wp-call-to-action') {
+    if (isset($post) && $post->post_type=='wp-call-to-action') {
        
-      
         $var_id = wp_cta_ab_testing_get_current_variation_id();  
         $height_key = 'wp_cta_height-'.$var_id;
         $width_key = 'wp_cta_width-'.$var_id;
@@ -145,7 +145,7 @@ function add_wp_cta_post_metaboxes() {
 }
 
 add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
-$var_id = wp_cta_ab_testing_get_current_variation_id();
+
 $custom_wp_cta_metaboxes = array(
     array(
         'label' => 'Open Links',
@@ -176,24 +176,26 @@ function wp_cta_render_metaboxes($meta_boxes) {
         // get value of this field if it exists for this post
         //print_r($meta_boxes);
         $meta = get_post_meta($post->ID, $field['id'], true);
+        $field_options_class = (isset($field['options_area'])) ? $field['options_area'] : '';
+        $meta_class = (isset($field['class'])) ? $field['class'] : '';
         // begin a table row with
        	$no_label = array('html-block');
-        echo '<div id='.$field['id'].' class="'.$field['options_area'].' wp-cta-option-row">';
+        echo '<div id='.$field['id'].' class="'.$field_options_class.' wp-cta-option-row">';
        if (!in_array($field['type'],$no_label)) {
-        	echo'<div class="wp_cta_label"><label class="'.$field['class'].'" for="'.$field['id'].'">'.$field['label'].'</label></div>';
+        	echo'<div class="wp_cta_label"><label class="'.$meta_class.'" for="'.$field['id'].'">'.$field['label'].'</label></div>';
             } 
-          echo '<div class="wp-cta-option-area '.$field['class'].' field-'.$field['type'].'">';
+          echo '<div class="wp-cta-option-area '.$meta_class.' field-'.$field['type'].'">';
                 switch($field['type']) {
                     // text
                     case 'text':
-                        echo '<input type="text" class="'.$field['class'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
+                        echo '<input type="text" class="'.$meta_class.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
                                 <br /><span class="description">'.$field['desc'].'</span>';
                     break;
                     case 'html-block':
-                        echo '<div class="'.$field['class'].'">'.$field['desc'].'</div>';
+                        echo '<div class="'.$meta_class.'">'.$field['desc'].'</div>';
                     break;
                     case 'dropdown':
-                        echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$field['class'].'">';
+                        echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$meta_class.'">';
                         foreach ($field['options'] as $value=>$label) {
                             echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
                         }

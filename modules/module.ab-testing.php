@@ -7,6 +7,7 @@ if (is_admin())
 
 	function wp_cta_ab_testing_admin_init($hook)
 	{	
+		
 		if (!is_admin()||!isset($_GET['post']))
 			return;
 			

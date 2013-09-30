@@ -111,16 +111,8 @@ function wp_cta_remove_all_styles()
 
 }
 // Remove all body_classes from custom landing page templates - disabled but you can use the function above to model native v non-native template conditionals.
-//add_action('wp','wpcta_remove_plugin_filters');
-/**
- * Debug Activation errors */
 /*
-add_action('activated_plugin','save_error');
-function save_error(){
-    update_option('plugin_error',  ob_get_contents());
-}
-echo "here" . get_option('plugin_error') . "hi";
-*/
+add_action('wp','wpcta_remove_plugin_filters');
 
 function wpcta_remove_plugin_filters() {
 
@@ -139,4 +131,4 @@ function wp_cta_body_class_names($classes) {
     $arr[] = 'template-' . $template_id;
  }
     return $arr;
-}
+}*/

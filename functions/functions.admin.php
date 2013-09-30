@@ -754,7 +754,7 @@ function cta_placements_content_meta_box()
 						</td>
 					</tr>
 
-					<tr>
+					<!-- <tr>
 						<td class='cta-options-label'>
 							<label for=keyword>
 								CTA Alignment
@@ -768,7 +768,7 @@ function cta_placements_content_meta_box()
 								
 							</select>
 						</td>
-					</tr>
+					</tr> -->
 					
 				</table>
 

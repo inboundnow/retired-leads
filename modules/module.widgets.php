@@ -141,8 +141,9 @@ class wp_cta_placement_widget extends WP_Widget
 		    	$selected_ctas = array();
                	$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
             	$cta_post_type = get_posts($args);
+            	
                 foreach ($cta_post_type as $cta) {
-                    if($instance['cta_ids_' . $cta->ID] == '1'){
+                    if(isset($instance['cta_ids_' . $cta->ID]) && $instance['cta_ids_' . $cta->ID] == '1'){
                         array_push($selected_ctas, $cta->ID);
                     }
                 }

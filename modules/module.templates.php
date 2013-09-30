@@ -37,7 +37,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 			
 			foreach ($wp_cta_data as $key=>$value)
 			{
-				$array_core_templates = array('blank-template','call-out-box','cta-one','demo'); 
+				$array_core_templates = array('blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook'); 
 				
 				if ($key!='wp-cta'&&!in_array($key,$array_core_templates)&&substr($key,0,4)!='ext-')
 				{
