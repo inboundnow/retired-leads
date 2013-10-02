@@ -128,6 +128,7 @@ if (is_admin())
 			</div>';
 		echo "</form>";
 		?>
+		<!--
 		<div id="wp-cta-additional-resources" class="clear">
 			<hr>
 		<div id="more-templates">
@@ -145,7 +146,7 @@ if (is_admin())
 			<center><a href="http://www.inboundnow.com/landing-pages/custom-wordpress-landing-page-setup/" target=="_blank"><img src="<?php echo WP_CTA_URLPATH;?>/images/custom-setup-image.png"></a>
 			</center>
 		</div>
-		</div>
+		</div>-->
 		<div class="clear" id="php-sql-wp-cta-version">
 		 <h3>Installation Status</h3>
               <table class="form-table" id="wp-cta-wordpress-site-status">

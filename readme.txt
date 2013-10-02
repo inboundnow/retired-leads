@@ -13,11 +13,13 @@ Create Calls to Action for your WordPress site. Monitor and improve conversion r
 
 == Description ==
 
-This plugin creates calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on landing pages, and most importantly increase lead flow!
+This plugin creates calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!
 
 The calls to action plugin was specifically designed with inbound marketing best practices in mind and will help you drive & convert more leads on your site.
 
 Calls to action are an ideal way to convert more of your passive website visitors into active leads or email list subscribers.
+
+http://www.youtube.com/watch?v=-qaYgwV7p-8
 
 = Highlights =
 
@@ -29,17 +31,15 @@ Calls to action are an ideal way to convert more of your passive website visitor
 * Easily implement your own custom call to action design or use our library of custom call to action designs.
 
 
-= About the Plugin =
-
-[video here]
-
 = Developers & Designers =
 
-We built the calls to action plugin as a framework! Need A/B testing out of the box implemented for your existing designs? Use WordPress Landing Pages to quickly spin up new landing pages that have all the functionality your clients will need.
+We built the calls to action plugin as a framework! Need A/B testing out of the box implemented for your existing designs? Use WordPress Calls to Action to quickly spin up new calls to action that have all the functionality your clients will need.
 
-You can quickly take your existing designs and implement them using our <a href="http://www.inboundnow.com/wp-call-to-actions/docs/dev/">templating framework</a>.
+You can quickly take your existing designs and implement them using our <a href="http://docs.inboundnow.com/landing-pages/dev">templating framework</a>.
 
 The plugin is also fully extendable and has a number of actions, filters, and hooks available for use. If a hook doesn't exist, simply ask and we can implement custom changes.
+
+<b>You can also follow us on <a href="https://github.com/inboundnow/landing-pages/">GitHub</a></b>
 
 == Installation ==
 

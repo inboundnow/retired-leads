@@ -207,7 +207,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 	 
 		function no_items() 
 		{
-			_e( 'No premium templates installed. Templates included in the Landing Pages core plugin will not be listed here.' );
+			_e( 'No premium templates installed. Templates included in the Call to Action core plugin will not be listed here.' );
 		}
 		
 		function get_bulk_actions() 
