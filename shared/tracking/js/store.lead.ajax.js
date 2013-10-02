@@ -23,26 +23,14 @@ jQuery(document).ready(function($) {
 			var email = "";
 			var firstname = "";
 			var lastname = "";			
+			var phone = "";			
+			var company = "";		
+			var address = "";		
+			
 			var tracking_obj = JSON.stringify(trackObj);
 			var page_view_count = countProperties(pageviewObj);
 			//console.log("view count" + page_view_count);
-		
-			function inbound_find_form_fields(element) {
-					if (element.attr("name").toLowerCase().indexOf('email')>-1&&!email) {
-							email = this.value;
-							
-					}
-					else if(element.attr("name").toLowerCase().indexOf('e-mail')>-1&&!email) {
-							 email = this.value;
-					}
-					else if(element.attr("name").toLowerCase().indexOf('name')>-1&&!firstname) {
-							 firstname = this.value;
-					}
-					else if (element.attr("name").toLowerCase().indexOf('name')>-1) {
-							 lastname = this.value;
-					}
-			}		
-
+			
 			if (!email)
 			{
 
@@ -59,18 +47,20 @@ jQuery(document).ready(function($) {
 						else if(jQuery(this).attr("name").toLowerCase().indexOf('name')>-1&&!firstname) {
 							 firstname = this.value;
 						}
-						else if (jQuery(this).attr("name").toLowerCase().indexOf('name')>-1) {
+						else if (jQuery(this).attr("name").toLowerCase().indexOf('last')>-1) {
 							 lastname = this.value;
+						}
+						else if (jQuery(this).attr("name").toLowerCase().indexOf('phone')>-1) {
+							 phone = this.value;
+						}
+						else if (jQuery(this).attr("name").toLowerCase().indexOf('company')>-1) {
+							 company = this.value;
+						}
+						else if (jQuery(this).attr("name").toLowerCase().indexOf('address')>-1) {
+							 address = this.value;
 						}
 					}
 				});
-			}
-			else
-			{		
-				if (!lastname&&jQuery("input").eq(1).val().indexOf("@") === -1)
-				{
-					lastname = jQuery("input").eq(1).val();
-				}
 			}
 
 			if (!email)
@@ -83,13 +73,22 @@ jQuery(document).ready(function($) {
 							email = this.value;
 						}
 						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('e-mail')>-1&&!email) {
-							 email =  this.value;
+							email =  this.value;
 						}
 						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('name')>-1&&!firstname) {
 							firstname = this.value;
 						}
-						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('name')>-1) {
+						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('last')>-1) {
 							lastname = this.value;
+						}						
+						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('phone')>-1) {
+							 phone = this.value;
+						}
+						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('company')>-1) {
+							 company = this.value;
+						}
+						else if (jQuery(this).closest('li').children('label').html().toLowerCase().indexOf('address')>-1) {
+							 address = this.value;
 						}
 					}
 
@@ -111,8 +110,17 @@ jQuery(document).ready(function($) {
 						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('name')>-1&&!firstname) {
 							firstname = this.value;
 						}
-						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('name')>-1) {
+						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('last')>-1) {
 							lastname = this.value;
+						}						
+						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('phone')>-1) {
+							 phone = this.value;
+						}
+						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('company')>-1) {
+							 company = this.value;
+						}
+						else if (jQuery(this).closest('div').children('label').html().toLowerCase().indexOf('address')>-1) {
+							 address = this.value;
 						}
 					}
 				});
@@ -169,6 +177,9 @@ jQuery(document).ready(function($) {
 					emailTo: email, 
 					first_name: firstname, 
 					last_name: lastname,
+					phone: phone,
+					address: address,
+					company_name: company,
 					wp_lead_uid: wp_lead_uid,
 					page_view_count: page_view_count,
 					page_views: page_views,
