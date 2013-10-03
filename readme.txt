@@ -54,6 +54,15 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Screenshots ==
 
+1. Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action
+2. Create Popup Calls to action and capture more emails
+3. Easy to use templates
+4. Visual fronted editing to see live changes on the fly
+5. Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.
+6. Track conversion rates and continuously improve your marketing
+7. Easy placement within pages/posts/custom post types
+8. Global placements via your sites sidebar
+
 == Changelog ==
 
 = 1.0.1 =
