@@ -13,6 +13,8 @@ Create Calls to Action for your WordPress site. Monitor and improve conversion r
 
 == Description ==
 
+> WordPress Calls to Action works as a standalone plugin or hand in hand with [WordPress Landing Pages](http://wordpress.org/plugins/landing-pages/ "Learn more about Landing Pages") & [WordPress Leads](http://wordpress.org/plugins/leads/ "Learn more about WordPress Leads") to create a powerful & free lead generation system for your business.
+
 This plugin creates calls to action for your WordPress site. It gives site owners the ability to monitor and track conversion rates, run a/b or multivariate split tests on calls to action, and most importantly increase lead flow!
 
 The calls to action plugin was specifically designed with inbound marketing best practices in mind and will help you drive & convert more leads on your site.
