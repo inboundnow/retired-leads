@@ -222,54 +222,61 @@ function wplead_ip_address_metabox() {
 	?>
 	<div >
 		<div class="inside" style='margin-left:-8px;text-align:left;'> 
-			<div id='last-conversion-box'>
-	
-						<div id='lead-geo-data-area'>
-							
-						<?php
-						if (is_array($geo_array))
-						{
-							unset($geo_array['geoplugin_status']);
-							unset($geo_array['geoplugin_credit']);
-							unset($geo_array['geoplugin_request']);
-							unset($geo_array['geoplugin_currencyConverter']);
-							unset($geo_array['geoplugin_currencySymbol_UTF8']);
-							unset($geo_array['geoplugin_currencySymbol']);
-							unset($geo_array['geoplugin_dmaCode']);
-							if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
-							echo "<div class='lead-geo-field'><span class='geo-label'>City:</span>" . $geo_array['geoplugin_city'] . "</div>"; }
-							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-							echo "<div class='lead-geo-field'><span class='geo-label'>State:</span>" . $geo_array['geoplugin_regionName'] . "</div>";
-							}
-							if (isset($geo_array['geoplugin_areaCode']) && $geo_array['geoplugin_areaCode'] != ""){
-							echo "<div class='lead-geo-field'><span class='geo-label'>Area Code:</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
-							}
-							if (isset($geo_array['geoplugin_countryName']) && $geo_array['geoplugin_countryName'] != ""){
-							echo "<div class='lead-geo-field'><span class='geo-label'>Country:</span>" . $geo_array['geoplugin_countryName'] . "</div>";
-							}
-							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-							echo "<div class='lead-geo-field'><span class='geo-label'>IP Address:</span>" . $ip_address . "</div>";
-							}
-							/*
-							foreach ($geo_array as $key=>$val)
-							{
-								$key = str_replace('geoplugin_','',$key);
-								echo "<tr class='lp-geo-data'>";
-								echo "<td class='lp-geo-key'><em><small>$key</small></em></td>";
-								echo "<td class='lp-geo-val'><em><small>$val</small></em></td>";
-								echo "</tr>";
-							} */
-						}
-						if (($latitude != 0) && ($longitude != 0)){ 
-						echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">View Map</a>';	
-						echo '<div id="lead-google-map">
-								<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
-								</div>'; } else {
-									echo "<h2>No Geo data collected</h2>";
-								}
-						echo '</div></div></div></div>';			
-		
-	}
+			<div id='last-conversion-box'>	
+				<div id='lead-geo-data-area'>
+					
+				<?php
+				if (is_array($geo_array))
+				{
+					unset($geo_array['geoplugin_status']);
+					unset($geo_array['geoplugin_credit']);
+					unset($geo_array['geoplugin_request']);
+					unset($geo_array['geoplugin_currencyConverter']);
+					unset($geo_array['geoplugin_currencySymbol_UTF8']);
+					unset($geo_array['geoplugin_currencySymbol']);
+					unset($geo_array['geoplugin_dmaCode']);
+					if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
+					echo "<div class='lead-geo-field'><span class='geo-label'>City:</span>" . $geo_array['geoplugin_city'] . "</div>"; }
+					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
+					echo "<div class='lead-geo-field'><span class='geo-label'>State:</span>" . $geo_array['geoplugin_regionName'] . "</div>";
+					}
+					if (isset($geo_array['geoplugin_areaCode']) && $geo_array['geoplugin_areaCode'] != ""){
+					echo "<div class='lead-geo-field'><span class='geo-label'>Area Code:</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
+					}
+					if (isset($geo_array['geoplugin_countryName']) && $geo_array['geoplugin_countryName'] != ""){
+					echo "<div class='lead-geo-field'><span class='geo-label'>Country:</span>" . $geo_array['geoplugin_countryName'] . "</div>";
+					}
+					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
+					echo "<div class='lead-geo-field'><span class='geo-label'>IP Address:</span>" . $ip_address . "</div>";
+					}
+					/*
+					foreach ($geo_array as $key=>$val)
+					{
+						$key = str_replace('geoplugin_','',$key);
+						echo "<tr class='lp-geo-data'>";
+						echo "<td class='lp-geo-key'><em><small>$key</small></em></td>";
+						echo "<td class='lp-geo-val'><em><small>$val</small></em></td>";
+						echo "</tr>";
+					} */
+				}
+				if (($latitude != 0) && ($longitude != 0))
+				{ 
+					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">View Map</a>';	
+					echo '<div id="lead-google-map">
+							<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
+							</div>'; 
+				}
+				else 
+				{
+					echo "<h2>No Geo data collected</h2>";
+				}
+		?>
+				</div>
+			</div>
+		</div>
+	</div>		
+	<?php
+}
 
  
 /* Top Metabox */
@@ -872,24 +879,26 @@ function wpl_tag_cloud() {
 	global $post;
 	$page_views = get_post_meta($post->ID,'page_views', true);
     $page_view_array = json_decode($page_views, true);
-    if($page_views){ 		
+    if($page_views)
+	{ 		
      	// Collect all viewed page IDs	
-          foreach($page_view_array as $key=>$val)
-                {
-                    $id = $key;
-                    $ids[] = $key; 
-                }
+		foreach($page_view_array as $key=>$val)
+		{
+			$id = $key;
+			$ids[] = $key; 
+		}
+
         // Get Tags from all pages viewed
      
-           foreach($ids as $key=>$val)
-                {
-                //echo $val;
-                $array = wp_get_post_tags( $val, array( 'fields' => 'names' ) );
-	                if(!empty($array)){
-	                	$tag_names[] = wp_get_post_tags( $val, array( 'fields' => 'names' ) );	
-	                }
-              
-                } 
+        foreach($ids as $key=>$val)
+		{
+			//echo $val;
+			$array = wp_get_post_tags( $val, array( 'fields' => 'names' ) );
+			if(!empty($array))
+				$tag_names[] = wp_get_post_tags( $val, array( 'fields' => 'names' ) );	
+			
+	  
+		} 
         // Merge and count 
         $final_tags = array();
         if(!empty($tag_names)){
@@ -901,12 +910,15 @@ function wpl_tag_cloud() {
 			    }
 			}
 		}
+		
         $return_tags = array_count_values($final_tags);
-    } else {
+    } 
+	else 
+	{
     	$return_tags = array(); // empty
     }
  
-  return $return_tags; // return tag array
+	return $return_tags; // return tag array
            
 }
 

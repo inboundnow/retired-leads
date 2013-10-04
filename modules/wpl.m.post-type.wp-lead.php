@@ -406,8 +406,8 @@ function wpleads_remove_row_actions( $actions, $post )
 		<script type="text/javascript">
 		  jQuery(document).ready(function() {
 		  
-			jQuery('<option>').val('export-list').text('<?php _e('Export to Wordpress List')?>').appendTo("select[name='action']");
-			jQuery('<option>').val('export-list').text('<?php _e('Export to Wordpress List')?>').appendTo("select[name='action2']");
+			jQuery('<option>').val('add-to-list').text('<?php _e('Add to List','lp') ?>').appendTo("select[name='action']");
+			jQuery('<option>').val('add-to-list').text('<?php _e('Add to List' , 'lp') ?>').appendTo("select[name='action2']");
 			
 			jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action']");
 			jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action2']");
@@ -425,7 +425,7 @@ function wpleads_remove_row_actions( $actions, $post )
 				{
 					jQuery('#posts-filter').prop('target','_blank');					
 				}
-				else if (this_id.indexOf("export-list") >= 0)
+				else if (this_id.indexOf("add-to-list") >= 0)
 				{
 					var html  = "<?php echo $html; ?>";
 					
@@ -558,6 +558,21 @@ function wpleads_remove_row_actions( $actions, $post )
 						$exported++;
 					}
 					$sendback = add_query_arg( array('exported' => $exported , 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids) ), $sendback );			
+				break;							
+				case 'add-to-list':				
+					$list_id = $_REQUEST['action_wordpress_list_id'];
+					$added = 0;
+
+					foreach( $post_ids as $post_id ) {		
+					
+						$list_cpt = get_post($list_id , ARRAY_A);
+						$list_slug = $list_cpt['post_name'];
+						$list_title = $list_cpt['post_title'];
+						
+						wpleads_add_lead_to_list($list_id, $post_id, $add = true);
+						$added++;
+					}
+					$sendback = add_query_arg( array('added' => $added , 'post_type' => 'wp-lead', 'ids' => join(',', $post_ids) ), $sendback );			
 				break;				
 				default: return;
 			}
@@ -570,12 +585,17 @@ function wpleads_remove_row_actions( $actions, $post )
 	
 	add_action('admin_notices', 'wpleads_bulk_admin_notices');
 	function wpleads_bulk_admin_notices() {
-	  global $post_type, $pagenow;
-	  if($pagenow == 'edit.php' && $post_type == 'wp-lead' && 
-		 isset($_REQUEST['exported']) && (int) $_REQUEST['exported']) {
-		$message = sprintf( _n( 'Lead exported.', '%s lead exported.', $_REQUEST['exported'] ), number_format_i18n( $_REQUEST['exported'] ) );
-		echo "<div class=\"updated\"><p>{$message}</p></div>";
-	  }
+		global $post_type, $pagenow;
+		if($pagenow == 'edit.php' && $post_type == 'wp-lead' &&  isset($_REQUEST['exported']) && (int) $_REQUEST['exported']) 
+		{
+			$message = sprintf( _n( 'Lead exported.', '%s lead exported.', $_REQUEST['exported'] ), number_format_i18n( $_REQUEST['exported'] ) );
+			echo "<div class=\"updated\"><p>{$message}</p></div>";
+		}
+		if($pagenow == 'edit.php' && $post_type == 'wp-lead' &&  isset($_REQUEST['added']) && (int) $_REQUEST['added']) 
+		{
+			$message = sprintf( _n( 'Lead Added.', '%s leads added to list.', $_REQUEST['added'] ), number_format_i18n( $_REQUEST['added'] ) );
+			echo "<div class=\"updated\"><p>{$message}</p></div>";
+		}
 	}
 	
 	function wpleads_generate_xml_from_array($array, $node_name) {
