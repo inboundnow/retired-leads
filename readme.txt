@@ -4,7 +4,7 @@ Contributors: David Wells, adbox
 Donate link: mailto:Hudson.Atwell@gmail.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, list building, inbound now, wp-call-to-actions, cpa, click tracking, goal tracking, analytics
+Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads
 Requires at least: 3.5
 Tested up to: 3.6
 Stable Tag: 1.0.1
@@ -27,6 +27,7 @@ http://www.youtube.com/watch?v=-qaYgwV7p-8
 
 * Create beautiful calls to action on your WordPress site.
 * Visual Editor to view changes being made on the fly!
+* Create Popups Calls to Actions for improved conversion rates
 * Track conversion rates on your calls to action for continual optimization.
 * Easily clone existing calls to action and run A/B Split tests on variations.
 * Gather lead intelligence and track lead activity with <a href="http://wordpress.org/plugins/leads/screenshots/">WordPress Leads</a>
