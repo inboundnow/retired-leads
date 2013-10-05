@@ -153,11 +153,11 @@ jQuery(document).ready(function($) {
 			var page_views = JSON.stringify(pageviewObj);
 			var page_id = inbound_ajax.post_id;
 			if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {	
-				var lp_v = landing_path_info.variation;
+				var lp_variation = landing_path_info.variation;
 			} else if (typeof (cta_path_info) != "undefined" && cta_path_info != null && cta_path_info != "") {	
-				var lp_v = cta_path_info.variation;
+				var lp_variation = cta_path_info.variation;
 			} else {
-				var lp_v = null;
+				var lp_variation = null;
 			}
 		
 			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
@@ -211,7 +211,7 @@ jQuery(document).ready(function($) {
 					page_view_count: page_view_count,
 					page_views: page_views,
 					post_type: inbound_ajax.post_type,
-					lp_v: lp_v,
+					lp_variation: lp_variation,
 					json: tracking_obj, // replace with page_view_obj
 					// type: 'form-completion',
 					raw_post_values_json : post_values_json,
@@ -269,7 +269,7 @@ jQuery(document).ready(function($) {
 											page_view_count: page_view_count,
 											page_views: page_views,
 											post_type: inbound_ajax.post_type,
-											lp_v: lp_v,
+											lp_variation: lp_variation,
 											json: tracking_obj,
 											// type: 'form-completion',
 											raw_post_values_json : post_values_json,
@@ -311,7 +311,7 @@ jQuery(document).ready(function($) {
 							page_view_count: fallback_obj[0].page_view_count,
 							page_views: fallback_obj[0].page_views,
 							post_type: fallback_obj[0].post_type,
-							lp_v: fallback_obj[0].lp_v,
+							lp_variation: fallback_obj[0].lp_variation,
 							json: fallback_obj[0].json, // replace with page_view_obj
 							// type: 'form-completion',
 							raw_post_values_json : fallback_obj[0].raw_post_values_json,
@@ -335,3 +335,81 @@ jQuery(document).ready(function($) {
 	}
 
  });
+ 
+ 
+ function inbound_find_form_fields(element, field_name, regex) {
+	//console.log(element);
+	//console.log(field_name);
+	var return_val = "";
+	var name = element.attr("name");
+	var id = element.attr("id");
+	var form_value = element.val();
+	var nearest_li = element.closest('li').children('label');
+	var nearest_div = element.closest('div').children('label');
+	var newregex = new RegExp(regex, 'gi');
+	//console.log(newregex);
+	
+	// Check name attributes for common names
+	if (typeof (name) != "undefined" && name != null && name != "" && return_val === "") {
+		
+		var match = newregex.test(name); // regex to find matching name
+		//console.log(match + name);
+		if (match == true) {
+			return form_value + " Regex 'name' Match: " + name;
+			var return_val = form_value;
+		}
+		if (name.toLowerCase().indexOf(field_name)>-1) {
+			return form_value + " indexof Match: " + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	// Check nearest li element for common names
+	if (typeof (nearest_li) != "undefined" && nearest_li != null && nearest_li != "" && return_val === "") {
+		var the_label_text = nearest_li.html();
+		var match = newregex.test(the_label_text); // regex to find matching label
+		
+		if (match == true){
+			return the_label_text + " Regex Label Match" + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	// Check nearest div element for common names
+	if (typeof (nearest_div) != "undefined" && nearest_div != null && nearest_div != "" && return_val === "") {
+		var the_div_text = nearest_div.html();
+		var match = newregex.test(the_div_text); // regex to find matching label
+		
+		if (match == true){
+			return the_div_text + " Regex Div Match" + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	if(return_val === "") {
+		//return "Not Found:" + name + "Looking for:" + field_name;
+		return;
+	}
+
+}		
+
+// Regex to match form field values		
+/* Runs the above function and grabs form values
+setTimeout(function() {
+jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+			var this_input = jQuery(this);
+			
+			var email_field = inbound_find_form_fields(this_input, 'email', 'email|e-mail');
+			var first_name_field = inbound_find_form_fields(this_input, 'first', 'first name|first-name|first_name');
+			var last_name_field =  inbound_find_form_fields(this_input, 'last', 'Last name|last-name|last_name');
+			
+			console.log(email_field);
+			console.log(first_name_field);
+			console.log(last_name_field);
+});
+}, 400);
+*/	
+	// end function to parse form fields

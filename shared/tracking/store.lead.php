@@ -35,7 +35,7 @@ function inbound_store_lead()
 	(isset(	$_POST['wp_lead_uid'] )) ? $data['wp_lead_uid'] = $_POST['wp_lead_uid'] : $data['wp_lead_uid'] = "null";
 	(isset(	$_POST['lp_id'] )) ? $data['lp_id'] = $_POST['lp_id'] : $data['lp_id'] = 0;
 	(isset(	$_POST['post_type'] )) ? $data['post_type'] = $_POST['post_type'] : $data['post_type'] = 'na';
-	(isset(	$_POST['lp_v'] )) ? $data['lp_variation'] = $_POST['lp_v'] : $data['lp_variation'] = 0;
+	(isset(	$_POST['lp_variation'] )) ? $data['lp_variation'] = $_POST['lp_variation'] : $data['lp_variation'] = 0;
 	(isset(	$_POST['page_views'] )) ? $data['page_views'] = $_POST['page_views'] : $data['page_views'] = false;
 	(isset(	$_POST['page_view_count'] )) ? $data['page_view_count'] = $_POST['page_view_count'] : $data['page_view_count'] = 0;
 
