@@ -112,6 +112,9 @@
 		echo "<form action='edit.php?post_type=wp-lead&page=wpleads_global_settings' method='POST'>";
 		echo "<input type='hidden' name='nature' value='wpl-global-settings-save'>";
 		echo "<input type='hidden' name='open-tab' id='id-open-tab' value='{$active_tab}'>";
+
+		
+						
 		foreach ($wpleads_global_settings as $key => $array)
 		{
 			$these_settings = $wpleads_global_settings[$key]['options'];	

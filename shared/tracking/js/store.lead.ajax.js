@@ -1,6 +1,85 @@
 jQuery(document).ready(function($) {
 /* Core Inbound Form Tracking Script */
 	
+	// In inbound_find_form_fields in testing mode. not in use yet
+	// function to parse form fields
+	function inbound_find_form_fields(element, field_name, regex) {
+					//console.log(element);
+					//console.log(field_name);
+					var return_val = "";
+					var name = element.attr("name");
+					var id = element.attr("id");
+					var form_value = element.val();
+					var nearest_li = element.closest('li').children('label');
+					var nearest_div = element.closest('div').children('label');
+					var newregex = new RegExp(regex, 'gi');
+					//console.log(newregex);
+					
+					// Check name attributes for common names
+					if (typeof (name) != "undefined" && name != null && name != "" && return_val === "") {
+						
+						var match = newregex.test(name); // regex to find matching name
+						//console.log(match + name);
+						if (match == true) {
+							return form_value + " Regex 'name' Match: " + name;
+							var return_val = form_value;
+						}
+						if (name.toLowerCase().indexOf(field_name)>-1) {
+							return form_value + " indexof Match: " + name;
+							var return_val = form_value;
+						}
+
+					}
+
+					// Check nearest li element for common names
+					if (typeof (nearest_li) != "undefined" && nearest_li != null && nearest_li != "" && return_val === "") {
+						var the_label_text = nearest_li.html();
+						var match = newregex.test(the_label_text); // regex to find matching label
+						
+						if (match == true){
+							return the_label_text + " Regex Label Match" + name;
+							var return_val = form_value;
+						}
+			
+					}
+
+					// Check nearest div element for common names
+					if (typeof (nearest_div) != "undefined" && nearest_div != null && nearest_div != "" && return_val === "") {
+						var the_div_text = nearest_div.html();
+						var match = newregex.test(the_div_text); // regex to find matching label
+						
+						if (match == true){
+							return the_div_text + " Regex Div Match" + name;
+							var return_val = form_value;
+						}
+			
+					}
+
+					if(return_val === "") {
+						//return "Not Found:" + name + "Looking for:" + field_name;
+						return;
+					}
+				
+	}		
+
+		// Regex to match form field values		
+		/* Runs the above function and grabs form values
+		setTimeout(function() {
+		jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+					var this_input = jQuery(this);
+               		
+               		var email_field = inbound_find_form_fields(this_input, 'email', 'email|e-mail');
+               		var first_name_field = inbound_find_form_fields(this_input, 'first', 'first name|first-name|first_name');
+               		var last_name_field =  inbound_find_form_fields(this_input, 'last', 'Last name|last-name|last_name');
+					
+					console.log(email_field);
+					console.log(first_name_field);
+					console.log(last_name_field);
+		});
+        }, 400);
+		*/	
+	// end function to parse form fields
+	
 		jQuery("body").on('submit', '.wpl-track-me', function (e) {
 			
 			this_form = jQuery(this);
@@ -26,22 +105,6 @@ jQuery(document).ready(function($) {
 			var tracking_obj = JSON.stringify(trackObj);
 			var page_view_count = countProperties(pageviewObj);
 			//console.log("view count" + page_view_count);
-		
-			function inbound_find_form_fields(element) {
-					if (element.attr("name").toLowerCase().indexOf('email')>-1&&!email) {
-							email = this.value;
-							
-					}
-					else if(element.attr("name").toLowerCase().indexOf('e-mail')>-1&&!email) {
-							 email = this.value;
-					}
-					else if(element.attr("name").toLowerCase().indexOf('name')>-1&&!firstname) {
-							 firstname = this.value;
-					}
-					else if (element.attr("name").toLowerCase().indexOf('name')>-1) {
-							 lastname = this.value;
-					}
-			}		
 
 			if (!email)
 			{
@@ -136,6 +199,7 @@ jQuery(document).ready(function($) {
 			var wp_lead_uid = jQuery.cookie("wp_lead_uid");	
 			var page_views = JSON.stringify(pageviewObj);
 			var page_id = inbound_ajax.post_id;
+			// Get Variation of CTA/LP
 			if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {	
 				var lp_v = landing_path_info.variation;
 			} else if (typeof (cta_path_info) != "undefined" && cta_path_info != null && cta_path_info != "") {	
@@ -236,14 +300,13 @@ jQuery(document).ready(function($) {
 		});
 
 
-	// Fallback for form ajax fails
+	// Fallback for form ajax timeouts/errors
 	var failed_conversion = jQuery.cookie("failed_conversion");
 	var fallback_obj = jQuery.totalStorage('failed_conversion');
 	
 	if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
 		if (typeof fallback_obj =='object' && fallback_obj)
 		{
-			//console.log('fallback ran');	
 				jQuery.ajax({
 					type: 'POST',
 					url: inbound_ajax.admin_url,
