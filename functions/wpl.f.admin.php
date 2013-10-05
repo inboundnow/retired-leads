@@ -579,11 +579,18 @@ function wpleads_add_option($key,$type,$id,$default=null,$label=null,$descriptio
 	}
 }
 
-function wpleads_count_associated_lead_items($post_id)
+function wpleads_count_associated_lead_items($post_id, $get_transient = false)
 {
 	global $wpdb;
 	$list = get_post($post_id);
 	$list_slug = $list->post_name;
+	
+	if ($get_transient)
+	{
+		$num = get_transient('wpleads_count_associated_lead_items-'.$post_id);
+		if ($num)
+			return $num.' leads';
+	}
 	
 	$args = array(
 		'post_type' => 'wp-lead',
@@ -593,6 +600,8 @@ function wpleads_count_associated_lead_items($post_id)
 	);
 	
 	$num = count( get_posts( $args ) );
+	
+	set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*1);
 	
 	return "$num leads";
 }
