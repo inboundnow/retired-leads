@@ -1,9 +1,16 @@
 jQuery(document).ready(function($) {
 /* Core Inbound Form Tracking Script */
-	
-		jQuery("body").on('submit', '.wpl-track-me', function (e) {
+
+		jQuery("body").on('click', '.wpl-track-me', function (e) {
 			
 			this_form = jQuery(this);
+
+			element_type = jQuery(this).get(0).tagName;
+			
+			if (element_type=='A')
+			{
+				a_href = jQuery(this).attr("href");
+			}
 			
 			// process form only once
 			processed = this_form.hasClass('lead_processed');
@@ -18,6 +25,7 @@ jQuery(document).ready(function($) {
 			jQuery('input').css('cursor', 'wait');
 			jQuery('body').css('cursor', 'wait');
 			
+
 			e.preventDefault(); // halt normal form
 			
 			var email = "";
@@ -154,12 +162,30 @@ jQuery(document).ready(function($) {
 		
 			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
 			
-			function release_form_sub(this_form){
+			function release_form_sub(this_form , element_type){
 				jQuery('button, input[type="button"]').css('cursor', 'default');
 				jQuery('input').css('cursor', 'default');
 				jQuery('body').css('cursor', 'default');
-				this_form.unbind('submit');
-				this_form.submit();
+				
+				if (element_type=='FORM')
+				{
+					this_form.unbind('submit');
+					this_form.submit();
+				}
+				
+				if (element_type=='A')
+				{
+					this_form.unbind('wpl-track-me');
+
+					if (a_href)
+					{
+						window.location = a_href;
+					}
+					else
+					{
+						location.reload();
+					}
+				}
 			}
 
 			/* Timeout Fallback
@@ -173,6 +199,7 @@ jQuery(document).ready(function($) {
 				url: inbound_ajax.admin_url,
 				timeout: 10000,
 				data: {
+					element_type : element_type,
 					action: 'inbound_store_lead',
 					emailTo: email, 
 					first_name: firstname, 
@@ -198,14 +225,31 @@ jQuery(document).ready(function($) {
 						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id);
 						this_form.addClass('lead_processed');
-						// Unbind form
-						this_form.unbind('submit');
-						this_form.submit();
 						
+						if (element_type=='FORM')
+						{
+							// Unbind form
+							this_form.unbind('click');
+							this_form.submit();							
+							
+							jQuery('button, input[type="button"]').css('cursor', 'default');
+							jQuery('input').css('cursor', 'default');
+							jQuery('body').css('cursor', 'default');
+						}
 						
-						jQuery('button, input[type="button"]').css('cursor', 'default');
-						jQuery('input').css('cursor', 'default');
-						jQuery('body').css('cursor', 'default');
+						if (element_type=='A')
+						{
+							this_form.unbind('wpl-track-me');
+
+							if (a_href)
+							{
+								window.location = a_href;
+							}
+							else
+							{
+								location.reload();
+							}
+						}
 						
 						jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 						jQuery.totalStorage.deleteItem('tracking_events'); // remove events
@@ -237,7 +281,7 @@ jQuery(document).ready(function($) {
  
 						// If fail, cookie form data and ajax submit on next page load
 						console.log('ajax fail');
-						release_form_sub(this_form);   
+						release_form_sub( this_form , element_type );   
 						
 					}
 			});
