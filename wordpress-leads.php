@@ -1,6 +1,6 @@
 <?php
 /* 
-Plugin Name: WordPress Leads
+Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/landing-pages/downloads/lead-management/
 Description: Wordpress Lead Manager provides CRM (Customer Relationship Management) applications for WordPress Landing Page plugin. Lead Manager Plugin provides a record management interface for viewing, editing, and exporting lead data collected by Landing Page Plugin. 
 Author: Hudson Atwell(@atwellpub), David Wells (@inboundnow)

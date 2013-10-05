@@ -27,7 +27,11 @@ function inbound_store_lead()
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time); 
 		
 		(isset(	$_POST['first_name'] )) ? $first_name = $_POST['first_name'] : $first_name = "";
-		(isset(	$_POST['last_name'] )) ? $last_name = $_POST['last_name'] : $last_name = "";
+		(isset(	$_POST['last_name'] )) ? $last_name = $_POST['last_name'] : $last_name = "";		
+		(isset(	$_POST['company_name'] )) ? $company_name = $_POST['company_name'] : $company_name = "";
+		(isset(	$_POST['phone'] )) ? $phone = $_POST['phone'] : $phone = "";
+		(isset(	$_POST['address'] )) ? $address = $_POST['address'] : $address = "";
+		
 		(isset(	$_SERVER['REMOTE_ADDR'] )) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = "undefined";
 		(isset(	$_POST['wp_lead_uid'] )) ? $wp_lead_uid = $_POST['wp_lead_uid'] : $wp_lead_uid = "null";
 		(isset(	$_POST['lp_id'] )) ? $lp_id = $_POST['lp_id'] : $lp_id = 0;
@@ -101,6 +105,12 @@ function inbound_store_lead()
 				update_post_meta( $post_ID, 'wpleads_first_name', $first_name );
 			if (!empty($last_name))
 				update_post_meta( $post_ID, 'wpleads_last_name', $last_name );
+			if (!empty($phone))
+				update_post_meta( $post_ID, 'wpleads_work_phone', $phone );
+			if (!empty($company_name))
+				update_post_meta( $post_ID, 'wpleads_company_name', $phone );
+			if (!empty($address))
+				update_post_meta( $post_ID, 'wpleads_address_line_1', $phone );
 			if (!empty($wp_lead_uid))
 				update_post_meta( $post_ID, 'wp_leads_uid', $wp_lead_uid );
 				
@@ -136,8 +146,18 @@ function inbound_store_lead()
 			update_post_meta( $post_ID, 'times', 1 );
 			update_post_meta( $post_ID, 'wpleads_wordpress_user_id', $user_ID );
 			update_post_meta( $post_ID, 'wpleads_email_address', $title );
-			update_post_meta( $post_ID, 'wpleads_first_name', $first_name);
-			update_post_meta( $post_ID, 'wpleads_last_name', $last_name);
+			
+			if (!empty($first_name))
+				update_post_meta( $post_ID, 'wpleads_first_name', $first_name );
+			if (!empty($last_name))
+				update_post_meta( $post_ID, 'wpleads_last_name', $last_name );
+			if (!empty($phone))
+				update_post_meta( $post_ID, 'wpleads_work_phone', $phone );
+			if (!empty($company_name))
+				update_post_meta( $post_ID, 'wpleads_company_name', $phone );
+			if (!empty($address))
+				update_post_meta( $post_ID, 'wpleads_address_line_1', $phone );
+				
 			update_post_meta( $post_ID, 'wpleads_ip_address', $ip_address );
 			update_post_meta( $post_ID, 'wp_leads_uid', $wp_lead_uid );
 			update_post_meta( $post_ID, 'page_views', $page_views );

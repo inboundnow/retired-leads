@@ -579,137 +579,18 @@ function wpleads_add_option($key,$type,$id,$default=null,$label=null,$descriptio
 	}
 }
 
-
-function wpleads_render_global_settings($key,$custom_fields,$active_tab)
-{
-
-	//Check if active tab
-	if ($key==$active_tab)
-	{
-		$display = 'block';
-	}
-	else
-	{
-		$display = 'none';
-	}
-	
-	// Use nonce for verification
-	echo "<input type='hidden' name='wpl_{$key}_custom_fields_nonce' value='".wp_create_nonce('wpl-nonce')."' />";
-
-	// Begin the field table and loop
-	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'">';
-	//print_r($custom_fields);exit;
-	foreach ($custom_fields as $field) {
-		//echo $field['type'];exit; 
-		// get value of this field if it exists for this post
-		if (isset($field['default']))
-		{
-			$default = $field['default'];
-		}
-		else
-		{
-			$default = null;
-		}
-		
-		$option = get_option($field['id'], $default);
-		
-		// begin a table row with
-		echo '<tr>
-				<th class="wpl-gs-th" valign="top" style="font-weight:300px;"><small>'.$field['label'].':</small></th>
-				<td>';
-				switch($field['type']) {
-					// text
-					case 'colorpicker':
-						if (!$option)
-						{
-							$option = $field['default'];
-						}
-						echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$option.'" size="5" />
-								<div class="wpl_tooltip tool_color" title="'.$field['desc'].'"></div>';
-						break;
-					case 'datepicker':
-						echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$option.'" size="8" />
-								<div class="wpl_tooltip tool_date" title="'.$field['desc'].'"></div><p class="description">'.$field['desc'].'</p>';
-						break;	
-					case 'text':
-						echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$option.'" size="30" />
-								<div class="wpl_tooltip tool_text"  title="'.$field['desc'].'"></div>';
-						break;
-					// textarea
-					case 'textarea':
-						echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="106" rows="6">'.$option.'</textarea>
-								<div class="wpl_tooltip tool_textarea" title="'.$field['desc'].'"></div>';
-						break;
-					// wysiwyg
-					case 'wysiwyg':
-						wp_editor( $option, $field['id'], $settings = array() );
-						echo	'<span class="description">'.$field['desc'].'</span><br><br>';							
-						break;
-					// media					
-						case 'media':
-						//echo 1; exit;
-						echo '<label for="upload_image">';
-						echo '<input name="'.$field['id'].'"  id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$option.'" />';
-						echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
-						echo '<br /><div class="wpl_tooltip tool_media" title="'.$field['desc'].'"></div>'; 
-						break;
-					// checkbox
-					case 'checkbox':
-						$i = 1;
-						echo "<table>";				
-						if (!isset($option)){$option=array();}
-						elseif (!is_array($option)){
-							$option = array($option);
-						}
-						foreach ($field['options'] as $value=>$label) {
-							if ($i==5||$i==1)
-							{
-								echo "<tr>";
-								$i=1;
-							}
-								echo '<td><input type="checkbox" name="'.$field['id'].'[]" id="'.$field['id'].'" value="'.$value.'" ',in_array($value,$option) ? ' checked="checked"' : '','/>';
-								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';					
-							if ($i==4)
-							{
-								echo "</tr>";
-							}
-							$i++;
-						}
-						echo "</table>";
-						echo '<br><div class="wpl_tooltip tool_checkbox" title="'.$field['desc'].'"></div><p class="description">'.$field['desc'].'</p>';
-					break;
-					// radio
-					case 'radio':
-						foreach ($field['options'] as $value=>$label) {
-							//echo $meta.":".$field['id'];
-							//echo "<br>";
-							echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$option==$value ? ' checked="checked"' : '','/>';
-							echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';								
-						}
-						echo '<div class="wpl_tooltip tool_radio" title="'.$field['desc'].'"></div>';
-					break;
-					// select
-					case 'dropdown':
-						echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';
-						foreach ($field['options'] as $value=>$label) {
-							echo '<option', $option == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
-						}
-						echo '</select><br /><div class="wpl_tooltip tool_dropdown" title="'.$field['desc'].'"></div>';
-					break;
-					
-
-
-				} //end switch
-		echo '</td></tr>';
-	} // end foreach
-	echo '</table>'; // end table
-}
-
-function wpleads_count_associated_lead_items($post_id)
+function wpleads_count_associated_lead_items($post_id, $get_transient = false)
 {
 	global $wpdb;
 	$list = get_post($post_id);
 	$list_slug = $list->post_name;
+	
+	if ($get_transient)
+	{
+		$num = get_transient('wpleads_count_associated_lead_items-'.$post_id);
+		if ($num)
+			return $num.' leads';
+	}
 	
 	$args = array(
 		'post_type' => 'wp-lead',
@@ -719,6 +600,8 @@ function wpleads_count_associated_lead_items($post_id)
 	);
 	
 	$num = count( get_posts( $args ) );
+	
+	set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*1);
 	
 	return "$num leads";
 }
