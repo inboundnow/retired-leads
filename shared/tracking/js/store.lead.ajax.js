@@ -239,7 +239,7 @@ jQuery(document).ready(function($) {
 						
 						if (element_type=='A')
 						{
-							this_form.unbind('wpl-track-me');
+							this_form.unbind('click');
 
 							if (a_href)
 							{
