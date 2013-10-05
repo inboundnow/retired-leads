@@ -297,7 +297,7 @@ if (is_admin())
 			{
 				if ($value)
 				{			
-					echo $value;
+					//echo $value;
 					$list = get_post($value['list_id']);
 					$list_name = $list->post_name;
 					$wplead_cat_id = get_post_meta($value,'wplead_list_category_id', true);

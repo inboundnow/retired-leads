@@ -122,14 +122,17 @@ var options = {
    chartplot = jQuery.plot(jQuery("#flot-placeholder"), dataset, options);
     jQuery("#flot-placeholder").UseTooltip_leads();
     var the_data = chartplot.getData();
-    console.log(the_data);
+
+    //console.log(the_data);
     var today = new Date();
 	var dd = today.getDate();
-	
+	var date_exists = the_data[1].data[dd];
+    if(typeof(date_exists) != "undefined" && date_exists !== null && date_exists !== "") { 
     var getit = the_data[1].data[dd][0]; // gets the crosshair location
-    console.log(getit);
+    //console.log(getit);
    // var today = ture;
     chartplot.lockCrosshair({ x: getit });
+    }
 
     var tourlink = "";
       $("#flot-placeholder").bind("plothover",  function (event, pos, item) 

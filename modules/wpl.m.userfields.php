@@ -105,56 +105,46 @@ $lead_fields = apply_filters('wp_leads_add_lead_field',$lead_fields);
 return $lead_fields;
 }
 
-/* Add in custom lead fields */
-/* 
-add_filter('wp_leads_add_lead_field', 'custom_add_second_field', 10, 1);
-function custom_add_second_field($lead_fields) {
+/**
+ * Add in custom lead fields
+ *
+ * This function adds additional fields to your lead profiles.
+ * Label: Name of the Field
+ * key: Meta key associated with data
+ * priority: Where you want the fields placed. See https://github.com/inboundnow/leads/blob/master/modules/wpl.m.userfields.php#L7 for current weights
+ * type: type of user area. 'text' or 'textarea'
+ */
+/*
 
-		
-         $new_fields =  array( 
-         					array(
-						        'label' => 'Upper Company',
-						        'key'  => 'wpleads_upper_company',
-						        'priority' => 18,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'Lead Source',
-						        'key'  => 'wpleads_lead_source',
-						        'priority' => 19,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'Vertical',
-						        'key'  => 'wpleads_vertical',
-						        'priority' => 19,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'LNR Recipient',
-						        'key'  => 'wpleads_lnr_recipient',
-						        'priority' => 19,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'LNR Sent',
-						        'key'  => 'wpleads_lnr_sent',
-						        'priority' => 19,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'Salutation',
-						        'key'  => 'wpleads_salutation',
-						        'priority' => 19,
-						        'type'  => 'text'
-						        ),
-         					array(
-						        'label' => 'Description',
-						        'key'  => 'wpleads_description',
-						        'priority' => 19,
-						        'type'  => 'textarea'
-						        )
-						    );
+add_filter('wp_leads_add_lead_field', 'custom_add_more_lead_fields', 10, 1);
+function custom_add_more_lead_fields($lead_fields) {
+
+ $new_fields =  array( 
+ 					array(
+				        'label' => 'Upper Company',
+				        'key'  => 'wpleads_ip_addressy',
+				        'priority' => 18,
+				        'type'  => 'text'
+				        ),
+ 					array(
+				        'label' => 'Lead Source',
+				        'key'  => 'wpleads_lead_source',
+				        'priority' => 19,
+				        'type'  => 'text'
+				        ),
+ 					array(
+				        'label' => 'New Field',
+				        'key'  => 'wpleads_lead_source',
+				        'priority' => 19,
+				        'type'  => 'text'
+				        ),
+ 					array(
+				        'label' => 'Description',
+				        'key'  => 'wpleads_description',
+				        'priority' => 19,
+				        'type'  => 'textarea'
+				        )
+				    );
 		
 		foreach ($new_fields as $key => $value) {
 			array_push($lead_fields, $new_fields[$key]);
@@ -163,6 +153,4 @@ function custom_add_second_field($lead_fields) {
         return $lead_fields;
 
 } */
-
-
 ?>

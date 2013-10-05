@@ -13,6 +13,8 @@ Capture & store lead information, gather critical lead intelligence, manage web 
 
 == Description ==
 
+> WordPress Leads works as a standalone plugin or hand in hand with [WordPress Landing Pages](http://wordpress.org/plugins/landing-pages/ "Learn more about WordPress Landing Pages") & [WordPress Calls to Action](http://wordpress.org/plugins/cta/ "Learn more about Calls to Action") to create a powerful & free lead generation system for your business.
+
 Wordpress Leads is Wordpress's first fully extendable plugin for local CRM (Customer Relationship Management). Lead Management Plugin listens for form submissions & collects & stores visitor data into Wordpress as well as provides a record management interface for viewing and editing lead data. 
 
 Learn where your leads are converting from geographically, what pages they viewed before filling out your form, quickly view any past website conversions or notes and use this information to sell more effectively.
