@@ -371,6 +371,9 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 		// get value of this field if it exists for this post
 		$meta = get_post_meta($post->ID, $field_id, true);
 		$global_meta = get_post_meta($post->ID, $field_name, true);
+		if(empty($global_meta)) {
+			$global_meta = $field['default'];
+		}
 
 		//print_r($field);
 		if ((!isset($meta)&&isset($field['default'])&&!is_numeric($meta))||isset($meta)&&empty($meta)&&isset($field['default'])&&!is_numeric($meta))
