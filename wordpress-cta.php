@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WordPress Calls to Action
+Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
 Version: 1.0.1

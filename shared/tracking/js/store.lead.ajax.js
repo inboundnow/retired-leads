@@ -1,9 +1,16 @@
 jQuery(document).ready(function($) {
 /* Core Inbound Form Tracking Script */
-	
-		jQuery("body").on('submit', '.wpl-track-me', function (e) {
+
+		jQuery("body").on('click', '.wpl-track-me', function (e) {
 			
 			this_form = jQuery(this);
+
+			element_type = jQuery(this).get(0).tagName;
+			
+			if (element_type=='A')
+			{
+				a_href = jQuery(this).attr("href");
+			}
 			
 			// process form only once
 			processed = this_form.hasClass('lead_processed');
@@ -18,6 +25,7 @@ jQuery(document).ready(function($) {
 			jQuery('input').css('cursor', 'wait');
 			jQuery('body').css('cursor', 'wait');
 			
+
 			e.preventDefault(); // halt normal form
 			
 			var email = "";
@@ -145,21 +153,39 @@ jQuery(document).ready(function($) {
 			var page_views = JSON.stringify(pageviewObj);
 			var page_id = inbound_ajax.post_id;
 			if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {	
-				var lp_v = landing_path_info.variation;
+				var lp_variation = landing_path_info.variation;
 			} else if (typeof (cta_path_info) != "undefined" && cta_path_info != null && cta_path_info != "") {	
-				var lp_v = cta_path_info.variation;
+				var lp_variation = cta_path_info.variation;
 			} else {
-				var lp_v = null;
+				var lp_variation = null;
 			}
 		
 			jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
 			
-			function release_form_sub(this_form){
+			function release_form_sub(this_form , element_type){
 				jQuery('button, input[type="button"]').css('cursor', 'default');
 				jQuery('input').css('cursor', 'default');
 				jQuery('body').css('cursor', 'default');
-				this_form.unbind('submit');
-				this_form.submit();
+				
+				if (element_type=='FORM')
+				{
+					this_form.unbind('submit');
+					this_form.submit();
+				}
+				
+				if (element_type=='A')
+				{
+					this_form.unbind('wpl-track-me');
+
+					if (a_href)
+					{
+						window.location = a_href;
+					}
+					else
+					{
+						location.reload();
+					}
+				}
 			}
 
 			/* Timeout Fallback
@@ -173,6 +199,7 @@ jQuery(document).ready(function($) {
 				url: inbound_ajax.admin_url,
 				timeout: 10000,
 				data: {
+					element_type : element_type,
 					action: 'inbound_store_lead',
 					emailTo: email, 
 					first_name: firstname, 
@@ -184,7 +211,7 @@ jQuery(document).ready(function($) {
 					page_view_count: page_view_count,
 					page_views: page_views,
 					post_type: inbound_ajax.post_type,
-					lp_v: lp_v,
+					lp_variation: lp_variation,
 					json: tracking_obj, // replace with page_view_obj
 					// type: 'form-completion',
 					raw_post_values_json : post_values_json,
@@ -198,14 +225,31 @@ jQuery(document).ready(function($) {
 						jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 						jQuery.totalStorage('wp_lead_id', user_id);
 						this_form.addClass('lead_processed');
-						// Unbind form
-						this_form.unbind('submit');
-						this_form.submit();
 						
+						if (element_type=='FORM')
+						{
+							// Unbind form
+							this_form.unbind('click');
+							this_form.submit();							
+							
+							jQuery('button, input[type="button"]').css('cursor', 'default');
+							jQuery('input').css('cursor', 'default');
+							jQuery('body').css('cursor', 'default');
+						}
 						
-						jQuery('button, input[type="button"]').css('cursor', 'default');
-						jQuery('input').css('cursor', 'default');
-						jQuery('body').css('cursor', 'default');
+						if (element_type=='A')
+						{
+							this_form.unbind('click');
+
+							if (a_href)
+							{
+								window.location = a_href;
+							}
+							else
+							{
+								location.reload();
+							}
+						}
 						
 						jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 						jQuery.totalStorage.deleteItem('tracking_events'); // remove events
@@ -225,7 +269,7 @@ jQuery(document).ready(function($) {
 											page_view_count: page_view_count,
 											page_views: page_views,
 											post_type: inbound_ajax.post_type,
-											lp_v: lp_v,
+											lp_variation: lp_variation,
 											json: tracking_obj,
 											// type: 'form-completion',
 											raw_post_values_json : post_values_json,
@@ -237,7 +281,7 @@ jQuery(document).ready(function($) {
  
 						// If fail, cookie form data and ajax submit on next page load
 						console.log('ajax fail');
-						release_form_sub(this_form);   
+						release_form_sub( this_form , element_type );   
 						
 					}
 			});
@@ -267,7 +311,7 @@ jQuery(document).ready(function($) {
 							page_view_count: fallback_obj[0].page_view_count,
 							page_views: fallback_obj[0].page_views,
 							post_type: fallback_obj[0].post_type,
-							lp_v: fallback_obj[0].lp_v,
+							lp_variation: fallback_obj[0].lp_variation,
 							json: fallback_obj[0].json, // replace with page_view_obj
 							// type: 'form-completion',
 							raw_post_values_json : fallback_obj[0].raw_post_values_json,
@@ -291,3 +335,81 @@ jQuery(document).ready(function($) {
 	}
 
  });
+ 
+ 
+ function inbound_find_form_fields(element, field_name, regex) {
+	//console.log(element);
+	//console.log(field_name);
+	var return_val = "";
+	var name = element.attr("name");
+	var id = element.attr("id");
+	var form_value = element.val();
+	var nearest_li = element.closest('li').children('label');
+	var nearest_div = element.closest('div').children('label');
+	var newregex = new RegExp(regex, 'gi');
+	//console.log(newregex);
+	
+	// Check name attributes for common names
+	if (typeof (name) != "undefined" && name != null && name != "" && return_val === "") {
+		
+		var match = newregex.test(name); // regex to find matching name
+		//console.log(match + name);
+		if (match == true) {
+			return form_value + " Regex 'name' Match: " + name;
+			var return_val = form_value;
+		}
+		if (name.toLowerCase().indexOf(field_name)>-1) {
+			return form_value + " indexof Match: " + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	// Check nearest li element for common names
+	if (typeof (nearest_li) != "undefined" && nearest_li != null && nearest_li != "" && return_val === "") {
+		var the_label_text = nearest_li.html();
+		var match = newregex.test(the_label_text); // regex to find matching label
+		
+		if (match == true){
+			return the_label_text + " Regex Label Match" + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	// Check nearest div element for common names
+	if (typeof (nearest_div) != "undefined" && nearest_div != null && nearest_div != "" && return_val === "") {
+		var the_div_text = nearest_div.html();
+		var match = newregex.test(the_div_text); // regex to find matching label
+		
+		if (match == true){
+			return the_div_text + " Regex Div Match" + name;
+			var return_val = form_value;
+		}
+
+	}
+
+	if(return_val === "") {
+		//return "Not Found:" + name + "Looking for:" + field_name;
+		return;
+	}
+
+}		
+
+// Regex to match form field values		
+/* Runs the above function and grabs form values
+setTimeout(function() {
+jQuery(".wpl-track-me").find('input[type=text],input[type=email]').each(function() {
+			var this_input = jQuery(this);
+			
+			var email_field = inbound_find_form_fields(this_input, 'email', 'email|e-mail');
+			var first_name_field = inbound_find_form_fields(this_input, 'first', 'first name|first-name|first_name');
+			var last_name_field =  inbound_find_form_fields(this_input, 'last', 'Last name|last-name|last_name');
+			
+			console.log(email_field);
+			console.log(first_name_field);
+			console.log(last_name_field);
+});
+}, 400);
+*/	
+	// end function to parse form fields
