@@ -244,16 +244,16 @@ if (is_admin())
 			// loop through fields and save the data
 			foreach ($tab_settings as $field) 
 			{
-				$field_id = $key."-".$field['id'];
-				$old = get_option($field_id);	
-				(isset($_POST[$field_id]))? $new = $_POST[$field_id] : $new = null;
+				$field['id'] = $key."-".$field['id'];
+				$field['old_value'] = get_option($field['id']);	
+				(isset($_POST[$field['id']]))? $new = $_POST[$field['id']] : $new = null;
 				
 				
-				if ((isset($new) && ($new !== $old ) )|| !isset($old) ) 
+				if ((isset($new) && ($new !== $field['old_value'] ) )|| !isset($field['old_value']) ) 
 				{
-					//echo $field_id;exit;
-					$bool = update_option($field_id,$new);				
-					if ($field_id=='main-landing-page-permalink-prefix')
+					//echo $field['id'];exit;
+					$bool = update_option($field['id'],$new);				
+					if ($field['id']=='main-landing-page-permalink-prefix')
 					{
 						//echo "here";
 						global $wp_rewrite;
@@ -282,16 +282,16 @@ if (is_admin())
 						$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 						
 						//echo $license_data->license;
-						//echo $option['slug'];exit;
+						//echo $field['value']['slug'];exit;
 						
 						// $license_data->license will be either "active" or "inactive"						
 						$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
 					}
 				} 
-				elseif (!$new && $old) 
+				elseif (!$new && $field['old_value']) 
 				{
 					//echo "here: $key <br>";
-					$bool = delete_option($field_id);
+					$bool = delete_option($field['id']);
 				}
 				else
 				{
@@ -301,7 +301,7 @@ if (is_admin())
 					
 						$license_status = get_option('wp_cta_license_status-'.$field['slug']);
 						
-						if ($license_status=='valid' && $new == $old)
+						if ($license_status=='valid' && $new == $field['old_value'])
 						{
 							continue;
 						}
@@ -376,8 +376,8 @@ if (is_admin())
 				$default = null;
 			}
 			
-			$field_id = $key."-".$field['id'];
-			$option = get_option($field_id, $default);
+			$field['id'] = $key."-".$field['id'];
+			$field['value'] = get_option($field['id'], $default);
 			
 			// begin a table row with
 			echo '<tr>
@@ -386,23 +386,23 @@ if (is_admin())
 					switch($field['type']) {
 						// text
 						case 'colorpicker':
-							if (!$option)
+							if (!$field['value'])
 							{
-								$option = $field['default'];
+								$field['value'] = $field['default'];
 							}
-							echo '<input type="text" class="jpicker" name="'.$field_id.'" id="'.$field_id.'" value="'.$option.'" size="5" />
-									<div class="wp_cta_tooltip tool_color" title="'.$field['desc'].'"></div>';
+							echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="5" />
+									<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
 							break;
 						case 'datepicker':
-							echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$option.'" size="8" />
-									<div class="wp_cta_tooltip tool_date" title="'.$field['desc'].'"></div><p class="description">'.$field['desc'].'</p>';
+							echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />
+									<div class="wp_cta_tooltip tool_date" title="'.$field['description'].'"></div><p class="description">'.$field['description'].'</p>';
 							break;	
 						case 'license-key':
 							$license_status = wp_cta_check_license_status($field);
 							//echo $license_status;exit;
-							echo '<input type="hidden" name="wp_cta_license_status-'.$field['slug'].'" id="'.$field_id.'" value="'.$license_status.'" size="30" />
-							<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$option.'" size="30" />
-									<div class="wp_cta_tooltip tool_text" title="'.$field['desc'].'"></div>';
+							echo '<input type="hidden" name="wp_cta_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />
+							<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
+									<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
 							
 							if ($license_status=='valid')
 							{
@@ -414,34 +414,34 @@ if (is_admin())
 							}						
 							break;	
 						case 'text':
-							echo '<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$option.'" size="30" />
-									<div class="wp_cta_tooltip tool_text" title="'.$field['desc'].'"></div>';
+							echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
+									<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
 							break;
 						// textarea
 						case 'textarea':
-							echo '<textarea name="'.$field_id.'" id="'.$field_id.'" cols="106" rows="6">'.$option.'</textarea>
-									<div class="wp_cta_tooltip tool_textarea" title="'.$field['desc'].'"></div>';
+							echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="106" rows="6">'.$field['value'].'</textarea>
+									<div class="wp_cta_tooltip tool_textarea" title="'.$field['description'].'"></div>';
 							break;
 						// wysiwyg
 						case 'wysiwyg':
-							wp_editor( $option, $field_id, $settings = array() );
-							echo	'<span class="description">'.$field['desc'].'</span><br><br>';							
+							wp_editor( $field['value'], $field['id'], $settings = array() );
+							echo	'<span class="description">'.$field['description'].'</span><br><br>';							
 							break;
 						// media					
 							case 'media':
 							//echo 1; exit;
 							echo '<label for="upload_image">';
-							echo '<input name="'.$field_id.'"  id="'.$field_id.'" type="text" size="36" name="upload_image" value="'.$option.'" />';
-							echo '<input class="upload_image_button" id="uploader_'.$field_id.'" type="button" value="Upload Image" />';
-							echo '<br /><div class="wp_cta_tooltip tool_media" title="'.$field['desc'].'"></div>'; 
+							echo '<input name="'.$field['id'].'"  id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
+							echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
+							echo '<br /><div class="wp_cta_tooltip tool_media" title="'.$field['description'].'"></div>'; 
 							break;
 						// checkbox
 						case 'checkbox':
 							$i = 1;
 							echo "<table>";				
-							if (!isset($option)){$option=array();}
-							elseif (!is_array($option)){
-								$option = array($option);
+							if (!isset($field['value'])){$field['value']=array();}
+							elseif (!is_array($field['value'])){
+								$field['value'] = array($field['value']);
 							}
 							foreach ($field['options'] as $value=>$label) {
 								if ($i==5||$i==1)
@@ -449,7 +449,7 @@ if (is_admin())
 									echo "<tr>";
 									$i=1;
 								}
-									echo '<td><input type="checkbox" name="'.$field_id.'[]" id="'.$field_id.'" value="'.$value.'" ',in_array($value,$option) ? ' checked="checked"' : '','/>';
+									echo '<td><input type="checkbox" name="'.$field['id'].'[]" id="'.$field['id'].'" value="'.$value.'" ',in_array($value,$field['value']) ? ' checked="checked"' : '','/>';
 									echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';					
 								if ($i==4)
 								{
@@ -458,35 +458,39 @@ if (is_admin())
 								$i++;
 							}
 							echo "</table>";
-							echo '<br><div class="wp_cta_tooltip tool_checkbox" title="'.$field['desc'].'"></div>';
+							echo '<br><div class="wp_cta_tooltip tool_checkbox" title="'.$field['description'].'"></div>';
 						break;
 						// radio
 						case 'radio':
 							foreach ($field['options'] as $value=>$label) {
-								//echo $meta.":".$field_id;
+								//echo $meta.":".$field['id'];
 								//echo "<br>";
-								echo '<input type="radio" name="'.$field_id.'" id="'.$field_id.'" value="'.$value.'" ',$option==$value ? ' checked="checked"' : '','/>';
+								echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','/>';
 								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';								
 							}
-							echo '<div class="wp_cta_tooltip tool_radio" title="'.$field['desc'].'"></div>';
+							echo '<div class="wp_cta_tooltip tool_radio" title="'.$field['description'].'"></div>';
 						break;
 						// select
 						case 'dropdown':
-							echo '<select name="'.$field_id.'" id="'.$field_id.'">';
+							echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';
 							foreach ($field['options'] as $value=>$label) {
-								echo '<option', $option == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+								echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
 							}
-							echo '</select><br /><div class="wp_cta_tooltip tool_dropdown" title="'.$field['desc'].'"></div>';
+							echo '</select><br /><div class="wp_cta_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
 						break;
 						case 'html':
 							//print_r($field);
-							echo $option;
-							echo '<br /><div class="wp_cta_tooltip tool_dropdown" title="'.$field['desc'].'"></div>';
+							echo $field['value'];
+							echo '<br /><div class="wp_cta_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
 						break;
 						
 
 
-					} //end switch
+					} //end switch					
+					
+				
+					do_action('wp_cta_render_global_settings',$field);
+					
 			echo '</td></tr>';
 		} // end foreach
 		echo '</table>'; // end table
