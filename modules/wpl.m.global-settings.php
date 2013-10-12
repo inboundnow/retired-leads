@@ -75,6 +75,10 @@
 				'options' => null
 			)
 		);
+						
+		/* Setup License Keys Tab */
+		$tab_slug = 'wpleads-license-keys';
+		$lp_global_settings[$tab_slug]['label'] = 'License Keys';	
 		
 		$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
 
@@ -131,9 +135,9 @@
 
 		// Begin the field table and loop
 		echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'">';
-		//print_r($custom_fields);exit;
-		foreach ($custom_fields as $field) {
-			//echo $field['type'];exit; 
+
+		foreach ($custom_fields as $field) 
+		{
 			// get value of this field if it exists for this post
 			if (isset($field['default']))
 			{
@@ -145,12 +149,24 @@
 			}
 			
 			$field['id'] = $key.'-'.$field['id'];
+						
+			if (array_key_exists('option_name',$field) && $field['option_name'] )			
+				$field['id'] = $field['option_name'];
+			
 			$field['value'] = get_option($field['id'], $default);
 			
 			// begin a table row with
-			echo '<tr>
-					<th class="wpl-gs-th" valign="top" style="font-weight:300px;"><small>'.$field['label'].':</small></th>
-					<td>';
+			// begin a table row with
+			echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300px;">';
+				if ($field['type']=='header')
+				{
+					echo $field['default'];
+				}
+				else
+				{
+					echo "<small>".$field['label']."</small>";
+				}
+			echo '</th><td>';
 					switch($field['type']) {
 						// text
 						case 'colorpicker':
@@ -259,7 +275,7 @@
 		<script type='text/javascript'>
 			jQuery(document).ready(function() 
 			{
-				jQuery('#<? echo $default_id; ?>').css('display','block');
+				jQuery('#<?php echo $default_id; ?>').css('display','block');
 				 setTimeout(function() {
 	     			var getoption = document.URL.split('&option=')[1];
 					var showoption = "#" + getoption;
@@ -350,6 +366,9 @@
 			{
 				//echo $field['id'].":".$_POST['main-landing-page-auto-format-forms']."<br>";
 				$field['id'] = $key.'-'.$field['id'];
+				
+				if (array_key_exists('option_name',$field) && $field['option_name'] )			
+					$field['id'] = $field['option_name'];
 				
 				$field['old_value'] = get_option($field['id']);				
 				$field['new_value'] = $_POST[$field['id']];	

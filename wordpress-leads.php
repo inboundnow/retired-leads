@@ -174,7 +174,7 @@ function wpleads_enqueuescripts_header()
 
 		// Load form pre-population
 		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
-		$lp_form_prepopulation = get_option( 'main-landing-page-prepopulate-forms' , 1);
+		$lp_form_prepopulation = get_option( 'lp-main-landing-page-prepopulate-forms' , 1);
 		if ($lp_form_prepopulation === "1") {
 			$form_prepopulation = "1";
 		}
