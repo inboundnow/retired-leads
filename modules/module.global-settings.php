@@ -19,7 +19,7 @@ if (is_admin())
 		
 		// Setup navigation and display elements
 
-		$tab_slug = 'main';
+		$tab_slug = 'wp-cta-main';
 		$wp_cta_global_settings[$tab_slug]['label'] = 'Global Settings';	
 		
 		/*
@@ -36,6 +36,11 @@ if (is_admin())
 			),			
 		);
 		*/
+		
+								
+		/* Setup License Keys Tab */
+		$tab_slug = 'wp-cta-license-keys';
+		$lp_global_settings[$tab_slug]['label'] = 'License Keys';	
 
 		$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
@@ -50,7 +55,7 @@ if (is_admin())
 		}
 		else
 		{
-			$default_id ='main';
+			$default_id ='wp-cta-main';
 		}
 		?>
 		<script type='text/javascript'>
@@ -86,7 +91,7 @@ if (is_admin())
 		$wp_cta_global_settings = wp_cta_get_global_settings();
 		
 		//print_r($wp_cta_global_settings);
-		$active_tab = 'main'; 
+		$active_tab = 'wp-cta-main'; 
 		if (isset($_REQUEST['open-tab']))
 		{
 			$active_tab = $_REQUEST['open-tab'];
@@ -244,7 +249,12 @@ if (is_admin())
 			// loop through fields and save the data
 			foreach ($tab_settings as $field) 
 			{
+				
 				$field['id'] = $key."-".$field['id'];
+				
+				if (array_key_exists('option_name',$field) && $field['option_name'] )			
+					$field['id'] = $field['option_name'];
+				
 				$field['old_value'] = get_option($field['id']);	
 				(isset($_POST[$field['id']]))? $new = $_POST[$field['id']] : $new = null;
 				
@@ -253,12 +263,7 @@ if (is_admin())
 				{
 					//echo $field['id'];exit;
 					$bool = update_option($field['id'],$new);				
-					if ($field['id']=='main-landing-page-permalink-prefix')
-					{
-						//echo "here";
-						global $wp_rewrite;
-						$wp_rewrite->flush_rules();
-					}
+					
 					if ($field['type']=='license-key')
 					{						
 						// retrieve the license from the database
@@ -377,12 +382,23 @@ if (is_admin())
 			}
 			
 			$field['id'] = $key."-".$field['id'];
-			$field['value'] = get_option($field['id'], $default);
 			
+			if (array_key_exists('option_name',$field) && $field['option_name'] )			
+				$field['id'] = $field['option_name'];				
+				
+			$field['value'] = get_option($field['id'], $default);
+
 			// begin a table row with
-			echo '<tr>
-					<th class="wp-cta-gs-th" valign="top" style="font-weight:300px;"><small>'.$field['label'].':</small></th>
-					<td>';
+			echo '<tr><th class="wp-cta-gs-th" valign="top" style="font-weight:300px;">';
+				if ($field['type']=='header')
+				{
+					echo $field['default'];
+				}
+				else
+				{
+					echo "<small>".$field['label']."</small>";
+				}
+			echo '</th><td>';
 					switch($field['type']) {
 						// text
 						case 'colorpicker':

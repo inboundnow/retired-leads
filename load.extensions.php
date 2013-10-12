@@ -79,6 +79,7 @@ function wp_cta_get_extension_data()
 		array(	
 			//ADD METABOX - SELECTED TEMPLATE	
 			array(
+				'data_type'  => 'metabox',
 				'id'  => 'selected-template',
 				'label' => 'Select Template',
 				'description' => "This option provides a placeholder for the selected template data.",

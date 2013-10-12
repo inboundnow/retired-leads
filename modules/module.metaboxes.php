@@ -62,14 +62,22 @@ function wp_cta_admin_process($post_ID) {
     }
 }
 */
- add_filter('wp_cta_show_metabox','wp_cta_add_global_demensions' , 10, 2);
+
+add_filter('wp_cta_show_metabox','wp_cta_add_global_demensions' , 10, 2);
 function wp_cta_add_global_demensions($field_settings, $key){
-   //prepend width and height as setting.
-    $var_id = wp_cta_ab_testing_get_current_variation_id(); 
+	
+	$extension_data = wp_cta_get_extension_data();
+	if (isset($extension_data[$key]['info']['data_type']) && $extension_data[$key]['info']['data_type']=='metabox')
+		return $field_settings;
+		
+	//prepend width and height as setting.
+    $var_id = wp_cta_ab_testing_get_current_variation_id();
+	
     if (isset($_GET['clone'])) {
-    $var_id = $_GET['clone'];
+		$var_id = $_GET['clone'];
     }
-   $width =  array(
+	
+	$width =  array(
         'label' => 'CTA Width',
         'description' => "Enter the Width of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_width-'.$var_id,
@@ -79,7 +87,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'context'  => 'priority'
         );
   
-   $height = array(
+	$height = array(
         'label' => 'CTA Height',
         'description' => "Enter the Height of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_height-'.$var_id,
@@ -516,6 +524,9 @@ function wp_cta_display_meta_box_select_template_container() {
 			if (substr($this_template,0,4)=='ext-')
 				continue;
 		
+			if (isset($data['info']['data_type'])=='metabox')
+				continue;	
+				
 			$cat_slug = str_replace(' ', '-', $data['info']['category']);
 			$cat_slug = strtolower($cat_slug);
 			
@@ -625,7 +636,7 @@ function wp_cta_generate_meta()
 	$current_template = get_post_meta( $post->ID , 'wp-cta-selected-template' , true);
 	$current_template = apply_filters('wp_cta_variation_selected_template',$current_template, $post);
 
-	foreach ($extension_data as $key=>$array)
+	foreach ($extension_data as $key=>$data)
 	{
 		if ($key!='wp-cta'&&substr($key,0,4)!='ext-' && $key==$current_template)
 		{
@@ -643,28 +654,28 @@ function wp_cta_generate_meta()
 				); //callback args
 		}
 	}
-	foreach ($extension_data as $key=>$array)
+	foreach ($extension_data as $key=>$data)
 	{
-		if (substr($key,0,4)=='ext-')
+		if (substr($key,0,4)=='ext-' || isset($data['info']['data_type'])=='metabox')
 		{
-			//echo 1; exit;
-			$id = strtolower(str_replace(' ','-',$key));
-			$name = ucwords(str_replace(array('-','ext '),' ',$key));
-			if($key = "ext-cta-options") {
-				$name = "Call to Action Options";
-			} else {
-				$name = $name . "Extension Options";
-			}
+
+			$id = "metabox-".$key;
+			
+			(isset($data['info']['label'])) ? $name = $data['info']['label'] : $name = ucwords(str_replace(array('-','ext '),' ',$key). " Extension Options");
+			(isset($data['info']['position'])) ? $position = $data['info']['position'] : $position = "normal";
+			(isset($data['info']['priority'])) ? $priority = $data['info']['priority'] : $priority = "default";
+			
 			//echo $key."<br>";
 			add_meta_box(
 				"wp_cta_{$id}_custom_meta_box", // $id
-				__( "$name", "wp_cta_{$key}_custom_meta" ),
+				__( "$name", "wp_cta" ),
 				'wp_cta_show_metabox', // $callback
 				'wp-call-to-action', // post-type
-				'normal', // $context
-				'default',// $priority
+				$position , // $context
+				$priority ,// $priority
 				array('key'=>$key)
-				); //callback args
+				); //callback args					
+			
 		}
 	}
 	
@@ -680,6 +691,159 @@ function wp_cta_show_metabox($post,$key)
 	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
 
 	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
+}
+
+
+function wp_cta_render_metabox($key,$custom_fields,$post)
+{
+	//print_r($custom_fields);exit;
+	// Use nonce for verification
+	echo "<input type='hidden' name='wp_cta_{$key}_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
+
+	// Begin the field table and loop
+	echo '<div class="form-table" id="inbound-meta">';
+	//print_r($custom_fields);exit;
+	$current_var = wp_cta_ab_testing_get_current_variation_id();
+	foreach ($custom_fields as $field) {
+		$field_id = $key . "-" .$field['id'];
+		$field_name = $field['id'];
+		$label_class = $field['id'] . "-label";
+		$type_class = " inbound-" . $field['type'];
+		$type_class_row = " inbound-" . $field['type'] . "-row";
+		$type_class_option = " inbound-" . $field['type'] . "-option";
+		$option_class = (isset($field['class'])) ? $field['class'] : '';
+		// get value of this field if it exists for this post
+		$meta = get_post_meta($post->ID, $field_id, true);
+		$global_meta = get_post_meta($post->ID, $field_name, true);
+		if(empty($global_meta)) {
+			$global_meta = $field['default'];
+		}
+
+		//print_r($field);
+		if ((!isset($meta)&&isset($field['default'])&&!is_numeric($meta))||isset($meta)&&empty($meta)&&isset($field['default'])&&!is_numeric($meta))
+		{
+			//echo $field['id'].":".$meta;
+			//echo "<br>";
+			$meta = $field['default'];
+		}
+
+		// begin a table row with
+		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">';
+				if ($field['type'] != "description-block" && $field['type'] != "custom-css" ) {
+				echo '<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>'; 
+				}
+
+				echo '<div class="wp-call-to-action-option-td inbound-meta-box-option '.$type_class_option.'" data-field-type="'.$field['type'].'">';
+				switch($field['type']) {
+					// default content for the_content
+					case 'default-content':
+						echo '<span id="overwrite-content" class="button-secondary">Insert Default Content into main Content area</span><div style="display:none;"><textarea name="'.$field_id.'" id="'.$field_id.'" class="default-content" cols="106" rows="6" style="width: 75%; display:hidden;">'.$meta.'</textarea></div>';
+						break;
+					case 'description-block':
+						echo '<div id="'.$field_id.'" class="description-block">'.$field['description'].'</div>';
+						break;
+					case 'custom-css':
+						echo '<style type="text/css">'.$field['default'].'</style>';
+						break;		
+					// text
+					case 'colorpicker':
+						if (!$meta)
+						{
+							$meta = $field['default'];
+						}
+						$var_id = (isset($_GET['new_meta_key'])) ? "-" . $_GET['new_meta_key'] : '';
+						echo '<input type="text" class="jpicker" style="background-color:#'.$meta.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="5" /><span class="button-primary new-save-wp-cta" data-field-type="text" id="'.$field_id.$var_id.'" style="margin-left:10px; display:none;">Update</span>
+								<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
+						break;
+					case 'datepicker':
+						echo '<div class="jquery-date-picker inbound-datepicker" id="date-picking" data-field-type="text">	
+						<span class="datepair" data-language="javascript">	
+									Date: <input type="text" id="date-picker-'.$key.'" class="date start" /></span>
+									Time: <input id="time-picker-'.$key.'" type="text" class="time time-picker" />
+									<input type="hidden" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" class="new-date" value="" >
+									<p class="description">'.$field['description'].'</p>
+							</div>';		
+						break;						
+					case 'text':
+						echo '<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
+								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+						break;
+					case 'dimension':
+						
+						echo '<input type="number" class="'.$option_class.'" name="'.$field_name.'" id="'.$field_name.'" value="'.$global_meta.'" size="30" />
+								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+
+						break;	
+					// textarea
+					case 'textarea':
+						echo '<textarea name="'.$field_id.'" id="'.$field_id.'" cols="106" rows="6" style="width: 75%;">'.$meta.'</textarea>
+								<div class="wp_cta_tooltip tool_textarea" title="'.$field['description'].'"></div>';
+						break;
+					// wysiwyg
+					case 'wysiwyg':
+						echo "<div class='iframe-options iframe-options-".$field_id."' id='".$field['id']."'>";
+						wp_editor( $meta, $field_id, $settings = array( 'editor_class' => $field_name ) );
+						echo	'<p class="description">'.$field['description'].'</p></div>';							
+						break;
+					// media					
+					case 'media':
+						//echo 1; exit;
+						echo '<label for="upload_image" data-field-type="text">';
+						echo '<input name="'.$field_id.'"  id="'.$field_id.'" type="text" size="36" name="upload_image" value="'.$meta.'" />';
+						echo '<input class="upload_image_button" id="uploader_'.$field_id.'" type="button" value="Upload Image" />';
+						echo '<p class="description">'.$field['description'].'</p>'; 
+						break;
+					// checkbox
+					case 'checkbox':
+						$i = 1;
+						echo "<table class='wp_cta_check_box_table'>";						
+						if (!isset($meta)){$meta=array();}
+						elseif (!is_array($meta)){
+							$meta = array($meta);
+						}
+						foreach ($field['options'] as $value=>$label) {
+							if ($i==5||$i==1)
+							{
+								echo "<tr>";
+								$i=1;
+							}
+								echo '<td data-field-type="checkbox"><input type="checkbox" name="'.$field_id.'[]" id="'.$field_id.'" value="'.$value.'" ',in_array($value,$meta) ? ' checked="checked"' : '','/>';
+								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';					
+							if ($i==4)
+							{
+								echo "</tr>";
+							}
+							$i++;
+						}
+						echo "</table>";
+						echo '<div class="wp_cta_tooltip tool_checkbox" title="'.$field['description'].'"></div>';
+					break;
+					// radio
+					case 'radio':
+						foreach ($field['options'] as $value=>$label) {
+							//echo $meta.":".$field_id;
+							//echo "<br>";
+							echo '<input type="radio" name="'.$field_id.'" id="'.$field_id.'" value="'.$value.'" ',$meta==$value ? ' checked="checked"' : '','/>';
+							echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';								
+						}
+						echo '<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+					break;
+					// select
+					case 'dropdown':
+						echo '<select name="'.$field_id.'" id="'.$field_id.'" class="'.$field['id'].'">';
+						foreach ($field['options'] as $value=>$label) {
+							echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+						}
+						echo '</select><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+					break;
+					
+
+
+				} //end switch
+		echo '</div></div>';
+	} // end foreach
+	echo '</div>'; // end table
+	//exit;
 }
 
 add_action('save_post', 'wp_cta_save_meta');

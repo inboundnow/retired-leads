@@ -627,7 +627,7 @@ function wp_cta_ab_testing_add_rewrite_rules()
 	$this_path = explode('wp-content',$this_path);
 	$this_path = "wp-content".$this_path[1];
 
-	$slug = get_option( 'main-wp-call-to-action-permalink-prefix', 'cta' );
+	$slug = get_option( 'wp-cta-main-wp-call-to-action-permalink-prefix', 'cta' );
 	//echo $slug;exit;
 	add_rewrite_rule("$slug/([^/]*)?", $this_path."modules/module.redirect-ab-testing.php?permalink_name=$1 ",'top');
 	add_rewrite_rule("wp-call-to-action=([^/]*)?", $this_path.'modules/module.redirect-ab-testing.php?permalink_name=$1','top');
@@ -649,7 +649,7 @@ function wp_cta_ab_testing_add_rewrite_rules()
 			$this_path = WP_CTA_PATH;
 			$this_path = explode('wp-content',$this_path);
 			$this_path = "wp-content".$this_path[1];				
-			$slug = get_option( 'main-wp-call-to-action-permalink-prefix', 'cta' );
+			$slug = get_option( 'wp-cta-main-wp-call-to-action-permalink-prefix', 'cta' );
 			
 			$i = 0;
 			foreach ($rules_array as $key=>$val)
