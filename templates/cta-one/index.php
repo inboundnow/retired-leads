@@ -50,7 +50,7 @@ if (have_posts()) : while (have_posts()) : the_post();
     $headline_text = wp_cta_get_value($post, $key, 'header-text');
     
     $button_text = wp_cta_get_value($post, $key, 'button-text');
-
+     $button_link = wp_cta_get_value($post, $key, 'button-link');
     $submit_button_color = wp_cta_get_value($post, $key, 'button-background-color'); 
     $ribbon_status = wp_cta_get_value($post, $key, 'link_status' ); 
 
@@ -116,7 +116,7 @@ $blue = $RBG_array["b"];
   <?php } ?>  
   <h2><?php echo $headline_text; ?></h2>
     <div class='center'><?php the_content();?></div>
-  <p class="buy-now"><a href="http://www.google.com" class="cta"><?php echo $button_text; ?></a></p>
+  <p class="buy-now"><a href="<?php echo $button_link;?>" class="cta"><?php echo $button_text; ?></a></p>
 </div>     
 
  <?php break; endwhile; endif; // end wordpress loop

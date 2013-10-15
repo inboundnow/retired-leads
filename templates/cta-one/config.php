@@ -65,6 +65,14 @@ array(
         'context'  => 'normal'
         ),
      array(
+        'label' => 'Button Link',
+        'description' => "link",
+        'id'  => 'button-link',
+        'type'  => 'text',
+        'default'  => 'http://www.inboundnow.com',
+        'context'  => 'normal'
+        ),
+     array(
         'label' => 'Disable Ribbon',
         'description' => "This will disable the top right ribbon",
         'id'  => 'link_status', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
