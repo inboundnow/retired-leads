@@ -19,18 +19,13 @@ define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/wp-calls-to-action/templates
 define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-calls-to-action/templates/' ); 
 
 
-/* Inbound Core Shared Files. Lead files take presidence */
-
+/* Inbound Core Shared Files. */
 add_action( 'plugins_loaded', 'inbound_load_shared' );
-if (!function_exists('inbound_load_shared')) {
-	function inbound_load_shared(){
-		if (function_exists('wpleads_check_active') && file_exists( WPL_PATH.'/shared/tracking/store.lead.php')) { 
-			include_once( WPL_PATH.'/shared/tracking/store.lead.php'); // Lead Storage from leads plugin
-		} else {
-			include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
-		}
-	}
+
+function inbound_load_shared(){
+	include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
 }
+
 
 
 /**

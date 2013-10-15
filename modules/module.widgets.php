@@ -46,7 +46,7 @@ class wp_cta_dynamic_widget extends WP_Widget
 			{
 				
 				$conversion_area = do_shortcode(get_post_meta($this_id, 'wp-cta-conversion-area', true));
-				$standardize_form = get_option( 'main-wp-call-to-action-auto-format-forms' , 1); // conditional to check for options
+				$standardize_form = get_option( 'wp-cta-main-wp-call-to-action-auto-format-forms' , 1); // conditional to check for options
 			
 				$count = count($wp_cta_post_template_ids[0]);
 		        $rand_key = array_rand($wp_cta_post_template_ids[0], 1);

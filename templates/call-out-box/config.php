@@ -12,7 +12,8 @@ $key = wp_cta_get_parent_directory(dirname(__FILE__));
 
 
 $wp_cta_data[$key]['info'] = 
-array(
+array(	
+	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Call Out Box", // Nice Name
 	'category' => 'Box', // Template Category
