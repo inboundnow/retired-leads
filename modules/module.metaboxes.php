@@ -82,7 +82,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'description' => "Enter the Width of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_width-'.$var_id,
         'type'  => 'dimension',
-        'default'  => '',
+        'default'  => '300',
         'class' => 'cta-width',
         'context'  => 'priority'
         );
@@ -92,7 +92,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'description' => "Enter the Height of the CTA in pixels. Example: 300 or 300px",
         'id'  => 'wp_cta_height-'.$var_id,
         'type'  => 'dimension',
-        'default'  => '',
+        'default'  => '300',
         'class' => 'cta-height',
         'context'  => 'priority'
         );
