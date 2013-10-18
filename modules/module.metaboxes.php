@@ -524,9 +524,10 @@ function wp_cta_display_meta_box_select_template_container() {
 			if (substr($this_template,0,4)=='ext-')
 				continue;
 		
-			if (isset($data['info']['data_type'])=='metabox')
+		
+			if (isset($data['info']['data_type'])&&$data['info']['data_type']=='metabox')
 				continue;	
-				
+
 			$cat_slug = str_replace(' ', '-', $data['info']['category']);
 			$cat_slug = strtolower($cat_slug);
 			
