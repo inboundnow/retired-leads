@@ -896,7 +896,7 @@ function wp_cta_save_meta($post_id) {
 					}
 				}
 			}
-			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-')
+			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-' || (isset($extension_data[$key]['info']['data_type']) && $extension_data[$key]['info']['data_type']=='metabox'))
 			{	
 				$wp_cta_custom_fields = $extension_data[$key]['settings'];		
 
