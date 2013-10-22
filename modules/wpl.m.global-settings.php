@@ -78,7 +78,11 @@
 						
 		/* Setup License Keys Tab */
 		$tab_slug = 'wpleads-license-keys';
-		$lp_global_settings[$tab_slug]['label'] = 'License Keys';	
+		$wpleads_global_settings[$tab_slug]['label'] = 'License Keys';	
+						
+		/* Setup Extensions Tab */
+		$tab_slug = 'wpleads-extensions';
+		$wpleads_global_settings[$tab_slug]['label'] = 'Extensions';	
 		
 		$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
 
