@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 /* Core Inbound Form Tracking Script */
 
-		jQuery("body").on('click', '.wpl-track-me', function (e) {
+		jQuery("body").on('submit', '.wpl-track-me', function (e) {
 			
 			this_form = jQuery(this);
 
@@ -291,7 +291,7 @@ jQuery(document).ready(function($) {
 		});
 
 
-	// Fallback for form ajax fails
+	// If Ajax Form Listener Fails, this saves conversion on next page load
 	var failed_conversion = jQuery.cookie("failed_conversion");
 	var fallback_obj = jQuery.totalStorage('failed_conversion');
 	
