@@ -11,6 +11,7 @@ Author URI: http://www.inboundnow.com/landing-pages/
 define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
+define('WPL_STORE_URL', 'http://www.inboundnow.com' );
 
 include_once('modules/wpl.m.post-type.wp-lead.php'); 
 include_once('modules/wpl.m.post-type.list.php'); 
@@ -19,8 +20,10 @@ include_once('modules/wpl.m.form-integrations.php');
 include_once('functions/wpl.f.global.php'); 
 
 /* Inbound Core Shared Files. Lead files take presidence */
-include_once( 'shared/tracking/store.lead.php'); // Lead Storage
-include_once( 'shared/classes/form.class.php'); // Form Builder
+include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
+include_once('shared/classes/form.class.php');  // Mirrored forms			
+include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
+include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating		
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
@@ -171,7 +174,7 @@ function wpleads_enqueuescripts_header()
 
 		// Load form pre-population
 		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
-		$lp_form_prepopulation = get_option( 'main-landing-page-prepopulate-forms' , 1);
+		$lp_form_prepopulation = get_option( 'lp-main-landing-page-prepopulate-forms' , 1);
 		if ($lp_form_prepopulation === "1") {
 			$form_prepopulation = "1";
 		}

@@ -170,5 +170,9 @@ function inbound_store_lead()
 		echo $data['lead_id'];
 		die();
 	}
+	else
+	{
+		
+	}
 }
 }

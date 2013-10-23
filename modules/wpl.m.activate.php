@@ -41,7 +41,8 @@ function wpleads_activate()
 				tracking_id VARCHAR(40) NOT NULL,
 				date DATETIME NOT NULL,
 				data TEXT NULL,
-				nature VARCHAR(25) NOT NULL
+				nature VARCHAR(25) NOT NULL,
+				processed INT(40) NOT NULL
 				) ";
 				
 		$result = mysql_query($sql);

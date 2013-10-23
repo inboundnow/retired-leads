@@ -472,35 +472,54 @@ function wpleads_remove_row_actions( $actions, $post )
 					header("Content-Disposition: attachment; filename=leads-export-csv-".date("m.d.y").".csv");
 					header("Expires: 0");
 					header("Pragma: public");
-					 
+					
 					$fh = @fopen( 'php://output', 'w' );	
 							
+					//get all keys
 					foreach( $post_ids as $post_id ) {		
 						$this_lead_data = get_post_custom($post_id);
 						
 						foreach ($this_lead_data as $key => $val)
 						{
-							//if (!strstr($key,'wpleads_'))
-							//{
-							//}
+							$lead_meta_pairs[$key] = $key;
+						}							
+					}		
+					
+					// Add a header row if it hasn't been added yet
+					fputcsv($fh, array_keys($lead_meta_pairs));
+					$headerDisplayed = true;
+		
 							
-							if (is_array($val))
+							
+					foreach( $post_ids as $post_id ) 
+					{		
+						unset($this_row_data);
+						
+						$this_lead_data = get_post_custom($post_id);
+						
+						
+						foreach ($lead_meta_pairs as $key => $val)
+						{
+							
+							if (isset($this_lead_data[$key]))
 							{
-								$this_lead_data[$key] = implode(',',$val);
+								$val = $this_lead_data[$key];
+								if (is_array($val))
+									$val = implode(';',$val);
 							}
-						}			
+							else
+							{
+								$val = "";
+							}
+							
+							$this_row_data[$key] = 	$val;	
+							
+						}		
 						
-						// Add a header row if it hasn't been added yet
-						if ( !$headerDisplayed ) {
-							// Use the keys from $data as the titles
-							fputcsv($fh, array_keys($this_lead_data));
-							$headerDisplayed = true;
-						}
-						
-						fputcsv($fh, $this_lead_data);						
-						
-						$exported++;
-					}
+						fputcsv($fh, $this_row_data);		
+						$exported++;					
+					}				
+					
 					
 					// Close the file
 					fclose($fh);
