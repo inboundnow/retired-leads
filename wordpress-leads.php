@@ -54,6 +54,8 @@ if (is_admin())
 add_action('wp_head', 'wp_leads_get_page_final_id');
 function wp_leads_get_page_final_id(){
 		global $post;
+		if (!isset($post))
+		return;
 		$current_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$current_url = preg_replace('/\?.*/', '', $current_url);
 		

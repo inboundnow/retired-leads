@@ -65,7 +65,15 @@
 				'type'  => 'radio', 
 				'default'  => '1',
 				'options' => array('1'=>'On','0'=>'Off')
-			),			
+			),
+			array(
+				'id'  => 'disable-widgets',
+				'label' => 'Disable Default WordPress Dashboard Widgets',
+				'description' => "<p>This turns off some default widgets on the wordpress dashboard.</p>",
+				'type'  => 'radio', 
+				'default'  => '1',
+				'options' => array('1'=>'On','0'=>'Off')
+			),				
 			array(
 				'id'  => 'extra-lead-data',
 				'label' => 'Full Contact API Key',

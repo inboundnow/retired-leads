@@ -159,7 +159,7 @@ class InboundForms {
             // $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
             foreach ($radio_fields as $key => $value) { 
               $radio_val_trimmed =  trim($value);
-              $radio_val =  strtolower(str_replace(array(' ','_'),'-',$radio_val_1));
+              $radio_val =  strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
               $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
             }
           } else if ($type === 'html-block'){ 
