@@ -371,7 +371,6 @@
 		foreach ($wpleads_global_settings as $key=>$array)
 		{	
 			$wpleads_options = $wpleads_global_settings[$key]['settings'];		
-			//echo 1; 
 
 			// loop through fields and save the data
 			foreach ($wpleads_options as $field) 
