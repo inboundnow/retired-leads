@@ -146,7 +146,7 @@ body > img{
 -----------------------------*/
 
 
-a.downloadButton{
+a.downloadButton, #placeholder-span{
 	display:inline-block;
 	width:187px;
 	height:69px;
@@ -157,7 +157,9 @@ a.downloadButton{
 	border:none;
 	text-decoration:none !important;
 }
-
+#tweetLink img{
+	cursor: pointer;
+}
 a.downloadButton.active{
 	background-position:left bottom;
 	cursor:pointer;

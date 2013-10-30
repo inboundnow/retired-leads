@@ -90,7 +90,9 @@ echo "#extra-text-area { color: #$text_color;}";
             <p> <a href="#" id="tweetLink"><img src="<?php echo $path;?>img/linkedshare.png" title="Click and Share on Linkedin to activate the download" id="linkedshare" ></a></p>
   <div id="arrow-down"></div>
 
-  <a href="#" class="downloadButton" title="click the above share button to activate the download">Download</a>
+  <span class="downloadButton" id="placeholder-span" title="click the above share button to activate the download">Download</span>
+
+  <a href="#" style='display:none;' class="downloadButton active" title="click the above share button to activate the download">Download</a>
 
           <script src="assets/js/jquery.tweetAction.js"></script>
           <script>
@@ -103,7 +105,7 @@ echo "#extra-text-area { color: #$text_color;}";
           url:        '<?php echo $share_url; ?>'
 
       },function(){
-
+          $("#placeholder-span").hide();
           // When the user closes the pop-up window:
           var the_link = jQuery("#the_link").attr('href');
           var link_target = jQuery("#the_link").hasClass('external-new-tab');
@@ -111,7 +113,7 @@ echo "#extra-text-area { color: #$text_color;}";
             $('a.downloadButton').addClass('external-new-tab');
           }
           $('a.downloadButton')
-                  .addClass('active')
+                  .show()
                   .attr('href', the_link)
                   .attr('title', 'Thanks! Click to Download');
 

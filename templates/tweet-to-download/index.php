@@ -89,25 +89,36 @@ echo "#extra-text-area { color: #$text_color;}";
 <div id="content" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px; margin: auto;">
   <div id="extra-text-area"><?php echo do_shortcode( $header_text );?></div>
   <div id="inbound-share-model">
-            <p> <a href="#" id="tweetLink"><img src="<?php echo $path;?>img/tweet-image.png" title="Click and Share on Twitter to activate the download" id="linkedshare" ></a></p>
+            <p><span href="#" id="tweetLink"><img src="<?php echo $path;?>img/tweet-image.png" title="Click and Share on Twitter to activate the download" id="linkedshare" ></span></p>
   <div id="arrow-down"></div>
 
-  <a href="#" class="downloadButton" title="click the above share button to activate the download">Download</a>
+  <span id="placeholder-span" class="downloadButton" title="click the above share button to activate the download">Download</span>
 
-          <script src="assets/js/jquery.tweetAction.js"></script>
+  <a href="<?php echo $download_url; ?>" style="display:none;" class="downloadButton active" title="Thanks! Click to Download">Download</a>
+
           <script>
           jQuery(document).ready(function($) {
 
-      // Using our tweetAction plugin. For a complete list with supported
-      // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
+            jQuery("#feedburnerform").removeClass('wpl-track-me');
+            jQuery(".downloadButton").removeAttr('href');
+            jQuery(".downloadButton").addClass('prevent-default');
+            setTimeout(function() {
+               jQuery("#feedburnerform").removeClass('wpl-track-me');
+               jQuery(".downloadButton").removeAttr('href');
+               jQuery(".downloadButton").addClass('prevent-default');
+                }, 1000);
 
+      jQuery("body").on('click', '.prevent-default', function (event) {
+          event.preventDefault();
+          console.log('clicked');
+          });
       $('#tweetLink').tweetAction({
               text:       '<?php echo $share_text; ?>',
               url:        '<?php echo $share_url; ?>',
               via:        '<?php echo $twittername; ?>',
               related:    '<?php echo $twittername; ?>'
           },function(){
-
+          $("#placeholder-span").hide();
           // When the user closes the pop-up window:
           var the_link = jQuery("#the_link").attr('href');
           var link_target = jQuery("#the_link").hasClass('external-new-tab');
@@ -115,7 +126,7 @@ echo "#extra-text-area { color: #$text_color;}";
             $('a.downloadButton').addClass('external-new-tab');
           }
           $('a.downloadButton')
-                  .addClass('active')
+                  .show()
                   .attr('href', the_link)
                   .attr('title', 'Thanks! Click to Download');
 

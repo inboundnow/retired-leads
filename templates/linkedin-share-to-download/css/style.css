@@ -146,7 +146,7 @@ body > img{
 -----------------------------*/
 
 
-a.downloadButton{
+a.downloadButton, #placeholder-span{
 	display:inline-block;
 	width:187px;
 	height:69px;

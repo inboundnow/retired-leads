@@ -109,16 +109,18 @@ margin-top:2px;
     </form>
 
   <div id="arrow-down"></div>
-
-  <a href="#" class="downloadButton" title="click the above share button to activate the download">Download</a>
+  <span class="downloadButton" id="placeholder-span" title="click the above share button to activate the download">Download</span>
+  <a href="<?php echo $download_url; ?>" style="display:none;" class="downloadButton active" title="click the above share button to activate the download">Download</a>
 
           <script src="<?php echo $path; ?>js/jquery.PinAction.js"></script>
           <script>
           jQuery(document).ready(function($) {
             jQuery("#feedburnerform").removeClass('wpl-track-me');
+            jQuery(".downloadButton").removeAttr('href');
             setTimeout(function() {
                jQuery("#feedburnerform").removeClass('wpl-track-me');
-                    }, 1000);
+               jQuery(".downloadButton").removeAttr('href');
+                }, 1000);
       // Using our tweetAction plugin. For a complete list with supported
       // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
 
@@ -126,7 +128,7 @@ margin-top:2px;
              uri:  '<?php echo $share_url; ?>'
 
          },function(){
-
+          $("#placeholder-span").hide();
           // When the user closes the pop-up window:
           var the_link = jQuery("#the_link").attr('href');
           var link_target = jQuery("#the_link").hasClass('external-new-tab');
@@ -134,7 +136,7 @@ margin-top:2px;
             $('a.downloadButton').addClass('external-new-tab');
           }
           $('a.downloadButton')
-                  .addClass('active')
+                  .show()
                   .attr('href', the_link)
                   .attr('title', 'Thanks! Click to Download');
 
