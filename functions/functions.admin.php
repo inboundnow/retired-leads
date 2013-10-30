@@ -497,8 +497,7 @@ function wp_cta_in_admin_header()
 }
 
 
-/****************** AB TESTING FUNCTIONS *********************************************************************/
-
+/**** AB TESTING FUNCTIONS ****/
 
 function wp_cta_ab_unset_variation($variations,$vid)
 {

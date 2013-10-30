@@ -4,6 +4,8 @@ add_action('wp_footer', 'wpcta_click_callback');
 
 function wpcta_click_callback() {
 	global $post;
+	if (!isset($post))
+		return;
 	$id = $post->ID;
 	if(get_post_type( $id ) == 'wp-call-to-action'){
 	$variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : 0;
