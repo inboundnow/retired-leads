@@ -40,8 +40,13 @@ if (is_admin())
 								
 		/* Setup License Keys Tab */
 		$tab_slug = 'wp-cta-license-keys';
-		$lp_global_settings[$tab_slug]['label'] = 'License Keys';	
+		$wp_cta_global_settings[$tab_slug]['label'] = 'License Keys';	
 
+		
+		/* Setup Extensions Tab */
+		$tab_slug = 'wp-cta-extensions';
+		$wp_cta_global_settings[$tab_slug]['label'] = 'Extensions';	
+		
 		$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
 		return $wp_cta_global_settings;

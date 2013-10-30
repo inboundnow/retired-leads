@@ -88,8 +88,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 		 */
 		public function wp_cta_settings( $wp_cta_global_settings ) {
 		
-			$wp_cta_global_settings['license-keys']['label'] = 'License Keys';
-			$wp_cta_global_settings['license-keys']['settings'][] = array(
+			$wp_cta_global_settings['wp-cta-license-keys']['settings'][] = array(
 
 					'id'      => $this->item_slug,					
 					'slug'      => $this->item_slug,
@@ -110,8 +109,8 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 		 * @return  array
 		 */
 		public function wpleads_settings( $wpleads_global_settings ) {
-			$wpleads_global_settings['license-keys']['label'] = 'License Keys';
-			$wpleads_global_settings['license-keys']['settings'][] = array(
+			$wpleads_global_settings['wpleads-license-keys']['label'] = 'License Keys';
+			$wpleads_global_settings['wpleads-license-keys']['settings'][] = array(
 
 					'id'      => $this->item_slug,					
 					'slug'      => $this->item_slug,

@@ -657,7 +657,7 @@ function wp_cta_generate_meta()
 	}
 	foreach ($extension_data as $key=>$data)
 	{
-		if (substr($key,0,4)=='ext-' || isset($data['info']['data_type'])=='metabox')
+		if (substr($key,0,4)=='ext-' || isset($data['info']['data_type']) && $data['info']['data_type'] =='metabox')
 		{
 
 			$id = "metabox-".$key;
@@ -896,9 +896,9 @@ function wp_cta_save_meta($post_id) {
 					}
 				}
 			}
-			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-')
-			{
-				$wp_cta_custom_fields = $extension_data[$key]['settings'];
+			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-' || (isset($extension_data[$key]['info']['data_type']) && $extension_data[$key]['info']['data_type']=='metabox'))
+			{	
+				$wp_cta_custom_fields = $extension_data[$key]['settings'];		
 
 				// verify nonce
 				if (!wp_verify_nonce($_POST["wp_cta_{$key}_custom_fields_nonce"], 'wp-cta-nonce'))
