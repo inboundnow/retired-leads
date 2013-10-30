@@ -84,8 +84,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'type'  => 'number',
         'default'  => '300',
         'class' => 'cta-width',
-        'context'  => 'priority',
-        'global' => true // disables template name prefix
+        'context'  => 'priority'
         );
 
 	$height = array(
@@ -95,8 +94,7 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'type'  => 'number',
         'default'  => '300',
         'class' => 'cta-height',
-        'context'  => 'priority',
-        'global' => true // disables template name prefix
+        'context'  => 'priority'
         );
 
  array_unshift($field_settings, $width, $height);
@@ -730,14 +728,8 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 			$meta = $field['default'];
 		}
 
-        // Remove prefixes on global => true template options
-        if (isset($field['global']) && $field['global'] === true) {
-        $field_id = $field_name;
-        $meta = get_post_meta($post->ID, $field_name, true);
-        }
-
 		// begin a table row with
-		echo '<div class="'.$field['id'].$type_class_row.' div-'.$option_class.' wp-call-to-action-option-row inbound-meta-box-row">';
+		echo '<div class="'.$field['id'].$type_class_row.' wp-call-to-action-option-row inbound-meta-box-row">';
 				if ($field['type'] != "description-block" && $field['type'] != "custom-css" ) {
 				echo '<div id="inbound-'.$field_id.'" data-actual="'.$field_id.'" class="inbound-meta-box-label wp-call-to-action-table-header '.$label_class.$type_class.'"><label for="'.$field_id.'">'.$field['label'].'</label></div>';
 				}
@@ -779,7 +771,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 						break;
 					case 'number':
 
-						echo '<input type="number" class="'.$option_class.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
+						echo '<input type="number" class="'.$option_class.'" name="'.$field_name.'" id="'.$field_name.'" value="'.$global_meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 
 						break;
@@ -904,9 +896,15 @@ function wp_cta_save_meta($post_id) {
 					}
 				}
 			}
-			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-' || (isset($extension_data[$key]['info']['data_type']) && $extension_data[$key]['info']['data_type']=='metabox'))
+<<<<<<< HEAD
+			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-')
 			{
 				$wp_cta_custom_fields = $extension_data[$key]['settings'];
+=======
+			else if ((isset($_POST['wp-cta-selected-template'])&&$_POST['wp-cta-selected-template']==$key)||substr($key,0,4)=='ext-' || (isset($extension_data[$key]['info']['data_type']) && $extension_data[$key]['info']['data_type']=='metabox'))
+			{	
+				$wp_cta_custom_fields = $extension_data[$key]['settings'];		
+>>>>>>> fb171b5eab3d3249724fbf66631c87f83c9137a5
 
 				// verify nonce
 				if (!wp_verify_nonce($_POST["wp_cta_{$key}_custom_fields_nonce"], 'wp-cta-nonce'))

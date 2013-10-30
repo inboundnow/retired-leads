@@ -1,22 +1,13 @@
 <?php
 /**
-* Template Name:  Flat CTA Template
+* Template Name:  Facebook like to download
 *
 * @package  WordPress Landing Pages
 * @author   David Wells
 * @link(homepage, http://www.inboundnow.com)
 * @version  1.0
-* @example link to example page
 */
 
-
-/*
-* Run the cta template option array through this to generate usable variable
-*
-* $wp_cta_data[$key]['settings'] is in the config.php file of cta template.
-*
-* In this example $options_array is the $wp_cta_data[$key]['settings'] array.
-*/
 
 /* Declare Template Key */
 $key = wp_cta_get_parent_directory(dirname(__FILE__));
@@ -25,6 +16,17 @@ $url = plugins_url();
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
 do_action('wp_cta_init');
 
+ /* Initialize ajax.social-gate.js */
+// Enable tracking on Social Media Shares
+add_action('wp_enqueue_scripts','wp_cta_like_to_download_register_ajax');
+function wp_cta_like_to_download_register_ajax() {
+  global $path;
+
+  $current_url = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."";
+  // embed the javascript file that makes the AJAX request
+  wp_enqueue_script( 'fb-like-ajax-request', $path . 'js/ajax.social-gate.js', array( 'jquery' ) );
+  wp_localize_script( 'fb-like-ajax-request', 'wp_cta_settings', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'current_url' =>  $current_url,  'cta_link_rewrites' =>  'off') );
+}
 
 /* Load Regular WordPress $post data and start the loop */
 if (have_posts()) : while (have_posts()) : the_post();
@@ -71,7 +73,7 @@ if ( $height != "" ) {
 echo ".css_element { height: ".$height."px;}";
 }
 if ($border_radius != "0"){
-  echo "body { border-radius: ".$border_radius."px;}";
+  echo "#content { border-radius: ".$border_radius."px;}";
 }
 /* Color Options CSS helper - Add to inline style tag */
 if ( $content_color != "" ) {
@@ -88,7 +90,7 @@ echo "#content { background-color: #$content_color;}";
 </head>
 
 <body class="pop-up-container lightbox-pop">
-<?php echo $border_radius;?>
+
 <div id="content" style="width:<?php echo $width;?>px; height:<?php echo $height;?>px; ">
 <div id="Step1">
 
@@ -96,10 +98,10 @@ echo "#content { background-color: #$content_color;}";
 <div style="float:left;">
 <?php
 if ($color == "light") { ?>
-<img src="http://socializeyourcause.org/fb/like-to-download-700.png" width='<?php echo $width;?>' height='<?php echo $height;?>' >
+<img src="<?php echo $path; ?>like-to-download-700.png" width='<?php echo $width;?>' height='<?php echo $height;?>' >
 
 <? } else { ?>
-<img src="http://socializeyourcause.org/fb/like-to-download-700-light.png" width='<?php echo $width;?>' height='<?php echo $height;?>' >
+<img src="<?php echo $path; ?>like-to-download-700-light.png" width='<?php echo $width;?>' height='<?php echo $height;?>' >
 <?php }
  ?>
 </div>
@@ -143,6 +145,7 @@ window.fbAsyncInit = function() {
       document.getElementById('Step1').style.display = 'none';
       document.getElementById('Step2').style.display = 'block';
       document.getElementById('Step3').style.display = 'none';
+      fb_like_to_download_event();
       setTimeout('document.getElementById(\'Step1\').style.display = \'none\';document.getElementById(\'Step2\').style.display = \'none\';document.getElementById(\'Step3\').style.display = \'block\';', 500);
    });
 
