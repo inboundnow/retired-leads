@@ -348,7 +348,9 @@
 				
 		foreach ($wpleads_global_settings as $key => $array)
 		{
-			
+			if (!array_key_exists('settings',$array))
+				continue;
+				
 			$these_settings = $wpleads_global_settings[$key]['settings'];	
 			wpleads_render_global_settings($key,$these_settings, $active_tab);
 		}
@@ -371,7 +373,6 @@
 		foreach ($wpleads_global_settings as $key=>$array)
 		{	
 			$wpleads_options = $wpleads_global_settings[$key]['settings'];		
-			//echo 1; 
 
 			// loop through fields and save the data
 			foreach ($wpleads_options as $field) 
