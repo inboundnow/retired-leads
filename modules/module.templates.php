@@ -25,7 +25,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 	}
 
-	class LP_MANAGE_TEMPLATES extends WP_List_Table
+	class WP_CTA_MANAGE_TEMPLATES extends WP_List_Table
 	{
 		private $template_data;
 		private $singular;
@@ -35,50 +35,58 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 		{
 			$wp_cta_data = wp_cta_get_extension_data();
 
-			foreach ($wp_cta_data as $key=>$value)
+			foreach ($wp_cta_data as $key=>$data)
 			{
-				$array_core_templates = array('blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'ebook-call-out');
+				$array_core_templates = array('blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
 
-				if ($key!='wp-cta'&&!in_array($key,$array_core_templates)&&substr($key,0,4)!='ext-')
+				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
+					continue;
+					
+				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox')
+					continue;
+				
+				if (in_array($key,$array_core_templates))
+					continue;
+				
+				//if (stristr($data['category'],'Theme Integrated'))
+					//continue;
+				
+				//echo "<br>";
+				if (isset($_POST['s'])&&!empty($_POST['s']))
 				{
-					//echo $key;
-					//echo "<br>";
-					if (isset($_POST['s'])&&!empty($_POST['s']))
+					if (!stristr($data['info']['label'],$_POST['s']))
 					{
-						if (!stristr($value['label'],$_POST['s']))
-						{
-							continue;
-						}
-					}
-
-					if (stristr($value['category'],'Theme Integrated'))
 						continue;
-
-					if (isset($value['thumbnail']))
-						$thumbnail = $value['thumbnail'];
-					else if ($key=='default')
-						$thumbnail =  get_bloginfo('template_directory')."/screenshot.png";
-					else
-						$thumbnail = WP_CTA_UPLOADS_URLPATH.$key."/thumbnail.png";
-
-					$this_data['ID']  = $key;
-					$this_data['template']  = $key;
-					$this_data['name']  = $value['info']['label'];
-					$this_data['category']  = $value['info']['category'];
-					$this_data['description']  = $value['info']['description'];
-					$this_data['thumbnail']  = $thumbnail;
-					if (isset($value['version'])&&!empty($value['info']['version']))
-					{
-						$this_data['version']  = $value['info']['version'];
 					}
-					else
-					{
-						$this_data['version'] = "1.0.0.1";
-					}
-					$final_data[] = $this_data;
+				}		
+
+				if (isset($data['thumbnail']))
+					$thumbnail = $data['thumbnail'];
+				else if ($key=='default')
+					$thumbnail =  get_bloginfo('template_directory')."/screenshot.png";
+				else
+					$thumbnail = WP_CTA_UPLOADS_URLPATH.$key."/thumbnail.png";
+
+				$this_data['ID']  = $key;
+				$this_data['template']  = $key;
+				( array_key_exists('info',$data) ) ? $this_data['name'] = $data['info']['label'] :  $this_data['name'] = $data['label'];
+				( array_key_exists('info',$data) ) ? $this_data['category'] = $data['info']['category'] :  $this_data['category'] = $data['category'];
+				( array_key_exists('info',$data) ) ? $this_data['description'] = $data['info']['description'] :  $this_data['description'] = $data['description'];
+				
+				$this_data['thumbnail']  = $thumbnail;
+				
+				if (isset($data['version'])&&!empty($data['info']['version']))
+				{
+					$this_data['version']  = $data['info']['version'];
 				}
-
+				else
+				{
+					$this_data['version'] = "1.0.1";
+				}
+				
+				$final_data[] = $this_data;
 			}
+			
 			//print_r($this_data);exit;
 			$this->template_data = $final_data;
 			//$this->_args = array();
@@ -242,7 +250,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 		</h2>
 		<?php
 
-		$myListTable = new LP_MANAGE_TEMPLATES();
+		$myListTable = new WP_CTA_MANAGE_TEMPLATES();
 		$myListTable->prepare_items();
 		?>
 		<form method="post" >

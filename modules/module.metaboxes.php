@@ -530,8 +530,15 @@ function wp_cta_display_meta_box_select_template_container() {
 			if (isset($data['info']['data_type'])&&$data['info']['data_type']=='metabox')
 				continue;
 
-			$cat_slug = str_replace(' ', '-', $data['info']['category']);
-			$cat_slug = strtolower($cat_slug);
+			
+			$cats = explode( ',' , $data['info']['category'] );
+			foreach ($cats as $key => $cat)
+			{
+				$cat = str_replace(' ', '-', $cat);
+				$cats[$key] = trim(strtolower($cat));
+			}
+			
+			$cat_slug = implode(' ', $cats);
 
 			// Get Thumbnail
 			if (file_exists(WP_CTA_PATH.'templates/'.$this_template."/thumbnail.png"))

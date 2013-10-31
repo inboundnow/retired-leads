@@ -153,35 +153,40 @@ function wp_cta_get_extension_data_cats($extension_data)
 	foreach ($extension_data as $key=>$val)
 	{
 		
-		if ($key=='wp-cta'||!isset($val['info']['category']))
+		if ($key=='wp-cta' || !isset($val['info']['category']))
 			continue;
 
 		/* allot for older lp_data model */		
 		if (isset($val['category']))
 		{
-			$cat_value = $val['category'];
+			$cats = $val['category'];
 		}
 		else
 		{
 			if (isset($val['info']['category']))
 			{
-				$cat_value = $val['info']['category'];
+				$cats = $val['info']['category'];
 			}
 		}
 
-		$name = str_replace(array('-','_'),' ',$cat_value);
-		$name = ucwords($name);
-		if (!isset($template_cats[$cat_value]))
-		{						
-			$template_cats[$cat_value]['count'] = 1;
+		$cats = explode(',',$cats);
+		
+		foreach ($cats as $cat_value)
+		{
+			$name = str_replace(array('-','_'),' ',$cat_value);
+			$name = ucwords($name);
+			
+			if (!isset($template_cats[$cat_value]))
+			{						
+				$template_cats[$cat_value]['count'] = 1;	
+			}
+			else
+			{			
+				$template_cats[$cat_value]['count']++;
+			}
+			
 			$template_cats[$cat_value]['value'] = $cat_value;
 			$template_cats[$cat_value]['label'] = "$name";
-		}
-		else
-		{			
-			$template_cats[$cat_value]['count']++;
-			$template_cats[$cat_value]['label'] = "$name";
-			$template_cats[$cat_value]['value'] = $cat_value;
 		}
 	}
 	//print_r($template_cats);exit;
