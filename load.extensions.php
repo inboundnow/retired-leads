@@ -146,7 +146,9 @@ function wp_cta_get_extension_template_paths()
 
 function wp_cta_get_extension_data_cats($extension_data)
 {
-
+	
+	$template_cats = array();
+	
 	//print_r($extension_data);
 	foreach ($extension_data as $key=>$val)
 	{
