@@ -28,7 +28,7 @@ class InboundForms {
     }
 
     // Shortcode params
-    static function inbound_forms_create( $atts, $content = null ) 
+    static function inbound_forms_create( $atts, $content = null )
 	{ 
 		self::$add_script = true;
 		$email = get_option('admin_email');
