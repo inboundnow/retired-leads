@@ -1,0 +1,32 @@
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area {
+	display: none;
+}
+#cpt-form-shortcode {
+	display: none;
+}
+#cpt-form-serialize {
+	word-wrap: break-word;
+}
+/*
+#postbox-container-2 {
+	display: none;
+}*/
+#poststuff #post-body.columns-2 {
+margin-right: 0px;
+}
+#popup-controls {
+position: fixed !important;
+border-top: 1px solid #CCC;
+bottom: 0px !important;
+width: 100%;
+margin-left: -19px;
+padding-left: 20px;}
+#inbound-shortcodes-form-table tbody tr.form-row.has-child {
+display: block;
+padding: 10px 0 0;
+border-bottom: none;
+padding-left: 10px;
+}
+.form-field-row-number {
+position: absolute;
+left: 0px; }

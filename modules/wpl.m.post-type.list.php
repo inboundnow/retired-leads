@@ -45,9 +45,9 @@ function wpleads_register_list() {
 			'show_in_nav_menus' => false,
             'query_var' => true,
 			"rewrite" => false
-			
+
     ));
-	
+
 	add_action('admin_menu', 'remove_list_cat_menu');
 	function remove_list_cat_menu() {
 		global $submenu;
@@ -71,60 +71,60 @@ if (is_admin())
 			"title" => "List",
 			"wpleads-leads" => "Leads"
 		);
-		
+
 		$cols = apply_filters('wpleads_list_change_columns',$cols);
-		
+
 		return $cols;
 	}
 
 
 	add_action( "manage_posts_custom_column", "wpleads_list_custom_columns", 10, 2 );
-	function wpleads_list_custom_columns( $column, $post_id ) 
+	function wpleads_list_custom_columns( $column, $post_id )
 	{
 		switch ( $column ) {
 			case "title":
 				$list_name = get_the_title( $post_id );
-			
+
 				$list_name = apply_filters('wpleads_list_name',$list_name);
-		
+
 				echo $list_name;
-			  break;			  
-			
+			  break;
+
 			case "wpleads-leads":
 			  $lead_items = wpleads_count_associated_lead_items($post_id);
 			  echo $lead_items;
 			  break;
 		}
-		
+
 		do_action('wpleads_list_custom_columns',$column, $post_id);
-		
+
 	}
 
-		
+
 	// Make these columns sortable
 	add_filter( "manage_edit-list_sortable_columns", "wpleads_list_sortable_columns" );
 	function wpleads_list_sortable_columns($columns) {
 
 		$columns = apply_filters('',$columns);
-		 
+
 		return $columns;
 	}
-	
+
 }
 
 //************************************************************************************//
 //*************** POST SAVING & POST DELETING ****************************************//
 //************************************************************************************//
 if (is_admin())
-{	
+{
 	//add action for cpt saving
 	add_action('save_post', 'wpleads_list_save_post');
 	function wpleads_list_save_post($post_id) {
 		global $post;
-		
+
 		if (!isset($post))
 			$post = get_post($post_id);
-		
+
 		if ($post->post_type=='revision' ||  'trash' == get_post_status( $post_id ))
 		{
 			return;
@@ -133,19 +133,19 @@ if (is_admin())
 		{
 			return;
 		}
-			
-		if ($post->post_type=='list' && isset($_POST) && count($_POST) > 0 )
-		{		 
 
-			$list_title = (isset($_POST['post_title'])) ? $_POST['post_title'] : '';	
+		if ($post->post_type=='list' && isset($_POST) && count($_POST) > 0 )
+		{
+
+			$list_title = (isset($_POST['post_title'])) ? $_POST['post_title'] : '';
 			$list_slug = (isset($_POST['post_name'])) ? $_POST['post_name'] : '';
-			
+
 			//add list as category to lead cpt and store the category taxonomy as meta pair in list cpt
 			wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug);
-			
+
 			//if role creation is turned on
 			$role_creation = get_option('wpl-main-role-creation', 1);
-			
+
 			if ($role_creation)
 			{
 				//now create role
@@ -154,21 +154,21 @@ if (is_admin())
 					'edit_posts' => false,
 					'delete_posts' => false, // Use false to explicitly deny
 				));
-				
+
 				if (null !== $result) {
 					//echo 'Yay!  New role created!';
 				} else {
 					//echo 'Oh... the basic_contributor role already exists.';
 				}
 			}
-			
+
 			do_action('wpleads_save_list_post',$post_id);
 		}
 
 		//add in meta pair markers for lists the lead belong to
 		if ($post->post_type=='wp-lead' && isset($_POST) && count($_POST) > 0 )
-		{				
-			
+		{
+
 			if (isset($_POST['tax_input']))
 			{
 				//delete_post_meta($post->ID, 'wpleads_list_ids');
@@ -177,22 +177,22 @@ if (is_admin())
 				foreach ($tax_input['wplead_list_category'] as $key=>$value)
 				{
 					if ($value)
-					{		
+					{
 						$store_post = $post;
 						$list = wpleads_get_list_by_taxonomy_id($value);
 						$post = $store_post;
 						$list_name = $list['post_name'];
 						$list_id = $list['ID'];
-						$wpleads_list_ids[$list_name]['list_id'] = $list_id;	
-						$wpleads_list_ids[$list_name]['wplead_list_category_id'] = $value;	
+						$wpleads_list_ids[$list_name]['list_id'] = $list_id;
+						$wpleads_list_ids[$list_name]['wplead_list_category_id'] = $value;
 					}
 				}
 			}
 
 			if (isset($wpleads_list_ids) && count($wpleads_list_ids) > 0)
-			{			
+			{
 				$wpleads_list_ids = json_encode($wpleads_list_ids);
-				$wpleads_list_ids = update_post_meta($post->ID, 'wpleads_list_ids', $wpleads_list_ids);				
+				$wpleads_list_ids = update_post_meta($post->ID, 'wpleads_list_ids', $wpleads_list_ids);
 			}
 			else
 			{
@@ -205,23 +205,25 @@ if (is_admin())
 	add_action('before_delete_post', 'wpleads_permanently_delete_post');
 	function wpleads_permanently_delete_post($post_id){
 		global $post;
+		//if (!isset($post))
+		//	return;
 		$list_slug = $post->post_name;
-		
+
 		//if role creation is turned on
 		$role_creation = get_option('wpl-main-role-creation', 1);
-		
+
 		if ($role_creation)
 		{
 			$result = remove_role($list_slug);
 		}
-		
+
 		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 		wp_delete_term($wplead_cat_id,'wplead_list_category');
 	}
-	
+
 	function wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug = null)
 	{
-		
+
 		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 		if ($wplead_cat_id)
 		{
@@ -241,14 +243,14 @@ if (is_admin())
 			{
 				$term_id = $term['term_id'];
 			}
-			
+
 			update_post_meta( $post_id, 'wplead_list_category_id', $term_id);
 		}
 	}
-	
+
 	function wpleads_get_list_by_taxonomy_id($term_id)
 	{
-		
+
 		$args = array(
 			'post_type' => 'list',
 			'post_status' => 'published',
@@ -256,26 +258,26 @@ if (is_admin())
 			'meta_value'=> $term_id,
 			'posts_per_page' => 1
 		);
-		
+
 		$wp_query = new WP_Query( $args );
 		while ($wp_query->have_posts()) : $wp_query->the_post();
 			return array('ID'=>$wp_query->post->ID,'post_name'=>$wp_query->post->post_name , 'post_title'=>$wp_query->post->post_title);
-		endwhile;				
-	
+		endwhile;
+
 	}
-	
+
 	function wpleads_add_lead_to_list($list_id, $lead_id, $add = true)
 	{
 		$list_cpt = get_post($list_id,ARRAY_A);
 		$list_slug = $list_cpt['post_name'];
 		$list_title = $list_cpt['post_title'];
-		
+
 
 		$wplead_cat = get_term_by( 'slug', $list_slug ,'wplead_list_category'  );
 		$wplead_cat_id = $wplead_cat->term_id;
-		
+
 		wp_set_post_terms( $lead_id, intval($wplead_cat_id), 'wplead_list_category', true);
-		
+
 		//build meta pair for list ids lead belongs to
 		$wpleads_list_ids = get_post_meta($lead_id, 'wpleads_list_ids', true);
 
@@ -286,20 +288,20 @@ if (is_admin())
 
 			//clean
 			delete_post_meta($lead_id, 'wpleads_list_ids');
-			
+
 			//restore
 			foreach ($wpleads_list_ids as $key=>$value)
 			{
 				if ($value)
-				{			
+				{
 					//echo $value;
 					$list = get_post($value['list_id']);
 					$list_name = $list->post_name;
 					$wplead_cat_id = get_post_meta($value,'wplead_list_category_id', true);
-					
-					$wpleads_list_ids_new[$list_name]['list_id'] = $value['list_id'];	
-					$wpleads_list_ids_new[$list_name]['wplead_list_category_id'] = $wplead_cat_id;	
-				}				
+
+					$wpleads_list_ids_new[$list_name]['list_id'] = $value['list_id'];
+					$wpleads_list_ids_new[$list_name]['wplead_list_category_id'] = $wplead_cat_id;
+				}
 			}
 			//print_r($wpleads_list_ids_new);
 			//push newest if not exists
@@ -308,30 +310,30 @@ if (is_admin())
 				$list = get_post($list_id);
 				$list_name = $list->post_name;
 				$wplead_cat_id = get_post_meta($list_id,'wplead_list_category_id', true);
-				
-				$wpleads_list_ids_new[$list_name]['list_id'] = $list_id;	
+
+				$wpleads_list_ids_new[$list_name]['list_id'] = $list_id;
 				$wpleads_list_ids_new[$list_name]['wplead_list_category_id'] = $wplead_cat_id;
 			}
 
-			
+
 			//print_r($wpleads_list_ids_new);exit;
-			
+
 			$wpleads_list_ids_new = json_encode($wpleads_list_ids_new);
 			$wpleads_list_ids_new = update_post_meta($lead_id, 'wpleads_list_ids', $wpleads_list_ids_new);
-		}	
+		}
 		else
 		{
 			$list = get_post($list_id);
-			$list_name = $list->post_name;		
-			$wpleads_list_ids[$list_name]['list_id'] = $list_id;	
+			$list_name = $list->post_name;
+			$wpleads_list_ids[$list_name]['list_id'] = $list_id;
 			$wpleads_list_ids[$list_name]['wplead_list_category_id'] = $wplead_cat_id;
-			
+
 			$wpleads_list_ids = json_encode($wpleads_list_ids);
 			$wpleads_list_ids = update_post_meta($lead_id , 'wpleads_list_ids', $wpleads_list_ids);
 		}
-		
+
 	}
-	
+
 }
 
 

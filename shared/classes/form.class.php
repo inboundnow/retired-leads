@@ -4,26 +4,15 @@
  * Creates Form Shortcode
  */
 
-/* 
+/*
 Usage
 [inbound_form fields="First Name, Last Name, Email, Company, Phone" required="Company" textareas="Company"]
-*/  
+*/
 
 //=============================================
 // Define constants
 //=============================================
-if (!defined('INBOUND_FORMS')) {
-    define('INBOUND_FORMS', plugin_dir_url(__FILE__));
-}
-if (!defined('INBOUND_FORMS_PATH')) {
-    define('INBOUND_FORMS_PATH', plugin_dir_path(__FILE__));
-}
-if (!defined('INBOUND_FORMS_BASENAME')) {
-    define('INBOUND_FORMS_BASENAME', plugin_basename(__FILE__));
-}
-if (!defined('INBOUND_FORMS_ADMIN')) {
-    define('INBOUND_FORMS_ADMIN', get_bloginfo('url') . "/wp-admin");
-}
+
 if (!class_exists('InboundForms')) {
 class InboundForms {
     static $add_script;
@@ -45,12 +34,13 @@ class InboundForms {
     extract(shortcode_atts(array(
       'name' => '',
       'layout' => '',
+      'notify' => $email,
       'labels' => '',
       'width' => '',
       'redirect' => '',
       'submit' => 'Submit'
     ), $atts));
-    
+
     $form_name = $name;
     $form_layout = $layout;
     $form_labels = $labels;
@@ -64,7 +54,7 @@ class InboundForms {
     } else {
       $submit_button_type = '';
     }
-    
+
     /* Sanitize width input */
     if (preg_match('/px/i',$width)) {
       $fixed_width = str_replace("px", "", $width);
@@ -75,9 +65,9 @@ class InboundForms {
     } else {
       $width_output = "width:" . $width . "px;";
     }
-    
+
     $form_width = ($width != "") ? $width_output : '';
-    
+
     //if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) {
     if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches)) {
       return '';
@@ -123,30 +113,30 @@ class InboundForms {
 
         // Match Phone
         (preg_match( '/Phone|phone number|telephone/i', $label, $phone_input)) ? $phone_input = " inbound-phone" : $phone_input = "";
-          
-        // match name or first name. (minus: name=, last name, last_name,) 
+
+        // match name or first name. (minus: name=, last name, last_name,)
         (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $label, $first_name_input)) ? $first_name_input = " inbound-first-name" : $first_name_input =  "";
 
         // Match Last Name
         (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $label, $last_name_input)) ? $last_name_input = " inbound-last-name" : $last_name_input =  "";
 
         $input_classes = $email_input . $first_name_input . $last_name_input . $phone_input;
-                
+
         $type = (isset($matches[3][$i]['type'])) ? $matches[3][$i]['type'] : '';
-        
+
             $form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.'">';
-        
-        if ($type != 'hidden' && $form_labels != "bottom" || $type === "radio"){  
+
+        if ($type != 'hidden' && $form_labels != "bottom" || $type === "radio"){
             $form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
-                    } 
+                    }
         if ($type === 'textarea'){
-             $form .=  '<textarea class="inbound-input inbound-input-textarea" name="'.$field_name.'" id="in_'.$field_name.' '.$req.'"/></textarea>';  
+             $form .=  '<textarea class="inbound-input inbound-input-textarea" name="'.$field_name.'" id="in_'.$field_name.' '.$req.'"/></textarea>';
         } else if ($type === 'dropdown'){
             $dropdown_fields = array();
             $dropdown = $matches[3][$i]['dropdown'];
             $dropdown_fields = explode(",", $dropdown);
             $form .= '<select name="'. $field_name .'" id="">';
-            foreach ($dropdown_fields as $key => $value) { 
+            foreach ($dropdown_fields as $key => $value) {
               $drop_val_trimmed =  trim($value);
               $dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
               $form .= '<option value="'. $dropdown_val .'">'. $value .'</option>';
@@ -157,31 +147,43 @@ class InboundForms {
             $radio = $matches[3][$i]['radio'];
             $radio_fields = explode(",", $radio);
             // $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
-            foreach ($radio_fields as $key => $value) { 
+            foreach ($radio_fields as $key => $value) {
               $radio_val_trimmed =  trim($value);
               $radio_val =  strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
               $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
             }
-          } else if ($type === 'html-block'){ 
+          } else if ($type === 'checkbox'){
+            $checkbox_fields = array();
+
+            $checkbox = $matches[3][$i]['checkbox'];
+            $checkbox_fields = explode(",", $checkbox);
+            // $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
+            foreach ($checkbox_fields as $key => $value) {
+              $checkbox_val_trimmed =  trim($value);
+              $checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
+              $form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'">'.$checkbox_val_trimmed.'<br>';
+
+            }
+          } else if ($type === 'html-block'){
               $html = $matches[3][$i]['html'];
               echo $html;
               $form .= "<div>" . $html . "</div>";
 
-          } else if ($type === 'editor'){ 
+          } else if ($type === 'editor'){
             //wp_editor(); // call wp editor
           } else {
               $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
               $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
               $form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' value="'.$dynamic_value.'" type="'.$type.'" '.$req.'/>';
           }
-          if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio"){  
+          if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio"){
               $form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
           }
-                   
+
           if ($description_block != "" && $type != 'hidden'){
                 $form .= "<div class='inbound-description'>".$description_block."</div>";
           }
-               $form .= '</div>'; 
+               $form .= '</div>';
       }
       // End Loop
       $current_page = get_permalink();
@@ -189,13 +191,14 @@ class InboundForms {
                       <input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />
                   </div>
                   <input type="hidden" name="inbound_submitted" value="1">';
-           if( $redirect != "") { 
+           if( $redirect != "") {
             $form .=  '<input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">';
            }
             $form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'">
                       <input type="hidden" name="inbound_current_page_url" value="'.$current_page.'">
                       <input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'">
-                     
+                      <input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'">
+
                   </form>
                   </div>';
       $form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
@@ -218,15 +221,15 @@ class InboundForms {
     //wp_enqueue_style( 'preloadify-css' );
      }
 
-    // move to file 
+    // move to file
     static function inline_my_script() {
       if ( ! self::$add_script )
       return;
 
       echo '<script type="text/javascript">
-          jQuery(document).ready(function($){ 
-          
-          function validateEmail(email) { 
+          jQuery(document).ready(function($){
+
+          function validateEmail(email) {
 
               var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               return re.test(email);
@@ -234,7 +237,7 @@ class InboundForms {
           var parent_redirect = parent.window.location.href;
           jQuery("#inbound_parent_page").val(parent_redirect);
 
-  
+
          // validate email
            $("input.inbound-email").on("change keyup", function (e) {
                var email = $(this).val();
@@ -256,7 +259,7 @@ class InboundForms {
           </script>';
 
     echo "<style type='text/css'>
-      /* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */  
+      /* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
         input.invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
                           -moz-box-shadow: 0 0 6px #f8b9b7;
                           box-shadow: 0 0 6px #F8B9B7;
@@ -266,10 +269,10 @@ class InboundForms {
                     -moz-box-shadow: 0 0 6px #f8b9b7;
                     box-shadow: 0 0 6px #98D398;
                     color: #008000;
-                    border-color: #008000;}                
+                    border-color: #008000;}
             </style>";
     }
-    
+
     static function send_email(){
       // Cross reference with EDD email class for HTML sends
       // Add PHP processing for lead data
@@ -277,6 +280,9 @@ class InboundForms {
             $redirect = "";
         if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
             $redirect = base64_decode($_POST['inbound_furl']);
+        }
+        if(isset($_POST['inbound_notify']) && $_POST['inbound_notify'] != "") {
+            $email_to = base64_decode($_POST['inbound_notify']);
         }
         print_r($_POST);
           foreach ( $_POST as $field => $value ) {
@@ -323,11 +329,11 @@ class InboundForms {
                 }
 
            //print_r($form_data); // debug form data
-          
+
             /* Might be better email send need to test and look at html edd emails */
             if ( isset($form_data['email'])) {
                 // DO PHP LEAD SAVE HERE
-                $to = 'david@inboundnow.com'; // admin email or email from shortcode
+                $to = $email_to; // admin email or email from shortcode
                 $admin_url = get_bloginfo( 'url' ) . "/wp-admin";
                 // get the website's name and puts it in front of the subject
                 $email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'] . " - New Lead Conversion";
@@ -341,7 +347,7 @@ class InboundForms {
                       <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
                         <tr>';
                 $email_message .= "<div style='padding-top: 10px; padding-left: 15px; font-size: 20px; padding-bottom: 10px; background-color:#E0E0E0; border:solid 1px #CECDCA;'>New Conversion on <strong>" . $form_data['inbound_form_name'] ."</strong></div>\n";
-                $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
+                $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
 
                 $main_count = 0;
                 $url_request = "";
@@ -354,12 +360,15 @@ class InboundForms {
                     if ( $name === "Inbound Current Page Url" ) {
                       $name = "Converted on Page";
                     }
+                    $field_data = ($form_data[$key] != "") ? $form_data[$key] : "<span style='color:#949494; font-size: 10px;'>(Field left blank)</span>";
+
+
                     if(!in_array($name, $exclude_array)) {
-                    $email_message .= "<div style='border:solid 1px #EBEBEA; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><strong style='min-width: 120px;display: inline-block;'>".$name . ": </strong>" . $form_data[$key] ."</div>\n";
+                    $email_message .= "<div style='border:solid 1px #EBEBEA; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><strong style='min-width: 120px;display: inline-block;'>".$name . ": </strong>" . $field_data ."</div>\n";
                     }
                     $main_count++;
                 }
-                
+
                 $email_message .= "<div style='border:solid 1px #EBEBEA; background-color:#fff; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><h1><a style='color: #00F;font-size: 20px;' href='".$admin_url."/edit.php?post_type=wp-lead&lead-email-redirect=".$form_data['email']."' target='_blank'>View this Lead</a></h1></div>\n";
                 $email_message .= '</tr>
                               </table>
@@ -371,10 +380,10 @@ class InboundForms {
                 // send the e-mail with the shortcode attribute named 'email' and the POSTed data
                 wp_mail( $to, $email_subject, $email_message, $headers );
                 // and set the result text to the shortcode attribute named 'success'
-                $result = $success;
+                //$result = $success;
                 // ...and switch the $sent variable to TRUE
                 $sent = true;
-                //print_r($email_message); // preview email
+                print_r($email_message); // preview email
                 //echo "email sent";
                 // Do redirect
                 //echo $redirect . $url_request;
@@ -383,9 +392,9 @@ class InboundForms {
                 header("Location:" . $redirect);
                 }
             }
-          
+
         }
-       
+
     }
   }
 
