@@ -24,7 +24,7 @@ class InboundForms {
         add_action('init', array(__CLASS__, 'register_script'));
         add_action('wp_footer', array(__CLASS__, 'print_script'));
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
-        add_action( 'wp_head',  array(__CLASS__, 'send_email'));
+        add_action( 'init',  array(__CLASS__, 'send_email'));
     }
 
     // Shortcode params
@@ -187,7 +187,7 @@ class InboundForms {
       }
       // End Loop
       $current_page = get_permalink();
-             $form .= '<div class="inbound-field inbound-submit-area">
+             $form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area">
                       <input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />
                   </div>
                   <input type="hidden" name="inbound_submitted" value="1">';
@@ -284,7 +284,7 @@ class InboundForms {
         if(isset($_POST['inbound_notify']) && $_POST['inbound_notify'] != "") {
             $email_to = base64_decode($_POST['inbound_notify']);
         }
-        print_r($_POST);
+
           foreach ( $_POST as $field => $value ) {
                 if ( get_magic_quotes_gpc() ) {
                     $value = stripslashes( $value );
@@ -310,7 +310,7 @@ class InboundForms {
                 $form_data[$field] = strip_tags( $value );
 
             }
-                // Make Option
+            /*
                 add_filter( 'wp_mail_from', 'wp_leads_mail_from' );
                 function wp_leads_mail_from( $email )
                 {
@@ -322,6 +322,7 @@ class InboundForms {
                 {
                     return 'David';
                 }
+             */
                 // Make Option
                 add_filter( 'wp_mail_content_type', 'set_html_content_type' );
                 function set_html_content_type() {
@@ -374,8 +375,15 @@ class InboundForms {
                               </table>
                             </body>
                           </html>';
+                if (isset($form_data['first-name']) && isset($form_data['last-name'])) {
+                  $from_name = $form_data['first-name'] . " ". $form_data['last-name'];
+                } else if (isset($form_data['first-name'])) {
+                  $from_name = $form_data['first-name'];
+                } else {
+                  $from_name = get_bloginfo( 'name' );
+                }
                 // set the e-mail headers with the user's name, e-mail address and character encoding
-                $headers  = "From: " . $form_data['first-name'] . " <" . $form_data['email'] . ">\n";
+                $headers  = "From: " . $from_name . " <" . $form_data['email'] . ">\n";
                 $headers .= 'Content-type: text/html';
                 // send the e-mail with the shortcode attribute named 'email' and the POSTed data
                 wp_mail( $to, $email_subject, $email_message, $headers );
@@ -383,13 +391,14 @@ class InboundForms {
                 //$result = $success;
                 // ...and switch the $sent variable to TRUE
                 $sent = true;
-                print_r($email_message); // preview email
+
                 //echo "email sent";
                 // Do redirect
                 //echo $redirect . $url_request;
                 if ($redirect != "") {
-                header("HTTP/1.1 302 Temporary Redirect");
-                header("Location:" . $redirect);
+
+                wp_redirect( $redirect );
+                exit();
                 }
             }
 
