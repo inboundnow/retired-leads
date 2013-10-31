@@ -10,7 +10,7 @@
 */
 
 /* Declare Template Key */
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 $path = WP_CTA_URLPATH.'templates/'.$key.'/';
 $url = plugins_url();
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
@@ -28,15 +28,16 @@ $post_id = get_the_ID();
 $width = get_post_meta( $post_id, 'wp_cta_width-'.$var_id, true ) . "px";
 $height = get_post_meta( $post_id, 'wp_cta_height-'.$var_id, true ) . "px";
 
-$headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' ); 
+$headline_text_color = wp_cta_get_value($post, $key, 'headline-text-color' );
 $header_text = wp_cta_get_value($post, $key, 'header-text' );
 $hero = wp_cta_get_value($post, $key, 'hero' );
-$content_color = wp_cta_get_value($post, $key, 'content-color' ); 
-$content_text_color = wp_cta_get_value($post, $key, 'content-text-color' ); 
-$submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color' ); 
-$submit_button_text_color = wp_cta_get_value($post, $key, 'submit-button-text-color' ); 
+$content_color = wp_cta_get_value($post, $key, 'content-color' );
+$content_text_color = wp_cta_get_value($post, $key, 'content-text-color' );
+$submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color' );
+$submit_button_text_color = wp_cta_get_value($post, $key, 'submit-button-text-color' );
 $submit_button_text = wp_cta_get_value($post, $key, 'submit-button-text' );
 $redirect = wp_cta_get_value($post, $key, 'redirect' );
+$email = wp_cta_get_value($post, $key, 'email' );
 $content = get_the_content();
 $new_content = wpautop($content);
 ?>
@@ -56,7 +57,7 @@ $new_content = wpautop($content);
   width: 700px;
   padding: 10px;
   padding-bottom: 0px;
-}  
+}
 #inbound-hero {
   width: 35%;
 float: left;
@@ -124,7 +125,7 @@ margin-bottom: 4px;
  input[type="submit"]:hover {
   background: #f15958;
 }
-<?php 
+<?php
 if ($width !="") {
             echo "#content {width: $width;}"; // change header color
 }
@@ -156,11 +157,11 @@ if ($submit_button_text_color != "") {
 if ($headline_color != "") {
           echo"h1#main-headline { color: #$headline_color; margin-top: 0px; padding-top: 10px; line-height: 36px; margin-bottom: 10px;}";
 }
-?> 
+?>
 </style>
 
 <!-- Load Normal WordPress wp_head() function -->
-<?php wp_head(); ?> 
+<?php wp_head(); ?>
 <!-- Load Landing Pages's custom pre-load hook for 3rd party plugin integration -->
 <?php do_action('wp_cta_head'); ?>
 
@@ -180,26 +181,35 @@ if ($headline_color != "") {
 </div>
 <div id="inbound-hero">
 <img class='inbound-hero-img' src="<?php echo $hero;?>">
-</div> 
+</div>
 
   <div class="divider_line"></div>
 
 
   <div id="inbound-form-wrapper">
- 
+
+<?php
+$title = get_the_title( $post_id );
+echo do_shortcode( '[inbound_form name="'.$title.'" redirect="'.$redirect.'" notify="'.$email.'" layout="horizontal" labels="top" submit="'.$submit_button_text.'" ]
+
+[inbound_field label="Name" type="text" required="0" ]
+
+[inbound_field label="Email" type="text" required="1" ]
+
+[/inbound_form]' );?>
 <?php echo do_shortcode( '[inbound_form fields="Name, Email" required="" layout="horizontal" redirect="'.$redirect.'" button_text="'.$submit_button_text.'"]' );?>
 
   </div>
 
 </div>
 
-	
 
 
-<?php 
+
+<?php
 break;
-endwhile; endif; 
-do_action('wp_cta_footer'); 
+endwhile; endif;
+do_action('wp_cta_footer');
 wp_footer();
-?>  
+?>
 </body>

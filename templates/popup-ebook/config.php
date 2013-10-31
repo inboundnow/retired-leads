@@ -8,11 +8,11 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 
 
-$wp_cta_data[$key]['info'] = 
-array(	
+$wp_cta_data[$key]['info'] =
+array(
 	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Popup Ebook", // Nice Name
@@ -24,11 +24,11 @@ array(
 
 
 // Define Meta Options for template
-$wp_cta_data[$key]['settings'] = 
+$wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "Instructions for this call to action template go here", // what field does
+        'description' => "<p>This is a popup call to action used to promote something. Use the main hero image and the main content area to create the copy for your popup</p>", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
         'default'  => '<p>This is a popup call to action used to promote something. Use the main hero image and the main content area to create your popup</p>', // default content
@@ -100,6 +100,13 @@ array(
         'description' => "Where to redirect people",
         'id'  => 'redirect',
         'type'  => 'text',
-        'default'  => ''
+        'default'  => 'http://www.link-to-final-destination.com'
+        ),
+      array(
+        'label' => 'Notification Email',
+        'description' => "This will send you a notice when a lead fills out the form",
+        'id'  => 'email',
+        'type'  => 'text',
+        'default'  => 'youremail@email.com'
         )
     );
