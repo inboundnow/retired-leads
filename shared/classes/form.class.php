@@ -241,13 +241,14 @@ class InboundForms {
 	}
 
     // setup enqueue scripts
-    static function register_script() {
+    static function register_script()
+	{
 		//wp_register_script('preloadify-js', plugins_url('/js/preloadify/jquery.preloadify.js', __FILE__), array('jquery'), '1.0', true);
 		//wp_register_style( 'preloadify-css', plugins_url( '/inbound-forms/js/preloadify/plugin/css/style.css' ) );
     }
 
     // only call enqueue once
-    static function print_script() 
+    static function print_script()
 	{
 		if ( ! self::$add_script )
 		return;
@@ -256,10 +257,10 @@ class InboundForms {
     }
 
     // move to file
-    static function inline_my_script() 
+    static function inline_my_script()
 	{
 		if ( ! self::$add_script )
-		return;
+			return;
 
 		echo '<script type="text/javascript">
           jQuery(document).ready(function($){
@@ -307,10 +308,9 @@ class InboundForms {
                     border-color: #008000;}
             </style>";
     }
-	
-	static function send_mail($fields , $form_meta_data)
-	{		
 
+	static function send_mail($fields , $form_meta_data)
+	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 		function set_html_content_type() {
 			return 'text/html';
