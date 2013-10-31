@@ -443,7 +443,7 @@ function inbound_form_auto_publish()
 	    wp_die();
 	}
 }
-add_shortcode('inbound_forms', 'inbound_short_form_create');
+
 if (!function_exists('inbound_short_form_create')) {
 	function inbound_short_form_create( $atts, $content = null ) {
 		extract(shortcode_atts(array(
@@ -481,4 +481,5 @@ if (!function_exists('inbound_short_form_create')) {
 
 		return do_shortcode( $shortcode );
 	}
+	add_shortcode('inbound_forms', 'inbound_short_form_create');
 }

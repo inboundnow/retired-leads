@@ -20,11 +20,13 @@ include_once('modules/wpl.m.form-integrations.php');
 include_once('functions/wpl.f.global.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
+
 include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 include_once('shared/classes/form.class.php');  // Mirrored forms
+include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
 include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating
-include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
+
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
