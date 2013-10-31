@@ -34,7 +34,7 @@
 
 		generate: function() {
 
-			var output = jQuery('#_fresh_shortcodes_output').text(),
+			var output = jQuery('#_inbound_shortcodes_output').text(),
 				newoutput = output;
 
 			jQuery('.inbound-shortcodes-input').each(function() {
@@ -56,8 +56,8 @@
 
 			});
 
-			jQuery('#_fresh_shortcodes_newoutput').remove();
-			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_fresh_shortcodes_newoutput" class="hidden">' + newoutput + '</div>');
+			jQuery('#_inbound_shortcodes_newoutput').remove();
+			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_inbound_shortcodes_newoutput" class="hidden">' + newoutput + '</div>');
 
 			InboundShortcodes.updatePreview();
 
@@ -65,7 +65,7 @@
 
 		generateChild : function() {
 
-			var output = jQuery('#_fresh_shortcodes_child_output').text(),
+			var output = jQuery('#_inbound_shortcodes_child_output').text(),
 				parent_output = '',
 				outputs = '';
 
@@ -93,14 +93,14 @@
 				outputs = outputs + row_output + "\n";
 			});
 
-			jQuery('#_fresh_shortcodes_child_newoutput').remove();
-			jQuery('.child-clone-rows').prepend('<div id="_fresh_shortcodes_child_newoutput" class="hidden">' + outputs + '</div>');
+			jQuery('#_inbound_shortcodes_child_newoutput').remove();
+			jQuery('.child-clone-rows').prepend('<div id="_inbound_shortcodes_child_newoutput" class="hidden">' + outputs + '</div>');
 
 			this.generate();
-			parent_output = jQuery('#_fresh_shortcodes_newoutput').text().replace('{{child}}', outputs);
+			parent_output = jQuery('#_inbound_shortcodes_newoutput').text().replace('{{child}}', outputs);
 
-			jQuery('#_fresh_shortcodes_newoutput').remove();
-			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_fresh_shortcodes_newoutput" class="hidden">' + parent_output + '</div>');
+			jQuery('#_inbound_shortcodes_newoutput').remove();
+			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_inbound_shortcodes_newoutput" class="hidden">' + parent_output + '</div>');
 
 			InboundShortcodes.updatePreview();
 
@@ -179,7 +179,7 @@
 
 			if( jQuery('#inbound-shortcodes-preview').size() > 0 ) {
 
-				var	shortcode = jQuery('#_fresh_shortcodes_newoutput').html(),
+				var	shortcode = jQuery('#_inbound_shortcodes_newoutput').html(),
 					iframe = jQuery('#inbound-shortcodes-preview'),
 					theiframeSrc = iframe.attr('src'),
 					thesiframeSrc = theiframeSrc.split('preview.php'),
@@ -202,7 +202,7 @@
 			var	ajaxCont = jQuery('#TB_ajaxContent'),
 				tbWindow = jQuery('#TB_window'),
 				freshthemesPopup = jQuery('#inbound-shortcodes-popup'),
-				no_preview = (jQuery('#_fresh_shortcodes_preview').text() == 'false') ? true : false;
+				no_preview = (jQuery('#_inbound_shortcodes_preview').text() == 'false') ? true : false;
 			var width = jQuery(window).width();
 			var H = jQuery(window).height();
 			var W = ( 1720 < width ) ? 1720 : width;
@@ -304,7 +304,7 @@
 							            if (jQuery('.child-clone-row').length != "1") {
 											if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
 						            			  jQuery(".child-clone-rows.ui-sortable").html(form_insert);
-						            			  jQuery("#_fresh_shortcodes_newoutput").text(obj.inbound_shortcode);
+						            			  jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
 						            			  	InboundShortcodes.generate();
 													InboundShortcodes.generateChild();
 						        			} else {
@@ -314,7 +314,7 @@
 
 				        				} else {
 				        				  jQuery(".child-clone-rows.ui-sortable").html(form_insert);
-				        				  jQuery("#_fresh_shortcodes_newoutput").text(obj.inbound_shortcode);
+				        				  jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
 				        				  InboundShortcodes.generate();
 										  InboundShortcodes.generateChild();
 				        				}
@@ -343,8 +343,8 @@
 			var	InboundShortcodes = this,
 				popup = jQuery('#inbound-shortcodes-popup'),
 				form = jQuery('#inbound-shortcodes-form', popup),
-				output = jQuery('#_fresh_shortcodes_output', form).text(),
-				popupType = jQuery('#_fresh_shortcodes_popup', form).text(),
+				output = jQuery('#_inbound_shortcodes_output', form).text(),
+				popupType = jQuery('#_inbound_shortcodes_popup', form).text(),
 				shortcode_name = jQuery("#inbound_current_shortcode").val(),
 				newoutput = '';
 
@@ -356,10 +356,10 @@
 			InboundShortcodes.generate();
 			InboundShortcodes.children();
 			InboundShortcodes.generateChild();
-
+			jQuery("#inbound-shortcodes-popup").addClass('shortcode-' + shortcode_name);
 			// Conditional Form Only extras
 			if ( shortcode_name === "insert_inbound_form_shortcode") {
-				jQuery(".inbound_shortcode_child_tbody, .main-design-settings").hide();
+				jQuery("#inbound_insert_shortcode_two, .inbound_shortcode_child_tbody, .main-design-settings").hide();
 				jQuery("#inbound_save_form").show();
 				jQuery("#inbound_insert_shortcode_two").removeClass('button-primary').addClass('button').text('Insert Full Shortcode')
 				jQuery('.step-item').on('click', function() {
@@ -373,10 +373,14 @@
 
 					InboundShortcodes.update_fields();
 				});
+				jQuery("body").on('click', '.switch-to-form-insert', function () {
+					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
+				 });
 			}
 
 			if ( shortcode_name === "quick_insert_inbound_form_shortcode") {
 				jQuery("#inbound_insert_shortcode_two").addClass('quick-forms');
+
 				jQuery("body").on('click', '.switch-to-form-builder', function () {
 					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=forms&width=' + 900);
 				 });
@@ -402,17 +406,12 @@
 
 			// Save Shortcode Function
 			var shortcode_nonce_val = inbound_shortcodes.inbound_shortcode_nonce; // NEED CORRECT NONCE
-			jQuery("body").on('click', '#inbound_save_form', function () {
-			  		console.log('Save clicked');
-			        // if data exists save it
-			        //var this_meta_id = jQuery(this).attr("id");
-			        // run on form custom post type only. ID fix
-
+			jQuery("body").on('mousedown', '#inbound_save_form', function () {
 
 			        var post_id = jQuery("#post_ID").val();
 			      	var form_settings = jQuery(".child-clone-rows.ui-sortable").html();
 			        var shortcode_name = jQuery("#inbound_current_shortcode").val();
-			        var shortcode_value = jQuery('#_fresh_shortcodes_newoutput').html();
+			        var shortcode_value = jQuery('#_inbound_shortcodes_newoutput').html();
 					var form_name = jQuery("#inbound_shortcode_form_name").val();
 					var form_values = jQuery("#inbound-shortcodes-form").serialize();
 					var field_count = jQuery('.child-clone-row').length;
@@ -544,20 +543,19 @@
 
     		});
 
-
 			jQuery('body').on('change', 'select', function () {
 				var find_this = jQuery(this).attr('data-field-name'),
 				this_val = jQuery(this).val();
 				jQuery(".dynamic-visable-on").hide();
 				jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 			});
-			jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
-				jQuery('.inbound-shortcodes-insert').click();
-    		});
+
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
     			window.tb_remove();
     		});
-			jQuery('.inbound-shortcodes-insert', form).click(function() {
+
+		},
+		insert_shortcode: function() {
 				var shortcode_name = jQuery("#inbound_current_shortcode").val();
 				var form_name = jQuery("#inbound_shortcode_form_name").val();
 				if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
@@ -566,7 +564,7 @@
 					jQuery("#inbound_shortcode_form_name").addClass('need-value').focus();
 				} else {
 					if(window.tinyMCE) {
-							var insert_val = jQuery('#_fresh_shortcodes_newoutput', form).html();
+							var insert_val = jQuery('#_inbound_shortcodes_newoutput').html();
 
 							if ( shortcode_name === "insert_inbound_form_shortcode") {
 							//var fixed_insert_val = insert_val.replace(/\[.*?(.*?)\]/g, "[$1]<br class='inbr'/>"); // for linebreaks in editor
@@ -581,8 +579,7 @@
 							tb_remove();
 					}
 				}
-			});
-		},
+			},
 
 		htmlEncode: function(html) {
 			return jQuery('<div/>').text(html).html();
@@ -593,6 +590,9 @@
 	jQuery(document).ready( function() {
 		jQuery('#inbound-shortcodes-popup').livequery( function() {
 			InboundShortcodes.load();
+		});
+		jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
+			InboundShortcodes.insert_shortcode();
 		});
 	});
 

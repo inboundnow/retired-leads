@@ -1,6 +1,4 @@
-#inbound_insert_shortcode_two {
-	display: none;
-}
+
 #inbound-shortcodes-popup{
 	width:100%;
 	overflow:hidden;
@@ -33,7 +31,7 @@ input.short-shortcode-input {
 .parent-inbound_shortcode_helper-block-one .label {
 	display: none !important;
 }
-.switch-to-form-builder.button {
+.switch-to-form-builder.button, .switch-to-form-insert.button {
 	font-style: normal;
 }
 tbody.hidden-form-settings {
@@ -344,6 +342,12 @@ text-decoration: none;
 	color:red;
 	padding-left: 3px;
 }
+.shortcode-quick_insert_inbound_form_shortcode #inbound-shortcodes-form-table tbody tr.form-row td.label {
+line-height: 29px !important;
+}
+.shortcode-quick_insert_inbound_form_shortcode ol.steps {
+	display: none;
+}
 #inbound-shortcodes-form-table tbody.parent-inbound_shortcode_heading_design tr.form-row td.label {
 	display: none;
 }
@@ -356,6 +360,9 @@ text-decoration: none;
 /* tinmyce icons */
 .wp_themeSkin .mceIcon.mce_editor-icon-forms {
 	background: url(../images/inbound_form_ico.png) 3px no-repeat;
+}
+.wp_themeSkin .mceIcon.mce_editor-icon-quick-forms {
+	background: url(../images/inbound_form_insert_ico.png) 6px 4px no-repeat;
 }
 .wp_themeSkin .mceIcon.mce_editor-icon-button {
 	background: url(../images/inbound_button_ico.png) 3px no-repeat;
