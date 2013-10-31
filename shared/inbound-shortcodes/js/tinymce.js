@@ -61,7 +61,7 @@ if (cta_status > -1) {
 				// adds the dropdown to the button
 				btn.onRenderMenu.add(function(c, b) {
 					b.add({title : 'Inbound Form Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-					a.addWithPopup( b, 'Form Builder', 'forms' );
+					a.addWithPopup( b, 'Inbound Form Builder', 'forms' );
 					a.addWithPopup( b, 'Quick Form Insert', 'quick-forms' );
 
 					if (cta_status > -1) {

@@ -32,6 +32,7 @@ class InboundForms {
     self::$add_script = true;
     $email = get_option('admin_email');
     extract(shortcode_atts(array(
+      'id' => '',
       'name' => '',
       'layout' => '',
       'notify' => $email,
@@ -195,6 +196,7 @@ class InboundForms {
             $form .=  '<input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">';
            }
             $form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'">
+                      <input type="hidden" name="inbound_form_id" value="'.$id.'">
                       <input type="hidden" name="inbound_current_page_url" value="'.$current_page.'">
                       <input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'">
                       <input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'">

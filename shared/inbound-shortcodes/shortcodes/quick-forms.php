@@ -17,7 +17,7 @@
 			),
 			'helper-block-one' => array(
 					'name' => __('Name Name Name',  INBOUND_LABEL),
-					'desc' => __('<span class="switch-to-form-builder button">Switch to form builder</span>',  INBOUND_LABEL),
+					'desc' => __('<span class="switch-to-form-builder button">Build a New Form</span>',  INBOUND_LABEL),
 					'type' => 'helper-block',
 					'std' => '',
 					'class' => 'helper-div',

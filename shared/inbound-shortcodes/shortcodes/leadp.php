@@ -37,9 +37,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('leadp', 'fresh_shortcode_leadp');
-	if (!function_exists('fresh_shortcode_leadp')) {
-		function fresh_shortcode_leadp( $atts, $content = null ) {
+	add_shortcode('leadp', 'inbound_shortcode_leadp');
+	if (!function_exists('inbound_shortcode_leadp')) {
+		function inbound_shortcode_leadp( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'align' => ''
 			), $atts));
