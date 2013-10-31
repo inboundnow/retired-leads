@@ -30,3 +30,9 @@ padding-left: 10px;
 .form-field-row-number {
 position: absolute;
 left: 0px; }
+#inbound-shortcodes-popup {
+width: 100%;
+overflow: visible;}
+#inbound-shortcodes-preview-wrap {
+margin-top: -30px;
+}

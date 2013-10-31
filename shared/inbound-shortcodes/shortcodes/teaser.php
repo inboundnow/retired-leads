@@ -188,9 +188,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('teaser', 'fresh_shortcode_teaser');
+	add_shortcode('teaser', 'inbound_shortcode_teaser');
 
-	function fresh_shortcode_teaser( $atts, $content = null ) {
+	function inbound_shortcode_teaser( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'heading' => '',
 			'style' => '',
@@ -209,7 +209,7 @@
 
 		if (!preg_match_all("/(.?)\[(block)\b(.*?)(?:(\/))?\](?:(.+?)\[\/block\])?(.?)/s", $content, $matches)) {
 			return do_shortcode($content);
-		} 
+		}
 		else {
 
 			for($i = 0; $i < count($matches[0]); $i++) {
@@ -226,14 +226,14 @@
 					$title = ( $matches[3][$i]['link'] ) ? '<a class="reserve" href="'. $matches[3][$i]['link'] .'">'. $matches[3][$i]['title'] .'</a>' : $matches[3][$i]['title'];
 
 					$out .= '<aside class="teaser'. $grid . $style .'">';
-						
+
 						if( $matches[3][$i]['image'] ) {
 							$out .= '<div class="teaser-image"><img src="'. $matches[3][$i]['image'] .'" alt="" /></div>';
 						}
 						elseif ( $matches[3][$i]['icon'] ) {
 							$out .= '<div class="teaser-icon"><i class="icon-'. $matches[3][$i]['icon'] .'"></i></div>';
 						}
-						
+
 						$out .= '<header class="teaser-header">';
 
 							$out .= '<h3 class="teaser-title">'.$title.'</h3>';

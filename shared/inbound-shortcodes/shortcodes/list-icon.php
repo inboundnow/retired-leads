@@ -38,17 +38,17 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('list_icons', 'fresh_shortcode_list_icons');
+	add_shortcode('list_icons', 'inbound_shortcode_list_icons');
 
-	function fresh_shortcode_list_icons( $atts, $content = null ) {
+	function inbound_shortcode_list_icons( $atts, $content = null ) {
 		extract(shortcode_atts(array(), $atts));
-		
+
 		$out = '';
-		
+
 		if (!preg_match_all("/(.?)\[(list)\b(.*?)(?:(\/))?\](?:(.+?)\[\/list\])?(.?)/s", $content, $matches)) {
-			
+
 			return do_shortcode($content);
-			
+
 		} else {
 
 			for($i = 0; $i < count($matches[0]); $i++) {

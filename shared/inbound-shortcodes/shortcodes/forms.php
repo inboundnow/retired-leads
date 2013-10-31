@@ -58,6 +58,13 @@
 				'std' => '',
 				'class' => 'main-form-settings',
 			),
+			'helper-block-one' => array(
+					'name' => __('Name Name Name',  INBOUND_LABEL),
+					'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  INBOUND_LABEL),
+					'type' => 'helper-block',
+					'std' => '',
+					'class' => 'main-form-settings',
+			),
 			'heading_design' => array(
 					'name' => __('Name Name Name',  INBOUND_LABEL),
 					'desc' => __('Layout Options',  INBOUND_LABEL),
@@ -257,6 +264,53 @@ if (!function_exists('inbound_forms_cpt')) {
 		} */
 	}
 }
+
+
+if (is_admin())
+{
+	// Change the columns for the edit CPT screen
+	add_filter( "manage_inbound-forms_posts_columns", "inbound_forms_change_columns" );
+	if (!function_exists('inbound_forms_change_columns')) {
+		function inbound_forms_change_columns( $cols ) {
+			$cols = array(
+				"cb" => "<input type=\"checkbox\" />",
+				'title' => "Form Name",
+				"inbound-form-shortcode" => "Shortcode",
+				"inbound-form-converions" => "Submissions",
+				"date" => "Date"
+			);
+			return $cols;
+		}
+	}
+
+	add_action( "manage_posts_custom_column", "inbound_forms_custom_columns", 10, 2 );
+	if (!function_exists('inbound_forms_custom_columns')) {
+		function inbound_forms_custom_columns( $column, $post_id )
+		{
+			switch ( $column ) {
+
+				case "inbound-form-shortcode":
+					$shortcode = get_post_meta( $post_id , 'inbound_shortcode', true );
+					$form_name = get_the_title( $post_id );
+				  if ($shortcode == "") {
+				  	$shortcode = 'N/A';
+				  }
+
+				  echo '<input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[inbound_forms id="'.$post_id.'" name="'.$form_name.'"]\'>';
+				  break;
+				/*case "last-name":
+				  $last_name = get_post_meta( $post_id, 'wpleads_last_name', true);
+				   if (get_post_meta( $post_id, 'wpleads_last_name', true) == "") {
+				  	$last_name = 'N/A';
+				  }
+				  echo $last_name;
+				  break; */
+			}
+		}
+	}
+}
+
+
 if (!function_exists('inbound_forms_redirect')) {
 function inbound_forms_redirect($value){
 	    global $pagenow;
@@ -269,9 +323,9 @@ function inbound_forms_redirect($value){
 }
 add_action('admin_init', 'inbound_forms_redirect');
 
-add_action('admin_head', 'get_form_names',16);
-if (!function_exists('get_form_names')) {
-	function get_form_names() {
+add_action('admin_head', 'inbound_get_form_names',16);
+if (!function_exists('inbound_get_form_names')) {
+	function inbound_get_form_names() {
 		global $post;
 
 		$loop = get_transient( 'inbound-form-names-off' );
@@ -313,6 +367,7 @@ add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
 if (!function_exists('inbound_form_save')) {
 function inbound_form_save()
 	{
+		global $user_ID, $wpdb;
 	    // Post Values
 	    $form_name = (isset( $_POST['name'] )) ? $_POST['name'] : "";
 	    $shortcode = (isset( $_POST['shortcode'] )) ? $_POST['shortcode'] : "";
@@ -323,11 +378,23 @@ function inbound_form_save()
 	    $post_type = (isset( $_POST['post_type'] )) ? $_POST['post_type'] : "";
 	    $redirect_value = (isset( $_POST['redirect_value'] )) ? $_POST['redirect_value'] : "";
 
-	    if (isset( $_POST['name'])&&!empty( $_POST['name']))
-	    {
-
-	        // AND post_status = 'publish'" OR DRAFT
-	        global $user_ID, $wpdb;
+	    if ($post_type === 'inbound-forms'){
+	    	$post_ID = $page_id;
+	    	  $update_post = array(
+	    	      'ID'           => $post_ID,
+	    	      'post_title'   => $form_name,
+	    	      'post_status'       => 'publish',
+	    	  );
+	    	  wp_update_post( $update_post );
+	    	  $form_settings_data = get_post_meta( $post_ID, 'form_settings', TRUE );
+	    	  update_post_meta( $post_ID, 'inbound_form_settings', $form_settings );
+	    	  update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
+	    	  update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
+	    	  update_post_meta( $post_ID, 'inbound_form_values', $form_values );
+	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
+	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
+	    } else {
+	    // If from popup run this
 	        $query = $wpdb->prepare(
 	            'SELECT ID FROM ' . $wpdb->posts . '
 	            WHERE post_title = %s
@@ -335,9 +402,8 @@ function inbound_form_save()
 	            $form_name
 	        );
 	        $wpdb->query( $query );
-
+	        // If form exists
 	        if ( $wpdb->num_rows ) {
-	            // If lead exists add data/append data to it
 	            $post_ID = $wpdb->get_var( $query );
 
 	            if ($post_ID != $page_id) {
@@ -345,20 +411,16 @@ function inbound_form_save()
 	            	echo json_encode("Found");
 	            	exit;
 	            } else {
-
-	            $form_settings_data = get_post_meta( $post_ID, 'form_settings', TRUE );
-
-	            update_post_meta( $post_ID, 'inbound_form_settings', $form_settings );
-	            update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
-	            update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
-	            update_post_meta( $post_ID, 'inbound_form_values', $form_values );
-	            update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
-	            update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
-	        	}
-
+	            	update_post_meta( $post_ID, 'inbound_form_settings', $form_settings );
+	            	update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
+	            	update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
+	            	update_post_meta( $post_ID, 'inbound_form_values', $form_values );
+	            	update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
+	            	update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
+	            }
 
 	        } else {
-	            // If event doesn't exist create it
+	            // If form doesn't exist create it
 	            $post = array(
 	                'post_title'        => $form_name,
 	                'post_content'      => $shortcode,
@@ -375,6 +437,8 @@ function inbound_form_save()
 	            update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	        }
+	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
+	        update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
 
 	           	$output =  array('post_id'=> $post_ID,
 	                     'form_name'=>$form_name,
@@ -451,6 +515,8 @@ if (!function_exists('inbound_short_form_create')) {
 		), $atts));
 
 		$shortcode = get_post_meta( $id, 'inbound_shortcode', TRUE );
+		// Pass in form ID with preg match
+		// $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
 		if ($id === 'default_3'){
 			$shortcode = '[inbound_form name="Form Name" layout="vertical" labels="top" submit="Submit" ][inbound_field label="Email" type="text" required="1" ][/inbound_form]';
 		}

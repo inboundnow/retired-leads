@@ -80,9 +80,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('intro', 'fresh_shortcode_intro');
+	add_shortcode('intro', 'inbound_shortcode_intro');
 
-	function fresh_shortcode_intro( $atts, $content = null ) {
+	function inbound_shortcode_intro( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'title' => '',
 			'alignment' => ''

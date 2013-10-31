@@ -33,6 +33,7 @@ class InboundForms {
 		self::$add_script = true;
 		$email = get_option('admin_email');
 		extract(shortcode_atts(array(
+		  'id' => '',
 		  'name' => '',
 		  'layout' => '',
 		  'notify' => $email,
@@ -216,7 +217,7 @@ class InboundForms {
 		  // End Loop
 		  
 			$current_page = get_permalink();
-			$form .= '<div class="inbound-field inbound-submit-area">
+			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area">
 					<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />
 					</div>
 					<input type="hidden" name="inbound_submitted" value="1">';
@@ -372,8 +373,21 @@ class InboundForms {
 						  </table>
 						</body>
 					  </html>';
+			
+			if (isset($form_data['first-name']) && isset($form_data['last-name'])) 
+			{
+                $from_name = $form_data['first-name'] . " ". $form_data['last-name'];
+            } 
+			else if (isset($form_data['first-name'])) 
+			{
+                $from_name = $form_data['first-name'];
+            } 
+			else 
+			{
+                $from_name = get_bloginfo( 'name' );
+            }
 			// set the e-mail headers with the user's name, e-mail address and character encoding
-			$headers  = "From: " . $form_data['first-name'] . " <" . $form_data['email'] . ">\n";
+			$headers  = "From: " . $from_name . " <" . $form_data['email'] . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
 			wp_mail( $to, $email_subject, $email_message, $headers );

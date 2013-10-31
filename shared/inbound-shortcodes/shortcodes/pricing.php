@@ -161,9 +161,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('pricing', 'fresh_shortcode_pricing');
+	add_shortcode('pricing', 'inbound_shortcode_pricing');
 
-	function fresh_shortcode_pricing( $atts, $content = null ) {
+	function inbound_shortcode_pricing( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'column' => '3'
 		), $atts));
@@ -174,11 +174,11 @@
 		if ($column == '4') $grid = ' grid one-fourth';
 		if ($column == '5') $grid = ' grid one-fifth';
 		$out = '';
-		
+
 		if (!preg_match_all("/(.?)\[(plan)\b(.*?)(?:(\/))?\](?:(.+?)\[\/plan\])?(.?)/s", $content, $matches)) {
-			
+
 			return do_shortcode($content);
-			
+
 		} else {
 
 			for($i = 0; $i < count($matches[0]); $i++) {
