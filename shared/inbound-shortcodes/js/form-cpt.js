@@ -54,7 +54,7 @@ jQuery(document).ready(function($) {
      }, 1000);
 
 
-    if (post_status === 'draft' && post_title != "") {
+    if (post_status === 'draft' && post_title != "" || post_status ==='pending' && post_title != "" ) {
     	// run auto publish ajax
     	        jQuery.ajax({
     	            type: 'POST',
@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
     	            },
 
     	            success: function (data) {
-    	                alert("Auto Published");
+    	               console.log("This Form has been auto published");
     	            },
 
     	            error: function (MLHttpRequest, textStatus, errorThrown) {

@@ -56,11 +56,11 @@ class InboundShortcodesFields {
 			$this->shortcode = $fields[$this->popup]['shortcode'];
 			$this->popup_title = $fields[$this->popup]['popup_title'];
 
-			$this->append_output('<div id="_fresh_shortcodes_output" class="hidden">'.$this->shortcode.'</div>');
-			$this->append_output('<div id="_fresh_shortcodes_popup" class="hidden">'.$this->popup.'</div>');
+			$this->append_output('<div id="_inbound_shortcodes_output" class="hidden">'.$this->shortcode.'</div>');
+			$this->append_output('<div id="_inbound_shortcodes_popup" class="hidden">'.$this->popup.'</div>');
 
 			if( isset( $fields[$this->popup]['no_preview'] ) && $fields[$this->popup]['no_preview'] ) {
-				$this->append_output( "\n" . '<div id="_fresh_shortcodes_preview" class="hidden">false</div>' );
+				$this->append_output( "\n" . '<div id="_inbound_shortcodes_preview" class="hidden">false</div>' );
 				$this->no_preview = true;
 			}
 			$count = 0;
@@ -167,7 +167,7 @@ class InboundShortcodesFields {
 				$parent_row_start .= '<tr class="form-row has-child">';
 				$parent_row_start .= '<td><a href="#" id="form-child-add" class="button button-secondary">'.$fields[$this->popup]['child']['clone'].'</a>';
 				$parent_row_start .= '<div class="child-clone-rows">';
-				$parent_row_start .= '<div id="_fresh_shortcodes_child_output" class="hidden">'.$this->child_shortcode.'</div>';
+				$parent_row_start .= '<div id="_inbound_shortcodes_child_output" class="hidden">'.$this->child_shortcode.'</div>';
 				$parent_row_start .= '<div id="field_instructions">Drag and drop fields to reorder.</div>';
 				$parent_row_start .= '<div class="child-clone-row"><span class="form-field-row-number">1</span><a  class="child-clone-row-remove child-options-toggles">Remove</a><a  href="#" class="child-clone-row-shrink child-options-toggles ">Minimize</a><a  href="#" class="child-clone-row-exact child-options-toggles ">Clone</a>';
 				$parent_row_start .= '<ul class="child-clone-row-form">';

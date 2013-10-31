@@ -141,9 +141,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('profile', 'fresh_shortcode_profile');
+	add_shortcode('profile', 'inbound_shortcode_profile');
 
-	function fresh_shortcode_profile( $atts, $content = null ) {
+	function inbound_shortcode_profile( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'name' => '',
 			'meta' => '',
@@ -168,9 +168,9 @@
 
 			if($meta != '')
 			$out .= '<div class="profile-meta">'. $meta .'</div>';
-		
+
 			$out .= '<div class="profile-desc">'. do_shortcode($content) .'</div>';
-			
+
 			if($facebook || $twitter || $email ) {
 				$out .= '<div class="profile-footer">';
 					if($facebook != '')

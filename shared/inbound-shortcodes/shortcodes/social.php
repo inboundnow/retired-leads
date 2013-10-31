@@ -68,9 +68,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('social_links', 'fresh_shortcode_social_links');
+	add_shortcode('social_links', 'inbound_shortcode_social_links');
 
-	function fresh_shortcode_social_links( $atts, $content = null ) {
+	function inbound_shortcode_social_links( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'facebook' => '',
 			'twitter' => '',
@@ -94,6 +94,6 @@
 		if( $pinterest ) { $out .= '<li class="pinterest"><a href="'. $pinterest .'"><i class="icon-pinterest icon-large"></i></a></li>'; }
 		if( $rss ) { $out .= '<li class="rss"><a href="'. $rss .'"><i class="icon-rss icon-large"></i></a></li>'; }
 		$out .= '</ul>';
-		
+
 		return $out;
 	}

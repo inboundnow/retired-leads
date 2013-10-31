@@ -122,9 +122,9 @@
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('testimonial', 'fresh_shortcode_testimonial');
+	add_shortcode('testimonial', 'inbound_shortcode_testimonial');
 
-	function fresh_shortcode_testimonial( $atts, $content = null ) {
+	function inbound_shortcode_testimonial( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 			'heading' => __('Testimonial', INBOUND_LABEL),
 			'column' => 1,
@@ -136,8 +136,8 @@
 		if ($column == '4') $grid = ' grid one-fourth';
 		if ($column == '5') $grid = ' grid one-fifth';
 		$out = '';
-		
-			
+
+
 		$out .= '<div class="testimonial row">';
 		if ($heading != '') {
 			$out .= '<div class="grid full"><div class="heading"><h3>'.$heading.'</h3><div class="sep"></div></div></div>';
@@ -145,9 +145,9 @@
 
 		if (!preg_match_all("/(.?)\[(testimony)\b(.*?)(?:(\/))?\](?:(.+?)\[\/testimony\])?(.?)/s", $content, $matches)) {
 			return do_shortcode($content);
-		} 
+		}
 		else {
-			
+
 			for($i = 0; $i < count($matches[0]); $i++) {
 				$matches[3][$i] = shortcode_parse_atts($matches[3][$i]);
 			}
@@ -179,6 +179,6 @@
 		}
 
 		$out .= '</div>';
-			
+
 		return $out;
 	}
