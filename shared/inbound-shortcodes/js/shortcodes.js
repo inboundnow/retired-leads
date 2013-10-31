@@ -551,12 +551,15 @@
 				jQuery(".dynamic-visable-on").hide();
 				jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 			});
+			
 			jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
 				jQuery('.inbound-shortcodes-insert').click();
     		});
+			
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
     			window.tb_remove();
     		});
+			
 			jQuery('.inbound-shortcodes-insert', form).click(function() {
 				var shortcode_name = jQuery("#inbound_current_shortcode").val();
 				var form_name = jQuery("#inbound_shortcode_form_name").val();
