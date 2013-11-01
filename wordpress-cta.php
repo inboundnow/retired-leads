@@ -25,6 +25,7 @@ add_action( 'plugins_loaded', 'inbound_load_shared' );
 
 function inbound_load_shared(){
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
+	include_once('shared/classes/form.class.php');  // Mirrored forms
 }
 
 include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
