@@ -16,7 +16,7 @@ array(
 	'label' => "Feedburner Subscribe to Download", // Nice Name
 	'category' => 'social', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'Get more facebook likes' // template description
+	'description'  => 'Get more feedburner RSS subscribers with this CTA' // template description
 );
 
 

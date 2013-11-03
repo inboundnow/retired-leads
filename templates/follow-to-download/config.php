@@ -16,7 +16,7 @@ array(
 	'label' => "Twitter Follow to Download", // Nice Name
 	'category' => 'social', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'Get more twitter followers likes' // template description
+	'description'  => 'Get more twitter followers with this CTA' // template description
 );
 
 

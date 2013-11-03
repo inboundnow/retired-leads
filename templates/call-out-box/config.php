@@ -8,23 +8,23 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 
 
-$wp_cta_data[$key]['info'] = 
-array(	
+$wp_cta_data[$key]['info'] =
+array(
 	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Call Out Box", // Nice Name
 	'category' => 'Box', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'This is the blank template for any image/html/shortcode CTA' // template description
+	'description'  => 'This is a simple box template' // template description
 );
 
 
 
 // Define Meta Options for template
-$wp_cta_data[$key]['settings'] = 
+$wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field

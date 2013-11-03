@@ -8,22 +8,22 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 
 
-$wp_cta_data[$key]['info'] = 
-array(	
+$wp_cta_data[$key]['info'] =
+array(
 	'data_type' => 'template', // Template Data Type
     'version' => "1.0", // Version Number
     'label' => "Ebook Call out", // Nice Name
     'category' => 'Sidebar', // Template Category
     'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-    'description'  => 'This is the blank template for any image/html/shortcode CTA' // template description
+    'description'  => 'This is a blank ebook where you can place your own text over the book' // template description
 );
 
 
 // Define Meta Options for template
-$wp_cta_data[$key]['settings'] = 
+$wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
@@ -46,7 +46,7 @@ array(
         'description' => "Dropdown option description",
         'id'  => 'book-color',
         'type'  => 'dropdown',
-        'default'  => 'white',        
+        'default'  => 'white',
         'options' => array('white'=>'White Book', 'gray'=>'Gray Book', 'green'=>"Green Book", 'light-blue'=>"Light Blue Book", 'black'=>"Black Book"),
         'context'  => 'normal'
         ),

@@ -16,7 +16,7 @@ array(
 	'label' => "Tweet to Download", // Nice Name
 	'category' => 'social', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'Get more facebook likes' // template description
+	'description'  => 'Entice site visitors to tweet out a link of your choice for a peice of downloadable content' // template description
 );
 
 

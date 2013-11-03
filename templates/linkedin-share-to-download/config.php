@@ -16,7 +16,7 @@ array(
 	'label' => "Linkedin Share to Download", // Nice Name
 	'category' => 'social', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'Get more facebook likes' // template description
+	'description'  => 'Get more linkedin shares & traffic' // template description
 );
 
 
