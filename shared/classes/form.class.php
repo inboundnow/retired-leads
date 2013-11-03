@@ -29,7 +29,7 @@ class InboundForms {
 
     // Shortcode params
     static function inbound_forms_create( $atts, $content = null )
-	{ 
+	{
 		self::$add_script = true;
 		$email = get_option('admin_email');
 		extract(shortcode_atts(array(
@@ -71,18 +71,18 @@ class InboundForms {
 		$form_width = ($width != "") ? $width_output : '';
 
 		//if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) {
-		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches)) 
+		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches))
 		{
 		  return '';
 
-		} 
-		else 
+		}
+		else
 		{
-			for($i = 0; $i < count($matches[0]); $i++) 
+			for($i = 0; $i < count($matches[0]); $i++)
 			{
 				$matches[3][$i] = shortcode_parse_atts($matches[3][$i]);
 			}
-		
+
 			// matches are $matches[3][$i]['label']
 			$clean_form_id = preg_replace("/[^A-Za-z0-9 ]/", '', trim($name));
 			$form_id = strtolower(str_replace(array(' ','_'),'-',$clean_form_id));
@@ -91,7 +91,7 @@ class InboundForms {
 			$form .= '<div id="inbound-form-wrapper" class="">';
 			$form .= '<form class="inbound-now-form wpl-track-me" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
 			$main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
-			for($i = 0; $i < count($matches[0]); $i++) 
+			for($i = 0; $i < count($matches[0]); $i++)
 			{
 
 				$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
@@ -101,15 +101,15 @@ class InboundForms {
 
 				$placeholer_use = ($field_placeholder != "") ? $field_placeholder : $label;
 
-				if ($field_placeholder != "") 
+				if ($field_placeholder != "")
 				{
 					$form_placeholder = "placeholder='".$placeholer_use."'";
-				} 
-				else if (isset($form_labels) && $form_labels === "placeholder") 
+				}
+				else if (isset($form_labels) && $form_labels === "placeholder")
 				{
 					$form_placeholder = "placeholder='".$placeholer_use."'";
-				} 
-				else 
+				}
+				else
 				{
 					$form_placeholder = "";
 				}
@@ -142,11 +142,11 @@ class InboundForms {
 				{
 					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
-				
+
 				if ($type === 'textarea')
 				{
 					$form .=  '<textarea class="inbound-input inbound-input-textarea" name="'.$field_name.'" id="in_'.$field_name.' '.$req.'"/></textarea>';
-				} 
+				}
 				else if ($type === 'dropdown')
 				{
 					$dropdown_fields = array();
@@ -159,21 +159,21 @@ class InboundForms {
 					  $form .= '<option value="'. $dropdown_val .'">'. $value .'</option>';
 					}
 					$form .= '</select>';
-				} 
+				}
 				else if ($type === 'radio')
 				{
 					$radio_fields = array();
 					$radio = $matches[3][$i]['radio'];
 					$radio_fields = explode(",", $radio);
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
-					
-					foreach ($radio_fields as $key => $value) 
+
+					foreach ($radio_fields as $key => $value)
 					{
 					  $radio_val_trimmed =  trim($value);
 					  $radio_val =  strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
 					  $form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
 					}
-				} 
+				}
 				else if ($type === 'checkbox')
 				{
 					$checkbox_fields = array();
@@ -186,18 +186,18 @@ class InboundForms {
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
 						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'">'.$checkbox_val_trimmed.'<br>';
 					}
-				} 
+				}
 				else if ($type === 'html-block')
 				{
 					$html = $matches[3][$i]['html'];
 					echo $html;
 					$form .= "<div>" . $html . "</div>";
-				} 
+				}
 				else if ($type === 'editor')
 				{
 					//wp_editor(); // call wp editor
-				} 
-				else 
+				}
+				else
 				{
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -211,22 +211,22 @@ class InboundForms {
 				if ($description_block != "" && $type != 'hidden'){
 					$form .= "<div class='inbound-description'>".$description_block."</div>";
 				}
-				
+
 				$form .= '</div>';
-			}		  
+			}
 		  // End Loop
-		  
+
 			$current_page = get_permalink();
 			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area">
 					<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />
 					</div>
 					<input type="hidden" name="inbound_submitted" value="1">';
-			
-			if( $redirect != "") 
+
+			if( $redirect != "")
 			{
 				$form .=  '<input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">';
 			}
-				
+
 			$form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'">
 					  <input type="hidden" name="inbound_current_page_url" value="'.$current_page.'">
 					  <input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'">
@@ -234,7 +234,7 @@ class InboundForms {
 
 				  </form>
 				  </div>';
-		 
+
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 			return $form;
 		}
@@ -315,23 +315,23 @@ class InboundForms {
 		function set_html_content_type() {
 			return 'text/html';
 		}
-		
+
 		//if(isset($_POST['inbound_notify']) && $_POST['inbound_notify'] != "") {
 		//	$email_to = base64_decode($_POST['inbound_notify']);
 		//}
-		
+
 		/* this is where we will pull the admin email from the form meta data */
-		
+
 		$from_settings = json_decode($form_meta_data['form_settings'] , true);
 		$email_to = $form_settings['inbound_notify'];
-		
+
 		/* Might be better email send need to test and look at html edd emails */
-		if ( isset($form_data['email']) && $email_to ) 
+		if ( isset($form_data['email']) && $email_to )
 		{
 			// DO PHP LEAD SAVE HERE
 			$to = $email_to; // admin email or email from shortcode
 			$admin_url = get_bloginfo( 'url' ) . "/wp-admin";
-			
+
 			// get the website's name and puts it in front of the subject
 			$email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'] . " - New Lead Conversion";
 			// get the message from the form and add the IP address of the user below it
@@ -348,8 +348,8 @@ class InboundForms {
 
 			$main_count = 0;
 			$url_request = "";
-			
-			foreach ($form_data as $key => $value) 
+
+			foreach ($form_data as $key => $value)
 			{
 				//array_push($action_categories, $ctaw_cat->category_nicename);
 				$urlparam = ($main_count < 1 ) ?  "?" : "&";
@@ -373,16 +373,16 @@ class InboundForms {
 						  </table>
 						</body>
 					  </html>';
-			
-			if (isset($form_data['first-name']) && isset($form_data['last-name'])) 
+
+			if (isset($form_data['first-name']) && isset($form_data['last-name']))
 			{
                 $from_name = $form_data['first-name'] . " ". $form_data['last-name'];
-            } 
-			else if (isset($form_data['first-name'])) 
+            }
+			else if (isset($form_data['first-name']))
 			{
                 $from_name = $form_data['first-name'];
-            } 
-			else 
+            }
+			else
 			{
                 $from_name = get_bloginfo( 'name' );
             }
@@ -401,19 +401,46 @@ class InboundForms {
 			//echo $redirect . $url_request;
 		}
 	}
-	
-    static function do_actions(){		
-	
-		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') 
+
+    static function do_actions(){
+
+		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
 		{
 			/* get form submitted form's meta data */
 			$form_meta_data = get_post_meta( $_POST['inbound_form_id'] );
-			
+
 			if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
 				$redirect = base64_decode($_POST['inbound_furl']);
 			}
-			
-			
+
+			// Save Form Conversion to Form CPT
+			if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
+			    $form_id = $_POST['inbound_form_id'];
+			    // Increment Form Conversion Count
+			    $form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
+			    $form_conversion_num++;
+			    update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
+			    // Add Lead Email to Conversions List
+
+			    if ( isset($_POST['email'])) {
+			        $lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
+			        if ($lead_conversion_list)
+			        {
+			            $lead_conversion_list = json_decode($lead_conversion_list,true);
+			            $lead_count = count($lead_conversion_list);
+			            $lead_conversion_list[$lead_count]['email'] = $_POST['email'];
+			            $lead_conversion_list = json_encode($lead_conversion_list);
+			            update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			        } else {
+			            $lead_conversion_list = array();
+			            $lead_conversion_list[0]['email'] = $_POST['email'];
+			            $lead_conversion_list = json_encode($lead_conversion_list);
+			            update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			        }
+			    }
+			}
+
+
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
                 if ( get_magic_quotes_gpc() ) {
@@ -440,19 +467,19 @@ class InboundForms {
                 $form_post_data[$field] = strip_tags( $value );
 
             }
-               
+
 			//perform notification actions
 			send_mail($form_post_data , $form_meta_data);
-			
+
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
-			
-			/* redirect now */			
+
+			/* redirect now */
 			if ($redirect != "") {
 				header("HTTP/1.1 302 Temporary Redirect");
 				header("Location:" . $redirect);
 				exit;
 			}
-            
+
 
         }
 
