@@ -276,7 +276,7 @@ if (is_admin())
 				"cb" => "<input type=\"checkbox\" />",
 				'title' => "Form Name",
 				"inbound-form-shortcode" => "Shortcode",
-				"inbound-form-converions" => "Submissions",
+				"inbound-form-converions" => "Conversion Count",
 				"date" => "Date"
 			);
 			return $cols;
@@ -298,13 +298,13 @@ if (is_admin())
 
 				  echo '<input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[inbound_forms id="'.$post_id.'" name="'.$form_name.'"]\'>';
 				  break;
-				/*case "last-name":
-				  $last_name = get_post_meta( $post_id, 'wpleads_last_name', true);
-				   if (get_post_meta( $post_id, 'wpleads_last_name', true) == "") {
-				  	$last_name = 'N/A';
+				case "inbound-form-converions":
+				  $count = get_post_meta( $post_id, 'inbound_form_conversion_count', true);
+				   if (get_post_meta( $post_id, 'inbound_form_conversion_count', true) == "") {
+				  	$count = 'N/A';
 				  }
-				  echo $last_name;
-				  break; */
+				  echo $count;
+				  break;
 			}
 		}
 	}

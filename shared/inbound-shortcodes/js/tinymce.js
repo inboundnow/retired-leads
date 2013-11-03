@@ -65,9 +65,9 @@ if (cta_status > -1) {
 					a.addWithPopup( b, 'Quick Form Insert', 'quick-forms' );
 
 					if (cta_status > -1) {
-					//b.add({title : 'Call to Action Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-					//a.addWithPopup( b, 'Insert Call to Action', 'call-to-action' ); // to to CTA
-					//a.addWithPopup( b, 'Insert Call to Action', 'button' ); // to to CTA
+					b.add({title : 'Call to Action Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+					a.addWithPopup( b, 'Insert Call to Action', 'call-to-action' ); // to to CTA
+					//a.addWithPopup( b, 'Build a Button', 'button' ); // to to CTA
 					}
 					if (lp_status > -1) {
 					//b.add({title : 'Landing Page Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);

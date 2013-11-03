@@ -283,6 +283,31 @@ class InboundForms {
         if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
             $redirect = base64_decode($_POST['inbound_furl']);
         }
+        if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
+            $form_id = $_POST['inbound_form_id'];
+            // Increment Form Conversion Count
+            $form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
+            $form_conversion_num++;
+            update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
+            // Add Lead Email to Conversions List
+
+            if ( isset($_POST['email'])) {
+                $lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
+                if ($lead_conversion_list)
+                {
+                    $lead_conversion_list = json_decode($lead_conversion_list,true);
+                    $lead_count = count($lead_conversion_list);
+                    $lead_conversion_list[$lead_count]['email'] = $_POST['email'];
+                    $lead_conversion_list = json_encode($lead_conversion_list);
+                    update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+                } else {
+                    $lead_conversion_list = array();
+                    $lead_conversion_list[0]['email'] = $_POST['email'];
+                    $lead_conversion_list = json_encode($lead_conversion_list);
+                    update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+                }
+            }
+        }
         if(isset($_POST['inbound_notify']) && $_POST['inbound_notify'] != "") {
             $email_to = base64_decode($_POST['inbound_notify']);
         }

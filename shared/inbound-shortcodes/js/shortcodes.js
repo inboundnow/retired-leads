@@ -377,7 +377,49 @@
 					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
 				 });
 			}
+			if (shortcode_name === 'insert_button_shortcode'){
 
+				function format(state) {
+				           if (!state.id) return state.text; // optgroup
+				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text;
+				       }
+				       jQuery("#inbound_shortcode_icon").select2({
+				       	placeholder: "Select an icon for the button",
+				       	allowClear: true,
+				           formatResult: format,
+				           formatSelection: format,
+				           escapeMarkup: function(m) { return m; }
+				       });
+			}
+			if (shortcode_name === 'insert_call_to_action'){
+
+
+				       jQuery("#insert_inbound_cta").select2({
+				       		placeholder: "Select one or more calls to action to rotate through",
+
+				       });
+				       setTimeout(function() {
+				                     jQuery("#insert_inbound_cta").select2("open");
+				               }, 500);
+				       jQuery("body").on('change', '#insert_inbound_cta', function () {
+				       	var cta_ids = jQuery("#insert_inbound_cta").select2("data");
+				       	var cta_val = jQuery("#insert_inbound_cta").select2("val");
+				       //	alert("Selected value is: "+jQuery("#insert_inbound_cta").select2("data"));
+				       	var cta_id_array = new Array();
+
+				       	jQuery.each(cta_ids, function(key,valueObj){
+
+				       	    var the_id = valueObj['id'];
+				       	    cta_id_array.push(the_id);
+				       	});
+
+				       	console.log(cta_id_array);
+				       	var final_ids = cta_id_array.join();
+				       	setTimeout(function() {
+				       	jQuery("#_inbound_shortcodes_newoutput").html('[cta id="'+final_ids+'"]');
+				       	        }, 1000);
+				           });
+			}
 			if ( shortcode_name === "quick_insert_inbound_form_shortcode") {
 				jQuery("#inbound_insert_shortcode_two").addClass('quick-forms');
 

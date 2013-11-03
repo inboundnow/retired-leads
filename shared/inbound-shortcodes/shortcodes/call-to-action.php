@@ -5,7 +5,7 @@
 */
 
 	$shortcodes_config['call-to-action'] = array(
-		'no_preview' => false,
+		'no_preview' => true,
 		'options' => array(
 			'insert_default' => array(
 						'name' => __('Insert cta', INBOUND_LABEL),
@@ -17,5 +17,5 @@
 
 		),
 		'shortcode' => '[inbound_forms id="{{insert_default}}" name="{{form_name}}"]',
-		'popup_title' => __('Quick Insert Inbound Form Shortcode',  INBOUND_LABEL)
+		'popup_title' => __('Insert Call to Action',  INBOUND_LABEL)
 	);

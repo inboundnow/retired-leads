@@ -126,11 +126,27 @@ class InboundShortcodes {
   <div id="entire-form-area">
   <div id="cpt-form-shortcode"><?php echo $popup;?></div>
   <div id="cpt-form-serialize"><?php echo $form_serialize;?></div>
-   <div id="short_shortcode_form">
-    Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
-   </div>
-      <div id="inbound-shortcodes-popup">
+  <div id="form-leads-list">
+    <h2>Form Conversions</h2>
+    <ol id="form-lead-ul">
+  <?php  $lead_conversion_list = get_post_meta( $post_id , 'lead_conversion_list', TRUE );
+                if ($lead_conversion_list)
+                {
+                    $lead_conversion_list = json_decode($lead_conversion_list,true);
+                    foreach ($lead_conversion_list as $key => $value) {
+                      echo '<li>'.$lead_conversion_list[$key]['email'].'</li>';
+                    }
 
+                } else {
+                  echo '<span id="no-conversions">No Conversions Yet!</span>';
+                } ?>
+   </ol>
+   </div>
+
+      <div id="inbound-shortcodes-popup">
+        <div id="short_shortcode_form">
+         Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
+        </div>
           <div id="inbound-shortcodes-wrap">
               <div id="inbound-shortcodes-form-wrap">
                   <div id="inbound-shortcodes-form-head">
