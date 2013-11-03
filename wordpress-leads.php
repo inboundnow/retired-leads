@@ -326,9 +326,9 @@ if (is_admin())
 		//echo 1; exit;
 		if (current_user_can('manage_options'))
 		{
-			add_submenu_page('edit.php?post_type=wp-lead', 'Forms', 'Forms', 'manage_options', 'inbound-forms-redirect',100);
+			add_submenu_page('edit.php?post_type=wp-lead', 'Forms', 'Create Forms', 'manage_options', 'inbound-forms-redirect',100);
 
-			add_submenu_page('edit.php?post_type=wp-lead', 'Settings', 'Settings', 'manage_options', 'wpleads_global_settings','wpleads_display_global_settings');
+			add_submenu_page('edit.php?post_type=wp-lead', 'Settings', 'Global Settings', 'manage_options', 'wpleads_global_settings','wpleads_display_global_settings');
 
 		}
 	}

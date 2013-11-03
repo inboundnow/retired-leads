@@ -4,7 +4,7 @@ add_action('init', 'wpleads_register_list',11);
 function wpleads_register_list() {
 	//echo $slug;exit;
     $labels = array(
-        'name' => _x('Lists', 'post type general name'),
+        'name' => _x('Lead Lists', 'post type general name'),
         'singular_name' => _x('List', 'post type singular name'),
         'add_new' => _x('Add New', 'List'),
         'add_new_item' => __('Create New List'),

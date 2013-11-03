@@ -1,4 +1,4 @@
-#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area {
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one {
 	display: none;
 }
 #cpt-form-shortcode {
@@ -66,7 +66,8 @@ border-top: 1px solid #CCC;
 bottom: 0px !important;
 width: 100%;
 margin-left: -19px;
-padding-left: 20px;}
+padding-left: 20px;
+z-index: 9999;}
 #inbound-shortcodes-form-table tbody tr.form-row.has-child {
 display: block;
 padding: 10px 0 0;

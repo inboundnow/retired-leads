@@ -24,7 +24,7 @@ class InboundForms {
         add_action('init', array(__CLASS__, 'register_script'));
         add_action('wp_footer', array(__CLASS__, 'print_script'));
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
-        add_action( 'wp_head',  array(__CLASS__, 'do_actions'));
+        add_action( 'init',  array(__CLASS__, 'do_actions'));
     }
 
     // Shortcode params
@@ -228,6 +228,7 @@ class InboundForms {
 			}
 
 			$form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'">
+					  <input type="hidden" name="inbound_form_id" value="'.$id.'">
 					  <input type="hidden" name="inbound_current_page_url" value="'.$current_page.'">
 					  <input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'">
 					  <input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'">
@@ -322,8 +323,8 @@ class InboundForms {
 
 		/* this is where we will pull the admin email from the form meta data */
 
-		$from_settings = json_decode($form_meta_data['form_settings'] , true);
-		$email_to = $form_settings['inbound_notify'];
+		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
+		$email_to = $form_meta_data['inbound_notify_email'];
 
 		/* Might be better email send need to test and look at html edd emails */
 		if ( isset($form_data['email']) && $email_to )
@@ -411,6 +412,8 @@ class InboundForms {
 
 			if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
 				$redirect = base64_decode($_POST['inbound_furl']);
+			} else if (isset($_POST['inbound_current_page_url'])) {
+				$redirect = $_POST['inbound_current_page_url'];
 			}
 
 			// Save Form Conversion to Form CPT
@@ -469,15 +472,14 @@ class InboundForms {
             }
 
 			//perform notification actions
-			send_mail($form_post_data , $form_meta_data);
+			self::send_mail($form_post_data , $form_meta_data);
 
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
 
 			/* redirect now */
 			if ($redirect != "") {
-				header("HTTP/1.1 302 Temporary Redirect");
-				header("Location:" . $redirect);
-				exit;
+			wp_redirect( $redirect );
+			exit();
 			}
 
 
