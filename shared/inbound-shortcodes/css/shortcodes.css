@@ -469,7 +469,7 @@ height: 23px;
   color: #333;
 }
 .step-link:hover:before {
-  background: #22a4bc;
+  background: #88C220;
 }
 
 .step-item.active {
@@ -483,7 +483,7 @@ height: 23px;
   color: #333;
 }
 .step-item.active .step-link:before {
-  background: #22a4bc;
+  background: #88C220;
 }
 
 .no-csstransforms .step-item {

@@ -66,7 +66,8 @@ border-top: 1px solid #CCC;
 bottom: 0px !important;
 width: 100%;
 margin-left: -19px;
-padding-left: 20px;}
+padding-left: 20px;
+z-index: 9999;}
 #inbound-shortcodes-form-table tbody tr.form-row.has-child {
 display: block;
 padding: 10px 0 0;

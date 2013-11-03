@@ -226,7 +226,7 @@ if (!function_exists('inbound_forms_cpt')) {
 	function inbound_forms_cpt() {
 		//echo $slug;exit;
 	    $labels = array(
-	        'name' => _x('Forms', 'post type general name'),
+	        'name' => _x('Inbound Forms', 'post type general name'),
 	        'singular_name' => _x('Form', 'post type singular name'),
 	        'add_new' => _x('Add New', 'Form'),
 	        'add_new_item' => __('Create New Form'),
@@ -521,7 +521,7 @@ if (!function_exists('inbound_short_form_create')) {
 
 		$shortcode = get_post_meta( $id, 'inbound_shortcode', TRUE );
 		// If form id missing add it
-		if (!preg_match('/id="/g', $shortcode)) {
+		if (!preg_match('/id="/', $shortcode)) {
 		$shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
 		}
 		if ($id === 'default_3'){
