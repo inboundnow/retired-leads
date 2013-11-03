@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable 
 Requires at least: 3.4
 Tested up to: 3.6
-Stable Tag: 1.0.7
+Stable Tag: 1.1.1
 
 Capture & store lead information, gather critical lead intelligence, manage web leads from within your site and close more deals.
 
@@ -64,6 +64,15 @@ We built Lead Management as a framework! You can use our extendable framework to
 3. View Conversion Funnel Log for Each Customer(Lead)
 
 == Changelog ==
+
+= 1.1.1 =
+ 
+* Added: Added InboundNow form creation and management system (beta)
+* Added: Support for InboundNow cross plugin extensions
+* Added: 'header' setting component to global settings.
+* Added: bulk add lead to list.
+* Improvement: Improved data management for global settings, metaboxes, and extensions. 
+* fix: fixed issue with CSV bulk lead exporting. 
 
 = 1.0.0.5 =
 * Fix issue with lead's first conversion not inserting into database correctly.

@@ -591,6 +591,18 @@
 				jQuery(".dynamic-visable-on").hide();
 				jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 			});
+<<<<<<< HEAD
+			
+			jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
+				jQuery('.inbound-shortcodes-insert').click();
+    		});
+			
+    		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
+    			window.tb_remove();
+    		});
+			
+			jQuery('.inbound-shortcodes-insert', form).click(function() {
+=======
 
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
     			window.tb_remove();
@@ -598,6 +610,7 @@
 
 		},
 		insert_shortcode: function() {
+>>>>>>> 4c3eaad2edf3ac75558f0a7c75429973975d6cfd
 				var shortcode_name = jQuery("#inbound_current_shortcode").val();
 				var form_name = jQuery("#inbound_shortcode_form_name").val();
 				if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
