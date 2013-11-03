@@ -20,8 +20,8 @@ function wp_cta_admin_enqueue($hook)
 
 	// load global metabox scripts on all post type edit screens
 	if ( $hook == 'post-new.php' || $hook == 'post.php') {
-	wp_enqueue_script('selectjs', WP_CTA_URLPATH . 'js/select2.min.js');
-	wp_enqueue_style('selectjs', WP_CTA_URLPATH . 'css/select2.css');
+	wp_enqueue_script('selectjs', WP_CTA_URLPATH . '/shared/js/select2.min.js');
+	wp_enqueue_style('selectjs', WP_CTA_URLPATH . '/shared/css/select2.css');
 	}
 
 	//easyXDM - for store rendering

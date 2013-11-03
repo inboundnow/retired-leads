@@ -11,8 +11,54 @@
 #postbox-container-2 {
 	display: none;
 }*/
+#form-leads-list {
+	display: none;
+	font-size: 12px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+	text-align: left;
+	border: 1px solid #CECDCA;
+	-webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+	z-index: 200;
+	width: 97%;
+	margin-left: 8px;
+}
+#form-leads-list h2 {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 0px;
+	margin-top: 3px;
+	padding: 0 0 3px;
+	clear: left;
+	padding-left: 10px;
+	border-bottom: 1px solid #C9C9C9;
+}
+#form-lead-ul li {
+	border-bottom: 1px solid #EBEBEA;
+padding: 12px 0px;
+position: relative;
+font-size: 13px;
+margin: 0;
+}
+#no-conversions {
+	display: block;
+	margin-left: -23px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	font-size: 17px;
+}
+#form-lead-ul {
+
+	padding-left: 10px;
+}
 #poststuff #post-body.columns-2 {
 margin-right: 0px;
+}
+#view-leads-list {
+	margin-left: 10px;
 }
 #popup-controls {
 position: fixed !important;
@@ -36,3 +82,6 @@ overflow: visible;}
 #inbound-shortcodes-preview-wrap {
 margin-top: -30px;
 }
+#inbound-shortcodes-form-wrap #inbound-shortcodes-form {
+
+padding-left: 5px; }

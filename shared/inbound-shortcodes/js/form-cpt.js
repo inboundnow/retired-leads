@@ -11,6 +11,24 @@ jQuery(document).ready(function($) {
    		var this_val = jQuery(this).val();
    		jQuery("#inbound_shortcode_form_name").val(this_val);
     });
+    var view_leads_list = '<span id="view-leads-list" class="button view-leads-list">View Conversions</span>';
+    jQuery('.add-new-h2').after(view_leads_list);
+    jQuery("body").on('click', '#view-leads-list', function () {
+        jQuery(this).text('Switch Back to Form Editor');
+        jQuery(this).removeClass('view-leads-list');
+        jQuery("#inbound-shortcodes-popup").hide();
+        jQuery("#form-leads-list").show();
+        jQuery(this).addClass('view-form-builder');
+    });
+
+    jQuery("body").on('click', '.view-form-builder', function () {
+        jQuery(this).removeClass('view-form-builder').addClass('view-leads-list');
+        jQuery(this).text('View Conversions');
+
+        jQuery("#form-leads-list").hide();
+        jQuery("#inbound-shortcodes-popup").show();
+    });
+
     jQuery("body").on('change keyup', '#inbound_shortcode_form_name', function () {
             jQuery("#title-prompt-text").hide();
     		var this_val = jQuery(this).val();
