@@ -377,6 +377,7 @@ function inbound_form_save()
 	    $page_id = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
 	    $post_type = (isset( $_POST['post_type'] )) ? $_POST['post_type'] : "";
 	    $redirect_value = (isset( $_POST['redirect_value'] )) ? $_POST['redirect_value'] : "";
+	    $notify_email = (isset( $_POST['notify_email'] )) ? $_POST['notify_email'] : "";
 
 	    if ($post_type === 'inbound-forms'){
 	    	$post_ID = $page_id;
@@ -393,6 +394,8 @@ function inbound_form_save()
 	    	  update_post_meta( $post_ID, 'inbound_form_values', $form_values );
 	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
+	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+
 	    } else {
 	    // If from popup run this
 	        $query = $wpdb->prepare(
@@ -417,6 +420,7 @@ function inbound_form_save()
 	            	update_post_meta( $post_ID, 'inbound_form_values', $form_values );
 	            	update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            	update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
+	            	update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 	            }
 
 	        } else {
@@ -436,6 +440,7 @@ function inbound_form_save()
 	            update_post_meta( $post_ID, 'inbound_form_values', $form_values );
 	            update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
+	            update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 	        }
 	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	        update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
@@ -515,8 +520,10 @@ if (!function_exists('inbound_short_form_create')) {
 		), $atts));
 
 		$shortcode = get_post_meta( $id, 'inbound_shortcode', TRUE );
-		// Pass in form ID with preg match
-		// $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
+		// If form id missing add it
+		if (!preg_match('/id="/g', $shortcode)) {
+		$shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
+		}
 		if ($id === 'default_3'){
 			$shortcode = '[inbound_form name="Form Name" layout="vertical" labels="top" submit="Submit" ][inbound_field label="Email" type="text" required="1" ][/inbound_form]';
 		}

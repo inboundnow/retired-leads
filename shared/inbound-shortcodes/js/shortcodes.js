@@ -456,6 +456,7 @@
 			        var shortcode_value = jQuery('#_inbound_shortcodes_newoutput').html();
 					var form_name = jQuery("#inbound_shortcode_form_name").val();
 					var form_values = jQuery("#inbound-shortcodes-form").serialize();
+					var notify_email = jQuery("#inbound_shortcode_notify").val();
 					var field_count = jQuery('.child-clone-row').length;
 					var redirect_value = jQuery('#inbound_shortcode_redirect').val();
 					if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
@@ -478,6 +479,7 @@
 			                shortcode: shortcode_value,
 			                field_count: field_count,
 			                form_values: form_values,
+			                notify_email: notify_email,
 			               	form_settings: form_settings,
 			                post_id: post_id,
 			                post_type: post_type,
