@@ -325,6 +325,7 @@ class InboundForms {
 
 		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
 		$email_to = $form_meta_data['inbound_notify_email'];
+		// get_option( 'admin_email' );
 
 		/* Might be better email send need to test and look at html edd emails */
 		if ( isset($form_data['email']) && $email_to )
