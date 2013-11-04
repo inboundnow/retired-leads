@@ -60,6 +60,14 @@ margin-right: 0px;
 #view-leads-list {
 	margin-left: 10px;
 }
+#inbound-shortcodes-preview {
+width: 31.7%;
+max-height: 100%;
+position: fixed;
+margin-top: 42px;}
+#inbound-shortcodes-preview-wrap #inbound-shortcodes-preview-head {
+width: 100%;
+position: fixed;}
 #popup-controls {
 position: fixed !important;
 border-top: 1px solid #CCC;

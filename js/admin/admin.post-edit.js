@@ -56,6 +56,10 @@ jQuery(document).ready(function ($) {
 
     });
     */
+    var shortcode_copy = jQuery("#cta_shortcode_form");
+    jQuery(".add-new-h2").after(shortcode_copy);
+    shortcode_copy.show();
+
     var current_a_tab = jQuery("#tabs-0").hasClass('nav-tab-special-active');
     if (current_a_tab === true){
         var url_norm = jQuery("#view-post-btn a").attr('href');

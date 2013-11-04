@@ -396,6 +396,10 @@ function wp_cta_wp_call_to_action_header_area()
     if ( empty ( $post ) || 'wp-call-to-action' !== get_post_type( $GLOBALS['post'] ) )
         return;
 
+    echo '<span id="cta_shortcode_form" style="display:none; font-size: 13px;margin-left: 15px;">
+         Shortcode: <input type="text" style="width: 130px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'"]\'>
+        <div class="wp_cta_tooltip" style="margin-left: 0px;" title="You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the wordpress editor on any given page"></div></span>';
+
     if ( ! $varaition_notes = get_post_meta( $post->ID , 'wp-cta-variation-notes',true ) )
         $varaition_notes = '';
 
@@ -530,14 +534,14 @@ function wp_cta_display_meta_box_select_template_container() {
 			if (isset($data['info']['data_type'])&&$data['info']['data_type']=='metabox')
 				continue;
 
-			
+
 			$cats = explode( ',' , $data['info']['category'] );
 			foreach ($cats as $key => $cat)
 			{
 				$cat = str_replace(' ', '-', $cat);
 				$cats[$key] = trim(strtolower($cat));
 			}
-			
+
 			$cat_slug = implode(' ', $cats);
 
 			// Get Thumbnail
