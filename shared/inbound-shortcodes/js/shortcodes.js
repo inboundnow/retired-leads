@@ -267,7 +267,7 @@
 									if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
 				            			jQuery(".child-clone-rows.ui-sortable").html(form_insert);
 				        			} else {
-				        				jQuery("#inbound_shortcode_insert_default").val($.data(this, 'current')); // added parenthesis (edit)
+				        				jQuery("#inbound_shortcode_insert_default").val(jQuery.data(this, 'current')); // added parenthesis (edit)
 			            				return false;
 				        			}
 		        				} else {
@@ -308,7 +308,7 @@
 						            			  	InboundShortcodes.generate();
 													InboundShortcodes.generateChild();
 						        			} else {
-						        				jQuery(this).val($.data(this, 'current')); // added parenthesis (edit)
+						        				jQuery(this).val(jQuery.data(this, 'current')); // added parenthesis (edit)
 					            				return false;
 						        			}
 
@@ -319,7 +319,7 @@
 										  InboundShortcodes.generateChild();
 				        				}
 
-						            	$.data(this, 'current', jQuery(this).val());
+						            	jQuery.data(this, 'current', jQuery(this).val());
 						                /*var worked = '<span class="lp-success-message">Form Changed</span>';
 						                var s_message = jQuery(self).parent();
 						                jQuery(worked).appendTo(s_message); */

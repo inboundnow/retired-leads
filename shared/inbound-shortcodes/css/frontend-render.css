@@ -9,12 +9,12 @@ margin: 0px 0 10px 0;
     min-width: 80px;
 display: inline-block;
 padding-right: 10px;
-} 
+}
 .radio-inbound-vertical.radio-inbound-label-bottom, #inbound-form-wrapper .inbound-label.inbound-label-inline.inbound-input-radio, .radio-inbound-vertical.radio-inbound-label-top {
 display: block;
 }
 .radio-inbound-vertical.radio-inbound-label-bottom:last-child {
-margin: 0px 0 10px 0; 
+margin: 0px 0 10px 0;
 }
 .radio-inbound-vertical.radio-inbound-label-inline {
 padding-right: 5px;
@@ -48,7 +48,7 @@ padding: 0px 0 10px 0;
 margin: 15px 0 0 0;
 clear: both;
 }
-.inbound-field.inbound-submit-area input.button, .inbound-field.inbound-submit-area input[type=submit] {
+.inbound-field.inbound-submit-area input.inbound-button, .inbound-field.inbound-submit-area input[type=submit] {
 font-size: 1em;
 }
 .inbound-description {
@@ -113,8 +113,8 @@ vertical-align: top;
     width:0;
     height:0
 }
-.inbound-clearfix:before, .inbound-clearfix:after, 
-.inbound-row:before, .inbound-row:after, 
+.inbound-clearfix:before, .inbound-clearfix:after,
+.inbound-row:before, .inbound-row:after,
 .inbound-row_30:before, .inbound-row_30:after{
     content:'\0020';
     display:block;
@@ -352,7 +352,7 @@ ul.social-links li a:hover{
     text-shadow: 1px 1px 1px #fff;
     margin: 0px 0px 5px;
 }
-.callout .button{
+.callout .inbound-button{
     margin: 7px 0px 5px 0px
 }
 
@@ -598,7 +598,7 @@ ul.tabs-nav li:last-child{
             box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3);
     padding: 20px;
 }
-.pricing .plan-footer .button{
+.pricing .plan-footer .inbound-button{
     padding: 5px 20px;
 }
 
@@ -632,9 +632,9 @@ ul.tabs-nav li:last-child{
 /* Dropcap
  * ----------------------------------------------------- */
 .dropcap{
-    font-size: 48px; 
+    font-size: 48px;
     font-weight: bold;
-    float: left; 
+    float: left;
     margin: 10px 10px 10px 0;
 }
 .dropcap.square{
@@ -816,7 +816,7 @@ ul.tabs-nav li:last-child{
 
 /* Buttons
  * ------------------------------------------*/
-#respond #submit, .button{
+#respond #submit, .inbound-button{
 	background:#c8232b url('../images/gradient.png') repeat-x top left;
 	border:1px solid rgba(0,0,0,0.15);
 	-webkit-border-radius:2px;
@@ -835,52 +835,52 @@ ul.tabs-nav li:last-child{
 	text-shadow:-1px -1px 1px rgba(0,0,0,0.15);
 	text-decoration: none;
 }
-.button:hover{
+.inbound-button:hover{
 	background-image: url('../images/gradient-hover.png');
 	color:#fff;
 }
-.button.small{
+.inbound-button.small{
 	font-size: 100%;
 	padding:4px 10px;
 }
-.button.large{
+.inbound-button.large{
 	font-size:18px;
 	padding:12px 30px;
 }
-input[type=submit].button, button.button{
+input[type=submit].inbound-button, button.inbound-button{
 	-webkit-appearance:none;
 }
-.button.black{
+.inbound-button.black{
 	background-color: #4A4845;
 }
-.button.blue{
+.inbound-button.blue{
 	background-color: #707ef9;
 }
-.button.brown{
+.inbound-button.brown{
 	background-color: #5e3d1d;
 }
-.button.green{
+.inbound-button.green{
 	background-color: #65b20e;
 }
-.button.orange{
+.inbound-button.orange{
 	background-color: #ff9900;
 }
-.button.pink{
+.inbound-button.pink{
 	background-color: #fc149f;
 }
-.button.purple{
+.inbound-button.purple{
 	background-color: #993d9e;
 }
-.button.red{
+.inbound-button.red{
 	background-color: #fc5a5a;
 }
-.button.silver{
+.inbound-button.silver{
 	background-color: #858585;
 }
-.button.yellow{
+.inbound-button.yellow{
 	background-color: #f7c707;
 }
-.button.white{
+.inbound-button.white{
 	background-color: #f4f4f4;
 	border-color: #ccc;
     -webkit-box-shadow:0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
@@ -889,7 +889,7 @@ input[type=submit].button, button.button{
 	color: #666;
 	text-shadow: none;
 }
-.button.white:hover{
+.inbound-button.white:hover{
 	color: #4A4845;
 }
 
@@ -914,7 +914,7 @@ input[type=submit].button, button.button{
  * Email: dave@davegandy.com
  * Twitter: http://twitter.com/fortaweso_me
  * Work: http://lemonwi.se co-founder */
- 
+
 @font-face {
 	font-family: 'FontAwesome';
 	src: url('../fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
@@ -1438,7 +1438,7 @@ ul.icons li [class*=" icon-"] {
 
 .inbound-flat-btn{
   display:block;
-  float:left; 
+  float:left;
   padding:.6em .6em;
   font-size:1.1em;
   margin:1em .5em;
@@ -1455,7 +1455,7 @@ ul.icons li [class*=" icon-"] {
 }
 .inbound-flat-btn span.icon{
   display:block;
-  float:left; 
+  float:left;
   margin:-.38em;
   font-size:1.6em;
   width:20%;
@@ -1504,17 +1504,17 @@ margin:-2.6em -.6em;}
     width: 165px;
     background: #E0E0E0;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E9E9E9', endColorstr='#D7D7D7');
-    background: -webkit-gradient(linear, left top, left bottom, from(#E9E9E9), to(#D7D7D7)); 
-    background: -moz-linear-gradient(top,  #E9E9E9,  #D7D7D7); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#E9E9E9), to(#D7D7D7));
+    background: -moz-linear-gradient(top,  #E9E9E9,  #D7D7D7);
     padding: 8px;
     -webkit-box-shadow: inset 0px 2px 2px #B2B3B5, 0px 1px 0 #fff;
     -moz-box-shadow: inset 0px 2px 2px #B2B3B5, 0px 1px 0 #fff;
     -o-box-shadow: inset 0px 2px 2px #B2B3B5, 0px 1px 0 #fff;
     -khtml-box-shadow: inset 0px 2px 2px #B2B3B5, 0px 1px 0 #fff;
     box-shadow: inset 0px 2px 2px #B2B3B5, 0px 1px 0 #fff;
-    -webkit-border-radius: 50px; 
-    -moz-border-radius: 50px; 
-    -o-border-radius: 50px; 
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -o-border-radius: 50px;
     -khtml-border-radius: 50px;
     border-radius: 50px;
 }
@@ -1533,7 +1533,7 @@ text-decoration: none;
 -khtml-border-radius: 50px;
 border-radius: 50px;
 font-weight: bold;
-}    
+}
 a.inbound-sunk-button:hover, a.inbound-sunk-button:active {
     border: none;
 }
