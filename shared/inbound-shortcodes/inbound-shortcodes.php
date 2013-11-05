@@ -47,29 +47,34 @@ class InboundShortcodes {
       wp_enqueue_script('inbound-shortcodes-plugins', INBOUND_FORMS . 'js/shortcodes-plugins.js');
       wp_enqueue_script('inbound-shortcodes', INBOUND_FORMS . 'js/shortcodes.js');
       wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') ) );
-      // Forms CPT only
+     
+	 // Forms CPT only
       if (  ( isset($post) && 'inbound-forms' == $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']=='inbound-forms' ) ) {
+
          wp_enqueue_style('inbound-forms-css', INBOUND_FORMS . 'css/form-cpt.css');
-         wp_enqueue_script('inbound-forms-cpt-js', INBOUND_FORMS . 'js/form-cpt.js');
-         wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
+         wp_enqueue_script('inbound-forms-cpt-js', INBOUND_FORMS . 'js/form-cpt.js', array( 'jquery' ) );
+         wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );	 
       }
+	  
       // Check for active plugins and localize
       $plugins_loaded = array();
       if (is_plugin_active('landing-pages/landing-pages.php')) {
-      array_push($plugins_loaded, "landing-pages");
+		array_push($plugins_loaded, "landing-pages");
       }
+	  
       if (is_plugin_active('cta/wordpress-cta.php')) {
-      array_push($plugins_loaded, "cta");
+		array_push($plugins_loaded, "cta");
       }
+	  
       if (is_plugin_active('leads/wordpress-leads.php')) {
-      array_push($plugins_loaded, "leads");
+		array_push($plugins_loaded, "leads");
       }
+	  
       wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => INBOUND_FORMS, 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
       if (isset($post)&&$post->post_type=='inbound-forms')
       {
-      require_once( 'shortcodes-fields.php' );
-      add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
-
+		require_once( 'shortcodes-fields.php' );
+		add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
       }
 
       //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
