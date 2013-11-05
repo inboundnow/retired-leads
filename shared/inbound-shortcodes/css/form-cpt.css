@@ -1,6 +1,9 @@
 #side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one {
 	display: none;
 }
+.inbound_tbody.parent-inbound_shortcode_helper-block-one {
+	display: none !important;
+}
 #cpt-form-shortcode {
 	display: none;
 }
@@ -60,6 +63,14 @@ margin-right: 0px;
 #view-leads-list {
 	margin-left: 10px;
 }
+#inbound-shortcodes-preview {
+width: 31.7%;
+max-height: 100%;
+position: fixed;
+margin-top: 42px;}
+#inbound-shortcodes-preview-wrap #inbound-shortcodes-preview-head {
+width: 100%;
+position: fixed;}
 #popup-controls {
 position: fixed !important;
 border-top: 1px solid #CCC;

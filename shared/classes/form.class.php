@@ -245,7 +245,7 @@ class InboundForms {
     static function register_script()
 	{
 		//wp_register_script('preloadify-js', plugins_url('/js/preloadify/jquery.preloadify.js', __FILE__), array('jquery'), '1.0', true);
-		//wp_register_style( 'preloadify-css', plugins_url( '/inbound-forms/js/preloadify/plugin/css/style.css' ) );
+		//wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css');
     }
 
     // only call enqueue once
@@ -254,7 +254,7 @@ class InboundForms {
 		if ( ! self::$add_script )
 		return;
 		//wp_print_scripts('preloadify-js');
-		//wp_enqueue_style( 'preloadify-css' );
+		wp_enqueue_style( 'inbound-shortcodes' );
     }
 
     // move to file

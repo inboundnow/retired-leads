@@ -316,7 +316,7 @@ function inbound_forms_redirect($value){
 	    global $pagenow;
 	    $page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : false);
 	    if($pagenow=='edit.php' && $page=='inbound-forms-redirect'){
-	        wp_redirect('/wp-admin/edit.php?post_type=inbound-forms');
+	        wp_redirect(get_admin_url().'edit.php?post_type=inbound-forms');
 	        exit;
 	    }
 	}

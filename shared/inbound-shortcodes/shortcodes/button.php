@@ -97,7 +97,7 @@
 /* 	Add shortcode
  * 	----------------------------------------------------- */
 	add_shortcode('button', 'inbound_shortcode_button');
-	if (!function_exists('inbound_shortcode_button')) {
+
 		function inbound_shortcode_button( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'style'=> '',
@@ -108,7 +108,7 @@
 				'blank' => ''
 			), $atts));
 
-			$class = "button $color $size";
+			$class = "inbound-button $color $size";
 			$icon_raw = 'icon-'. $icon;
 			$target = ($blank) ? ' target="_blank"' : '';
 			$button_start = "";
@@ -140,4 +140,3 @@
 
 			return $button;
 		}
-	}
