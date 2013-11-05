@@ -235,13 +235,16 @@ function wpleads_hook_store_lead_post($data)
 		// Auto Mapping for Raw Form Fields
 		$a1 = json_decode( $raw_post_data, true );
 		$a2 = json_decode( stripslashes($data['raw_post_values_json']), true );
+		
 		$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
+		
 		foreach ($a2 as $key=>$value)
 		{
-			if (in_array($key,$exclude_array))
+			if (array_key_exists( $key , $exclude_array ))
 			{
 				unset($a2[$key]);
 			}
+			
 			if (stristr($key,'company'))
 			{
 				update_post_meta( $data['lead_id'], 'wpleads_company_name', $value );
