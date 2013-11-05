@@ -1,6 +1,6 @@
-jQuery(document).ready(function($) { 
+jQuery(document).ready(function($) {
     var content_placement = cta_display.wp_cta_obj;
-    if (typeof (content_placement) != "undefined" && content_placement != null && content_placement != "") {  
+    if (typeof (content_placement) != "undefined" && content_placement != null && content_placement != "") {
     var cta = cta_display.wp_cta_obj[Math.floor(Math.random()*cta_display.wp_cta_obj.length)];
     var url = cta.url;
     var num = cta.count;
@@ -9,8 +9,8 @@ jQuery(document).ready(function($) {
     //console.log(behave);
     var rand = Math.floor(Math.random()*num);
 }
-    
-    /* Notes 
+
+    /* Notes
     get_option of global behavorial ctas with lists. array ctaid[ctaid]['listsarray']
     check cookie for value inarray
     rand through list and replace iframe link
@@ -26,39 +26,48 @@ jQuery(document).ready(function($) {
     jQuery("#wp-cta-per-page").attr("src", url );
     var widget_defaults = jQuery('iframe#wp-cta').hasClass("widget-default-cta-size");
     console.log(widget_defaults);
-    $( "iframe.wp-cta-display" ).each(function(index, value) { 
+    $( "iframe.wp-cta-display" ).each(function(index, value) {
         var the_frame = jQuery(this);
         //console.log(the_frame);
-        
+
         the_frame.load(function() {
             var popon = false;
             // if admin set height. do this
             var frame_dimensions = the_frame.get(0).contentWindow.cta_options;
             var cta_width = frame_dimensions.cta_width; // might be caching
             var cta_height = frame_dimensions.cta_height; // might be caching
+            // CTA popup options
             var popup_check = jQuery("#wp-cta-popup");
             if (typeof (popup_check) != "undefined" && popup_check != null && popup_check != "") {
             var popon = true;
-            } 
+            }
+            // CTA slideout options
+            var slideout_check = jQuery(".wp-cta-slideout");
+            if (typeof (slideout_check) != "undefined" && slideout_check != null && slideout_check != "") {
+            var popup_check = jQuery(".wp-cta-slideout");
+            var popon = true;
+            var slider = true;
+            }
             var width_backup = the_frame.contents().find("#cpt_cta_width").text();
             var height_backup = the_frame.contents().find("#cpt_cta_height").text();
             if (typeof (cta_height) != "undefined" && cta_height != null && cta_height != "") {
                  console.log("height set from iframe");
-             
+
                 the_frame.height(cta_height);
                 if(popon){
                     popup_check.height(cta_height);
-                 
                 }
+                var final_height = cta_height;
             }
             // if admin set width do this
              if (typeof (cta_width) != "undefined" && cta_width != null && cta_width != "") {
                 console.log("width set from iframe");
-              
+
                 the_frame.width(cta_width);
                  if(popon){
                     popup_check.width(cta_width);
                 }
+                var final_width = cta_width;
             }
             // if dimensions not defined
             if (typeof (cta_height) === "undefined" || cta_height == null || cta_height == "") {
@@ -68,6 +77,7 @@ jQuery(document).ready(function($) {
                  if(popon){
                     popup_check.height(setheight);
                 }
+                var final_height = setheight;
             }
             // if dimensions not defined
             if (typeof (cta_width) === "undefined" || cta_width == null || cta_width == "") {
@@ -82,13 +92,18 @@ jQuery(document).ready(function($) {
                     console.log(setpopwidth);
                     the_frame.width(setpopwidth);
                 }
-            }    
+                var final_width = setwidth;
+            }
                 jQuery(this).contents().find("#wpadminbar").hide();
                 jQuery(this).contents().find("html").addClass('fix-admin-view');
                 check_hidden = jQuery(this).css('display');
                 // if frame hidden do this
                 if (check_hidden === "none") {
-                   jQuery(this).fadeIn(700); 
+                   jQuery(this).fadeIn(700);
+                }
+                if(slider){
+                    var offscreen = Math.abs(final_width) * -1;
+                    popup_check.css(iworks_upprev.position, offscreen);
                 }
                 if(popon){
                     popup_check.removeClass("cta_wait_hide");
@@ -110,7 +125,7 @@ jQuery(document).ready(function($) {
                   jQuery(this).show();
                 }
 
- 
+
         });
-    });   
+    });
 });

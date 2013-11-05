@@ -1,4 +1,4 @@
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front, #wp_call_to_action_categorydiv, .updated.below-h2 a {
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front, #wp_call_to_action_categorydiv, .updated.below-h2 a, #cta_shortcode_form {
 	display: none !important;
 }
 html.wp-toolbar {

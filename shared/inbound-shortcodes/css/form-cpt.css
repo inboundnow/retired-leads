@@ -1,6 +1,9 @@
 #side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one {
 	display: none;
 }
+.inbound_tbody.parent-inbound_shortcode_helper-block-one {
+	display: none !important;
+}
 #cpt-form-shortcode {
 	display: none;
 }

@@ -14,14 +14,14 @@
 $test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbound_form_test%20name=%22test%22][inbound_field%20label=%22%22%20type=%22html-block%22%20description=%22%22%20required=%220%22%20dropdown=%22%22%20radio=%22%22%20html=%22test%20&lt;span%20class=%22foot%22&gt;%20%22][/inbound_form_test]&lt;/span&gt;";
 
 
-	$shortcode = html_entity_decode( trim( $_GET['sc'] ) ); 
+	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 
 /* HTML MATCHES */
 	//	$test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
   // preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);
 
 	//preg_match_all('/'.$varname.'\s*?=\s*?(.*)\s*?(;|$)/msU',$shortcode,$matches);
-  
+
 
 $horiz = "";
 if (preg_match("/horizontal/i", $shortcode)) {
@@ -32,14 +32,14 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Click to Prev
 	$shortcode = str_replace('&lt;', '<', $shortcode);
 	$shortcode = str_replace('&gt;', '>', $shortcode);
 	$shortcode = str_replace('{{child}}', '', $shortcode);
-	$shortcode = str_replace('label=""', 'label="Default"', $shortcode);  
+	$shortcode = str_replace('label=""', 'label="Default"', $shortcode);
 	//$field_name_fallback = ($field_name === "") ? 'fallback_name' : '0';
 	?>
 	<!DOCTYPE HTML>
 	<html lang="en">
 	<head>
 	<link rel="stylesheet" type="text/css" href="<?php echo INBOUND_FORMS; ?>/css/frontend-render.css" media="all" />
-			
+
 <?php wp_head(); ?>
 <style type="text/css">
 html {margin: 0 !important;}
@@ -92,6 +92,7 @@ top: 0px;
 display: inline-block;
 margin-bottom: 20px;
 font-size: 11px;
+display: none;
 }
 .open_new_tab {
 color: #2465D8;
@@ -99,10 +100,16 @@ margin-bottom: 15px;
 cursor: pointer;
 font-size: 12px;
 text-align: center;
+display: none;
+}
+#close-preview-window {
+	float: right;
+	display: none;
 }
 			</style>
 		</head>
 		<body>
+			<div id="close-preview-window"><a href="javascript:window.close()" class="close_window">close window</a></div>
 			<span class="disclaimer"><strong>Note:</strong> Previews aren't always exactly what they will look like on your page. Sometimes other styles can interfere</span>
 			<?php echo $horiz;
 				if ($horiz != ""){ ?>
@@ -117,23 +124,36 @@ text-align: center;
 					   jQuery("body").on('click', '.open_new_tab', function () {
 					   		OpenInNewTab(this_link);
     					});
-					   	if ( window.self === window.top ) { 
-							jQuery(".open_new_tab").hide();
-							jQuery(".disclaimer").hide();
+					   	if ( window.self === window.top ) {
+
+							jQuery("#close-preview-window").show();
 						} else {
-							
+							jQuery(".open_new_tab").show();
+							jQuery(".disclaimer").show();
 						}
 					 });
 					</script>
-		
+
 				<?php }
 			?>
-			
-			
+
+
 			<?php echo do_shortcode( $shortcode ); ?>
-			
+
 			<?php // echo "<br>". $shortcode; ?>
-			
+
 		<?php wp_footer();?>
+		<script>
+		(function () {
+
+		  if ( !window.jQuery ) {
+		    var s = document.createElement('script');
+		    s.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js');
+		    document.body.appendChild(s);
+		    //console.log('jquery loaded!');
+		  }
+
+		})();
+		</script>
 		</body>
 	</html>
