@@ -243,6 +243,7 @@ function wpleads_hook_store_lead_post($data)
 			if (array_key_exists( $key , $exclude_array ))
 			{
 				unset($a2[$key]);
+				continue;
 			}
 			
 			if (stristr($key,'company'))
