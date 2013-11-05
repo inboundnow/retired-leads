@@ -13,79 +13,79 @@ function getScrollY() {
 }
 
 jQuery(function($){
-    var upprev_closed                = false;
-    var upprev_hidden                = true;
-    var upprev_ga_track_view         = true;
-    var upprev_ga                    = typeof(_gaq ) != 'undefined';
-    var upprev_ga_opt_noninteraction = iworks_upprev.ga_opt_noninteraction == 1;
+    var wp_cta_closed                = false;
+    var wp_cta_hidden                = true;
+    var wp_cta_ga_track_view         = true;
+    var wp_cta_ga                    = typeof(_gaq ) != 'undefined';
+    var wp_cta_ga_opt_noninteraction = wp_cta_slideout.ga_opt_noninteraction == 1;
 
-    function upprev_show_box() {
+    function wp_cta_show_box() {
         var lastScreen = false;
-        if (iworks_upprev.offset_element && $(iworks_upprev.offset_element) ) {
-            if ($(iworks_upprev.offset_element).length > 0) {
-                lastScreen = getScrollY() + $(window).height() > $(iworks_upprev.offset_element).offset().top;
+        if (wp_cta_slideout.offset_element && $(wp_cta_slideout.offset_element) ) {
+            if ($(wp_cta_slideout.offset_element).length > 0) {
+                lastScreen = getScrollY() + $(window).height() > $(wp_cta_slideout.offset_element).offset().top;
             } else {
-                lastScreen = getScrollY() + $(window).height() >= $(document).height() * iworks_upprev.offset_percent / 100;
+                lastScreen = getScrollY() + $(window).height() >= $(document).height() * wp_cta_slideout.offset_percent / 100;
             }
         } else {
-            lastScreen = ( getScrollY() + $(window).height() >= $(document).height() * iworks_upprev.offset_percent / 100 );
+            lastScreen = ( getScrollY() + $(window).height() >= $(document).height() * wp_cta_slideout.offset_percent / 100 );
         }
-        if (lastScreen && !upprev_closed) {
-            if (iworks_upprev.animation == "fade") {
-                $("#upprev_box").fadeIn("slow");
-            } else if ( iworks_upprev.position == 'left' ) {
-                $("#upprev_box").stop().animate({left:iworks_upprev.css_side+"px"});
+        if (lastScreen && !wp_cta_closed) {
+            if (wp_cta_slideout.animation == "fade") {
+                $("#wp_cta_box").fadeIn("slow");
+            } else if ( wp_cta_slideout.position == 'left' ) {
+                $("#wp_cta_box").stop().animate({left:wp_cta_slideout.css_side+"px"});
             } else {
-                $("#upprev_box").stop().animate({right:iworks_upprev.css_side+"px"});
+                $("#wp_cta_box").stop().animate({right:wp_cta_slideout.css_side+"px"});
             }
-            upprev_hidden = false;
-            if ( upprev_ga && upprev_ga_track_view && iworks_upprev.ga_track_views == 1 ) {
-                _gaq.push( [ '_trackEvent', 'upPrev', iworks_upprev.title, null, 0, upprev_ga_opt_noninteraction ] );
-                upprev_ga_track_view = false;
+            wp_cta_hidden = false;
+            if ( wp_cta_ga && wp_cta_ga_track_view && wp_cta_slideout.ga_track_views == 1 ) {
+                _gaq.push( [ '_trackEvent', 'upPrev', wp_cta_slideout.title, null, 0, wp_cta_ga_opt_noninteraction ] );
+                wp_cta_ga_track_view = false;
             }
         }
-        else if (upprev_closed && getScrollY() == 0) {
-            upprev_closed = false;
+        else if (wp_cta_closed && getScrollY() == 0) {
+            wp_cta_closed = false;
         }
-        else if (!upprev_hidden) {
-            upprev_hidden = true;
-            if (iworks_upprev.animation == "fade") {
-                $("#upprev_box").fadeOut("slow");
-            } else if ( iworks_upprev.position == 'left' ) {
-                $("#upprev_box").stop().animate({left:"-" + ( iworks_upprev.css_width + iworks_upprev.css_side + 50 ) + "px"});
+        else if (!wp_cta_hidden) {
+            wp_cta_hidden = true;
+            if (wp_cta_slideout.animation == "fade") {
+                $("#wp_cta_box").fadeOut("slow");
+            } else if ( wp_cta_slideout.position == 'left' ) {
+                $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"});
             } else {
-                $("#upprev_box").stop().animate({right:"-" + ( iworks_upprev.css_width + iworks_upprev.css_side + 50 ) + "px"});
+                $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"});
             }
         }
     }
     $(window).bind('scroll', function() {
-        upprev_show_box();
+        wp_cta_show_box();
     });
     if ($(window).height() == $(document).height()) {
-        upprev_show_box();
+        wp_cta_show_box();
     }
-    $("#upprev_close").click(function() {
-        if (iworks_upprev.animation == "fade") {
-            $("#upprev_box").fadeOut("slow");
-        } else if ( iworks_upprev.position == 'left' ) {
-            $("#upprev_box").stop().animate({left:"-" + ( iworks_upprev.css_width + 50 ) + "px"});
+    $("#wp_cta_close").click(function() {
+        if (wp_cta_slideout.animation == "fade") {
+            $("#wp_cta_box").fadeOut("slow");
+        } else if ( wp_cta_slideout.position == 'left' ) {
+            $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"});
         } else {
-            $("#upprev_box").stop().animate({right:"-" + ( iworks_upprev.css_width + 50 ) + "px"});
+            $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"});
         }
-        upprev_closed = true;
-        upprev_hidden = true;
+        wp_cta_closed = true;
+        wp_cta_hidden = true;
         return false;
     });
-    $('#upprev_box').addClass( iworks_upprev.compare );
-    if( iworks_upprev.url_new_window == 1 || iworks_upprev.ga_track_clicks == 1 ) {
-        $('#upprev_box a').click(function() {
-            if ( iworks_upprev.url_new_window == 1) {
+    $('#wp_cta_box').addClass( wp_cta_slideout.compare );
+    if( wp_cta_slideout.url_new_window == 1 || wp_cta_slideout.ga_track_clicks == 1 ) {
+        $('#wp_cta_box a').click(function() {
+            if ( wp_cta_slideout.url_new_window == 1) {
                 window.open($(this).attr('href'));
             }
-            if ( upprev_ga && iworks_upprev.ga_track_clicks == 1 ) {
-                _gaq.push( [ '_trackEvent', 'upPrev', iworks_upprev.title, $(this).html(), 1, upprev_ga_opt_noninteraction ] );
+            if ( wp_cta_ga && wp_cta_slideout.ga_track_clicks == 1 ) {
+                _gaq.push( [ '_trackEvent', 'upPrev', wp_cta_slideout.title, $(this).html(), 1, wp_cta_ga_opt_noninteraction ] );
             }
-            if ( iworks_upprev.url_new_window == 1) {
+            if ( wp_cta_slideout.url_new_window == 1) {
                 return false;
             }
         });

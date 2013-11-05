@@ -103,7 +103,7 @@ jQuery(document).ready(function($) {
                 }
                 if(slider){
                     var offscreen = Math.abs(final_width) * -1;
-                    popup_check.css(iworks_upprev.position, offscreen);
+                    popup_check.css(wp_cta_slideout.position, offscreen);
                 }
                 if(popon){
                     popup_check.removeClass("cta_wait_hide");
