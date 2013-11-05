@@ -238,7 +238,7 @@ function wpleads_hook_store_lead_post($data)
 		$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
 		foreach ($a2 as $key=>$value)
 		{
-			if (in_array($value,$exclude_array))
+			if (in_array($key,$exclude_array))
 			{
 				unset($a2[$key]);
 			}
