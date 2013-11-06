@@ -196,8 +196,8 @@ float: left;
 	border-bottom:none;
 }
 #inbound-shortcodes-form-table tbody tr.form-row td.label{
-	width:120px;
-	max-width:120px;
+	width:200px;
+	/*max-width:120px;*/
 	text-align:left;
 	vertical-align:top;
 	line-height:35px;
@@ -205,7 +205,7 @@ float: left;
 	font-weight:bold;
 }
 #inbound-shortcodes-form-table tbody tr.form-row .field{
-	width:380px;
+	//width:380px;
 }
 #inbound-shortcodes-form-table tbody tr.form-row .freshthemes-insert{
 	color:#fff;
@@ -231,7 +231,7 @@ float: left;
 }
 #inbound-shortcodes-form-table tbody tr.form-row .field .inbound-shortcodes-form-desc,
 #inbound-shortcodes-form-table tbody tr.form-row .child-clone-row-desc {
-	display:block;
+	display:inherit;
 	font-size:11px;
 	line-height:16px;
 	color:#999;
