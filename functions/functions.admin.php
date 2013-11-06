@@ -553,10 +553,188 @@ function cta_placements_content_add_meta_box()
 	}
 }
 
+function wp_cta_per_page_settings(){
+
+global $post;
+if (!isset($post))
+	return;
+
+$post_type = $post->post_type;
+$var_id = ''; // default
+if (isset($post)&&$post->post_type==='landing-page'){
+	$var_id = '-' . lp_ab_testing_get_current_variation_id();
+}
+if (isset($_GET['clone'])) {
+	$var_id = '-' . $_GET['clone'];
+}
+if (isset($_GET['lp-variation-id'])) {
+	$var_id = '-' . $_GET['lp-variation-id'];
+}
+$wp_cta_per_post_options = array(
+    array(
+        'label' => 'Placement on Page',
+        'description' => "Where would you like to insert the CTA on this page?",
+        'id'  => 'wp_cta_content_placement' . $var_id,
+        'type'  => 'dropdown',
+        'default'  => 'off',
+        'options' => array( 'off' => 'Select where you want to Call to Action',
+        					'above'=>'Above Content',
+        					'middle' => 'Middle of Content',
+        					'below' => 'Below Content',
+        					'widget_1' => 'Use Dynamic Sidebar Widget',
+        					'popup' => 'Use Popup',
+        					'slideout' => 'Use Slide Out',
+        					'shortcode' => "Use Shortcode (insert from editor button)"),
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option'
+        ),
+    array(
+        'label' => 'Slide Out Alignment',
+        'description' => "Slide out from the right or left?",
+        'id'  => 'wp_cta_slide_out_alignment' . $var_id,
+        'type'  => 'dropdown',
+        'default'  => 'right',
+        'options' => array( 'right' => 'Slide out from Right',
+        					'left'=> 'Slide out from Left',
+        					),
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slide-out-option',
+        'reveal_on' => 'slideout'
+        ),
+    array(
+        'label' => 'Scroll length to show',
+        'description' => "This will determine how far down the page the slideout should show on page scroll",
+        'id'  => 'wp_cta_slide_out_reveal' . $var_id,
+        'type'  => 'dropdown',
+        'default'  => '100',
+        'options' => array('100'=>'Show at very bottom of this page', '90'=>'When a visitor has scrolled 90% Down the Page', '80'=>'When a visitor has scrolled 80% Down the Page', '70'=>' When a visitor has scrolled 70% Down the Page', '60'=>'When a visitor has scrolled 60% Down the Page', '50'=>'Half Way Down the Page', '40'=>'When a visitor has scrolled 40% Down the Page', '30'=>'When a visitor has scrolled 30% Down the Page', '20'=>'When a visitor has scrolled 20% Down the Page', '10'=>'When a visitor has scrolled 10% Down the Page', '1'=>'Show immediately at top of this Page'),
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slide-out-option',
+        'reveal_on' => 'slideout'
+        ),
+    array(
+        'label' => 'Attach Slideout to Page Element',
+        'description' => "(Advanced Option) You can attach the slide out event to a CSS selector here.",
+        'id'  => 'wp_cta_slide_out_element' . $var_id,
+        'type'  => 'text',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slideout-option',
+        'reveal_on' => 'slideout'
+        ),
+    array(
+        'label' => 'Popup Delay Time',
+        'description' => "How long do you want to delay the popup before showing on the page? Time in seconds",
+        'id'  => 'wp_cta_popup_timeout' . $var_id,
+        'type'  => 'text',
+        'default'  => '7',
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slideout-option',
+        'reveal_on' => 'popup'
+        ),
+    array(
+        'label' => 'Popup Advanced Header',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><h4>Advanced Popup Settings</h4></div>",
+        'id'  => 'popup_advanced_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'popup'
+        ),
+    array(
+        'label' => 'Show Popup Only Once Per Visitor?',
+        'description' => "How long do you want to delay the popup before showing on the page? Time in seconds",
+        'id'  => 'wp_cta_popup_cookie' . $var_id,
+        'type'  => 'dropdown',
+        'options' => array('yes' => 'yes','no'=>'no'),
+        'default'  => 'no',
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slideout-option',
+        'reveal_on' => 'popup'
+        ),
+   array(
+       'label' => 'Don\'t Reshow Popup for X days',
+       'description' => "How long do you want to wait to show the same visitor this popup again?",
+       'id'  => 'wp_cta_popup_cookie_length' . $var_id,
+       'type'  => 'text',
+       'default'  => '7',
+       'context'  => 'normal',
+       'class' => 'cta-per-page-option cta-slideout-option',
+       'reveal_on' => 'popup'
+       ),
+   array(
+       'label' => 'Pageviews Before Popup Appears',
+       'description' => "How many page views does the visitor need to see the popup?",
+       'id'  => 'wp_cta_popup_pageviews' . $var_id,
+       'type'  => 'text',
+       'default'  => 0,
+       'context'  => 'normal',
+       'class' => 'cta-per-page-option cta-slideout-option',
+       'reveal_on' => 'popup'
+       ),
+    array(
+        'label' => 'shortcode Message',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'>To use a shortcode to display your Call to Action. Click on the power button icon in the editor above and select 'Insert Call to Action'</div>",
+        'id'  => 'shortcode_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'shortcode'
+        ),
+    array(
+        'label' => 'Sidebar Message',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>This option will place the selected CTA templates into the dynamic sidebar widget on this page. Make sure you have added the dynamic Call to Action widget to the sidebar of this page for this option to work.</p><p>To add the dynamic sidebar widget to this page, go into appearance > widgets and add the widget to the sidebar of your choice</p></div>",
+        'id'  => 'sidebar_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'widget_1'
+        ),
+    array(
+        'label' => 'Below Message',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the bottom of the page/post.</p></div>",
+        'id'  => 'below_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'below'
+        ),
+    array(
+        'label' => 'Above Message',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the top of the page/post.</p></div>",
+        'id'  => 'above_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'above'
+        ),
+    array(
+        'label' => 'Middle Message',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the middle of the page/post's content.</p></div>",
+        'id'  => 'above_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'middle'
+        ),
+
+);
+return $wp_cta_per_post_options;
+}
+
 function cta_placements_content_meta_box()
 {
 	global $post;
 	global $table_prefix;
+	$wp_cta_per_post_options = wp_cta_per_page_settings();
+
+
 
 	//echo $post_id;exit;
 
@@ -576,56 +754,12 @@ function cta_placements_content_meta_box()
 			$alignment = 'center';
 		}
 
-	//print_r($wp_cta_post_template_ids);
+		//print_r($wp_cta_post_template_ids);
 
 	   // $content_placements_post_status = get_post_meta($post->ID, 'id here');
-	   wp_cta_display_metabox(); // renders checkboxes
-	?>
-	<div class=" ">
-		<div class="inside">
-				<table>
+	   	wp_cta_display_metabox(); // renders checkboxes
+		wp_cta_render_metaboxes($wp_cta_per_post_options);?>
 
-					<tr>
-						<td class='cta-options-label'>
-							<label for=keyword>
-								Placement on Page
-							</label>
-						</td>
-						<td class='cta-options-row'>
-							<select name='wp_cta_content_placement'>
-								<option value='off' <?php if ($placement=='off'){echo "selected='true'"; } ?>>Select where you want to Call to Action</option>
-								<option value='above' <?php if ($placement=='above'){echo "selected='true'"; } ?>>Above the Content</option>
-								<option value='middle' <?php if ($placement=='middle'){echo "selected='true'"; } ?>>Middle of the Content</option>
-								<option value='below' <?php if ($placement=='below'){echo "selected='true'"; } ?>>Below the Content</option>
-								<option value='widget_1' <?php if ($placement=='widget_1'){echo "selected='true'"; } ?>>Sidebar Widget</option>
-								<option value='popup' <?php if ($placement=='popup'){echo "selected='true'"; } ?>>Popup</option>
-								<option value='slideout' <?php if ($placement=='slideout'){echo "selected='true'"; } ?>>Slide Out</option>
-								<option value='shortcode' <?php if ($placement=='shortcode'){echo "selected='true'"; } ?>>Shortcode (coming soon)</option>
-							</select>
-						</td>
-					</tr>
-
-					<!-- <tr>
-						<td class='cta-options-label'>
-							<label for=keyword>
-								CTA Alignment
-							</label>
-						</td>
-						<td class='cta-options-row'>
-							<select name='wp_cta_alignment'>
-								<option value='cta-aligncenter' <?php if ($alignment=='cta-aligncenter'){echo "selected='true'"; } ?>>Centered (default)</option>
-								<option value='cta-alignright' <?php if ($alignment=='cta-alignright'){echo "selected='true'"; } ?>>Float Right</option>
-								<option value='cta-alignleft' <?php if ($alignment=='cta-alignleft'){echo "selected='true'"; } ?>>Float Left</option>
-
-							</select>
-						</td>
-					</tr> -->
-
-				</table>
-
-
-		</div>
-	</div>
 	<?php
 }
 
@@ -639,21 +773,7 @@ function wp_cta_display_metabox() {
 	$cta_display_list = get_post_meta($post->ID ,'cta_display_list', true);
 	($cta_display_list != '') ? $cta_display_list = $cta_display_list : $cta_display_list = array();
 	?>
-	<!--
-	<div class='wp_cta_select_display'>
-		<?php
-		/* foreach ( $cta_list as $cta  )
-		{
-			$this_id = $cta->ID;
-			$this_link = get_permalink( $this_id );
 
-			(in_array($this_id, $cta_display_list)) ? $checked = "checked"	: $checked ="";
-			?>
-			<input type='checkbox' name='cta_display_list[]' value="<?php echo $cta->ID; ?>" <?php echo $checked; ?>> &nbsp;<?php echo $cta->post_title; ?><a class='thickbox' href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a><br>
-			<?php
-		} */
-		?>
-	</div> -->
 <script type="text/javascript">
 jQuery(document).ready(function($)
 {
@@ -669,13 +789,36 @@ jQuery(document).ready(function($)
 		formatSelection: format,
 		escapeMarkup: function(m) { return m; }
 	});
-
+	// show conditional fields
+	jQuery('select#wp_cta_content_placement').on('change', function () {
+		var this_val = jQuery(this).val();
+		jQuery(".dynamic-visable-on").hide();
+		console.log(this_val);
+		jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+	});
+	var onload = jQuery('select#wp_cta_content_placement').val();
+	jQuery('.reveal-' + onload).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 });
 </script>
 <style type="text/css">
 	.select2-container {
 		width: 100%;
 		padding-top: 15px;
+	}
+	.inbound-hidden-row {
+		display: none;
+	}
+	.wp-cta-option-row {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.wp_cta_label.cta-per-page-option, .wp-cta-option-area.cta-per-page-option {
+	display: inline-block;
+	}
+	label.cta-per-page-option {
+		width: 190px;
+		padding-left: 12px;
+		display: inline-block;
 	}
 	.cta-options-label {
 		width: 190px;
@@ -749,18 +892,13 @@ add_action( 'save_post', 'wp_cta_display_meta_save', 10, 2 );
 function wp_cta_display_meta_save($post_id, $post)
 {
 	global $post;
+	$wp_cta_per_post_options = wp_cta_per_page_settings();
 
+	wp_cta_meta_save_loop($wp_cta_per_post_options);
     if ( isset($_POST['cta_display_list']) ) { // if we get new data
         update_post_meta($post_id, "cta_display_list", $_POST['cta_display_list'] );
     } else {
     	delete_post_meta($post_id, "cta_display_list" ); // remove empty checkboxes
-    }
-
-    if ( isset($_POST['wp_cta_content_placement']) ) { // if we get new data
-
-        update_post_meta($post_id, "wp_cta_content_placement", $_POST['wp_cta_content_placement'] );
-    } else {
-    	delete_post_meta($post_id, "wp_cta_content_placement");
     }
 
     if ( isset($_POST['wp_cta_alignment']) ) { // if we get new data
@@ -768,4 +906,5 @@ function wp_cta_display_meta_save($post_id, $post)
     } else {
     	delete_post_meta($post_id, "wp_cta_alignment" );
     }
+
 }

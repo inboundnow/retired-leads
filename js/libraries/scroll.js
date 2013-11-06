@@ -22,7 +22,7 @@ jQuery(function($){
     function wp_cta_show_box() {
         var lastScreen = false;
         if (wp_cta_slideout.offset_element && $(wp_cta_slideout.offset_element) ) {
-            if ($(wp_cta_slideout.offset_element).length > 0) {
+            if ($(wp_cta_slideout.offset_element).length > 0 && wp_cta_slideout.offset_element != "") {
                 lastScreen = getScrollY() + $(window).height() > $(wp_cta_slideout.offset_element).offset().top;
             } else {
                 lastScreen = getScrollY() + $(window).height() >= $(document).height() * wp_cta_slideout.offset_percent / 100;
@@ -83,7 +83,7 @@ jQuery(function($){
                 window.open($(this).attr('href'));
             }
             if ( wp_cta_ga && wp_cta_slideout.ga_track_clicks == 1 ) {
-                _gaq.push( [ '_trackEvent', 'upPrev', wp_cta_slideout.title, $(this).html(), 1, wp_cta_ga_opt_noninteraction ] );
+                _gaq.push( [ '_trackEvent', 'WP_CTA', wp_cta_slideout.title, $(this).html(), 1, wp_cta_ga_opt_noninteraction ] );
             }
             if ( wp_cta_slideout.url_new_window == 1) {
                 return false;

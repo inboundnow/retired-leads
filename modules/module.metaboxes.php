@@ -186,23 +186,26 @@ function wp_cta_render_metaboxes($meta_boxes) {
         // get value of this field if it exists for this post
         //print_r($meta_boxes);
         $meta = get_post_meta($post->ID, $field['id'], true);
-        $field_options_class = (isset($field['options_area'])) ? $field['options_area'] : '';
-        $meta_class = (isset($field['class'])) ? $field['class'] : '';
+        $final_meta = (!empty($meta)) ? $meta : $field['default'];
+        $field_options_class = (isset($field['options_area'])) ? " " . $field['options_area'] : '';
+        $meta_class = (isset($field['class'])) ? " " . $field['class'] : '';
+        $dynamic_hide = (isset($field['reveal_on'])) ? ' inbound-hidden-row' : '';
+        $reveal_on = (isset($field['reveal_on'])) ? ' reveal-' . $field['reveal_on'] : '';
         // begin a table row with
        	$no_label = array('html-block');
-        echo '<div id='.$field['id'].' class="'.$field_options_class.' wp-cta-option-row">';
+        echo '<div id='.$field['id'].' class="wp-cta-option-row '.$field_options_class .$meta_class. $dynamic_hide.  $reveal_on.'">';
        if (!in_array($field['type'],$no_label)) {
-        	echo'<div class="wp_cta_label"><label class="'.$meta_class.'" for="'.$field['id'].'">'.$field['label'].'</label></div>';
+        	echo'<div class="wp_cta_label'.$field_options_class .$meta_class. $dynamic_hide.  $reveal_on.'"><label class="'.$meta_class.'" for="'.$field['id'].'">'.$field['label'].'</label></div>';
             }
           echo '<div class="wp-cta-option-area '.$meta_class.' field-'.$field['type'].'">';
                 switch($field['type']) {
                     // text
                     case 'text':
-                        echo '<input type="text" class="'.$meta_class.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
-                                <br /><span class="description">'.$field['desc'].'</span>';
+                        echo '<input type="text" class="'.$meta_class.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$final_meta.'" size="30" />
+                                <div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
                     break;
                     case 'html-block':
-                        echo '<div class="'.$meta_class.'">'.$field['desc'].'</div>';
+                        echo '<div class="'.$meta_class.'">'.$field['description'].'</div>';
                     break;
                     case 'dropdown':
                         echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$meta_class.'">';
@@ -369,16 +372,12 @@ function wp_cta_meta_save_loop($save_values){
 
 		//print_r($field);
         $old = get_post_meta($post->ID, $field['id'], true);
-        (isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = '' ;
+        $new = (isset($_POST[$field['id']])) ? $_POST[$field['id']] : '' ;
+        if ($new != $old) {
+        update_post_meta($post->ID, $field['id'], $new);
+        }
 
-        if ($new && $new != $old)
-		{
-            update_post_meta($post->ID, $field['id'], $new);
-        }
-		elseif ('' == $new && $old)
-		{
-            delete_post_meta($post->ID, $field['id'], $old);
-        }
+
     } // end foreach
 	//exit;
 }

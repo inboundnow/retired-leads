@@ -66,6 +66,7 @@ class InboundShortcodesFields {
 			$count = 0;
 			foreach( $this->options as $key => $option ) {
 				$first = $key;
+
 				$key = 'inbound_shortcode_' . $key;
 				$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
 				$name = ( isset($option['name'])) ? $option['name'] : '';

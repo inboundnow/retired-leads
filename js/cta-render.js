@@ -42,8 +42,8 @@ jQuery(document).ready(function($) {
             var popon = true;
             }
             // CTA slideout options
-            var slideout_check = jQuery(".wp-cta-slideout");
-            if (typeof (slideout_check) != "undefined" && slideout_check != null && slideout_check != "") {
+
+            if (typeof (wp_cta_slideout) != "undefined" && wp_cta_slideout != null && wp_cta_slideout != "") {
             var popup_check = jQuery(".wp-cta-slideout");
             var popon = true;
             var slider = true;
