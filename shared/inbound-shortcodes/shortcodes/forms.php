@@ -390,12 +390,19 @@ function inbound_form_save()
 	    	  $form_settings_data = get_post_meta( $post_ID, 'form_settings', TRUE );
 	    	  update_post_meta( $post_ID, 'inbound_form_settings', $form_settings );
 	    	  update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
+	    	  $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	    	  update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
 	    	  update_post_meta( $post_ID, 'inbound_form_values', $form_values );
 	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 
+	    	  $output =  array('post_id'=> $post_ID,
+	    	                   'form_name'=>$form_name,
+	    	                   'redirect' => $redirect_value);
+
+	    	  		echo json_encode($output,JSON_FORCE_OBJECT);
+	    	  		wp_die();
 	    } else {
 	    // If from popup run this
 	        $query = $wpdb->prepare(

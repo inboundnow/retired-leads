@@ -435,6 +435,7 @@
 						jQuery(this).text('Choose Form');
 					}
 				});
+				row_add_callback();
 				// Insert default forms
 				jQuery('body').on('change', '#inbound_shortcode_insert_default', function () {
 					var val = jQuery(this).val();
@@ -514,6 +515,10 @@
 			                var final_short_form = '[inbound_forms id="' + form_id + '" name="'+final_form_name+'"]';
 			                if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
 			                   jQuery(self).text('Form Updated').css('font-size', '25px');
+			                   var draft = jQuery("#hidden_post_status").val();
+			                   if (draft === 'draft') {
+			                   	window.location.href = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit'
+			                   }
 			                   setTimeout(function() {
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
 			                           }, 5000);
@@ -590,8 +595,10 @@
 			jQuery('body').on('change', 'select', function () {
 				var find_this = jQuery(this).attr('data-field-name'),
 				this_val = jQuery(this).val();
-				jQuery(".dynamic-visable-on").hide();
-				jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+				var parent_el = jQuery(this).parent().parent().parent();
+				jQuery(parent_el).find(".dynamic-visable-on").hide();
+
+				jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 			});
 
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
