@@ -1,12 +1,7 @@
 <?php
 /**
 *   Button Shortcode
-*   ---------------------------------------------------------------------------
-*   @author 	: Rifki A.G
-*   @copyright	: Copyright (c) 2013, FreshThemes
-*                 http://www.freshthemes.net
-*                 http://www.rifki.net
-*   --------------------------------------------------------------------------- */
+*/
 
 /* 	Shortcode generator config
  * 	----------------------------------------------------- */
@@ -97,7 +92,7 @@
 /* 	Add shortcode
  * 	----------------------------------------------------- */
 	add_shortcode('button', 'inbound_shortcode_button');
-
+	if (!function_exists('inbound_shortcode_button')) {
 		function inbound_shortcode_button( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'style'=> '',
@@ -140,3 +135,4 @@
 
 			return $button;
 		}
+	}

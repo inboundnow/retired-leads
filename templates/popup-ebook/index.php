@@ -107,7 +107,7 @@ margin-right: 5px;
 font-size: 20px;
 vertical-align: middle;
 }
-input[type="submit"] {
+#inbound-form-wrapper input[type="submit"] {
 background: #E14D4D;
 border: none;
 border-radius: 5px;
@@ -122,7 +122,7 @@ padding-right: 10px;
 margin-bottom: 4px;
 }
 
- input[type="submit"]:hover {
+#inbound-form-wrapper input[type="submit"]:hover {
   background: #f15958;
 }
 <?php
@@ -190,7 +190,7 @@ if ($headline_color != "") {
 
 <?php
     $title = get_the_title( $post_id );
-    echo do_shortcode( '[inbound_form name="'.$title.'" redirect="'.$redirect.'" notify="'.$email.'" layout="horizontal" labels="top" submit="'.$submit_button_text.'" ][inbound_field label="Name" type="text" required="0" ][inbound_field label="Email" type="text" required="1" ][/inbound_form]' );?>
+    echo do_shortcode( '[inbound_form name="'.$title.'" redirect="'.$redirect.'" notify="'.$email.'" layout="horizontal" labels="inline" submit="'.$submit_button_text.'" ][inbound_field label="Name" type="text" required="0" ][inbound_field label="Email" type="text" required="1" ][/inbound_form]' );?>
 
   </div>
 

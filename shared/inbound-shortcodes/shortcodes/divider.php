@@ -1,12 +1,7 @@
 <?php
 /**
 *   Divider Shortcode
-*   ---------------------------------------------------------------------------
-*   @author 	: Rifki A.G
-*   @copyright	: Copyright (c) 2013, FreshThemes
-*                 http://www.freshthemes.net
-*                 http://www.rifki.net
-*   --------------------------------------------------------------------------- */
+*/
 
 /* 	Shortcode generator config
  * 	----------------------------------------------------- */

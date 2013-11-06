@@ -172,7 +172,7 @@ class InboundShortcodes {
 
               <div id="inbound-shortcodes-preview-wrap">
                   <div id="inbound-shortcodes-preview-head">
-                      <?php _e('Shortcode Preview', INBOUND_LABEL); ?>
+                      <?php _e('Form Preview', INBOUND_LABEL); ?>
                   </div>
                   <?php if( $shortcode->no_preview ) : ?>
                       <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', INBOUND_LABEL); ?></div>
