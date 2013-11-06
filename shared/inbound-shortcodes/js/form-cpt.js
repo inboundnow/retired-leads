@@ -53,15 +53,22 @@ jQuery(document).ready(function($) {
 
                 	jQuery.each(SelectionData.split('&'), function (index, elem) {
                 	   	var vals = elem.split('=');
+
                 	   	var $select_val = jQuery('select[name="'+vals[0]+'"]').attr('name');
                 	   	var $select = jQuery('select[name="'+vals[0]+'"]');
                 	   	var $input = jQuery('input[name="'+vals[0]+'"]'); // input vals
+                        var input_type = jQuery('input[name="'+vals[0]+'"]').attr('type');
+                        var $checkbox = jQuery('input[name="'+vals[0]+'"]'); // input vals
                 	   	var $textarea = jQuery('textarea[name="'+vals[0]+'"]'); // input vals
                 	   	var separator = '';
                 	   	/*if ($div.html().length > 0) {
                 	   		separator = ', ';
                 	   	}*/
+                        //console.log(input_type);
                 	   	$input.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+                        if (input_type === 'checkbox' && vals[1] === 'on'){
+                            $input.prop( "checked", true );
+                        }
                 	   	if ($select_val != 'inbound_shortcode_insert_default'){
                 	   	$select.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
                 	   	}
