@@ -43,9 +43,10 @@ class InboundShortcodesFields {
 /* 	Show Fields
  * 	----------------------------------------------------- */
 	function show() {
+		
 		global $shortcodes_config;
-
-		$fields = $shortcodes_config;
+		
+		$fields = apply_filters('inboundnow_forms_settings', $shortcodes_config);
 
 		if( isset( $fields[$this->popup]['child'] ) )
 			$this->has_child = true;
@@ -66,6 +67,7 @@ class InboundShortcodesFields {
 			$count = 0;
 			foreach( $this->options as $key => $option ) {
 				$first = $key;
+
 				$key = 'inbound_shortcode_' . $key;
 				$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
 				$name = ( isset($option['name'])) ? $option['name'] : '';
@@ -128,7 +130,8 @@ class InboundShortcodesFields {
 						$output  = $row_start;
 						$output .= '<label for="'.$key.'">';
 						$output .= '<input type="checkbox" class="inbound-shortcodes-input inbound-shortcodes-checkbox" name="'.$key.'" id="'.$key.'"'. checked( $std, 1, false) .' />';
-						$output .= $desc .'</label>';
+						$output .= '&nbsp;&nbsp;<span class="inbound-shortcodes-form-desc">';
+						$output .= $desc .'</span></label>';
 						$output .= $row_end;
 						$this->append_output($output);
 						break;
