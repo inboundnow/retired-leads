@@ -18,6 +18,7 @@ jQuery(function($){
     var wp_cta_ga_track_view         = true;
     var wp_cta_ga                    = typeof(_gaq ) != 'undefined';
     var wp_cta_ga_opt_noninteraction = wp_cta_slideout.ga_opt_noninteraction == 1;
+    var speed = parseInt(wp_cta_slideout.speed);
 
     function wp_cta_show_box() {
         var lastScreen = false;
@@ -34,9 +35,9 @@ jQuery(function($){
             if (wp_cta_slideout.animation == "fade") {
                 $("#wp_cta_box").fadeIn("slow");
             } else if ( wp_cta_slideout.position == 'left' ) {
-                $("#wp_cta_box").stop().animate({left:wp_cta_slideout.css_side+"px"});
+                $("#wp_cta_box").stop().animate({left:wp_cta_slideout.css_side+"px"}, speed);
             } else {
-                $("#wp_cta_box").stop().animate({right:wp_cta_slideout.css_side+"px"});
+                $("#wp_cta_box").stop().animate({right:wp_cta_slideout.css_side+"px"}, speed);
             }
             wp_cta_hidden = false;
             if ( wp_cta_ga && wp_cta_ga_track_view && wp_cta_slideout.ga_track_views == 1 ) {
@@ -49,12 +50,15 @@ jQuery(function($){
         }
         else if (!wp_cta_hidden) {
             wp_cta_hidden = true;
+            // on Hide
             if (wp_cta_slideout.animation == "fade") {
                 $("#wp_cta_box").fadeOut("slow");
+            } else if ( wp_cta_slideout.keep_open == 'on' ) {
+                console.log('keep open');
             } else if ( wp_cta_slideout.position == 'left' ) {
-                $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"});
+                $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"}, 6000);
             } else {
-                $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"});
+                $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"}, 6000);
             }
         }
     }
@@ -65,12 +69,13 @@ jQuery(function($){
         wp_cta_show_box();
     }
     $("#wp_cta_close").click(function() {
+        $("#wp_cta_box").remove(); // kill CTA for now
         if (wp_cta_slideout.animation == "fade") {
             $("#wp_cta_box").fadeOut("slow");
         } else if ( wp_cta_slideout.position == 'left' ) {
-            $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"});
+            $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"},  speed);
         } else {
-            $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"});
+            $("#wp_cta_box").stop().animate({right:"-" + ( wp_cta_slideout.css_width + 50 ) + "px"},  speed);
         }
         wp_cta_closed = true;
         wp_cta_hidden = true;

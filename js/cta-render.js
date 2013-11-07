@@ -35,6 +35,7 @@ jQuery(document).ready(function($) {
             // if admin set height. do this
             var frame_dimensions = the_frame.get(0).contentWindow.cta_options;
             var cta_width = frame_dimensions.cta_width; // might be caching
+            console.log(cta_width);
             var cta_height = frame_dimensions.cta_height; // might be caching
             // CTA popup options
             var popup_check = jQuery("#wp-cta-popup");
@@ -44,9 +45,10 @@ jQuery(document).ready(function($) {
             // CTA slideout options
 
             if (typeof (wp_cta_slideout) != "undefined" && wp_cta_slideout != null && wp_cta_slideout != "") {
-            var popup_check = jQuery(".wp-cta-slideout");
+            var slideout_el = jQuery(".wp-cta-slideout");
             var popon = true;
             var slider = true;
+
             }
             var width_backup = the_frame.contents().find("#cpt_cta_width").text();
             var height_backup = the_frame.contents().find("#cpt_cta_height").text();
@@ -57,6 +59,9 @@ jQuery(document).ready(function($) {
                 if(popon){
                     popup_check.height(cta_height);
                 }
+                if(slider){
+                    slideout_el.height(cta_height);
+                }
                 var final_height = cta_height;
             }
             // if admin set width do this
@@ -64,8 +69,11 @@ jQuery(document).ready(function($) {
                 console.log("width set from iframe");
 
                 the_frame.width(cta_width);
-                 if(popon){
+                if(popon){
                     popup_check.width(cta_width);
+                }
+                if(slider){
+                    slideout_el.width(cta_width);
                 }
                 var final_width = cta_width;
             }
@@ -103,7 +111,7 @@ jQuery(document).ready(function($) {
                 }
                 if(slider){
                     var offscreen = Math.abs(final_width) * -1;
-                    popup_check.css(wp_cta_slideout.position, offscreen);
+                    slideout_el.css(wp_cta_slideout.position, offscreen);
                 }
                 if(popon){
                     popup_check.removeClass("cta_wait_hide");

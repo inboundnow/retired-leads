@@ -613,6 +613,37 @@ $wp_cta_per_post_options = array(
         'reveal_on' => 'slideout'
         ),
     array(
+        'label' => 'slideout Advanced Header',
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><h4 style='margin-bottom:0px;'>Advanced Slideout Settings</h4></div>",
+        'id'  => 'slideout_advanced_message' . $var_id,
+        'type'  => 'html-block',
+        'default'  => '',
+        'context'  => 'normal',
+        'class' => '',
+        'reveal_on' => 'slideout'
+        ),
+    array(
+        'label' => 'Slideout Speed',
+        'description' => "(Advanced Option) How fast do you want the slideout to enter? Time in seconds. For milliseconds use decimal points. example: 500ms is .5",
+        'id'  => 'wp_cta_slide_out_speed' . $var_id,
+        'type'  => 'text',
+        'default'  => '1',
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slideout-option',
+        'reveal_on' => 'slideout'
+        ),
+    array(
+        'label' => 'Keep in view once fired?',
+        'description' => "Do you want to keep the slide out on the page if the user scrolls away? If this is toggled no, once the user scrolls to another part of the page, this slideout is hidden.",
+        'id'  => 'wp_cta_slide_out_keep_open' . $var_id,
+        'type'  => 'dropdown',
+        'options' => array('no'=>'no', 'yes' => 'yes'),
+        'default'  => 'no',
+        'context'  => 'normal',
+        'class' => 'cta-per-page-option cta-slideout-option',
+        'reveal_on' => 'slideout'
+        ),
+    array(
         'label' => 'Attach Slideout to Page Element',
         'description' => "(Advanced Option) You can attach the slide out event to a CSS selector here.",
         'id'  => 'wp_cta_slide_out_element' . $var_id,
@@ -634,7 +665,7 @@ $wp_cta_per_post_options = array(
         ),
     array(
         'label' => 'Popup Advanced Header',
-        'description' => "<div style='margin-top:10px; margin-left:10px;'><h4>Advanced Popup Settings</h4></div>",
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><h4 style='margin-bottom:0px;'>Advanced Popup Settings</h4></div>",
         'id'  => 'popup_advanced_message' . $var_id,
         'type'  => 'html-block',
         'default'  => '',
@@ -675,7 +706,7 @@ $wp_cta_per_post_options = array(
        ),
     array(
         'label' => 'shortcode Message',
-        'description' => "<div style='margin-top:10px; margin-left:10px;'>To use a shortcode to display your Call to Action. Click on the power button icon in the editor above and select 'Insert Call to Action'</div>",
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>To use a shortcode to display your Call to Action. Insert the <input type='text' style='width:94px;' class='regular-text code' readonly='readonly' value='[insert_cta]'> shortcode in the content above.</p><p><b>OR</b> Click on the power button icon <span class='inbound-power'></span> in the editor above and select 'Insert Call to Action', this option will use different CTAs ids than the ones selected in this metabox</p></div>",
         'id'  => 'shortcode_message' . $var_id,
         'type'  => 'html-block',
         'default'  => '',

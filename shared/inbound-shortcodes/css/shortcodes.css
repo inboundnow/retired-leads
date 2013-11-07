@@ -357,6 +357,13 @@ line-height: 29px !important;
 .parent-inbound_shortcode_form_name {
 	margin-top: 10px;
 }
+.inbound-power {
+background: url(../images/shortcodes-blue.png) 0px no-repeat;
+height: 18px;
+width: 20px;
+margin-bottom: -4px;
+display: inline-block;
+}
 /* tinmyce icons */
 .wp_themeSkin .mceIcon.mce_editor-icon-forms {
 	background: url(../images/inbound_form_ico.png) 3px no-repeat;
