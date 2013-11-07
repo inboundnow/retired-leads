@@ -186,7 +186,7 @@
 					iframeSrc = thesiframeSrc[0] + 'preview.php';
 
 				// updates the src value
-				iframe.attr( 'src', iframeSrc + '?sc=' + InboundShortcodes.htmlEncode(shortcode) );
+				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode) );
 
 				//console.log('updated iframe');
 				// update the height

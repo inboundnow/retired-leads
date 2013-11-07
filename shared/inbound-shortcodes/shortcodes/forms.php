@@ -361,11 +361,13 @@ if (!function_exists('inbound_get_form_names')) {
 
 	}
 }
-/* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
-if (!function_exists('inbound_form_save')) {
-function inbound_form_save()
+if (!function_exists('inbound_form_save')) 
+{
+	/* 	Shortcode moved to shared form class */
+	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
+	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
+
+	function inbound_form_save()
 	{
 		global $user_ID, $wpdb;
 	    // Post Values
@@ -462,10 +464,11 @@ function inbound_form_save()
 	}
 }
 /* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 if (!function_exists('inbound_form_get_data')) {
-function inbound_form_get_data()
+	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
+	add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
+
+	function inbound_form_get_data()
 	{
 	    // Post Values
 	    $post_ID = (isset( $_POST['form_id'] )) ? $_POST['form_id'] : "";
@@ -493,11 +496,14 @@ function inbound_form_get_data()
 	    wp_die();
 	}
 }
-/* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
-add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
-if (!function_exists('inbound_form_auto_publish')) {
-function inbound_form_auto_publish()
+
+if (!function_exists('inbound_form_auto_publish')) 
+{
+	/* 	Shortcode moved to shared form class */
+	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
+	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
+
+	function inbound_form_auto_publish()
 	{
 	    // Post Values
 	    $post_ID = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
@@ -520,8 +526,11 @@ function inbound_form_auto_publish()
 	}
 }
 
-if (!function_exists('inbound_short_form_create')) {
-	function inbound_short_form_create( $atts, $content = null ) {
+if (!function_exists('inbound_short_form_create')) 
+{
+	add_shortcode('inbound_forms', 'inbound_short_form_create');
+	function inbound_short_form_create( $atts, $content = null ) 
+	{
 		extract(shortcode_atts(array(
 			'id' => '',
 		), $atts));
@@ -561,5 +570,4 @@ if (!function_exists('inbound_short_form_create')) {
 
 		return do_shortcode( $shortcode );
 	}
-	add_shortcode('inbound_forms', 'inbound_short_form_create');
 }
