@@ -361,11 +361,13 @@ if (!function_exists('inbound_get_form_names')) {
 
 	}
 }
-/* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
-if (!function_exists('inbound_form_save')) {
-function inbound_form_save()
+if (!function_exists('inbound_form_save')) 
+{
+	/* 	Shortcode moved to shared form class */
+	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
+	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
+
+	function inbound_form_save()
 	{
 		global $user_ID, $wpdb;
 	    // Post Values
@@ -390,12 +392,19 @@ function inbound_form_save()
 	    	  $form_settings_data = get_post_meta( $post_ID, 'form_settings', TRUE );
 	    	  update_post_meta( $post_ID, 'inbound_form_settings', $form_settings );
 	    	  update_post_meta( $post_ID, 'inbound_form_created_on', $page_id );
+	    	  $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	    	  update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
 	    	  update_post_meta( $post_ID, 'inbound_form_values', $form_values );
 	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 
+	    	  $output =  array('post_id'=> $post_ID,
+	    	                   'form_name'=>$form_name,
+	    	                   'redirect' => $redirect_value);
+
+	    	  		echo json_encode($output,JSON_FORCE_OBJECT);
+	    	  		wp_die();
 	    } else {
 	    // If from popup run this
 	        $query = $wpdb->prepare(
@@ -455,10 +464,11 @@ function inbound_form_save()
 	}
 }
 /* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 if (!function_exists('inbound_form_get_data')) {
-function inbound_form_get_data()
+	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
+	add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
+
+	function inbound_form_get_data()
 	{
 	    // Post Values
 	    $post_ID = (isset( $_POST['form_id'] )) ? $_POST['form_id'] : "";
@@ -486,11 +496,14 @@ function inbound_form_get_data()
 	    wp_die();
 	}
 }
-/* 	Shortcode moved to shared form class */
-add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
-add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
-if (!function_exists('inbound_form_auto_publish')) {
-function inbound_form_auto_publish()
+
+if (!function_exists('inbound_form_auto_publish')) 
+{
+	/* 	Shortcode moved to shared form class */
+	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
+	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
+
+	function inbound_form_auto_publish()
 	{
 	    // Post Values
 	    $post_ID = (isset( $_POST['post_id'] )) ? $_POST['post_id'] : "";
@@ -513,8 +526,11 @@ function inbound_form_auto_publish()
 	}
 }
 
-if (!function_exists('inbound_short_form_create')) {
-	function inbound_short_form_create( $atts, $content = null ) {
+if (!function_exists('inbound_short_form_create')) 
+{
+	add_shortcode('inbound_forms', 'inbound_short_form_create');
+	function inbound_short_form_create( $atts, $content = null ) 
+	{
 		extract(shortcode_atts(array(
 			'id' => '',
 		), $atts));
@@ -554,5 +570,4 @@ if (!function_exists('inbound_short_form_create')) {
 
 		return do_shortcode( $shortcode );
 	}
-	add_shortcode('inbound_forms', 'inbound_short_form_create');
 }

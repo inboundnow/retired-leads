@@ -240,7 +240,7 @@ function wpleads_hook_store_lead_post($data)
 		{
 			if (in_array($key,$exclude_array))
 			{
-				unset($a2[$key]);
+				unset($a2[$key]); // remove values from raw form data
 			}
 			if (stristr($key,'company'))
 			{

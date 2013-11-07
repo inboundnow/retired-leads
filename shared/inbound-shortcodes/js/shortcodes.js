@@ -183,10 +183,17 @@
 					iframe = jQuery('#inbound-shortcodes-preview'),
 					theiframeSrc = iframe.attr('src'),
 					thesiframeSrc = theiframeSrc.split('preview.php'),
+					shortcode_name = jQuery("#inbound_current_shortcode").val(),
+					form_id = jQuery("#post_ID").val(),
 					iframeSrc = thesiframeSrc[0] + 'preview.php';
-
+				// Add form id to CPT preview
+				if ( shortcode_name === "insert_inbound_form_shortcode") {
+					if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
+						var shortcode = shortcode.replace('[inbound_form', '[inbound_form id="'+form_id+'"');
+					}
+				}
 				// updates the src value
-				iframe.attr( 'src', iframeSrc + '?sc=' + InboundShortcodes.htmlEncode(shortcode) );
+				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode) );
 
 				//console.log('updated iframe');
 				// update the height
@@ -435,6 +442,7 @@
 						jQuery(this).text('Choose Form');
 					}
 				});
+				row_add_callback();
 				// Insert default forms
 				jQuery('body').on('change', '#inbound_shortcode_insert_default', function () {
 					var val = jQuery(this).val();
@@ -514,6 +522,10 @@
 			                var final_short_form = '[inbound_forms id="' + form_id + '" name="'+final_form_name+'"]';
 			                if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
 			                   jQuery(self).text('Form Updated').css('font-size', '25px');
+			                   var draft = jQuery("#hidden_post_status").val();
+			                   if (draft === 'draft') {
+			                   	window.location.href = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit'
+			                   }
 			                   setTimeout(function() {
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
 			                           }, 5000);
@@ -590,8 +602,10 @@
 			jQuery('body').on('change', 'select', function () {
 				var find_this = jQuery(this).attr('data-field-name'),
 				this_val = jQuery(this).val();
-				jQuery(".dynamic-visable-on").hide();
-				jQuery('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+				var parent_el = jQuery(this).parent().parent().parent();
+				jQuery(parent_el).find(".dynamic-visable-on").hide();
+
+				jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 			});
 
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
