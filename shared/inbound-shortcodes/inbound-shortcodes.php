@@ -46,7 +46,7 @@ class InboundShortcodes {
       wp_enqueue_script('jquery-ui-sortable' );
       wp_enqueue_script('inbound-shortcodes-plugins', INBOUND_FORMS . 'js/shortcodes-plugins.js');
       wp_enqueue_script('inbound-shortcodes', INBOUND_FORMS . 'js/shortcodes.js');
-      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') ) );
+      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $_GET['post'] ) );
       // Forms CPT only
       if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
          wp_enqueue_style('inbound-forms-css', INBOUND_FORMS . 'css/form-cpt.css');
@@ -177,7 +177,7 @@ class InboundShortcodes {
                   <?php if( $shortcode->no_preview ) : ?>
                       <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', INBOUND_LABEL); ?></div>
                   <?php else : ?>
-                      <iframe src='<?php echo INBOUND_FORMS; ?>preview.php?sc=' width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
+                      <iframe src='<?php echo INBOUND_FORMS; ?>preview.php?sc=&post=<?php echo $_GET['post']; ?>' width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
                   <?php endif; ?>
               </div>
               <div class="clear"></div>
