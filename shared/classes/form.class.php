@@ -30,8 +30,12 @@ class InboundForms {
     // Shortcode params
     static function inbound_forms_create( $atts, $content = null )
 	{
+		global $post;
+		
 		self::$add_script = true;
+		
 		$email = get_option('admin_email');
+		
 		extract(shortcode_atts(array(
 		  'id' => '',
 		  'name' => '',
@@ -43,6 +47,10 @@ class InboundForms {
 		  'submit' => 'Submit'
 		), $atts));
 
+		if ( !$id && isset($_GET['post']) )
+			$id = $_GET['post'];
+
+		
 		$form_name = $name;
 		$form_layout = $layout;
 		$form_labels = $labels;
@@ -245,7 +253,7 @@ class InboundForms {
     static function register_script()
 	{
 		//wp_register_script('preloadify-js', plugins_url('/js/preloadify/jquery.preloadify.js', __FILE__), array('jquery'), '1.0', true);
-		//wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css');
+		//wp_register_style( 'preloadify-css', plugins_url( '/inbound-forms/js/preloadify/plugin/css/style.css' ) );
     }
 
     // only call enqueue once
@@ -254,7 +262,7 @@ class InboundForms {
 		if ( ! self::$add_script )
 		return;
 		//wp_print_scripts('preloadify-js');
-		wp_enqueue_style( 'inbound-shortcodes' );
+		//wp_enqueue_style( 'preloadify-css' );
     }
 
     // move to file
@@ -325,7 +333,6 @@ class InboundForms {
 
 		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
 		$email_to = $form_meta_data['inbound_notify_email'];
-		// get_option( 'admin_email' );
 
 		/* Might be better email send need to test and look at html edd emails */
 		if ( isset($form_data['email']) && $email_to )
