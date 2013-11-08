@@ -207,11 +207,11 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 				
 				// Call the custom API.
 				$response = wp_remote_get( add_query_arg( $api_params, INBOUNDNOW_STORE_URL ), array( 'timeout' => 30, 'sslverify' => false ) );
-					
-
+				var_dump($response);
+				
 				// make sure the response came back okay
 				if ( is_wp_error( $response ) )
-					//echo $response['body'];exit;
+					$_SESSION['license_error_'. $field['slug']] = $response['body'];
 
 				// decode the license data
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
