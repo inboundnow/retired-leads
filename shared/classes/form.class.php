@@ -1,17 +1,9 @@
 <?php
 
 /**
- * Creates Form Shortcode
+ * Creates Inbound Form Shortcode
  */
 
-/*
-Usage
-[inbound_form fields="First Name, Last Name, Email, Company, Phone" required="Company" textareas="Company"]
-*/
-
-//=============================================
-// Define constants
-//=============================================
 
 if (!class_exists('InboundForms')) {
 class InboundForms {
@@ -21,21 +13,22 @@ class InboundForms {
     //=============================================
     static function init()  {
         add_shortcode('inbound_form', array(__CLASS__, 'inbound_forms_create'));
+        add_shortcode('inbound_forms', array(__CLASS__, 'inbound_short_form_create'));
         add_action('init', array(__CLASS__, 'register_script'));
         add_action('wp_footer', array(__CLASS__, 'print_script'));
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
         add_action( 'init',  array(__CLASS__, 'do_actions'));
     }
 
-    // Shortcode params
+    // Create Longer shortcode for [inbound_form]
     static function inbound_forms_create( $atts, $content = null )
 	{
 		global $post;
-		
+
 		self::$add_script = true;
-		
+
 		$email = get_option('admin_email');
-		
+
 		extract(shortcode_atts(array(
 		  'id' => '',
 		  'name' => '',
@@ -50,7 +43,7 @@ class InboundForms {
 		if ( !$id && isset($_GET['post']) )
 			$id = $_GET['post'];
 
-		
+
 		$form_name = $name;
 		$form_layout = $layout;
 		$form_labels = $labels;
@@ -248,12 +241,53 @@ class InboundForms {
 			return $form;
 		}
 	}
+	// Create shorter shortcode for [inbound_forms]
+	static function inbound_short_form_create( $atts, $content = null )
+	{
+		extract(shortcode_atts(array(
+			'id' => '',
+		), $atts));
+
+		$shortcode = get_post_meta( $id, 'inbound_shortcode', TRUE );
+		// If form id missing add it
+		if (!preg_match('/id="/', $shortcode)) {
+		$shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $id . "\"", $shortcode);
+		}
+		if ($id === 'default_3'){
+			$shortcode = '[inbound_form name="Form Name" layout="vertical" labels="top" submit="Submit" ][inbound_field label="Email" type="text" required="1" ][/inbound_form]';
+		}
+		if ($id === 'default_1'){
+			$shortcode = '[inbound_form name="3 Field Form" layout="vertical" labels="top" submit="Submit" ][inbound_field label="First Name" type="text" required="0" ][inbound_field label="Last Name" type="text" required="0" ][inbound_field label="Email" type="text" required="1" placeholder="Enter Your Email Address" ][/inbound_form]';
+		}
+		if ($id === 'default_2'){
+			$shortcode = '[inbound_form name="Standard Company Form" layout="vertical" labels="top" submit="Submit" ]
+
+						[inbound_field label="First Name" type="text" required="0" placeholder="Enter Your First Name" ]
+
+						[inbound_field label="Last Name" type="text" required="0" placeholder="Enter Your Last Name" ]
+
+						[inbound_field label="Email" type="text" required="1" placeholder="Enter Your Email Address" ]
+
+						[inbound_field label="Company Name" type="text" required="0" placeholder="Enter Your Company Name" ]
+
+						[inbound_field label="Job Title" type="text" required="0" placeholder="Enter Your Job Title" ]
+
+						[/inbound_form]';
+		}
+		if (empty($shortcode)) {
+			$shortcode = "Form ID: " . $id . " Not Found";
+		}
+		if ($id === 'none'){
+			$shortcode = "";
+		}
+
+		return do_shortcode( $shortcode );
+	}
 
     // setup enqueue scripts
     static function register_script()
 	{
-		//wp_register_script('preloadify-js', plugins_url('/js/preloadify/jquery.preloadify.js', __FILE__), array('jquery'), '1.0', true);
-		//wp_register_style( 'preloadify-css', plugins_url( '/inbound-forms/js/preloadify/plugin/css/style.css' ) );
+		wp_enqueue_style( 'inbound-shortcodes' );
     }
 
     // only call enqueue once
@@ -261,8 +295,7 @@ class InboundForms {
 	{
 		if ( ! self::$add_script )
 		return;
-		//wp_print_scripts('preloadify-js');
-		//wp_enqueue_style( 'preloadify-css' );
+		wp_enqueue_style( 'inbound-shortcodes' );
     }
 
     // move to file

@@ -183,8 +183,15 @@
 					iframe = jQuery('#inbound-shortcodes-preview'),
 					theiframeSrc = iframe.attr('src'),
 					thesiframeSrc = theiframeSrc.split('preview.php'),
+					shortcode_name = jQuery("#inbound_current_shortcode").val(),
+					form_id = jQuery("#post_ID").val(),
 					iframeSrc = thesiframeSrc[0] + 'preview.php';
-
+				// Add form id to CPT preview
+				if ( shortcode_name === "insert_inbound_form_shortcode") {
+					if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
+						var shortcode = shortcode.replace('[inbound_form', '[inbound_form id="'+form_id+'"');
+					}
+				}
 				// updates the src value
 				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode) );
 
