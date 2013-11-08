@@ -207,7 +207,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 				
 				// Call the custom API.
 				$response = wp_remote_get( add_query_arg( $api_params, INBOUNDNOW_STORE_URL ), array( 'timeout' => 30, 'sslverify' => false ) );
-				var_dump($response);
+				//var_dump($response);
 				
 				// make sure the response came back okay
 				if ( is_wp_error( $response ) )
