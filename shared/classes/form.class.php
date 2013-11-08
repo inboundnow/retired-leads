@@ -1,17 +1,9 @@
 <?php
 
 /**
- * Creates Form Shortcode
+ * Creates Inbound Form Shortcode
  */
 
-/*
-Usage
-[inbound_form fields="First Name, Last Name, Email, Company, Phone" required="Company" textareas="Company"]
-*/
-
-//=============================================
-// Define constants
-//=============================================
 
 if (!class_exists('InboundForms')) {
 class InboundForms {
@@ -28,7 +20,7 @@ class InboundForms {
         add_action( 'init',  array(__CLASS__, 'do_actions'));
     }
 
-    // Shortcode params
+    // Create Longer shortcode for [inbound_form]
     static function inbound_forms_create( $atts, $content = null )
 	{
 		global $post;
@@ -249,7 +241,7 @@ class InboundForms {
 			return $form;
 		}
 	}
-	// Create shorter shortcode for inbound forms
+	// Create shorter shortcode for [inbound_forms]
 	static function inbound_short_form_create( $atts, $content = null )
 	{
 		extract(shortcode_atts(array(
