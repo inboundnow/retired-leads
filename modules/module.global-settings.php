@@ -32,19 +32,19 @@ if (is_admin())
 				'options' => null
 			),
 			array(
-				'id'  => 'cta-global-cookie',
-				'label' => 'Show only 1 Popup Per Visitor',
-				'description' => "Show only 1 popup per visitor",
+				'id'  => 'global-cookie',
+				'label' => 'Show only 1 Popup Per Visitor (Global Override)',
+				'description' => "This will only show 1 popup per visitor globally throughout the site for the specific period of time set in the setting below.",
 				'type'  => 'radio',
 				'default'  => '0',
 				'options' => array('1'=>'on','0'=>'off')
 			),
 			array(
-				'id'  => 'cta-global-cookie',
+				'id'  => 'global-cookie-length',
 				'label' => 'How Many Days Should pass before visitors see popups again?',
 				'description' => "This is the timeout that passes before web visitors see a popup again on your site",
 				'type'  => 'text',
-				'default'  => '1',
+				'default'  => '7',
 				'options' => null
 			),
 		);
