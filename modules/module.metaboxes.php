@@ -365,7 +365,12 @@ function save_wp_cta_post_metaboxes($post_id) {
 }
 
 function wp_cta_meta_save_loop($save_values){
+
 	global $post;
+	
+	if (!$save_values)
+		return;
+		
     // loop through fields and save the data
     foreach ($save_values as $field) {
         if($field['type'] == 'tax_select') continue;
