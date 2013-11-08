@@ -1,59 +1,72 @@
 <?php
 
 if (is_admin())
-{	
+{
 	//define main tabs and bind display functions
 	if (isset($_GET['page'])&&($_GET['page']=='wp_cta_global_settings'&&$_GET['page']=='wp_cta_global_settings'))
 	{
 		add_action('admin_init','wp_cta_global_settings_enqueue');
 		function wp_cta_global_settings_enqueue()
-		{		
-			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');			
+		{
+			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
 		}
 	}
-	
-	
+
+
 	function wp_cta_get_global_settings()
 	{
 		global $wp_cta_global_settings;
-		
+
 		// Setup navigation and display elements
 
 		$tab_slug = 'wp-cta-main';
-		$wp_cta_global_settings[$tab_slug]['label'] = 'Global Settings';	
-		
-		/*
-		$wp_cta_global_settings[$tab_slug]['settings'] = 
-		array(	
-			//ADD METABOX - SELECTED TEMPLATE	
+		$wp_cta_global_settings[$tab_slug]['label'] = 'Global Settings';
+
+
+		$wp_cta_global_settings[$tab_slug]['settings'] =
+		array(
 			array(
-				'id'  => 'landing-page-permalink-prefix',
-				'label' => 'Default Landing Page Permalink Prefix',
-				'description' => "Enter in the 'prefix' for landing page permalinks. eg: /prefix/pemalink-name",
-				'type'  => 'text', 
-				'default'  => 'go',
+				'id'  => 'lp_global_settings_main_header',
+				'type'  => 'header',
+				'default'  => '<h4>CTA Core Settings</h4>',
 				'options' => null
-			),			
+			),
+			array(
+				'id'  => 'cta-global-cookie',
+				'label' => 'Show only 1 Popup Per Visitor',
+				'description' => "Show only 1 popup per visitor",
+				'type'  => 'radio',
+				'default'  => '0',
+				'options' => array('1'=>'on','0'=>'off')
+			),
+			array(
+				'id'  => 'cta-global-cookie',
+				'label' => 'How Many Days Should pass before visitors see popups again?',
+				'description' => "This is the timeout that passes before web visitors see a popup again on your site",
+				'type'  => 'text',
+				'default'  => '1',
+				'options' => null
+			),
 		);
-		*/
-		
-								
+
+
+
 		/* Setup License Keys Tab */
 		$tab_slug = 'wp-cta-license-keys';
-		$wp_cta_global_settings[$tab_slug]['label'] = 'License Keys';	
+		$wp_cta_global_settings[$tab_slug]['label'] = 'License Keys';
 
-		
+
 		/* Setup Extensions Tab */
 		$tab_slug = 'wp-cta-extensions';
-		$wp_cta_global_settings[$tab_slug]['label'] = 'Extensions';	
-		
+		$wp_cta_global_settings[$tab_slug]['label'] = 'Extensions';
+
 		$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
 		return $wp_cta_global_settings;
-	}	
-	
+	}
+
 	function wp_cta_display_global_settings_js()
-	{	
+	{
 		if (isset($_GET['tab']))
 		{
 			$default_id = $_GET['tab'];
@@ -64,7 +77,7 @@ if (is_admin())
 		}
 		?>
 		<script type='text/javascript'>
-			jQuery(document).ready(function() 
+			jQuery(document).ready(function()
 			{
 				//jQuery('#<? echo $default_id; ?>').css('display','block');
 				//jQuery('#<? echo $default_id; ?>').css('display','block');
@@ -81,38 +94,38 @@ if (is_admin())
 					jQuery('#'+this_id).css('display','block');
 					jQuery('.wp-cta-nav-tab').removeClass('nav-tab-special-active');
 					jQuery('.wp-cta-nav-tab').addClass('nav-tab-special-inactive');
-					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');						
+					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');
 					jQuery('#id-open-tab').val(this_id);
 				});
-	
-			});			
+
+			});
 		</script>
 		<?php
 	}
-	
+
 	function wp_cta_display_global_settings()
-	{	
+	{
 		global $wpdb;
 		$wp_cta_global_settings = wp_cta_get_global_settings();
-		
+
 		//print_r($wp_cta_global_settings);
-		$active_tab = 'wp-cta-main'; 
+		$active_tab = 'wp-cta-main';
 		if (isset($_REQUEST['open-tab']))
 		{
 			$active_tab = $_REQUEST['open-tab'];
 		}
 
 		//echo $active_tab;exit;
-		
+
 		wp_cta_display_global_settings_js();
 		wp_cta_save_global_settings();
 
-		echo '<h2 class="nav-tab-wrapper">';		
-	
+		echo '<h2 class="nav-tab-wrapper">';
+
 		foreach ($wp_cta_global_settings as $key => $data)
 		{
 			?>
-			<a  id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a> 
+			<a  id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
 			<?php
 		}
 		echo "</h2><div class='wp-cta-settings-tab-sidebar'><div class='wp-cta-sidebar-settings'><h2 style='font-size:17px;'>Like the Plugin? Leave us a review</h2><center><a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/landing-pages?rate=5#postform' target='_blank'>Leave a Review</a></center><small>Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong></small></div><div class='wp-cta-sidebar-settings'><h2>Help keep the plugin up to date, awesome & free!</h2><form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
@@ -124,7 +137,7 @@ if (is_admin())
 		echo "<form action='edit.php?post_type=landing-page&page=wp_cta_global_settings' method='POST'>
 		<input type='hidden' name='nature' value='wp-cta-global-settings-save'>
 		<input type='hidden' name='open-tab' id='id-open-tab' value='{$active_tab}'>";
-		
+
 		if ($wp_cta_global_settings)
 		{
 			foreach ($wp_cta_global_settings as $key => $data)
@@ -132,7 +145,7 @@ if (is_admin())
 				wp_cta_render_global_settings($key,$data['settings'], $active_tab);
 			}
 		}
-		
+
 		echo '<div style="float:left;padding-left:9px;padding-top:20px;">
 				<input type="submit" value="Save Settings" tabindex="5" id="wp-cta-button-create-new-group-open" class="button-primary" >
 			</div>';
@@ -144,7 +157,7 @@ if (is_admin())
 		<div id="more-templates">
 			<center>
 			<a href="http://www.inboundnow.com/landing-pages/downloads/category/templates/" target="_blank"><img src="<?php echo WP_CTA_URLPATH;?>/images/templates-image.png"></a>
-			
+
 			</center>
 		</div>
 		<div id="more-addons">
@@ -235,52 +248,52 @@ if (is_admin())
                 </tr>
             </table>
         </div>
-	<?php	
+	<?php
 	}
-	
-	function wp_cta_save_global_settings() 
+
+	function wp_cta_save_global_settings()
 	{
-		
+
 		$wp_cta_global_settings = wp_cta_get_global_settings();
-		
+
 		if (!isset($_POST['nature']))
 			return;
-	
-		
+
+
 		foreach ($wp_cta_global_settings as $key=>$data)
-		{	
-			$tab_settings = $wp_cta_global_settings[$key]['settings'];		
+		{
+			$tab_settings = $wp_cta_global_settings[$key]['settings'];
 
 			// loop through fields and save the data
-			foreach ($tab_settings as $field) 
+			foreach ($tab_settings as $field)
 			{
-				
+
 				$field['id'] = $key."-".$field['id'];
-				
-				if (array_key_exists('option_name',$field) && $field['option_name'] )			
+
+				if (array_key_exists('option_name',$field) && $field['option_name'] )
 					$field['id'] = $field['option_name'];
-				
-				$field['old_value'] = get_option($field['id']);	
+
+				$field['old_value'] = get_option($field['id']);
 				(isset($_POST[$field['id']]))? $new = $_POST[$field['id']] : $new = null;
-				
-				
-				if ((isset($new) && ($new !== $field['old_value'] ) )|| !isset($field['old_value']) ) 
+
+
+				if ((isset($new) && ($new !== $field['old_value'] ) )|| !isset($field['old_value']) )
 				{
 					//echo $field['id'];exit;
-					$bool = update_option($field['id'],$new);				
-					
+					$bool = update_option($field['id'],$new);
+
 					if ($field['type']=='license-key')
-					{						
+					{
 						// retrieve the license from the database
 						$license = trim( get_option( 'edd_sample_license_key' ) );
-						
+
 						// data to send in our API request
-						$api_params = array( 
-							'edd_action'=> 'activate_license', 
-							'license' 	=> $new, 
+						$api_params = array(
+							'edd_action'=> 'activate_license',
+							'license' 	=> $new,
 							'item_name' =>  $field['slug'] // the name of our product in EDD
 						);
-						
+
 						// Call the custom API.
 						$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
 
@@ -290,15 +303,15 @@ if (is_admin())
 
 						// decode the license data
 						$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-						
+
 						//echo $license_data->license;
 						//echo $field['value']['slug'];exit;
-						
-						// $license_data->license will be either "active" or "inactive"						
+
+						// $license_data->license will be either "active" or "inactive"
 						$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
 					}
-				} 
-				elseif (!$new && $field['old_value']) 
+				}
+				elseif (!$new && $field['old_value'])
 				{
 					//echo "here: $key <br>";
 					$bool = delete_option($field['id']);
@@ -308,9 +321,9 @@ if (is_admin())
 					//print_r($field);
 					if ($field['type']=='license-key'&& $new )
 					{
-					
+
 						$license_status = get_option('wp_cta_license_status-'.$field['slug']);
-						
+
 						if ($license_status=='valid' && $new == $field['old_value'])
 						{
 							continue;
@@ -318,39 +331,39 @@ if (is_admin())
 
 						// retrieve the license from the database
 						$license = trim( get_option( 'edd_sample_license_key' ) );
-						
+
 						// data to send in our API request
-						$api_params = array( 
-							'edd_action'=> 'activate_license', 
-							'license' 	=> $new, 
+						$api_params = array(
+							'edd_action'=> 'activate_license',
+							'license' 	=> $new,
 							'item_name' =>  $field['slug'] // the name of our product in EDD
 						);
-						
+
 						// Call the custom API.
 						$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
 						//print_r($response);
 						//echo "<br>";
-						
+
 						// make sure the response came back okay
 						if ( is_wp_error( $response ) )
 							break;
 
 						// decode the license data
 						$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-						
-						// $license_data->license will be either "active" or "inactive"						
+
+						// $license_data->license will be either "active" or "inactive"
 						$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
 					}
 				}
 				//exit;
 				do_action('wp_cta_save_global_settings',$field);
-			} // end foreach		
-			
+			} // end foreach
+
 		}
 		//exit;
 	}
-	
-		
+
+
 	function wp_cta_render_global_settings($key,$custom_fields,$active_tab)
 	{
 
@@ -363,11 +376,11 @@ if (is_admin())
 		{
 			$display = 'none';
 		}
-		
+
 		if (!$custom_fields)
 			return;
 		//echo $display;
-		
+
 		// Use nonce for verification
 		echo "<input type='hidden' name='wp_cta_{$key}_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 
@@ -375,7 +388,7 @@ if (is_admin())
 		echo '<table class="wp-cta-tab-display" id="'.$key.'" style="display:'.$display.'">';
 		//print_r($custom_fields);exit;
 		foreach ($custom_fields as $field) {
-			//echo $field['type'];exit; 
+			//echo $field['type'];exit;
 			// get value of this field if it exists for this post
 			if (isset($field['default']))
 			{
@@ -385,12 +398,12 @@ if (is_admin())
 			{
 				$default = null;
 			}
-			
+
 			$field['id'] = $key."-".$field['id'];
-			
-			if (array_key_exists('option_name',$field) && $field['option_name'] )			
-				$field['id'] = $field['option_name'];				
-				
+
+			if (array_key_exists('option_name',$field) && $field['option_name'] )
+				$field['id'] = $field['option_name'];
+
 			$field['value'] = get_option($field['id'], $default);
 
 			// begin a table row with
@@ -417,14 +430,14 @@ if (is_admin())
 						case 'datepicker':
 							echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />
 									<div class="wp_cta_tooltip tool_date" title="'.$field['description'].'"></div><p class="description">'.$field['description'].'</p>';
-							break;	
+							break;
 						case 'license-key':
 							$license_status = wp_cta_check_license_status($field);
 							//echo $license_status;exit;
 							echo '<input type="hidden" name="wp_cta_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />
 							<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
 									<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
-							
+
 							if ($license_status=='valid')
 							{
 								echo '<div class="wp_cta_license_status_valid">Valid</div>';
@@ -432,8 +445,8 @@ if (is_admin())
 							else
 							{
 								echo '<div class="wp_cta_license_status_invalid">Invalid</div>';
-							}						
-							break;	
+							}
+							break;
 						case 'text':
 							echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
 									<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
@@ -446,20 +459,20 @@ if (is_admin())
 						// wysiwyg
 						case 'wysiwyg':
 							wp_editor( $field['value'], $field['id'], $settings = array() );
-							echo	'<span class="description">'.$field['description'].'</span><br><br>';							
+							echo	'<span class="description">'.$field['description'].'</span><br><br>';
 							break;
-						// media					
+						// media
 							case 'media':
 							//echo 1; exit;
 							echo '<label for="upload_image">';
 							echo '<input name="'.$field['id'].'"  id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
 							echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
-							echo '<br /><div class="wp_cta_tooltip tool_media" title="'.$field['description'].'"></div>'; 
+							echo '<br /><div class="wp_cta_tooltip tool_media" title="'.$field['description'].'"></div>';
 							break;
 						// checkbox
 						case 'checkbox':
 							$i = 1;
-							echo "<table>";				
+							echo "<table>";
 							if (!isset($field['value'])){$field['value']=array();}
 							elseif (!is_array($field['value'])){
 								$field['value'] = array($field['value']);
@@ -471,7 +484,7 @@ if (is_admin())
 									$i=1;
 								}
 									echo '<td><input type="checkbox" name="'.$field['id'].'[]" id="'.$field['id'].'" value="'.$value.'" ',in_array($value,$field['value']) ? ' checked="checked"' : '','/>';
-									echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';					
+									echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label></td>';
 								if ($i==4)
 								{
 									echo "</tr>";
@@ -487,7 +500,7 @@ if (is_admin())
 								//echo $meta.":".$field['id'];
 								//echo "<br>";
 								echo '<input type="radio" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','/>';
-								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';								
+								echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
 							}
 							echo '<div class="wp_cta_tooltip tool_radio" title="'.$field['description'].'"></div>';
 						break;
@@ -504,14 +517,14 @@ if (is_admin())
 							echo $field['value'];
 							echo '<br /><div class="wp_cta_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
 						break;
-						
 
 
-					} //end switch					
-					
-				
+
+					} //end switch
+
+
 					do_action('wp_cta_render_global_settings',$field);
-					
+
 			echo '</td></tr>';
 		} // end foreach
 		echo '</table>'; // end table

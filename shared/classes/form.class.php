@@ -287,7 +287,7 @@ class InboundForms {
     // setup enqueue scripts
     static function register_script()
 	{
-		wp_enqueue_style('inbound-shortcodes', INBOUND_FORMS.'css/frontend-render.css');
+		wp_enqueue_style( 'inbound-shortcodes' );
     }
 
     // only call enqueue once
