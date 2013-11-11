@@ -202,7 +202,7 @@ class InboundForms {
 				{
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
-					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' value="'.$dynamic_value.'" type="'.$type.'" '.$req.'/>';
+					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$dynamic_value.'" type="'.$type.'" '.$req.'/>';
 				}
 				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio")
 				{
