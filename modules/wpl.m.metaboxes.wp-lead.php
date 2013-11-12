@@ -7,7 +7,7 @@ if (isset($_GET['page'])&&($_GET['page']=='lp_global_settings'&&$_GET['page']=='
 	add_action('admin_init','wpl_manage_lead_enqueue');
 	function wpl_manage_lead_enqueue()
 	{		
-		wp_enqueue_style('wpl_manage_lead_css', WPL_URL . 'css/admin-global-settings.css');	
+		wp_enqueue_style('wpl_manage_lead_css', WPL_URL . '/css/wpl.admin-global-settings.css');	
 	}
 }
 
