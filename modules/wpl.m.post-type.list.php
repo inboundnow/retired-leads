@@ -359,7 +359,6 @@ function wpleads_remove_lead_from_list( $list_id, $lead_id )
 		//get array
 		$wpleads_list_ids = json_decode($wpleads_list_ids, true);
 		
-		if ( $wpleads_list_ids
 		//clean
 		delete_post_meta($lead_id, 'wpleads_list_ids');
 		
