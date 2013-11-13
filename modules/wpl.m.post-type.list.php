@@ -279,9 +279,13 @@ if (is_admin())
 
 		if ($wpleads_list_ids)
 		{
+			$wpleads_list_ids_new = array();
+			
 			//get array
 			$wpleads_list_ids = json_decode($wpleads_list_ids, true);
-
+			if ( !is_array($wpleads_list_ids) )
+				$wpleads_list_ids = array();
+				
 			//clean
 			delete_post_meta($lead_id, 'wpleads_list_ids');
 
@@ -298,8 +302,8 @@ if (is_admin())
 					$wpleads_list_ids_new[$list_name]['list_id'] = $value['list_id'];
 					$wpleads_list_ids_new[$list_name]['wplead_list_category_id'] = $wplead_cat_id;
 				}
-			}
-			//print_r($wpleads_list_ids_new);
+			}				
+				
 			//push newest if not exists
 			if (!in_array($list_id, $wpleads_list_ids_new))
 			{
