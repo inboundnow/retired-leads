@@ -55,7 +55,7 @@
 				'label' => 'Create WP Roles for Lists',
 				'description' => "<p>Turn this on to create WordPress user roles that correspond with Lead lists.</p>",
 				'type'  => 'radio', 
-				'default'  => '1',
+				'default'  => '0',
 				'options' => array('1'=>'On','0'=>'Off')
 			),
 			array(
