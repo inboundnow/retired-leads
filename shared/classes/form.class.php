@@ -96,6 +96,8 @@ class InboundForms {
 			{
 
 				$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
+
+
 				$clean_label = preg_replace("/[^A-Za-z0-9 ]/", '', trim($label));
 				$formatted_label = strtolower(str_replace(array(' ','_'),'-',$clean_label));
 				$field_placeholder = (isset($matches[3][$i]['placeholder'])) ? $matches[3][$i]['placeholder'] : '';
@@ -119,7 +121,13 @@ class InboundForms {
 				$required = (isset($matches[3][$i]['required'])) ? $matches[3][$i]['required'] : '0';
 				$req = ($required === '1') ? 'required' : '';
 				$req_label = ($required === '1') ? '<span class="inbound-required">*</span>' : '';
-				$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
+				$map_field = (isset($matches[3][$i]['map_to'])) ? $matches[3][$i]['map_to'] : '';
+				if ($map_field != "") {
+					$field_name = $map_field;
+				} else {
+					$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
+				}
+
 
 				/* Map Common Fields */
 				(preg_match( '/Email|e-mail|email/i', $label, $email_input)) ? $email_input = " inbound-email" : $email_input = "";

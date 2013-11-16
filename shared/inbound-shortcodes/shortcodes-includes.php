@@ -19,6 +19,10 @@
 
 	$lp_cats = get_transient( 'landing-page-cats' ); // array of landing page categories
 	$form_names = get_transient( 'inbound-form-names' ); // array of landing page categories
+	$lead_mapping_fields = get_transient( 'wp-lead-fields' );
+
+
+	// print_r($lead_mapping_fields);
 	/* Portfolio catgories options */
 	// $portfolio_cats = array();
 	// $portfolio_cats_obj = get_terms('portfolio_category', false);
