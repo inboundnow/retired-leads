@@ -367,10 +367,10 @@ function save_wp_cta_post_metaboxes($post_id) {
 function wp_cta_meta_save_loop($save_values){
 
 	global $post;
-	
+
 	if (!$save_values)
 		return;
-		
+
     // loop through fields and save the data
     foreach ($save_values as $field) {
         if($field['type'] == 'tax_select') continue;
@@ -542,6 +542,7 @@ function wp_cta_display_meta_box_select_template_container() {
 			$cats = explode( ',' , $data['info']['category'] );
 			foreach ($cats as $key => $cat)
 			{
+                $cat = trim($cat);
 				$cat = str_replace(' ', '-', $cat);
 				$cats[$key] = trim(strtolower($cat));
 			}

@@ -16,7 +16,7 @@ array(
 	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Popup Ebook", // Nice Name
-	'category' => 'Popup', // Template Category
+	'category' => 'Popup, Wide', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This is a cta that works great as a popup but can also be placed anywhere on your site' // template description
 );

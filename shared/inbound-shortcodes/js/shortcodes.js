@@ -554,14 +554,23 @@
 			});
 
 			jQuery('.inbound-shortcodes-input', form).on('change, keyup', function () {
+				var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
+				console.log('yes');
+				console.log(exclude_input);
+				if (exclude_input != 'true'){
 				InboundShortcodes.generate(); // runs refresh
 				InboundShortcodes.generateChild();
+			}
 				var update_dom = jQuery(this).val();
 				jQuery(this).attr('value', update_dom);
 			});
 
 			jQuery('body').on('change', 'input[type="checkbox"], input[type="radio"], select', function () {
-				InboundShortcodes.generateChild(); // runs refresh for fields
+				var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
+				if (exclude_input != 'true'){
+					InboundShortcodes.generateChild(); // runs refresh for fields
+				}
+
 				var input_type = jQuery(this).attr('type');
 				var update_dom = jQuery(this).val();
 				if (input_type === "checkbox") {

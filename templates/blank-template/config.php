@@ -16,7 +16,7 @@ $wp_cta_data[$key]['info'] =
 array(
 	'version' => "1.0", // Version Number
 	'label' => "Blank Template", // Nice Name
-	'category' => 'Box', // Template Category
+	'category' => 'Blank, Box', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
 	'description'  => 'This template is completely blank, you can use any shortcodes or HTML you want in here' // template description
 );
