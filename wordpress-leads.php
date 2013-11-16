@@ -8,6 +8,7 @@ Version: 1.1.1
 Author URI: http://www.inboundnow.com/landing-pages/
 */
 
+define('LEADS_CURRENT_VERSION', '1.1.1' );
 define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
