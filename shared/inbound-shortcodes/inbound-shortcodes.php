@@ -55,20 +55,20 @@ class InboundShortcodes {
       }
 		// Check for active plugins and localize
 		$plugins_loaded = array();
-		
+
 		if (is_plugin_active('landing-pages/landing-pages.php')) {
 		  array_push($plugins_loaded, "landing-pages");
 		}
-		
+
 		if (is_plugin_active('cta/wordpress-cta.php')) {
 		  array_push($plugins_loaded, "cta");
 		}
 		if (is_plugin_active('leads/wordpress-leads.php')) {
 			array_push($plugins_loaded, "leads");
 		}
-		
+
 		wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => INBOUND_FORMS, 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
-     
+
 		if (isset($post)&&$post->post_type=='inbound-forms')
 		{
 			require_once( 'shortcodes-fields.php' );

@@ -38,7 +38,7 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Click to Prev
 	<!DOCTYPE HTML>
 	<html lang="en">
 	<head>
-	<link rel="stylesheet" type="text/css" href="<?php echo INBOUND_FORMS; ?>/css/frontend-render.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="../inbound-shortcodes/css/frontend-render.css" media="all" />
 
 <?php wp_head(); ?>
 <style type="text/css">
