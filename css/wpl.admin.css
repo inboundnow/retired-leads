@@ -53,7 +53,7 @@
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
     background: white;
-	
+
 }
 
 .map-active-class .map-this-text {
@@ -164,7 +164,7 @@ vertical-align: top;} */
 	padding-right: 0px;
 }
 
-.wpleads-td 
+.wpleads-td
 {
 	padding:5px;
 }
@@ -177,13 +177,13 @@ vertical-align: top;} */
 	padding: 13px;
 	vertical-align:top;
 	width:140px;
-	
+
 }
 .add-new-link
 {
 	background: none repeat scroll 0 0 #F1F1F1;
 	border: 0 none;
-    font-family: sans-serif;
+
     font-size: 12px;
     margin-left: 4px;
 	cursor:pointer;
@@ -205,7 +205,7 @@ vertical-align: top;} */
 	margin-right:-7px;
 	background: none repeat scroll 0 0 #F1F1F1;
 	border: 0 none;
-    font-family: sans-serif;
+
     font-size: 12px;
 	cursor:pointer;
     padding: 8px 8px;
@@ -219,7 +219,7 @@ vertical-align: top;} */
 	margin-right:5px;
 	background: none repeat scroll 0 0 #F1F1F1;
 	border: 0 none;
-    font-family: sans-serif;
+
     font-size: 12px;
 	cursor:pointer;
     padding: 6px 6px;
@@ -439,16 +439,16 @@ h2 .nav-tab {
 	size:10px;
 }
 
-.inside 
+.inside
 {
 	background-color:#fff;
 }
 
 #wplead_metabox_conversion .inside {
 	background-color: transparent;
-}	
+}
 
-.postbox 
+.postbox
 {
 	background-color:#fff;
 }
@@ -746,7 +746,7 @@ padding-left: 28px;
 
 #submitdiv .misc-pub-section {
 	display: none;
-}	
+}
 
 #submitdiv .curtime {
 	display: block;
@@ -877,7 +877,7 @@ a.lead-timeline-img {
 	background: rgb(226, 255, 201);
 }
 .landing-page-conversion.cloned-item.lead-timeline .lead-event-text:before {
-	background: rgb(226, 255, 201);	
+	background: rgb(226, 255, 201);
 }
 .lead-timeline .lead-event-text p:last-child { margin: 0 }
 
@@ -934,7 +934,7 @@ a.lead-timeline-img {
 }
 
 .lead-timeline:hover {
-    /*  cursor: url('../images/FB_CUR.cur');  See the result on http://lab.web-gate.fr/timeline/ */ 
+    /*  cursor: url('../images/FB_CUR.cur');  See the result on http://lab.web-gate.fr/timeline/ */
     cursor: pointer; /* This line is for the cursor */
 }
 
@@ -957,7 +957,7 @@ a.lead-timeline-img {
 
 #all-lead-history ol {
 	padding-left: 20px;
-}	
+}
 
 #all-lead-history .recent-conversion-item {
 	margin-left: 0px;
@@ -998,12 +998,12 @@ a.lead-timeline-img {
 }
 
 #wplead_metabox_main .wpl-tab-display nav li:first-child {
-  border-right: 0; 
- 
+  border-right: 0;
+
 }
 
 #wplead_metabox_main .wpl-tab-display nav li:last-child {
-  border-right: 1px solid #D2D2D2; 
+  border-right: 1px solid #D2D2D2;
 }
 
 #wplead_metabox_main .wpl-tab-display nav li:first-child a, #wplead_metabox_main .wpl-tab-display nav li.active:first-child {
@@ -1084,7 +1084,7 @@ a.lead-timeline-img {
 	line-height: 16px;
 	height: 16px;
 	padding: 0 5px;
-	font-family: Arial, sans-serif;
+
 	color: white;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.25);
 	border: 1px solid;
@@ -1150,40 +1150,40 @@ a.lead-timeline-img {
   }
 }
 */
- 
+
  [class^="lead-icon-"]:before, [class*=" lead-icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   font-size: 36px;
   speak: none;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
   margin-top: 6px;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
- 
+
 .lead-icon-clock:before { content: '\e80f'; } /* '' */
 .lead-icon-doc-2:before { content: '\e80b'; } /* '' */
 .lead-icon-note:before { content: '\e80c'; } /* '' */
