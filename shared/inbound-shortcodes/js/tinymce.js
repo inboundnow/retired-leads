@@ -73,6 +73,8 @@ if (cta_status > -1) {
 					//b.add({title : 'Landing Page Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
 					//a.addWithPopup( b, 'Insert Landing Page Lists', 'landing_pages' );
 					}
+					b.add({title : 'Inbound Style Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+					a.addWithPopup( b, 'Insert List', 'lists' );
 					//a.addWithPopup( b, 'Insert Button Shortcode',  'button' );
 					//a.addWithPopup( b, 'Alert', 'alert' );
 					//a.addWithPopup( b, 'Call Out', 'callout' );
@@ -87,7 +89,7 @@ if (cta_status > -1) {
 					//a.addWithPopup( b, 'Icon', 'icon' );
 					//a.addWithPopup( b, 'Intro', 'intro' );
 					//a.addWithPopup( b, 'Lead Paragraph', 'leadp' );
-					//a.addWithPopup( b, 'List Icons', 'list_icons' );
+
 					//a.addWithPopup( b, 'Map', 'gmap' );
 
 					//a.addWithPopup( b, 'Pricing', 'pricing' );

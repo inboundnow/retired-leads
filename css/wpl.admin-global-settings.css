@@ -30,7 +30,7 @@
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
     background: white;
-	
+
 }
 
 .wpl-tab-display textarea {
@@ -43,10 +43,10 @@
 
 .wpl-settings-tab-sidebar {
     float: right;
-    width: 26%; 
+    width: 26%;
 }
 
-.wpl-sidebar-settings {    
+.wpl-sidebar-settings {
     background: #f2f2f2 url('/wp-content/plugins/leads/css/images/gradient.png') repeat-x top left;
 	border: 1px solid #EBEBEA;
 	-webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
@@ -69,7 +69,7 @@
 	color: #fff;
 	cursor: pointer;
 	display: inline-block;
-	font-family: inherit;
+
 	font-size: 22px;
 	font-weight: bold;
 	text-decoration: none;
@@ -156,7 +156,7 @@
 	text-align:left;
 }
 
-.wpl_license_status_invalid{ 
+.wpl_license_status_invalid{
 	display:inline;
 	padding-left:10px;
 	color:red;

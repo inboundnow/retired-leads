@@ -205,7 +205,7 @@ float: left;
 	font-weight:bold;
 }
 #inbound-shortcodes-form-table tbody tr.form-row .field{
-	//width:380px;
+	width:380px;
 }
 #inbound-shortcodes-form-table tbody tr.form-row .freshthemes-insert{
 	color:#fff;
@@ -370,6 +370,9 @@ display: inline-block;
 }
 .wp_themeSkin .mceIcon.mce_editor-icon-call-to-action {
 	background: url(../images/inbound_cta_insert_ico.png) 5px no-repeat;
+}
+.wp_themeSkin .mceIcon.mce_editor-icon-lists {
+	background: url(../images/inbound_lists_ico.png) 5px no-repeat;
 }
 
 .wp_themeSkin .mceIcon.mce_editor-icon-quick-forms {
