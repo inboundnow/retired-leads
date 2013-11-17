@@ -1,8 +1,4 @@
-* { margin: 0; padding: 0; }
-
 .wp-admin #footer { display: none !important }
-
-#wpfooter {display: none !important;}
 
 .cat-block
 {
@@ -42,12 +38,12 @@ h4.cta-advanced-section{
 	margin-top: 10px;
 margin-bottom: 5px;
 }
-#main-title-area 
+#main-title-area
 {
 	margin-top: 5px;
 }
 
-.menu-icon-wp-call-to-action .wp-submenu li:last-child 
+.menu-icon-wp-call-to-action .wp-submenu li:last-child
 {
 	display: none;
 }
@@ -66,45 +62,36 @@ margin-bottom: 5px;
 #postexcerpt p {
 	display: none;
 }
-.metabox-holder .postbox-container .empty-container 
+.metabox-holder .postbox-container .empty-container
 {
 	border: none;
 }
-.wp_cta_template_wrapper{ 
-	//background-color:#fff;
- }
 
-#wp_cta_metabox_select_template .inside
-{
-	//background-color:#fff;
-	//background-image:none;
-}
- 
 #wp_cta_templates_wrapper_inside { padding-left: 15px; width: 945px; margin: 0; }
 
 .wp_cta_template_wrapper ul li { float: left; position: relative; list-style: none;  }
 
 /*hudson*/
-.wp_cta_template_wrapper ul li label{ 
-font-size: 14px; 
-font-weight: 300; 
-color: greytext; text-decoration: none; 
-//text-shadow: 0 1px 2px black; 
+.wp_cta_template_wrapper ul li label{
+font-size: 14px;
+font-weight: 300;
+color: greytext; text-decoration: none;
+//text-shadow: 0 1px 2px black;
 }
 
 /*hudson*/
-.wp_cta_template_wrapper ul li .template { 
-font-size: 14px; 
-//font-weight: bold; 
-color: #222222; text-decoration: none; 
-//text-shadow: 0 1px 2px black; 
+.wp_cta_template_wrapper ul li .template {
+font-size: 14px;
+//font-weight: bold;
+color: #222222; text-decoration: none;
+//text-shadow: 0 1px 2px black;
 }
 
 #wp-cta-main-headline-wrap {margin-top: 5px;}
 
-.wp_cta_template_wrapper ul li:hover { 
-//height: 43px; 
--webkit-box-shadow: 0 0px 2px black inset;  
+.wp_cta_template_wrapper ul li:hover {
+//height: 43px;
+-webkit-box-shadow: 0 0px 2px black inset;
 
 }
 
@@ -132,20 +119,20 @@ color: #222222; text-decoration: none;
 
 .wp_cta_template_wrapper ul li ul li .extended ul.smallNav li {  padding: 0; line-height: 22px; font-weight: bold; background: url(images/linkback.png) no-repeat; }
 
-.wp_cta_template_wrapper ul li ul li .extended ul.smallNav li a { 
-	color: #fff; 
-	text-shadow: none; 
+.wp_cta_template_wrapper ul li ul li .extended ul.smallNav li a {
+	color: #fff;
+	text-shadow: none;
 	font-size:12px;
 }
 
-.wp_cta_template_wrapper ul li ul li .extended ul.smallNav li label{ 
-	color: #c7c7c7; 
-	text-shadow: none; 
+.wp_cta_template_wrapper ul li ul li .extended ul.smallNav li label{
+	color: #c7c7c7;
+	text-shadow: none;
 	font-size:12px;
 	text-decoration:none;
 }
 
-.wp-cta-feature-link 
+.wp-cta-feature-link
 {
 	float:none;
 	margin:0px;
@@ -168,7 +155,7 @@ th.wp-call-to-action-table-header {width:230px; line-height: 22px;}
 	box-shadow: inset 0px 0px 12px 1px rgba(82, 168, 238, 1);
 }
 
-.currently_selected 
+.currently_selected
 {
 	position: absolute;
 	top: 72px;
@@ -187,9 +174,9 @@ th.wp-call-to-action-table-header {width:230px; line-height: 22px;}
 .wp-cta-selection-heading{width: 89%; margin-top: 20px;}
 .wp-cta-selection-heading h1 {display: inline;}
 
-#wp-cta-cancel-selection 
+#wp-cta-cancel-selection
 {
-	display: inline; 
+	display: inline;
 	float: right;
 }
 
@@ -202,21 +189,21 @@ th.wp-call-to-action-table-header {width:230px; line-height: 22px;}
 .wp_cta_template_wrapper ul li ul li:hover .extended { display: block; }
 
 
-.wp_cta_template_wrapper ul li .ultraNav 
-{ 
-	position: absolute; 
-	top: 55px; 
-	left: -100px; 
-	width: 294px; 
-	background: url(images/dropdownback.png); 
-	border: 1px solid white; 
-	-webkit-border-radius: 5px; 
-	-moz-border-radius: 5px; 
-	border-radius: 5px; 
-	z-index: 500; 
-	-moz-box-shadow: 0 3px 8px rgba(0,0,0,0.6); 
+.wp_cta_template_wrapper ul li .ultraNav
+{
+	position: absolute;
+	top: 55px;
+	left: -100px;
+	width: 294px;
+	background: url(images/dropdownback.png);
+	border: 1px solid white;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	z-index: 500;
+	-moz-box-shadow: 0 3px 8px rgba(0,0,0,0.6);
 	-webkit-box-shadow: 0 3px 8px rgba(0,0,0,0.6) box-shadow: 0 3px 8px black;
-	display: none; 
+	display: none;
 }
 
 .ultraNav h2 { text-align: center; padding-left:10px;padding-top:10px;}
@@ -284,7 +271,7 @@ div#wp-cta-store-iframe-container {
 div#wp-cta-store-iframe-container > iframe {
     display: block;
     width: 100%;
-    height: 100%; 
+    height: 100%;
     border: none;
 	margin-left:0px;
 }
@@ -315,7 +302,7 @@ div#wp-cta-store-iframe-container > iframe {
 	color:#388DBC;
 }
 
-#wp-leads-splash-header 
+#wp-leads-splash-header
 {
 	background: #f2f2f2 url('/wp-content/plugins/cta/images/gradient.png') repeat-x top left;
 	border-bottom: 1px solid #EBEBEA;
@@ -331,25 +318,25 @@ div#wp-cta-store-iframe-container > iframe {
 	border: 1px solid #EBEBEA;
 }
 
-#wp-leads-splash-email, #wp-leads-splash-ip, #wp-leads-splash-city, #wp-leads-splash-state, #wp-leads-splash-name 
+#wp-leads-splash-email, #wp-leads-splash-ip, #wp-leads-splash-city, #wp-leads-splash-state, #wp-leads-splash-name
 {
 	border-bottom: 1px solid #EBEBEA;
 	padding: 10px 20px;
 }
 
 
-#wp-leads-extra-data 
+#wp-leads-extra-data
 {
 	margin-left: 20px;
 	margin-top: 5px;
 }
 
-#wp-leads-extra-data td 
+#wp-leads-extra-data td
 {
 	padding-right: 15px;
 }
 
-.wpwp-cta-green-button 
+.wpwp-cta-green-button
 {
 	background: #94BA65 url('/wp-content/plugins/cta/images/gradient.png') repeat-x top left;
 	border: 1px solid rgba(0,0,0,0.15);
@@ -369,17 +356,17 @@ div#wp-cta-store-iframe-container > iframe {
 	text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
 	text-decoration: none;
 }
-.wpwp-cta-right 
+.wpwp-cta-right
 {
 	float: right;
 }
 
-.wp-cta-lead-splash-h3, .wp-lead-label 
+.wp-cta-lead-splash-h3, .wp-lead-label
 {
 	display: inline;
 }
 
-.wp-lead-label 
+.wp-lead-label
 {
 	font-weight: bold;
 }
@@ -393,7 +380,7 @@ div#wp-cta-store-iframe-container > iframe {
 {
 	width: 150px;
 }
-.date-picker .new-save-wp-cta 
+.date-picker .new-save-wp-cta
 {
 	display: none;
 }
@@ -403,7 +390,7 @@ div#wp-cta-store-iframe-container > iframe {
 top: -3px;
 right: 148px;
 }
-.wp-cta-success-message 
+.wp-cta-success-message
 {
 	background: #e2ffc9;
 	border: 1px solid #c5eda3;

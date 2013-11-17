@@ -30,7 +30,7 @@
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
     background: white;
-	
+
 }
 .wp-cta-tab-display textarea {
     width:480px;
@@ -43,7 +43,7 @@
     float: right;
     width: 26%; }
 
-.wp-cta-sidebar-settings {    
+.wp-cta-sidebar-settings {
     background: #f2f2f2 url('/wp-content/plugins/wp-call-to-actions/images/gradient.png') repeat-x top left;
 border: 1px solid #EBEBEA;
 -webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
@@ -122,8 +122,12 @@ margin: auto;
 .wp-cta-tab-display
 {
 	padding:13px;
+    padding-top: 0px;
 }
-
+.nav-tab-wrapper {
+    margin-left: -19px;
+    padding-left: 40px;
+}
 .wp-cta-tab-display td
 {
 	padding:10px;
@@ -133,15 +137,18 @@ margin: auto;
 	padding:10px;
 }
 
-.wp-cta-tab-display th,.wp-cta-tab-display .wp-cta-gs-th
+.wp-cta-tab-display th.wp-cta-gs-th
 {
-	width:300px;
+	width: 30%;
 	font-size: 14px;
-	font-weight:300px;
+
 	text-align:left;
 }
 
-.wp_cta_license_status_invalid{ 
+.wp-cta-tab-display .wp-cta-gs-th{
+    width: 70%;
+}
+.wp_cta_license_status_invalid{
 	display:inline;
 	padding-left:10px;
 	color:red;
