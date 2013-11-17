@@ -391,7 +391,7 @@
 
 				function format(state) {
 				           if (!state.id) return state.text; // optgroup
-				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + ' Icon';
+				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + '';
 				       }
 				       jQuery("#inbound_shortcode_icon").select2({
 				       	placeholder: "Select an icon for the button",

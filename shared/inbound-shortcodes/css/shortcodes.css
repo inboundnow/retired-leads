@@ -25,6 +25,9 @@ input.short-shortcode-input {
 .row-class-helper-block label {
 	display: none !important;
 }
+.select2-container.inbound-shortcodes-input {
+	width:100%;
+}
 #inbound-shortcodes-form-table .has-child .child-clone-rows .child-clone-row .child-clone-row-form .child-clone-row-form-row.inbound-tab-class-advanced, {
 	display: none;
 }
@@ -196,7 +199,7 @@ float: left;
 	border-bottom:none;
 }
 #inbound-shortcodes-form-table tbody tr.form-row td.label{
-	width:200px;
+	min-width: 160px;
 	/*max-width:120px;*/
 	text-align:left;
 	vertical-align:top;
