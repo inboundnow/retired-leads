@@ -43,9 +43,9 @@ class InboundShortcodesFields {
 /* 	Show Fields
  * 	----------------------------------------------------- */
 	function show() {
-		
+
 		global $shortcodes_config;
-		
+
 		$fields = apply_filters('inboundnow_forms_settings', $shortcodes_config);
 
 		if( isset( $fields[$this->popup]['child'] ) )
@@ -140,6 +140,13 @@ class InboundShortcodesFields {
 						$output .= $row_end;
 						$this->append_output($output);
 						break;
+					case 'colorpicker':
+						$output  = $row_start;
+						$output .= '<input type="color" class="inbound-shortcodes-input '.$key.'" name="'. $uniquekey .'" id="'. $key .'" value="'. $std .'" size="40" placeholder="'.$placeholder.'" />';
+						$output .= $row_end;
+						$this->append_output($output);
+						break;
+
 					case 'cta' :
 					            $args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
 					            $cta_post_type = get_posts($args);

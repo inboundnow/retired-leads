@@ -35,6 +35,7 @@ class InboundShortcodes {
     add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ));
     add_action('init', array( __CLASS__, 'shortcodes_tinymce' ));
     add_action( 'wp_enqueue_scripts',  array(__CLASS__, 'frontend_loads')); // load styles
+    add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
   }
 
 /*  Loads
@@ -47,6 +48,9 @@ class InboundShortcodes {
       wp_enqueue_script('inbound-shortcodes-plugins', INBOUND_FORMS . 'js/shortcodes-plugins.js');
       wp_enqueue_script('inbound-shortcodes', INBOUND_FORMS . 'js/shortcodes.js');
       wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $_GET['post'] ) );
+      wp_enqueue_script('selectjs', INBOUND_FORMS . '/js/select2.min.js');
+      wp_enqueue_style('selectjs', INBOUND_FORMS . '/css/select2.css');
+
       // Forms CPT only
       if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
          wp_enqueue_style('inbound-forms-css', INBOUND_FORMS . 'css/form-cpt.css');
@@ -113,6 +117,62 @@ class InboundShortcodes {
     array_push( $buttons, "|", 'InboundShortcodesButton' );
     return $buttons;
   }
+  static function inbound_shortcode_list( $atts, $content = null){
+      extract(shortcode_atts(array(
+        'icon' => 'ok-sign',
+        'color' => '',
+        'font_size'=> '20',
+        'bottom_margin' => '5',
+        'icon_color' => "",
+        'text_color' => ""
+      ), $atts));
+      $final_text_color = "";
+      if ($text_color != "") {
+        $text_color = str_replace("#", "", $text_color);
+        $final_text_color = "color:#" . $text_color . ";";
+      }
+      $final_icon_color = "";
+      if ($icon_color != "") {
+        $icon_color = str_replace("#", "", $icon_color);
+        $final_icon_color = "color:#" . $icon_color . ";";
+      }
+      $font_size = str_replace("px", "", $font_size);
+      $bottom_margin = str_replace("px", "", $bottom_margin);
+      $icon_size = $font_size + 2;
+      $line_size = $font_size + 2;
+      if ($content === "(Insert Your Unordered List Here. Use the List insert button in the editor. Delete this text)") {
+        $content = "<ul>
+          <li>Sentence number 1</li>
+          <li>Sentence number 2</li>
+          <li>Sentence number 3</li>
+          </ul>";
+      }
+      return '<style type="text/css">
+          #inbound-list li {
+          '.$final_text_color.'
+          list-style: none;
+          font-weight: 500;
+          font-size: '.$font_size.'px;
+          vertical-align: top;
+          margin-bottom: '.$bottom_margin.'px;
+          }
+          #inbound-list li:before {
+          background: transparent;
+          border-radius: 50% 50% 50% 50%;
+          '.$final_icon_color.'
+          display: inline-block;
+          font-family: \'FontAwesome\';
+          font-size: '.$icon_size.'px;
+          line-height: '.$line_size.'px;
+          margin-right: 0.5em;
+          margin-top: 0;
+          text-align: center;
+          }
+          </style>
+          <div id="inbound-list" class="inbound-list list-icon-'.$icon.'">
+          '.do_shortcode($content).'
+          </div>';
+    }
 
   static function inbound_forms_header_area()
   {
