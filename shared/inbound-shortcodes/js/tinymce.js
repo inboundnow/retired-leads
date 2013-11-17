@@ -38,7 +38,7 @@ if (lp_status > -1) {
 if (cta_status > -1) {
 	console.log("cta on");
 }
-
+var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 	tinymce.create('tinymce.plugins.InboundShortcodes', {
 
 		init: function(ed, url) {
@@ -74,12 +74,20 @@ if (cta_status > -1) {
 					//a.addWithPopup( b, 'Insert Landing Page Lists', 'landing_pages' );
 					}
 					b.add({title : 'Inbound Style Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-					a.addWithPopup( b, 'Insert List', 'lists' );
+					a.addWithPopup( b, 'Insert Icon List', 'lists' );
+					a.addWithPopup( b, 'Insert Columns', 'columns' );
+					/* Loop for Addon Shortcode KEEP
+					myArray = shortcode_addons;
+					for(i=0; i<myArray.length; i++) {
+						a.addWithPopup( b, myArray[i], myArray[i] );
+					}
+					*/
+
 					//a.addWithPopup( b, 'Insert Button Shortcode',  'button' );
 					//a.addWithPopup( b, 'Alert', 'alert' );
 					//a.addWithPopup( b, 'Call Out', 'callout' );
 					//b.add({title : 'Layout Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-					//a.addWithPopup( b, 'Insert Columns', 'columns' );
+
 					//a.addWithPopup( b, 'Content Box', 'content_box' );
 					//a.addWithPopup( b, 'Divider', 'divider' );
 					//a.addWithPopup( b, 'Tabs', 'tabs' );

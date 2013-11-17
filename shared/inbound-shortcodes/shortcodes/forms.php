@@ -3,7 +3,14 @@
 *   Inbound Forms Shortcode Options
 *   Forms code found in /shared/classes/form.class.php
 */
+/*
+	if (empty($lead_mapping_fields)){
+		$lead_mapping_fields = array();
+		$lead_mapping_fields['none'] = "Not Set";
 
+	}
+	//print_r($lead_mapping_fields);
+	*/
 	$shortcodes_config['forms'] = array(
 		'no_preview' => false,
 		'options' => array(

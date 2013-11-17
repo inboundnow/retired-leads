@@ -29,6 +29,7 @@ if (is_admin())
 				'id'  => 'lp_global_settings_main_header',
 				'type'  => 'header',
 				'default'  => '<h4>CTA Core Settings</h4>',
+				'description' => "<a id='clear-cta-cookies' class='button'>Clear & Reset all Call to Action Cookies</a><div class='wp_cta_tooltip tool_radio' title='This will reset all CTA cookies to make popups work again etc. For testing purposes.'></div>",
 				'options' => null
 			),
 			array(
@@ -45,6 +46,14 @@ if (is_admin())
 				'description' => "This is the timeout that passes before web visitors see a popup again on your site",
 				'type'  => 'text',
 				'default'  => '7',
+				'options' => null
+			),
+			array(
+				'id'  => 'global-css',
+				'label' => 'Global CSS overrides.',
+				'description' => "This will place custom CSS across all Call to Actions",
+				'type'  => 'textarea',
+				'default'  => '',
 				'options' => null
 			),
 		);
@@ -77,8 +86,7 @@ if (is_admin())
 		}
 		?>
 		<script type='text/javascript'>
-			jQuery(document).ready(function()
-			{
+			jQuery(document).ready(function($) {
 				//jQuery('#<? echo $default_id; ?>').css('display','block');
 				//jQuery('#<? echo $default_id; ?>').css('display','block');
 				 setTimeout(function() {
@@ -86,7 +94,29 @@ if (is_admin())
 					var showoption = "#" + getoption;
 					jQuery(showoption).click();
     			}, 100);
+				var getCookieByMatch = function(regex) {
+				  var cs=document.cookie.split(/;\s*/), ret=[], i;
+				  for (i=0; i<cs.length; i++) {
+				    if (cs[i].match(regex)) {
+				      ret.push(cs[i]);
+				    }
+				  }
+				  return ret;
+				};
 
+				jQuery("body").on('click', '#clear-cta-cookies', function () {
+				 	$.removeCookie('wp_cta_global', { path: '/' }); // remove global cookie
+				 	var cta_cookies = getCookieByMatch(/^wp_cta_\d+=/);
+				 	var length = cta_cookies.length,
+				 	    element = null;
+				 	for (var i = 0; i < length; i++) {
+				 	  element = cta_cookies[i];
+				 	  cookie_name = element.split(/=/);
+				 	  cookie_name = cookie_name[0];
+				 	  $.removeCookie( cookie_name, { path: '/' }); // remove each id cookie
+				 	}
+
+				});
 				jQuery('.wp-cta-nav-tab').live('click', function() {
 					var this_id = this.id.replace('tabs-','');
 					//alert(this_id);
@@ -407,7 +437,7 @@ if (is_admin())
 			$field['value'] = get_option($field['id'], $default);
 
 			// begin a table row with
-			echo '<tr><th class="wp-cta-gs-th" valign="top" style="font-weight:300px;">';
+			echo '<tr><th class="wp-cta-gs-th options-'.$field['id'].'" valign="top">';
 				if ($field['type']=='header')
 				{
 					echo $field['default'];
@@ -426,6 +456,10 @@ if (is_admin())
 							}
 							echo '<input type="text" class="jpicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="5" />
 									<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
+							break;
+						case 'header':
+							$extra = (isset($field['description'])) ? $field['description'] : '';
+							echo $extra;
 							break;
 						case 'datepicker':
 							echo '<input id="datepicker-example2" class="Zebra_DatePicker_Icon" type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="8" />

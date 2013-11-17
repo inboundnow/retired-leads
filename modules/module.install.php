@@ -2,6 +2,7 @@
 add_action('init', 'inbound_create_default_post_type_cta');
 function inbound_create_default_post_type_cta(){
     // NEED to insert custom meta as well
+    //delete_transient( 'wp-lead-fields');
     $option_name = "wp_cta_settings_general";
     $option_key = "default_call_to_action";
     $current_user = wp_get_current_user();
@@ -19,7 +20,7 @@ function inbound_create_default_post_type_cta(){
                     'post_type'      => 'wp-call-to-action',
                     'comment_status' => 'closed'
                 )
-            ); 
+            );
         // Variation A
         add_post_meta($default_lander, 'wp-cta-selected-template', 'flat-cta');
         add_post_meta($default_lander, 'wp_cta_height-0', '310');
@@ -32,7 +33,7 @@ function inbound_create_default_post_type_cta(){
         add_post_meta($default_lander, 'flat-cta-submit-button-color', 'ffffff');
         add_post_meta($default_lander, 'flat-cta-submit-button-text', 'Download Now');
         add_post_meta($default_lander, 'flat-cta-link_url', 'http://www.inboundnow.com');
-     
+
         // Varaition B
         add_post_meta($default_lander, 'wp-cta-selected-template-1', 'flat-cta');
         add_post_meta($default_lander, 'wp_cta_height-1', '310');
@@ -45,7 +46,7 @@ function inbound_create_default_post_type_cta(){
         add_post_meta($default_lander, 'flat-cta-submit-button-color-1', 'ffffff');
         add_post_meta($default_lander, 'flat-cta-submit-button-text-1', 'Learn More');
         add_post_meta($default_lander, 'flat-cta-link_url-1', 'http://www.inboundnow.com');
-        
+
         // Add A/B Testing meta
         add_post_meta($default_lander, 'wp-cta-ab-variations', '0,1');
         add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-0', 115);
@@ -60,7 +61,7 @@ function inbound_create_default_post_type_cta(){
             $option_key => $default_lander
         );
 
-        update_option( $option_name, $options );        
+        update_option( $option_name, $options );
     }
 }
 ?>

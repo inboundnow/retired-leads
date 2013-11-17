@@ -28,6 +28,7 @@ require_once( 'shortcodes-includes.php' );
 if (!class_exists('InboundShortcodes')) {
 class InboundShortcodes {
   static $add_script;
+
 /*  Contruct
  *  --------------------------------------------------------- */
   static function init() {
@@ -47,7 +48,8 @@ class InboundShortcodes {
       wp_enqueue_script('jquery-ui-sortable' );
       wp_enqueue_script('inbound-shortcodes-plugins', INBOUND_FORMS . 'js/shortcodes-plugins.js');
       wp_enqueue_script('inbound-shortcodes', INBOUND_FORMS . 'js/shortcodes.js');
-      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $_GET['post'] ) );
+      $form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
+      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
       wp_enqueue_script('selectjs', INBOUND_FORMS . '/js/select2.min.js');
       wp_enqueue_style('selectjs', INBOUND_FORMS . '/css/select2.css');
 

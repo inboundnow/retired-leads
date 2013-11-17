@@ -649,6 +649,9 @@
 							var fixed_insert_val = insert_val.replace(/\[.*?(.*?)\]/g, "<p>[$1]</p>"); // cleans output in editor
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							//output_cleaned = "<!-- Beginning of Form Embed -->" + output_cleaned + "<!-- End of Form Embed -->";
+							} else if (shortcode_name === "insert_column_shortcode") {
+								var output_cleaned = insert_val;
+								//output_cleaned = fixed_insert_val.replace(/\[\/(.*?)\]/g, "[$1]<br class='inbr'/>");
 							} else {
 							var fixed_insert_val = insert_val;
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields

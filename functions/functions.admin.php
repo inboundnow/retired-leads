@@ -32,8 +32,8 @@ function wp_cta_admin_enqueue($hook)
 	}
 
 	// Admin enqueue - Landing Page CPT only
-	if ( isset($post) && 'wp-call-to-action' == $post->post_type )
-	{
+	if ( isset($post) && 'wp-call-to-action' == $post->post_type || ( isset($_GET['post_type']) && $_GET['post_type']=='wp-call-to-action' ) )
+		{
 			wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
 			wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'js/libraries/jpicker/jpicker-1.1.6.min.js');
 			wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
