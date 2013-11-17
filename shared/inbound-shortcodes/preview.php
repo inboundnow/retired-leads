@@ -152,7 +152,7 @@ display: none;
 		    document.body.appendChild(s);
 		    //console.log('jquery loaded!');
 		  }
-
+		  // document.body.innerHTML = document.body.innerHTML.replace( /ERROR: AffiliateID invalid/g, ""); // remove text
 		})();
 		</script>
 		</body>

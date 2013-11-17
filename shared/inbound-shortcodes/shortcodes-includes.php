@@ -20,9 +20,6 @@
 	$lp_cats = get_transient( 'landing-page-cats' ); // array of landing page categories
 	$form_names = get_transient( 'inbound-form-names' ); // array of landing page categories
 	$lead_mapping_fields = get_transient( 'wp-lead-fields' );
-
-
-	// print_r($lead_mapping_fields);
 	/* Portfolio catgories options */
 	// $portfolio_cats = array();
 	// $portfolio_cats_obj = get_terms('portfolio_category', false);
@@ -31,7 +28,7 @@
 	// 	$portfolio_cats[$term->term_id] = $term->name;
 	// }
 
-	// print_r($portfolio_cats);
+
 
 	/* Global Inbound Now Shortcodes */
 	require_once ('shortcodes/forms.php'); // Form Builder
@@ -42,6 +39,7 @@
 	require_once ('shortcodes/alert.php');
 
 	require_once ('shortcodes/button.php');
+	require_once ('shortcodes/lists.php');
 	// Leads only Shortcodes
 
 	// Landing Page Only Shortcodes

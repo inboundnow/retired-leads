@@ -192,6 +192,9 @@
 						var shortcode = shortcode.replace('[inbound_form', '[inbound_form id="'+form_id+'"');
 					}
 				}
+				if ( shortcode_name === "insert_styled_list_shortcode") {
+						var shortcode = shortcode.replace(/#/g, '');
+				}
 				// updates the src value
 				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode) );
 
@@ -384,11 +387,11 @@
 					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
 				 });
 			}
-			if (shortcode_name === 'insert_button_shortcode'){
+			if (shortcode_name === 'insert_button_shortcode' || shortcode_name === 'insert_styled_list_shortcode'){
 
 				function format(state) {
 				           if (!state.id) return state.text; // optgroup
-				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text;
+				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + ' Icon';
 				       }
 				       jQuery("#inbound_shortcode_icon").select2({
 				       	placeholder: "Select an icon for the button",
@@ -397,6 +400,14 @@
 				           formatSelection: format,
 				           escapeMarkup: function(m) { return m; }
 				       });
+			}
+			if (shortcode_name === 'insert_styled_list_shortcode'){
+
+
+				setTimeout(function() {
+					//jQuery("#inbound_shortcode_icon").val("ok-circle").select2();
+				             //jQuery("#inbound_shortcode_icon").select2("open");
+				        }, 500);
 			}
 			if (shortcode_name === 'insert_call_to_action'){
 
@@ -565,7 +576,7 @@
 				jQuery(this).attr('value', update_dom);
 			});
 
-			jQuery('body').on('change', 'input[type="checkbox"], input[type="radio"], select', function () {
+			jQuery('body').on('change', 'input[type="checkbox"], input[type="radio"], input[type="color"], select', function () {
 				var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
 				if (exclude_input != 'true'){
 					InboundShortcodes.generateChild(); // runs refresh for fields
@@ -633,7 +644,7 @@
 					if(window.tinyMCE) {
 							var insert_val = jQuery('#_inbound_shortcodes_newoutput').html();
 
-							if ( shortcode_name === "insert_inbound_form_shortcode") {
+							if ( shortcode_name === "insert_inbound_form_shortcode" || shortcode_name === "insert_styled_list_shortcode") {
 							//var fixed_insert_val = insert_val.replace(/\[.*?(.*?)\]/g, "[$1]<br class='inbr'/>"); // for linebreaks in editor
 							var fixed_insert_val = insert_val.replace(/\[.*?(.*?)\]/g, "<p>[$1]</p>"); // cleans output in editor
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
