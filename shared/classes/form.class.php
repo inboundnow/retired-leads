@@ -96,6 +96,8 @@ class InboundForms {
 			{
 
 				$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
+
+
 				$clean_label = preg_replace("/[^A-Za-z0-9 ]/", '', trim($label));
 				$formatted_label = strtolower(str_replace(array(' ','_'),'-',$clean_label));
 				$field_placeholder = (isset($matches[3][$i]['placeholder'])) ? $matches[3][$i]['placeholder'] : '';
@@ -119,7 +121,13 @@ class InboundForms {
 				$required = (isset($matches[3][$i]['required'])) ? $matches[3][$i]['required'] : '0';
 				$req = ($required === '1') ? 'required' : '';
 				$req_label = ($required === '1') ? '<span class="inbound-required">*</span>' : '';
-				$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
+				$map_field = (isset($matches[3][$i]['map_to'])) ? $matches[3][$i]['map_to'] : '';
+				if ($map_field != "") {
+					$field_name = $map_field;
+				} else {
+					$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
+				}
+
 
 				/* Map Common Fields */
 				(preg_match( '/Email|e-mail|email/i', $label, $email_input)) ? $email_input = " inbound-email" : $email_input = "";
@@ -351,7 +359,7 @@ class InboundForms {
             </style>";
     }
 
-	static function send_mail($fields , $form_meta_data)
+	static function send_mail($form_data, $form_meta_data)
 	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 		function set_html_content_type() {
@@ -366,6 +374,9 @@ class InboundForms {
 
 		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
 		$email_to = $form_meta_data['inbound_notify_email'];
+		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
+
+		//print_r($form_meta_data); exit;
 
 		/* Might be better email send need to test and look at html edd emails */
 		if ( isset($form_data['email']) && $email_to )
@@ -438,9 +449,35 @@ class InboundForms {
 			// ...and switch the $sent variable to TRUE
 			$sent = true;
 			//print_r($email_message); // preview email
-			//echo "email sent";
-			// Do redirect
-			//echo $redirect . $url_request;
+
+
+		}
+		// Send Confirmation Email to Form Converter
+		if ($notification_status == 'on' && isset($form_data['email'])) {
+			$my_postid = $form_meta_data['post_id']; //This is page id or post id
+			$content_post = get_post($my_postid);
+			$content = $content_post->post_content;
+			$confirm_subject = get_post_meta( $my_postid, 'inbound_confirmation_subject', TRUE );
+			$content = apply_filters('the_content', $content);
+			$content = str_replace(']]>', ']]&gt;', $content);
+			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			  <html>
+				<head>
+				  <meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
+				</head>
+				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
+				  <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
+					<tr>';
+			$confirm_email_message .= $content;
+			$confirm_email_message .= '</tr>
+						  </table>
+						</body>
+					  </html>';
+			$headers  = "From: " . $from_name . " <" . $form_data['email'] . ">\n";
+			$headers .= 'Content-type: text/html';
+			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
+			wp_mail( $form_data['email'], $confirm_subject, $confirm_email_message, $headers );
+			//echo $content. $form_data['email'];
 		}
 	}
 
@@ -511,7 +548,7 @@ class InboundForms {
                 $form_post_data[$field] = strip_tags( $value );
 
             }
-
+            $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 			//perform notification actions
 			self::send_mail($form_post_data , $form_meta_data);
 
