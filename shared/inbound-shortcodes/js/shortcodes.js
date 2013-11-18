@@ -391,7 +391,7 @@
 
 				function format(state) {
 				           if (!state.id) return state.text; // optgroup
-				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + ' Icon';
+				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + '';
 				       }
 				       jQuery("#inbound_shortcode_icon").select2({
 				       	placeholder: "Select an icon for the button",
@@ -478,10 +478,17 @@
 					var notify_email = jQuery("#inbound_shortcode_notify").val();
 					var field_count = jQuery('.child-clone-row').length;
 					var redirect_value = jQuery('#inbound_shortcode_redirect').val();
+
 					if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
 						var post_type = 'inbound-forms';
+						var send_email = jQuery("#inbound_email_send_notification").val();
+						var send_email_subject = jQuery("#inbound_confirmation_subject").val();
+						var email_contents = jQuery("#content_ifr").contents().find('body').html(); // email responder
 					} else {
 						var post_type = 'normal';
+						var send_email = 'off';
+						var send_email_subject = '';
+						var email_contents = ''; // if post created on other post
 					}
 					if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
 						jQuery(".step-item.first").click();
@@ -499,9 +506,12 @@
 			                field_count: field_count,
 			                form_values: form_values,
 			                notify_email: notify_email,
+			                send_email: send_email,
+			                send_subject: send_email_subject,
 			               	form_settings: form_settings,
 			                post_id: post_id,
 			                post_type: post_type,
+			                email_contents: email_contents,
 			                redirect_value: redirect_value,
 			                nonce: shortcode_nonce_val
 			            },
@@ -649,6 +659,9 @@
 							var fixed_insert_val = insert_val.replace(/\[.*?(.*?)\]/g, "<p>[$1]</p>"); // cleans output in editor
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							//output_cleaned = "<!-- Beginning of Form Embed -->" + output_cleaned + "<!-- End of Form Embed -->";
+							} else if (shortcode_name === "insert_column_shortcode") {
+								var output_cleaned = insert_val;
+								//output_cleaned = fixed_insert_val.replace(/\[\/(.*?)\]/g, "[$1]<br class='inbr'/>");
 							} else {
 							var fixed_insert_val = insert_val;
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields

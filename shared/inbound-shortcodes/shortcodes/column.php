@@ -73,7 +73,7 @@
 			} else {
 				$gutter = 'row';
 			}
-			$content = preg_replace('/<br class="inbr".\/>/', '', $content); // remove editor br tags
+			$content = preg_replace('/<br class=\'inbr\'.*\/>/', '', $content); // remove editor br tags
 			return '<div class="'. $gutter .'">' . do_shortcode($content) . '</div>';
 		}
 	}

@@ -12,12 +12,20 @@ jQuery(document).ready(function($) {
    		jQuery("#inbound_shortcode_form_name").val(this_val);
     });
     var view_leads_list = '<span id="view-leads-list" class="button view-leads-list">View Conversions</span>';
+    var view_email_response = '<span id="view-email-response" class="button">Set Email Response</span>';
     jQuery('.add-new-h2').after(view_leads_list);
+    jQuery('#view-leads-list').after(view_email_response);
+
+    jQuery("body").on('click', '#view-email-response', function () {
+        jQuery('#inbound-shortcodes-popup, #form-leads-list, #title').hide();
+        jQuery('#postdivrich, #inbound-email-response').show();
+    });
+
     jQuery("body").on('click', '#view-leads-list', function () {
         jQuery(this).text('Switch Back to Form Editor');
         jQuery(this).removeClass('view-leads-list');
-        jQuery("#inbound-shortcodes-popup").hide();
-        jQuery("#form-leads-list").show();
+        jQuery("#inbound-shortcodes-popup, #postdivrich, #inbound-email-response").hide();
+        jQuery("#form-leads-list, #title").show();
         jQuery(this).addClass('view-form-builder');
     });
 

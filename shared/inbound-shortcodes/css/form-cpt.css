@@ -1,5 +1,9 @@
-#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one {
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response {
 	display: none;
+}
+#inbound-email-response h2{
+	margin-bottom: 0px;
+	margin-top: 5px;
 }
 .inbound_tbody.parent-inbound_shortcode_helper-block-one {
 	display: none !important;
@@ -7,8 +11,23 @@
 #cpt-form-shortcode {
 	display: none;
 }
+#view-email-response {
+	margin-left: 10px;
+}
 #cpt-form-serialize {
 	word-wrap: break-word;
+}
+#inbound_confirmation_subject {
+	display: block;
+	padding: 3px 8px;
+	font-size: 1.7em;
+	line-height: 1.7em;
+	height: 1.7em;
+	width: 100%;
+	outline: 0;
+	margin: 1px 0;
+	margin-bottom: 10px;
+	margin-top: 5px;
 }
 /*
 #postbox-container-2 {
