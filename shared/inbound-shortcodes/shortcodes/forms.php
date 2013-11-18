@@ -264,7 +264,7 @@ if (!function_exists('inbound_forms_cpt')) {
 	        'capability_type' => 'post',
 	        'hierarchical' => false,
 	        'menu_position' => null,
-	        'supports' => array('title','custom-fields')
+	        'supports' => array('title','custom-fields', 'editor')
 	      );
 
 	    register_post_type( 'inbound-forms' , $args );
@@ -395,6 +395,10 @@ if (!function_exists('inbound_form_save'))
 	    $post_type = (isset( $_POST['post_type'] )) ? $_POST['post_type'] : "";
 	    $redirect_value = (isset( $_POST['redirect_value'] )) ? $_POST['redirect_value'] : "";
 	    $notify_email = (isset( $_POST['notify_email'] )) ? $_POST['notify_email'] : "";
+	    $email_contents = (isset( $_POST['email_contents'] )) ? $_POST['email_contents'] : "";
+	    $send_email = (isset( $_POST['send_email'] )) ? $_POST['send_email'] : "off";
+	    $send_subject = (isset( $_POST['send_subject'] )) ? $_POST['send_subject'] : "off";
+
 
 	    if ($post_type === 'inbound-forms'){
 	    	$post_ID = $page_id;
@@ -402,6 +406,7 @@ if (!function_exists('inbound_form_save'))
 	    	      'ID'           => $post_ID,
 	    	      'post_title'   => $form_name,
 	    	      'post_status'       => 'publish',
+	    	      'post_content' => $email_contents
 	    	  );
 	    	  wp_update_post( $update_post );
 	    	  $form_settings_data = get_post_meta( $post_ID, 'form_settings', TRUE );
@@ -413,6 +418,8 @@ if (!function_exists('inbound_form_save'))
 	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	    	  update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	    	  update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 
 	    	  $output =  array('post_id'=> $post_ID,
 	    	                   'form_name'=>$form_name,
@@ -445,13 +452,15 @@ if (!function_exists('inbound_form_save'))
 	            	update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            	update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	            	update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	            	update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	            	update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	            }
 
 	        } else {
 	            // If form doesn't exist create it
 	            $post = array(
 	                'post_title'        => $form_name,
-	                'post_content'      => $shortcode,
+	                'post_content' => $email_contents,
 	                'post_status'       => 'publish',
 	                'post_type'     => 'inbound-forms',
 	                'post_author'       => 1
@@ -465,6 +474,8 @@ if (!function_exists('inbound_form_save'))
 	            update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	            update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	            update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	            update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	        }
 	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	        update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );

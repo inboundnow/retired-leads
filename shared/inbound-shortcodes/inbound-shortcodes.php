@@ -207,7 +207,25 @@ class InboundShortcodes {
                 } ?>
    </ol>
    </div>
-
+  <div id="inbound-email-response">
+  <h2>Set Email Response to Send to the person filling out the form</h2>
+  <?php
+  $values = get_post_custom( $post->ID );
+  $selected = isset( $values['inbound_email_send_notification'] ) ? esc_attr( $values['inbound_email_send_notification'][0] ) : "";
+  $email_subject = get_post_meta( $post->ID, 'inbound_confirmation_subject', TRUE );
+  ?>
+  <div  style='display:block; overflow: auto;'>
+  <div id='email-confirm-settings'>
+      <label for="inbound_email_send">Send Email Confirmation</label>
+      <select name="inbound_email_send_notification" id="inbound_email_send_notification">
+          <option value="off" <?php selected( $selected, 'off' ); ?>>Off</option>
+          <option value="on" <?php selected( $selected, 'on' ); ?>>On</option>
+          <!-- Action hook here for custom lead status addon -->
+      </select>
+  <input type="text" name="inbound_confirmation_subject" placeholder="Email Subject Line" size="30" value="<?php echo $email_subject;?>" id="inbound_confirmation_subject" autocomplete="off">
+  </div>
+  </div>
+  </div>
       <div id="inbound-shortcodes-popup">
         <div id="short_shortcode_form">
          Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
