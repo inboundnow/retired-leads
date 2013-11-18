@@ -54,13 +54,11 @@
 				'id'  => 'create-roles',
 				'label' => 'Create WP Roles for Lists',
 				'description' => "<p>Turn this on to create WordPress user roles that correspond with Lead lists.</p>",
-<<<<<<< HEAD
+
 				'type'  => 'radio', 
 				'default'  => '0',
-=======
 				'type'  => 'radio',
 				'default'  => '1',
->>>>>>> d98561f75594440f0f1d0030268d71e741776865
 				'options' => array('1'=>'On','0'=>'Off')
 			),
 			array(
