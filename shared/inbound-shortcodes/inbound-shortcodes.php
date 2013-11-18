@@ -216,7 +216,7 @@ class InboundShortcodes {
   ?>
   <div  style='display:block; overflow: auto;'>
   <div id='email-confirm-settings'>
-      <label for="inbound_email_send">Send Email Confirmation</label>
+      <label for="inbound_email_send">Toggle Email Confirmation</label>
       <select name="inbound_email_send_notification" id="inbound_email_send_notification">
           <option value="off" <?php selected( $selected, 'off' ); ?>>Off</option>
           <option value="on" <?php selected( $selected, 'on' ); ?>>On</option>
