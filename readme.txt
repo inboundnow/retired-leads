@@ -66,6 +66,13 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Changelog ==
 
+= 1.2.0 =
+
+* Added: Added email confirmation support to Inbound Forms tool
+* Added: Added additional popup call to action options
+* Added: Added Slide out Call to Action option for calls to action to slide out from left or right side of screen
+* Added: Fancy List and Column shortcodes
+
 = 1.1.1 =
 
 * Added: Added InboundNow form creation and management system (beta)
