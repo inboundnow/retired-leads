@@ -14,7 +14,9 @@
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
 }
-
+.lead-conversion-mark {
+	background: red;
+}
 .lead-event-tab {
 	font-size: 12px;
 	text-align: center;
@@ -31,7 +33,9 @@
 #last_touch_point {
 	padding-top: 15px;
 }
-
+#wpfooter {
+	display: none;
+}
 #lead-tag-cloud a {
 	padding-right: 5px;
 	display: inline-block;
@@ -134,7 +138,7 @@ vertical-align: top;} */
 }
 
 .wpl-tab-display {
-	//min-height: 350px;
+	min-height: 250px;
 }
 
 .lp-path-show-all-pages {
@@ -668,9 +672,9 @@ padding-left: 28px;
 	margin-top: -5px;
 }
 
-#end-conversion-point {
+#end-conversion-point, .lead-conversion-mark {
 	background: rgb(226, 255, 201);
-	padding: 25px;
+
 }
 
 #side-sortables .inside {

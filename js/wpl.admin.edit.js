@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
-	
+
 	jQuery('#wplead_list_category-add-toggle').hide();
-	
+
 	jQuery('.row-actions').each(function() {
 		var jQuerylist = jQuery(this);
 		var jQueryfirstChecked = jQuerylist.parent().parent().find('.column-first-name');
@@ -10,9 +10,40 @@ jQuery(document).ready(function () {
 			return;
 
 		jQuerylist.appendTo(jQueryfirstChecked);
-	}); 
-	
-	
+	});
+	var session_count = jQuery('.wpleads-conversion-tracking-table').length;
+	jQuery('.conversion-tracking-header h2 span.visit-number').each(function(i){
+		var sess = session_count - i;
+		jQuery(this).text(sess);
+
+	});
+	setTimeout(function() {
+	jQuery("#wplead_metabox_conversion h3").unbind('click');
+	        }, 300);
+
+
+	jQuery("body").on('click', '.minimize-paths', function () {
+
+		var text = jQuery(this).text();
+		if (text === "Minimize"){
+			jQuery('.session-item-holder').hide();
+
+			jQuery(".toggle-conversion-list").text("+");
+			jQuery(this).text("Maximize");
+
+		} else {
+			jQuery('.session-item-holder').show();
+			jQuery(".toggle-conversion-list").text("-");
+			jQuery(this).text("Minimize");
+
+		}
+	});
+	jQuery('.session-item-holder').each(function(i){
+		var count = jQuery(this).find('.lp-page-view-item').length;
+		jQuery(this).find('.marker').each(function(i){
+			jQuery(this).text(count - i);
+		});
+	});
 	jQuery("#wpleads_lead_tab_main_inner").fadeIn(1000);
 	jQuery('.touchpoint-value').each(function() {
 		var touch_val = jQuery(this).text();
@@ -21,33 +52,33 @@ jQuery(document).ready(function () {
 			jQuery(this).parent().show();
 		}
 		jQuery(this).find(".touchpoint-minute").show();
-	}); 
-	
+	});
+
 	var hideempty = jQuery("#touch-point span:visible").length;
 	var hideago = jQuery("#session-time-since:visible").length;
-	
+
 	if (hideempty === 0) {
 		jQuery("#touch-point").html("<strong>Moments ago</strong>")
 	}
-	
+
 	if (hideago === 0) {
 		jQuery("#session-time-since").text("Just Now!");
 	}
-	
+
 	jQuery("#submitdiv .hndle").text("Update Lead Information");
 	var html = '<a class="add-new-h2" href="edit.php?post_type=wp-lead">Back</a>';
 	jQuery('.add-new-h2').before(html);
 
 	//populate country
 	jQuery('.wpleads-country-dropdown').val(jQuery('#hidden-country-value').val());
-	
+
 	jQuery('.add-new-link').on('click', function(e){
 		var count = jQuery('#wpleads_websites-container .wpleads_link').size();
 		var true_count = count+1;
 		var html = '<input name="wpleads_websites['+count+']" class="wpleads_link" type="text" size="70" value="" />';
 		jQuery('#wpleads_websites-container').append(html);
 	});
-	
+
 	jQuery('.wpleads_remove_link').live('click',function(e){
 		var this_id = jQuery(this).attr('id');
 		jQuery('#wpleads_websites-'+this_id).remove();
@@ -61,27 +92,27 @@ jQuery(document).ready(function () {
 	jQuery(function () {
 	  jQuery('#lead-tag-cloud a').tagcloud();
 	});
-	
+
 	jQuery('#wpleads_main_container input, #wpleads_main_container textarea').each(
-		
+
         function(){
    			// hide empty fields
    		 if( jQuery(this).val() ) {
  			jQuery(this).parent().parent().show();
-            }	
+            }
           if( !jQuery(this).val() ) {
  			jQuery(this).parent().parent().hide().addClass('hidden-lead-fields');
             }
-          
-        }
-    ); 
 
-    
+        }
+    );
+
+
 	if (jQuery('#wpleads-td-wpleads_websites').hasClass('hidden-lead-fields')) {
 		jQuery('.wpleads_websites').hide().addClass('hidden-lead-fields');
 	}
-	
-	
+
+
 	jQuery("#conversions-data-display nav li").click(function() {
 		jQuery(".active").removeClass("active");
 		jQuery(this).addClass("active");
@@ -91,15 +122,15 @@ jQuery(document).ready(function () {
 		jQuery(".hidden-lead-fields").toggle();
 		jQuery("#add-notes").hide();
 	});
-	
+
 	var notesarea = jQuery("#wpleads-td-wpleads_notes").text();
 	if (notesarea === "") {
 		jQuery("#wpleads-td-wpleads_notes textarea").hide().addClass('hidden-lead-fields');
 		var expandnotes = "<span id='add-notes'>No Notes. Click here to add some.</span>";
 		jQuery(expandnotes).appendTo(jQuery("#wpleads-td-wpleads_notes"));
-		
+
 	}
-	
+
 	jQuery("#add-notes").click(function() {
 		jQuery("#wpleads-td-wpleads_notes textarea").toggle();
 		jQuery("#add-notes").hide();
@@ -108,14 +139,14 @@ jQuery(document).ready(function () {
 	 jQuery(".conversion-tracking-header").on("click", function(event){
 	 //	alert("yes");
 	var link = jQuery(this).find(".toggle-conversion-list");
-	var conversion_log = jQuery(this).parent().find(".leads-visit-list, .session-stats").toggle();
+	var conversion_log = jQuery(this).parent().find(".session-item-holder, .session-stats").toggle();
 
 		  if (jQuery(conversion_log).is(":visible")) {
-					 link.text('-');                
+					 link.text('-');
 				} else {
-					 link.text('+');                
-				}    
-	}); 
+					 link.text('+');
+				}
+	});
 
 	jQuery("body").on('click', '#conversion-total', function () {
 		jQuery("#tabs-wpleads_lead_tab_conversions").click();
@@ -131,23 +162,23 @@ jQuery(document).ready(function () {
 	if (views_empty === ""){
 		jQuery("#p-view-total").text(pageviews);
 	}
-	
+
 	var conversion_empty = jQuery("#conversion-total").text();
 	if (conversion_empty === ""){
 		jQuery("#conversion-total").text(totalconversions);
 	}
 	jQuery('h2 .nav-tab').eq(0).css("margin-left", "10px");
-	
+
 	jQuery("#message.updated").text("Lead Updated").css("padding", "10px");
 	jQuery('.wpleads-conversion-tracking-table').each(function() {
 		var number_of_pages = jQuery(this).find('.lp-page-view-item').size();
 		jQuery(this).find("#pages-view-in-session").text(number_of_pages);
 		if (number_of_pages == 1) {
-		   jQuery(this).find(".session-stats-header").hide();  
-		   jQuery(this).find("#session-pageviews").hide();            
-		   }      
+		   jQuery(this).find(".session-stats-header").hide();
+		   jQuery(this).find("#session-pageviews").hide();
+		   }
 	});
-	
+
 	// view toggles
 	jQuery(".view-this-lead-session a").on("click", function(event){
 	var s_number = jQuery(this).attr("rel");
@@ -155,7 +186,7 @@ jQuery(document).ready(function () {
 	console.log(correct_session);
 	jQuery(".conversion-session-view").hide();
 	jQuery(correct_session).show();
-	});	
+	});
 
 
 	// Sort by date. http://stackoverflow.com/questions/7211704/jquery-order-by-date-in-data-attribute
@@ -180,7 +211,7 @@ jQuery(document).ready(function () {
 			jQuery('.lead-sort-active').removeClass('lead-sort-active');
 			jQuery(this).addClass('lead-sort-active');
 		});
-    
+
 		jQuery('#oldest-event').click(function(){
 			var which_sort = jQuery(".event-order-list").attr("data-change-sort");
 			var the_list = jQuery(which_sort + ' .recent-conversion-item');
@@ -188,16 +219,16 @@ jQuery(document).ready(function () {
 			jQuery('.lead-sort-active').removeClass('lead-sort-active');
 			jQuery(this).addClass('lead-sort-active');
 		});
- 
+
     jQuery('#highest').click(function(){
 			reviews.tsort({ attr: 'data-rating', order: 'desc' });
 		});
-		
+
 		jQuery('#lowest').click(function(){
 			reviews.tsort({ attr: 'data-rating', order: 'asc' });
-		});    
+		});
 	});
-	
+
 	// activity toggles
 	jQuery("body").on('click', '.lead-activity-toggle', function (event) {
 		event.preventDefault();
@@ -221,8 +252,8 @@ jQuery(document).ready(function () {
     	//jQuery(".lead-activity").fadeIn(700);
     });
 
-	// lead mapping 
-	var selectbox = jQuery('<select style="display:none" name="NOA" class="id_NOA"></select>'); 
+	// lead mapping
+	var selectbox = jQuery('<select style="display:none" name="NOA" class="id_NOA"></select>');
 	jQuery("#raw-data-display").prepend(selectbox);
 	jQuery('.wpleads-th label').each(function(i) {
 		// create select options
@@ -233,8 +264,8 @@ jQuery(document).ready(function () {
 		var field_name_clean = field_name_dirty.replace(":","");
 		var field_name_cleaner = field_name_clean.replace("/","");
 		jQuery(".id_NOA").append("<option value='" + final_id +"'>" + field_name_cleaner + "</option>");
-	});	 
-	
+	});
+
 	jQuery(".map-raw-field").on("click", function(event){
 		var count_of_fields = jQuery(this).parent().find(".possible-map-value").size();
 		var this_selected = jQuery(this).parent().find(".toggle-val").size();
@@ -245,7 +276,7 @@ jQuery(document).ready(function () {
 		}
 		if (count_of_fields === 1){
 			jQuery(this).parent().find(".possible-map-value").addClass('toggle-val');
-		}	
+		}
 		jQuery(".map-active-class").removeClass("map-active-class");
 
 		jQuery(this).find(".apply-map").show();
@@ -253,8 +284,8 @@ jQuery(document).ready(function () {
 		jQuery(selectbox).show();
 		jQuery(".map-hide").show();
 		jQuery(this).addClass("map-active-class");
-	}); 
-	
+	});
+
 	var nonce_val = wp_lead_map.wp_lead_map_nonce;
 	jQuery(".apply-map").on('click', function () {
         var value_clicked = jQuery(this).parent().parent().find(".toggle-val").size();
@@ -272,7 +303,7 @@ jQuery(document).ready(function () {
                 //console.log(map_val_id);
                 jQuery(map_val_id).val(toggle_value);
                 jQuery(map_val_id).parent().parent().show();
-                //   alert(map_val + " Updated as " + toggle_value + ". Make sure to Save the Post!"); 
+                //   alert(map_val + " Updated as " + toggle_value + ". Make sure to Save the Post!");
                 // define the bulk edit row
                 var post_id = jQuery("#post_ID").val();
                 var status = "Read";
@@ -329,14 +360,14 @@ jQuery(document).ready(function () {
 					page_id: post_id,
 					nonce: nonce_val
 				},
-				
+
 				success: function(data){
 					var self = this;
 							//alert(data);
 							// jQuery('.lp-form').unbind('submit').submit();
 							var worked = '<span class="success-message-map" style="display: inline-block;margin-top: -1px;margin-left: 20px;padding:4px 25px 4px 20px;position: absolute;">This Lead has been marked as read/viewed.</span>';
 							var s_message = jQuery("#lead-top-area");
-							jQuery(worked).appendTo(s_message);	 
+							jQuery(worked).appendTo(s_message);
 							// alert("This lead is marked as read.");
 						   },
 
