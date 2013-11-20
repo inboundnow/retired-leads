@@ -59,6 +59,8 @@ class InboundShortcodesFields {
 
 			$this->append_output('<div id="_inbound_shortcodes_output" class="hidden">'.$this->shortcode.'</div>');
 			$this->append_output('<div id="_inbound_shortcodes_popup" class="hidden">'.$this->popup.'</div>');
+			$this->append_output('<div id="cpt-form-serialize" class="hidden"></div>');
+
 
 			if( isset( $fields[$this->popup]['no_preview'] ) && $fields[$this->popup]['no_preview'] ) {
 				$this->append_output( "\n" . '<div id="_inbound_shortcodes_preview" class="hidden">false</div>' );
@@ -184,11 +186,11 @@ class InboundShortcodesFields {
 				$parent_row_start .= '<ul class="child-clone-row-form">';
 
 				$this->append_output( $parent_row_start );
-				$count = 0;
+				$count = 1;
 				foreach( $this->child_options as $key => $option ) {
 					$first = $key;
 					$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
-					$hide_class = ($count > 0) ? 'minimize-class' : '';
+					$hide_class = ($count > 1) ? 'minimize-class' : '';
 					$original_key = $key;
 					$key = 'inbound_shortcode_' . $key;
 					$name = ( isset($option['name'])) ? $option['name'] : '';

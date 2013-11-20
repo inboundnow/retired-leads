@@ -263,25 +263,74 @@
 			}
 
 		},
-					update_fields : function () {
+		fill_form_fields: function(){
+		            var SelectionData = jQuery("#cpt-form-serialize").text();
+		            if (SelectionData != "") {
+
+		                jQuery.each(SelectionData.split('&'), function (index, elem) {
+		                    var vals = elem.split('=');
+
+		                    var $select_val = jQuery('select[name="'+vals[0]+'"]').attr('name');
+		                    var $select = jQuery('select[name="'+vals[0]+'"]');
+		                    var $input = jQuery('input[name="'+vals[0]+'"]'); // input vals
+		                    var input_type = jQuery('input[name="'+vals[0]+'"]').attr('type');
+		                    var $checkbox = jQuery('input[name="'+vals[0]+'"]'); // input vals
+		                    var $textarea = jQuery('textarea[name="'+vals[0]+'"]'); // input vals
+		                    var separator = '';
+		                    /*if ($div.html().length > 0) {
+		                        separator = ', ';
+		                    }*/
+		                    //console.log(input_type);
+		                    $input.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+		                    if (input_type === 'checkbox' && vals[1] === 'on'){
+		                        $input.prop( "checked", true );
+		                    }
+		                    if ($select_val != 'inbound_shortcode_insert_default'){
+		                    $select.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+		                    }
+		                    $textarea.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
+		                   });
+
+		            }
+		    },
+			update_fields : function () {
 							var insert_form = jQuery("#inbound_shortcode_insert_default").val();
 							var current_code = jQuery("#inbound_current_shortcode").val();
 							if ( current_code === "quick_insert_inbound_form_shortcode") {
 								return false;
 							}
+
 							var patt = /^form_/gi;
 							var result = patt.test(insert_form);
 							if (result === false){
+
 								var form_insert = window[insert_form];
+								var fields = form_insert.form_fields;
+								var field_count = form_insert.field_length;
 								if (jQuery('.child-clone-row').length != "1") {
 									if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
-				            			jQuery(".child-clone-rows.ui-sortable").html(form_insert);
+										//jQuery(".child-clone-rows.ui-sortable").html(form_insert); // old dom junk
+										jQuery("#cpt-form-serialize").text(fields);
+				            			jQuery(".child-clone-row").remove(); // clear old fields
+				            			var i = 0;
+				            			while (i<field_count) {
+				            			  jQuery("#form-child-add").click();
+				            			  i++;
+				            			}
+				            			InboundShortcodes.fill_form_fields();
 				        			} else {
 				        				jQuery("#inbound_shortcode_insert_default").val(jQuery.data(this, 'current')); // added parenthesis (edit)
 			            				return false;
 				        			}
 		        				} else {
-		        				jQuery(".child-clone-rows.ui-sortable").html(form_insert);
+		        											jQuery("#cpt-form-serialize").text(fields);
+		        					            			jQuery(".child-clone-row").remove(); // clear old fields
+		        					            			var i = 0;
+		        					            			while (i<field_count) {
+		        					            			  jQuery("#form-child-add").click();
+		        					            			  i++;
+		        					            			}
+		        					            			InboundShortcodes.fill_form_fields();
 		        				}
 							//jQuery.data("#inbound_shortcode_insert_default", 'current', jQuery("#inbound_shortcode_insert_default").val());
 
@@ -305,15 +354,25 @@
 
 						                // If form name already exists
 						                var obj = JSON.parse(str);
-						                console.log(obj);
-
-
+						                //console.log(obj);
 							            var field_count = obj.field_count;
+							            console.log(field_count);
+							            var i = 1;
+							            var form_values = obj.field_values;
 							            var form_insert = obj.form_settings_data;
+							            jQuery("#cpt-form-serialize").text(form_values);
 							            // Stop form overwrites from happening
 							            if (jQuery('.child-clone-row').length != "1") {
 											if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
-						            			  jQuery(".child-clone-rows.ui-sortable").html(form_insert);
+						            			  //jQuery(".child-clone-rows.ui-sortable").html(form_insert); // old insert method
+						            			  // new method
+						            			  jQuery(".child-clone-row").remove(); // clear old fields
+						            			  var i = 0;
+						            			  while (i<field_count) {
+						            			    jQuery("#form-child-add").click();
+						            			    i++;
+						            			  }
+						            			  InboundShortcodes.fill_form_fields();
 						            			  jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
 						            			  	InboundShortcodes.generate();
 													InboundShortcodes.generateChild();
@@ -323,7 +382,14 @@
 						        			}
 
 				        				} else {
-				        				  jQuery(".child-clone-rows.ui-sortable").html(form_insert);
+				        				 //jQuery(".child-clone-rows.ui-sortable").html(form_insert); // old insert method
+				        				 // new method
+				        				 //jQuery(".child-clone-row").remove(); // clear old fields
+				        				 while (i<field_count){
+				        				    jQuery("#form-child-add").click();
+				        				    i++;
+				        				  }
+				        				  InboundShortcodes.fill_form_fields();
 				        				  jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
 				        				  InboundShortcodes.generate();
 										  InboundShortcodes.generateChild();

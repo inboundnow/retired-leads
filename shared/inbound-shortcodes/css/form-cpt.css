@@ -1,4 +1,4 @@
-#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom {
+#side-sortables, #cpt-form-serialize, #inbound-shortcodes-form-wrap #inbound-shortcodes-form-head, #inbound_insert_shortcode_two, #shortcode_cancel, #entire-form-area, .inbound_tbody.parent-inbound_shortcode_helper-block-one, #postdivrich, #inbound-email-response, #postcustom, #cpt-form-serialize-default {
 	display: none;
 }
 #inbound-email-response h2{
