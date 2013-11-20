@@ -207,6 +207,7 @@ jQuery(document).ready(function($) {
 					jQuery('body').css('cursor', 'default');
 
 
+					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
@@ -323,7 +324,7 @@ jQuery(document).ready(function($) {
 						location.reload();
 					}
 
-
+					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
@@ -397,6 +398,7 @@ jQuery(document).ready(function($) {
 						//console.log('Fallback fired');
 						jQuery.removeCookie("failed_conversion"); // remove failed cookie
 						jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data
+						jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 						   },
 					error: function(MLHttpRequest, textStatus, errorThrown){
 							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
