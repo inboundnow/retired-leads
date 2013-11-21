@@ -9,7 +9,7 @@ Requires at least: 3.6
 Tested up to: 3.7
 Stable Tag: 1.2.0
 
-Capture & store lead information, gather critical lead intelligence, manage web leads from within your site and close more deals.
+Capture & store  lead information, gather critical lead intelligence, manage web leads from within your site and close more deals.
 
 == Description ==
 
