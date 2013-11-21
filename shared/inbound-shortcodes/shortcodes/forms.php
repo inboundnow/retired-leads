@@ -225,7 +225,7 @@
 							'type' => 'select',
 							'options' => $lead_mapping_fields,
 							'std' => 'none',
-							'class' => 'advanced',
+							'class' => 'advanced exclude',
 				),
 			),
 			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" map_to="{{map_to}}"]',

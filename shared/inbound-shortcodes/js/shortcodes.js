@@ -697,13 +697,29 @@
 
 			jQuery('body').on('change', 'select', function () {
 				var find_this = jQuery(this).attr('data-field-name'),
+				exclude_status = jQuery(this).hasClass('exclude'),
 				this_val = jQuery(this).val();
 				var parent_el = jQuery(this).parent().parent().parent();
-				jQuery(parent_el).find(".dynamic-visable-on").hide();
 
-				jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+				if (exclude_status != true){
+					jQuery(parent_el).find(".dynamic-visable-on").hide();
+					jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+				}
 			});
+			setTimeout(function() {
 
+			jQuery('.inbound_shortcode_child_tbody select').each(function(){
+				var find_this = jQuery(this).attr('data-field-name'),
+				exclude_status = jQuery(this).hasClass('exclude'),
+				this_val = jQuery(this).val();
+				var parent_el = jQuery(this).parent().parent().parent();
+
+				if (exclude_status != true){
+					jQuery(parent_el).find(".dynamic-visable-on").hide();
+					jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
+				}
+			});
+			}, 2000);
     		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
     			window.tb_remove();
     		});

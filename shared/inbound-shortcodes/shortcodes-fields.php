@@ -243,7 +243,7 @@ class InboundShortcodesFields {
 
 						case 'select' :
 							$child_output  = $child_row_start;
-							$child_output .= '<select data-field-name="'.$original_key.'" name="'. $uniquekey .'" id="'. $key .'" class="inbound-shortcodes-child-input select inbound-shortcodes-select">';
+							$child_output .= '<select data-field-name="'.$original_key.'" name="'. $uniquekey .'" id="'. $key .'" class="inbound-shortcodes-child-input select inbound-shortcodes-select '.$field_class.'">';
 							foreach( $option['options'] as $value => $option ) {
 								$selected = ( $std == $value ) ? ' selected="selected"' : '';
 								$child_output .= '<option'. $selected .' value="'. $value .'">'. $option .'</option>';
