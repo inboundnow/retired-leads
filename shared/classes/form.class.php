@@ -373,8 +373,17 @@ class InboundForms {
 		/* this is where we will pull the admin email from the form meta data */
 
 		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
-		$email_to = $form_meta_data['inbound_notify_email'];
+		// defaults
+		$notification_status = "off";
+		$email_to = false;
+
+		if (isset($form_meta_data['inbound_email_send_notification'][0])){
 		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
+		}
+
+		if (isset($form_meta_data['inbound_notify_email'])){
+		$email_to = $form_meta_data['inbound_notify_email'];
+		}
 
 		//print_r($form_meta_data); exit;
 
@@ -498,6 +507,8 @@ class InboundForms {
 			if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
 			    $form_id = $_POST['inbound_form_id'];
 			    // Increment Form Conversion Count
+			    //$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			   // $wordpress_date_time = date("Y-m-d G:i:s", $time);
 			    $form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
 			    $form_conversion_num++;
 			    update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
@@ -505,16 +516,17 @@ class InboundForms {
 
 			    if ( isset($_POST['email'])) {
 			        $lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
-			        if ($lead_conversion_list)
-			        {
-			            $lead_conversion_list = json_decode($lead_conversion_list,true);
+			        $lead_conversion_list = json_decode($lead_conversion_list,true);
+			        if (is_array($lead_conversion_list)) {
 			            $lead_count = count($lead_conversion_list);
 			            $lead_conversion_list[$lead_count]['email'] = $_POST['email'];
+			           // $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
 			            $lead_conversion_list = json_encode($lead_conversion_list);
 			            update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
 			        } else {
 			            $lead_conversion_list = array();
 			            $lead_conversion_list[0]['email'] = $_POST['email'];
+			          //  $lead_conversion_list[0]['date'] = $wordpress_date_time;
 			            $lead_conversion_list = json_encode($lead_conversion_list);
 			            update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
 			        }

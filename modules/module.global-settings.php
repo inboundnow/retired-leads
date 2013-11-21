@@ -268,9 +268,9 @@ if (is_admin())
                     </td>
                 </tr>
                  <tr valign="top">
-                   <th scope="row"><label>Landing Page Version</label></th>
+                   <th scope="row"><label>WordPress CTA Version</label></th>
                     <td class="installation_item_cell">
-                        <strong>Version <?php echo landing_page_get_version();?></strong>
+                        <strong>Version <?php echo WP_CTA_CURRENT_VERSION;?></strong>
                     </td>
                     <td>
 

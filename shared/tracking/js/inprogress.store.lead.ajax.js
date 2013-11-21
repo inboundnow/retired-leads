@@ -1,4 +1,121 @@
+/* function add_inbound_form_class(el, value) {
+  var value = value.replace(" ", "_");
+  var value = value.replace("-", "_");
+  el.addClass('inbound_map_value');
+  el.attr('data-inbound-form-map', 'inbound_map_' + value);
+}
+
+// Build Form Object
+function inbound_map_fields(el, value, Obj) {
+  var formObj = [];
+  var $this = el;
+  var clean_output = value;
+  var label = $this.closest('label').text();
+  var exclude = ['credit-card']; // exlcude values from formObj
+  var inarray = jQuery.inArray(clean_output, exclude);
+  if(inarray == 0){
+  	return null;
+  }
+  // Add items to formObj
+  formObj.push({
+  				field_label: label,
+                field_name: $this.attr("name"),
+                field_value: $this.attr("value"),
+                field_id: $this.attr("id"),
+                field_class: $this.attr("class"),
+                field_type: $this.attr("type"),
+                match: clean_output,
+                js_selector: $this.attr("data-js-selector")
+              });
+  return formObj;
+}
+
+// Trim Whitespace
+function trim(s) {
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");
+    s = s.replace(/[ ]{2,}/gi," ");
+    s = s.replace(/\n /,"\n"); return s;
+}
+
+// Run Form Mapper
+function run_field_map_function(el, form, lookingfor) {
+  var return_form;
+  var formObj = new Array();
+  var $this = el;
+
+      var array = lookingfor.split(",");
+      var array_length = array.length - 1;
+      //var test = process_element($this);
+      //console.log(test);
+      // Main Loop
+      for (var i = 0; i < array.length; i++) {
+          var clean_output = trim(array[i]);
+          //console.log(clean_output);
+
+          // Look for attr name match
+          if ($this.attr("name").toLowerCase().indexOf(clean_output)>-1) {
+            var the_map = inbound_map_fields($this, clean_output, formObj);
+            add_inbound_form_class($this, clean_output);
+            console.log('match name: ' + clean_output);
+          }
+          // look for id match
+          else if ($this.attr("id").toLowerCase().indexOf(clean_output)>-1) {
+            var the_map = inbound_map_fields($this, clean_output, formObj);
+            add_inbound_form_class($this, clean_output);
+            console.log('match id: ' + clean_output);
+          }
+          // Look for label name match
+          else if ($this.closest('li').children('label').length>0)
+          {
+            if ($this.closest('li').children('label').html().toLowerCase().indexOf(clean_output)>-1)
+            {
+              var the_map = inbound_map_fields($this, clean_output, formObj);
+              add_inbound_form_class($this, clean_output);
+              console.log('match li: ' + clean_output);
+            }
+          }
+          // Look for closest div label name match
+          else if ($this.closest('div').children('label').length>0)
+          {
+            if ($this.closest('div').children('label').html().toLowerCase().indexOf(clean_output)>-1)
+            {
+              var the_map = inbound_map_fields($this, clean_output, formObj);
+              add_inbound_form_class($this, clean_output);
+              console.log('match div: ' + clean_output);
+            }
+          } else {
+          	return false;
+          }
+      }
+      return_form = the_map;
+
+  return return_form;
+}
+*/
 jQuery(document).ready(function($) {
+
+/* Mapping IN PROGRESS
+var matched_form_items = [];
+	jQuery('form.wpl-track-me').find('input[type=text],input[type=email]').each(function() {
+	    var $this = jQuery(this);
+	    var the_name = $this.attr('name');
+	    var look_for = run_field_map_function( $this, 'form.wpl-track-me', "job title, first name, last name, email, e-mail, company, phone, tele");
+
+	    if (typeof look_for !== "undefined") {
+	    	matched_form_items.push(look_for);
+	    } else {
+	    	console.log('NO Match on ' + the_name);
+	    }
+
+	    //console.log(test);
+	});
+console.log(matched_form_items);
+// Testing
+//var test = run_field_map_function('form.wpl-track-me', "job title, fiz name, last name, email, e-mail, company, phonez, tele");
+
+//console.log(test);
+ /* Mapping IN PROGRESS */
+
 /* Core Inbound Form Tracking Script */
 
 	jQuery("body").on('submit', '.wpl-track-me', function (e) {
@@ -207,7 +324,6 @@ jQuery(document).ready(function($) {
 					jQuery('body').css('cursor', 'default');
 
 
-					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
@@ -324,7 +440,7 @@ jQuery(document).ready(function($) {
 						location.reload();
 					}
 
-					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
+
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
@@ -398,7 +514,6 @@ jQuery(document).ready(function($) {
 						//console.log('Fallback fired');
 						jQuery.removeCookie("failed_conversion"); // remove failed cookie
 						jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data
-						jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 						   },
 					error: function(MLHttpRequest, textStatus, errorThrown){
 							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);

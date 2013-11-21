@@ -199,7 +199,8 @@ class InboundShortcodes {
                 {
                     $lead_conversion_list = json_decode($lead_conversion_list,true);
                     foreach ($lead_conversion_list as $key => $value) {
-                      echo '<li>'.$lead_conversion_list[$key]['email'].'</li>';
+                      $email = $lead_conversion_list[$key]['email'];
+                      echo '<li><a title="View this Lead" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
                     }
 
                 } else {
