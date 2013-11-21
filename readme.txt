@@ -65,6 +65,10 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
+= 1.2.2 =
+* Added: Time on time per page view
+* Updated: Conversion paths into session history
+
 = 1.2.0 =
 
 * Added: Added email confirmation support to Inbound Forms tool
