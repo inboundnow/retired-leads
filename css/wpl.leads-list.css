@@ -18,6 +18,13 @@ border-radius: 7px;
 .lead_meta_val {
 	display: none;
 }
+#add-to-this {
+	float: left;
+	display: inline-block;
+	vertical-align: bottom;
+	padding-top: 5px;
+	padding-right: 5px;
+}
 .left-float-filter {
 	float: left;
 display: inline-block;

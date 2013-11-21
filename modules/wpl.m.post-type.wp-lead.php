@@ -84,6 +84,10 @@ if (is_admin())
 				$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			}
 		*/
+			// Fix for localhost view
+			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+			    $gravatar = $default;
+			}
 			  echo'<img class="lead-grav-img" src="'.$gravatar.'">';
 			  break;
 			case "first-name":
@@ -105,12 +109,27 @@ if (is_admin())
 			  echo $lead_status;
 			  break;
 			  case "conversion-count":
-			  $conversion_count = get_post_meta( $post_id, 'wpl-lead-conversion-count', true);
-			  echo $conversion_count;
+			  $last_conversion = get_post_meta($post_id,'wpleads_conversion_data', true);
+			  $last_conversion = json_decode($last_conversion, true);
+			  	if (is_array($last_conversion)){
+			  	$count_conversions = count($last_conversion);
+			  	} else {
+			  	$count_conversions = get_post_meta($post_id,'wpl-lead-conversion-count', true);
+			  	}
+			  echo $count_conversions;
 			  break;
 			case "page-views":
-			  $page_views = get_post_meta( $post_id, 'wpl-lead-page-view-count', true);
-			  echo $page_views;
+				$page_views = get_post_meta($post_id,'page_views', true);
+			    $page_view_array = json_decode($page_views, true);
+			    $page_view_count = 0;
+				    if (is_array($page_view_array)){
+				    	foreach($page_view_array as $key=>$val) {
+				         $page_view_count += count($page_view_array[$key]);
+				        }
+				   	} else {
+				      	$page_view_count = get_post_meta($post_id,'wpl-lead-page-view-count', true);
+				    }
+			  echo $page_view_count;
 			  break;
 			case "company":
 			  $company = get_post_meta( $post_id, 'wpleads_company_name', true);
@@ -416,8 +435,8 @@ function wp_leads_get_today() {
 		<script type="text/javascript">
 		  jQuery(document).ready(function() {
 
-			jQuery('<option>').val('add-to-list').text('<?php _e('Add to List','lp') ?>').appendTo("select[name='action']");
-			jQuery('<option>').val('add-to-list').text('<?php _e('Add to List' , 'lp') ?>').appendTo("select[name='action2']");
+			jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List','lp') ?>').appendTo("select[name='action']");
+			jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List' , 'lp') ?>').appendTo("select[name='action2']");
 
 			jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action']");
 			jQuery('<option>').val('export-csv').text('<?php _e('Export CSV')?>').appendTo("select[name='action2']");

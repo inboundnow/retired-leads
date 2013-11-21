@@ -5,15 +5,15 @@ function wpl_numKeys(obj)
     for(var key in obj)
     {
 		if (obj.hasOwnProperty(key)) {
- 
+
 			for(var key_b in obj[key])
-			{		
+			{
 				//alert ('1');
 				count++;
 			}
-		
+
 		}
-      
+
     }
     return count;
 }
@@ -30,7 +30,7 @@ function countProperties(obj) {
 }
 /* build tracking uid */
 function generate_wp_leads_uid(length) {
-	
+
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
 
     if (! length) {
@@ -190,7 +190,7 @@ dateFormat.i18n = {
 Date.prototype.format = function (mask, utc) {
 	return dateFormat(this, mask, utc);
 };
-/* Query String for utm params 
+/* Query String for utm params
 
 // Query String Stuff
     var p  = jQuery("pre"),
@@ -210,11 +210,11 @@ Date.prototype.format = function (mask, utc) {
                 var b1 = e[1].indexOf("["),
                     aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
                     pN = d(e[1].slice(0, b1));
-              
+
                 if (typeof urlParams[pN] != "object")
                     urlParams[d(pN)] = {},
                     urlParams[d(pN)].length = 0;
-                
+
                 if (aN)
                     urlParams[d(pN)][d(aN)] = d(e[2]);
                 else
@@ -233,7 +233,7 @@ Date.prototype.format = function (mask, utc) {
                     jQuery.cookie(k2, urlParams[k][k2], { expires: 365 });
 					console.log(k2);
 					console.log(urlParams[k][k2]);
-                } 
+                }
                 else {
                     jQuery.cookie(k, urlParams[k], { expires: 365 }); }
 					console.log(k);
@@ -241,14 +241,14 @@ Date.prototype.format = function (mask, utc) {
               }
 
     }
- */   
+ */
 
 //alert(window.location);
 
 // Unique WP Lead ID
 var wp_lead_uid_val =  generate_wp_leads_uid(35);
 //alert(wplft.ip_address);
-if(jQuery.cookie("wp_lead_uid") === null) { 
+if(jQuery.cookie("wp_lead_uid") === null) {
     jQuery.cookie("wp_lead_uid", wp_lead_uid_val, { path: '/', expires: 365 });
 }
 
@@ -260,11 +260,12 @@ current_page = current_page_parts[0];
 
 var parts = location.hostname.split('.');
 var subdomain = parts.shift();
-var upperleveldomain = parts.join('.'); 
+var upperleveldomain = parts.join('.');
 var data_block = jQuery.parseJSON(jQuery.cookie('user_data_json'));
 // Date Data
-var date = new Date(); 
-var datetime = dateFormat(date, "yyyy-mm-dd hh:MM:ss");
+var date = new Date(wplft.track_time);
+
+var datetime = wplft.track_time;
 
 var the_time_out = add_page_timeout(date, .1);
 
@@ -285,19 +286,19 @@ if (typeof trackObj =='object' && trackObj)
 		var session_id = generate_session_id(11);
         console.log("Start New Tracking Session");
    		// Start New Tracking Block
-   		trackObj.push({ 
+   		trackObj.push({
 			 session: session_count + 1,
 			 session_id: session_id,
-			 pageviews: [{id: 1, 
+			 pageviews: [{id: 1,
 								current_page: current_page,
 								post_id : wplft.post_id,
-								timestamp: datetime,  
-								referrer: referrer,  
-								original_referrer: referrer 
+								timestamp: datetime,
+								referrer: referrer,
+								original_referrer: referrer
 								}],
-				last_activity: date, // Last movement	
+				last_activity: date, // Last movement
 					  timeout: the_time_out, // Thirty minute timeout
-					 lead_uid: lead_uid,	  
+					 lead_uid: lead_uid,
 					  lead_id: lead_id,
 				   lead_email: lead_email,
 				   lead_ip_address: wplft.ip_address
@@ -305,7 +306,7 @@ if (typeof trackObj =='object' && trackObj)
      } else {
 	    // If session still active, do this
 	    session_count = countProperties(trackObj);
-	    number = parseInt(session_count) - 1;	
+	    number = parseInt(session_count) - 1;
 		var new_count = trackObj[number].pageviews.length;
 		console.log(new_count);
 		if(jQuery.cookie('wp_lead_uid')){
@@ -321,31 +322,31 @@ if (typeof trackObj =='object' && trackObj)
 			{ id : new_count+1,  current_page: current_page, post_id : wplft.post_id, timestamp: datetime, referrer: referrer}
 		)
 	}
-} 
+}
 else
-{	
+{
 	// Create initial tracking block
 	var trackObj = new Array();
 	var session_id = generate_session_id(11);
-	trackObj.push({ 
+	trackObj.push({
 					session: 1,
 					session_id: session_id,
-					pageviews: [{id: 1, 
+					pageviews: [{id: 1,
 								current_page: current_page,
 								post_id : wplft.post_id,
-								timestamp: datetime,  
-								referrer: referrer,  
-								original_referrer: referrer 
-								}],	
-				last_activity: date, // Last movement	
+								timestamp: datetime,
+								referrer: referrer,
+								original_referrer: referrer
+								}],
+				last_activity: date, // Last movement
 					timeout: the_time_out, // Thirty minute timeout
-					lead_uid: lead_uid,	  
+					lead_uid: lead_uid,
 					lead_id: lead_id,
 					lead_email: lead_email,
 				    lead_ip_address: wplft.ip_address
 				}
 			);
-	
+
 }
 jQuery.totalStorage('cpath', trackObj);
 
@@ -356,15 +357,17 @@ if (typeof pageviewObj =='object' && pageviewObj)
 {
 	    // If pageviewObj exists, do this
 	    var page_seen = pageviewObj[current_page_id];
-	    if(typeof(page_seen) != "undefined" && page_seen !== null) {   
+	    if(typeof(page_seen) != "undefined" && page_seen !== null) {
 		    var view_count = pageviewObj[current_page_id].length - 1;
 		    var last_view = pageviewObj[current_page_id][view_count];
-	
+
 		    var thirty_second_timeout = new Date(last_view).getTime() + 30*1000;
-			var thirty_second_timeout_formatted = dateFormat(thirty_second_timeout, "yyyy-mm-dd hh:MM:ss");
+			var thirty_second_timeout_formatted = dateFormat(thirty_second_timeout, "UTC:yyyy-mm-dd hh:MM:ss");
 
 			var wait_time = Math.abs(Date.parse(last_view) - Date.parse(thirty_second_timeout_formatted)) // output timeout time 30sec;
-			var time_check = Math.abs(Date.parse(last_view) - Date.parse(datetime));
+			var parse_this = Date.parse(datetime);
+			var format_date = dateFormat(parse_this, "UTC:yyyy-mm-dd hh:MM:ss");
+			var time_check = Math.abs(Date.parse(last_view) - Date.parse(format_date));
 			//console.log(wait_time);
 			//console.log(time_check);
 			if (time_check > wait_time ){
@@ -374,18 +377,18 @@ if (typeof pageviewObj =='object' && pageviewObj)
 			} else {
 				console.log('30 sec timeout not done: ' + (wait_time - time_check)*.001  + " seconds left");
 			}
-			
+
 		} else {
 			pageviewObj[current_page_id] = [];
-			pageviewObj[current_page_id].push(datetime);	
+			pageviewObj[current_page_id].push(datetime);
 		}
 
-} else {	
+} else {
 // Create initial pageviewObj
 	var pageviewObj =  {};
 	pageviewObj[current_page_id] = [];
 	pageviewObj[current_page_id].push(datetime);
-									
+
 }
 
 jQuery.totalStorage('page_views', pageviewObj);
@@ -401,15 +404,15 @@ if (typeof data_block =='object' && data_block)
 	data_block.items.push(
 		{ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer}
 	);
-	
+
 	jQuery.cookie('user_data_json', JSON.stringify(data_block),  { expires: 1, path: '/' });
-} 
+}
 else
 {
 	data_block = {items: [
 		{id: '1', current_page: current_page,timestamp: datetime,  referrer: referrer,  original_referrer: referrer},
 	]};
-	
+
 	jQuery.cookie('user_data_json', JSON.stringify(data_block), { expires: 1, path: '/' });
 }
 /* End Legacy Cookie Storage */

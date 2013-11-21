@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
 
 	if (jQuery('.wp-list-table').length > 0)
 	{
-		
+
 		// Script for leads list page
 		jQuery('.row-actions').each(function() {
 			var jQuerylist = jQuery(this);
@@ -12,8 +12,8 @@ jQuery(document).ready(function($) {
 				return;
 
 			jQuerylist.appendTo(jQueryfirstChecked);
-		}); 
-		
+		});
+
 		jQuery("body").on('click', '.lead-grav-img', function () {
 			var checked = jQuery(this).parent().parent().find(".check-column input").is(':checked');
 			if (checked === false) {
@@ -21,11 +21,11 @@ jQuery(document).ready(function($) {
 			} else {
 				jQuery(this).parent().parent().find(".check-column input").removeAttr('checked');
 			}
-			
+
    		});
 
 		jQuery('.column-status').each(
-			
+
 			function(){
 				// hide empty fields
 			  if( jQuery(this).text() == "" ) {
@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 				}
 				if( jQuery(this).text() == "New Lead" ) {
 		  jQuery(this).parent().css("background-color", "#e2ffc9");
-				} 
+				}
 			   if( jQuery(this).text() == "Lost" ) {
 				jQuery(this).parent().css("background-color", "#ffe2e2");
 				}
@@ -43,32 +43,55 @@ jQuery(document).ready(function($) {
 				}
 			   if( jQuery(this).text() == "Contacted" ) {
 				jQuery(this).parent().css("background-color", "#fcf7d1");
-				} 
-				
+				}
+
 			}
-		); 
-		
+		);
+
 		jQuery(".submitdelete").text("Delete");
 		var textchange = jQuery("li.publish").html().replace("Published", "Live");
 			jQuery('li.publish').html(textchange);
 
 		  jQuery('.date.column-date').each(function() {
 		 var textchange2 = jQuery(this).html().replace("Published", "");
-		  jQuery(this).html(textchange2);   
-		}); 
-	  
+		  jQuery(this).html(textchange2);
+		});
+
 
 		var mark_as_read = '<span class="mark-viewed" title="Mark lead as viewed">Mark as read</span><span class="mark-viewed-undo">Undo</span>';
 		//jQuery(mark_as_read).appendTo(".row-actions");
 		jQuery(mark_as_read).appendTo(".edit");
-		  
+
 		jQuery('.mark-viewed, .mark-viewed-undo').each(function() {
 		   var this_lead = jQuery(this).parent().parent().parent().parent().attr("id");
 		   var lead_id = this_lead.replace("post-","");
 		   jQuery(this).attr("id", lead_id);
 
-		  }); 
+		  });
+		jQuery("body").on('change', '.bulkactions select', function () {
+			var selected = jQuery(this).val();
+			console.log(selected);
+			if (selected != -1) {
+				jQuery(".alignleft.actions").not('.bulkactions').hide();
+				jQuery("#wordpress_list_select").hide();
+			} else {
+				jQuery(".alignleft.actions").show();
+				jQuery(".alignleft.actions").show();
+				jQuery("#doaction").val('Apply');
+			}
+			if(selected === "add-to-list") {
+				jQuery("#wordpress_list_select").show();
+				jQuery("#doaction").val('Add Selected Leads to List');
+				setTimeout(function() {
+				  var test = "<span id='add-to-this'>Select List:</span>";
+				  			jQuery("#wordpress_list_select").before(test);
+				        }, 100);
 
+			} else {
+				jQuery("#doaction").val('Apply');
+				jQuery("#add-to-this").remove();
+			}
+		 });
 		jQuery('.type-wp-lead').each(function() {
 		var current_status = jQuery(this).find(".status").text();
 		  if( current_status === "Read" ) {
@@ -93,14 +116,14 @@ jQuery(document).ready(function($) {
 			} else {
 			jQuery(".lead_meta_val").show();
 			}
-		});   
+		});
 
 		$( '.mark-viewed' ).on( 'click', function() {
 
 			 // define the bulk edit row
 			var post_id = jQuery(this).attr("id");
 			var status = "Read";
-		  
+
 			jQuery.ajax({
 			  type: 'POST',
 			  url: ajaxurl,
@@ -110,7 +133,7 @@ jQuery(document).ready(function($) {
 				j_rules: status,
 				page_id: post_id
 			  },
-			  
+
 			  success: function(data){
 				var self = this;
 					//alert(data);
@@ -126,9 +149,9 @@ jQuery(document).ready(function($) {
 				alert("Ajax not enabled");
 				}
 			});
-			
+
 			return false;
-		  
+
 		  });
 
 		$( '.mark-viewed-undo' ).on( 'click', function() {
@@ -136,7 +159,7 @@ jQuery(document).ready(function($) {
 			 // define the bulk edit row
 			var post_id = jQuery(this).attr("id");
 			var status = "Read";
-		  
+
 			jQuery.ajax({
 			  type: 'POST',
 			  url: ajaxurl,
@@ -146,7 +169,7 @@ jQuery(document).ready(function($) {
 				j_rules: status,
 				page_id: post_id
 			  },
-			  
+
 			  success: function(data){
 				var self = this;
 					//alert(data);
@@ -162,9 +185,9 @@ jQuery(document).ready(function($) {
 				alert("Ajax not enabled");
 				}
 			});
-			
+
 			return false;
-		  
+
 		  });
 	}
 });

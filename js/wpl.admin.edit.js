@@ -17,25 +17,30 @@ jQuery(document).ready(function () {
 		jQuery(this).text(sess);
 
 	});
+	var session_view = jQuery.cookie("lead-session-view-choice");
 	setTimeout(function() {
-	jQuery("#wplead_metabox_conversion h3").unbind('click');
-	        }, 300);
+	jQuery("#wplead_metabox_conversion h3, #wplead_metabox_conversion .hndle").unbind('click');
+		if(session_view === "hide_sessions") {
+		jQuery('.minimize-paths').click();
+		}
+	}, 800);
 
 
 	jQuery("body").on('click', '.minimize-paths', function () {
 
 		var text = jQuery(this).text();
-		if (text === "Minimize"){
-			jQuery('.session-item-holder').hide();
+		if (text === "Shrink Session View"){
+			jQuery('.session-item-holder, .time-on-page-label').hide();
 
 			jQuery(".toggle-conversion-list").text("+");
-			jQuery(this).text("Maximize");
+			jQuery(this).text("Expand Session View");
+			jQuery.cookie("lead-session-view-choice", "hide_sessions", { path: '/', expires: 7 });
 
 		} else {
-			jQuery('.session-item-holder').show();
+			jQuery('.session-item-holder,.time-on-page-label').show();
 			jQuery(".toggle-conversion-list").text("-");
-			jQuery(this).text("Minimize");
-
+			jQuery(this).text("Shrink Session View");
+			jQuery.cookie("lead-session-view-choice", "show_sessions", { path: '/', expires: 7 });
 		}
 	});
 	jQuery('.session-item-holder').each(function(i){
@@ -139,7 +144,7 @@ jQuery(document).ready(function () {
 	 jQuery(".conversion-tracking-header").on("click", function(event){
 	 //	alert("yes");
 	var link = jQuery(this).find(".toggle-conversion-list");
-	var conversion_log = jQuery(this).parent().find(".session-item-holder, .session-stats").toggle();
+	var conversion_log = jQuery(this).parent().find(".session-item-holder, .session-stats, .time-on-page-label").toggle();
 
 		  if (jQuery(conversion_log).is(":visible")) {
 					 link.text('-');

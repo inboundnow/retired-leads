@@ -103,7 +103,7 @@ function wplead_display_quick_stat_metabox() {
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	add_meta_box(
 	'wplead-quick-stats-metabox',
-	__( "Quick Stats", 'wplead_metabox_gravatar_preview' ),
+	__( "Lead Stats", 'wplead_metabox_gravatar_preview' ),
 	'wplead_quick_stats_metabox',
 	'wp-lead' ,
 	'side',
@@ -118,7 +118,7 @@ function leads_time_diff($date1, $date2) {
 	$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
 	$hours = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/ (60*60));
 	$minutes = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60) / 60);
-	//$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
+	$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
 
 	$time_diff['years'] = $years;
 	$time_diff['y-text'] = ($years > 1) ? "Years" : "Year";
@@ -130,6 +130,8 @@ function leads_time_diff($date1, $date2) {
 	$time_diff['h-text'] = ($hours > 1) ? "Hours" : "Hour";
 	$time_diff['minutes'] = $minutes;
 	$time_diff['mm-text'] = ($minutes > 1) ? "Minutes" : "Minute";
+	$time_diff['seconds'] = $seconds;
+	$time_diff['sec-text'] = ($seconds > 1) ? "Seconds" : "Second";
 
 	return $time_diff;
 }
@@ -142,6 +144,7 @@ function wplead_quick_stats_metabox() {
 
 	$last_conversion = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$last_conversion = json_decode($last_conversion, true);
+	//print_r($last_conversion);
 		if (is_array($last_conversion)){
 		$count_conversions = count($last_conversion);
 		} else {
@@ -156,10 +159,12 @@ function wplead_quick_stats_metabox() {
 	$page_views = get_post_meta($post->ID,'page_views', true);
     $page_view_array = json_decode($page_views, true);
     $main_count = 0;
+    $page_view_count = 0;
 	    if (is_array($page_view_array)){
 	    	foreach($page_view_array as $key=>$val) {
 	         $page_view_count += count($page_view_array[$key]);
 	        }
+	    update_post_meta($post->ID,'wpl-lead-page-view-count', $page_view_count);
 	   	} else {
 	      	$page_view_count = get_post_meta($post->ID,'wpl-lead-page-view-count', true);
 	    }
@@ -176,14 +181,17 @@ function wplead_quick_stats_metabox() {
 			</div>
 
 		<?php if (!empty($the_date)) {
-		$today = new DateTime(date('Y-m-d G:i:s'));
+		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+		$wordpress_date_time = date("Y-m-d G:i:s", $time);
+
+		$today = new DateTime($wordpress_date_time);
 		$today = $today->format('Y-m-d G:i:s');
 		$date_obj = leads_time_diff($the_date, $today);
 		$wordpress_timezone = get_option('gmt_offset');
 		$years = $date_obj['years'];
 		$months = $date_obj['months'];
 		$days = $date_obj['days'];
-		$hours = $date_obj['hours'] + $wordpress_timezone;
+		$hours = $date_obj['hours'];
 		$minutes = $date_obj['minutes'];
 		$year_text = $date_obj['y-text'];
 		$month_text = $date_obj['m-text'];
@@ -191,7 +199,9 @@ function wplead_quick_stats_metabox() {
 		$hours_text = $date_obj['h-text'];
 		$minute_text = $date_obj['mm-text']; ?>
 
+		<?php // echo "<br>c date:".$the_date . "<br>wpdate:" . $wordpress_date_time; ?>
 			<div id="last_touch_point">Time Since Last Conversion
+
 				<span id="touch-point">
 
 					<?php
@@ -369,8 +379,7 @@ function wp_leads_grab_extra_data()
     $api_key = get_option( 'wpl-main-extra-lead-data' , "");
 
     if($api_key === "" || empty($api_key)) {
-    	$site_admin_url = get_option( 'site_url');
-    	echo "<div class='lead-notice'>Please <a href='".$site_admin_url."/wp-admin/edit.php?post_type=wp-lead&page=wpleads_global_settings'>enter your full contact API key</a> for additional lead data</div>" ;
+    	echo "<div class='lead-notice'>Please <a href='".esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'page' => 'wpleads_global_settings' ), 'edit.php' ) ) )."'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>" ;
     	return;
     }
 
@@ -593,12 +602,18 @@ function wpleads_display_metabox_main() {
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
 
-
+			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+			    $gravatar = $default;
+			   	$gravatar2 = WPL_URL . '/images/gravatar_default_32-2x.png';
+			}
 
 			?>
 			<div id="lead_image">
 				<div id="lead_image_container">
-				<div id="lead_name_overlay"><?php echo $first_name . " " . $last_name;?></div>
+				<?php if ($first_name != "" && $last_name != ""){ ?>
+				<div id="lead_name_overlay"><?php echo $first_name . " " . $last_name;?>
+				</div>
+				<?php } ?>
 					<?php
 						echo'<img src="'.$gravatar.'"  title="'.$first_name.' '.$last_name.'"></a>';
 						wp_lead_display_extra_data($social_values, 'work'); // Display extra data work history
@@ -606,6 +621,7 @@ function wpleads_display_metabox_main() {
 
 					?>
 				</div>
+
 			</div>
 			<style type="text/css">.icon32-posts-wp-lead {background-image: url("<?php echo $gravatar2;?>") !important;}</style>
 			<div id="leads-right-col">
@@ -736,71 +752,117 @@ function wpleads_display_metabox_main() {
 				<h2>Page Views</h2>
 			 <?php
 
-			$page_views = get_post_meta($post->ID,'page_views', true);
+		 		$page_views = get_post_meta($post->ID,'page_views', true);
+		 	   	$page_view_array = json_decode($page_views, true);
 
-            $page_view_array = json_decode($page_views, true);
+		 	   	if ($page_view_array) {
 
-            // Sort Array by date
-			 function wp_leads_sort_array_datetime($a,$b){
-			        return strtotime($a['dates'])<strtotime($b['dates'])?1:-1;
-			};
-       		// uasort($page_view_array,'wp_leads_sort_array_datetime'); // Date sort
-          	if ($page_views) {
-          		$main_count = 0;
-          		foreach($page_view_array as $key=>$val)
-                {
-                	$main_count += count($page_view_array[$key]);
-                }
+			 	    $new_array = array();
+			 	    $loop = 0;
+			 		// Combine and loop through all page view objects
+			 		 foreach($page_view_array as $key=>$val)
+			 	      {
+			 	      	foreach($page_view_array[$key] as $test){
+			 	      			$new_array[$loop]['page'] = $key;
+			 	      			$new_array[$loop]['date'] = $test;
+			 	      	      	$loop++;
+			 	      	}
+
+			 	      }
+			 	    // Merge conversion and page view json objects
+			 	   // print_r($new_array);
+			 	    //$timeout = 1800; // thirty minutes in seconds
+			 	    //$test = abs(strtotime(Last Time) - strtotime(NEW TIME));
+			 	   	/* $test = abs(strtotime("2013-11-19 12:58:12") - strtotime("2013-11-20 4:57:02 UTC")); */
+			 	  	uasort($new_array,'c_table_leads_sort_array_datetime_reverse'); // Date sort
+
+			 	  	//print_r($new_array);
+			 	  	$new_key_array = array();
+			 	  	$num = 0;
+			 	  	foreach ( $new_array as $key => $val ) {
+			 			$new_key_array[ $num ] = $val;
+			 			$num++;
+			 	  	}
+			 	  	//print_r($new_key_array);
+			 	  	$new_loop = 1;
+			 	  	$total_session_count = 0;
+			 	    foreach ($new_key_array as $key => $value) {
+
+			 	    	$last_item = $key - 1;
+
+			 	    	$next_item = $key + 1;
+			 	    	$conversion = (isset($new_key_array[$key]['conversion'])) ? 'lead-conversion-mark' : '';
+			 	    	$conversion_text = (isset($new_key_array[$key]['conversion'])) ? '<span class="conv-text">(Conversion Event)</span>' : '';
+			 	    	$close_div = ($total_session_count != 0) ? '</div></div>' : '';
+			 	    	//echo $new_key_array[$new_loop]['date'];
+			 	    	if(isset($new_key_array[$last_item]['date'])){
+			 	    		$timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
+			 	    	} else{
+			 	    		$timeout = 3601;
+			 	    	}
+
+			 	    	$date =  date_create($new_key_array[$key]['date']);
+			 	    	$page_id = $new_key_array[$key]['page'];
+			 	    	$this_post_type = '';
+			 	    		if (strpos($page_id,'cat_') !== false) {
+			 	        	  	$cat_id = str_replace("cat_", "", $page_id);
+			 	        	  	$page_name = get_cat_name($cat_id) . " Category Page";
+			 	        	  	$tag_names = '';
+			 	        	  	$page_permalink = get_category_link( $cat_id );
+			 	    	  	} elseif (strpos($page_id,'tag_') !== false) {
+			 	        	  	$tag_id = str_replace("tag_", "", $page_id);
+			 	        	  	$tag = get_tag( $tag_id );
+			 	        	  	$page_name = $tag->name . " - Tag Page";
+			 	        	  	$tag_names = '';
+			 	        	  	$page_permalink = get_tag_link($tag_id);
+			 	    	  	} else {
+			 	    		$page_title = get_the_title($page_id);
+			 	    		$page_name = ($page_id != 0) ? $page_title : 'N/A';
+			 	    		$page_permalink = get_permalink($page_id);
+			 	    		$this_post_type = get_post_type($page_id);
+			 	    	}
+
+			 	    	$timeon_page = $timeout / 60;
+			 	    	$date_print = date_create($new_key_array[$key]['date']);
+			 	    	//$last_date = date_create($new_key_array[$last_item]['date']);
+			 	    	//$date_raw = new DateTime($new_key_array[$key]['date']);
+			 	    	//
+
+			 	    	//echo "<br>".$timeout."<-timeout on key " . $new_loop . " " . $new_key_array[$key]['date'] . ' on page: ' . $new_key_array[$key]['page'];
+			 	    	//$second_diff = abs(date_format($last_date, 's') - date_format($date_print, 's'));
+			 	    	if(isset($new_key_array[$last_item]['date'])){
+			 	    	$second_diff = leads_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
+			 	    	} else {
+			 	    	$second_diff['minutes'] = 0;
+			 	    	$second_diff['seconds'] = 0;
+			 	    	}
+			 	    	//print_r($second_diff);
+			 	    	//$second_diff = date('i:s',$second_diff);
+			 	    	$minute = ($second_diff['minutes'] != 0) ? "<strong>" . $second_diff['minutes'] . "</strong> " : '';
+			 	    	$minute_text = ($second_diff['minutes'] != 0) ? $second_diff['mm-text'] . " " : '';
+			 	    	$second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
+			 	    	$second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
 
 
-          	 $count = $main_count;
-          	 foreach($page_view_array as $key=>$val)
-                {
+			 	    	$clean_date = date_format($date_print, 'Y-m-d H:i:s');
 
-                    $id = $key;
-
-                    foreach ($val as $new_key => $date) {
-
-                  		if (strpos($id,'cat_') !== false) {
-                    	$cat_id = str_replace("cat_", "", $id);
-                    	$title = get_cat_name($cat_id) . " Category Page";
-                    	$tag_names = '';
-                    	$page_url = get_category_link( $cat_id );
-
-                    	} elseif (strpos($id,'tag_') !== false) {
-                    	$tag_id = str_replace("tag_", "", $id);
-                    	$tag = get_tag( $tag_id );
-                    	$title = $tag->name . " - Tag Page";
-                    	$tag_names = '';
-                    	$page_url = get_tag_link($tag_id);
-                    	} else {
-                    	$title = get_the_title($id);
-                    	$tag_names = wp_get_post_tags( $id, array( 'fields' => 'names' ) );
-                    	$page_url = get_permalink( $id );
-                   		}
-
-                    	$this_post_type = get_post_type($id);
-                    	$date_raw = new DateTime($date);
-                    	$date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
-                    	$clean_date = $date_raw->format('Y-m-d H:i:s');
                    		// Display Data
-                   		 echo '<div class="lead-timeline recent-conversion-item page-view-item '.$this_post_type.'" title="'.$page_url.'"  data-date="'.$clean_date.'">
+                   		 echo '<div class="lead-timeline recent-conversion-item page-view-item '.$this_post_type.'" title="'.$page_permalink.'"  data-date="'.$clean_date.'">
 								<a class="lead-timeline-img page-views" href="#non">
 
 								</a>
 
 								<div class="lead-timeline-body">
 									<div class="lead-event-text">
-									  <p><span class="lead-item-num">'.$count.'.</span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_url.'" id="lead-session" rel="" target="_blank">'.$title.'</a><span class="conversion-date">'.$date_of_conversion.'</span></p>
+									  <p><span class="lead-item-num">'.$new_loop.'.</span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_permalink.'" id="lead-session" rel="" target="_blank">'.$page_title .'</a><span class="conversion-date">'.date_format($date_print, 'F jS, Y \a\t g:i:s a').'</span></p>
 									</div>
 								</div>
 							</div>';
-                    	$count--;
-                    }
 
-                    //$type_of_page = $page_view_array[$key]['page_type'];
+			 	    	$new_loop++;
 
-                 }
+			 	     }
+
 
 
             } else {
@@ -1036,11 +1098,19 @@ function wplead_add_conversion_path() {
 
 	add_meta_box(
 		'wplead_metabox_conversion', // $id
-		__( 'Conversion Paths <span class="minimize-paths button">Minimize</span>' , 'wplead_metabox_conversion' ),
+		__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'wplead_metabox_conversion' ),
 		'wpleads_display_conversion_path', // $callback
 		'wp-lead', // $page
 		'normal', // $context
 		'high'); // $priority
+}
+
+function c_table_leads_sort_array_datetime_reverse($a,$b) {
+	return strtotime($a['date'])>strtotime($b['date'])?1:-1;
+}
+
+function c_table_leads_sort_array_datetime($a,$b){
+        return strtotime($a['date'])<strtotime($b['date'])?1:-1;
 }
 
 // Render Conversion Paths
@@ -1073,9 +1143,7 @@ function wpleads_display_conversion_path() {
 	$page_views = get_post_meta($post->ID,'page_views', true);
    	$page_view_array = json_decode($page_views, true);
 
-	   function c_table_leads_sort_array_datetime($a,$b){
-	           return strtotime($a['date'])<strtotime($b['date'])?1:-1;
-	   };
+
     $new_array = array();
     $loop = 0;
 	// Combine and loop through all page view objects
@@ -1106,21 +1174,32 @@ function wpleads_display_conversion_path() {
   	$new_loop = 1;
   	$total_session_count = 0;
     foreach ($new_key_array as $key => $value) {
+
     	$last_item = $key - 1;
+
+    	$next_item = $key + 1;
     	$conversion = (isset($new_key_array[$key]['conversion'])) ? 'lead-conversion-mark' : '';
+    	$conversion_text = (isset($new_key_array[$key]['conversion'])) ? '<span class="conv-text">(Conversion Event)</span>' : '';
     	$close_div = ($total_session_count != 0) ? '</div></div>' : '';
     	//echo $new_key_array[$new_loop]['date'];
-    	$timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
+    	if(isset($new_key_array[$last_item]['date'])){
+    		$timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
+    	} else{
+    		$timeout = 3601;
+    	}
+
     	$date =  date_create($new_key_array[$key]['date']);
+    	$break = 'off';
     	if ($timeout >= 3600) {
     		echo $close_div . '<a class="session-anchor" id="view-session-'.$total_session_count.'""></a><div id="conversion-tracking" class="wpleads-conversion-tracking-table" summary="Conversion Tracking">
 
     		<div class="conversion-tracking-header">
-    				<h2><strong>Visit <span class="visit-number"></span></strong> on <span class="shown_date">'.date_format($date, 'F jS, Y \a\t g:ia (l)').'</span><span class="toggle-conversion-list">-</span></h2> <span class="hidden_date date_'.$total_session_count.'">'.date_format($date, 'F jS, Y \a\t g:ia:s').'</span>
+    				<h2><span class="toggle-conversion-list">-</span><strong>Visit <span class="visit-number"></span></strong> on <span class="shown_date">'.date_format($date, 'F jS, Y \a\t g:ia (l)').'</span><span class="time-on-page-label">Time spent on page</span></h2> <span class="hidden_date date_'.$total_session_count.'">'.date_format($date, 'F jS, Y \a\t g:ia:s').'</span>
     		</div><div class="session-item-holder">';
 
     		$total_session_count++;
     		//echo "</div>";
+    		$break = "on";
     	}
     	$page_id = $new_key_array[$key]['page'];
     		if (strpos($page_id,'cat_') !== false) {
@@ -1141,11 +1220,34 @@ function wpleads_display_conversion_path() {
     	}
     	$timeon_page = $timeout / 60;
     	$date_print = date_create($new_key_array[$key]['date']);
+    	//$last_date = date_create($new_key_array[$last_item]['date']);
+
 
     	//echo "<br>".$timeout."<-timeout on key " . $new_loop . " " . $new_key_array[$key]['date'] . ' on page: ' . $new_key_array[$key]['page'];
+    	//$second_diff = abs(date_format($last_date, 's') - date_format($date_print, 's'));
+    	if(isset($new_key_array[$last_item]['date'])){
+    	$second_diff = leads_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
+    	} else {
+    	$second_diff['minutes'] = 0;
+    	$second_diff['seconds'] = 0;
+    	}
+    	//print_r($second_diff);
+    	//$second_diff = date('i:s',$second_diff);
+    	$minute = ($second_diff['minutes'] != 0) ? "<strong>" . $second_diff['minutes'] . "</strong> " : '';
+    	$minute_text = ($second_diff['minutes'] != 0) ? $second_diff['mm-text'] . " " : '';
+    	$second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
+    	$second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
+    	if ($break === "on") {
+    		$minute = "";
+    		$minute_text =  "";
+    		$second =  "";
+    		$second_text =  "Session Timeout";
+    	}
     	if ($page_id != "0" && $page_id != "null"){
     	echo "<div class='lp-page-view-item ".$conversion."'>
-			<span class='marker'></span> <a href='".$page_permalink."' title='".$new_key_array[$key]['page']."' target='_blank'>".$page_name."</a> on <span>".date_format($date_print, 'F jS, Y \a\t g:i:s a')."</span>
+			<span class='marker'></span> <a href='".$page_permalink."' title='View This Page' target='_blank'>".$page_name."</a> on <span>".date_format($date_print, 'F jS, Y \a\t g:i:s a')."</span>
+			".$conversion_text."
+			<span class='time-on-page'>". $minute . $minute_text .  $second . $second_text . "</span>
 			</div>";
 		}
     	$new_loop++;
