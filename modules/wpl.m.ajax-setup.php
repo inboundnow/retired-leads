@@ -15,6 +15,7 @@ function wpl_track_user_callback()
 	(isset(	$_POST['page_id'] )) ? $page_id = $_POST['page_id'] : $page_id = 0;
 	(isset(	$_POST['current_url'] )) ? $current_url = $_POST['current_url'] : $current_url = 'notfound';
 
+	// NEW Tracking
 	if(isset($_POST['wp_lead_id'])) {
 		wp_leads_update_page_view_obj($lead_id, $page_id, $current_url);
 	}
@@ -200,89 +201,7 @@ function wpleads_hook_store_lead_post($data)
 
 		setcookie('user_data_json', "",time()+3600,"/"); // clear page view data
 
-		/* Store number of page views as meta */
-		$current_page_view_count = get_post_meta($data['lead_id'],'wpl-lead-page-view-count', true);
-		if (!empty($current_page_view_count) && $current_page_view_count !== '0')
-		{
-			$increment_page_views = $current_page_view_count + $view_count;
-		}
-		else
-		{
-			$increment_page_views = 0 + $view_count;
-		}
 
-		update_post_meta($data['lead_id'],'wpl-lead-page-view-count', $increment_page_views);
-
-		/* Store conversions as meta */
-		$conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
-		if ($conversions)
-		{
-			$count_of_conversions = get_post_meta($data['lead_id'],'wpl-lead-conversion-count', true);
-		}
-		else
-		{
-			$count_of_conversions = 0;
-		}
-
-		// update_post_meta($data['lead_id'],'wpl-lead-conversions', implode(',',$array_conversions)); // old meta
-		/* Store conversions count as meta */
-		$increment_conversions = $count_of_conversions + 1;
-		update_post_meta($data['lead_id'],'wpl-lead-conversion-count', $increment_conversions);
-
-		//update raw post data json
-		$raw_post_data = get_post_meta($data['lead_id'],'wpl-lead-raw-post-data', true);
-
-		// Auto Mapping for Raw Form Fields
-		$a1 = json_decode( $raw_post_data, true );
-		$a2 = json_decode( stripslashes($data['raw_post_values_json']), true );
-
-		$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
-		$lead_mapping_fields = get_transient( 'wp-lead-fields' );
-
-		foreach ($a2 as $key=>$value)
-		{
-			// exclude array
-			if (array_key_exists( $key , $exclude_array ))
-			{
-				unset($a2[$key]);
-				continue;
-			}
-			// include array
-			if (array_key_exists($key, $lead_mapping_fields)) {
-				update_post_meta( $data['lead_id'], $key, $value );
-			}
-
-			if (stristr($key,'company'))
-			{
-				update_post_meta( $data['lead_id'], 'wpleads_company_name', $value );
-			}
-			else if (stristr($key,'website'))
-			{
-				$websites = get_post_meta( $data['lead_id'], 'wpleads_websites', $value );
-
-				if(is_array($websites))
-				{
-					$array_websites = explode(';',$websites);
-				}
-
-				$array_websites[] = $value;
-				$websites = implode(';',$array_websites);
-				update_post_meta( $data['lead_id'], 'wpleads_websites', $websites );
-			}
-		}
-
-		if (is_array($a1))
-		{
-			$new_raw_post_data = array_merge_recursive( $a1, $a2 );
-		}
-		else
-		{
-			$new_raw_post_data = $a2;
-		}
-		//print_r($new_raw_post_data);exit;
-
-		$new_raw_post_data = json_encode( $new_raw_post_data );
-		update_post_meta( $data['lead_id'],'wpl-lead-raw-post-data', $new_raw_post_data );
 
 	}
 }
