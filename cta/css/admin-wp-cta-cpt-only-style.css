@@ -1,0 +1,18 @@
+#main-title-area #wp-cta-main-headline {
+width: 100%;
+height: 31px;
+font-size: 1.7em;
+line-height: 100%;
+outline: 0 none;
+padding: 3px 7px;
+}
+#main-title-header h3 {
+	display: inline-block;
+	padding-left: 0px;
+}
+#titlediv {
+	margin-bottom: 0px;
+}
+#edit-slug-box {
+margin-top: 0px;
+}

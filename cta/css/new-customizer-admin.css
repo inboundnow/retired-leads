@@ -1,0 +1,159 @@
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front, #wp_call_to_action_categorydiv, .updated.below-h2 a, #cta_shortcode_form {
+	display: none !important;
+}
+html.wp-toolbar {
+	padding-top: 0px !important;
+}
+.auto-fold #adminmenuback, .auto-fold #adminmenuwrap, .auto-fold #adminmenu, .auto-fold #adminmenu li.menu-top {
+	width: 0px !important;
+}
+.wp-cta-selection-heading h1 {
+display: inline;
+font-size: 20px !important;
+}
+#wp-cta-cancel-selection {
+display: block;
+width: 60%;
+text-align: center;
+margin: auto;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+margin: 5px 0 0px !important;
+}
+.auto-fold #wpcontent, .auto-fold #wpfooter {
+margin-left: 10px !important;
+}
+/* Need to test */
+#wpbody-content {
+padding-bottom: 90px !important;
+width: 76% !important;
+}
+#submitdiv .handlediv , #submitdiv .hndle {
+	display: none !important;
+}
+#publishing-action {
+text-align: center !important;
+float: none !important;}
+#minor-publishing-actions input, #major-publishing-actions input, #minor-publishing-actions .preview {
+text-align: center !important;
+width: 280px !important;
+margin: auto !important;
+height: 44px !important;
+font-size: 17px !important;
+}
+#major-publishing-actions {
+padding: 15px 10px 15px !important;}
+.select2-container {
+	min-width: 100% !important;
+}
+#submitdiv {
+	position: fixed !important;
+bottom: 0px !important;
+z-index: 999999 !important;
+width: 100% !important;
+margin-left: -10px !important;
+padding-bottom: 10px !important;
+margin-bottom: 0px !important;
+
+}
+#wp_cta_metabox_select_template {
+	margin-left: -10px !important;
+}
+.inbound-wysiwyg-row {
+	padding-left: 0px !important;
+margin-left: -15px !important;
+}
+.inbound-wysiwyg-option, .inbound-textarea-option {
+width: 106% !important;
+}
+.inbound-media-row .button-primary.new-save-wp-cta, .inbound-media-row .wp-cta-success-message {
+position: initial !important;}
+.wp_themeSkin .mceStatusbar.mceFirst.mceLast {
+width: 90% !important;
+}
+.inbound-description-block-option {
+	max-width: 100% !important;
+}
+.inbound-wysiwyg-row .wp-cta-success-message {
+margin-right: 10px !important;
+text-align: center;
+display: inline-block !important;
+}
+.inbound-meta-box-label {
+	width: 80% !important;
+	display: block !important;
+}
+.inbound-wysiwyg {
+padding-left: 10px;
+padding-bottom: 5px;
+}
+.jPicker .Grid {
+	display: none;
+}
+.jPicker .Button {
+text-align: center;
+padding: 0 4px;
+width: 264px;
+position: absolute;
+border-bottom: none;
+left: 0px;
+bottom: 3px;
+}
+.jPicker .Button input {
+	font-size: 18px !important;
+}
+.jPicker .Icon span.Color, .jPicker .Icon span.Alpha {
+width: 97% !important;
+}
+.jPicker .Title {
+width: 254px;
+}
+.jPicker hr {
+	display: none !important;
+}
+table.jPicker {
+width: 430px !important;}
+@media only screen and (max-width: 600px) {
+.media-modal {
+width: 432px !important;
+position: fixed !important;
+height: 484px !important;
+}
+.media-modal-backdrop {
+width: 600px;
+position: fixed !important;
+}
+}
+ul#template-filter {
+	clear: both !important;
+margin: 0px 0;
+padding: 0;
+padding-left: 0px;
+line-height: 28px;
+}
+#wp_cta-cancel-selection {
+display: block;
+float: none;
+width: 70%;
+text-align: center;
+margin: auto;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+#template-item {
+width: 200px;}
+ul#template-filter li {
+display: inline-block;
+
+padding-bottom: 0px;
+padding-top: 0px;
+margin: 0px;
+line-height: 20px;
+}
+.wp_cta-selection-heading h1 {
+	font-size: 18px;
+	display: block;
+	text-align: center;
+}
