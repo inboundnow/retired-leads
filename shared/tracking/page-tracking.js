@@ -1,4 +1,4 @@
-// Console.log fix
+/* Console.log fix for old browsers */
 (function() {
   if (!window.console) {
     window.console = {};
@@ -16,24 +16,7 @@
     }
   }
 })();
-function wpl_numKeys(obj)
-{
-    var count = 0;
-    for(var key in obj)
-    {
-		if (obj.hasOwnProperty(key)) {
 
-			for(var key_b in obj[key])
-			{
-				//alert ('1');
-				count++;
-			}
-
-		}
-
-    }
-    return count;
-}
 /* Count number of session visits */
 function countProperties(obj) {
     var count = 0;
@@ -45,23 +28,8 @@ function countProperties(obj) {
 
     return count;
 }
-/* build tracking uid */
-function generate_wp_leads_uid(length) {
 
-    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
-
-    if (! length) {
-        length = Math.floor(Math.random() * chars.length);
-    }
-
-    var str = '';
-    for (var i = 0; i < length; i++) {
-        str += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return str;
-}
-
-/* build tracking uid */
+/* Generate tracking uid */
 function generate_session_id(length) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
 
@@ -76,7 +44,6 @@ function generate_session_id(length) {
     return str;
 }
 
-
 /* Function for adding minutes to current time */
 function add_page_timeout(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
@@ -86,16 +53,7 @@ function add_page_timeout(date, minutes) {
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
  * MIT license
- *
- * Includes enhancements by Scott Trenda <scott.trenda.net>
- * and Kris Kowal <cixar.com/~kris.kowal/>
- *
- * Accepts a date, a mask, or a date and a mask.
- * Returns a formatted version of the given date.
- * The date defaults to the current date/time.
- * The mask defaults to dateFormat.masks.default.
  */
-
 var dateFormat = function () {
 	var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
 		timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
@@ -208,7 +166,6 @@ Date.prototype.format = function (mask, utc) {
 	return dateFormat(this, mask, utc);
 };
 /* Query String for utm params
-
 // Query String Stuff
     var p  = jQuery("pre"),
         result = "",
@@ -260,13 +217,10 @@ Date.prototype.format = function (mask, utc) {
     }
  */
 
-//alert(window.location);
-
-// Unique WP Lead ID
-var wp_lead_uid_val =  generate_wp_leads_uid(35);
-//alert(wplft.ip_address);
+/* Set Lead UID */
 if(jQuery.cookie("wp_lead_uid") === null) {
-    jQuery.cookie("wp_lead_uid", wp_lead_uid_val, { path: '/', expires: 365 });
+   var wp_lead_uid_val =  generate_session_id(35);
+   jQuery.cookie("wp_lead_uid", wp_lead_uid_val, { path: '/', expires: 365 });
 }
 
 /* define vars */
@@ -274,27 +228,20 @@ var referrer = document.referrer;
 var current_page =  window.location.href;
 var current_page_parts = current_page.split('#');
 current_page = current_page_parts[0];
-
 var parts = location.hostname.split('.');
 var subdomain = parts.shift();
 var upperleveldomain = parts.join('.');
 var data_block = jQuery.parseJSON(jQuery.cookie('user_data_json'));
-// Date Data
 var date = new Date(wplft.track_time);
-
 var datetime = wplft.track_time;
-
 var the_time_out = add_page_timeout(date, .1);
-
 var lead_uid = jQuery.cookie("wp_lead_uid");
 var lead_id = jQuery.cookie("wp_lead_id");
 var lead_email = jQuery.cookie("wp_lead_email");
 
 
-
 /* Start LocalStorage */
 var trackObj = jQuery.totalStorage('cpath');
-
 if (typeof trackObj =='object' && trackObj)
 {
 	session_count = countProperties(trackObj);
@@ -367,9 +314,11 @@ else
 }
 jQuery.totalStorage('cpath', trackObj);
 
-// Page View Object: Sessionless and clears on form submittions
+/* Page View Object
+This is a sessionless object with a 30 second timeout on identical page views */
 var pageviewObj = jQuery.totalStorage('page_views');
 var current_page_id = wplft.post_id;
+var referrer_is = document.referrer;
 if (typeof pageviewObj =='object' && pageviewObj)
 {
 	    // If pageviewObj exists, do this
@@ -377,22 +326,20 @@ if (typeof pageviewObj =='object' && pageviewObj)
 	    if(typeof(page_seen) != "undefined" && page_seen !== null) {
 		    var view_count = pageviewObj[current_page_id].length - 1;
 		    var last_view = pageviewObj[current_page_id][view_count];
+		    var timeout = new Date(last_view).getTime() + 30*1000;
+			var timeout = dateFormat(timeout, "UTC:yyyy-mm-dd hh:MM:ss");
+			var wait_time = Math.abs(Date.parse(last_view) - Date.parse(timeout)) // output timeout time 30sec;
+			var current_date = dateFormat(datetime, "UTC:yyyy-mm-dd hh:MM:ss");
+			var time_check = Math.abs(Date.parse(last_view) - Date.parse(current_date));
+			//console.log("Wait Time:" + wait_time);
+			//console.log("Time Check:" + time_check);
 
-		    var thirty_second_timeout = new Date(last_view).getTime() + 30*1000;
-			var thirty_second_timeout_formatted = dateFormat(thirty_second_timeout, "UTC:yyyy-mm-dd hh:MM:ss");
-
-			var wait_time = Math.abs(Date.parse(last_view) - Date.parse(thirty_second_timeout_formatted)) // output timeout time 30sec;
-			var parse_this = Date.parse(datetime);
-			var format_date = dateFormat(parse_this, "UTC:yyyy-mm-dd hh:MM:ss");
-			var time_check = Math.abs(Date.parse(last_view) - Date.parse(format_date));
-			//console.log(wait_time);
-			//console.log(time_check);
-			if (time_check > wait_time ){
+			if (time_check < wait_time ){
 				console.log('time out happened');
 				pageviewObj[current_page_id].push(datetime);
 				// run Ajax page view saving here.
 			} else {
-				console.log('30 sec timeout not done: ' + (wait_time - time_check)*.001  + " seconds left");
+				console.log('30 sec timeout not done: ' + Math.abs(wait_time - time_check)*.001  + " seconds left");
 			}
 
 		} else {
@@ -410,26 +357,15 @@ if (typeof pageviewObj =='object' && pageviewObj)
 
 jQuery.totalStorage('page_views', pageviewObj);
 // console.log(JSON.stringify(pageviewObj)) // output the pages viewed
-
-
 /* End local storage */
 
 /* Start Legacy Cookie Storage */
-if (typeof data_block =='object' && data_block)
-{
-	var count = wpl_numKeys(data_block);
-	data_block.items.push(
-		{ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer}
-	);
-
+if (typeof data_block =='object' && data_block) {
+	var count = countProperties(data_block);
+	data_block.items.push({ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer});
 	jQuery.cookie('user_data_json', JSON.stringify(data_block),  { expires: 1, path: '/' });
-}
-else
-{
-	data_block = {items: [
-		{id: '1', current_page: current_page,timestamp: datetime,  referrer: referrer,  original_referrer: referrer},
-	]};
-
+} else {
+	data_block = {items: [{id: '1', current_page: current_page,timestamp: datetime, referrer: referrer, original_referrer: referrer},]};
 	jQuery.cookie('user_data_json', JSON.stringify(data_block), { expires: 1, path: '/' });
 }
 /* End Legacy Cookie Storage */

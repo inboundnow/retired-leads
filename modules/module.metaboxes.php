@@ -721,6 +721,7 @@ function wp_cta_render_metabox($key,$custom_fields,$post)
 
 	// Begin the field table and loop
 	echo '<div class="form-table" id="inbound-meta">';
+
 	//print_r($custom_fields);exit;
 	$current_var = wp_cta_ab_testing_get_current_variation_id();
 	foreach ($custom_fields as $field) {

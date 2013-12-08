@@ -53,7 +53,7 @@ jQuery(function($){
             // on Hide
             if (wp_cta_slideout.animation == "fade") {
                 $("#wp_cta_box").fadeOut("slow");
-            } else if ( wp_cta_slideout.keep_open == 'on' ) {
+            } else if ( wp_cta_slideout.keep_open == 'yes' ) {
                 console.log('keep open');
             } else if ( wp_cta_slideout.position == 'left' ) {
                 $("#wp_cta_box").stop().animate({left:"-" + ( wp_cta_slideout.css_width + wp_cta_slideout.css_side + 50 ) + "px"}, 6000);

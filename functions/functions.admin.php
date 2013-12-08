@@ -544,11 +544,13 @@ function cta_placements_content_add_meta_box()
 	$exclude[] = 'wp-call-to-action';
 	$exclude[] = 'tracking-event';
 	$exclude[] = 'inbound-forms';
+	// add filter
 
 	foreach ($post_types as $value ) {
+		$priority = ($value === 'landing-page') ? 'core' : 'high';
 		if (!in_array($value,$exclude))
 		{
-			add_meta_box( 'wp-advertisement-dropper-post', 'Insert Call to Action Template into Content', 'cta_placements_content_meta_box' , $value, 'normal', 'high' );
+			add_meta_box( 'wp-cta-inert-to-post', 'Insert Call to Action Template into Content', 'cta_placements_content_meta_box' , $value, 'normal', $priority );
 		}
 	}
 }
