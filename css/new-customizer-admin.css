@@ -157,3 +157,66 @@ line-height: 20px;
 	display: block;
 	text-align: center;
 }
+.wp-editor-container {
+border-right-color: transparent !important;
+}
+.mceIframeContainer.mceFirst.mceLast iframe {
+	width: 90% !important;
+}
+.wp-cta-selection-heading h1 {
+font-size: 18px;
+display: block;
+text-align: center;
+}
+#wp-cta-cancel-selection {
+display: block;
+float: none;
+width: 70%;
+text-align: center;
+margin: auto;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.wp-media-buttons .insert-media {
+margin-left: 15px !important;
+}
+.wp-cta-option-area {
+display: inline-block;
+width: 75% !important;
+}
+.wp_cta_label {
+
+width: 80% !important;
+vertical-align: top;
+padding-top: 8px;
+margin-left: 3px !important;
+display: block;
+}
+#inbound-shortcodes-preview-wrap {
+	display: none !important;
+}
+#inbound-shortcodes-form-wrap {
+width: 96% !important;}
+#inbound-shortcodes-form-wrap tbody tr.form-row td.label {
+line-height: 29px !important;
+display: block !important;
+}
+#popup-controls {
+position: fixed;
+border-top: 1px solid transparent !important;
+bottom: 90px !important;
+width: 300px !important;
+left: 15% !important;
+background: transparent !important;}
+#inbound-shortcodes-form-table tbody tr.form-row {
+display: block;
+padding: 0px !important;
+border-bottom: none !important;}
+#inbound-shortcodes-form-wrap #inbound-shortcodes-form {
+padding-bottom: 300px !important;
+}
+#inbound-shortcodes-form-table input[type="text"], #inbound-shortcodes-form-table input[type="email"], #inbound-shortcodes-form-table input[type="url"], #inbound-shortcodes-form-table input[type="number"], #inbound-shortcodes-form-table input[type="password"], #inbound-shortcodes-form-table textarea {
+width: 100% !important;
+}
+#inbound_insert_shortcode_two, #shortcode_cancel, #inbound_save_form {
+margin-bottom: 10px !important; }
