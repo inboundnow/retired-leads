@@ -30,18 +30,30 @@ jQuery(document).ready(function ($) {
         var which_editor = $.cookie("lp-edit-view-choice");
         if(which_editor === null){
            setTimeout(function() {
-            jQuery("#content-tmce").click();
+            //jQuery("#content-tmce").click();
             //jQuery(".wp-switch-editor.switch-tmce").click();
             }, 1000);
 
         }
         if(which_editor === 'editor'){
           setTimeout(function() {
-            jQuery("#content-tmce").click();
+
+               var ctmce= jQuery('#content-tmce');
+               switchEditors.switchto(ctmce[0]); // switch to tinymce
+
+               //var conversion_area = jQuery("#landing-page-myeditor-tmce");
+               //switchEditors.switchto(conversion_area[0]); // switch to tinymce
+            //jQuery("#content-tmce").click();
             //jQuery(".wp-switch-editor.switch-tmce").click();
+               jQuery('.inbound-wysiwyg-option textarea').each(function(){
+                   var chtml= "#" + jQuery(this).attr('id') + '-html';
+                   var ctmce= "#" + jQuery(this).attr('id') + '-tmce';
+                   var html_box = jQuery(chtml);
+                   var tinymce_box = jQuery(ctmce);
+                   switchEditors.switchto(tinymce_box[0]); // switch to tinymce
+               });
             }, 1000);
         }
-
     /* Tour Start JS
     var tourbutton = '<a class="" id="wp-cta-tour" style="font-size:13px;">Need help? Take the tour</a>';
     jQuery(tourbutton).appendTo("h2:eq(0)");
@@ -490,7 +502,7 @@ setTimeout(function() {
         var this_meta_id = jQuery(this).attr("id");
         console.log(this_meta_id);
         // prep data
-        if (input_type == "text" || input_type == "number") {
+        if (input_type == "text" || input_type == "number" ||  input_type == "colorpicker") {
             var meta_to_save = jQuery(this).parent().find("input").val();
         } else if (input_type == "textarea") {
             var meta_to_save = jQuery(this).parent().find("textarea").val();
