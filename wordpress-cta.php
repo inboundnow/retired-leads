@@ -95,7 +95,7 @@ if (is_admin())
 
 
 register_activation_hook(__FILE__, 'wp_call_to_action_activate');
-function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.1', $leads = '1.2.1')
+function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.6', $leads = '1.2.1')
 {
 	global $wp_version;
 	if ( version_compare( PHP_VERSION, $php, '<' ) ) {
