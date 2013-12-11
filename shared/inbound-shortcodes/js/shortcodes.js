@@ -600,8 +600,20 @@
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
 			                           }, 5000);
 			                } else {
-			                	window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, final_short_form);
+			                	// set correct ID for insert
+			                	var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+			                	 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, final_short_form);
+			                	//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
+			                	/* Fix for editor not recognizing shortcode' */
+			                	var chtml= jQuery('#' + insert_to + '-html');
+			                	var ctmce= jQuery('#' + insert_to + '-tmce');
+			                	switchEditors.switchto(chtml[0]); // switch to html
+
 			                	tb_remove();
+			                	jQuery('html, body').animate({
+			                	       scrollTop: jQuery("#" + insert_to + "_InboundShortcodesButton_action").offset().top -200
+			                	   }, 200);
+			                	switchEditors.switchto(ctmce[0]); // switch to tinymce
 			                }
 
 			                //jQuery(worked).appendTo(s_message);

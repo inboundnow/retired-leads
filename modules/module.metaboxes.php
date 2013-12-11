@@ -591,7 +591,7 @@ function add_custom_meta_box_wp_cta_custom_css() {
 function wp_cta_custom_css_input() {
 	global $post;
 
-	echo "<em>Custom CSS may be required to remove sidebars, increase the widget of the post content container to 100%, and sometimes to manually remove comment boxes.</em>";
+	echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
 	echo '<input type="hidden" name="wp-cta-custom-css-noncename" id="wp_cta_custom_css_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 	$custom_css_name = apply_filters('wp-cta-custom-css-name','wp-cta-custom-css');
 	echo '<textarea name="'.$custom_css_name.'" id="wp-cta-custom-css" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,$custom_css_name,true).'</textarea>';
