@@ -218,24 +218,7 @@
 			var W = ( 1720 < width ) ? 1720 : width;
 			var this_height = ajaxCont.height();
 			console.log(this_height);
-			if( no_preview ) {
-				ajaxCont.css({
-					paddingTop: 0,
-					paddingLeft: 0,
-					height: (tbWindow.outerHeight()-47),
-					overflow: 'scroll',
-					width: 562
-				});
 
-				tbWindow.css({
-					width: ajaxCont.outerWidth(),
-					marginLeft: -(ajaxCont.outerWidth()/2)
-				});
-
-				jQuery('#inbound-shortcodes-popup').addClass('no_preview');
-			}
-
-			else {
 				ajaxCont.css({
 					padding: 0,
 					// height: (tbWindow.outerHeight()-47),
@@ -260,7 +243,7 @@
 					marginTop: -((ajaxCont.outerHeight() + 47)/2),
 					top: '50%'
 				}); */
-			}
+
 
 		},
 		fill_form_fields: function(){
@@ -617,8 +600,20 @@
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
 			                           }, 5000);
 			                } else {
-			                	window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, final_short_form);
+			                	// set correct ID for insert
+			                	var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+			                	 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, final_short_form);
+			                	//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
+			                	/* Fix for editor not recognizing shortcode' */
+			                	var chtml= jQuery('#' + insert_to + '-html');
+			                	var ctmce= jQuery('#' + insert_to + '-tmce');
+			                	switchEditors.switchto(chtml[0]); // switch to html
+
 			                	tb_remove();
+			                	jQuery('html, body').animate({
+			                	       scrollTop: jQuery("#" + insert_to + "_InboundShortcodesButton_action").offset().top -200
+			                	   }, 200);
+			                	switchEditors.switchto(ctmce[0]); // switch to tinymce
 			                }
 
 			                //jQuery(worked).appendTo(s_message);
@@ -748,8 +743,20 @@
 							var fixed_insert_val = insert_val;
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							}
-							window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, output_cleaned);
+							// set correct ID for insert
+							var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+							 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
+							//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
+							/* Fix for editor not recognizing shortcode' */
+							var chtml= jQuery('#' + insert_to + '-html');
+							var ctmce= jQuery('#' + insert_to + '-tmce');
+							switchEditors.switchto(chtml[0]); // switch to html
+
 							tb_remove();
+							jQuery('html, body').animate({
+							       scrollTop: jQuery("#" + insert_to + "_InboundShortcodesButton_action").offset().top -200
+							   }, 200);
+							switchEditors.switchto(ctmce[0]); // switch to tinymce
 					}
 				}
 			},
@@ -767,5 +774,22 @@
 		jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
 			InboundShortcodes.insert_shortcode();
 		});
+		// Shortcode editor insert fix
+		jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton', function () {
+
+		        var editor_name = jQuery(this).attr('id');
+		        if (typeof (editor_name) != "undefined" && editor_name != null && editor_name != "") {
+		        	editor_name = editor_name.replace('_InboundShortcodesButton_action','');
+		        } else {
+		        	return false;
+		        }
+
+		        console.log(editor_name);
+		        jQuery.cookie('inbound_shortcode_editor_name', editor_name);
+		        //jQuery.cookie('media_init', 1);
+		       // tb_show('', 'media-upload.php?type=image&type=image&amp;TB_iframe=true');
+		        return false;
+		    }
+		 );
 	});
 

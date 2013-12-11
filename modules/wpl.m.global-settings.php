@@ -21,7 +21,7 @@
 			array(
 				'id'  => 'tracking-ids',
 				'label' => 'IDs of forms to track',
-				'description' => "<p>Enter in a value found in a HTML form's id attribute to track it as a conversion.</p><p>Do not include the # in the id. <strong>Example format: Form_ID, Form-ID-2</strong></p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here)</p>",
+				'description' => "<p>Enter in a value found in a HTML form's id attribute to track it as a conversion.</p><p>Do not include the # in the id. <strong>Example format: Form_ID, Form-ID-2</strong></p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here). Comma separated values</p>",
 				'type'  => 'text',
 				'default'  => '',
 				'options' => null
@@ -55,7 +55,7 @@
 				'label' => 'Create WP Roles for Lists',
 				'description' => "<p>Turn this on to create WordPress user roles that correspond with Lead lists.</p>",
 
-				'type'  => 'radio', 
+				'type'  => 'radio',
 				'default'  => '0',
 				'type'  => 'radio',
 				'default'  => '1',
