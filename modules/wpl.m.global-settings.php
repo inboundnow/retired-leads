@@ -377,6 +377,9 @@
 		{
 			$wpleads_options = $wpleads_global_settings[$key]['settings'];
 
+			if (!$wpleads_options)
+				continue;
+				
 			// loop through fields and save the data
 			foreach ($wpleads_options as $field)
 			{
