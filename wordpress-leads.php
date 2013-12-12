@@ -212,7 +212,7 @@ function wpleads_admin_enqueuescripts($hook)
 
 	if (isset($_GET['taxonomy']))
 		return;
-
+	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
 		//echo $_GET['post_type'];exit;
@@ -242,6 +242,11 @@ function wpleads_admin_enqueuescripts($hook)
 		if ( $hook == 'post-new.php' )
 		{
 			wp_enqueue_script('wpleads-create-new-lead', WPL_URL . '/js/wpl.add-new.js');
+		}
+
+		if ( $hook == 'post.php' )
+		{
+			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
 
 
