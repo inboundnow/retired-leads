@@ -1,3 +1,29 @@
+@font-face {
+	font-family: 'FontAwesome';
+	src: url('../shared/fonts/fontawesome/fontawesome-webfont.eot?v=3.0.2');
+	src: url('../shared/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=3.0.2') format('embedded-opentype'),
+	url('../shared/fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2') format('woff'),
+	url('../shared/fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+#adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
+	font-family: "FontAwesome" !important;
+	content: "\f05b";
+	font: 400 24px/1 "FontAwesome" !important;
+	padding-top: 6px;
+
+}
+.branch-3-7 #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
+display: none;
+}
+#adminmenu .menu-icon-wp-call-to-action div.wp-menu-image img{
+	display: none;
+}
+.branch-3-7 #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image img {
+	display: block;
+}
+
 .wp-admin #footer { display: none !important }
 
 .cat-block
