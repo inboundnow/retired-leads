@@ -261,8 +261,10 @@
 							}
 							echo '</select><br /><div class="wpl_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
 						break;
-
-
+						case 'html':
+							echo $field['value'];
+							echo '<br /><div class="lp_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
+						break;
 
 					} //end switch
 
