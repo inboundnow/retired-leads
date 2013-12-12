@@ -29,7 +29,9 @@
 	padding-left: 42px;
 	padding-top: 20px;
 }
-
+#wplead_metabox_main {
+	background: none;
+}
 #last_touch_point {
 	padding-top: 15px;
 }
@@ -443,7 +445,7 @@ h2 .nav-tab {
 	size:10px;
 }
 
-.inside
+.wpl-tab-display
 {
 	background-color:#fff;
 }

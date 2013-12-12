@@ -108,6 +108,9 @@ return $lead_fields;
 // Create Field Mapping Array
 add_action( 'init', 'wp_leads_set_lead_fields');
 function wp_leads_set_lead_fields() {
+	if (isset($_GET['clear_lead_custom_field_cache'])) {
+	delete_transient( 'wp-lead-fields');
+	}
 	$lead_fields = get_transient( 'wp-lead-fields' );
 	if ( false === $lead_fields ) {
 		$lead_fields = wp_leads_get_lead_fields();
@@ -132,13 +135,12 @@ function wp_leads_set_lead_fields() {
  * type: type of user area. 'text' or 'textarea'
  */
 /*
-
 add_filter('wp_leads_add_lead_field', 'custom_add_more_lead_fields', 10, 1);
 function custom_add_more_lead_fields($lead_fields) {
 
  $new_fields =  array(
  					array(
-				        'label' => 'Upper Company',
+				        'label' => 'Timmmm Company',
 				        'key'  => 'wpleads_ip_addressy',
 				        'priority' => 18,
 				        'type'  => 'text'
@@ -169,5 +171,6 @@ function custom_add_more_lead_fields($lead_fields) {
 
         return $lead_fields;
 
-} */
+}
+*/
 ?>
