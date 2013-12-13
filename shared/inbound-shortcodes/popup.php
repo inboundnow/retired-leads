@@ -1,6 +1,7 @@
 <?php
 include( 'shortcodes-fields.php' );
 $popup = trim( $_GET['popup'] );
+$path = trim( $_GET['path'] );
 $shortcode = new InboundShortcodesFields( $popup );
 ?>
 
@@ -37,7 +38,7 @@ $shortcode = new InboundShortcodesFields( $popup );
                 <?php if( $shortcode->no_preview ) : ?>
                     <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', INBOUND_LABEL); ?></div>
                 <?php else : ?>
-                    <iframe src="<?php echo INBOUND_FORMS; ?>preview.php?sc=" width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
+                    <iframe src="<?php echo $path; ?>preview.php?sc=" width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
                 <?php endif; ?>
             </div>
             <div class="clear"></div>
