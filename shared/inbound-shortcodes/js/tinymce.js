@@ -44,7 +44,8 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 		init: function(ed, url) {
 			ed.addCommand('InboundShortcodesPopup', function(a, params) {
 				var popup = params.identifier;
-				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900);
+				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+
 			});
 		},
 		createControl: function(btn, e) {

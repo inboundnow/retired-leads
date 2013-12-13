@@ -330,7 +330,7 @@ div#wp-cta-store-iframe-container > iframe {
 
 #wp-leads-splash-header
 {
-	background: #f2f2f2 url('/wp-content/plugins/cta/images/gradient.png') repeat-x top left;
+	background: #f2f2f2;
 	border-bottom: 1px solid #EBEBEA;
 	-webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3);
 	-moz-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3);
@@ -364,7 +364,7 @@ div#wp-cta-store-iframe-container > iframe {
 
 .wpwp-cta-green-button
 {
-	background: #94BA65 url('/wp-content/plugins/cta/images/gradient.png') repeat-x top left;
+	background: #94BA65;
 	border: 1px solid rgba(0,0,0,0.15);
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;

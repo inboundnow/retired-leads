@@ -44,7 +44,7 @@
     width: 26%; }
 
 .wp-cta-sidebar-settings {
-    background: #f2f2f2 url('/wp-content/plugins/wp-call-to-actions/images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
 border: 1px solid #EBEBEA;
 -webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
 -moz-box-shadow: inset 1px 1px 1px #f9f9f9;
@@ -54,7 +54,7 @@ margin-bottom: 20px;
 margin-right: 20px;
 }
 .wp-cta-sidebar-settings .review-button {
-    background: #94BA65 url('/wp-content/plugins/wp-call-to-actions/images/gradient.png') repeat-x top left;
+    background: #94BA65;
 border: 1px solid rgba(0,0,0,0.15);
 -webkit-border-radius: 2px;
 -moz-border-radius: 2px;
