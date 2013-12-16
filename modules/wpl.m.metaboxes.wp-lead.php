@@ -206,7 +206,7 @@ function wplead_quick_stats_metabox() {
 
 					<?php
 
-					echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> ".$year_text." </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months."</span> ".$month_text." </span><span class='touchpoint-day'><span class='touchpoint-value'>".$days."</span> ".$day_text." </span><span class='touchpoint-hour'><span class='touchpoint-value'>".$hours."</span> ".$hours_text." </span><span class='touchpoint-minute'><span class='touchpoint-value'>".$minutes."</span> ".$minute_text."</span> Ago";
+					echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> ".$year_text." </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months."</span> ".$month_text." </span><span class='touchpoint-day'><span class='touchpoint-value'>".$days."</span> ".$day_text." </span><span class='touchpoint-hour'><span class='touchpoint-value'>".$hours."</span> ".$hours_text." </span><span class='touchpoint-minute'><span class='touchpoint-value'>".$minutes."</span> ".$minute_text."</span>";
 					?>
 				</span>
 			</div>
@@ -1120,13 +1120,13 @@ function wpleads_display_conversion_path() {
 
 	$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$conversions_array = json_decode($conversions, true);
-
+	$c_array = array();
 	if (is_array($conversions_array)) {
 		uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
 		$conversion_count = count($conversions_array);
 		//print_r($conversions_array);
 		$i = $conversion_count;
-		$c_array = array();
+
 		$c_count = 0;
 		foreach ($conversions_array as $key => $value)
 		{

@@ -5,7 +5,7 @@
 	margin-bottom: 0px;
 	margin-top: 5px;
 }
-.inbound_tbody.parent-inbound_shortcode_helper-block-one {
+.inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap {
 	display: none !important;
 }
 #cpt-form-shortcode {
@@ -17,6 +17,12 @@
 #cpt-form-serialize {
 	word-wrap: break-word;
 }
+.step-item {
+
+width: 29%;}
+.step-item:after {
+width: 25px;
+height: 25px;}
 #inbound_confirmation_subject {
 	display: block;
 	padding: 3px 8px;

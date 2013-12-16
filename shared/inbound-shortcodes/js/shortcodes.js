@@ -31,7 +31,20 @@
 			}
 
 	var InboundShortcodes = {
-
+		getUrlVars: function() {
+		    var vars = [], hash;
+		    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		    for(var i = 0; i < hashes.length; i++)
+		    {
+		      hash = hashes[i].split('=');
+		      vars.push(hash[0]);
+		      vars[hash[0]] = hash[1];
+		    }
+		    return vars;
+		  },
+		getUrlVar: function(name) {
+		    return InboundShortcodes.getUrlVars()[name];
+		  },
 		generate: function() {
 
 			var output = jQuery('#_inbound_shortcodes_output').text(),
@@ -288,8 +301,14 @@
 							if (result === false){
 
 								var form_insert = window[insert_form];
-								var fields = form_insert.form_fields;
-								var field_count = form_insert.field_length;
+								if (typeof (form_insert) != "undefined" && form_insert != null && form_insert != "") {
+									var fields = form_insert.form_fields;
+									var field_count = form_insert.field_length;
+								} else {
+									var fields = "";
+									var field_count = 1;
+								}
+
 								if (jQuery('.child-clone-row').length != "1") {
 									if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
 										//jQuery(".child-clone-rows.ui-sortable").html(form_insert); // old dom junk
@@ -594,8 +613,8 @@
 			                   jQuery(self).text('Form Updated').css('font-size', '25px');
 			                   var draft = jQuery("#hidden_post_status").val();
 			                   if (draft === 'draft') {
-			                   	window.location.href = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit'
-			                   }
+			                       window.location.href = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit&reload=true'
+			                     }
 			                   setTimeout(function() {
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
 			                           }, 5000);
@@ -791,5 +810,13 @@
 		        return false;
 		    }
 		 );
+		if (InboundShortcodes.getUrlVar("reload") === 'true') {
+
+			jQuery("#post-body-content").hide();
+			var window_url = window.location.href.replace('&reload=true', "");
+			jQuery("#post-body").before('<h2>Please Refresh this Page to Edit your Form<h2><a href="'+window_url+'">Click to Refresh</a>');
+
+			window.history.replaceState({}, document.title, window_url);
+		}
 	});
 

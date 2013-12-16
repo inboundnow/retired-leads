@@ -200,6 +200,7 @@ class InboundShortcodes {
     $post_title = get_the_title( $post_id );
     $popup = trim(get_post_meta($post->ID, 'inbound_shortcode', true));
     $form_serialize = get_post_meta($post->ID, 'inbound_form_values', true);
+    $field_count = get_post_meta($post->ID, 'inbound_form_field_count', true);
     $short_shortcode = "";
     $shortcode = new InboundShortcodesFields( 'forms' );
 
