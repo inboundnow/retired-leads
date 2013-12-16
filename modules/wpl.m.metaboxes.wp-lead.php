@@ -1143,6 +1143,10 @@ function wpleads_display_conversion_path() {
 	$page_views = get_post_meta($post->ID,'page_views', true);
    	$page_view_array = json_decode($page_views, true);
 
+   	if (!is_array($page_view_array)) {
+   		echo "No Data";
+   		return;
+   	}
 
     $new_array = array();
     $loop = 0;
