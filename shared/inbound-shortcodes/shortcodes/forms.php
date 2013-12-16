@@ -3,14 +3,30 @@
 *   Inbound Forms Shortcode Options
 *   Forms code found in /shared/classes/form.class.php
 */
-/*
-	if (empty($lead_mapping_fields)){
-		$lead_mapping_fields = array();
-		$lead_mapping_fields['none'] = "Not Set";
 
+	if (empty($lead_mapping_fields)){
+		// if lead transient doesn't exist use defaults
+		$lead_mapping_fields = array(
+		'null' => 'No Mapping',
+		"wpleads_first_name" => "First Name",
+		"wpleads_last_name" => "Last Name",
+		"wpleads_email_address" => "Email",
+		"wpleads_website" => "Website",
+		"wpleads_company_name" => "Company Name",
+		"wpleads_mobile_phone" => "Mobile Phone",
+		"wpleads_work_phone" => "Work Phone",
+		"wpleads_address_line_1" => "Address",
+		"wpleads_address_line_2" => "Address Continued",
+		"wpleads_city" => "City",
+		"wpleads_region_name" => 'State/Region',
+		"wpleads_zip" => "Zip-code",
+		"wpleads_country_code" => "Country",
+		"wpleads_websites" => "Related Websites",
+		"wpleads_notes" => "Notes"
+		);
 	}
 	//print_r($lead_mapping_fields);
-	*/
+
 	$shortcodes_config['forms'] = array(
 		'no_preview' => false,
 		'options' => array(

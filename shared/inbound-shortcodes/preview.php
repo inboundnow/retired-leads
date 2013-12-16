@@ -16,16 +16,19 @@ $test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbou
 
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 	// SET CORRECT FILE PATHS FOR SCRIPTS
-	$file_path = html_entity_decode( trim( $_GET['file-path'] ) );
-	if ($file_path === 'landing-pages') {
+	$file_path = html_entity_decode( trim( $_GET['path'] ) );
+	if ((preg_match("/landing-pages/i", $file_path))) {
 		$final_path = LANDINGPAGES_URLPATH;
 	}
-	else if ($file_path === 'leads') {
-	 	$final_path = WPL_URL;
+	else if (preg_match("/leads/i", $file_path)) {
+	 	$final_path = WPL_URL . "/";
 	}
-	else if ($file_path === 'cta') {
+	else if (preg_match("/cta/i", $file_path)) {
 		$final_path = WP_CTA_URLPATH;
+	} else {
+		$final_path = "";
 	}
+
 /* HTML MATCHES */
 // $test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
 // preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);

@@ -709,7 +709,7 @@ function wp_cta_show_metabox($post,$key)
 
 	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
 
-	wp_cta_render_metabox($key,$wp_cta_custom_fields,$post);
+	inbound_template_metabox_render($key,$wp_cta_custom_fields,$post);
 }
 
 
