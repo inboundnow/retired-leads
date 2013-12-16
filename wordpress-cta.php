@@ -3,13 +3,13 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 1.2.1
+Version: 1.2.2
 Author: David Wells, Hudson Atwell
 Author URI: http://www.inboundnow.com/
 */
 
 // DEFINE CONSTANTS AND GLOBAL VARIABLES
-define('WP_CTA_CURRENT_VERSION', '1.2.1' );
+define('WP_CTA_CURRENT_VERSION', '1.2.2' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PLUGIN_SLUG', 'cta' );
@@ -84,6 +84,7 @@ if (!function_exists('inbound_include_template_functions'))
 if (is_admin())
 {
 	//include additional metaboxes
+	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 	include_once('load.extensions.php');
 	include_once('modules/module.metaboxes.php');
 }

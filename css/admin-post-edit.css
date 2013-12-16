@@ -24,6 +24,12 @@ overflow: visible !important;
 .inbound-multi-select {
 	min-width: 60%;
 }
+#wp-cta-change-template-button {
+	margin-top: 7px;
+}
+#wp_cta_popup-ebook_custom_meta_box .hndle {
+	background-color: transparent !important;
+}
 .wp-cta-delete-var-stats, .wp-cta-clear-success {
 color: red;
 opacity: .7;
@@ -77,7 +83,7 @@ position: relative;
 #wp-wp-call-to-action-myeditor-wrap #wp-wp-call-to-action-myeditor-editor-container {
   min-height: 200px;
 }
-#adminmenu .wp-menu-arrow div { 
+#adminmenu .wp-menu-arrow div {
 left: -2px;
   }
 #add-wp-cta-notes {
@@ -88,7 +94,7 @@ padding-right: 2px;
 }
 .add-new-h2, #wp-cta-current-view, #switch-wp-cta, #preview-action {
   display: none;
-} 
+}
 #wp-cta-notes-area {
 	position: relative;
 	margin-bottom: 8px;

@@ -172,7 +172,9 @@ if (is_admin())
 		{
 			foreach ($wp_cta_global_settings as $key => $data)
 			{
+				if (isset($data['settings'])) {
 				wp_cta_render_global_settings($key,$data['settings'], $active_tab);
+				}
 			}
 		}
 
@@ -292,6 +294,7 @@ if (is_admin())
 
 		foreach ($wp_cta_global_settings as $key=>$data)
 		{
+			if (isset($wp_cta_global_settings[$key]['settings'])) {
 			$tab_settings = $wp_cta_global_settings[$key]['settings'];
 
 			// loop through fields and save the data
@@ -391,6 +394,7 @@ if (is_admin())
 
 		}
 		//exit;
+		}
 	}
 
 

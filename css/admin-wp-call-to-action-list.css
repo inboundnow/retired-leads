@@ -20,7 +20,7 @@
     width: 120px;
 }
 #cb {
-	width: 20px;
+	width: 30px;
 }
 .clear_stats {
 	color: red;
@@ -83,7 +83,7 @@ margin-right: 8px;
 }
 
 .wp-cta-pop-controls {
-    display: inline-block; 
+    display: inline-block;
     margin-top: 8px;
 }
 
@@ -107,18 +107,18 @@ margin-right: 8px;
 }
 
 .wp-cta-pop-preview a, .wp-cta-pop-edit a {
-   text-decoration: none; 
+   text-decoration: none;
 }
 
-.qtip-titlebar 
+.qtip-titlebar
 {
 	position: relative;
 	padding: 0px;
 }
 
-.qtip-jtools 
+.qtip-jtools
 {
-	border: 2px solid rgba(172, 172, 172, 1); 
+	border: 2px solid rgba(172, 172, 172, 1);
 }
 
 .qtip-title {
@@ -146,7 +146,7 @@ margin-right: 8px;
 	padding-right: 5px;
 }
 
-.cta_stats li:hover 
+.cta_stats li:hover
 {
 	background:#e0e0e0;
 }
@@ -170,7 +170,7 @@ td.cta_stats.column-cta_stats {
 .wp-list-table td.cta_stats {
     padding-left: 0px;
 	padding-right: 0px;
-} 
+}
 
 .wp-cta-current-winner{
   background-color: rgb(226, 255, 201);
@@ -344,7 +344,7 @@ color: #ccc;
 box-shadow: none;
 -webkit-box-shadow: none;
 }
- a.cr-number:hover { 
+ a.cr-number:hover {
     background-color: #278ab7;
 	background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
 	background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);

@@ -1,4 +1,4 @@
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp_cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #wp_cta_ab_display_stats_metabox, #lp-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, #cta-launch-front, #wp_call_to_action_categorydiv, .updated.below-h2 a, #cta_shortcode_form {
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend  {
 	display: none !important;
 }
 html.wp-toolbar {
@@ -7,35 +7,36 @@ html.wp-toolbar {
 .auto-fold #adminmenuback, .auto-fold #adminmenuwrap, .auto-fold #adminmenu, .auto-fold #adminmenu li.menu-top {
 	width: 0px !important;
 }
-.wp-cta-selection-heading h1 {
-display: inline;
-font-size: 20px !important;
-}
-#wp-cta-cancel-selection {
-display: block;
-width: 60%;
-text-align: center;
-margin: auto;
-margin-top: 10px;
-margin-bottom: 10px;
-}
-.wrap div.updated, .wrap div.error, .media-upload-form div.error {
-margin: 5px 0 0px !important;
-}
 .auto-fold #wpcontent, .auto-fold #wpfooter {
 margin-left: 10px !important;
 }
-/* Need to test */
-#wpbody-content {
+.version-3-8 #wpbody-content {
 padding-bottom: 90px !important;
+width: 100% !important;
+}
+#wpbody-content {
+padding-bottom: 60px !important;
 width: 76% !important;
+}
+@media screen and (max-width: 600px) {
+.version-3-8 #wpbody {
+padding-top: 5px !important;
+}
+}
+#wp-cta-change-template-button {
+	padding: 6px 6px;
 }
 #submitdiv .handlediv , #submitdiv .hndle {
 	display: none !important;
 }
+.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+margin: 5px 0 0px !important;
+}
 #publishing-action {
 text-align: center !important;
-float: none !important;}
+float: none !important;
+margin-bottom: 15px;
+line-height: 32px; }
 #minor-publishing-actions input, #major-publishing-actions input, #minor-publishing-actions .preview {
 text-align: center !important;
 width: 280px !important;
@@ -44,9 +45,12 @@ height: 44px !important;
 font-size: 17px !important;
 }
 #major-publishing-actions {
-padding: 15px 10px 15px !important;}
+padding: 10px 10px 10px !important;}
 .select2-container {
 	min-width: 100% !important;
+}
+.inbound-meta-box-option.inbound-media-option input[type=text] {
+width: 100%;
 }
 #submitdiv {
 	position: fixed !important;
@@ -58,36 +62,8 @@ padding-bottom: 10px !important;
 margin-bottom: 0px !important;
 
 }
-#wp_cta_metabox_select_template {
-	margin-left: -10px !important;
-}
-.inbound-wysiwyg-row {
-	padding-left: 0px !important;
-margin-left: -15px !important;
-}
-.inbound-wysiwyg-option, .inbound-textarea-option {
-width: 106% !important;
-}
-.inbound-media-row .button-primary.new-save-wp-cta, .inbound-media-row .wp-cta-success-message {
-position: initial !important;}
-.wp_themeSkin .mceStatusbar.mceFirst.mceLast {
-width: 90% !important;
-}
-.inbound-description-block-option {
-	max-width: 100% !important;
-}
-.inbound-wysiwyg-row .wp-cta-success-message {
-margin-right: 10px !important;
-text-align: center;
-display: inline-block !important;
-}
-.inbound-meta-box-label {
-	width: 80% !important;
-	display: block !important;
-}
-.inbound-wysiwyg {
-padding-left: 10px;
-padding-bottom: 5px;
+.version-3-8 #submitdiv {
+	margin-left: -20px !important;
 }
 .jPicker .Grid {
 	display: none;
@@ -113,6 +89,16 @@ width: 254px;
 .jPicker hr {
 	display: none !important;
 }
+.inbound-meta-box-option.inbound-datepicker-option span{
+display: block;
+}
+.inbound-meta-box-option.inbound-datepicker-option input {
+	width: 70%;
+}
+#wp-cta-notes-area input {
+
+padding-bottom: 0px;
+}
 table.jPicker {
 width: 430px !important;}
 @media only screen and (max-width: 600px) {
@@ -126,6 +112,11 @@ width: 600px;
 position: fixed !important;
 }
 }
+@media screen and (max-width: 782px) {
+#wp-content-editor-tools {
+overflow: hidden;
+padding: 0px 15px 1px 0; }
+}
 ul#template-filter {
 	clear: both !important;
 margin: 0px 0;
@@ -133,7 +124,7 @@ padding: 0;
 padding-left: 0px;
 line-height: 28px;
 }
-#wp_cta-cancel-selection {
+#wp-cta-cancel-selection {
 display: block;
 float: none;
 width: 70%;
@@ -152,45 +143,32 @@ padding-top: 0px;
 margin: 0px;
 line-height: 20px;
 }
-.wp_cta-selection-heading h1 {
+.wp-cta-selection-heading h1 {
 	font-size: 18px;
 	display: block;
 	text-align: center;
 }
-.wp-editor-container {
-border-right-color: transparent !important;
+.inbound-meta-box-label {
+width: 100% !important;
+display: block !important;
+margin-bottom: 5px;
+}
+.inbound-wysiwyg-option, .inbound-textarea-option {
+width: 106% !important; }
+.inbound-wysiwyg-option {
+margin-left: -17px !important;
 }
 .mceIframeContainer.mceFirst.mceLast iframe {
 	width: 90% !important;
 }
-.wp-cta-selection-heading h1 {
-font-size: 18px;
-display: block;
-text-align: center;
+#lp_metabox_select_template {
+margin-left: -10px !important;
 }
-#wp-cta-cancel-selection {
-display: block;
-float: none;
-width: 70%;
-text-align: center;
-margin: auto;
-margin-bottom: 10px;
-margin-top: 10px;
+.wp-editor-container {
+border-right-color: transparent !important;
 }
 .wp-media-buttons .insert-media {
 margin-left: 15px !important;
-}
-.wp-cta-option-area {
-display: inline-block;
-width: 75% !important;
-}
-.wp_cta_label {
-
-width: 80% !important;
-vertical-align: top;
-padding-top: 8px;
-margin-left: 3px !important;
-display: block;
 }
 #inbound-shortcodes-preview-wrap {
 	display: none !important;
@@ -220,3 +198,6 @@ width: 100% !important;
 }
 #inbound_insert_shortcode_two, #shortcode_cancel, #inbound_save_form {
 margin-bottom: 10px !important; }
+.inbound-description-block-option {
+max-width: 100% !important;
+}
