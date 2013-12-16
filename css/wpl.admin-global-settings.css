@@ -16,7 +16,7 @@
 }
 
 .nav-tab-special-active{
-	border-color: #DFDFDF #DFDFDF #FFFFFF !important;
+	border-color: #DFDFDF #DFDFDF transparent !important;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border-width: 1px 1px 1px;
@@ -29,14 +29,17 @@
     text-decoration: none;
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
-    background: white;
+   background: rgba(241,241,241, 1) !important;
 
 }
 
 .wpl-tab-display textarea {
     width:480px;
 }
-
+.nav-tab-wrapper {
+margin-left: -20px;
+padding-left: 33px !important;
+}
 .wpl-tab-display {
     width: 70%;
 }

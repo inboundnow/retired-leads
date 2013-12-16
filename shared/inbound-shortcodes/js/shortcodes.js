@@ -452,7 +452,7 @@
 					InboundShortcodes.update_fields();
 				});
 				jQuery("body").on('click', '.switch-to-form-insert', function () {
-					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
+					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900 + "&path=" + inbound_load.image_dir);
 				 });
 			}
 			if (shortcode_name === 'insert_button_shortcode' || shortcode_name === 'insert_styled_list_shortcode'){
@@ -510,7 +510,7 @@
 				jQuery("#inbound_insert_shortcode_two").addClass('quick-forms');
 
 				jQuery("body").on('click', '.switch-to-form-builder', function () {
-					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=forms&width=' + 900);
+					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=forms&width=' + 900 + "&path=" + inbound_load.image_dir);
 				 });
 
 				jQuery('#inbound_shortcode_insert_default option').each(function(){
