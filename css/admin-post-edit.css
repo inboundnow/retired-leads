@@ -54,8 +54,8 @@ margin-left: 10px;
 	display: inline-block;
 	width: 60%;
 }
-#page-cat-tag {
-display: none;
+#page-cat-tag, .calc.button-secondary {
+display: none !important;
 }
 .calc.button-secondary {
 	display: inline-block;
