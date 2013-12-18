@@ -66,6 +66,11 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 
 == Changelog ==
 
+= 1.2.3 =
+* Bug fixes for form creation issues
+* Bug fixes for safari page tracking not firing
+* Added quick menu to WP admin bar for quicker marketing!
+
 = 1.2.2 =
 * Updated: Styles for WordPress 3.8
 
