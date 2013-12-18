@@ -16,19 +16,15 @@ $test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbou
 
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 	// SET CORRECT FILE PATHS FOR SCRIPTS
-	$file_path = html_entity_decode( trim( $_GET['path'] ) );
-	if ((preg_match("/landing-pages/i", $file_path))) {
+	if ( defined( 'WPL_URL' )) {
+	   $final_path = WPL_URL . "/";
+	} else if (defined( 'LANDINGPAGES_URLPATH' )){
 		$final_path = LANDINGPAGES_URLPATH;
-	}
-	else if (preg_match("/leads/i", $file_path)) {
-	 	$final_path = WPL_URL . "/";
-	}
-	else if (preg_match("/cta/i", $file_path)) {
+	} else if (defined( 'WP_CTA_URLPATH' )){
 		$final_path = WP_CTA_URLPATH;
 	} else {
-		$final_path = "";
+		$final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
 	}
-
 /* HTML MATCHES */
 // $test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
 // preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);
@@ -135,6 +131,7 @@ display: none;
 			</style>
 		</head>
 		<body>
+
 			<div id="close-preview-window"><a href="javascript:window.close()" class="close_window">close window</a></div>
 			<span class="disclaimer"><strong>Note:</strong> Previews aren't always exactly what they will look like on your page. Sometimes other styles can interfere</span>
 			<?php echo $horiz;
