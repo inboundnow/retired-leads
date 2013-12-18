@@ -1,6 +1,8 @@
 <?php
 /* Inbound Now Menu Class */
-
+if ( ! defined( 'LANDINGPAGES_TEXT_DOMAIN' ) ) {
+  define('LANDINGPAGES_TEXT_DOMAIN', 'landing-pages' );
+}
 if (!class_exists('InboundMenu')) {
   class InboundMenu {
     static $add_menu;
@@ -40,12 +42,12 @@ if (!class_exists('InboundMenu')) {
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('landing-pages/landing-pages.php')) {
           $landing_page_status = TRUE;
           $landing_page_version_number = defined( 'LANDINGPAGES_CURRENT_VERSION' ) ? 'v' . LANDINGPAGES_CURRENT_VERSION : '';
+
         }
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
           $cta_status = TRUE;
           $cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
         }
-
 
         if ( $leads_status == FALSE && $landing_page_status == FALSE && $cta_status == FALSE  ) {
 
@@ -101,6 +103,7 @@ if (!class_exists('InboundMenu')) {
         $inboundsitesextensions = $prefix . 'inboundsitesextensions';   // third level: edd extensions
         $landingpages_menu = $prefix . 'landingpages';
         $cta_menu = $prefix . 'cta';
+        $leads_menu = $prefix . 'leads';
         $form_menu = $prefix . 'inboundforms';
         $settings_menu = $prefix . 'inboundsettings';
         $templates_menu = $prefix . 'inboundtemplates';
@@ -124,7 +127,7 @@ if (!class_exists('InboundMenu')) {
         $eddtb_go_button = '<input type="submit" value="' . __( 'GO', 'edd-toolbar' ) . '" class="eddtb-search-go"  /></form>';
 
         /** Show these items only if Inbound Now plugin is actually installed */
-        if ( $leads_status == TRUE || $landing_page_status == TRUE || $cta_status == FALSE ) {
+        if ( $leads_status == TRUE || $landing_page_status == TRUE || $cta_status == TRUE ) {
 
           /** Set EDD active variable for later user */
           $edd_active = 'edd_is_active';
@@ -148,7 +151,7 @@ if (!class_exists('InboundMenu')) {
               'parent' => $landingpages_menu,
               'title'  => __( 'Add New Landing Page', LANDINGPAGES_TEXT_DOMAIN ),
               'href'   => admin_url( 'post-new.php?post_type=landing-page' ),
-              'meta'   => array( 'target' => '', 'title' => __( 'Add new Download', 'edd-toolbar' ) )
+              'meta'   => array( 'target' => '', 'title' => __( 'Add new Landing Page', 'edd-toolbar' ) )
             );
 
             $menu_items['landingpages-categories'] = array(
@@ -204,11 +207,34 @@ if (!class_exists('InboundMenu')) {
                 'meta'   => array( 'target' => '', 'title' => __( 'Manage Call to Action Settings', 'edd-toolbar' ) )
               );
             }
-      //
+
           }
 
-          /** EDD admin settings sections */
+          /** admin settings sections */
           if ( current_user_can( 'manage_options' )) {
+            // Leads Menu
+            if ($leads_status) {
+            $menu_items['leads'] = array(
+                'parent' => $inboundbar,
+                'title'  => __( 'Leads', 'edd-toolbar' ),
+                'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
+                'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'edd-toolbar' ) )
+            );
+              $menu_items['leads-view'] = array(
+                  'parent' => $leads_menu,
+                  'title'  => __( 'View All Leads', LANDINGPAGES_TEXT_DOMAIN ),
+                  'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
+                  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'edd-toolbar' ) )
+                );
+              $menu_items['leads-add'] = array(
+                'parent' => $leads_menu,
+                'title'  => __( 'Manually Create New Lead', LANDINGPAGES_TEXT_DOMAIN ),
+                'href'   => admin_url( 'post-new.php?post_type=wp-lead' ),
+                'meta'   => array( 'target' => '', 'title' => __( 'Add new lead', 'edd-toolbar' ) )
+              );
+            }
+
+
             $menu_items['inboundforms'] = array(
                 'parent' => $inboundbar,
                 'title'  => __( 'Manage Forms', 'edd-toolbar' ),
@@ -326,6 +352,15 @@ if (!class_exists('InboundMenu')) {
               'href'   => '#',
               'meta'   => array( 'target' => '', 'title' => __( 'Analytics (coming soon)', 'edd-toolbar' ) )
             );
+
+            if (function_exists( 'is_plugin_active' ) && is_plugin_active('wordpress-seo/wp-seo.php')) {
+              $menu_items['inboundseo'] = array(
+                'parent' => $inboundbar,
+                'title'  => __( 'SEO by Yoast', 'edd-toolbar' ),
+                'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
+                'meta'   => array( 'target' => '', 'title' => __( 'Manage SEO Settings', 'edd-toolbar' ) )
+              );
+            }
 
             $inboundsecondary_menu_items['inboundsupport'] = array(
               'parent' => $inboundgroup,
@@ -547,7 +582,15 @@ if (!class_exists('InboundMenu')) {
       if ( ! is_admin_bar_showing() || ! is_user_logged_in() ) {
         return;
       }
-
+      if ( defined( 'WPL_URL' )) {
+         $final_path = WPL_URL . "/";
+      } else if (defined( 'LANDINGPAGES_URLPATH' )){
+        $final_path = LANDINGPAGES_URLPATH;
+      } else if (defined( 'WP_CTA_URLPATH' )){
+        $final_path = WP_CTA_URLPATH;
+      } else {
+        $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
+      }
       ?>
     <script type="text/javascript">
     /* <![CDATA[ */
@@ -560,7 +603,7 @@ if (!class_exists('InboundMenu')) {
         #wpadminbar.nojs .ab-top-menu > li.menupop.icon-edd > .ab-item,
         #wpadminbar .ab-top-menu > li.menupop.icon-edd > .ab-item {
 
-              background-image: url(http://glocal.dev/wp-content/plugins/leads/shared/inbound-shortcodes/shortcodes-blue.png);
+          background-image: url(<?php echo $final_path . 'shared/inbound-shortcodes/shortcodes-blue.png';?>);
 
           background-repeat: no-repeat;
           background-position: 0.15em 50%;
@@ -595,6 +638,80 @@ if (!class_exists('InboundMenu')) {
                   border-radius: 11px;
           font-size: 0.67em;
           margin: 0 0 0 2px;
+        }
+        @font-face {
+          font-family: 'FontAwesome';
+          src: url('<?php echo $final_path . "shared/fonts/fontawesome/fontawesome-webfont.eot";?>');
+          src: url('<?php echo $final_path . "shared/fonts/fontawesome/fontawesome-webfont.eot";?>') format('embedded-opentype'),
+          url('<?php echo $final_path . "shared/fonts/fontawesome/fontawesome-webfont.woff?v=3.0.2"?>') format('woff'),
+          url('<?php echo $final_path . "shared/fonts/fontawesome/fontawesome-webfont.ttf?v=3.0.2"?>') format('truetype');
+          font-weight: normal;
+          font-style: normal;
+        }
+        #wp-admin-bar-inbound-cta a:first-child, #wp-admin-bar-inbound-inboundtemplates .ab-item.ab-empty-item, #wp-admin-bar-inbound-inboundsettings .ab-item.ab-empty-item, #wp-admin-bar-inbound-inboundreports a:first-child {
+          padding-left: 30px;
+        }
+        #wp-admin-bar-inbound-inboundtemplates .ab-item.ab-empty-item:hover, #wp-admin-bar-inbound-inboundsettings .ab-item.ab-empty-item:hover {
+          color: #2ea2cc;
+        }
+        #wp-admin-bar-inbound-leads a:first-child, #wp-admin-bar-inbound-inboundseo a:first-child {
+          padding-left: 31px;
+        }
+        #wp-admin-bar-inbound-landingpages a:first-child, #wp-admin-bar-inbound-inboundforms a:first-child{
+          padding-left: 31px;
+        }
+        #wp-admin-bar-inbound-cta .ab-submenu a, #wp-admin-bar-inbound-leads .ab-submenu a,  #wp-admin-bar-inbound-landingpages .ab-submenu a , #wp-admin-bar-inbound-inboundforms .ab-submenu a, #wp-admin-bar-inbound-inboundtemplates .ab-submenu a,  #wp-admin-bar-inbound-inboundreports .ab-submenu a, #wp-admin-bar-inbound-inboundseo .ab-submenu a{
+          padding-left: 10px;
+        }
+         #wp-admin-bar-inbound-cta:before, #wp-admin-bar-inbound-leads:before, #wp-admin-bar-inbound-landingpages:before, #wp-admin-bar-inbound-inboundforms:before, #wp-admin-bar-inbound-inboundtemplates:before, #wp-admin-bar-inbound-inboundsettings:before, #wp-admin-bar-inbound-inboundreports:before, #wp-admin-bar-inbound-inboundseo:before  {
+          font-family: "FontAwesome" !important;
+          content: "\f05b" !important;
+          font: 100 19px/1 "FontAwesome" !important;
+          padding-top: 4px;
+          width: 30px;
+          display: inline-block;
+          height: 30px;
+          position: absolute;
+          left: 6px;
+        }
+        #wp-admin-bar-inbound-leads:before {
+          content: "\f0c0" !important;
+          font: 100 17px/1 "FontAwesome" !important;
+        }
+        #wp-admin-bar-inbound-landingpages:before {
+          content: "\f15c" !important;
+          left: 7px;
+          font-size: 21px !important;
+          }
+        #wp-admin-bar-inbound-inboundforms:before {
+            font: 400 18px/1 dashicons!important;
+            content: "\f163" !important;
+          }
+        #wp-admin-bar-inbound-inboundtemplates:before {
+            content: "\f0c5" !important;
+            font-size: 18px !important;
+          }
+        #wp-admin-bar-inbound-inboundsettings:before {
+          content: "\f013" !important;
+          left: 7px !important;
+        }
+        #wp-admin-bar-inbound-inboundreports:before {
+          content: "\f012" !important;
+          font-size: 17px !important;
+        }
+        #wp-admin-bar-inbound-inboundseo:before {
+          content: "\f002" !important;
+          font-size: 17px !important;
+        }
+        #wp-admin-bar-inbound-cta a {
+          vertical-align: top;
+        }
+        #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
+          font-family: "FontAwesome" !important;
+          content: "\f05b";
+          font: 400 24px/1 "FontAwesome" !important;
+          padding-top: 6px;
+
         }
       </style>
    <?php }
