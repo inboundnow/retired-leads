@@ -329,7 +329,7 @@ ul.social-links li a:hover{
 /* Call Out
  * ----------------------------------------------------- */
 .callout{
-    background: #f2f2f2 url('images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
        -moz-box-shadow: inset 1px 1px 1px #f9f9f9;
@@ -426,7 +426,7 @@ ul.tabs-nav li:last-child{
     margin-bottom: 20px
 }
 .accordion .pane-title{
-    background: #f2f2f2 url('images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
        -moz-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
@@ -483,7 +483,7 @@ ul.tabs-nav li:last-child{
     margin: 0 0 20px;
 }
 .fancy-quote .quote-text{
-    background: #f2f2f2 url('images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
        -moz-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
@@ -546,7 +546,7 @@ ul.tabs-nav li:last-child{
     margin-left: -1px;
 }
 .pricing .plan-header{
-    background: #f2f2f2 url('images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
     border-bottom: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3);
        -moz-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3);
@@ -709,7 +709,7 @@ ul.tabs-nav li:last-child{
 /* Content Box
  * ----------------------------------------------------- */
 .content-box{
-    background: #f2f2f2 url('images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
        -moz-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);

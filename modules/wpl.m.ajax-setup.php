@@ -20,7 +20,7 @@ function wpl_track_user_callback()
 		wp_leads_update_page_view_obj($lead_id, $page_id, $current_url);
 	}
 
-	/* Old non logged in tracking. This updates tracking table. We might need the table in future. */
+	/* Old non logged in tracking. This updates tracking table. We might need the table in future.
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s", $time);
 
@@ -51,6 +51,7 @@ function wpl_track_user_callback()
 	}
 
 	echo $row_id;
+	*/
 	die();
 
 }

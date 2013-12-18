@@ -29,7 +29,6 @@ function inbound_store_lead()
 	$data['phone'] = (isset($_POST['phone'])) ? $_POST['phone'] : false;
 	$data['address'] = (isset($_POST['address'])) ? $_POST['address'] : false;
 	$data['ip_address'] = (isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : false;
-	$data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : false;
 	$data['lp_id'] = (isset($_POST['lp_id'])) ? $_POST['lp_id'] : '0';
 	$data['post_type'] = (isset($_POST['post_type'])) ? $_POST['post_type'] : 'na';
 	$data['lp_variation'] = (isset($_POST['lp_variation'])) ? $_POST['lp_variation'] : 'default';
@@ -129,7 +128,7 @@ function inbound_store_lead()
 		(isset($geo_array['geoplugin_currencySymbol_UTF8'])) ? update_post_meta( $data['lead_id'], 'wpleads_currency_symbol', $geo_array['geoplugin_currencySymbol_UTF8'] ) : null;
 	}
 
-	/* Store Conversion Data */
+	/* Store Conversion Data to Lead */
 	$conversion_data = get_post_meta( $data['lead_id'], 'wpleads_conversion_data', TRUE );
 	$conversion_data = json_decode($conversion_data,true);
 	$variation = ($data['lp_variation'] != 'default') ? $data['lp_variation'] : '0';
@@ -148,6 +147,27 @@ function inbound_store_lead()
 	$data['conversion_data'] = json_encode($conversion_data);
 	update_post_meta($data['lead_id'],'wpl-lead-conversion-count', $c_count); // Store conversions count
 	update_post_meta($data['lead_id'], 'wpleads_conversion_data', $data['conversion_data']); // Store conversion object
+
+	/* Store Conversion Data to LANDING PAGE/CTA DATA  */
+	if ($data['post_type'] == 'landing-page' || $data['post_type'] == 'wp-call-to-action'){
+	$page_conversion_data = get_post_meta( $data['lp_id'], 'inbound_conversion_data', TRUE );
+	$page_conversion_data = json_decode($page_conversion_data,true);
+	$version = ($data['lp_variation'] != 'default') ? $data['lp_variation'] : '0';
+	if (is_array($page_conversion_data)){
+		$convert_count = count($page_conversion_data) + 1;
+		$page_conversion_data[$convert_count]['lead_id'] = $data['lead_id'];
+		$page_conversion_data[$convert_count]['variation'] = $version;
+		$page_conversion_data[$convert_count]['datetime'] = $data['wordpress_date_time'];
+	} else {
+		$convert_count = 1;
+		$page_conversion_data[$convert_count]['lead_id'] = $data['lead_id'];
+		$page_conversion_data[$convert_count]['variation'] = $version;
+		$page_conversion_data[$convert_count]['datetime'] = $data['wordpress_date_time'];
+	}
+	$page_conversion_data = json_encode($page_conversion_data);
+	update_post_meta($data['lp_id'], 'inbound_conversion_data', $page_conversion_data);
+	}
+	// END LANDING PAGE/CTA DATA
 
 	/* Store page views for page tracking off */
 	$page_tracking_status = get_option('wpl-main-page-view-tracking', 1);

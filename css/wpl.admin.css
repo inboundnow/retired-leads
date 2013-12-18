@@ -446,7 +446,7 @@ h2 .nav-tab {
 }
 
 #wpleads_main_container, #lead-websites, #lead-demographics, #lead-topics {
-width: 60%;
+
 display: inline-block;
 vertical-align: top;
 float: left;
@@ -461,10 +461,6 @@ padding-left: 28px;
 	float: left;
 	width: 75%;
 	position: relative;
-}
-
-#wpleads_main_container {
-	width: 400px;
 }
 
 #lead-websites, #lead-demographics, #lead-topics {
