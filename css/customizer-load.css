@@ -1,4 +1,4 @@
-.wp-cta-customizer-overlay 
+.wp-cta-customizer-overlay
 {
 	position: absolute;
 	z-index: 999999;
@@ -22,7 +22,7 @@
 html {
 margin-top: 0px !important;
 }
-.live-preview-active 
+.live-preview-active
 {
 	background-color: gray;
 	background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
@@ -34,7 +34,7 @@ margin-top: 0px !important;
 				color:#000000 !important;
 			}
 			.live-preview-active {
-				background: rgba(253, 253, 252, 1) url('/wp-content/plugins/wp-call-to-actions/images/gradient.png') repeat-x top left;
+				background: rgba(253, 253, 252, 1);
 				border-radius: 0px;
 				padding: 0px;
 				outline: 2px dashed rgb(255, 0, 0);
@@ -43,7 +43,7 @@ margin-top: 0px !important;
 				box-shadow:        0px 0px 35px rgba(50, 50, 50, 1);
 				z-index: 99999999;
 			}
-				
+
 			.small-html {
 				height: 200%;
 				border: 0;
@@ -51,7 +51,7 @@ margin-top: 0px !important;
 				top: 0;
 				left: 0;
 				background-color: #eee;
-				
+
 				-webkit-transform: scale(.8);
 				-moz-transform: scale(0.8);
 				-ms-transform: scale(0.8);

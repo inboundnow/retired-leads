@@ -579,7 +579,7 @@ $wp_cta_per_post_options = array(
         'id'  => 'wp_cta_content_placement' . $var_id,
         'type'  => 'dropdown',
         'default'  => 'off',
-        'options' => array( 'off' => 'Select where you want to Call to Action',
+        'options' => array( 'off' => 'Call to Action Off',
         					'above'=>'Above Content',
         					'middle' => 'Middle of Content',
         					'below' => 'Below Content',
@@ -708,7 +708,7 @@ $wp_cta_per_post_options = array(
        ),
     array(
         'label' => 'shortcode Message',
-        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>To use a shortcode to display your Call to Action. Insert the <input type='text' style='width:94px;' class='regular-text code' readonly='readonly' value='[insert_cta]'> shortcode in the content above.</p><p><b>OR</b> Click on the power button icon <span class='inbound-power'></span> in the editor above and select 'Insert Call to Action', this option will use different CTAs ids than the ones selected in this metabox</p></div>",
+        'description' => "<div style='margin-top:10px; margin-left:10px;'><p>To use a shortcode to display your Call to Action. Insert the <input type='text' style='width:112px;' class='regular-text code' readonly='readonly' value='[insert_cta]'> shortcode in the content above.</p><p><b>OR</b> Click on the power button icon <span class='inbound-power'></span> in the editor above and select 'Insert Call to Action', this option will use different CTAs ids than the ones selected in this metabox</p></div>",
         'id'  => 'shortcode_message' . $var_id,
         'type'  => 'html-block',
         'default'  => '',
@@ -804,9 +804,8 @@ function wp_cta_display_metabox() {
 	'post_type'=> 'wp-call-to-action');
 	$cta_list = get_posts($args);
 	$cta_display_list = get_post_meta($post->ID ,'cta_display_list', true);
-	($cta_display_list != '') ? $cta_display_list = $cta_display_list : $cta_display_list = array();
-	?>
-
+	$cta_display_list = ($cta_display_list != '') ? $cta_display_list : array();
+?>
 <script type="text/javascript">
 jQuery(document).ready(function($)
 {
@@ -855,9 +854,14 @@ jQuery(document).ready(function($)
 	}
 	.cta-options-label {
 		width: 190px;
+
+		display: inline-block;
+		vertical-align: top;
+		padding-top: 20px;
 	}
 	.cta-options-row {
-
+	width: 65%;
+	display: inline-block;
 	}
 	.cta-select-preview-link {
 		font-size: 10px;
@@ -873,49 +877,38 @@ jQuery(document).ready(function($)
 </style>
 <div class='wp_cta_select_display'>
 	<div class="inside">
-		<table>
+		<div class="wp-cta-option-row">
+			<div class='cta-options-label'>
+				<label for=keyword>
+				Call to Action Template
+				</label>
+			</div>
+			<div class='cta-options-row'>
+			<?php
+			 foreach ( $cta_list as $cta ) {
+				$this_id = $cta->ID;
+				$this_link = get_permalink( $this_id );
+				$this_link = preg_replace('/\?.*/', '', $this_link); ?>
 
-			<tr>
-				<td class='cta-options-label'>
-					<label for=keyword>
-					Call to Action Template
-					</label>
-				</td>
-				<td class='cta-options-row'>
-				<?php
-				 foreach ( $cta_list as $cta  )
-				{
-					$this_id = $cta->ID;
-					$this_link = get_permalink( $this_id );
-					$this_link = preg_replace('/\?.*/', '', $this_link);
-					?>
+				<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 
-					<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
-					<?php
-				}
-				?>
-				<select multiple name='cta_display_list[]' id="cta_template_selection" style='display:none;'>
-				<?php
-				foreach ( $cta_list as $cta  )
-				{
-					$this_id = $cta->ID;
-					$this_link = get_permalink( $this_id );
-					$title = $cta->post_title;
-					 (in_array($this_id, $cta_display_list)) ? $selected = " selected='selected'" : $selected ="";
+			<?php } ?>
+			<select multiple name='cta_display_list[]' id="cta_template_selection" style='display:none;'>
+			<?php
+			foreach ( $cta_list as $cta  ) {
+				$this_id = $cta->ID;
+				$this_link = get_permalink( $this_id );
+				$title = $cta->post_title;
+				$selected = (in_array($this_id, $cta_display_list)) ? " selected='selected'" : "";
 
-						echo '<option', $selected, ' value="'.$this_id.'" rel="work?" >'.$title.'</option>';
+				echo '<option', $selected, ' value="'.$this_id.'" rel="work?" >'.$title.'</option>';
 
-				 }
-
-				?>
-				</select><br /><span class="description">Click to select call to action templates</span>
-				</td>
-			</tr>
-
-		</table>
+			} ?>
+			</select><br /><span class="description">Click the above select box to select call to action templates to insert</span>
+			</div>
+		</div>
 	</div>
 </div>
-
 
 	<?php
 }

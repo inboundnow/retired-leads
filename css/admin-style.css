@@ -7,6 +7,64 @@
 	font-weight: normal;
 	font-style: normal;
 }
+#wp-admin-bar-inbound-cta a:first-child, #wp-admin-bar-inbound-inboundtemplates .ab-item.ab-empty-item, #wp-admin-bar-inbound-inboundsettings .ab-item.ab-empty-item, #wp-admin-bar-inbound-inboundreports a:first-child {
+	padding-left: 30px;
+}
+#wp-admin-bar-inbound-inboundtemplates .ab-item.ab-empty-item:hover, #wp-admin-bar-inbound-inboundsettings .ab-item.ab-empty-item:hover {
+	color: #2ea2cc;
+}
+#wp-admin-bar-inbound-leads a:first-child, #wp-admin-bar-inbound-inboundseo a:first-child {
+	padding-left: 31px;
+}
+#wp-admin-bar-inbound-landingpages a:first-child, #wp-admin-bar-inbound-inboundforms a:first-child{
+	padding-left: 31px;
+}
+#wp-admin-bar-inbound-cta .ab-submenu a, #wp-admin-bar-inbound-leads .ab-submenu a,  #wp-admin-bar-inbound-landingpages .ab-submenu a , #wp-admin-bar-inbound-inboundforms .ab-submenu a, #wp-admin-bar-inbound-inboundtemplates .ab-submenu a,  #wp-admin-bar-inbound-inboundreports .ab-submenu a, #wp-admin-bar-inbound-inboundseo .ab-submenu a{
+	padding-left: 10px;
+}
+ #wp-admin-bar-inbound-cta:before, #wp-admin-bar-inbound-leads:before, #wp-admin-bar-inbound-landingpages:before, #wp-admin-bar-inbound-inboundforms:before, #wp-admin-bar-inbound-inboundtemplates:before, #wp-admin-bar-inbound-inboundsettings:before, #wp-admin-bar-inbound-inboundreports:before, #wp-admin-bar-inbound-inboundseo:before  {
+	font-family: "FontAwesome" !important;
+	content: "\f05b" !important;
+	font: 100 19px/1 "FontAwesome" !important;
+	padding-top: 4px;
+	width: 30px;
+	display: inline-block;
+	height: 30px;
+	position: absolute;
+	left: 6px;
+}
+#wp-admin-bar-inbound-leads:before {
+	content: "\f0c0" !important;
+	font: 100 17px/1 "FontAwesome" !important;
+}
+#wp-admin-bar-inbound-landingpages:before {
+	content: "\f15c" !important;
+	left: 7px;
+	font-size: 21px !important;
+	}
+#wp-admin-bar-inbound-inboundforms:before {
+		font: 400 18px/1 dashicons!important;
+		content: "\f163" !important;
+	}
+#wp-admin-bar-inbound-inboundtemplates:before {
+		content: "\f0c5" !important;
+		font-size: 18px !important;
+	}
+#wp-admin-bar-inbound-inboundsettings:before {
+	content: "\f013" !important;
+	left: 7px !important;
+}
+#wp-admin-bar-inbound-inboundreports:before {
+	content: "\f012" !important;
+	font-size: 17px !important;
+}
+#wp-admin-bar-inbound-inboundseo:before {
+	content: "\f002" !important;
+	font-size: 17px !important;
+}
+#wp-admin-bar-inbound-cta a {
+	vertical-align: top;
+}
 #adminmenu .menu-icon-wp-call-to-action div.wp-menu-image:before {
 	font-family: "FontAwesome" !important;
 	content: "\f05b";
