@@ -64,6 +64,7 @@ if (!class_exists('InboundFeedback')) {
           $email = (isset($_POST['email'])) ? $_POST['email'] : 'anonymous';
           $feedback= $_POST['feedback'];
           $page = $_POST['page'];
+          $plugin = (isset($_POST['plugin'])) ? $_POST['plugin'] : 'na';
 
           $context = array(
                   'hutk' => 'anonymous',
@@ -75,6 +76,7 @@ if (!class_exists('InboundFeedback')) {
           //Need to populate these varilables with values from the form.
           $str_post2 = "message=" . urlencode($feedback)
                       . "&email=" . urlencode($email)
+                      . "&plugin=" . urlencode($plugin)
                       . "&page=" . urlencode($page)
                       . "&hs_context=" . urlencode($context_json);
           $endpoint2 = 'https://forms.hubspot.com/uploads/form/v2/24784/4c6efedd-40b4-438e-bb4c-050a1944c974';
@@ -112,6 +114,24 @@ if (!class_exists('InboundFeedback')) {
                           "wp-call-to-action_page_wp_cta_manage_templates",
                           "wp-call-to-action_page_wp_cta_global_settings"
                         );
+      $lp_page_array = array("edit-landing-page",
+                          "landing-page_page_lp_global_settings",
+                          "landing-page",
+                          "landing-page_page_lp_manage_templates",
+                          "edit-landing_page_category"
+                        );
+      $leads_page_array = array("wp-lead",
+                          "edit-wp-lead",
+                          "edit-list",
+                          "wp-lead_page_wpleads_global_settings",
+                        );
+      $cta_page_array = array(
+                          "edit-wp-call-to-action",
+                          "wp-call-to-action",
+                          "edit-wp_call_to_action_category",
+                          "wp-call-to-action_page_wp_cta_manage_templates",
+                          "wp-call-to-action_page_wp_cta_global_settings"
+                        );
       if (!in_array($screen->id, $show_array))
                return; // exit if not an inbound now plugin screen
       if ( defined( 'WPL_URL' )) {
@@ -123,6 +143,14 @@ if (!class_exists('InboundFeedback')) {
       } else {
         $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
       }
+      $plugin_name = "Inbound Now Marketing Plugins"; // default
+      if (in_array($screen->id, $lp_page_array)) {
+          $plugin_name = "Landing Pages plugin";
+      } else if (in_array($screen->id, $cta_page_array)) {
+          $plugin_name = "Calls to Action plugin";
+      } else if (in_array($screen->id, $leads_page_array)) {
+          $plugin_name = "Leads Pages plugin";
+      }
 
       ?>
     <div id="launch-feedback" style='z-index:9999999999999; background:gray; position:fixed; bottom:0px; right:20px; width:200px; height:30px;'>
@@ -130,8 +158,9 @@ if (!class_exists('InboundFeedback')) {
     <div class="inbound-close-fb">close</div>
           <div id="lp-slide-toggle">
           <header id="header" class='inbound-customhead'>
-            <h3 style="font-size: 21px;">We love hearing from our users!</h3>
-            <h4>Please leave your idea to make the Inbound Now marketing plugins more useful!</h4>
+            <img src="<?php echo $final_path . 'shared/images/inbound-now-logo.png';?>" width="315px">
+            <h3 class="main-feedback-header" >We love hearing from You!</h3>
+            <h4>Please leave your <strong>idea/feature request</strong> to make the <?php echo $plugin_name;?> better below!</h4>
           </header>
           <section id="inbound-rules-main">
           <form accept-charset="UTF-8" method="POST" id="inbound-feedback">
@@ -156,12 +185,22 @@ if (!class_exists('InboundFeedback')) {
           <div id="inbound-rule-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
     </div>
     <style type="text/css">
+    .main-feedback-header {
+      font-size: 21px;
+      padding-top: 0px;
+      margin-top: 14px;
+      margin-bottom: 10px;
+      padding-bottom: 0px;
+    }
     .inbound-close-fb {
       font-size: 10px;
       position: absolute;
-      right: 10px;
-      top: 3px;
+      right: 5px;
+      top: -17px;
       cursor: pointer;
+    }
+    .inbound-customhead {
+      text-align: center;
     }
     #inbound-fb-request {
     background: #fff;
@@ -185,6 +224,12 @@ if (!class_exists('InboundFeedback')) {
     }
     #inbound-fb-request h4{
       padding-right: 5px;
+      text-align: left;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 22px;
+      margin-top: 13px;
+      margin-bottom: 7px;
     }
     .inbound-feedback-actions {
       text-align: center;
@@ -300,6 +345,7 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
                           feedback : feedback,
                           email: email,
                           page: document.title,
+                          plugin: "<?php echo $plugin_name;?>",
                           action: 'send_inbound_feedback'
                         },
                         success: function(user_id){
