@@ -4,11 +4,11 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/landing-pages/downloads/lead-management/
 Description: Wordpress Lead Manager provides CRM (Customer Relationship Management) applications for WordPress Landing Page plugin. Lead Manager Plugin provides a record management interface for viewing, editing, and exporting lead data collected by Landing Page Plugin.
 Author: Hudson Atwell(@atwellpub), David Wells (@inboundnow)
-Version: 1.2.0
+Version: 1.2.3
 Author URI: http://www.inboundnow.com/landing-pages/
 */
 
-define('LEADS_CURRENT_VERSION', '1.2.0' );
+define('LEADS_CURRENT_VERSION', '1.2.3' );
 define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -24,9 +24,15 @@ include_once('functions/wpl.f.global.php');
 
 include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 include_once('shared/classes/form.class.php');  // Mirrored forms
+include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
+
 include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
 include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating
+
+
+
+
 
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
@@ -51,6 +57,8 @@ if (is_admin())
 	include_once('functions/wpl.f.admin.php');
 	include_once('modules/wpl.m.global-settings.php');
 	include_once('modules/wpl.m.dashboard.php');
+
+
 
 
 }
@@ -177,8 +185,8 @@ function wpleads_enqueuescripts_header()
 			} else {
 				$final_page_id = $post_id;
 			}
-			wp_enqueue_script( 'wpl-nonconversion-tracking' , WPL_URL . '/js/wpl.nonconversion-tracking.js', array( 'jquery','jquery-cookie','funnel-tracking'));
-			wp_localize_script( 'wpl-nonconversion-tracking' , 'wplnct', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'final_page_id' => $final_page_id  ));
+			wp_enqueue_script( 'wpl-behavorial-tracking' , WPL_URL . '/js/wpl.behavorial-tracking.js', array( 'jquery','jquery-cookie','funnel-tracking'));
+			wp_localize_script( 'wpl-behavorial-tracking' , 'wplnct', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'final_page_id' => $final_page_id  ));
 		}
 
 		// Load form pre-population
@@ -212,7 +220,7 @@ function wpleads_admin_enqueuescripts($hook)
 
 	if (isset($_GET['taxonomy']))
 		return;
-
+	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
 		//echo $_GET['post_type'];exit;
@@ -242,6 +250,11 @@ function wpleads_admin_enqueuescripts($hook)
 		if ( $hook == 'post-new.php' )
 		{
 			wp_enqueue_script('wpleads-create-new-lead', WPL_URL . '/js/wpl.add-new.js');
+		}
+
+		if ( $hook == 'post.php' )
+		{
+			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
 
 

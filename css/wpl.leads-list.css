@@ -62,7 +62,7 @@ td.last-name {
 padding-top: 8px;
 }
 #cb {
-	width: 22px;
+	width: 30px;
 }
 #conversion-count {
 width: 77px;
@@ -84,9 +84,9 @@ border-left: 1px solid #EBEBEA;
 }
 .mark-viewed {
 	margin-left: 8px;
-font-size: 12px;
+
 }
-.edit a, .trash a, .clone a, .mark-viewed, .mark-viewed-undo {
+.edit a, .trash a, .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
 	background: #94BA65 url('/wp-content/plugins/leads/images/leads-button.png') repeat-x top left;
 border: 1px solid rgba(0,0,0,0.15);
 -webkit-border-radius: 2px;
@@ -100,8 +100,11 @@ cursor: pointer;
 display: inline-block;
 font-size: 14px;
 font-weight: bold;
-padding: 4px 5px;
+padding: 0px 5px;
 text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
+}
+.trash a:hover {
+border: 1px;
 }
 .edit a:hover, .trash a:hover, .clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover  {
 background-image: url('/wp-content/plugins/leads/images/gradhov.png');

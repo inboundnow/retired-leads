@@ -15,12 +15,20 @@ $test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbou
 
 
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
-
+	// SET CORRECT FILE PATHS FOR SCRIPTS
+	if ( defined( 'WPL_URL' )) {
+	   $final_path = WPL_URL . "/";
+	} else if (defined( 'LANDINGPAGES_URLPATH' )){
+		$final_path = LANDINGPAGES_URLPATH;
+	} else if (defined( 'WP_CTA_URLPATH' )){
+		$final_path = WP_CTA_URLPATH;
+	} else {
+		$final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
+	}
 /* HTML MATCHES */
-	//	$test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
-  // preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);
-
-	//preg_match_all('/'.$varname.'\s*?=\s*?(.*)\s*?(;|$)/msU',$shortcode,$matches);
+// $test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
+// preg_match_all('%\[inbound_form_test\s*(?:(layout)\s*=\s*(.*?))?\](.*?)\[/inbound_form_test\]%', $shortcode, $matches);
+// preg_match_all('/'.$varname.'\s*?=\s*?(.*)\s*?(;|$)/msU',$shortcode,$matches);
 
 
 $horiz = "";
@@ -40,7 +48,21 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Click to Prev
 	<head>
 	<link rel="stylesheet" type="text/css" href="../inbound-shortcodes/css/frontend-render.css" media="all" />
 
-<?php wp_head(); ?>
+<?php // FIX THESE AND ROLL SHARE TRACKING INTO SHARED
+
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script('jquery-cookie', $final_path . 'shared/js/jquery.cookie.js', array( 'jquery' ));
+		wp_register_script('jquery-total-storage',$final_path . 'shared/js/jquery.total-storage.min.js', array( 'jquery' ));
+		wp_enqueue_script( 'store-lead-ajax' , $final_path . 'shared/tracking/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'));
+		wp_enqueue_script( 'funnel-tracking' , $final_path . 'shared/tracking/page-tracking.js', array( 'jquery','jquery-cookie'));
+		wp_enqueue_script( 'store-lead-ajax' , $final_path . 'shared/tracking/js/store.lead.ajax.js', array( 'jquery','jquery-cookie'));
+		wp_localize_script( 'store-lead-ajax' , 'inbound_ajax', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'post_id' => '100000000', 'post_type' => 'page'));
+		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
+		wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => '100000000', 'ip_address' => $_SERVER['REMOTE_ADDR'], 'wp_lead_data' => null, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time));
+
+		wp_head();
+?>
 <style type="text/css">
 html {margin: 0 !important;}
 body {padding: 30px 15px;
@@ -109,6 +131,7 @@ display: none;
 			</style>
 		</head>
 		<body>
+
 			<div id="close-preview-window"><a href="javascript:window.close()" class="close_window">close window</a></div>
 			<span class="disclaimer"><strong>Note:</strong> Previews aren't always exactly what they will look like on your page. Sometimes other styles can interfere</span>
 			<?php echo $horiz;
@@ -138,7 +161,9 @@ display: none;
 			?>
 
 
-			<?php echo do_shortcode( $shortcode ); ?>
+			<?php
+
+			echo do_shortcode( $shortcode ); ?>
 
 			<?php // echo "<br>". $shortcode; ?>
 

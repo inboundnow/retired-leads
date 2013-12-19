@@ -44,7 +44,8 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 		init: function(ed, url) {
 			ed.addCommand('InboundShortcodesPopup', function(a, params) {
 				var popup = params.identifier;
-				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900);
+				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+
 			});
 		},
 		createControl: function(btn, e) {
@@ -61,7 +62,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 				// adds the dropdown to the button
 				btn.onRenderMenu.add(function(c, b) {
 					b.add({title : 'Inbound Form Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
-					a.addWithPopup( b, 'Inbound Form Builder', 'forms' );
+					a.addWithPopup( b, 'Build a Form', 'forms' );
 					a.addWithPopup( b, 'Quick Form Insert', 'quick-forms' );
 
 					if (cta_status > -1) {

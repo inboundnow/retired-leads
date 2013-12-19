@@ -29,7 +29,9 @@
 	padding-left: 42px;
 	padding-top: 20px;
 }
-
+#wplead_metabox_main {
+	background: none;
+}
 #last_touch_point {
 	padding-top: 15px;
 }
@@ -42,23 +44,7 @@
 	padding: 3px;
 }
 
-.nav-tab-special-active{
-	border-color: #DFDFDF #DFDFDF #FFFFFF !important;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-width: 1px 1px 1px;
-    color: #000;
-    display: inline-block;
-    font-size: 12px;
-    line-height: 16px;
-    margin: 0 6px -1px 0;
-    padding: 4px 14px 6px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #FFFFFF;
-	cursor:pointer;
-    background: white;
 
-}
 
 .map-active-class .map-this-text {
 	display: none;
@@ -443,10 +429,6 @@ h2 .nav-tab {
 	size:10px;
 }
 
-.inside
-{
-	background-color:#fff;
-}
 
 #wplead_metabox_conversion .inside {
 	background-color: transparent;
@@ -464,7 +446,7 @@ h2 .nav-tab {
 }
 
 #wpleads_main_container, #lead-websites, #lead-demographics, #lead-topics {
-width: 60%;
+
 display: inline-block;
 vertical-align: top;
 float: left;
@@ -479,10 +461,6 @@ padding-left: 28px;
 	float: left;
 	width: 75%;
 	position: relative;
-}
-
-#wpleads_main_container {
-	width: 400px;
 }
 
 #lead-websites, #lead-demographics, #lead-topics {
@@ -623,7 +601,7 @@ content: "";
 }
 
 .wpl-raw-data-td-value span, .lead-topic-tag {
-	background: #f2f2f2 url('/wp-content/plugins/leads/images/gradient.png') repeat-x top left;
+	background: #f2f2f2;
 	border: 1px solid #CECDCA;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
@@ -756,8 +734,8 @@ color: #858585;}
 	display: inline-block;
 	margin-top: -4px;
 }
-#side-sortables .inside {
-	background: #f5f5f5;
+#wplead-quick-stats-metabox .inside {
+	padding: 0px;
 }
 
 #last-conversion-box {

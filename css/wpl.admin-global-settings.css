@@ -16,7 +16,7 @@
 }
 
 .nav-tab-special-active{
-	border-color: #DFDFDF #DFDFDF #FFFFFF !important;
+	border-color: #DFDFDF #DFDFDF transparent !important;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border-width: 1px 1px 1px;
@@ -29,14 +29,17 @@
     text-decoration: none;
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
-    background: white;
+   background: rgba(241,241,241, 1) !important;
 
 }
 
 .wpl-tab-display textarea {
     width:480px;
 }
-
+.nav-tab-wrapper {
+margin-left: -20px;
+padding-left: 33px !important;
+}
 .wpl-tab-display {
     width: 70%;
 }
@@ -47,7 +50,7 @@
 }
 
 .wpl-sidebar-settings {
-    background: #f2f2f2 url('/wp-content/plugins/leads/css/images/gradient.png') repeat-x top left;
+    background: #f2f2f2;
 	border: 1px solid #EBEBEA;
 	-webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
 	-moz-box-shadow: inset 1px 1px 1px #f9f9f9;
@@ -58,7 +61,7 @@
 }
 
 .wpl-sidebar-settings .review-button {
-    background: #94BA65 url('/wp-content/plugins/leads/css/images/gradient.png') repeat-x top left;
+    background: #94BA65;
 	border: 1px solid rgba(0,0,0,0.15);
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
