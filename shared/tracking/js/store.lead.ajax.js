@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
 		var company = "";
 		var address = "";
 
-		var tracking_obj = JSON.stringify(trackObj);
+		var tracking_obj = "";
 		var page_view_count = countProperties(pageviewObj);
 		//console.log("view count" + page_view_count);
 
@@ -267,7 +267,7 @@ jQuery(document).ready(function($) {
 
 		e.preventDefault(); // halt normal form
 
-		var tracking_obj = JSON.stringify(trackObj);
+		var tracking_obj = "";
 		var page_view_count = countProperties(pageviewObj);
 		//console.log("view count" + page_view_count);
 
