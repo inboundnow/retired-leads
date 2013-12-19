@@ -157,115 +157,115 @@ function add_page_timeout(date, minutes) {
 
 /* Date Format 1.2.3 */
  var dateFormat = function () {
- 	var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
- 		timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
- 		timezoneClip = /[^-+\dA-Z]/g,
- 		pad = function (val, len) {
- 			val = String(val);
- 			len = len || 2;
- 			while (val.length < len) val = "0" + val;
- 			return val;
- 		};
+  var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+    timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+    timezoneClip = /[^-+\dA-Z]/g,
+    pad = function (val, len) {
+      val = String(val);
+      len = len || 2;
+      while (val.length < len) val = "0" + val;
+      return val;
+    };
 
- 	// Regexes and supporting functions are cached through closure
- 	return function (date, mask, utc) {
- 		var dF = dateFormat;
+  // Regexes and supporting functions are cached through closure
+  return function (date, mask, utc) {
+    var dF = dateFormat;
 
- 		// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
- 		if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
- 			mask = date;
- 			date = undefined;
- 		}
+    // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+    if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+      mask = date;
+      date = undefined;
+    }
 
- 		// Passing date through Date applies Date.parse, if necessary
- 		date = date ? new Date(date) : new Date;
- 		if (isNaN(date)) throw SyntaxError("invalid date");
+    // Passing date through Date applies Date.parse, if necessary
+    date = date ? new Date(date) : new Date;
+    if (isNaN(date)) throw SyntaxError("invalid date");
 
- 		mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+    mask = String(dF.masks[mask] || mask || dF.masks["default"]);
 
- 		// Allow setting the utc argument via the mask
- 		if (mask.slice(0, 4) == "UTC:") {
- 			mask = mask.slice(4);
- 			utc = true;
- 		}
+    // Allow setting the utc argument via the mask
+    if (mask.slice(0, 4) == "UTC:") {
+      mask = mask.slice(4);
+      utc = true;
+    }
 
- 		var	_ = utc ? "getUTC" : "get",
- 			d = date[_ + "Date"](),
- 			D = date[_ + "Day"](),
- 			m = date[_ + "Month"](),
- 			y = date[_ + "FullYear"](),
- 			H = date[_ + "Hours"](),
- 			M = date[_ + "Minutes"](),
- 			s = date[_ + "Seconds"](),
- 			L = date[_ + "Milliseconds"](),
- 			o = utc ? 0 : date.getTimezoneOffset(),
- 			flags = {
- 				d:    d,
- 				dd:   pad(d),
- 				ddd:  dF.i18n.dayNames[D],
- 				dddd: dF.i18n.dayNames[D + 7],
- 				m:    m + 1,
- 				mm:   pad(m + 1),
- 				mmm:  dF.i18n.monthNames[m],
- 				mmmm: dF.i18n.monthNames[m + 12],
- 				yy:   String(y).slice(2),
- 				yyyy: y,
- 				h:    H % 12 || 12,
- 				hh:   pad(H % 12 || 12),
- 				H:    H,
- 				HH:   pad(H),
- 				M:    M,
- 				MM:   pad(M),
- 				s:    s,
- 				ss:   pad(s),
- 				l:    pad(L, 3),
- 				L:    pad(L > 99 ? Math.round(L / 10) : L),
- 				t:    H < 12 ? "a"  : "p",
- 				tt:   H < 12 ? "am" : "pm",
- 				T:    H < 12 ? "A"  : "P",
- 				TT:   H < 12 ? "AM" : "PM",
- 				Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
- 				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
- 				S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
- 			};
+    var _ = utc ? "getUTC" : "get",
+      d = date[_ + "Date"](),
+      D = date[_ + "Day"](),
+      m = date[_ + "Month"](),
+      y = date[_ + "FullYear"](),
+      H = date[_ + "Hours"](),
+      M = date[_ + "Minutes"](),
+      s = date[_ + "Seconds"](),
+      L = date[_ + "Milliseconds"](),
+      o = utc ? 0 : date.getTimezoneOffset(),
+      flags = {
+        d:    d,
+        dd:   pad(d),
+        ddd:  dF.i18n.dayNames[D],
+        dddd: dF.i18n.dayNames[D + 7],
+        m:    m + 1,
+        mm:   pad(m + 1),
+        mmm:  dF.i18n.monthNames[m],
+        mmmm: dF.i18n.monthNames[m + 12],
+        yy:   String(y).slice(2),
+        yyyy: y,
+        h:    H % 12 || 12,
+        hh:   pad(H % 12 || 12),
+        H:    H,
+        HH:   pad(H),
+        M:    M,
+        MM:   pad(M),
+        s:    s,
+        ss:   pad(s),
+        l:    pad(L, 3),
+        L:    pad(L > 99 ? Math.round(L / 10) : L),
+        t:    H < 12 ? "a"  : "p",
+        tt:   H < 12 ? "am" : "pm",
+        T:    H < 12 ? "A"  : "P",
+        TT:   H < 12 ? "AM" : "PM",
+        Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+        o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+        S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+      };
 
- 		return mask.replace(token, function ($0) {
- 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
- 		});
- 	};
+    return mask.replace(token, function ($0) {
+      return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+    });
+  };
  }();
 
  // Some common format strings
  dateFormat.masks = {
- 	"default":      "ddd mmm dd yyyy HH:MM:ss",
- 	shortDate:      "m/d/yy",
- 	mediumDate:     "mmm d, yyyy",
- 	longDate:       "mmmm d, yyyy",
- 	fullDate:       "dddd, mmmm d, yyyy",
- 	shortTime:      "h:MM TT",
- 	mediumTime:     "h:MM:ss TT",
- 	longTime:       "h:MM:ss TT Z",
- 	isoDate:        "yyyy-mm-dd",
- 	isoTime:        "HH:MM:ss",
- 	isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
- 	isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+  "default":      "ddd mmm dd yyyy HH:MM:ss",
+  shortDate:      "m/d/yy",
+  mediumDate:     "mmm d, yyyy",
+  longDate:       "mmmm d, yyyy",
+  fullDate:       "dddd, mmmm d, yyyy",
+  shortTime:      "h:MM TT",
+  mediumTime:     "h:MM:ss TT",
+  longTime:       "h:MM:ss TT Z",
+  isoDate:        "yyyy-mm-dd",
+  isoTime:        "HH:MM:ss",
+  isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+  isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
  };
 
  // Internationalization strings
  dateFormat.i18n = {
- 	dayNames: [
- 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
- 		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
- 	],
- 	monthNames: [
- 		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
- 		"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
- 	]
+  dayNames: [
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+  ],
+  monthNames: [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+  ]
  };
 
  // For convenience...
  Date.prototype.format = function (mask, utc) {
- 	return dateFormat(this, mask, utc);
+  return dateFormat(this, mask, utc);
  };
 /* Query String for utm params
 // Query String Stuff
@@ -307,13 +307,13 @@ function add_page_timeout(date, minutes) {
                 if (typeof urlParams[k] == "object") {
                   for (var k2 in urlParams[k])
                     jQuery.cookie(k2, urlParams[k][k2], { expires: 365 });
-					console.log(k2);
-					console.log(urlParams[k][k2]);
+          console.log(k2);
+          console.log(urlParams[k][k2]);
                 }
                 else {
                     jQuery.cookie(k, urlParams[k], { expires: 365 }); }
-					console.log(k);
-					console.log(urlParams[k]);
+          console.log(k);
+          console.log(urlParams[k]);
               }
 
     }
@@ -348,73 +348,95 @@ var current_page_id = wplft.post_id;
 var referrer_is = document.referrer;
 if (typeof pageviewObj =='object' && pageviewObj)
 {
-	    // If pageviewObj exists, do this
-	    var page_seen = pageviewObj[current_page_id];
-	    if(typeof(page_seen) != "undefined" && page_seen !== null) {
-		    var view_count = pageviewObj[current_page_id].length - 1;
-		    var last_view = pageviewObj[current_page_id][view_count];
-		    //console.log("last view" + last_view);
+      // If pageviewObj exists, do this
+      var page_seen = pageviewObj[current_page_id];
+      if(typeof(page_seen) != "undefined" && page_seen !== null) {
+        var view_count = pageviewObj[current_page_id].length - 1;
+        var last_view = pageviewObj[current_page_id][view_count];
+        //console.log("last view" + last_view);
 
-		    // Safari Timezone cleaners
-		    var last_view = last_view.replace(/ UTC/);
-		    var last_view = last_view.replace(/-/g, "/");
-		    var last_view = last_view.replace(/undefined/g, "");
-		    var datetime = datetime.replace(/ UTC/);
-		    var datetime = datetime.replace(/-/g, "/");
-		    var datetime = datetime.replace(/undefined/g, "");
+        // Safari Timezone cleaners
+        var last_view = last_view.replace(/ UTC/);
+        var last_view = last_view.replace(/-/g, "/");
+        var last_view = last_view.replace(/undefined/g, "");
+        var datetime = datetime.replace(/ UTC/);
+        var datetime = datetime.replace(/-/g, "/");
+        var datetime = datetime.replace(/undefined/g, "");
 
 
-		    var timeout = new Date(last_view).getTime() + 30*1000;
-		    //console.log("timeout " + timeout);
-			var timeout = dateFormat(timeout, "yyyy-mm-dd hh:MM:ss");
-			var wait_time = Math.abs(Date.parse(last_view) - Date.parse(timeout)) // output timeout time 30sec;
-			var current_date = dateFormat(datetime, "yyyy-mm-dd hh:MM:ss");
-			var time_check = Math.abs(Date.parse(last_view) - Date.parse(current_date));
-			//console.log("Wait Time:" + wait_time);
-			//console.log("Time Check:" + time_check);
+        var timeout = new Date(last_view).getTime() + 30*1000;
+        //console.log("timeout " + timeout);
+      var timeout = dateFormat(timeout, "yyyy-mm-dd hh:MM:ss");
+      var wait_time = Math.abs(Date.parse(last_view) - Date.parse(timeout)) // output timeout time 30sec;
+      var current_date = dateFormat(datetime, "yyyy-mm-dd hh:MM:ss");
+      var time_check = Math.abs(Date.parse(last_view) - Date.parse(current_date));
+      //console.log("Wait Time:" + wait_time);
+      //console.log("Time Check:" + time_check);
 
-			if (time_check < wait_time ){
-				console.log('time out happened');
-				pageviewObj[current_page_id].push(datetime); // log page view
-				// run page view update for timeout
-				if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
-				jQuery.ajax({
-						type: 'POST',
-						url: wplft.admin_url,
-						data: {
-							action: 'wpl_track_user',
-							wp_lead_uid: lead_uid,
-							wp_lead_id: lead_id,
-							page_id: current_page_id,
-							current_url: window.location.href,
-							json: '0'
-						},
-						success: function(user_id){
-							console.log('Page View Fired');
-						},
-						error: function(MLHttpRequest, textStatus, errorThrown){
-								//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
-								//die();
-						}
+      if (time_check > wait_time ){
+        console.log('time out happened');
+        pageviewObj[current_page_id].push(datetime); // log page view
+        // run page view update for timeout
+        if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
+        jQuery.ajax({
+            type: 'POST',
+            url: wplft.admin_url,
+            data: {
+              action: 'wpl_track_user',
+              wp_lead_uid: lead_uid,
+              wp_lead_id: lead_id,
+              page_id: current_page_id,
+              current_url: window.location.href,
+              json: '0'
+            },
+            success: function(user_id){
+              console.log('Page View Fired');
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                //alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+                //die();
+            }
 
-					});
-				}
-				// Check if refferrer not main site log the referall data in lead record
+          });
+        }
+        // Check if refferrer not main site log the referall data in lead record
 
-			} else {
-				console.log('30 sec timeout not done: ' + Math.abs(wait_time - time_check)*.001  + " seconds left");
-			}
+      } else {
+        console.log('30 sec timeout not done: ' + Math.abs(wait_time - time_check)*.001  + " seconds left");
+      }
 
-		} else {
-			pageviewObj[current_page_id] = [];
-			pageviewObj[current_page_id].push(datetime);
-		}
+    } else {
+      pageviewObj[current_page_id] = [];
+      pageviewObj[current_page_id].push(datetime);
+      if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
+      jQuery.ajax({
+          type: 'POST',
+          url: wplft.admin_url,
+          data: {
+            action: 'wpl_track_user',
+            wp_lead_uid: lead_uid,
+            wp_lead_id: lead_id,
+            page_id: current_page_id,
+            current_url: window.location.href,
+            json: '0'
+          },
+          success: function(user_id){
+            console.log('Page View Fired');
+          },
+          error: function(MLHttpRequest, textStatus, errorThrown){
+              //alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+              //die();
+          }
+
+        });
+      }
+    }
 
 } else {
 // Create initial pageviewObj
-	var pageviewObj =  {};
-	pageviewObj[current_page_id] = [];
-	pageviewObj[current_page_id].push(datetime);
+  var pageviewObj =  {};
+  pageviewObj[current_page_id] = [];
+  pageviewObj[current_page_id].push(datetime);
 
 }
 
@@ -424,11 +446,11 @@ jQuery.totalStorage('page_views', pageviewObj);
 
 /* Start Legacy Cookie Storage */
 if (typeof data_block =='object' && data_block) {
-	var count = countProperties(data_block);
-	data_block.items.push({ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer});
-	jQuery.cookie('user_data_json', JSON.stringify(data_block),  { expires: 1, path: '/' });
+  var count = countProperties(data_block);
+  data_block.items.push({ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer});
+  jQuery.cookie('user_data_json', JSON.stringify(data_block),  { expires: 1, path: '/' });
 } else {
-	data_block = {items: [{id: '1', current_page: current_page,timestamp: datetime, referrer: referrer, original_referrer: referrer},]};
-	jQuery.cookie('user_data_json', JSON.stringify(data_block), { expires: 1, path: '/' });
+  data_block = {items: [{id: '1', current_page: current_page,timestamp: datetime, referrer: referrer, original_referrer: referrer},]};
+  jQuery.cookie('user_data_json', JSON.stringify(data_block), { expires: 1, path: '/' });
 }
 /* End Legacy Cookie Storage */

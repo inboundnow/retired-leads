@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.6
-Tested up to: 3.7
-Stable Tag: 1.2.3
+Tested up to: 3.8
+Stable Tag: 1.2.5
 
 Capture & store  lead information, gather critical lead intelligence, manage web leads from within your site and close more deals.
 
@@ -64,6 +64,11 @@ We built Lead Management as a framework! You can use our extendable framework to
 3. View Conversion Funnel Log for Each Customer(Lead)
 
 == Changelog ==
+= 1.2.5 =
+* Bug fix - missing trackingObj
+
+= 1.2.4 =
+* Added feature request form to all plugin admin pages. Submit your feature requests today! =)
 
 = 1.2.3 =
 * Bug fixes for form creation issues
