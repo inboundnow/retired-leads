@@ -309,6 +309,8 @@ if (!class_exists('InboundFeedback')) {
     }
     #inbound-feedback-email-field {
       margin-top: 5px;
+
+      max-width: 328px;
     }
     #lp-slide-toggle textarea  {
       min-height: 125px;
