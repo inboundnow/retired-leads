@@ -31,6 +31,7 @@ function inbound_load_shared(){
 
 include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
+include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 
 /**
  * LOAD BACKEND ONLY FILES
