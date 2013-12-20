@@ -205,11 +205,11 @@
 						var shortcode = shortcode.replace('[inbound_form', '[inbound_form id="'+form_id+'"');
 					}
 				}
-				if ( shortcode_name === "insert_styled_list_shortcode") {
+				if ( shortcode_name === "insert_styled_list_shortcode" || shortcode_name === "insert_button_shortcode") {
 						var shortcode = shortcode.replace(/#/g, '');
 				}
 				// updates the src value
-				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode) + "&path=" + inbound_load.image_dir );
+				iframe.attr( 'src', iframeSrc + '?post='+inbound_shortcodes.form_id+'&sc=' + InboundShortcodes.htmlEncode(shortcode));
 
 				//console.log('updated iframe');
 				// update the height
@@ -452,7 +452,7 @@
 					InboundShortcodes.update_fields();
 				});
 				jQuery("body").on('click', '.switch-to-form-insert', function () {
-					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900 + "&path=" + inbound_load.image_dir);
+					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
 				 });
 			}
 			if (shortcode_name === 'insert_button_shortcode' || shortcode_name === 'insert_styled_list_shortcode'){
