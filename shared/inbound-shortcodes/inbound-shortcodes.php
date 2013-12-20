@@ -37,6 +37,8 @@ class InboundShortcodes {
     add_action('init', array( __CLASS__, 'shortcodes_tinymce' ));
     add_action( 'wp_enqueue_scripts',  array(__CLASS__, 'frontend_loads')); // load styles
     add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
+    add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
+
   }
   // Set Consistant File Paths for inbound now plugins
   static function set_file_path(){
@@ -134,6 +136,83 @@ class InboundShortcodes {
   static function register_rich_buttons( $buttons ) {
     array_push( $buttons, "|", 'InboundShortcodesButton' );
     return $buttons;
+  }
+  static function inbound_shortcode_button( $atts, $content = null ) {
+    extract(shortcode_atts(array(
+      'style'=> 'default',
+      'font_size' => '',
+      'color' => '',
+      'text_color' => '',
+      'width'=> '',
+      'icon' => '',
+      'url' => '',
+      'target' => ''
+    ), $atts));
+    $style = 'default'; // default setting
+    $class = "inbound-button inbound-special-class";
+    if (preg_match("/#/", $color)){
+      $color = (isset($color)) ? "background-color: $color;" : '';
+    } else {
+      $color = (isset($color)) ? "background-color: #$color;" : '';
+    }
+
+    if (preg_match("/#/", $text_color)){
+      $text_color = (isset($text_color)) ? " color: $text_color;" : '';
+    } else {
+      $text_color = (isset($text_color)) ? " color: #$text_color;" : '';
+    }
+
+    // recheck this
+    if (preg_match("/px/", $width)){
+      $width = (isset($width)) ? " width: $width;" : '';
+    } else if (preg_match("/%/", $width)) {
+      $width = (isset($width)) ? " width: $width;" : '';
+    } else if (preg_match("/em/", $width)) {
+      $width = (isset($width)) ? " width: $width;" : '';
+    } else {
+      $width = ($width != "") ? " width:" . $width . "px;" : '';
+    }
+
+    if (preg_match("/px/", $font_size)){
+      $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+    } else if (preg_match("/%/", $font_size)) {
+      $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+    } else if (preg_match("/em/", $font_size)) {
+      $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+    } else {
+      $font_size = (isset($font_size)) ? " font-size:" . $font_size . "px;" : '';
+    }
+
+    $icon_raw = 'fa-'. $icon . " font-awesome fa";
+    $target = (isset($font_size)) ? " target='$target'" : '';
+    $button_start = "";
+
+      switch( $style ) {
+
+          case 'default':
+            $button  = $button_start;
+            $button .= '<a class="'. $class .'" href="'. $url .'"'. $target .' style="'.$color.$text_color.$width.$font_size.'"><i class="'.$icon_raw.'"></i>&nbsp;' . $content .'</a>';
+            $button .= $button_start;
+            break;
+
+          case 'flat' :
+            $button  = $button_start;
+            $button .= '<a href="'. $url .'"'. $target .' class="inbound-flat-btn facebook"><span class="'.$icon_raw.' icon"></span><span>'.$content.'</span></a>';
+
+            $button .= $button_start;
+            break;
+          case 'sunk' :
+            $button  = $button_start;
+            $button .= '<div class="inbound-sunk-button-wrapper">
+                  <a href="'. $url .'"'. $target .' class="inbound-sunk-button inbound-sunk-light"><span class="'.$icon_raw.' icon"></span>'.$content.'</a>
+                  </div>';
+
+            $button .= $button_start;
+            break;
+        }
+
+
+    return $button;
   }
   static function inbound_shortcode_list( $atts, $content = null){
       extract(shortcode_atts(array(

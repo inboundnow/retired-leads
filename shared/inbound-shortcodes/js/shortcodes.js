@@ -205,7 +205,7 @@
 						var shortcode = shortcode.replace('[inbound_form', '[inbound_form id="'+form_id+'"');
 					}
 				}
-				if ( shortcode_name === "insert_styled_list_shortcode") {
+				if ( shortcode_name === "insert_styled_list_shortcode" || shortcode_name === "insert_button_shortcode") {
 						var shortcode = shortcode.replace(/#/g, '');
 				}
 				// updates the src value

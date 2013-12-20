@@ -9,6 +9,7 @@
 		'no_preview' => false,
 
 		'options' => array(
+			/*
 			'style' => array(
 				'name' => __('Button Style', INBOUND_LABEL),
 				'desc' => __('Select the button style.', INBOUND_LABEL),
@@ -19,31 +20,20 @@
 					'sunk' => 'sunk'
 				),
 				'std' => 'default'
-			),
+			),*/
 			'content' => array(
-				'name' => __('Label', INBOUND_LABEL),
+				'name' => __('Button Text', INBOUND_LABEL),
 				'desc' => __('Enter the button text label.', INBOUND_LABEL),
 				'type' => 'text',
 				'std' => 'Button Text'
 			),
-			'size' => array(
-				'name' => __('Button Size', INBOUND_LABEL),
-				'desc' => __('Select the button size.', INBOUND_LABEL),
-				'type' => 'select',
-				'options' => array(
-					'small' => 'Small',
-					'normal' => 'Normal',
-					'large' => 'Large'
-				),
-				'std' => 'normal'
+			'font-size' => array(
+							'name' => __('Font Size', INBOUND_LABEL),
+							'desc' => __('Size of Button Font. This also determines default button size', INBOUND_LABEL),
+							'type' => 'text',
+							'std' => '20'
 			),
-			'width' => array(
-				'name' => __('Custom Width', INBOUND_LABEL),
-				'desc' => __('Enter in pixel width or % width. Example: 200 <u>or</u> 100%', INBOUND_LABEL),
-				'type' => 'text',
-				'std' => '',
-				'class' => 'main-design-settings',
-			),
+			/*
 			'color' => array(
 				'name' => __('Button Color', INBOUND_LABEL),
 				'desc' => __('Select the button color.', INBOUND_LABEL),
@@ -63,7 +53,19 @@
 					'white' => 'White'
 				),
 				'std' => 'default'
-			),
+			), */
+			'color' => array(
+							'name' => __('Button Color', INBOUND_LABEL),
+							'desc' => __('Color of button', INBOUND_LABEL),
+							'type' => 'colorpicker',
+							'std' => '#c8232b'
+						),
+			'text-color' => array(
+							'name' => __('Button Text Color', INBOUND_LABEL),
+							'desc' => __('Color of text', INBOUND_LABEL),
+							'type' => 'colorpicker',
+							'std' => '#ffffff'
+						),
 			'icon' => array(
 				'name' => __('Icon', INBOUND_LABEL),
 				'desc' => __('Select an icon.', INBOUND_LABEL),
@@ -77,62 +79,29 @@
 				'type' => 'text',
 				'std' => ''
 			),
-			'blank' => array(
+			'width' => array(
+				'name' => __('Custom Width', INBOUND_LABEL),
+				'desc' => __('Enter in pixel width or % width. Example: 200 <u>or</u> 100%', INBOUND_LABEL),
+				'type' => 'text',
+				'std' => '',
+				'class' => 'main-design-settings',
+			),
+			'target' => array(
 				'name' => __('Open Link in New Tab?', INBOUND_LABEL),
-				'checkbox_text' => __('Check to open the link in the new tab.', INBOUND_LABEL),
+				'checkbox_text' => __('Do you want to open links in this window or a new one?', INBOUND_LABEL),
 				'desc' => '',
-				'type' => 'checkbox',
-				'std' => '1'
+				'type' => 'select',
+				'options' => array(
+					'_self' => 'Open Link in Same Window',
+					'_blank' => 'Open Link in New Tab',
+
+				),
+				'std' => '_self'
 			),
 		),
-		'shortcode' => '[button style="{{style}}" size="{{size}}" color="{{color}}" icon="{{icon}}" url="{{url}}" blank="{{blank}}"]{{content}}[/button]',
+		'shortcode' => '[button style="{{style}}" font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
 		'popup_title' => __('Insert Button Shortcode', INBOUND_LABEL)
 	);
 
 /* 	Add shortcode
  * 	----------------------------------------------------- */
-	add_shortcode('button', 'inbound_shortcode_button');
-	if (!function_exists('inbound_shortcode_button')) {
-		function inbound_shortcode_button( $atts, $content = null ) {
-			extract(shortcode_atts(array(
-				'style'=> '',
-				'size' => '',
-				'color' => '',
-				'icon' => '',
-				'url' => '',
-				'blank' => ''
-			), $atts));
-
-			$class = "inbound-button $color $size";
-			$icon_raw = 'icon-'. $icon;
-			$target = ($blank) ? ' target="_blank"' : '';
-			$button_start = "";
-
-				switch( $style ) {
-
-						case 'default':
-							$button  = $button_start;
-							$button .= '<a class="'. $class .'" href="'. $url .'"'. $target .'><i class="'.$icon_raw.'"></i>&nbsp;' . $content .'</a>';
-							$button .= $button_start;
-							break;
-
-						case 'flat' :
-							$button  = $button_start;
-							$button .= '<a href="'. $url .'"'. $target .' class="inbound-flat-btn facebook"><span class="'.$icon_raw.' icon"></span><span>'.$content.'</span></a>';
-
-							$button .= $button_start;
-							break;
-						case 'sunk' :
-							$button  = $button_start;
-							$button .= '<div class="inbound-sunk-button-wrapper">
-										<a href="'. $url .'"'. $target .' class="inbound-sunk-button inbound-sunk-light"><span class="'.$icon_raw.' icon"></span>'.$content.'</a>
-										</div>';
-
-							$button .= $button_start;
-							break;
-					}
-
-
-			return $button;
-		}
-	}
