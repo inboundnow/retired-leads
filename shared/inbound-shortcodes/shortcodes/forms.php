@@ -341,6 +341,48 @@ if (is_admin())
 	}
 }
 
+// Function to Kill third party bullshit scripts
+add_action('admin_enqueue_scripts', 'inbound_forms_compatibilities', 100);
+if (!function_exists('inbound_forms_compatibilities')) {
+function inbound_forms_compatibilities()
+{
+	if (is_admin())
+	{
+		if ( 'inbound-forms' == get_post_type() ) {
+				global $wp_scripts;
+				// print_r($wp_scripts->queue);
+				 $scripts_queued = $wp_scripts->queue; // All enqueued scripts
+				 $white_list_scripts = array( "common",
+				 					"admin-bar",
+				 					"autosave",
+				 					"post",
+				 					"thickbox",
+				 					"media-editor",
+				 					"utils",
+				 					"svg-painter",
+				 					"wp-auth-check",
+				 					"jquery-ui-accordion",
+				 					"jquery-ui-autocomplete",
+				 					"cas_admin_script",
+				 					"jquery-ui-sortable",
+				 					"inbound-shortcodes-plugins",
+				 					"inbound-shortcodes",
+				 					"selectjs",
+				 					"inbound-forms-cpt-js");
+				 $wp_scripts->registered->queue = array('');
+
+				 foreach ($scripts_queued as $key => $value) {
+				 	//echo $key . $value;
+				 	if (!in_array($value, $white_list_scripts)){
+				 		wp_dequeue_script( $value );
+				 	}
+
+				 }
+		}
+	}
+
+}
+}
 
 if (!function_exists('inbound_forms_redirect')) {
 function inbound_forms_redirect($value){
