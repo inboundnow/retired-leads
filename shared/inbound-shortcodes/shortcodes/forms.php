@@ -369,7 +369,6 @@ function inbound_forms_compatibilities()
 				 					"inbound-shortcodes",
 				 					"selectjs",
 				 					"inbound-forms-cpt-js");
-				 $wp_scripts->registered->queue = array('');
 
 				 foreach ($scripts_queued as $key => $value) {
 				 	//echo $key . $value;
