@@ -5,7 +5,7 @@
 	margin-bottom: 0px;
 	margin-top: 5px;
 }
-.inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap {
+.inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice {
 	display: none !important;
 }
 #cpt-form-shortcode {

@@ -69,9 +69,9 @@
 			), $atts));
 
 			if( $gutter == '30') {
-				$gutter = 'row_30';
+				$gutter = 'inbound-row_30';
 			} else {
-				$gutter = 'row';
+				$gutter = 'inbound-row';
 			}
 			$content = preg_replace('/<br class=\'inbr\'.*\/>/', '', $content); // remove editor br tags
 			return '<div class="'. $gutter .'">' . do_shortcode($content) . '</div>';

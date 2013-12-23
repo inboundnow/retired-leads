@@ -205,11 +205,16 @@ function wp_leads_get_today() {
       return;
 }
 
+add_action('admin_init', 'run_custom_lead_queries');
+// Run queries after admin init
+function run_custom_lead_queries(){
 	add_filter( 'parse_query', 'wpl_admin_posts_meta_filter' );
-	function wpl_admin_posts_meta_filter( $query )
-	{
+	add_filter( 'parse_query', 'wp_leads_lead_email_filter' );
+}
+
+function wpl_admin_posts_meta_filter( $query ) {
 		global $pagenow;
-		$screen = @get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+		$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
 
 		if (!$screen)
 			return;
@@ -221,13 +226,12 @@ function wp_leads_get_today() {
 		if (isset($_GET['wp_leads_filter_field_val']) && $_GET['wp_leads_filter_field_val'] != '')
 			$query->query_vars['meta_value'] = $_GET['wp_leads_filter_field_val'];
 		}
-	}
+}
 
-	add_filter( 'parse_query', 'wp_leads_lead_email_filter' );
-	function wp_leads_lead_email_filter( $query )
-	{
+
+function wp_leads_lead_email_filter( $query ) {
 		global $pagenow;
-		$screen = @get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+		$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
 
 		if (!$screen)
 			return;
@@ -239,7 +243,7 @@ function wp_leads_get_today() {
 		if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
 			$query->query_vars['meta_value'] = $_GET['lead-email'];
 		}
-	}
+}
 	// Redirect clicks from lead emails to lead profiles.
 	add_action('admin_init', 'wp_lead_redirect_with_email');
 	function wp_lead_redirect_with_email() {
