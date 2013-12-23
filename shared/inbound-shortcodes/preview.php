@@ -179,6 +179,15 @@ display: none;
 		  }
 		  // document.body.innerHTML = document.body.innerHTML.replace( /ERROR: AffiliateID invalid/g, ""); // remove text
 		})();
+		jQuery(document).ready(function($) {
+		   jQuery("body").on('click', '.inbound-button.inbound-special-class', function (e) {
+		   	e.preventDefault();
+		   	var current_link = $(this).attr('href');
+		   	var link_text = (current_link != "" ? "Linked to " + current_link : ". Please Enter a URL in the button options");
+		   	alert('Sweet button! Link disabled in preview window ' + link_text);
+		   });
+		 });
+
 		</script>
 		</body>
 	</html>
