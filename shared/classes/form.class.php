@@ -35,8 +35,10 @@ class InboundForms {
 		  'layout' => '',
 		  'notify' => $email,
 		  'labels' => '',
+		  'font_size' => '', // set default from CSS
 		  'width' => '',
 		  'redirect' => '',
+		  'icon' => '',
 		  'submit' => 'Submit'
 		), $atts));
 
@@ -49,7 +51,19 @@ class InboundForms {
 		$form_labels = $labels;
 		$form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
 		$submit_button = ($submit != "") ? $submit : 'Submit';
+		$icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . '" font-awesome fa"></i>' : '';
 
+		if (preg_match("/px/", $font_size)){
+		  $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+		} else if (preg_match("/%/", $font_size)) {
+		  $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+		} else if (preg_match("/em/", $font_size)) {
+		  $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
+		} else if ($font_size == "") {
+		  $font_size = '';
+		} else {
+		  $font_size = (isset($font_size)) ? " font-size:" . $font_size . "px;" : '';
+		}
 
 		// Check for image in submit button option
 		if (preg_match('/\.(jpg|jpeg|png|gif)(?:[\?\#].*)?$/i',$submit_button)) {
@@ -149,7 +163,7 @@ class InboundForms {
 
 				if ($type != 'hidden' && $form_labels != "bottom" || $type === "radio")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
 				if ($type === 'textarea')
@@ -214,7 +228,7 @@ class InboundForms {
 				}
 				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
 				if ($description_block != "" && $type != 'hidden'){
@@ -227,7 +241,10 @@ class InboundForms {
 
 			$current_page = get_permalink();
 			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area">
-					<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />
+					<button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$font_size.'">
+					  '.$icon_insert.''.$submit_button.'
+					</button>
+					<!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 					</div>
 					<input type="hidden" name="inbound_submitted" value="1">';
 

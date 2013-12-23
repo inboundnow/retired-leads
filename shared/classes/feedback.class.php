@@ -185,6 +185,9 @@ if (!class_exists('InboundFeedback')) {
           <div id="inbound-rule-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
     </div>
     <style type="text/css">
+    #wpfooter {
+      display: none;
+    }
     .main-feedback-header {
       font-size: 21px;
       padding-top: 0px;

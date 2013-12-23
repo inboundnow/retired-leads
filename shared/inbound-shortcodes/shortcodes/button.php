@@ -27,6 +27,12 @@
 				'type' => 'text',
 				'std' => 'Button Text'
 			),
+			'url' => array(
+				'name' => __('Button Link', INBOUND_LABEL),
+				'desc' => __('Enter the destination URL.', INBOUND_LABEL),
+				'type' => 'text',
+				'std' => ''
+			),
 			'font-size' => array(
 							'name' => __('Font Size', INBOUND_LABEL),
 							'desc' => __('Size of Button Font. This also determines default button size', INBOUND_LABEL),
@@ -73,12 +79,7 @@
 				'options' => $fontawesome,
 				'std' => ''
 			),
-			'url' => array(
-				'name' => __('Link Destination', INBOUND_LABEL),
-				'desc' => __('Enter the destination URL.', INBOUND_LABEL),
-				'type' => 'text',
-				'std' => ''
-			),
+
 			'width' => array(
 				'name' => __('Custom Width', INBOUND_LABEL),
 				'desc' => __('Enter in pixel width or % width. Example: 200 <u>or</u> 100%', INBOUND_LABEL),

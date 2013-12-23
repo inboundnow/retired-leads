@@ -455,11 +455,11 @@
 					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=quick-forms&width=' + 900);
 				 });
 			}
-			if (shortcode_name === 'insert_button_shortcode' || shortcode_name === 'insert_styled_list_shortcode'){
+			if (shortcode_name === 'insert_button_shortcode' || shortcode_name === 'insert_styled_list_shortcode' || shortcode_name === "insert_inbound_form_shortcode"){
 
 				function format(state) {
 				           if (!state.id) return state.text; // optgroup
-				           return "<i class='icon-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + '';
+				           return "<i class='fa-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + '';
 				       }
 				       jQuery("#inbound_shortcode_icon").select2({
 				       	placeholder: "Select an icon for the button",

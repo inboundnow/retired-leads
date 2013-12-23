@@ -221,6 +221,7 @@ function wpleads_admin_enqueuescripts($hook)
 
 	if (isset($_GET['taxonomy']))
 		return;
+	wp_enqueue_script('jquery-cookie', WPL_URL . '/shared/js/jquery.cookie.js', array( 'jquery' ));
 	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
@@ -231,7 +232,7 @@ function wpleads_admin_enqueuescripts($hook)
 			wp_enqueue_script('tinysort', WPL_URL.'/js/jquery.tinysort.js', array('jquery'));
 			wp_enqueue_script('tag-cloud', WPL_URL.'/js/jquery.tagcloud.js', array('jquery'));
 			wp_localize_script( 'wpleads-edit', 'wp_lead_map', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_lead_map_nonce' => wp_create_nonce('wp-lead-map-nonce') ) );
-			wp_enqueue_script('jquery-cookie', WPL_URL . '/js/jquery.cookie.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-cookie', WPL_URL . 'shared/js/jquery.cookie.js', array( 'jquery' ));
 		}
 
 
