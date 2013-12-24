@@ -220,6 +220,8 @@ if (is_admin())
 
 		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 		wp_delete_term($wplead_cat_id,'wplead_list_category');
+		
+		do_action('wplead_trash_list', $post_id);
 	}
 }
 
