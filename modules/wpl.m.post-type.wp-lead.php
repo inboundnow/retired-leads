@@ -46,8 +46,8 @@ add_action( 'added_post_meta', 'wpleads_after_post_meta_change', 10, 4 );
 add_action( 'updated_post_meta', 'wpleads_after_post_meta_change', 10, 4 );
 function wpleads_after_post_meta_change( $meta_id, $post_id, $meta_key, $meta_value )
 {
-	$post_type = get_post_type($post_id)
-    if ( $post_type =='wp-lead' ) {
+	$post_type = get_post_type($post_id);
+    if ( $post_type == 'wp-lead' ) {
        update_post_meta( $post_id , 'wpleads_last_updated' , current_time( 'mysql' ) );
        do_action( 'wpleads_after_post_meta_change' , $post_id );
 	   remove_action( 'updated_post_meta' , 'wpleads_after_post_meta' , 10 );
