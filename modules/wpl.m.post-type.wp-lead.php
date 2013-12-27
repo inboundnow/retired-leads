@@ -46,13 +46,23 @@ add_action( 'added_post_meta', 'wpleads_after_post_meta_change', 10, 4 );
 add_action( 'updated_post_meta', 'wpleads_after_post_meta_change', 10, 4 );
 function wpleads_after_post_meta_change( $meta_id, $post_id, $meta_key, $meta_value )
 {
+	$ignore = array ('_edit_lock', '_edit_last');
+	
 	$post_type = get_post_type($post_id);
-    if ( $post_type == 'wp-lead' ) {
-       update_post_meta( $post_id , 'wpleads_last_updated' , current_time( 'mysql' ) );
-       do_action( 'wpleads_after_post_meta_change' , $post_id );
-	   remove_action( 'updated_post_meta' , 'wpleads_after_post_meta' , 10 );
-	   remove_action( 'added_post_meta' , 'wpleads_after_post_meta' , 10 );
-	   remove_action( 'added_post_meta' , 'wpleads_after_post_meta' , 10 );
+    if ( $post_type == 'wp-lead' && !in_array( $meta_key , $ignore ) ) 
+	{
+		/*
+		echo "Meta_id: $meta_id<br>";
+		echo "Meta_key: $meta_key<br>";
+		*/
+		remove_action( 'updated_post_meta' , 'wpleads_after_post_meta_change' , 10 );
+		remove_action( 'added_post_meta' , 'wpleads_after_post_meta_change' , 10 );
+		
+		$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
+		$wordpress_date_time =  date_i18n($timezone_format);
+		
+		update_post_meta( $post_id , 'wpleads_last_updated' , $wordpress_date_time );
+		do_action( 'wpleads_after_post_meta_change' , $post_id );		
 	   
     }
 }
@@ -130,7 +140,7 @@ if (is_admin())
 			  	if (is_array($last_conversion)){
 			  	$count_conversions = count($last_conversion);
 			  	} else {
-			  	$count_conversions = get_post_meta($post_id,'wpl-lead-conversion-count', true);
+			  	$count_conversions = get_post_meta($post_id,'wpleads_conversion_count', true);
 			  	}
 			  echo $count_conversions;
 			  break;
@@ -143,7 +153,7 @@ if (is_admin())
 				         $page_view_count += count($page_view_array[$key]);
 				        }
 				   	} else {
-				      	$page_view_count = get_post_meta($post_id,'wpl-lead-page-view-count', true);
+				      	$page_view_count = get_post_meta($post_id,'wpleads_page_view_count', true);
 				    }
 			  echo $page_view_count;
 			  break;
@@ -208,139 +218,152 @@ if (is_admin())
 		}
 	}
 
-function wp_leads_get_month() {
-	$timezone_month = _x('m', 'timezone date format');
-	$wordpress_date_month =  date_i18n($timezone_month);
-    set_query_var('monthnum', $wordpress_date_month ); // Show only leads from today
-      return;
-}
-function wp_leads_get_today() {
-	$timezone_day = _x('d', 'timezone date format');
-	$wordpress_date_day =  date_i18n($timezone_day);
-    set_query_var('day', $wordpress_date_day ); // Show only leads from today
-      return;
-}
+	function wp_leads_get_month() {
+		$timezone_month = _x('m', 'timezone date format');
+		$wordpress_date_month =  date_i18n($timezone_month);
+		set_query_var('monthnum', $wordpress_date_month ); // Show only leads from today
+		  return;
+	}
+	
+	function wp_leads_get_today() {
+		$timezone_day = _x('d', 'timezone date format');
+		$wordpress_date_day =  date_i18n($timezone_day);
+		set_query_var('day', $wordpress_date_day ); // Show only leads from today
+		  return;
+	}
 
-add_action('admin_init', 'run_custom_lead_queries');
-// Run queries after admin init
-function run_custom_lead_queries(){
-	add_filter( 'parse_query', 'wpl_admin_posts_meta_filter' );
-	add_filter( 'parse_query', 'wp_leads_lead_email_filter' );
-}
-
-function wpl_admin_posts_meta_filter( $query ) {
-		global $pagenow;
-		$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
-
-		if (!$screen)
-			return;
-
-		$screen_id = $screen->id;
-
-		if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
-			$query->query_vars['meta_key'] = $_GET['wp_leads_filter_field'];
-		if (isset($_GET['wp_leads_filter_field_val']) && $_GET['wp_leads_filter_field_val'] != '')
-			$query->query_vars['meta_value'] = $_GET['wp_leads_filter_field_val'];
+	/* UPDATE NAMING CONVENTIONS FOR CERTAIN POST META PAIRS */
+	
+	add_action('admin_init', 'wpleads_update_meta_keys');
+	function wpleads_update_meta_keys(){
+		$key = 'field_name';
+		$themeta = get_post_meta($post->ID, $key, TRUE);
+		if($themeta != '') {
+		echo 'your text';
 		}
-}
 
+	}
+	
+	add_action('admin_init', 'run_custom_lead_queries');
+	// Run queries after admin init
+	function run_custom_lead_queries(){
+		add_filter( 'parse_query', 'wpl_admin_posts_meta_filter' );
+		add_filter( 'parse_query', 'wp_leads_lead_email_filter' );
+	}
 
-function wp_leads_lead_email_filter( $query ) {
-		global $pagenow;
-		$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+	function wpl_admin_posts_meta_filter( $query ) {
+			global $pagenow;
+			$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
 
-		if (!$screen)
-			return;
+			if (!$screen)
+				return;
 
-		$screen_id = $screen->id;
+			$screen_id = $screen->id;
 
-		if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
-			$query->query_vars['meta_key'] = 'wpleads_email_address';
-		if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
-			$query->query_vars['meta_value'] = $_GET['lead-email'];
-		}
-}
-	// Redirect clicks from lead emails to lead profiles.
-	add_action('admin_init', 'wp_lead_redirect_with_email');
-	function wp_lead_redirect_with_email() {
-		global $wpdb;
-			if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
-			$lead_id = 	$_GET['lead-email-redirect'];
-			$query = $wpdb->prepare(
-					'SELECT ID FROM ' . $wpdb->posts . '
-					WHERE post_title = %s
-					AND post_type = \'wp-lead\'',
-					$lead_id
-					);
-					$wpdb->query( $query );
-					if ( $wpdb->num_rows ) {
-						$lead_ID = $wpdb->get_var( $query );
-						$url = admin_url();
-						$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
-						wp_redirect( $redirect, 301 ); exit;
-					}
+			if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != '') {
+				$query->query_vars['meta_key'] = $_GET['wp_leads_filter_field'];
+			if (isset($_GET['wp_leads_filter_field_val']) && $_GET['wp_leads_filter_field_val'] != '')
+				$query->query_vars['meta_value'] = $_GET['wp_leads_filter_field_val'];
 			}
 	}
 
 
-	add_action( 'restrict_manage_posts', 'wpl_admin_posts_filter_restrict_manage_posts' );
-	function wpl_admin_posts_filter_restrict_manage_posts()
-	{
-		global $wpdb;
-		 $screen = get_current_screen();
-		 $screen_id = $screen->id;
-		if ( $screen_id=='edit-wp-lead') {
-				$post_type = 'wp-lead';
-				$query = "
-					SELECT DISTINCT($wpdb->postmeta.meta_key)
-					FROM $wpdb->posts
-					LEFT JOIN $wpdb->postmeta
-					ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-					WHERE $wpdb->posts.post_type = 'wp-lead'
-					AND $wpdb->postmeta.meta_key != ''
-					AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
-					AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
-				";
-				$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
-				$fields = $wpdb->get_col($wpdb->prepare($query, $post_type));
-				//print_r($fields);
-				// $fields = $wpdb->get_results($sql, ARRAY_N);
-			?>
-				<select name="wp_leads_filter_field" id="lead-meta-filter">
-				<option value="" class='lead-meta-empty'><?php _e('Filter By Custom Fields', 'baapf'); ?></option>
-				<?php
-					$current = isset($_GET['wp_leads_filter_field'])? $_GET['wp_leads_filter_field']:'';
-					$current_v = isset($_GET['wp_leads_filter_field_val'])? $_GET['wp_leads_filter_field_val']:'';
-					$nice_names = array(
-						"wpleads_first_name" => "First Name",
-						"wpleads_last_name" => "Last Name",
-						"wpleads_email_address" => "Email Address",
-						"wpleads_city" => "City",
-						"wpleads_areaCode" => "Area Code",
-						"wpleads_country_name" => "Country Name",
-						"wpleads_region_code" => "State Abbreviation",
-						"wpleads_region_name" => "State Name",
-						"wp_lead_status" => "Lead Status",
-						"events_triggered" => "Number of Events Triggered",
-						"lp_page_views_count" => "Page View Count",
-						"wpl-lead-conversion-count" => "Number of Conversions"
-					);
+	function wp_leads_lead_email_filter( $query ) {
+			global $pagenow;
+			$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
 
-					$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
+			if (!$screen)
+				return;
 
-					foreach ($fields as $field) {
-						//echo $field;
-						if (array_key_exists($field, $nice_names)) {
-							$label = $nice_names[$field];
-							echo "<option value='$field' ".selected( $current, $field ).">$label</option>";
+			$screen_id = $screen->id;
+
+			if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
+				$query->query_vars['meta_key'] = 'wpleads_email_address';
+			if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
+				$query->query_vars['meta_value'] = $_GET['lead-email'];
+			}
+	}
+		// Redirect clicks from lead emails to lead profiles.
+		add_action('admin_init', 'wp_lead_redirect_with_email');
+		function wp_lead_redirect_with_email() {
+			global $wpdb;
+				if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
+				$lead_id = 	$_GET['lead-email-redirect'];
+				$query = $wpdb->prepare(
+						'SELECT ID FROM ' . $wpdb->posts . '
+						WHERE post_title = %s
+						AND post_type = \'wp-lead\'',
+						$lead_id
+						);
+						$wpdb->query( $query );
+						if ( $wpdb->num_rows ) {
+							$lead_ID = $wpdb->get_var( $query );
+							$url = admin_url();
+							$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
+							wp_redirect( $redirect, 301 ); exit;
 						}
-
-					}
-				?>
-				</select><span class='lead_meta_val'><?php _e('Value:', 'baapf'); ?></span><input type="TEXT" name="wp_leads_filter_field_val" class="lead_meta_val" value="<?php echo $current_v; ?>" />
-				<?php
+				}
 		}
-}
+
+
+		add_action( 'restrict_manage_posts', 'wpl_admin_posts_filter_restrict_manage_posts' );
+		function wpl_admin_posts_filter_restrict_manage_posts()
+		{
+			global $wpdb;
+			 $screen = get_current_screen();
+			 $screen_id = $screen->id;
+			if ( $screen_id=='edit-wp-lead') {
+					$post_type = 'wp-lead';
+					$query = "
+						SELECT DISTINCT($wpdb->postmeta.meta_key)
+						FROM $wpdb->posts
+						LEFT JOIN $wpdb->postmeta
+						ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+						WHERE $wpdb->posts.post_type = 'wp-lead'
+						AND $wpdb->postmeta.meta_key != ''
+						AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
+						AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
+					";
+					$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
+					$fields = $wpdb->get_col($wpdb->prepare($query, $post_type));
+					//print_r($fields);
+					// $fields = $wpdb->get_results($sql, ARRAY_N);
+				?>
+					<select name="wp_leads_filter_field" id="lead-meta-filter">
+					<option value="" class='lead-meta-empty'><?php _e('Filter By Custom Fields', 'baapf'); ?></option>
+					<?php
+						$current = isset($_GET['wp_leads_filter_field'])? $_GET['wp_leads_filter_field']:'';
+						$current_v = isset($_GET['wp_leads_filter_field_val'])? $_GET['wp_leads_filter_field_val']:'';
+						$nice_names = array(
+							"wpleads_first_name" => "First Name",
+							"wpleads_last_name" => "Last Name",
+							"wpleads_email_address" => "Email Address",
+							"wpleads_city" => "City",
+							"wpleads_areaCode" => "Area Code",
+							"wpleads_country_name" => "Country Name",
+							"wpleads_region_code" => "State Abbreviation",
+							"wpleads_region_name" => "State Name",
+							"wp_lead_status" => "Lead Status",
+							"events_triggered" => "Number of Events Triggered",
+							"lp_page_views_count" => "Page View Count",
+							"wpleads_conversion_count" => "Number of Conversions"
+						);
+
+						$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
+
+						foreach ($fields as $field) {
+							//echo $field;
+							if (array_key_exists($field, $nice_names)) {
+								$label = $nice_names[$field];
+								echo "<option value='$field' ".selected( $current, $field ).">$label</option>";
+							}
+
+						}
+					?>
+					</select><span class='lead_meta_val'><?php _e('Value:', 'baapf'); ?></span><input type="TEXT" name="wp_leads_filter_field_val" class="lead_meta_val" value="<?php echo $current_v; ?>" />
+					<?php
+			}
+	}
 
 	// Make these columns sortable
 	add_filter( "manage_edit-wp-lead_sortable_columns", "wpleads_sortable_columns" );
@@ -694,5 +717,9 @@ function wp_leads_lead_email_filter( $query ) {
 		return $xml;
 	}
 
+	function wpleads_get_conversion_count ($lead_id)
+	{
+		$conversion_count = get_post_meta($post_id,'wpleads_conversion_count', true);
+	}
 }
 ?>

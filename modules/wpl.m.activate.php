@@ -52,6 +52,15 @@ function wpleads_activate()
 		$sql = "ALTER TABLE `{$wpdb->prefix}lead_tracking`	CHANGE `tracking_id` `tracking_id` varchar(40)";
 		$result = mysql_query($sql);		
 		//if (!$result){ echo $sql; echo mysql_error(); exit; }
+		
+		$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'";
+		$result = mysql_query($sql);
+		
+		$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_page_view_count' where meta_key = 'wpl-lead-page-view-count'";
+		$result = mysql_query($sql);
+		
+		$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_raw_post_data' where meta_key = 'wpl-lead-raw-post-data'";
+		$result = mysql_query($sql);
 	}		
 
 }
