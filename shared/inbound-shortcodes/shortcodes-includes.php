@@ -62,6 +62,7 @@ jQuery(".lead").append('"' + clean + '" => "' + toTitleCase(new_name) + '", ');
 	require_once ('shortcodes/alert.php');
 	require_once ('shortcodes/button.php');
 	require_once ('shortcodes/lists.php');
+	require_once ('shortcodes/social-share.php');
 	// Leads only Shortcodes
 
 	// Landing Page Only Shortcodes

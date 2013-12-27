@@ -45,7 +45,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 			ed.addCommand('InboundShortcodesPopup', function(a, params) {
 				var popup = params.identifier;
 				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900 + "&path=" + inbound_load.image_dir);
-
+				jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
 			});
 		},
 		createControl: function(btn, e) {
@@ -63,7 +63,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 				btn.onRenderMenu.add(function(c, b) {
 					b.add({title : 'Inbound Form Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
 					a.addWithPopup( b, 'Build a Form', 'forms' );
-					a.addWithPopup( b, 'Quick Form Insert', 'quick-forms' );
+					a.addWithPopup( b, 'Insert Existing Form', 'quick-forms' );
 					a.addWithPopup( b, 'Build a Button', 'button' );
 					if (cta_status > -1) {
 					b.add({title : 'Call to Action Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
@@ -75,8 +75,11 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 					//a.addWithPopup( b, 'Insert Landing Page Lists', 'landing_pages' );
 					}
 					b.add({title : 'Inbound Style Shortcodes', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+					a.addWithPopup( b, 'Social Share', 'social-share' );
 					a.addWithPopup( b, 'Insert Icon List', 'lists' );
 					a.addWithPopup( b, 'Insert Columns', 'columns' );
+
+
 					/* Loop for Addon Shortcode KEEP
 					myArray = shortcode_addons;
 					for(i=0; i<myArray.length; i++) {
@@ -116,7 +119,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 			return null;
 		},
 
-		addWithPopup: function(ed, title, id) {
+		addWithPopup: function(ed, title, id, sub) {
 			ed.add({
 				title: title,
 				icon: 'editor-icon-' + id,
@@ -127,6 +130,14 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 					});
 				}
 			});
+			// http://www.tinymce.com/wiki.php/API3:class.tinymce.ui.DropMenu
+			if (typeof (sub) != "undefined" && sub != null && sub != "") {
+				var sub1 = ed.addMenu({title : 'Menu 3'});
+				sub1.add({title : 'Menu 1.1', onclick : function() {
+				    alert('Item 1.1 was clicked.');
+				}});
+			}
+
 		},
 
 		addImmediate: function(ed, title, sc) {
