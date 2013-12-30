@@ -148,7 +148,7 @@ function wplead_quick_stats_metabox() {
 		if (is_array($last_conversion)){
 		$count_conversions = count($last_conversion);
 		} else {
-		$count_conversions = get_post_meta($post->ID,'wpl-lead-conversion-count', true);
+		$count_conversions = get_post_meta($post->ID,'wpleads_conversion_count', true);
 		}
 	$the_date = $last_conversion[$count_conversions]['datetime']; // actual
 
@@ -164,9 +164,9 @@ function wplead_quick_stats_metabox() {
 	    	foreach($page_view_array as $key=>$val) {
 	         $page_view_count += count($page_view_array[$key]);
 	        }
-	    update_post_meta($post->ID,'wpl-lead-page-view-count', $page_view_count);
+	    update_post_meta($post->ID,'wpleads_page_view_count', $page_view_count);
 	   	} else {
-	      	$page_view_count = get_post_meta($post->ID,'wpl-lead-page-view-count', true);
+	      	$page_view_count = get_post_meta($post->ID,'wpleads_page_view_count', true);
 	    }
 
 	?>
@@ -307,8 +307,6 @@ function wplead_ip_address_metabox() {
 
 /* Top Metabox */
 add_action( 'edit_form_after_title', 'wp_leads_header_area' );
-add_action( 'save_post', 'wp_leads_save_header_area' );
-
 function wp_leads_header_area()
 {
    global $post;
@@ -351,6 +349,8 @@ function wp_leads_header_area()
     <?php
 }
 
+
+add_action( 'save_post', 'wp_leads_save_header_area' );
 function wp_leads_save_header_area( $post_id )
 {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
@@ -891,7 +891,7 @@ function wpleads_display_metabox_main() {
 			<?php
 
 			// Get Raw form Data
-			$raw_data = get_post_meta($post->ID,'wpl-lead-raw-post-data', true);
+			$raw_data = get_post_meta($post->ID,'wpleads_raw_post_data', true);
 
 			if ($raw_data)
 			{

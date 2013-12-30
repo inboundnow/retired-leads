@@ -66,11 +66,11 @@ function wp_leads_update_page_view_obj($lead_id, $page_id, $current_url) {
 		if($page_id === "" || empty($page_id)){
 			return;
 		}
-		$current_page_view_count = get_post_meta($lead_id,'wpl-lead-page-view-count', true);
+		$current_page_view_count = get_post_meta($lead_id,'wpleads_page_view_count', true);
 
 		$increment_page_views = $current_page_view_count + 1;
 
-		update_post_meta($lead_id,'wpl-lead-page-view-count', $increment_page_views); // update count
+		update_post_meta($lead_id,'wpleads_page_view_count', $increment_page_views); // update count
 
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
