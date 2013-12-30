@@ -38,7 +38,7 @@ class InboundShortcodes {
     add_action( 'wp_enqueue_scripts',  array(__CLASS__, 'frontend_loads')); // load styles
     add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
     add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
-
+    add_shortcode('social_share',  array(__CLASS__, 'inbound_shortcode_social_links'));
   }
   // Set Consistant File Paths for inbound now plugins
   static function set_file_path(){
@@ -214,7 +214,227 @@ class InboundShortcodes {
 
     return $button;
   }
+  static function inbound_shortcode_social_links( $atts, $content = null ) {
+    $final_path = self::set_file_path();
+      extract(shortcode_atts(array(
+        'style' => 'bar',
+        'align' => '',
+        'heading' => '',
+        'heading_align' => '',
+        'link' => '',
+        'text' => '',
+        'facebook' => '',
+        'twitter' => '',
+        'google_plus' => '',
+        'linkedin' => '',
+        'pinterest' => '',
+      ), $atts));
+      $float = "";
+      if($style == 'bar') {
+        $class = 'mt-share-inline-bar-sm';
+      } else if ($style == 'circle') {
+        $class = 'mt-share-inline-circle-sm';
+      } else if ($style == 'square') {
+        $class = 'mt-share-inline-square-sm';
+      } else if ($style == 'black'){
+        $class ="mt-share-inline-square-bw-sm";
+      }
+      $alignment = "";
+      $margin_setting = 'margin-right';
+      $header_align = "display:block;";
+      if($align == 'horizontal') {
+        $alignment = 'inline-block';
+        $margin_setting = 'margin-right';
+        if($heading_align == 'inline' ){
+          $header_align = "display:inline-block; padding-right: 10px; height: 32px;
+  vertical-align: top;";
+          $float = "float: left;";
+        }
 
+      } else if ($align == 'vertical') {
+        $alignment = 'block';
+        $margin_setting = 'margin-top';
+        $header_align = "display:inline-block; padding-right: 10px; float:left;";
+        if($heading_align == 'above' ){
+          $header_align = "display:block; padding-right: 10px;";
+        }
+      }
+
+      if ($link == ""){
+        $link = get_permalink();
+      }
+      if ($text == ""){
+        $text = get_the_title();
+      }
+
+      $out = '';
+      $out .= '<style type="text/css">
+
+      a.mt-share-inline-bar-sm img {
+        width: 34px;
+        height: auto;
+        border: 0px;
+      }
+      .inbound-social-share-header {
+        vertical-align: middle;
+      }
+      a.mt-share-inline-bar-sm:hover {
+        z-index: 50;
+        -webkit-transform: scale3d(1.075, 1.075, 1.075);
+      }
+      a.mt-share-inline-bar-sm {
+        display: '.$alignment.';
+        width: 64px;
+        height: 32px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        margin-right: 0px;
+        text-align: center;
+        position: relative;
+        transition: all 100ms ease-in;
+        -webkit-transition: all 100ms ease-in;
+        -webkit-transform: scale3d(1, 1, 1);
+
+      }
+      a.mt-share-inline-circle-sm img {
+        width: 34px;
+        height: 34px;
+        border: 0px;
+      }
+      a.mt-share-inline-circle-sm {
+        display: '.$alignment.';
+        width: 34px;
+        height: 34px;
+        border-top-left-radius: 50%;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+        '.$margin_setting.': 4px;
+
+      }
+      a.mt-share-inline-square-sm img {
+        width: 34px;
+        height: auto;
+        border: 0px;
+      }
+      a.mt-share-inline-square-sm {
+       display: '.$alignment.';
+        width: 34px;
+        height: 34px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        '.$margin_setting.': 4px;
+
+      }
+      .mt-google:hover {
+        background-color: rgb(225, 95, 79);
+      }
+      .mt-google {
+        background-color: rgb(221, 75, 57);
+      }
+      .mt-linkedin:hover {
+        background-color: rgb(16, 135, 192);
+      }
+      .mt-linkedin {
+        background-color: rgb(14, 118, 168);
+      }
+      .mt-twitter:hover {
+        background-color: rgb(8, 187, 255);
+      }
+      .mt-twitter {
+        background-color: rgb(0, 172, 238);
+      }
+      .mt-facebook:hover {
+        background-color: rgb(66, 100, 170);
+      }
+      .mt-facebook {
+        background-color: rgb(59, 89, 152);
+      }
+      .mt-pinterest:hover {
+        background-color: rgb(221, 42, 48);
+      }
+      .mt-pinterest {
+        background-color: rgb(204, 33, 39);
+      }
+      a.mt-share-inline-square-bw-sm img {
+        width: 34px;
+        height: 34px;
+      }
+      a.mt-share-inline-square-bw-sm.mt-google:hover {
+        background-color: rgb(221, 75, 57) !important;
+      }
+      a.mt-share-inline-square-bw-sm.mt-linkedin:hover {
+        background-color: rgb(14, 118, 168) !important;
+      }
+      a.mt-share-inline-square-bw-sm.mt-twitter:hover {
+        background-color: rgb(0, 172, 238) !important;
+      }
+      a.mt-share-inline-square-bw-sm.mt-facebook:hover {
+        background-color: rgb(59, 89, 152) !important;
+      }
+      a.mt-share-inline-square-bw-sm.mt-pinterest:hover{
+        background-color: #dd2a30 !important;
+      }
+      a.mt-share-inline-square-bw-sm {
+       display: '.$alignment.';
+        width: 34px;
+        height: 34px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        '.$margin_setting.': 4px;
+        text-align: center;
+        background-color: rgb(51, 51, 51);
+        transition: background-color 300ms ease-in;
+        -webkit-transition: background-color 300ms ease-in;
+
+      }
+      </style>';
+      if ($heading != ""){
+        $heading = "<span class='inbound-social-share-header' style='$header_align'>$heading</span>";
+      }
+      $out .= '<span class="inbound-social-share-bar-container">' . $heading . "<span style='$header_align'>";
+      if( $facebook ) {
+        $out .= '<a class="mt-facebook '.$class.'" style="'.$float.'"
+              href="https://www.facebook.com/sharer/sharer.php?u='.$link.'">
+                <img src="'.$final_path.'shared/inbound-shortcodes/images/facebook@2x.png">
+              </a>';
+      }
+      if( $twitter ) {
+        $out .= '
+        <a class="mt-twitter '.$class.'" style="'.$float.'"
+          href="http://twitter.com/intent/tweet?text='.$text.'&amp;url='.$link.'" target="_blank">
+            <img src="'.$final_path.'shared/inbound-shortcodes/images/twitter@2x.png">
+          </a>';
+      }
+      if( $google_plus ) {
+        $out .= '<a class="mt-google '.$class.'" style="'.$float.'"
+              href="https://plus.google.com/share?url='.$link.'">
+                <img src="'.$final_path.'shared/inbound-shortcodes/images/google@2x.png">
+              </a>';
+      }
+      if( $linkedin ) {
+        $out .= ' <a class="mt-linkedin '.$class.'" style="'.$float.'"
+        href="http://www.linkedin.com/shareArticle?mini=true&amp;url='.$link.'&amp;summary='.$text.'">
+          <img src="'.$final_path.'shared/inbound-shortcodes/images/linkedin@2x.png">
+        </a>';
+      }
+      if( $pinterest ) {
+        $out .= '<a class="mt-pinterest '.$class.'" style="'.$float.'"
+    href="http://www.pinterest.com/pin/create/button/?url='.$link.'&amp;media=&amp;guid=1234&amp;description='.$text.'">
+      <img src="'.$final_path.'shared/inbound-shortcodes/images/pinterest@2x.png">
+    </a>';
+      }
+
+      $out .= '</span></span>';
+
+      return $out;
+    }
   static function inbound_shortcode_list( $atts, $content = null){
       extract(shortcode_atts(array(
         'icon' => 'check-circle',

@@ -5,7 +5,7 @@
 	margin-bottom: 0px;
 	margin-top: 5px;
 }
-.inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice {
+.inbound_tbody.parent-inbound_shortcode_helper-block-one, #local-storage-notice, #setting-error-tgmpa, #screen-options-link-wrap, #notice, .updated.inbound-shortcode-trigger {
 	display: none !important;
 }
 #cpt-form-shortcode {
@@ -117,7 +117,10 @@ left: 0px; }
 width: 100%;
 overflow: visible;}
 #inbound-shortcodes-preview-wrap {
-margin-top:-129px;
+	position: fixed;
+	width: 31%;
+	right: 0px;
+	top: 31px;
 }
 #titlediv #title {
 background-color: #FFF;

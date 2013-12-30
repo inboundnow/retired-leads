@@ -11,9 +11,22 @@
 /*	Get Shortcodes
  *	--------------------------------------------------------------------------- */
 
-$test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbound_form_test%20name=%22test%22][inbound_field%20label=%22%22%20type=%22html-block%22%20description=%22%22%20required=%220%22%20dropdown=%22%22%20radio=%22%22%20html=%22test%20&lt;span%20class=%22foot%22&gt;%20%22][/inbound_form_test]&lt;/span&gt;";
+$broekn = "divider_options=%22%3Ca%20href=%22http://glocal.dev/wp-admin/edit.php?post_type=inbound-forms%22%3ELeads%3C/a%3E%22";
 
+$test = "http://glocal.dev/wp-content/plugins/leads/shared/inbound-shortcodes/preview.php?post=1544&sc=[inbound_form%20id=%221544%22%20name=%22New%20Icon%20Form%22%20redirect=%22http://fontawesome.io/%22%20notify=%22ccc%22%20layout=%22vertical%22%20font_size=%2216%22%20%20labels=%22top%22%20icon=%22check-circle-o%22%20submit=%22Submit%22%20width=%22%22]
 
+[inbound_field%20label=%22First%20Name%22%20type=%22divider%22%20description=%22%22%20required=%220%22%20dropdown=%22%22%20radio=%22%22%20%20checkbox=%22%22%20placeholder=%22%22%20html=%22%22%20dynamic=%22%22%20map_to=%22%22%20
+
+divider_options=%22%3Ca%20href=%22%22%3ETest%3C/a%3E%22]
+
+[/inbound_form]";
+
+$html_test = "divider_options=%22&lt;h3&gt;Hi&lt;/h3&gt;%22";
+$html_test2 = "divider_options=%22<h3>Hi</h3>%22";
+$extra_content = "";
+$html_test = preg_replace("/%22/", "'", $html_test);
+$test =  html_entity_decode( trim( $html_test2 ) );
+//echo $test;
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 	// SET CORRECT FILE PATHS FOR SCRIPTS
 	if ( defined( 'WPL_URL' )) {
@@ -33,8 +46,9 @@ $test = "http://local.dev/wp-content/plugins/inbound-forms/preview.php?sc=[inbou
 
 $horiz = "";
 if (preg_match("/horizontal/i", $shortcode)) {
-$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Click to Preview Horizontal Form in new tab</h2>";
+$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Previews detected. Click to Preview Horizontal shortcode in new tab</h2>";
 }
+
 
 	$shortcode = str_replace('\"', '"', $shortcode);
 	$shortcode = str_replace('&lt;', '<', $shortcode);
@@ -122,18 +136,26 @@ margin-bottom: 15px;
 cursor: pointer;
 font-size: 12px;
 text-align: center;
+margin-top: 0px;
 display: none;
 }
 #close-preview-window {
 	float: right;
 	display: none;
 }
+<?php if (preg_match("/social_share/i", $shortcode)) {
+echo "body {
+padding: 30px 0px !important;
+padding-left: 5px !important;
+}";
+$extra_content = "<p>This is dummy text and not part of the shortcode. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.</p>";
+}?>
 			</style>
 		</head>
 		<body>
 
 			<div id="close-preview-window"><a href="javascript:window.close()" class="close_window">close window</a></div>
-			<span class="disclaimer"><strong>Note:</strong> Previews aren't always exactly what they will look like on your page. Sometimes other styles can interfere</span>
+
 			<?php echo $horiz;
 				if ($horiz != ""){ ?>
 					<script type="text/javascript">
@@ -163,7 +185,7 @@ display: none;
 
 			<?php
 
-			echo do_shortcode( $shortcode ); ?>
+			echo do_shortcode( $shortcode ) . $extra_content; ?>
 
 			<?php // echo "<br>". $shortcode; ?>
 

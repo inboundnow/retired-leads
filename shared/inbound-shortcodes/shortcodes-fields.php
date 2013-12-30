@@ -182,7 +182,7 @@ class InboundShortcodesFields {
 				$parent_row_start .= '<div class="child-clone-rows">';
 				$parent_row_start .= '<div id="_inbound_shortcodes_child_output" class="hidden">'.$this->child_shortcode.'</div>';
 				$parent_row_start .= '<div id="field_instructions">Drag and drop fields to reorder.</div>';
-				$parent_row_start .= '<div class="child-clone-row"><span class="form-field-row-number">1</span><a  class="child-clone-row-remove child-options-toggles">Remove</a><a  href="#" class="child-clone-row-shrink child-options-toggles ">Minimize</a><a  href="#" class="child-clone-row-exact child-options-toggles ">Clone</a>';
+				$parent_row_start .= '<div class="child-clone-row"><span class="form-field-row-number">1</span><span class="inbound_field_type"></span><a  class="child-clone-row-remove child-options-toggles">Remove</a><a  href="#" class="child-clone-row-shrink child-options-toggles ">Minimize</a><a  href="#" class="child-clone-row-exact child-options-toggles ">Clone</a>';
 				$parent_row_start .= '<ul class="child-clone-row-form">';
 
 				$this->append_output( $parent_row_start );
@@ -191,6 +191,7 @@ class InboundShortcodesFields {
 					$first = $key;
 					$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
 					$hide_class = ($count > 1) ? 'minimize-class' : '';
+					$text_class = ($count == 1) ? ' inbound-form-label-input' : '';
 					$original_key = $key;
 					$key = 'inbound_shortcode_' . $key;
 					$name = ( isset($option['name'])) ? $option['name'] : '';
@@ -229,7 +230,7 @@ class InboundShortcodesFields {
 
 						case 'text' :
 							$child_output  = $child_row_start;
-							$child_output .= '<input type="text" data-conditional-hide="'.$reveal_on.'" class="inbound-shortcodes-child-input" name="'. $uniquekey .'" id="'. $key .'" placeholder="'.$placeholder.'" value="'. $std .'" />';
+							$child_output .= '<input type="text" data-conditional-hide="'.$reveal_on.'" class="inbound-shortcodes-child-input'.$text_class.'" name="'. $uniquekey .'" id="'. $key .'" placeholder="'.$placeholder.'" value="'. $std .'" />';
 							$child_output .= $child_row_end;
 							$this->append_output($child_output);
 							break;

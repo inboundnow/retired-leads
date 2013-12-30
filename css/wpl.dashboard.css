@@ -88,7 +88,7 @@ display: inline-block;
 .data-block.widget-block .db-action {
 padding-left: 58px;
 	font-size: 25px;
-	
+
 padding-top: 7px;
 }
 .data-block.widget-block.analytics .db-action {
@@ -203,8 +203,8 @@ font-size: 20px;
 
 }
 #flot-placeholder {
-	margin-left: -17px !important;
-	
+	margin-left: 0px !important;
+
 }
 .positive-leads, .lead-growth {
 	color: green;
@@ -215,7 +215,7 @@ font-size: 16px;
 	text-align: center;
 	display: block;
 	margin: 0px;
-	padding-bottom: 3px;	
+	padding-bottom: 3px;
 }
 small.positive-leads  span {
 	font-size: 13px;
@@ -285,7 +285,7 @@ margin: 0;
 }
 
 .hi-icon-wrap {
-	
+
 }
 
 .hi-icon {
@@ -309,8 +309,8 @@ color: #FFF;
 	height: 100%;
 	border-radius: 50%;
 
-	-webkit-box-sizing: content-box; 
-	-moz-box-sizing: content-box; 
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
 
@@ -521,7 +521,7 @@ display: block;
 /* Effect 3 */
 .hi-icon-effect-3 .hi-icon {
 	box-shadow: 0 0 0 4px;
-	
+
 }
 
 .hi-icon-effect-3 .hi-icon:after {
@@ -629,7 +629,7 @@ border-radius: 5px;
 border-top-left-radius: 5px;
 border-top-right-radius: 5px;
 background: transparent;
-		
+
 }
 .cd-dropdown > span {
 	background: #fff;
@@ -640,7 +640,7 @@ background: transparent;
 -moz-border-radius-topleft: 0px;
 -moz-border-radius-topright: 0px;
 border-top-left-radius: 0px;
-border-top-right-radius: 0px;	
+border-top-right-radius: 0px;
 -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 -moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
 box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -692,7 +692,7 @@ content: "\2b06";
 	color: #bcbcbc;
 	display: block;
 	border-radius: 0px;
-	
+
 }
 .cd-dropdown ul li {
 	border-radius: 5px;
@@ -839,7 +839,7 @@ content: "\2b06";
 .dashboard-icon-list-2:before {
 	content: "\e01f";
 }
-.cd-dropdown span[class^="dashboard-icon-"]:before, 
+.cd-dropdown span[class^="dashboard-icon-"]:before,
 .cd-dropdown span[class*=" dashboard-icon-"]:before {
 	font-family: 'icomoon';
 	font-style: normal;
@@ -891,7 +891,7 @@ width: 175px;
 	-o-transition: -o-transform .3s;
 	-ms-transition: -ms-transform .3s;
 	transition: transform .3s;
-	
+
 }
 
 .cd-dropdown > span:active {
@@ -900,7 +900,7 @@ width: 175px;
 	-o-transform: rotateX(60deg);
 	-ms-transform: rotateX(60deg);
 	transform: rotateX(60deg);
-	
+
 }
 
 .cd-dropdown > span,
@@ -939,7 +939,7 @@ width: 175px;
 -moz-border-radius-topleft: 5px;
 -moz-border-radius-topright: 5px;
 border-top-left-radius: 5px;
-border-top-right-radius: 5px;	
+border-top-right-radius: 5px;
 }
 /*
 .cd-active.cd-dropdown ul li span {

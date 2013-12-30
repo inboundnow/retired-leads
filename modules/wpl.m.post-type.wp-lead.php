@@ -250,6 +250,7 @@ function wp_leads_lead_email_filter( $query ) {
 		global $wpdb;
 			if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
 			$lead_id = 	$_GET['lead-email-redirect'];
+			$param = (isset($_GET['tab'])) ? '&tab=' . $_GET['tab'] : '';
 			$query = $wpdb->prepare(
 					'SELECT ID FROM ' . $wpdb->posts . '
 					WHERE post_title = %s
@@ -260,7 +261,7 @@ function wp_leads_lead_email_filter( $query ) {
 					if ( $wpdb->num_rows ) {
 						$lead_ID = $wpdb->get_var( $query );
 						$url = admin_url();
-						$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
+						$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit' . $param;
 						wp_redirect( $redirect, 301 ); exit;
 					}
 			}

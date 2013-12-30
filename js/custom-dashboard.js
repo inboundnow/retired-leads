@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+    var list_count = jQuery(".dashboard-lead-lists").length;
+    if( list_count < 1) {
+        $("#wp-lead-dashboard-list").hide();
+    }
    var before_dash = jQuery("#lead-before-dashboard");
    var dashboard_view = $.cookie("dashboard-view-choice");
 	jQuery(".wrap h2").after(before_dash);
@@ -13,17 +17,17 @@ jQuery(document).ready(function($) {
     });
 
     jQuery(".marketing-widget-header").on("click", function(event){
-	 
+
 		var link = jQuery(this).find(".toggle-lead-list");
 		var conversion_log = jQuery(this).parent().find("#lead-ul").toggle();
 
 		      if (jQuery(conversion_log).is(":visible")) {
 		                 link.text('-');
-		                 $.cookie("dashboard-view-choice", "show_leads", { path: '/', expires: 7 });                
+		                 $.cookie("dashboard-view-choice", "show_leads", { path: '/', expires: 7 });
 		            } else {
 		                 link.text('+');
-		                 $.cookie("dashboard-view-choice", "hide_leads", { path: '/', expires: 7 });                 
-		            }    
+		                 $.cookie("dashboard-view-choice", "hide_leads", { path: '/', expires: 7 });
+		            }
 		});
     if(dashboard_view === "hide_leads") {
     	jQuery("#lead-ul").hide();
@@ -41,7 +45,7 @@ jQuery(document).ready(function ($) {
         data: data2,
         xaxis:2,
         color: "#D8D8D8",
-     
+
         points: { fillColor: "#D8D8D8", show: true },
         lines: { show: true }
     },
@@ -65,7 +69,7 @@ var options = {
             lineWidth: 1 },
     xaxes: [{
         show: false,
-        mode: "time",                
+        mode: "time",
         tickFormatter: function (val, axis) {
             return dayOfWeek[new Date(val).getDay()];
         },
@@ -82,7 +86,7 @@ var options = {
         mode: "time",
         timeformat: "%m/%d",
         tickSize: [2, "day"],
-        color: "D8D8D8",        
+        color: "D8D8D8",
         axisLabel: false,
         axisLabelUseCanvas: false,
         axisLabelFontSizePixels: 12,
@@ -90,7 +94,7 @@ var options = {
         axisLabelPadding: 10,
         alignTicksWithAxis: 10
     }],
-    yaxis: {        
+    yaxis: {
         color: "D8D8D8",
         tickDecimals: 0,
         axisLabel: "Lead Count",
@@ -127,16 +131,16 @@ var options = {
     var today = new Date();
 	var dd = today.getDate();
 	var date_exists = the_data[1].data[dd];
-    if(typeof(date_exists) != "undefined" && date_exists !== null && date_exists !== "") { 
+    if(typeof(date_exists) != "undefined" && date_exists !== null && date_exists !== "") {
     var getit = the_data[1].data[dd][0]; // gets the crosshair location
     //console.log(getit);
    // var today = ture;
-    chartplot.lockCrosshair({ x: getit });
+   // chartplot.lockCrosshair({ x: getit });
     }
 
     var tourlink = "";
-      $("#flot-placeholder").bind("plothover",  function (event, pos, item) 
-    {   
+      $("#flot-placeholder").bind("plothover",  function (event, pos, item)
+    {
     	 if (item) {
           // Lock the crosshair to the data point being hovered
 		// chartplot.lockCrosshair({ x: item.datapoint[0] });
@@ -144,7 +148,7 @@ var options = {
         else {
           // Return normal crosshair operation
         //  chartplot.unlockCrosshair();
-        }     
+        }
     	//plot.lockCrosshair({ x: item.dataIndex[5] });
         //chartplot.setCrosshair({x: pos.x})
        // console.log(item);

@@ -70,7 +70,7 @@
 			});
 
 			jQuery('#_inbound_shortcodes_newoutput').remove();
-			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_inbound_shortcodes_newoutput" class="hidden">' + newoutput + '</div>');
+			jQuery('#inbound-shortcodes-form-table').prepend('<textarea id="_inbound_shortcodes_newoutput" class="hidden">' + newoutput + '</textarea>');
 
 			InboundShortcodes.updatePreview();
 
@@ -113,7 +113,7 @@
 			parent_output = jQuery('#_inbound_shortcodes_newoutput').text().replace('{{child}}', outputs);
 
 			jQuery('#_inbound_shortcodes_newoutput').remove();
-			jQuery('#inbound-shortcodes-form-table').prepend('<div id="_inbound_shortcodes_newoutput" class="hidden">' + parent_output + '</div>');
+			jQuery('#inbound-shortcodes-form-table').prepend('<textarea id="_inbound_shortcodes_newoutput" class="hidden">' + parent_output + '</textarea>');
 
 			InboundShortcodes.updatePreview();
 
@@ -134,6 +134,10 @@
 				jQuery('.child-clone-row .minimize-class').not( "#" + exlcude_id + " .minimize-class").addClass('tog-hide-it');
 				jQuery(this).find(".minimize-class").removeClass('tog-hide-it');
 				jQuery(this).find('.child-clone-row-shrink').text("Minimize");
+				//jQuery(this).find(".inbound-tab-class-advanced").hide();
+				//jQuery(this).removeClass("hide-advanced-options");
+				//jQuery(this).text("Show advanced options");
+				//jQuery(this).addClass("show-advanced-fields");
     		});
     		// Clone Field values
     		jQuery("body").on('click', '.child-clone-row-exact', function () {
@@ -192,7 +196,7 @@
 
 			if( jQuery('#inbound-shortcodes-preview').size() > 0 ) {
 
-				var	shortcode = jQuery('#_inbound_shortcodes_newoutput').html(),
+				var	shortcode = jQuery('#_inbound_shortcodes_newoutput').val(),
 					iframe = jQuery('#inbound-shortcodes-preview'),
 					theiframeSrc = iframe.attr('src'),
 					thesiframeSrc = theiframeSrc.split('preview.php'),
@@ -510,7 +514,7 @@
 				jQuery("#inbound_insert_shortcode_two").addClass('quick-forms');
 
 				jQuery("body").on('click', '.switch-to-form-builder', function () {
-					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=forms&width=' + 900 + "&path=" + inbound_load.image_dir);
+					tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=forms&width=' + 900);
 				 });
 
 				jQuery('#inbound_shortcode_insert_default option').each(function(){
@@ -558,8 +562,23 @@
 						var send_email_subject = '';
 						var email_contents = ''; // if post created on other post
 					}
+					var email_exists = InboundShortcodes.get_email();
+					console.log(email_exists);
+					if(email_exists != "" ) {
+						console.log('There is an email!');
+					} else {
+						if (confirm('We have detected no email field being used in this form. This will cause lead tracking to not work. Are you sure you want to not track this form? Click Cancel to add an email field')) {
+							console.log('continue');
+						} else {
+
+							jQuery('.step-item').eq(1).click();
+							jQuery('.form-row.has-child').before('<h2 style="text-align:center; margin:0px;">Add an Email Field to the form</h2>');
+							return false;
+						}
+					}
 					if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
 						jQuery(".step-item.first").click();
+
 						alert("Please Insert a Form Name!");
 						jQuery("#inbound_shortcode_form_name").addClass('need-value').focus();
 					} else {
@@ -651,6 +670,7 @@
 			jQuery('body').on('change, keyup', '.inbound-shortcodes-child-input', function() {
 				InboundShortcodes.generateChild(); // runs refresh for children
 				var update_dom = jQuery(this).val();
+				var update_dom = update_dom.replace(/"/g, "'");
 				jQuery(this).attr('value', update_dom);
 			});
 
@@ -663,6 +683,7 @@
 				InboundShortcodes.generateChild();
 			}
 				var update_dom = jQuery(this).val();
+				var update_dom = update_dom.replace(/"/g, "'");
 				jQuery(this).attr('value', update_dom);
 			});
 
@@ -719,6 +740,18 @@
 					jQuery(parent_el).find(".dynamic-visable-on").hide();
 					jQuery(parent_el).find('.reveal-' + this_val).removeClass('inbound-hidden-row').show().addClass('dynamic-visable-on');
 				}
+				if (this_val === "html-block") {
+					var empty = jQuery(parent_el).find(".child-clone-row-form-row input").first().val();
+					if (empty == ""){
+						jQuery(parent_el).find(".child-clone-row-form-row input").first().val('HTML Block');
+					}
+				}
+				if (this_val === "divider") {
+					var empty = jQuery(parent_el).find(".child-clone-row-form-row input").first().val();
+					if (empty == ""){
+						jQuery(parent_el).find(".child-clone-row-form-row input").first().val('Divider');
+					}
+				}
 			});
 			setTimeout(function() {
 
@@ -742,11 +775,31 @@
 		insert_shortcode: function() {
 				var shortcode_name = jQuery("#inbound_current_shortcode").val();
 				var form_name = jQuery("#inbound_shortcode_form_name").val();
+
 				if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
 					jQuery(".step-item.first").click();
+					var ttt = InboundShortcodes.get_email();
+					InboundShortcodes.get_email();
+					console.log(ttt);
+
 					alert("Please Insert a Form Name!");
 					jQuery("#inbound_shortcode_form_name").addClass('need-value').focus();
+
+					return false;
+				}
+/*
+				if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
+					var email_field = 'x';
+					var test = get_email();
+					console.log(test);
+				}
+
+				if (confirm('Are you sure you want to overwrite the current form you are building? Selecting another form template will clear your current fields/settings')) {
+
+					return false;
 				} else {
+
+				} */
 					if(window.tinyMCE) {
 							var insert_val = jQuery('#_inbound_shortcodes_newoutput').html();
 
@@ -777,11 +830,36 @@
 							   }, 200);
 							switchEditors.switchto(ctmce[0]); // switch to tinymce
 					}
-				}
-			},
 
+			},
+		get_email: function() {
+		var email_field = '';
+		jQuery('.inbound-form-label-input').each(function(){
+			var this_val = jQuery(this).val();
+			var res = this_val.match(/email|e-mail/gi);
+			if(res != null) {
+			console.log(this_val);
+			return email_field = 'yes';
+			}
+		});
+		return email_field;
+		},
 		htmlEncode: function(html) {
-			return jQuery('<div/>').text(html).html();
+			// fix regex for < and > the stripping breaks shortcodes
+			//var html = html.replace(/"/g, "QUOT");
+			//var html = html.replace(/'/g, "QUOT_SINGLE");
+			//var the_html = jQuery('<div/>').text(html).html();
+			//var the_html = the_html.replace(/'/g,'&#039;');
+			//var the_html = the_html.replace(/&lt;/g, "<");
+			//var the_html = the_html.replace(/&gt;/g, ">");
+			//var the_html = the_html.replace(/%3C/g, "<");
+			//var the_html = the_html.replace(/%3E/g, ">");
+			var html = html.replace(/\?/g, "%3F");
+			var html = html.replace(/\/>/, "%2F%3E");
+			//var html = html.replace(/&/g, "%26");
+			var html = encodeURIComponent(html);
+			//console.log(html);
+			return html;
 		}
 
 	};
@@ -818,5 +896,23 @@
 
 			window.history.replaceState({}, document.title, window_url);
 		}
+
+		var clicked = jQuery.cookie("inbound_shortcode_trigger");
+		if (clicked != "true") {
+
+
+			var alert = "<div class='updated inbound-shortcode-trigger'>Looks like you haven't clicked the <img style='vertical-align: bottom;' src='" + inbound_load.image_dir + "shortcodes-blue.png'> button <span style='background:yellow'>(highlighted in yellow)</span> in the content editor below. There are some awesome shortcodes for you to use! Check it out! <span style='float:right; color:red;' class='inbound-dismiss-shortcode'>Dismiss this</span></div>";
+			jQuery(".wrap h2").first().after(alert);
+			setTimeout(function() {
+			jQuery(".mce_InboundShortcodesButton").css("background-color", "yellow");
+			}, 2000);
+
+		}
+
+		jQuery("body").on('click', '.inbound-dismiss-shortcode', function () {
+			jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
+			jQuery('.updated').hide();
+		});
+
 	});
 

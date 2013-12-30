@@ -15,7 +15,7 @@
 	cursor:pointer;
 }
 .nav-tab-special-active {
-		border-color: #DFDFDF #DFDFDF #FFFFFF !important;
+		border-color: #DFDFDF #DFDFDF transparent !important;
 	    border-top-left-radius: 3px;
 	    border-top-right-radius: 3px;
 	    border-width: 1px 1px 1px;
@@ -28,7 +28,10 @@
 	    text-decoration: none;
 	    text-shadow: 0 1px 0 #FFFFFF;
 		cursor:pointer;
-	    background: #fff !important;
+	    background: rgba(241,241,241, 1) !important;
+}
+#lp-st-tabs .nav-tab-special-active {
+	background: #fff !important;
 }
 .lead-conversion-mark {
 	background: red;

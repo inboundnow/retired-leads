@@ -172,14 +172,14 @@
 
 			// begin a table row with
 			// begin a table row with
-			echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300px;">';
+			echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300;">';
 				if ($field['type']=='header')
 				{
 					echo $field['default'];
 				}
 				else
 				{
-					echo "<small>".$field['label']."</small>";
+					echo "<div class='inbound-setting-label'>".$field['label']."</div>";
 				}
 			echo '</th><td>';
 					switch($field['type']) {
@@ -379,7 +379,7 @@
 
 			if (!$wpleads_options)
 				continue;
-				
+
 			// loop through fields and save the data
 			foreach ($wpleads_options as $field)
 			{
