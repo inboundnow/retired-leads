@@ -411,12 +411,19 @@ class InboundForms {
 		}
 
 		//print_r($form_meta_data); exit;
+		//print_r($form_data); exit;
+
+		$form_email = (isset($form_data['email'])) ? $form_data['email'] : false;
+
+		if (!$form_email) {
+		$form_email = (isset($form_data['e-mail'])) ? $form_data['e-mail'] : false;
+		}
 
 		/* Might be better email send need to test and look at html edd emails */
-		if ( isset($form_data['email']) && $email_to )
+		if ( $form_email && $email_to )
 		{
 			// DO PHP LEAD SAVE HERE
-			//print_r($form_data); exit;
+			//
 			$to = $email_to; // admin email or email from shortcode
 			$admin_url = get_bloginfo( 'url' ) . "/wp-admin";
 			$redirect_message = (isset($form_data['inbound_redirect']) && $form_data['inbound_redirect'] != "") ? "They were redirected to " . $form_data['inbound_redirect'] : '';
@@ -470,11 +477,11 @@ class InboundForms {
              <td  align="left" width="600" style="-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; color: #fff; font-weight: bold; text-decoration: none; font-family: Helvetica, Arial, sans-serif; display: block;">
               <h1 style="font-size: 30px; display: inline-block;margin-top: 15px;margin-left: 10px; margin-bottom: 0px; letter-spacing: 0px; word-spacing: 0px; font-weight: 300;">Lead Information</h1>
               <div style="float:right; margin-top: 5px; margin-right: 15px;"><!--[if mso]>
-                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] ).'" style="height:40px;v-text-anchor:middle;width:130px;font-size:18px;" arcsize="10%" stroke="f" fillcolor="#ffffff">
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email ).'" style="height:40px;v-text-anchor:middle;width:130px;font-size:18px;" arcsize="10%" stroke="f" fillcolor="#ffffff">
                   <w:anchorlock/>
                   <center>
                 <![endif]-->
-                    <a href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] ).'"
+                    <a href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email ).'"
               style="background-color:#ffffff;border-radius:4px;color:#3A9FD1;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none;">View Lead</a>
                 <!--[if mso]>
                   </center>
@@ -530,15 +537,15 @@ class InboundForms {
 <tbody valign="top">
  <tr valign="top" border="0">
   <td width="160" height="50" align="center" valign="top" border="0">
-     <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] . '&tab=tabs-wpleads_lead_tab_conversions' ).'">View Lead Activity</a></h3>
+     <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email . '&tab=tabs-wpleads_lead_tab_conversions' ).'">View Lead Activity</a></h3>
   </td>
 
   <td width="160" height="50" align="center" valign="top" border="0">
-     <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] . '&scroll-to=wplead_metabox_conversion' ).'">Pages Viewed</a></h3>
+     <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email . '&scroll-to=wplead_metabox_conversion' ).'">Pages Viewed</a></h3>
   </td>
 
  <td width="160" height="50" align="center" valign="top" border="0">
-    <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] . '&tab=tabs-wpleads_lead_tab_raw_form_data' ).'">View Form Data</a></h3>
+    <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email . '&tab=tabs-wpleads_lead_tab_raw_form_data' ).'">View Form Data</a></h3>
  </td>
  </tr>
 </tbody></table>
@@ -548,22 +555,22 @@ class InboundForms {
      <tbody><tr>
       <td align="center" width="250" height="30" cellpadding="5">
          <div><!--[if mso]>
-           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] ).'" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#7490af" fillcolor="#3A9FD1">
+           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email ).'" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#7490af" fillcolor="#3A9FD1">
              <w:anchorlock/>
              <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">View Lead</center>
            </v:roundrect>
-         <![endif]--><a href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_data['email'] ).'"
+         <![endif]--><a href="'.admin_url( 'edit.php?post_type=wp-lead&lead-email-redirect=' . $form_email ).'"
          style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="View the full Lead details in WordPress">View Full Lead Details</a>
        </div>
       </td>
 
        <td align="center" width="250" height="30" cellpadding="5">
          <div><!--[if mso]>
-           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:'.$form_data['email'].'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form." style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#558939" fillcolor="#59b329">
+           <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:'.$form_email.'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form." style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#558939" fillcolor="#59b329">
              <w:anchorlock/>
              <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">Reply to Lead Now</center>
            </v:roundrect>
-         <![endif]--><a href="mailto:'.$form_data['email'].'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form."
+         <![endif]--><a href="mailto:'.$form_email.'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form."
          style="background-color:#59b329;border:1px solid #558939;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="Email This Lead now">Reply to Lead Now</a></div>
 
        </td>
@@ -654,7 +661,7 @@ class InboundForms {
 				$main_count++;
 			}
 
-			$email_message .= "<div style='border:solid 1px #EBEBEA; background-color:#fff; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><h1><a style='color: #00F;font-size: 20px;' href='".$admin_url."/edit.php?post_type=wp-lead&lead-email-redirect=".$form_data['email']."' target='_blank'>View this Lead</a></h1></div>\n";
+			$email_message .= "<div style='border:solid 1px #EBEBEA; background-color:#fff; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><h1><a style='color: #00F;font-size: 20px;' href='".$admin_url."/edit.php?post_type=wp-lead&lead-email-redirect=".$form_email."' target='_blank'>View this Lead</a></h1></div>\n";
 			$email_message .= '</tr>
 						  </table>
 						</body>
@@ -673,7 +680,7 @@ class InboundForms {
                 $from_name = get_bloginfo( 'name' );
             }
 			// set the e-mail headers with the user's name, e-mail address and character encoding
-			$headers  = "From: " . $from_name . " <" . $form_data['email'] . ">\n";
+			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
 			wp_mail( $to, $email_subject, $email_message, $headers );
@@ -686,7 +693,8 @@ class InboundForms {
 
 		}
 		// Send Confirmation Email to Form Converter
-		if ($notification_status == 'on' && isset($form_data['email'])) {
+		if ($notification_status == 'on' && isset($form_email)) {
+
 			$my_postid = $form_meta_data['post_id']; //This is page id or post id
 			$content_post = get_post($my_postid);
 			$content = $content_post->post_content;
@@ -706,10 +714,12 @@ class InboundForms {
 						  </table>
 						</body>
 					  </html>';
-			$headers  = "From: " . $from_name . " <" . $form_data['email'] . ">\n";
+			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $form_data['email'], $confirm_subject, $confirm_email_message, $headers );
+			wp_mail( $form_email, $confirm_subject, $confirm_email_message, $headers );
+
+			//echo $notification_status . $form_email . $my_postid . 'hi'; exit;
 			//echo $content. $form_data['email'];
 		}
 	}
