@@ -118,14 +118,14 @@ if (is_admin())
 			  break;
 			case "first-name":
 			  $first_name = get_post_meta( $post_id, 'wpleads_first_name', true);
-			  if (get_post_meta( $post_id, 'wpleads_first_name', true) == "") {
+			  if (!$first_name) {
 			  	$first_name = 'N/A';
 			  }
 			  echo $first_name;
 			  break;
 			case "last-name":
 			  $last_name = get_post_meta( $post_id, 'wpleads_last_name', true);
-			   if (get_post_meta( $post_id, 'wpleads_last_name', true) == "") {
+			   if (!$last_name) {
 			  	$last_name = 'N/A';
 			  }
 			  echo $last_name;
