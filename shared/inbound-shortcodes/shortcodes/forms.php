@@ -577,7 +577,7 @@ if (!function_exists('inbound_forms_default_content')) {
 	function inbound_forms_default_content( $content, $post ) {
 		if (!isset($post))
 		return;
-	    if( $post->post_type && 'inbound-forms' ) {
+	    if( $post->post_type === 'inbound-forms' ) {
 
 	      $content = 'This is the email response. Do not use shortcodes or forms here. They will not work in emails. (Delete this text)';
 

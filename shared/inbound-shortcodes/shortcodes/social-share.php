@@ -10,8 +10,8 @@
 		'no_preview' => false,
 		'options' => array(
 			'style' => array(
-				'name' => __('Field Type', INBOUND_LABEL),
-				'desc' => __('Select an form field type', INBOUND_LABEL),
+				'name' => 'Style of Icons',
+				'desc' => __('Style of Icons', INBOUND_LABEL),
 				'type' => 'select',
 				'options' => array(
 					"bar" => "Bar",
@@ -20,7 +20,7 @@
 					'black' => "Black",
 
 					),
-				'std' => ''
+				'std' => 'bar'
 			),
 			'align' => array(
 				'name' => __('Align Icons', INBOUND_LABEL),
@@ -63,19 +63,7 @@
 				'type' => 'checkbox',
 				'std' => '1',
 			),
-			'style' => array(
-				'name' => __('Align He', INBOUND_LABEL),
-				'desc' => __('Select an form field type', INBOUND_LABEL),
-				'type' => 'select',
-				'options' => array(
-					"bar" => "Bar",
-					"circle" => "Circle",
-					'square' => "Square",
-					'black' => "Black",
 
-					),
-				'std' => ''
-			),
 			'text' => array(
 				'name' => __('Custom Share Text', INBOUND_LABEL),
 				'desc' => __('Optional setting. Enter your custom share text', INBOUND_LABEL),

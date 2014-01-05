@@ -503,14 +503,17 @@ class InboundForms {
      	$url_request .= $urlparam . $key . "=" . urlencode($value);
      	$name = str_replace(array('-','_'),' ', $key);
      	$name = ucwords($name);
-     	if ( $name === "Inbound Current Page Url" ) {
-     	  $name = "Converted on Page";
-     	}
+
 
      	$field_data = ($form_data[$key] != "") ? $form_data[$key] : "<span style='color:#949494; font-size: 10px;'>(Field left blank)</span>";
 
      	if ($name === "Inbound Form Id" ) {
      		$field_data = "<a title='View/Edit this form' href='" . admin_url( 'post.php?post=' . $field_data . '&action=edit' ). "'>".$field_data."</a>";
+     	}
+
+     	if ( $name === "Inbound Current Page Url" ) {
+     	  $name = "Converted on Page";
+     	  $page_converted_on = $field_data;
      	}
 
      	if(!in_array($name, $exclude_array)) {
@@ -570,7 +573,7 @@ class InboundForms {
              <w:anchorlock/>
              <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">Reply to Lead Now</center>
            </v:roundrect>
-         <![endif]--><a href="mailto:'.$form_email.'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form."
+         <![endif]--><a href="mailto:'.$form_email.'?subject=RE: '.$form_data['inbound_form_name'].'&body=Thanks for filling out our form on '.$page_converted_on.'"
          style="background-color:#59b329;border:1px solid #558939;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="Email This Lead now">Reply to Lead Now</a></div>
 
        </td>
