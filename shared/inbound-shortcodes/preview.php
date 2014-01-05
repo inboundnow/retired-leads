@@ -148,7 +148,7 @@ echo "body {
 padding: 30px 0px !important;
 padding-left: 5px !important;
 }";
-$extra_content = "<p>This is dummy text and not part of the shortcode. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.</p>";
+$extra_content = "<p>This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode.</p>";
 }?>
 			</style>
 		</head>

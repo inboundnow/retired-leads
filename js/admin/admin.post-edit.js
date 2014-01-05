@@ -537,6 +537,18 @@ setTimeout(function() {
         var new_reload = reload_url + "&live-preview-area=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
         //alert(new_reload);
         jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
+
+      var iframe_w = jQuery('.cta-width').val();
+      var iframe_h = jQuery('.cta-height').val();
+      if (typeof (iframe_h) === "undefined" || iframe_h === null || iframe_h === "") {
+          var iframe_height = "100%";
+          var iframe_width = jQuery('.cta-width').val() + "px";
+      } else {
+        var iframe_width = jQuery('.cta-width').val() + "px";
+        var iframe_height = jQuery('.cta-height').val() + "px";
+      }
+
+      jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_width).css('height', iframe_height);
         // console.log(new_reload);
         }
         var frontend_status = jQuery("#frontend-on").val();

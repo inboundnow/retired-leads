@@ -215,6 +215,7 @@ class InboundShortcodes {
     return $button;
   }
   static function inbound_shortcode_social_links( $atts, $content = null ) {
+    $final_path = self::set_file_path();
       extract(shortcode_atts(array(
         'style' => 'bar',
         'align' => '',
@@ -401,32 +402,32 @@ class InboundShortcodes {
       if( $facebook ) {
         $out .= '<a class="mt-facebook '.$class.'" style="'.$float.'"
               href="https://www.facebook.com/sharer/sharer.php?u='.$link.'">
-                <img src="http://mojotech-static.s3.amazonaws.com/facebook@2x.png">
+                <img src="'.$final_path.'shared/inbound-shortcodes/images/facebook@2x.png">
               </a>';
       }
       if( $twitter ) {
         $out .= '
         <a class="mt-twitter '.$class.'" style="'.$float.'"
           href="http://twitter.com/intent/tweet?text='.$text.'&amp;url='.$link.'" target="_blank">
-            <img src="http://mojotech-static.s3.amazonaws.com/twitter@2x.png">
+            <img src="'.$final_path.'shared/inbound-shortcodes/images/twitter@2x.png">
           </a>';
       }
       if( $google_plus ) {
         $out .= '<a class="mt-google '.$class.'" style="'.$float.'"
               href="https://plus.google.com/share?url='.$link.'">
-                <img src="http://mojotech-static.s3.amazonaws.com/google@2x.png">
+                <img src="'.$final_path.'shared/inbound-shortcodes/images/google@2x.png">
               </a>';
       }
       if( $linkedin ) {
         $out .= ' <a class="mt-linkedin '.$class.'" style="'.$float.'"
         href="http://www.linkedin.com/shareArticle?mini=true&amp;url='.$link.'&amp;summary='.$text.'">
-          <img src="http://mojotech-static.s3.amazonaws.com/linkedin@2x.png">
+          <img src="'.$final_path.'shared/inbound-shortcodes/images/linkedin@2x.png">
         </a>';
       }
       if( $pinterest ) {
         $out .= '<a class="mt-pinterest '.$class.'" style="'.$float.'"
     href="http://www.pinterest.com/pin/create/button/?url='.$link.'&amp;media=&amp;guid=1234&amp;description='.$text.'">
-      <img src="http://mojotech-static.s3.amazonaws.com/pinterest@2x.png">
+      <img src="'.$final_path.'shared/inbound-shortcodes/images/pinterest@2x.png">
     </a>';
       }
 

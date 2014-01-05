@@ -22,6 +22,9 @@ margin-bottom: 10px;
 	width: 242px;
 border-radius: 0px !important;
 }
+#cta_shortcode_form {
+	display: none !important;
+}
 #templates {
 	position: relative;
 

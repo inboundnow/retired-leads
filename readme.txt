@@ -65,6 +65,11 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 1.3.0 =
+* Updated Popup Functionality
+* Updated CTA Editing Preview Screen
+* Fixed missing height/width issues
+
 = 1.2.5 =
 * Bug fix - missing trackingObj
 

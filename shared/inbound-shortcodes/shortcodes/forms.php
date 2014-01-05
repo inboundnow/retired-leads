@@ -376,6 +376,8 @@ function inbound_forms_compatibilities()
 				// print_r($wp_scripts->queue);
 				 $scripts_queued = $wp_scripts->queue; // All enqueued scripts
 				 $white_list_scripts = array( "common",
+				 					"jquery",
+				 					"jquery-cookie",
 				 					"admin-bar",
 				 					"autosave",
 				 					"post",
@@ -423,7 +425,7 @@ if (!function_exists('inbound_get_form_names')) {
 	function inbound_get_form_names() {
 		global $post;
 
-		$loop = get_transient( 'inbound-form-names' );
+		$loop = get_transient( 'inbound-form-names-off' );
 	    if ( false === $loop ) {
 		$args = array(
 		'posts_per_page'  => -1,
@@ -569,6 +571,22 @@ if (!function_exists('inbound_form_save'))
 	    }
 	}
 }
+
+add_filter( 'default_content', 'inbound_forms_default_content', 10, 2 );
+if (!function_exists('inbound_forms_default_content')) {
+	function inbound_forms_default_content( $content, $post ) {
+		if (!isset($post))
+		return;
+	    if( $post->post_type === 'inbound-forms' ) {
+
+	      $content = 'This is the email response. Do not use shortcodes or forms here. They will not work in emails. (Delete this text)';
+
+	    }
+
+	    return $content;
+	}
+}
+
 /* 	Shortcode moved to shared form class */
 if (!function_exists('inbound_form_get_data')) {
 	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');

@@ -572,7 +572,7 @@
 						} else {
 
 							jQuery('.step-item').eq(1).click();
-							jQuery('.form-row.has-child').before('<h1 style="text-align:center;">Add an Email Field</h1>');
+							jQuery('.form-row.has-child').before('<h2 style="text-align:center; margin:0px;">Add an Email Field to the form</h2>');
 							return false;
 						}
 					}

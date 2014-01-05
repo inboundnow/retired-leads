@@ -16,3 +16,18 @@ padding: 3px 7px;
 #edit-slug-box {
 margin-top: 0px;
 }
+.currently_selected{
+	position: absolute;
+	top: 72px;
+	left: 16px;
+	font-size: 19px;
+	line-height: 21px;
+	padding-top: 15px;
+	text-align: center;
+	background: black;
+	width: 90%;
+	height: 36px;
+	color: white;
+	opacity: 0.5;
+	border-radius: 7px;
+}
