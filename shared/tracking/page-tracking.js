@@ -268,7 +268,7 @@ function add_page_timeout(date, minutes) {
   return dateFormat(this, mask, utc);
  };
 // Query String for utm params
-// Query String Stuff
+/* Query String Stuff
 
 var inbound_urlParams = {};
 
@@ -315,7 +315,7 @@ var inbound_urlParams = {};
             }
 
     }
-
+*/
 
 /* Set Lead UID */
 if(jQuery.cookie("wp_lead_uid") === null) {
