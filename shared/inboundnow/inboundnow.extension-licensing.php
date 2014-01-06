@@ -23,6 +23,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 		private $item_slug;
 		private $item_shortname;
 		private $version;
+		private $global_license;
 		
 		/**
 		 * Class constructor
@@ -36,8 +37,9 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 		 */
 		function __construct( $_item_label, $_item_slug ) {
 
-			$this->item_label      = $_item_label;
-			$this->item_slug      = $_item_slug;
+			$this->item_label = $_item_label;
+			$this->item_slug = $_item_slug;
+			$this->global_license = get_option('inboundnow_global_license' , '');
 
 			// Setup hooks		
 			$this->hooks();
@@ -66,6 +68,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 		 * @return  array
 		 */
 		public function lp_settings( $lp_global_settings ) {
+		
 			$lp_global_settings['lp-license-keys']['settings'][] = array(
 
 					'id'      => $this->item_slug,
@@ -73,7 +76,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 					'label'    => sprintf( __( '%1$s', 'lp' ), $this->item_label ),
 					'description'    => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->item_label,
 					'type'    => 'inboundnow-license-key',
-					'default'    => '',
+					'default'    => $this->global_license,
 				);
 			
 			return $lp_global_settings;
@@ -95,7 +98,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 					'label'    => sprintf( __( '%1$s', 'lp' ), $this->item_label ),
 					'description'    => 'Head to http://www.inboundnow.com/ to retrieve your license key for '. $this->item_label ,
 					'type'    => 'inboundnow-license-key',
-					'default'    => '',
+					'default'    => $this->global_license,
 				);
 			
 			return $wp_cta_global_settings;
@@ -117,7 +120,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 					'label'    => sprintf( __( '%1$s', 'lp' ), $this->item_label ),
 					'description'    => 'Head to http://www.inboundnow.com/ to retrieve your license key for'. $this->item_label,
 					'type'    => 'inboundnow-license-key',
-					'default'    => '',
+					'default'    => $this->global_license,
 				);
 			
 			//print_r($lp_global_settings);exit;

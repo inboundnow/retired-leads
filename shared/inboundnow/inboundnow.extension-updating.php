@@ -16,6 +16,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 		private $api_data = array();
 		private $name     = '';
 		private $slug     = '';
+		private $global_license;
 
 		/**
 		 * Class constructor.
@@ -33,8 +34,9 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 			$this->api_data = urlencode_deep( $_api_data );
 			$this->name     = plugin_basename( $_plugin_file );
 			$this->slug     = basename( $_plugin_file, '.php');
-			$this->version  = $_api_data['version'];
-
+			$this->version  = $_api_data['version'];			
+			$this->global_license = get_option('inboundnow_global_license' , '');
+			
 			// Set up hooks.
 			$this->hook();
 		}
@@ -137,14 +139,17 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 			global $wp_version;
 
 			$data = array_merge( $this->api_data, $_data );
-			if( $data['slug'] != $this->slug )
-				return;
+			
+			//if( $data['slug'] != $this->slug )
+				//return;
 
+			if (isset($this->global_license))
+				$data['license'] = $this->global_license;
+			
 			$api_params = array(
 				'edd_action' 	=> 'get_version',
 				'license' 		=> $data['license'],
-				'name' 			=> $data['item_name'],
-				'slug' 			=> $this->slug,
+				'name' 			=> $data['item_slug'],
 				//'author'		=> $data['author'],
 				'nature'		=> 'extension',
 			);
