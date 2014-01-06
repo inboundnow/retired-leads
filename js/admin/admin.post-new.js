@@ -2,20 +2,20 @@ jQuery(document).ready(function ($) {
 
     jQuery('.wp-cta-template-selector-container').css('display','block');
     jQuery('#templates-container').isotope();
-    jQuery("#submitdiv").siblings().hide(); 
+    jQuery("#submitdiv").siblings().hide();
     jQuery("#title-prompt-text").text("Name Your New Call to Action");
     var titledescription = jQuery("<span id='descriptor'>This will be the administrative title your call to action (not visible to visitors)</span>");
     jQuery(titledescription).appendTo("#titlewrap");
 
-    jQuery("#save-action input").addClass("button-primary button-large").css("margin-bottom", "10px").attr("value", "Create Call to Action"); 
+    jQuery("#save-action input").addClass("button-primary button-large").css("margin-bottom", "10px").attr("value", "Create Call to Action");
     var sidebar = jQuery("#side-sortables");
-    jQuery(sidebar).appendTo("#titlediv"); 
+    jQuery(sidebar).appendTo("#titlediv");
     var tempdiv = jQuery("<div id='templates' class='postbox'><h3 class='hndle'>Current Template: <span id='ctemp'></span></h3><div id='wp_cta_the_image'><span id='timage'><img src='' id='c_temp'></span></div><div id='template_current'></div></div>");
         jQuery(tempdiv).appendTo("#titlewrap");
         var changebutton = jQuery("#wp_cta_template_change");
 jQuery(changebutton).appendTo("#templates");
 jQuery("#wp_cta_template_change a").removeClass("button-primary").addClass("button");
-// New Sidebar 
+// New Sidebar
 /*jQuery("#postbox-container-1").html("<div class='postbox'><center><h3>Download Additional Templates</h3><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store'><img src='/wp-content/plugins/wp-call-to-actions/images/get-wordpress-templates.png'></a><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store' class='button new-wp-cta-button button-primary button-large'>Download Call to Action Templates</a></center></div><div class='postbox'><center><h3>Need Custom Template Design?</h3><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store'><img src='/wp-content/plugins/wp-call-to-actions/images/get-custom-setup.png'></a><a target='_blank' href='http://www.inboundnow.com/wp-call-to-actions/custom-wordpress-wp-call-to-action-setup/' class='button new-wp-cta-button button-primary button-large'>Get Custom Template Setup</a></center></div>"); */
     jQuery('.wp_cta_select_template').click(function(){
     jQuery(".mceIframeContainer iframe#content_ifr").css("height", "100%");
@@ -35,13 +35,13 @@ jQuery('.wp_cta_select_template').click(function(){
         //alert(label);
     });
     // filter items when filter link is clicked
-    jQuery('#template-filter a').click(function(){      
+    jQuery('#template-filter a').click(function(){
       var selector = jQuery(this).attr('data-filter');
       //alert(selector);
       jQuery('#templates-container').isotope({ filter: selector });
       return false;
     });
-    
+
     jQuery('.wp_cta_select_template').click(function(){
         var template = jQuery(this).attr('id');
         var label = jQuery(this).attr('label');
@@ -49,19 +49,13 @@ jQuery('.wp_cta_select_template').click(function(){
             jQuery(".wrap").fadeIn(500, function(){
             });
         });
-        
+
         jQuery('#wp_cta_metabox_select_template h3').html('Current Active Template: '+label);
         jQuery('#wp_cta_select_template').val(template);
         //alert(template);
         //alert(label);
     });
-    var test = jQuery(".currently_selected");
-    jQuery("#blank-template").before(test);
-    if (jQuery(".wp-cta-template-selector-container").css("display") == "none"){
-        jQuery(".currently_selected").hide(); 
-    } else {
-        jQuery(".currently_selected").show();
-    }
+
 
 jQuery("#template-box a").live('click', function () {
 
@@ -69,7 +63,7 @@ jQuery("#template-box a").live('click', function () {
      jQuery('#TB_window iframe').contents().find("#customize-controls").hide();
         jQuery('#TB_window iframe').contents().find(".wp-full-overlay.expanded").css("margin-left", "0px");
     }, 1200);
-     
+
     });
 
     // Fix Thickbox width
@@ -103,7 +97,7 @@ jQuery("#template-box a").live('click', function () {
             tinyMCE.get('content').focus();
             tinyMCE.activeEditor.windowManager.bookmark = tinyMCE.activeEditor.selection.getBookmark('simple');
         }
-       
+
     });
 
     $(window).resize( function() { tb_position() } );

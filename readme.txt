@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.7
 Tested up to: 3.8
-Stable Tag: 1.2.5
+Stable Tag: 1.3.0
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -65,6 +65,18 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 1.3.0 =
+* Updated Popup Functionality
+* Updated CTA Editing Preview Screen
+* Fixed missing height/width issues
+* Added New HTML Lead Email Template with clickable links for faster lead management
+* Added Button Shortcodes!
+* Added HTML field option to form tool
+* Added Divider Option to Form tool
+* Added multi column support to icon list shortcode
+* Added Font Awesome Icons option to Inbound Form Submit buttons
+* Added Social Sharing Shortcode
+
 = 1.2.5 =
 * Bug fix - missing trackingObj
 

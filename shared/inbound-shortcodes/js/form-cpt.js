@@ -94,8 +94,14 @@ jQuery(document).ready(function($) {
 
             }
     }
-
+    if (post_status === 'draft') {
+        setTimeout(function() {
+            jQuery("#inbound_shortcode_insert_default").val('none');
+         }, 1000);
+    }
     if (post_status === 'draft' && post_title != "" || post_status ==='pending' && post_title != "" ) {
+
+
     	// run auto publish ajax
     	        jQuery.ajax({
     	            type: 'POST',
@@ -115,5 +121,8 @@ jQuery(document).ready(function($) {
     	                alert("Ajax not enabled");
     	            }
     	        });
+
+
+
     }
  });

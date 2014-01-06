@@ -96,6 +96,10 @@ function wp_cta_admin_enqueue($hook)
 			wp_enqueue_style('intro-css', WP_CTA_URLPATH . 'css/admin-tour.css'); */
 		}
 
+		if (isset($_GET['page']) && $_GET['page'] === 'wp_cta_global_settings') {
+			wp_enqueue_script('cta-settings-js', WP_CTA_URLPATH . 'js/admin/admin.global-settings.js');
+		}
+
 		// Add New Screen
 		if ( $hook == 'post-new.php'  )
 		{

@@ -267,11 +267,10 @@ function add_page_timeout(date, minutes) {
  Date.prototype.format = function (mask, utc) {
   return dateFormat(this, mask, utc);
  };
-/* Query String for utm params
-// Query String Stuff
-    var p  = jQuery("pre"),
-        result = "",
-        urlParams = {};
+// Query String for utm params
+/* Query String Stuff
+
+var inbound_urlParams = {};
 
     (function () {
         var e,
@@ -281,43 +280,42 @@ function add_page_timeout(date, minutes) {
 
         while (e = r.exec(q)) {
             if (e[1].indexOf("[") == "-1")
-                urlParams[d(e[1])] = d(e[2]);
+                inbound_urlParams[d(e[1])] = d(e[2]);
             else {
                 var b1 = e[1].indexOf("["),
                     aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
                     pN = d(e[1].slice(0, b1));
 
-                if (typeof urlParams[pN] != "object")
-                    urlParams[d(pN)] = {},
-                    urlParams[d(pN)].length = 0;
+                if (typeof inbound_urlParams[pN] != "object")
+                    inbound_urlParams[d(pN)] = {},
+                    inbound_urlParams[d(pN)].length = 0;
 
                 if (aN)
-                    urlParams[d(pN)][d(aN)] = d(e[2]);
+                    inbound_urlParams[d(pN)][d(aN)] = d(e[2]);
                 else
-                    Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
+                    Array.prototype.push.call(inbound_urlParams[d(pN)], d(e[2]));
 
             }
         }
     })();
 
     if (JSON) {
-        result = JSON.stringify(urlParams, null, 4);
+      result = JSON.stringify(inbound_urlParams, null, 4);
 
-          for (var k in urlParams) {
-                if (typeof urlParams[k] == "object") {
-                  for (var k2 in urlParams[k])
-                    jQuery.cookie(k2, urlParams[k][k2], { expires: 365 });
-          console.log(k2);
-          console.log(urlParams[k][k2]);
-                }
-                else {
-                    jQuery.cookie(k, urlParams[k], { expires: 365 }); }
-          console.log(k);
-          console.log(urlParams[k]);
-              }
+      for (var k in inbound_urlParams) {
+            if (typeof inbound_urlParams[k] == "object") {
+              for (var k2 in inbound_urlParams[k])
+                jQuery.cookie(k2, inbound_urlParams[k][k2], { expires: 365 });
+                console.log(k2);
+                console.log(inbound_urlParams[k][k2]);
+            } else {
+                jQuery.cookie(k, inbound_urlParams[k], { expires: 365 }); }
+                console.log(k);
+                console.log(inbound_urlParams[k]);
+            }
 
     }
- */
+*/
 
 /* Set Lead UID */
 if(jQuery.cookie("wp_lead_uid") === null) {
@@ -373,7 +371,7 @@ if (typeof pageviewObj =='object' && pageviewObj)
       //console.log("Wait Time:" + wait_time);
       //console.log("Time Check:" + time_check);
 
-      if (time_check > wait_time ){
+      if (time_check < wait_time ){
         console.log('time out happened');
         pageviewObj[current_page_id].push(datetime); // log page view
         // run page view update for timeout

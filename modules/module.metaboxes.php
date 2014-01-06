@@ -565,11 +565,11 @@ function wp_cta_display_meta_box_select_template_container() {
 				<a class='wp_cta_select_template' href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $this_template; ?>'>
 					<img src="<?php echo $thumbnail; ?>" class='template-thumbnail' alt="<?php echo $data['info']['label']; ?>" id='wp_cta_<?php echo $this_template; ?>'>
 				</a>
-				<p>
-					<div id="template-title"><?php echo $data['info']['label']; ?></div>
-					<a href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $this_template; ?>' class='wp_cta_select_template'>Select</a> |
-					<a class='thickbox <?php echo $cat_slug;?>' href='<?php echo $data['info']['demo'];?>' id='wp_cta_preview_this_template'>Preview</a>
-				</p>
+
+					<div id="template-title" style="text-align: center;
+font-size: 14px; padding-top: 10px;"><?php echo $data['info']['label']; ?></div>
+					<!-- |<a href='#' label='<?php echo $data['info']['label']; ?>' id='<?php echo $this_template; ?>' class='wp_cta_select_template'>Select</a>
+					<a class='thickbox <?php echo $cat_slug;?>' href='<?php echo $data['info']['demo'];?>' id='wp_cta_preview_this_template'>Preview</a> -->
 				</div>
 			</div>
 			<?php

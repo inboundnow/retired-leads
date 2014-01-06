@@ -100,7 +100,8 @@
 				'std' => '_self'
 			),
 		),
-		'shortcode' => '[button style="{{style}}" font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
+		// style="{{style}}"
+		'shortcode' => '[button font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
 		'popup_title' => __('Insert Button Shortcode', INBOUND_LABEL)
 	);
 

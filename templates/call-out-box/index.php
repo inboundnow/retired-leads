@@ -10,7 +10,7 @@
 */
 
 /* Declare Template Key */
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 $path = WP_CTA_URLPATH.'templates/'.$key.'/';
 $url = plugins_url();
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
@@ -26,13 +26,13 @@ if ( isset($_GET['wp-cta-variation-id']) ){
 if (have_posts()) : while (have_posts()) : the_post();
 $width = get_post_meta( get_the_ID(), 'wp_cta_width-'.$var_id, true ) . "px";
 $height = get_post_meta( get_the_ID(), 'wp_cta_height-'.$var_id, true ) . "px";
-$content_color = wp_cta_get_value($post, $key, 'content-color'); 
+$content_color = wp_cta_get_value($post, $key, 'content-color');
 $text_color = wp_cta_get_value($post, $key, 'content-text-color');
 $header_text = wp_cta_get_value($post, $key, 'header-text');
 $headline_color = wp_cta_get_value($post, $key, 'headline-text-color');
 $button_text = wp_cta_get_value($post, $key, 'submit-button-text');
 $button_link = wp_cta_get_value($post, $key, 'submit-button-link');
-$submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color'); 
+$submit_button_color = wp_cta_get_value($post, $key, 'submit-button-color');
 $submit_button_text_color = wp_cta_get_value($post, $key, 'submit-button-text-color');
 
 $content = get_the_content();
@@ -64,7 +64,7 @@ $darker = inbound_color($submit_color_scheme, 55);
   <script src="<?php echo $path; ?>assets/js/modernizr.js"></script>
 
 <!-- Load Normal WordPress wp_head() function -->
-<?php wp_head(); ?> 
+<?php wp_head(); ?>
 
 <style type="text/css">
 <?php if ($width !="") {
@@ -74,7 +74,7 @@ $darker = inbound_color($submit_color_scheme, 55);
 <?php if ($height !="") {
             echo "#content {height: $height;}"; // change header color
         }
-        ?>        
+        ?>
   <?php if ($content_color !="") {
             echo "#content {background-color: #$content_color;}"; // change header color
         }
@@ -96,12 +96,12 @@ $darker = inbound_color($submit_color_scheme, 55);
           <?php if ($submit_button_text_color != "") {
           echo".button { color: #$submit_button_text_color;}";
         }
-        ?>  
+        ?>
        <?php if ($headline_color != "") {
           echo"h1#main-headline { color: #$headline_color; margin-top: 0px; padding-top: 10px; line-height: 36px; margin-bottom: 10px;}";
         }
-        ?>  
-        
+        ?>
+
 </style>
 
 <!-- Load Landing Pages's custom pre-load hook for 3rd party plugin integration -->
@@ -118,16 +118,15 @@ $darker = inbound_color($submit_color_scheme, 55);
   <h1 id="main-headline"><?php echo $header_text;?></h1>
   <!-- Use the_title(); to print out the main headline -->
     <div class="the_content">
-    
-         <?php 
+
+         <?php
           // Conditional check for main content placeholder
           if ($content != "") {
             the_content(); // show the content!
           } else {
-          // Fill empty the_content(); area with placeholder html.
-          echo "<p>This is the default content from the main wordpress editor screen. If it's empty, this content will show (a.k.a. fill in some content!)</p>"; 
+
           } ?>
-      </div>    
+      </div>
       <a id="cta-link" href="<?php echo $button_link;?>"><span class="button"><?php echo $button_text;?></span></a>
     </div><!-- end #content -->
 
@@ -135,11 +134,11 @@ $darker = inbound_color($submit_color_scheme, 55);
 </div> <!-- end #content-wrapper -->
 
 
-<?php 
+<?php
 break;
-endwhile; endif; 
-do_action('wp_cta_footer'); 
+endwhile; endif;
+do_action('wp_cta_footer');
 wp_footer();
-?>  
+?>
 </body>
 </html>
