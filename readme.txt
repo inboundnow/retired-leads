@@ -64,6 +64,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 1. Lead Management Custom Post Type
 2. View and Edit Customer(Lead) Information
 3. View Conversion Funnel Log for Each Customer(Lead)
+4. Get Notified on Lead Conversions
 
 == Changelog ==
 = 1.3.0 =
