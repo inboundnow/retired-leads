@@ -23,6 +23,9 @@ padding-right: 5px;
 .inbound-label.inbound-label-placeholder {
     display: none;
 }
+.inbound-label.inbound-label-placeholder.inbound-input-dropdown {
+ display: block;
+}
 .inbound-horizontal {
     display: inline-block;
 }
@@ -73,10 +76,15 @@ width: 99.2%;
 margin: 10px 0;
 max-width: 98%;
 }
+
+.inbound-field input[type=text], .inbound-field input[type=url], .inbound-field input[type=email], .inbound-field input[type=tel], .inbound-field input[type=number], .inbound-field input[type=password] {
+    width: 47%;
+}
+/*
 #inbound-form-wrapper input[type=text], #inbound-form-wrapper input[type=url], #inbound-form-wrapper input[type=email], #inbound-form-wrapper input[type=tel], #inbound-form-wrapper input[type=number], #inbound-form-wrapper input[type=password] {
     width: 47%;
 }
-
+*/
 #inbound-form-wrapper .inbound-horizontal input[type=text], #inbound-form-wrapper .inbound-horizontal input[type=url], #inbound-form-wrapper .inbound-horizontal input[type=email], #inbound-form-wrapper .inbound-horizontal input[type=tel], #inbound-form-wrapper .inbound-horizontal input[type=number], #inbound-form-wrapper .inbound-horizontal input[type=password] {
 width: 88%;
 }
