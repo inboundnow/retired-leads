@@ -1,6 +1,6 @@
 <?php
 
-if (!is_function('inboundnow_add_master_license'))
+if (!function_exists('inboundnow_add_master_license'))
 {
 	/* Add Master License Key Setting*/
 	add_filter('lp_define_global_settings', 'inboundnow_add_master_license', 1, 1);
