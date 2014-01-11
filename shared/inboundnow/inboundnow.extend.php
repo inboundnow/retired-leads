@@ -196,8 +196,8 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 				
 				// Call the custom API.
 				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
-				echo $response['body'];
-				echo "<hr>";exit;
+				//echo $response['body'];
+				//echo "<hr>";exit;
 
 				// decode the license data
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
