@@ -191,7 +191,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 					'item_name' =>  $this->remote_download_slug ,
 					'cache_bust'=> substr(md5(rand()),0,7)
 				);							
-				print_r($api_params);
+				//print_r($api_params);
 				
 				
 				// Call the custom API.
