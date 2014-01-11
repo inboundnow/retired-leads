@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 if ( ! defined( 'INBOUNDNOW_STORE_URL' ) )
-	define('INBOUNDNOW_STORE_URL','http://inboundly.staging.wpengine.com/');
+	define('INBOUNDNOW_STORE_URL','http://www.inboundnow.com/');
 	
 if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) ) 
 {
@@ -191,13 +191,13 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 					'item_name' =>  $this->remote_download_slug ,
 					'cache_bust'=> substr(md5(rand()),0,7)
 				);							
-				//print_r($api_params);
+				print_r($api_params);
 				
 				
 				// Call the custom API.
 				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
-				//echo $response['body'];
-				//echo "<hr>";
+				echo $response['body'];
+				echo "<hr>";exit;
 
 				// decode the license data
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
