@@ -168,7 +168,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 		
 		public function save_license_field()
 		{
-		
+			if (!$this->plugin_slug)
+			{
+				print_r($this);
+			}
 			
 			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;
 			
@@ -176,6 +179,17 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			$new_key = $_POST[ $field_id ];
 			
 			$license_status = get_option('inboundnow-license_status-'.$this->plugin_slug );
+			
+			/*
+			echo "license status:".$license_status;
+			echo "<br>";
+			echo "new_key:".$new_key;
+			echo "<br>";
+			echo "old_key:".$old_key;
+			echo "<br>";
+			//echo "plugin_slug:".$this->plugin_slug;
+			echo "<br>";
+			*/
 			
 			if ($license_status=='valid' && $new_key == $old_key )
 				return;
@@ -197,7 +211,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 				// Call the custom API.
 				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
 				//echo $response['body'];
-				//echo "<hr>";exit;
+				//echo "<hr>";
 
 				// decode the license data
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -218,10 +232,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			$date = date("Y-m-d");
 			$cache_date = get_option($field['id']."-expire");
 			$license_status = get_option($field['id']);
-			
+
 			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid')
 			{
-				return "valid";
+				//return "valid";
 			}
 			
 			$api_params = array( 
@@ -239,10 +253,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 				return false;
 
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-			//echo $license_data;exit;
+			//print_r($license_data);exit;
 			
 			if( $license_data->license == 'valid' ) {
-				$newDate = date('Y-m-d', strtotime("+15 days"));
+				$newDate = date('Y-m-d', strtotime($license_data->expires));
 				update_option($field['id']."-expire", $newDate);
 				return 'valid';
 				// this license is still valid
