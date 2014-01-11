@@ -47,9 +47,9 @@ add_action( 'updated_post_meta', 'wpleads_after_post_meta_change', 10, 4 );
 function wpleads_after_post_meta_change( $meta_id, $post_id, $meta_key, $meta_value )
 {
 	$ignore = array ('_edit_lock', '_edit_last');
-	
+
 	$post_type = get_post_type($post_id);
-    if ( $post_type == 'wp-lead' && !in_array( $meta_key , $ignore ) ) 
+    if ( $post_type == 'wp-lead' && !in_array( $meta_key , $ignore ) )
 	{
 		/*
 		echo "Meta_id: $meta_id<br>";
@@ -57,13 +57,13 @@ function wpleads_after_post_meta_change( $meta_id, $post_id, $meta_key, $meta_va
 		*/
 		remove_action( 'updated_post_meta' , 'wpleads_after_post_meta_change' , 10 );
 		remove_action( 'added_post_meta' , 'wpleads_after_post_meta_change' , 10 );
-		
+
 		$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
 		$wordpress_date_time =  date_i18n($timezone_format);
-		
+
 		update_post_meta( $post_id , 'wpleads_last_updated' , $wordpress_date_time );
-		do_action( 'wpleads_after_post_meta_change' , $post_id );		
-	   
+		do_action( 'wpleads_after_post_meta_change' , $post_id );
+
     }
 }
 
@@ -224,7 +224,7 @@ if (is_admin())
 		set_query_var('monthnum', $wordpress_date_month ); // Show only leads from today
 		  return;
 	}
-	
+
 	function wp_leads_get_today() {
 		$timezone_day = _x('d', 'timezone date format');
 		$wordpress_date_day =  date_i18n($timezone_day);
@@ -233,9 +233,12 @@ if (is_admin())
 	}
 
 	/* UPDATE NAMING CONVENTIONS FOR CERTAIN POST META PAIRS */
-	
+
 	add_action('admin_init', 'wpleads_update_meta_keys');
 	function wpleads_update_meta_keys(){
+		global $post;
+		if (!$post)
+			return;
 		$key = 'field_name';
 		$themeta = get_post_meta($post->ID, $key, TRUE);
 		if($themeta != '') {
@@ -243,7 +246,7 @@ if (is_admin())
 		}
 
 	}
-	
+
 	add_action('admin_init', 'run_custom_lead_queries');
 	// Run queries after admin init
 	function run_custom_lead_queries(){
