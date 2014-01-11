@@ -238,17 +238,6 @@ if (is_admin())
 		  return;
 	}
 
-	/* UPDATE NAMING CONVENTIONS FOR CERTAIN POST META PAIRS */
-	
-	add_action('admin_init', 'wpleads_update_meta_keys');
-	function wpleads_update_meta_keys(){
-		$key = 'field_name';
-		$themeta = get_post_meta($post->ID, $key, TRUE);
-		if($themeta != '') {
-		echo 'your text';
-		}
-
-	}
 	
 	add_action('admin_init', 'run_custom_lead_queries');
 	// Run queries after admin init
