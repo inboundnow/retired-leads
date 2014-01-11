@@ -220,15 +220,33 @@ if (!class_exists('InboundMenu')) {
                 'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
                 'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'edd-toolbar' ) )
             );
+            /** Leads search form */
+            $leads_search_text = "Search All Leads";
+            $menu_items['leads-search'] = array(
+              'parent' => $leads_menu,
+              'title' => '<form method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
+              <input type="text" placeholder="' . $leads_search_text . '" onblur="this.value=(this.value==\'\') ? \'' . $leads_search_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $leads_search_text . '\') ? \'\' : this.value;" value="' . $leads_search_text . '" name="s" value="' . esc_attr( 'Search Leads', 'edd-toolbar' ) . '" class="text eddtb-search-input" />
+              <input type="hidden" name="post_type" value="wp-lead" />
+              <input type="hidden" name="post_status" value="all" />
+              ' . $eddtb_go_button,
+              'href'   => false,
+              'meta'   => array( 'target' => '', 'title' => _x( 'Search Leads', 'Translators: For the tooltip', 'edd-toolbar' ) )
+            );
               $menu_items['leads-view'] = array(
                   'parent' => $leads_menu,
                   'title'  => __( 'View All Leads', LANDINGPAGES_TEXT_DOMAIN ),
                   'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
                   'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'edd-toolbar' ) )
                 );
+              $menu_items['leads-list'] = array(
+                  'parent' => $leads_menu,
+                  'title'  => __( 'View Lead Lists', LANDINGPAGES_TEXT_DOMAIN ),
+                  'href'   => admin_url( 'edit.php?post_type=list' ),
+                  'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'edd-toolbar' ) )
+                );
               $menu_items['leads-add'] = array(
                 'parent' => $leads_menu,
-                'title'  => __( 'Manually Create New Lead', LANDINGPAGES_TEXT_DOMAIN ),
+                'title'  => __( 'Create New Lead', LANDINGPAGES_TEXT_DOMAIN ),
                 'href'   => admin_url( 'post-new.php?post_type=wp-lead' ),
                 'meta'   => array( 'target' => '', 'title' => __( 'Add new lead', 'edd-toolbar' ) )
               );
@@ -592,7 +610,9 @@ if (!class_exists('InboundMenu')) {
       } else {
         $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
       }
+
       ?>
+
     <script type="text/javascript">
     /* <![CDATA[ */
     // Load inline scripts var freshthemes_theme_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', INBOUND_LABEL); ?>";

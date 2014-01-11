@@ -593,8 +593,14 @@ function wp_cta_custom_css_input() {
 
 	echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
 	echo '<input type="hidden" name="wp-cta-custom-css-noncename" id="wp_cta_custom_css_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
+	
 	$custom_css_name = apply_filters('wp-cta-custom-css-name','wp-cta-custom-css');
-	echo '<textarea name="'.$custom_css_name.'" id="wp-cta-custom-css" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,$custom_css_name,true).'</textarea>';
+	$custom_css = get_post_meta($post->ID,$custom_css_name,true);
+	
+	$line_count = substr_count( $custom_css , "\n" );	
+	($line_count) ? $line_count : $line_count = 5; 
+	
+	echo '<textarea name="'.$custom_css_name.'" id="wp-cta-custom-css" rows="'. $line_count .'" cols="30" style="width:100%;">'.$custom_css .'</textarea>';
 }
 
 function wp_call_to_actions_save_custom_css($post_id) {
@@ -606,7 +612,7 @@ function wp_call_to_actions_save_custom_css($post_id) {
 
 
 	$custom_css_name = apply_filters('wp-cta-custom-css-name','wp-cta-custom-css');
-
+	
 	$wp_cta_custom_css = $_POST[$custom_css_name];
 	update_post_meta($post_id, 'wp-cta-custom-css', $wp_cta_custom_css);
 }
@@ -624,9 +630,13 @@ function wp_cta_custom_js_input() {
 	echo "<em></em>";
 	//echo wp_create_nonce('wp-cta-custom-js');exit;
 	$custom_js_name = apply_filters('wp-cta-custom-js-name','wp-cta-custom-js');
-
+	$custom_js = get_post_meta($post->ID,$custom_js_name,true);
+	$line_count = substr_count( $custom_js , "\n" );
+	
+	($line_count) ? $line_count : $line_count = 5; 
+	
 	echo '<input type="hidden" name="wp_cta_custom_js_noncename" id="wp_cta_custom_js_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
-	echo '<textarea name="'.$custom_js_name.'" id="wp_cta_custom_js" rows="5" cols="30" style="width:100%;">'.get_post_meta($post->ID,$custom_js_name,true).'</textarea>';
+	echo '<textarea name="'.$custom_js_name.'" id="wp_cta_custom_js" rows="'.$line_count.'" cols="30" style="width:100%;">'.$custom_js.'</textarea>';
 }
 
 function wp_call_to_actions_save_custom_js($post_id) {

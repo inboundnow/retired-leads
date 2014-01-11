@@ -16,6 +16,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 		private $api_data = array();
 		private $name     = '';
 		private $slug     = '';
+		private $global_license;
 
 		/**
 		 * Class constructor.
@@ -24,17 +25,18 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 		 * @uses hook()
 		 *
 		 * @param string $_api_url The URL pointing to the custom API endpoint.
-		 * @param string $_plugin_file Path to the plugin file.
+		 * @param string $_remote_key permalink slug of remote download
 		 * @param array $_api_data Optional data to send with API calls.
 		 * @return void
 		 */
-		function __construct( $_api_url, $_plugin_file, $_api_data = null ) {
+		function __construct( $_api_url, $_remote_key, $_api_data = null ) {
 			$this->api_url  = trailingslashit( $_api_url );
 			$this->api_data = urlencode_deep( $_api_data );
-			$this->name     = plugin_basename( $_plugin_file );
-			$this->slug     = basename( $_plugin_file, '.php');
-			$this->version  = $_api_data['version'];
-
+			$this->name     = $_api_data['item_name'];
+			$this->slug     = $_remote_key;
+			$this->version  = $_api_data['version'];			
+			$this->global_license = get_option('inboundnow_master_license_key' , '');
+			
 			// Set up hooks.
 			$this->hook();
 		}
@@ -50,7 +52,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 			//update_option('_site_transient_update_plugins',''); //uncomment to force upload update check
 			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins_filter' ) );
 			add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3);
-			//echo 1; exit;
+			//print_r($this);exit;
 		}
 
 		/**
@@ -76,12 +78,12 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 
 			$api_response = $this->api_request( 'plugin_latest_version', $to_send );
 			
-			/*** Debug assistance ***
+			/*
 				echo $this->name;
 				echo "\r\n<br>\r\n";
 				echo $this->version;
 				print_r($api_response);
-				echo "\r\n<hr>\r\n";
+				echo "\r\n<hr>\r\n";exit;
 			*/
 			
 			if( false !== $api_response && is_object( $api_response ) ) {
@@ -137,19 +139,30 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_UPDATER' ) ) :
 			global $wp_version;
 
 			$data = array_merge( $this->api_data, $_data );
-			if( $data['slug'] != $this->slug )
-				return;
+			
+			//if( $data['slug'] != $this->slug )
+				//return;
 
+			if (isset($this->global_license))
+				$data['license'] = $this->global_license;
+			
 			$api_params = array(
 				'edd_action' 	=> 'get_version',
 				'license' 		=> $data['license'],
 				'name' 			=> $data['item_name'],
-				'slug' 			=> $this->slug,
+				'slug' 			=> $data['slug'],
 				//'author'		=> $data['author'],
 				'nature'		=> 'extension',
 			);
 			$request = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
+			
+			if (strstr( $data['item_name'], 'aweber'))
+			{
+				//echo $request['body'];exit;
+				//print_r( json_decode($request['body'] , true) ) ;
+				//echo '<hr>';
+			}
+			
 			if ( !is_wp_error( $request ) ):
 				$request = json_decode( wp_remote_retrieve_body( $request ) );
 				if( $request )

@@ -102,7 +102,7 @@ function inbound_store_lead()
 
 			update_post_meta( $data['lead_id'], 'wp_leads_uid', $data['wp_lead_uid'] );
 			update_post_meta( $data['lead_id'], 'page_views', $data['page_views'] ); /* Store Page Views Object */
-			update_post_meta( $data['lead_id'], 'wpl-lead-page-view-count', $data['page_view_count']);
+			update_post_meta( $data['lead_id'], 'wpleads_page_view_count', $data['page_view_count']);
 			update_post_meta( $data['lead_id'], 'wpleads_landing_page_'.$data['lp_id'], 1 );
 			do_action('wpleads_after_conversion_lead_insert',$data['lead_id']);
 
@@ -145,7 +145,7 @@ function inbound_store_lead()
 		$conversion_data[$c_count]['first_time'] = 1;
 	}
 	$data['conversion_data'] = json_encode($conversion_data);
-	update_post_meta($data['lead_id'],'wpl-lead-conversion-count', $c_count); // Store conversions count
+	update_post_meta($data['lead_id'],'wpleads_conversion_count', $c_count); // Store conversions count
 	update_post_meta($data['lead_id'], 'wpleads_conversion_data', $data['conversion_data']); // Store conversion object
 
 	/* Store Conversion Data to LANDING PAGE/CTA DATA  */
@@ -187,7 +187,7 @@ function inbound_store_lead()
 			$page_views = json_encode($page_views);
 		}
 		// View count
-		$view_count = get_post_meta( $data['lead_id'], 'wpl-lead-page-view-count', TRUE );
+		$view_count = get_post_meta( $data['lead_id'], 'wpleads_page_view_count', TRUE );
 		if ($view_count){
 			$page_view_count = $data['page_view_count'] + $view_count;
 		} else {
@@ -195,7 +195,7 @@ function inbound_store_lead()
 		}
 		// update meta
 		if ($data['page_view_count']){
-		update_post_meta($data['lead_id'],'wpl-lead-page-view-count', $page_view_count);
+		update_post_meta($data['lead_id'],'wpleads_page_view_count', $page_view_count);
 		}
 		update_post_meta($data['lead_id'], 'page_views', $page_views );
 	}
@@ -203,7 +203,7 @@ function inbound_store_lead()
 
 	/* Raw Form Values Store */
 	if ($data['raw_post_values_json']) {
-		$raw_post_data = get_post_meta($data['lead_id'],'wpl-lead-raw-post-data', true);
+		$raw_post_data = get_post_meta($data['lead_id'],'wpleads_raw_post_data', true);
 		$a1 = json_decode( $raw_post_data, true );
 		$a2 = json_decode( stripslashes($data['raw_post_values_json']), true );
 		$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
@@ -236,7 +236,7 @@ function inbound_store_lead()
 			$new_raw_post_data = $a2;
 		}
 		$new_raw_post_data = json_encode( $new_raw_post_data );
-		update_post_meta( $data['lead_id'],'wpl-lead-raw-post-data', $new_raw_post_data );
+		update_post_meta( $data['lead_id'],'wpleads_raw_post_data', $new_raw_post_data );
 	}
 
 	setcookie('wp_lead_id' , $data['lead_id'], time() + (20 * 365 * 24 * 60 * 60),'/');
