@@ -94,8 +94,11 @@ if (is_admin())
 	add_action( "manage_posts_custom_column", "wpleads_custom_columns", 10, 2 );
 	function wpleads_custom_columns( $column, $post_id )
 	{
+		global $post;
+		
 		if ($post->post_type !='wp-lead')
 			return $column;
+			
 			
 		switch ( $column ) {
 			case "lead-picture":
