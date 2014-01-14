@@ -50,7 +50,7 @@ class InboundShortcodes {
     } else if (is_plugin_active('landing-pages/landing-pages.php')) {
       $final_path = LANDINGPAGES_URLPATH;
     } else if (is_plugin_active('cta/wordpress-cta.php')) {
-      $final_path = WP_CTA_URLPATH;
+      $final_path = WP_WP_CTA_URLPATH;
     }
     return $final_path;
   }

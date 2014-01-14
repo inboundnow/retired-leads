@@ -1,67 +1,139 @@
 <?php
-/* Start Global Options
-function wp_cta_display_options(){
-    return array(
-        '_is_all_wp_cta'  => 'Every Page',
-        '_is_front_wp_cta' => 'Static Front Page',
-        '_is_page_wp_cta' => 'Single Page',
-        '_is_home_wp_cta' => 'Blog Page',
-        '_is_single_wp_cta' => 'Single Post',
-        '_is_archive_wp_cta' => 'Archive',
-        '_is_author_wp_cta' => 'Author Archive',
-        '_is_404_wp_cta' => '404 Page',
-        '_is_search_wp_cta' => 'Search Page'
-    );
+
+//hook add_meta_box action into custom call fuction
+//wp_cta_generate_meta is contained in functions.php
+add_action('add_meta_boxes', 'wp_cta_generate_meta');
+function wp_cta_generate_meta()
+{
+	global $post;
+	
+	if ($post->post_type!='wp-call-to-action')
+		return;
+
+	/* Template Select Metabox */
+	add_meta_box(
+		'wp_cta_metabox_select_template', // $id
+		__( 'Template Options', 'wpcta_custom_meta' ),
+		'wp_cta_display_meta_box_select_template', // $callback
+		'wp-call-to-action', // $page
+		'normal', // $context
+		'high'); // $priority
+	
+
+	/* render templates and extension metaboxes */
+	$extension_data = wp_cta_get_extension_data();
+	$current_template = get_post_meta( $post->ID , 'wp-cta-selected-template' , true);
+	$current_template = apply_filters('wp_cta_variation_selected_template',$current_template, $post);
+
+	foreach ($extension_data as $key=>$data)
+	{
+		if ($key!='wp-cta'&&substr($key,0,4)!='ext-' && $key==$current_template)
+		{
+			$template_name = ucwords(str_replace('-',' ',$key));
+			$id = strtolower(str_replace(' ','-',$key));
+			//echo $key."<br>";
+			add_meta_box(
+				"wp_cta_{$id}_custom_meta_box", // $id
+				__( "<small>$template_name Options:</small>", "wp_cta_{$key}_custom_meta" ),
+				'wp_cta_show_metabox', // $callback
+				'wp-call-to-action', // post-type
+				'normal', // $context
+				'default',// $priority
+				array('key'=>$key)
+				); //callback args
+		}
+	}
+	
+	/* extension only */
+	foreach ($extension_data as $key=>$data)
+	{
+		if (substr($key,0,4)=='ext-' || isset($data['info']['data_type']) && $data['info']['data_type'] =='metabox')
+		{
+
+			$id = "metabox-".$key;
+
+			(isset($data['info']['label'])) ? $name = $data['info']['label'] : $name = ucwords(str_replace(array('-','ext '),' ',$key). " Extension Options");
+			(isset($data['info']['position'])) ? $position = $data['info']['position'] : $position = "normal";
+			(isset($data['info']['priority'])) ? $priority = $data['info']['priority'] : $priority = "default";
+
+			//echo $key."<br>";
+			add_meta_box(
+				"wp_cta_{$id}_custom_meta_box", // $id
+				__( "$name", "wp_cta" ),
+				'wp_cta_show_metabox', // $callback
+				'wp-call-to-action', // post-type
+				$position , // $context
+				$priority ,// $priority
+				array('key'=>$key)
+				); //callback args
+
+		}
+	}
+	
+	/* Advanced Call to Action Options */
+	 add_meta_box(
+        'wp_cta_tracking_metabox', // $id
+        'Advanced Call to Action Options', // $title
+        'wp_cta_show_advanced_settings_metabox', // $callback
+        'wp-call-to-action', // $page
+        'normal', // $context
+        'low'); // $priority
+	
+	/* Custom CSS */
+	add_meta_box(
+		'wp_cta_3_custom_css', 
+		'Custom CSS', 
+		'wp_cta_custom_css_input', 
+		'wp-call-to-action', 
+		'normal', 
+		'low');
+
+	/* Custom JS */
+	add_meta_box(
+		'wp_cta_3_custom_js', 
+		'Custom JS', 
+		'wp_cta_custom_js_input', 
+		'wp-call-to-action', 
+		'normal', 
+		'low');
 }
-// Meta box
-add_action('add_meta_boxes', 'wp_cta_add_meta_box');
-function wp_cta_add_meta_box() {
-        add_meta_box('wp-cta-buttons-meta', __('Call To Action Display', 'wp-call-to-action'),  'wp_cta_metabox_admin', 'wp-call-to-action', 'side');
+
+
+/* template select metabox */
+function wp_cta_display_meta_box_select_template() {
+	global $post;
+	
+	$template =  get_post_meta($post->ID, 'wp-cta-selected-template', true);
+	$template = apply_filters('wp_cta_selected_template',$template);
+
+	if (!isset($template)||isset($template)&&!$template){ $template = 'default';}
+
+	$name = apply_filters('wp_cta_selected_template_id','wp-cta-selected-template');
+	
+	// Use nonce for verification
+	echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
+	?>
+
+	<div id="wp_cta_template_change"><h2><a class="button" id="wp-cta-change-template-button">Choose Another Template</a></div>
+	<input type='hidden' id='wp_cta_select_template' name='<?php echo $name; ?>' value='<?php echo $template; ?>'>
+		<div id="template-display-options"></div>
+
+	<?php
 }
 
-function wp_cta_metabox_admin() {
-    global $post;
-    $display_options = wp_cta_display_options();
 
-    $default_content = "";
-    $default_content .= '<input type="hidden" name="ctaw_settings_noncename" id="ctaw_settings_noncename" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
-    $default_content .= '<p>Global Settings</p>';
-    $default_content .= '<ul id="inline-sortable">';
-    foreach ($display_options as $ctaw_display=>$ctaw_name) {
-        $default_content .= '<li class="ui-state-default"><label class="selectit"><input value="1" type="checkbox" name="'.$ctaw_display.'" id="post-share-' . $ctaw_display . '"' . checked(get_post_meta($post->ID, $ctaw_display, true), 1, false) . '/> <span>' . __($ctaw_name) . '</span></label></li>';
-    }
-    $default_content .= '</ul>';
-    echo $default_content;
+function wp_cta_show_metabox($post,$key)
+{
+	$extension_data = wp_cta_get_extension_data();
+	$key = $key['args']['key'];
+
+	$wp_cta_custom_fields = $extension_data[$key]['settings'];
+
+	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
+
+	inbound_template_metabox_render($key,$wp_cta_custom_fields,$post);
 }
 
-add_action('save_post', 'wp_cta_admin_process');
-function wp_cta_admin_process($post_ID) {
-    if (!isset($_POST['ctaw_settings_noncename']) || !wp_verify_nonce($_POST['ctaw_settings_noncename'], plugin_basename(__FILE__))) {
-        return $post_ID;
-    }
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
-        return $post_ID;
-
-    if ('page' == $_POST['post_type']) {
-        if (!current_user_can('edit_page', $post_ID))
-            return $post_ID;
-    } else {
-        if (!current_user_can('edit_post', $post_ID))
-            return $post_ID;
-    }
-
-    if (!wp_is_post_revision($post_ID) && !wp_is_post_autosave($post_ID)) {
-        $display_options = wp_cta_display_options();
-        foreach ($display_options as $ctaw_display=>$ctaw_name) {
-            if (isset($_POST[$ctaw_display]) && $_POST[$ctaw_display] != ''){
-                update_post_meta($post_ID, $ctaw_display, 1);
-            } else {
-                update_post_meta($post_ID, $ctaw_display, 0);
-            }
-        }
-    }
-}
-*/
 
 add_filter('wp_cta_show_metabox','wp_cta_add_global_demensions' , 10, 2);
 function wp_cta_add_global_demensions($field_settings, $key){
@@ -99,17 +171,12 @@ function wp_cta_add_global_demensions($field_settings, $key){
         'global' => true // disables template name prefix
         );
 
- array_unshift($field_settings, $width, $height);
+	array_unshift($field_settings, $width, $height);
 
- return $field_settings;
+	return $field_settings;
 }
-/*
-$height_key = 'wp_cta_height-1';
-$var_id = 1;
-$key_fix = 2;
-$height_key = str_replace($var_id, $key_fix, $height_key);
-echo $height_key;
-*/
+
+
 add_action( 'save_post', 'wp_cta_save_custom_height_width' );
 function wp_cta_save_custom_height_width( $post_id )
 {
@@ -141,22 +208,11 @@ function wp_cta_save_custom_height_width( $post_id )
 }
 
 
-
-/* End global Options */
-// Add in Custom Options
-function add_wp_cta_post_metaboxes() {
-    add_meta_box(
-        'wp_cta_tracking_metabox', // $id
-        'Advanced Call to Action Options', // $title
-        'wp_cta_show_advanced_settings_metabox', // $callback
-        'wp-call-to-action', // $page
-        'normal', // $context
-        'low'); // $priority
-}
-
-add_action('add_meta_boxes', 'add_wp_cta_post_metaboxes');
-
-$custom_wp_cta_metaboxes = array(
+function wp_cta_get_advanced_settings()
+{
+	global $custom_wp_cta_metaboxes;
+	
+	$custom_wp_cta_metaboxes[] = 
     array(
         'label' => 'Open Links',
         'description' => "How do you want links on the call to action to work?",
@@ -165,21 +221,33 @@ $custom_wp_cta_metaboxes = array(
         'default'  => 'this_window',
         'options' => array('this_window' => 'Open Links in Same Window (default)','new_tab'=>'Open Links in New Tab'),
         'context'  => 'normal'
-        )
-);
+        );
+	
+	$custom_wp_cta_metaboxes = apply_filters( 'wp_cta_advanced_settings' , $custom_wp_cta_metaboxes );
+	
+	return $custom_wp_cta_metaboxes;
+}
+
 function wp_cta_show_advanced_settings_metabox() {
-    global $custom_wp_cta_metaboxes, $custom_wp_cta_metaboxes_two, $post;
+    global $post;
+	
+	$custom_wp_cta_metaboxes = wp_cta_get_advanced_settings();
+	
     // Use nonce for verification
     //echo '<input type="hidden" name="custom_wp_cta_metaboxes_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
     wp_nonce_field('save-custom-wp-cta-boxes','custom_wp_cta_metaboxes_nonce');
     // Begin the field table and loop
     echo '<div class="form-table">';
     echo '<div class="cta-description-box"><span class="calc button-secondary">Calculate height/width</span></div>';
-   	wp_cta_render_metaboxes($custom_wp_cta_metaboxes);
-    do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
-    echo '</div>'; // end table
+   
+	wp_cta_render_metaboxes($custom_wp_cta_metaboxes);
+    
+	do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
+   
+   echo '</div>'; // end table
 }
-// This function is going to be replace by Global
+
+
 function wp_cta_render_metaboxes($meta_boxes) {
 	global $post, $wpdb;
 	 foreach ($meta_boxes as $field) {
@@ -329,8 +397,10 @@ function wp_cta_render_metaboxes($meta_boxes) {
 // Save the Data
 add_action('save_post', 'save_wp_cta_post_metaboxes', 15);
 function save_wp_cta_post_metaboxes($post_id) {
-    global $custom_wp_cta_metaboxes, $custom_wp_cta_metaboxes_two, $post;
+    global $post;
 
+	$custom_wp_cta_metaboxes = wp_cta_get_advanced_settings();
+	
 	if ( isset($post) && 'wp-call-to-action' == $post->post_type )
     {
 
@@ -387,10 +457,10 @@ function wp_cta_meta_save_loop($save_values){
 	//exit;
 }
 
+
 // Add in Main Headline
 add_action( 'edit_form_after_title', 'wp_cta_wp_call_to_action_header_area' );
 add_action( 'save_post', 'wp_cta_save_notes_area' );
-
 function wp_cta_wp_call_to_action_header_area()
 {
    global $post;
@@ -419,6 +489,16 @@ function wp_cta_wp_call_to_action_header_area()
 
 }
 
+
+function wp_cta_display_notes_input($id,$variation_notes)
+{
+	//echo $id;
+	$id = apply_filters('wp_cta_display_notes_input_id',$id);
+
+	echo "<span id='add-wp-cta-notes'>Notes:</span><input placeholder='Add Notes to your variation. Example: This version is testing a green submit button' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
+}
+
+
 function wp_cta_save_notes_area( $post_id )
 {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
@@ -437,7 +517,6 @@ function wp_cta_save_notes_area( $post_id )
 }
 
 
-
 add_filter( 'enter_title_here', 'wp_cta_change_enter_title_text', 10, 2 );
 function wp_cta_change_enter_title_text( $text, $post ) {
 	if ($post->post_type=='wp-call-to-action')
@@ -450,39 +529,7 @@ function wp_cta_change_enter_title_text( $text, $post ) {
 	}
 }
 
-// Add template select metabox
-add_action('add_meta_boxes', 'wp_cta_add_custom_meta_box_select_templates');
-function wp_cta_add_custom_meta_box_select_templates() {
 
-	add_meta_box(
-		'wp_cta_metabox_select_template', // $id
-		__( 'Template Options', 'wpcta_custom_meta' ),
-		'wp_cta_display_meta_box_select_template', // $callback
-		'wp-call-to-action', // $page
-		'normal', // $context
-		'high'); // $priority
-}
-
-// Render select template box
-function wp_cta_display_meta_box_select_template() {
-	global $post;
-	$template =  get_post_meta($post->ID, 'wp-cta-selected-template', true);
-	$template = apply_filters('wp_cta_selected_template',$template);
-
-	if (!isset($template)||isset($template)&&!$template){ $template = 'default';}
-
-	$name = apply_filters('wp_cta_selected_template_id','wp-cta-selected-template');
-
-	// Use nonce for verification
-	echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
-	?>
-
-	<div id="wp_cta_template_change"><h2><a class="button" id="wp-cta-change-template-button">Choose Another Template</a></div>
-	<input type='hidden' id='wp_cta_select_template' name='<?php echo $name; ?>' value='<?php echo $template; ?>'>
-		<div id="template-display-options"></div>
-
-	<?php
-}
 
 add_action('admin_notices', 'wp_cta_display_meta_box_select_template_container');
 
@@ -580,14 +627,8 @@ font-size: 14px; padding-top: 10px;"><?php echo $data['info']['label']; ?></div>
 	echo "<div style='display:none;' class='currently_selected'>This is Currently Selected</a></div>";
 }
 
-// Custom CSS Widget
-add_action('add_meta_boxes', 'add_custom_meta_box_wp_cta_custom_css');
-add_action('save_post', 'wp_call_to_actions_save_custom_css');
 
-function add_custom_meta_box_wp_cta_custom_css() {
-   add_meta_box('wp_cta_3_custom_css', 'Custom CSS', 'wp_cta_custom_css_input', 'wp-call-to-action', 'normal', 'low');
-}
-
+/* Custom CSS */
 function wp_cta_custom_css_input() {
 	global $post;
 
@@ -603,6 +644,7 @@ function wp_cta_custom_css_input() {
 	echo '<textarea name="'.$custom_css_name.'" id="wp-cta-custom-css" rows="'. $line_count .'" cols="30" style="width:100%;">'.$custom_css .'</textarea>';
 }
 
+add_action('save_post', 'wp_call_to_actions_save_custom_css');
 function wp_call_to_actions_save_custom_css($post_id) {
 	global $post;
 	if (!isset($post)||!isset($_POST['wp-cta-custom-css']))
@@ -617,13 +659,7 @@ function wp_call_to_actions_save_custom_css($post_id) {
 	update_post_meta($post_id, 'wp-cta-custom-css', $wp_cta_custom_css);
 }
 
-//Insert custom JS box to landing page
-add_action('add_meta_boxes', 'add_custom_meta_box_wp_cta_custom_js');
-add_action('save_post', 'wp_call_to_actions_save_custom_js');
-
-function add_custom_meta_box_wp_cta_custom_js() {
-   add_meta_box('wp_cta_3_custom_js', 'Custom JS', 'wp_cta_custom_js_input', 'wp-call-to-action', 'normal', 'low');
-}
+/* Custom JS */
 
 function wp_cta_custom_js_input() {
 	global $post;
@@ -639,10 +675,13 @@ function wp_cta_custom_js_input() {
 	echo '<textarea name="'.$custom_js_name.'" id="wp_cta_custom_js" rows="'.$line_count.'" cols="30" style="width:100%;">'.$custom_js.'</textarea>';
 }
 
+add_action('save_post', 'wp_call_to_actions_save_custom_js');
 function wp_call_to_actions_save_custom_js($post_id) {
 	global $post;
+	
 	if (!isset($post)||!isset($_POST['wp-cta-custom-js']))
 		return;
+		
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
 
 	$custom_js_name = apply_filters('wp-cta-custom-js-name','wp-cta-custom-js');
@@ -652,77 +691,8 @@ function wp_call_to_actions_save_custom_js($post_id) {
 	update_post_meta($post_id, 'wp-cta-custom-js', $wp_cta_custom_js);
 }
 
-//hook add_meta_box action into custom call fuction
-//wp_cta_generate_meta is contained in functions.php
-add_action('add_meta_boxes', 'wp_cta_generate_meta');
-function wp_cta_generate_meta()
-{
-	global $post;
-	if ($post->post_type!='wp-call-to-action')
-		return;
 
-	$extension_data = wp_cta_get_extension_data();
-	$current_template = get_post_meta( $post->ID , 'wp-cta-selected-template' , true);
-	$current_template = apply_filters('wp_cta_variation_selected_template',$current_template, $post);
-
-	foreach ($extension_data as $key=>$data)
-	{
-		if ($key!='wp-cta'&&substr($key,0,4)!='ext-' && $key==$current_template)
-		{
-			$template_name = ucwords(str_replace('-',' ',$key));
-			$id = strtolower(str_replace(' ','-',$key));
-			//echo $key."<br>";
-			add_meta_box(
-				"wp_cta_{$id}_custom_meta_box", // $id
-				__( "<small>$template_name Options:</small>", "wp_cta_{$key}_custom_meta" ),
-				'wp_cta_show_metabox', // $callback
-				'wp-call-to-action', // post-type
-				'normal', // $context
-				'default',// $priority
-				array('key'=>$key)
-				); //callback args
-		}
-	}
-	foreach ($extension_data as $key=>$data)
-	{
-		if (substr($key,0,4)=='ext-' || isset($data['info']['data_type']) && $data['info']['data_type'] =='metabox')
-		{
-
-			$id = "metabox-".$key;
-
-			(isset($data['info']['label'])) ? $name = $data['info']['label'] : $name = ucwords(str_replace(array('-','ext '),' ',$key). " Extension Options");
-			(isset($data['info']['position'])) ? $position = $data['info']['position'] : $position = "normal";
-			(isset($data['info']['priority'])) ? $priority = $data['info']['priority'] : $priority = "default";
-
-			//echo $key."<br>";
-			add_meta_box(
-				"wp_cta_{$id}_custom_meta_box", // $id
-				__( "$name", "wp_cta" ),
-				'wp_cta_show_metabox', // $callback
-				'wp-call-to-action', // post-type
-				$position , // $context
-				$priority ,// $priority
-				array('key'=>$key)
-				); //callback args
-
-		}
-	}
-
-}
-
-function wp_cta_show_metabox($post,$key)
-{
-	$extension_data = wp_cta_get_extension_data();
-	$key = $key['args']['key'];
-
-	$wp_cta_custom_fields = $extension_data[$key]['settings'];
-
-	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
-
-	inbound_template_metabox_render($key,$wp_cta_custom_fields,$post);
-}
-
-
+/* LEGACY - MAYBE USED BY EXTENSIONS THOUGH */
 function wp_cta_render_metabox($key,$custom_fields,$post)
 {
 	//print_r($custom_fields);exit;
@@ -903,9 +873,7 @@ function wp_cta_save_meta($post_id) {
 
 	if ($post->post_type=='wp-call-to-action')
 	{
-		//print_r($extension_data);exit;
-		//print_r($_POST);exit;
-		//echo $_POST['wp-cta-selected-template'];exit;
+
 		foreach ($extension_data as $key=>$data)
 		{
 			if ($key=='wp-cta')
@@ -968,15 +936,18 @@ function wp_cta_save_meta($post_id) {
 				//exit;
 			}
 		}
-
-		//make sure template is saved
-		//$selected_template = $_POST['wp-cta-selected-template'];
-		//update_post_meta($post_id, $field['id'], $new);
-
-		// save taxonomies
-		$post = get_post($post_id);
-		//$category = $_POST['wp_call_to_action_category'];
-		//wp_set_object_terms( $post_id, $category, 'wp_call_to_action_category' );
 	}
 }
 
+/* remove custom fields from wp-call-to-action cpt */
+add_action( 'in_admin_header', 'wp_cta_in_admin_header');
+function wp_cta_in_admin_header()
+{
+	global $post;
+	global $wp_meta_boxes;
+
+	if (isset($post)&&$post->post_type=='wp-call-to-action')
+	{
+		unset( $wp_meta_boxes[get_current_screen()->id]['normal']['core']['postcustom'] );
+	}
+}

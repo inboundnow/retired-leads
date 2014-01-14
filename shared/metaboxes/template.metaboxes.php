@@ -13,6 +13,7 @@ function inbound_template_show_metabox($post,$key)
 
 	inbound_template_metabox_render($key,$wp_cta_custom_fields,$post);
 }
+
 // replacing wp_cta_render_metabox
 function inbound_template_metabox_render($key,$custom_fields,$post)
 {

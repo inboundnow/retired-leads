@@ -5,33 +5,53 @@
  * LOAD NATIVE TEMPLATES FROM WP-CONTENT/PLUGINS LANDING-PAGES/TEMPLATES/
  */
 
-	$template_paths = wp_cta_get_core_template_paths();
+$template_paths = wp_cta_get_core_template_paths();
 
-	if (count($template_paths)>0)
+if (count($template_paths)>0)
+{
+	foreach ($template_paths as $name)
 	{
-		foreach ($template_paths as $name)
-		{
-			if ($name != ".svn"){
-			include_once(WP_CTA_PATH."templates/$name/config.php");
-			}
+		if ($name != ".svn"){
+		include_once(WP_CTA_PATH."templates/$name/config.php");
 		}
 	}
+}
 
 /**
  * LOAD NON-NATIVE TEMPLATES FROM WP-CONTENT/UPLOADS/LANDING-PAGES/TEMPLATES/
  */
 
-	$template_paths = wp_cta_get_extension_template_paths();
-	$uploads = wp_upload_dir();
-	$uploads_path = $uploads['basedir'];
-	//print_r($template_paths);exit;
-	$extended_templates_path = $uploads_path.'/wp-calls-to-action/templates/';
+$template_paths = wp_cta_get_extension_template_paths();
+$uploads = wp_upload_dir();
+$uploads_path = $uploads['basedir'];
+//print_r($template_paths);exit;
+$extended_templates_path = $uploads_path.'/wp-calls-to-action/templates/';
 
-	if (count($template_paths)>0)
+if (count($template_paths)>0)
+{
+	foreach ($template_paths as $name)
 	{
-		foreach ($template_paths as $name)
-		{
-			include_once($extended_templates_path."$name/config.php");
+		include_once($extended_templates_path."$name/config.php");
+	}
+}
+
+$extension_data = wp_cta_get_extension_data();
+if (isset($extension_data))
+{
+	$extension_data_cats = wp_cta_get_extension_data_cats($extension_data);
+}
+
+
+$template_paths = wp_cta_get_core_template_paths();
+//print_r($template_paths);
+
+//Now load all config.php files with their custom meta data
+if (count($template_paths)>0)
+{
+	foreach ($template_paths as $name)
+	{
+		if ($name != ".svn"){
+		include_once(WP_CTA_PATH."templates/$name/config.php");
 		}
 	}
 
@@ -40,27 +60,7 @@
 	{
 		$extension_data_cats = wp_cta_get_extension_data_cats($extension_data);
 	}
-
-
-	$template_paths = wp_cta_get_core_template_paths();
-	//print_r($template_paths);
-
-	//Now load all config.php files with their custom meta data
-	if (count($template_paths)>0)
-	{
-		foreach ($template_paths as $name)
-		{
-			if ($name != ".svn"){
-			include_once(WP_CTA_PATH."templates/$name/config.php");
-			}
-		}
-
-		$extension_data = wp_cta_get_extension_data();
-		if (isset($extension_data))
-		{
-			$extension_data_cats = wp_cta_get_extension_data_cats($extension_data);
-		}
-	}
+}
 
  /**
  * DECLARE HELPER FUNCTIONS

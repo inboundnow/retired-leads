@@ -5,7 +5,7 @@
  * REGISTER ACTIVATION HOOK
  */
 
-register_activation_hook( CTA_FILE , 'wp_call_to_action_activate');
+register_activation_hook( WP_CTA_FILE , 'wp_call_to_action_activate');
 function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.6', $leads = '1.2.1')
 {
 	global $wp_version;
@@ -14,13 +14,13 @@ function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.6', 
 	    $flag = 'PHP';
 	    $version = 'PHP' == $flag ? $php : $wp;
 		wp_die('<p>The <strong>WordPress Calls to Action</strong> plugin requires'.$flag.'  version '.$php.' or greater.</p>','Plugin Activation Error',  array( 'response'=>200, 'back_link'=>TRUE ) );
-		deactivate_plugins( basename( CTA_FILE ) );
+		deactivate_plugins( basename( WP_CTA_FILE ) );
 	} 
 	elseif ( version_compare( $wp_version, $wp, '<' ) ) 
 	{
 	    $flag = 'WordPress';
 	    wp_die('<p>The <strong>WordPress Calls to Action</strong> plugin requires'.$flag.'  version '.$wp.' or greater.</p>','Plugin Activation Error',  array( 'response'=>200, 'back_link'=>TRUE ) );
-	    deactivate_plugins( basename( CTA_FILE ) );
+	    deactivate_plugins( basename( WP_CTA_FILE ) );
 	} 
 	elseif (defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION, $lp, '<' ))
 	{

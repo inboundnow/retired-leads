@@ -134,6 +134,15 @@ if (is_admin())
 		}
 	}
 	
+	function wp_cta_ab_unset_variation($variations,$vid)
+	{
+		if(($key = array_search($vid, $variations)) !== false) {
+			unset($variations[$key]);
+		}
+
+		return $variations;
+	}
+
 	
 	function wp_cta_ab_testing_force_default_editor() {
 		//allowed: tinymce, html, test
@@ -516,6 +525,65 @@ else
 
 //PERFORM ACTIONS REQUIRED ON BOTH FRONT AND BACKEND
 
+
+function wp_cta_ab_key_to_letter($key) {
+    $alphabet = array( 'A', 'B', 'C', 'D', 'E',
+                       'F', 'G', 'H', 'I', 'J',
+                       'K', 'L', 'M', 'N', 'O',
+                       'P', 'Q', 'R', 'S', 'T',
+                       'U', 'V', 'W', 'X', 'Y',
+                       'Z'
+                       );
+
+	if (isset($alphabet[$key]))
+		return $alphabet[$key];
+}
+
+
+function wp_cta_ab_testing_get_current_variation_id()
+{
+	if (!isset($_GET['wp-cta-variation-id'])&&isset($_SESSION['wp_cta_ab_test_open_variation'])&&is_admin())
+	{
+		//$current_variation_id = $_SESSION['wp_cta_ab_test_open_variation'];
+	}
+
+	if (!isset($_SESSION['wp_cta_ab_test_open_variation'])&&!isset($_GET['wp-cta-variation-id']))
+	{
+		$current_variation_id = 0;
+	}
+	//echo $_GET['wp-cta-variation-id'];
+	if (isset($_GET['wp-cta-variation-id']))
+	{
+		$_SESSION['wp_cta_ab_test_open_variation'] = $_GET['wp-cta-variation-id'];
+		$current_variation_id = $_GET['wp-cta-variation-id'];
+	}
+
+	if (isset($_GET['message'])&&$_GET['message']==1&&isset( $_SESSION['wp_cta_ab_test_open_variation'] ))
+	{
+		$current_variation_id = $_SESSION['wp_cta_ab_test_open_variation'];
+
+		//echo "here:".$_SESSION['wp_cta_ab_test_open_variation'];
+	}
+
+	if (isset($_GET['ab-action'])&&$_GET['ab-action']=='delete-variation')
+	{
+		$current_variation_id = 0;
+		$_SESSION['wp_cta_ab_test_open_variation'] = 0;
+	}
+/*
+	if (isset($_GET['new_meta_key']))
+	{
+		$current_variation_id = $_GET['new_meta_key'];
+
+	}
+*/
+	if (!isset($current_variation_id))
+		$current_variation_id = 0 ;
+
+	return $current_variation_id;
+}
+
+
 //ready content area for displaying ab variations
 add_filter('wp_cta_content_area','wp_cta_ab_testing_prepare_content_area' , 10 , 2 );
 function wp_cta_ab_testing_prepare_content_area($content, $post=null)
@@ -866,7 +934,8 @@ function wp_cta_ab_testing_frontend_editor_screen_pre($post)
 		}
 	});
 	</script>
-<?php } 
+<?php 
+} 
 
 /*-------------------------------------------------------WORKSPACE-------------------------------------------------------*/
 //print all global fields for post

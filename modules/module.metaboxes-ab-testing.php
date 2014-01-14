@@ -156,6 +156,28 @@ function wp_cta_ab_stats_metabox() {
 		</div>	
 	</div>
 	<?php
+}
+
+
+function wp_cta_ab_get_wp_cta_active_status($post,$vid=null)
+{
+	if ($vid==0)
+	{
+		$variation_status = get_post_meta( $post->ID , 'wp_cta_ab_variation_status' , true);
+	}
+	else
+	{
+		$variation_status = get_post_meta( $post->ID , 'wp_cta_ab_variation_status-'.$vid , true);
+	}
+
+	if (!is_numeric($variation_status))
+	{
+		return 1;
+	}
+	else
+	{
+		return $variation_status;
+	}
 }		
 
 //print out tabs

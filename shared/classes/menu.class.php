@@ -46,7 +46,7 @@ if (!class_exists('InboundMenu')) {
         }
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
           $cta_status = TRUE;
-          $cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
+          $cta_number = defined( 'WP_WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_WP_CTA_CURRENT_VERSION : '';
         }
 
         if ( $leads_status == FALSE && $landing_page_status == FALSE && $cta_status == FALSE  ) {
@@ -604,8 +604,8 @@ if (!class_exists('InboundMenu')) {
          $final_path = LEADS_URL . "/";
       } else if (defined( 'LANDINGPAGES_URLPATH' )){
         $final_path = LANDINGPAGES_URLPATH;
-      } else if (defined( 'WP_CTA_URLPATH' )){
-        $final_path = WP_CTA_URLPATH;
+      } else if (defined( 'WP_WP_CTA_URLPATH' )){
+        $final_path = WP_WP_CTA_URLPATH;
       } else {
         $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
       }

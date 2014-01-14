@@ -33,8 +33,8 @@ $test =  html_entity_decode( trim( $html_test2 ) );
 	   $final_path = LEADS_URL . "/";
 	} else if (defined( 'LANDINGPAGES_URLPATH' )){
 		$final_path = LANDINGPAGES_URLPATH;
-	} else if (defined( 'WP_CTA_URLPATH' )){
-		$final_path = WP_CTA_URLPATH;
+	} else if (defined( 'WP_WP_CTA_URLPATH' )){
+		$final_path = WP_WP_CTA_URLPATH;
 	} else {
 		$final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
 	}

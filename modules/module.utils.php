@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Utility Functions
+ * SETUP DEBUG TOOLS
  */
 
 add_action( 'init', 'inbound_meta_debug' );
@@ -24,9 +25,22 @@ if (!function_exists('inbound_meta_debug')) {
 				print_r( $data);
 				echo "</pre>";
 			}
-		} 
+		}
 	}
 }
+
+
+add_action( 'wp_head', 'wp_cta_kill_ie8' );
+function wp_cta_kill_ie8() {
+    global $is_IE;
+    if ( $is_IE ) {
+        echo '<!--[if lt IE 9]>';
+        echo '<link rel="stylesheet" type="text/css" href="'.WP_CTA_URLPATH.'/css/ie8-and-down.css" />';
+        echo '<![endif]-->';
+    }
+}
+
+
 // Fix SEO Title Tags to not use the_title
 //add_action('wp','wpcta_seo_title_filters');
 function wpcta_seo_title_filters() {
