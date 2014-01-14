@@ -32,45 +32,45 @@ if (is_admin())
 switch (is_admin()) :
 	case true :
 		/* loads admin files */
-		include_once('functions/functions.global.php');			
+		//include_once('functions/functions.global.php'); // old
 		include_once('modules/module.activate.php');
 		include_once('modules/module.post-type.php');
 		include_once('modules/module.admin-menus.php');
-		include_once('modules/module.ajax-setup.php');	
-		include_once('modules/module.enqueue.php');	
+		include_once('modules/module.ajax-setup.php');
+		include_once('modules/module.enqueue.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.clone.php');
 		include_once('modules/module.install.php');
 		include_once('modules/module.extension-updater.php');
-		include_once('modules/module.ab-testing.php');			
-		include_once('modules/module.calls-to-action.php');		
-		include_once('modules/module.load-extensions.php');		
+		include_once('modules/module.ab-testing.php');
+		include_once('modules/module.calls-to-action.php');
+		include_once('modules/module.load-extensions.php');
 		include_once('modules/module.metaboxes-global.php');
-		include_once('modules/module.metaboxes-wp-call-to-action.php');		
+		include_once('modules/module.metaboxes-wp-call-to-action.php');
 		include_once('modules/module.templates.php');
-		include_once('modules/module.store.php');				
+		include_once('modules/module.store.php');
 		include_once('modules/module.utils.php');
 		include_once('modules/module.customizer.php');
-		
+		include_once('modules/module.track.php');
 		BREAK;
 
 	case false :
 		/* load front-end files */
-		include_once('functions/functions.global.php');
+		// include_once('functions/functions.global.php'); // old
 		include_once('modules/module.post-type.php');
 		include_once('modules/module.track.php');
 		include_once('modules/module.click-tracking.php');
-		include_once('modules/module.ajax-setup.php');		
+		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.widgets.php');
 		include_once('modules/module.cookies.php');
-		include_once('modules/module.ab-testing.php');		
-		include_once('modules/module.calls-to-action.php');		
+		include_once('modules/module.ab-testing.php');
+		include_once('modules/module.calls-to-action.php');
 		include_once('modules/module.utils.php');
 		include_once('modules/module.customizer.php');
 
 		BREAK;
 endswitch;
-	
+
 /* Inbound Core Shared Files. */
 add_action( 'plugins_loaded', 'inbound_load_shared' , 12);
 
@@ -81,7 +81,7 @@ function inbound_load_shared(){
 	include_once('shared/inboundnow/inboundnow.extend.php'); // Legacy
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating
-	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings 
+	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings
 	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 	include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
@@ -89,7 +89,7 @@ function inbound_load_shared(){
 }
 
 
-	
+
 
 
 

@@ -21,6 +21,9 @@ overflow: visible !important;
 #titlediv #title:focus, #wp-cta-notes-area input:focus{
   border: solid 1px #dfdfdf;
 }
+#wp_cta_metabox_select_template .handlediv {
+	display: none;
+}
 .inbound-multi-select {
 	min-width: 60%;
 }
