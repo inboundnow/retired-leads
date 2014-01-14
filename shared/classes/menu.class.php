@@ -458,22 +458,22 @@ if (!class_exists('InboundMenu')) {
 
         } else {
 
-          /** If Inbound Now is not active, to avoid PHP notices */
+          /** If Easy Digital Downloads is not active, to avoid PHP notices */
           if ( 'eddtb_resources_yes' == $eddtb_resources_check && $inboundsecondary_menu_items ) {
             $menu_items = $inboundsecondary_menu_items;
           }
 
-          /** If Inbound Now is not active and no icon filter is active, then display no icon */
+          /** If Easy Digital Downloads is not active and no icon filter is active, then display no icon */
           if ( ! has_filter( 'eddtb_filter_main_icon' ) ) {
             add_filter( 'eddtb_filter_main_item_icon_display', '__eddtb_no_icon_display' );
           }
 
         }
 
-        $inboundsecondary_menu_items = (isset( $inboundsecondary_menu_items)) ? $inboundsecondary_menu_items : '';
+
 
         /** Allow menu items to be filtered, but pass in parent menu item IDs */
-        $menu_items = (array) apply_filters( 'inboundnow_menu_items', $menu_items, ( 'eddtb_resources_yes' == $eddtb_resources_check ) ? $inboundsecondary_menu_items : '',
+        $menu_items = (array) apply_filters( 'ddw_eddtb_menu_items', $menu_items, ( 'eddtb_resources_yes' == $eddtb_resources_check ) ? $inboundsecondary_menu_items : '',
           $prefix,
           $inboundbar,
           $inboundsupport,
@@ -557,44 +557,43 @@ if (!class_exists('InboundMenu')) {
           'meta'   => array( 'class' => 'ab-sub-secondary' )
         ) );
 
-        if (is_array($inboundsecondary_menu_items)) {
-          // Load grey secondary items
-            foreach ( $inboundsecondary_menu_items as $id => $inboundgroup_menu_item ) {
 
-              /** EDD Group: Add in the item ID */
-              $inboundgroup_menu_item['id'] = $prefix . $id;
+        // Load grey secondary items
+        foreach ( $inboundsecondary_menu_items as $id => $inboundgroup_menu_item ) {
 
-              /** EDD Group: Add meta target to each item where it's not already set, so links open in new window/tab */
-              if ( ! isset( $inboundgroup_menu_item['meta']['target'] ) )
-                $inboundgroup_menu_item['meta']['target'] = '_blank';
+          /** EDD Group: Add in the item ID */
+          $inboundgroup_menu_item['id'] = $prefix . $id;
 
-              /** EDD Group: Add class to links that open up in a new window/tab */
-              if ( '_blank' === $inboundgroup_menu_item['meta']['target'] ) {
+          /** EDD Group: Add meta target to each item where it's not already set, so links open in new window/tab */
+          if ( ! isset( $inboundgroup_menu_item['meta']['target'] ) )
+            $inboundgroup_menu_item['meta']['target'] = '_blank';
 
-                if ( ! isset( $inboundgroup_menu_item['meta']['class'] ) ) {
-                  $inboundgroup_menu_item['meta']['class'] = '';
-                }
+          /** EDD Group: Add class to links that open up in a new window/tab */
+          if ( '_blank' === $inboundgroup_menu_item['meta']['target'] ) {
 
-                $inboundgroup_menu_item['meta']['class'] .= $prefix . 'eddtb-new-tab';
+            if ( ! isset( $inboundgroup_menu_item['meta']['class'] ) ) {
+              $inboundgroup_menu_item['meta']['class'] = '';
+            }
 
-              }
+            $inboundgroup_menu_item['meta']['class'] .= $prefix . 'eddtb-new-tab';
 
-              /** EDD Group: Add menu items */
-              $wp_admin_bar->add_menu( $inboundgroup_menu_item );
+          }
 
-            }  // end foreach EDD Group
+          /** EDD Group: Add menu items */
+          $wp_admin_bar->add_menu( $inboundgroup_menu_item );
+
+        }  // end foreach EDD Group
 
 
-            /**
-             * Action Hook 'eddtb_custom_group_items'
-             * allows for hooking other EDD Group items in
-             *
-             * @since 1.2.0
-             */
-          //  do_action( 'eddtb_custom_group_items' );
+        /**
+         * Action Hook 'eddtb_custom_group_items'
+         * allows for hooking other EDD Group items in
+         *
+         * @since 1.2.0
+         */
+      //  do_action( 'eddtb_custom_group_items' );
 
-        }
-      }
+    }
 
     static function menu_admin_head() {
       /** No styles if admin bar is disabled or user is not logged in or items are disabled via constant */
