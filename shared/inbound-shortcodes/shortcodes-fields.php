@@ -45,14 +45,14 @@ class InboundShortcodesFields {
 	function show() {
 
 		global $shortcodes_config;
-
+		//print_r($shortcodes_config);exit;
 		$fields = apply_filters('inboundnow_forms_settings', $shortcodes_config);
-
+	
 		if( isset( $fields[$this->popup]['child'] ) )
 			$this->has_child = true;
 
 		if( isset( $fields ) && is_array( $fields ) ) {
-
+			
 			$this->options = $fields[$this->popup]['options'];
 			$this->shortcode = $fields[$this->popup]['shortcode'];
 			$this->popup_title = $fields[$this->popup]['popup_title'];
@@ -69,7 +69,7 @@ class InboundShortcodesFields {
 			$count = 0;
 			foreach( $this->options as $key => $option ) {
 				$first = $key;
-
+			
 				$key = 'inbound_shortcode_' . $key;
 				$uniquekey = 'inbound_shortcode_' . $first . "_" . $count;
 				$name = ( isset($option['name'])) ? $option['name'] : '';

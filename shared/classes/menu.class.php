@@ -600,8 +600,8 @@ if (!class_exists('InboundMenu')) {
       if ( ! is_admin_bar_showing() || ! is_user_logged_in() ) {
         return;
       }
-      if ( defined( 'WPL_URL' )) {
-         $final_path = WPL_URL . "/";
+      if ( defined( 'LEADS_URL' )) {
+         $final_path = LEADS_URL . "/";
       } else if (defined( 'LANDINGPAGES_URLPATH' )){
         $final_path = LANDINGPAGES_URLPATH;
       } else if (defined( 'WP_CTA_URLPATH' )){

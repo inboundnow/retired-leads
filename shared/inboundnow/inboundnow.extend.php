@@ -52,14 +52,14 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			add_filter( 'wp_cta_define_global_settings', array( $this, 'wp_cta_settings' ), 2 );
 			add_filter( 'wpleads_define_global_settings', array( $this, 'wpleads_settings' ), 2 );
 			
-			/* render license key settings in license keys tab */	 
-			add_action('lp_render_global_settings', array( $this, 'display_license_field' ) );
-			add_action('wpleads_render_global_settings', array( $this, 'display_license_field' ) );
-			add_action('wp_cta_render_global_settings', array( $this, 'display_license_field' ) );
-			
 			/* save license key data / activate license keys */
 			if (is_admin())
 				$this->save_license_field();
+				
+			/* render license key settings in license keys tab */	 
+			add_action('lp_render_global_settings', array( $this, 'display_license_field' ) );
+			add_action('wpleads_render_global_settings', array( $this, 'display_license_field' ) );
+			add_action('wp_cta_render_global_settings', array( $this, 'display_license_field' ) );			
 			
 			/* add automatic updates to plugin */
 			//update_option('_site_transient_update_plugins',''); //uncomment to force upload update check
@@ -168,17 +168,13 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 		
 		public function save_license_field()
 		{
-			if (!$this->plugin_slug)
-			{
-				print_r($this);
-			}
 			
 			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;
 			
 			$old_key = $this->plugin_license_key;			
 			$new_key = $_POST[ $field_id ];
 			
-			$license_status = get_option('inboundnow-license_status-'.$this->plugin_slug );
+			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug );
 			
 			/*
 			echo "license status:".$license_status;
@@ -187,12 +183,13 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			echo "<br>";
 			echo "old_key:".$old_key;
 			echo "<br>";
-			//echo "plugin_slug:".$this->plugin_slug;
+			echo "plugin_slug:".$this->plugin_slug;
 			echo "<br>";
 			*/
 			
 			if ($license_status=='valid' && $new_key == $old_key )
 				return;
+			
 			
 			if ( ( $new_key && $new_key !== $old_key ) || !$old_key ||  $new_key == $this->master_license_key ) 
 			{
@@ -217,7 +214,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 				
 				// $license_data->license will be either "active" or "inactive"						
-				$license_status = update_option('inboundnow-license_status-'.$this->plugin_slug, $license_data->license);
+				$license_status = update_option('inboundnow_license_status_'.$this->plugin_slug, $license_data->license);
 				
 			} 
 			elseif ( empty($new_key) )
@@ -228,23 +225,32 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 
 		public function check_license_status($field)
 		{
-			//print_r($field);exit;
+
 			$date = date("Y-m-d");
 			$cache_date = get_option($field['id']."-expire");
-			$license_status = get_option($field['id']);
+			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug);
 
+			/* 
+			echo "date: $date <br>";
+			echo "cache date: $cache_date <br>";
+			echo "license status: $license_status <br>";
+			*/
+			
 			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid')
 			{
-				//return "valid";
+				return "valid";
 			}
 			
 			$api_params = array( 
 				'edd_action' => 'check_license', 
-				'license' => $this->plugin_license_key, 
+				'license' => $field['value'], 
 				'item_name' => urlencode( $this->remote_download_slug ) ,
 				'cache_bust'=> substr(md5(rand()),0,7)
 			);
-			
+					
+			//print_r($api_params);
+			//echo '<br>';
+				
 			// Call the custom API.
 			$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 15, 'sslverify' => false ) );
 			//print_r($response['body']);exit;
@@ -326,14 +332,9 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			
 			//print_r($api_params);
 			//	echo "<hr>";
-			$request = wp_remote_post( $this->remote_api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 			
-			if (strstr( $this->plugin_slug , 'aweber'))
-			{
-				//echo $request['body'];exit;
-				//print_r( json_decode($request['body'] , true) ) ;
-				//echo '<hr>';
-			}
+			$request = wp_remote_post( $this->remote_api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+
 			
 			if ( !is_wp_error( $request ) ):
 				$request = json_decode( wp_remote_retrieve_body( $request ) );

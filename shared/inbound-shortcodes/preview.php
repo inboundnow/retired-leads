@@ -29,8 +29,8 @@ $test =  html_entity_decode( trim( $html_test2 ) );
 //echo $test;
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 	// SET CORRECT FILE PATHS FOR SCRIPTS
-	if ( defined( 'WPL_URL' )) {
-	   $final_path = WPL_URL . "/";
+	if ( defined( 'LEADS_URL' )) {
+	   $final_path = LEADS_URL . "/";
 	} else if (defined( 'LANDINGPAGES_URLPATH' )){
 		$final_path = LANDINGPAGES_URLPATH;
 	} else if (defined( 'WP_CTA_URLPATH' )){

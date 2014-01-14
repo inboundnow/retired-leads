@@ -134,8 +134,8 @@ if (!class_exists('InboundFeedback')) {
                         );
       if (!in_array($screen->id, $show_array))
                return; // exit if not an inbound now plugin screen
-      if ( defined( 'WPL_URL' )) {
-         $final_path = WPL_URL . "/";
+      if ( defined( 'LEADS_URL' )) {
+         $final_path = LEADS_URL . "/";
       } else if (defined( 'LANDINGPAGES_URLPATH' )){
         $final_path = LANDINGPAGES_URLPATH;
       } else if (defined( 'WP_CTA_URLPATH' )){

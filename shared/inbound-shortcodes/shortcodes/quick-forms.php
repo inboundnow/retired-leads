@@ -3,7 +3,7 @@
 *   Inbound Forms Shortcode Options
 *   Forms code found in /shared/classes/form.class.php
 */
-	global $shortcodes_config, $form_names;
+
 	$shortcodes_config['quick-forms'] = array(
 		'no_preview' => false,
 		'options' => array(
