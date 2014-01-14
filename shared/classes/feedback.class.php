@@ -26,7 +26,7 @@ if (!class_exists('InboundFeedback')) {
         $leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/wordpress-leads.php')) {
           $leads_status = TRUE;
-          $leads_version_number = defined( 'LEADS_CURRENT_VERSION' ) ? 'v' . LEADS_CURRENT_VERSION : '';
+          $leads_version_number = defined( 'WPL_CURRENT_VERSION' ) ? 'v' . WPL_CURRENT_VERSION : '';
         }
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('landing-pages/landing-pages.php')) {
           $landing_page_status = TRUE;
@@ -134,8 +134,8 @@ if (!class_exists('InboundFeedback')) {
                         );
       if (!in_array($screen->id, $show_array))
                return; // exit if not an inbound now plugin screen
-      if ( defined( 'LEADS_URL' )) {
-         $final_path = LEADS_URL . "/";
+      if ( defined( 'WPL_URL' )) {
+         $final_path = WPL_URL . "/";
       } else if (defined( 'LANDINGPAGES_URLPATH' )){
         $final_path = LANDINGPAGES_URLPATH;
       } else if (defined( 'WP_CTA_URLPATH' )){

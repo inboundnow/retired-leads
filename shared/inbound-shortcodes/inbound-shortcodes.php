@@ -46,7 +46,7 @@ class InboundShortcodes {
   // Set Consistant File Paths for inbound now plugins
   static function set_file_path(){
     if (is_plugin_active('leads/wordpress-leads.php')) {
-      $final_path = LEADS_URL . "/";
+      $final_path = WPL_URL . "/";
     } else if (is_plugin_active('landing-pages/landing-pages.php')) {
       $final_path = LANDINGPAGES_URLPATH;
     } else if (is_plugin_active('cta/wordpress-cta.php')) {

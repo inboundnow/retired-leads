@@ -411,7 +411,7 @@
 						//print_r($api_params);
 
 						// Call the custom API.
-						$response = wp_remote_get( add_query_arg( $api_params, WPLEADS_STORE_URL ), array( 'timeout' => 30, 'sslverify' => false ) );
+						$response = wp_remote_get( add_query_arg( $api_params, WPWPL_STORE_URL ), array( 'timeout' => 30, 'sslverify' => false ) );
 						//echo $response['body'];exit;
 
 						// make sure the response came back okay

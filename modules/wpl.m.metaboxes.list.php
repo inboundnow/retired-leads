@@ -29,7 +29,7 @@ function wpleads_display_metabox_leads_list() {
 		<div id="lls-leads-table-container-inside">
 		<!--<div class='wpleads_toolbar_container' style='float:right;padding:20px;'>[hide leads not related to this list]</div>-->
 		<?php
-			$myListTable = new LLS_LEADS_LISTING();		
+			$myListTable = new LLS_WPL_LISTING();		
 			$myListTable->prepare_items();
 			$myListTable->display();
 		?>
