@@ -22,7 +22,8 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 	class INBOUNDNOW_EXTENSION_LICENSE {
 		private $item_slug;
 		private $item_shortname;
-		private $version;
+		private $version;		
+		private $master_license_key;
 		
 		/**
 		 * Class constructor
@@ -38,6 +39,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 
 			$this->item_label      = $_item_label;
 			$this->item_slug      = $_item_slug;
+			$this->master_license_key = get_option('inboundnow_master_license_key' , '');
 
 			// Setup hooks		
 			$this->hooks();
@@ -228,7 +230,14 @@ if ( ! class_exists( 'INBOUNDNOW_EXTENSION_LICENSE' ) ) :
 				} 
 				elseif ('' == $field['new_value'] ) 
 				{
-					$bool = update_option($field['id'], '' );
+					if ($this->master_license_key) 
+					{
+						$bool = update_option($field['id'], $this->master_license_key );
+					}
+					else
+					{
+						update_option($field['id'], '' );
+					}
 				}
 			}
 		}
