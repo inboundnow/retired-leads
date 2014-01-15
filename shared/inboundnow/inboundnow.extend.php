@@ -219,7 +219,14 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			} 
 			elseif ( empty($new_key) )
 			{
-				update_option( $field_id , '' );
+				if ($this->master_license_key) 
+				{
+					$bool = update_option($field['id'], $this->master_license_key );
+				}
+				else
+				{
+					update_option($field['id'], '' );
+				}
 			}
 		}
 
