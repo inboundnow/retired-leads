@@ -57,7 +57,8 @@ switch (is_admin()) :
 	case false :
 		/* load front-end files */
 		// include_once('functions/functions.global.php'); // old
-		include_once('modules/module.post-type.php');
+		include_once('modules/module.post-type.php');		
+		include_once('modules/module.enqueue.php');
 		include_once('modules/module.track.php');
 		include_once('modules/module.click-tracking.php');
 		include_once('modules/module.ajax-setup.php');
@@ -87,9 +88,6 @@ function inbound_load_shared(){
 	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
 	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 }
-
-
-
 
 
 

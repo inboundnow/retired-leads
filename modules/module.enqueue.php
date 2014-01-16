@@ -25,12 +25,15 @@ add_action('wp_enqueue_scripts','wp_cta_fontend_enqueue_scripts');
 function wp_cta_fontend_enqueue_scripts($hook)
 {
 	global $post;
+	global $wp_query;
+	
+
 	if (!isset($post))
 		return;
+	
 	$post_type = $post->post_type;
 	$post_id = $post->ID;
 
-	global $wp_query;
 	$current_page_id = $wp_query->get_queried_object_id();
 
 	(isset($_SERVER['REMOTE_ADDR'])) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = '0.0.0.0.0';
@@ -74,9 +77,12 @@ function wp_cta_fontend_enqueue_scripts($hook)
 	// Load on Non CTA Pages
 	if (isset($post)&&$post->post_type !=='wp-call-to-action') 
 	{
+	
 		wp_enqueue_script('cta-render-js', WP_CTA_URLPATH.'js/cta-render.js', array('jquery'), true);
+		
 		$cta_obj = wp_cta_localize_script();
 		$params = array( 'wp_cta_obj' => $cta_obj );
+		
 		wp_localize_script( 'cta-render-js', 'cta_display', $params );
 
 		// load common cta styles
