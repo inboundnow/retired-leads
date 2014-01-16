@@ -1,14 +1,14 @@
 jQuery(document).ready(function($) {
     var content_placement = cta_display.wp_cta_obj;
     if (typeof (content_placement) != "undefined" && content_placement != null && content_placement != "") {
-    var cta = cta_display.wp_cta_obj[Math.floor(Math.random()*cta_display.wp_cta_obj.length)];
-    var url = cta.url;
-    var num = cta.count;
-    var behave = cta.behavorial;
-    jQuery("#cta-popup-id").text(cta.id);
-    //console.log(behave);
-    var rand = Math.floor(Math.random()*num);
-}
+		var cta = cta_display.wp_cta_obj[Math.floor(Math.random()*cta_display.wp_cta_obj.length)];
+		var url = cta.url;
+		var num = cta.count;
+		var behave = cta.behavorial;
+		jQuery("#cta-popup-id").text(cta.id);
+		//console.log(behave);
+		var rand = Math.floor(Math.random()*num);
+	}
 
     /* Notes
     get_option of global behavorial ctas with lists. array ctaid[ctaid]['listsarray']
@@ -23,6 +23,7 @@ jQuery(document).ready(function($) {
     //var full_link = url + "?wp-cta-variation-id=" + rand;
     //var extra_params = "&cta";
     //jQuery("#wp-cta").attr("src", full_link + extra_params);
+	
     jQuery("#wp-cta-per-page").attr("src", url );
     var widget_defaults = jQuery('iframe#wp-cta').hasClass("widget-default-cta-size");
     console.log(widget_defaults);

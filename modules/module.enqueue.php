@@ -81,7 +81,6 @@ function wp_cta_fontend_enqueue_scripts($hook)
 		wp_enqueue_script('cta-render-js', WP_CTA_URLPATH.'js/cta-render.js', array('jquery'), true);
 		
 		$cta_obj = wp_cta_localize_script();
-		$cta_obj = apply_filters( 'wp_cta_localization_obj' , $cta_obj );
 		$params = array( 'wp_cta_obj' => $cta_obj );
 		
 		wp_localize_script( 'cta-render-js', 'cta_display', $params );
