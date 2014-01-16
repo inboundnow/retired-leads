@@ -8,7 +8,7 @@ Version: 1.3.0
 Author URI: http://www.inboundnow.com/landing-pages/
 */
 
-define('LEADS_CURRENT_VERSION', '1.3.0' );
+define('WPL_CURRENT_VERSION', '1.3.0' );
 define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -21,18 +21,21 @@ include_once('modules/wpl.m.form-integrations.php');
 include_once('functions/wpl.f.global.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
+/* Inbound Core Shared Files. Lead files take presidence */
+add_action( 'plugins_loaded', 'inbound_load_shared_leads' );
+function inbound_load_shared_leads(){
+	
+	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
+	include_once('shared/classes/form.class.php');  // Mirrored forms
+	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
+	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 
-include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
-include_once('shared/classes/form.class.php');  // Mirrored forms
-include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
-include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
-
-include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
-include_once('shared/inboundnow/inboundnow.extend.php'); // Legacy
-include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
-include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating
-include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings 
-
+	include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
+	include_once('shared/inboundnow/inboundnow.extend.php'); 
+	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
+	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Legacy -Inboundnow Package Updating
+	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings 
+}
 
 
 
@@ -42,7 +45,7 @@ add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
 if (is_admin())
 {
-	load_plugin_textdomain('wpleads',false,dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	//load_plugin_textdomain('wpleads',false,dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	/*SETUP NAVIGATION AND DISPLAY ELEMENTS
 	$tab_slug = 'lp-license-keys';

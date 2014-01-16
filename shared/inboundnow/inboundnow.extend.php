@@ -25,7 +25,6 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 		private $plugin_slug;
 		private $plugin_label;
 		private $plugin_version;
-		private $plugin_license_key;
 		private $remote_download_slug;
 		private $master_license_key;
 		private $remote_api_url;
@@ -36,7 +35,6 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			$this->plugin_slug = $plugin_slug;
 			$this->plugin_label = $plugin_label;
 			$this->plugin_version = $plugin_version;			
-			$this->plugin_license_key =  get_option("inboundnow-license-keys-".$plugin_slug , '');
 			$this->remote_download_slug = $remote_download_slug;			
 			$this->master_license_key = get_option('inboundnow_master_license_key' , '');
 			$this->remote_api_url = INBOUNDNOW_STORE_URL;
@@ -122,13 +120,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			{
 			
 				$field['id']  = "inboundnow-license-keys-".$field['slug'];			
-				$field['value'] = get_option("inboundnow-license-keys-".$field['slug'], '');
-
-				if ( $field['value'] && $field['value'] != $this->master_license_key ) {
-					echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
-				} else {
-					echo '<input  type="hidden" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$this->master_license_key.'" size="30" />';
-				}
+				$field['value'] =  get_option('inboundnow_master_license_key' , '');
+				
+				echo '<input  type="hidden" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
+				
 				
 				switch ($_GET['post_type']){
 				
@@ -163,65 +158,6 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 		}
 
 
-		/* SAVE & ACTIVATE LICENSE & CHECK STATUS OF KEYS */
-		 
-		
-		public function save_license_field()
-		{
-			
-			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;
-			
-			$old_key = $this->plugin_license_key;			
-			$new_key = $_POST[ $field_id ];
-			
-			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug );
-			
-			/*
-			echo "license status:".$license_status;
-			echo "<br>";
-			echo "new_key:".$new_key;
-			echo "<br>";
-			echo "old_key:".$old_key;
-			echo "<br>";
-			echo "plugin_slug:".$this->plugin_slug;
-			echo "<br>";
-			*/
-			
-			if ($license_status=='valid' && $new_key == $old_key )
-				return;
-			
-			
-			if ( ( $new_key && $new_key !== $old_key ) || !$old_key ||  $new_key == $this->master_license_key ) 
-			{
-				update_option($field_id ,$new_key);	
-				
-				// data to send in our API request
-				$api_params = array( 
-					'edd_action'=> 'activate_license', 
-					'license' 	=> $new_key, 
-					'item_name' =>  $this->remote_download_slug ,
-					'cache_bust'=> substr(md5(rand()),0,7)
-				);							
-				//print_r($api_params);
-				
-				
-				// Call the custom API.
-				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
-				//echo $response['body'];
-				//echo "<hr>";
-
-				// decode the license data
-				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-				
-				// $license_data->license will be either "active" or "inactive"						
-				$license_status = update_option('inboundnow_license_status_'.$this->plugin_slug, $license_data->license);
-				
-			} 
-			elseif ( empty($new_key) )
-			{
-				update_option( $field_id , '' );
-			}
-		}
 
 		public function check_license_status($field)
 		{
@@ -230,10 +166,12 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			$cache_date = get_option($field['id']."-expire");
 			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug);
 
-			/* 
+			/*
 			echo "date: $date <br>";
 			echo "cache date: $cache_date <br>";
 			echo "license status: $license_status <br>";
+			echo "license key: ".$field['value'];
+			echo "<br>";
 			*/
 			
 			if (isset($cache_date)&&($date<$cache_date)&&$license_status=='valid')
@@ -271,6 +209,69 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 			}
 		}
 		
+		
+		
+		/* SAVE & ACTIVATE LICENSE & CHECK STATUS OF KEYS */
+		 
+		
+		public function save_license_field()
+		{
+			
+			if (!isset($_POST['inboundnow_master_license_key']))
+				return;
+			
+			$field_id  = "inboundnow-license-keys-".$this->plugin_slug;		
+			
+			$license_status = get_option('inboundnow_license_status_'.$this->plugin_slug );
+			
+			$master_license_key  = $_POST['inboundnow_master_license_key'];
+			
+			/*
+			echo "license status:".$license_status;
+			echo "<br>";
+			echo "new_key:".$master_license_key;
+			echo "<br>";
+			echo "old_key:".$this->master_license_key;
+			echo "<br>";
+			echo "plugin_slug:".$this->plugin_slug;
+			echo "<hr>";
+			*/
+			
+			if ($license_status=='valid' && $master_license_key == $this->master_license_key )
+				return;
+			
+			if ( $master_license_key ) 
+			{
+				update_option($field_id ,$master_license_key);	
+				
+				// data to send in our API request
+				$api_params = array( 
+					'edd_action'=> 'activate_license', 
+					'license' 	=> $master_license_key, 
+					'item_name' =>  $this->remote_download_slug ,
+					'cache_bust'=> substr(md5(rand()),0,7)
+				);							
+				//print_r($api_params);
+				
+				
+				// Call the custom API.
+				$response = wp_remote_get( add_query_arg( $api_params, $this->remote_api_url ), array( 'timeout' => 30, 'sslverify' => false ) );
+				//echo $response['body'];
+				//echo "<hr>";
+
+				// decode the license data
+				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+				
+				// $license_data->license will be either "active" or "inactive"						
+				$license_status = update_option('inboundnow_license_status_'.$this->plugin_slug, $license_data->license);
+				
+			} 
+			elseif ( empty($master_license_key) )
+			{				
+				update_option($field_id , '' );
+				update_option('inboundnow_license_status_'.$this->plugin_slug, 'inactive');							
+			}
+		}
 		/**
 		 * Check for Updates at the defined API endpoint and modify the update array.
 		 *
@@ -319,13 +320,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 
 		/*** Calls the API and, if successfull, returns the object delivered by the API. */
 		public function api_request(  ) {
-
-			if ( $this->master_license_key && !$this->plugin_license_key )
-				$this->plugin_license_key = $this->master_license_key;
 			
 			$api_params = array(
 				'edd_action' 	=> 'get_version',
-				'license' 		=> $this->plugin_license_key,
+				'license' 		=> $this->master_license_key,
 				'name' 			=> $this->remote_download_slug,
 				'slug' 			=> $this->plugin_slug
 			);

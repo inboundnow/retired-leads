@@ -408,6 +408,8 @@ function inbound_forms_compatibilities()
 }
 }
 
+
+add_action('admin_init', 'inbound_forms_redirect');
 if (!function_exists('inbound_forms_redirect')) {
 function inbound_forms_redirect($value){
 	    global $pagenow;
@@ -418,7 +420,6 @@ function inbound_forms_redirect($value){
 	    }
 	}
 }
-add_action('admin_init', 'inbound_forms_redirect');
 
 add_action('admin_head', 'inbound_get_form_names',16);
 if (!function_exists('inbound_get_form_names')) {

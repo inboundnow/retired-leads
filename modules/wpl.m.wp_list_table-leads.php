@@ -5,7 +5,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 	
-class LLS_LEADS_LISTING extends WP_List_Table 
+class LLS_WPL_LISTING extends WP_List_Table 
 {
 	private $leads_data;
 	private $singular;
