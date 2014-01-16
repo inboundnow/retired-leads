@@ -31,18 +31,18 @@ function cta_placements_content_meta_box()
 {
 	global $post;
 	global $table_prefix;
-	
+
 	$wp_cta_per_post_options = wp_cta_per_page_settings();
 
 	//$content_placements_profile_id = get_post_meta($post->ID, 'id here');
 	$wp_cta_post_template_ids = get_post_meta($post->ID, 'cta_display_list');
 	$wp_cta_placement = get_post_meta($post->ID, 'wp_cta_content_placement');
-	
+
 	if (!empty($wp_cta_placement))
 	{
 		$placement = $wp_cta_placement[0];
-	} 
-	else 
+	}
+	else
 	{
 		$placement = 'off';
 	}
@@ -67,13 +67,13 @@ function cta_placements_content_meta_box()
 
 function wp_cta_display_metabox() {
 	global $post;
-	
+
 	$args = array(
 	'posts_per_page'  => -1,
 	'post_type'=> 'wp-call-to-action');
-	
+
 	$cta_list = get_posts($args);
-	
+
 	$cta_display_list = get_post_meta($post->ID ,'cta_display_list', true);
 	$cta_display_list = ($cta_display_list != '') ? $cta_display_list : array();
 	?>
@@ -191,14 +191,15 @@ add_action( 'save_post', 'wp_cta_display_meta_save', 10, 2 );
 function wp_cta_display_meta_save($post_id, $post)
 {
 	global $post;
-	
+	if (!isset($post))
+		return;
 	if ($post->post_type=='wp-call-to-action')
 		return;
-		
+
 	$wp_cta_per_post_options = wp_cta_per_page_settings();
 
 	wp_cta_meta_save_loop($wp_cta_per_post_options);
-	
+
     if ( isset($_POST['cta_display_list']) ) { // if we get new data
         update_post_meta($post_id, "cta_display_list", $_POST['cta_display_list'] );
     } else {
@@ -217,25 +218,25 @@ function wp_cta_per_page_settings()
 {
 
 	global $post;
-	
+
 	if (!isset($post))
 		return;
 
 	$post_type = $post->post_type;
 	$var_id = ''; // default
-	
+
 	if (isset($post)&&$post->post_type==='landing-page'){
 		$var_id = '-' . lp_ab_testing_get_current_variation_id();
 	}
-	
+
 	if (isset($_GET['clone'])) {
 		$var_id = '-' . $_GET['clone'];
 	}
-	
+
 	if (isset($_GET['lp-variation-id'])) {
 		$var_id = '-' . $_GET['lp-variation-id'];
 	}
-	
+
 	$wp_cta_per_post_options = array(
 		array(
 			'label' => 'Placement on Page',
