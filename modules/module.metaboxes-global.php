@@ -1,9 +1,10 @@
 <?php
 
 /* add meta boxes to posts, pages, and non excluded cpts */
-add_action('add_meta_box', 'cta_placements_content_add_meta_box');
+add_action('add_meta_boxes', 'cta_placements_content_add_meta_box');
 function cta_placements_content_add_meta_box()
 {
+
 	$post_types= get_post_types('','names');
 
 	$exclude[] = 'attachment';
