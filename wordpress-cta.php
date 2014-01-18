@@ -96,5 +96,3 @@ function inbound_load_shared(){
 }
 
 
-
-?>
