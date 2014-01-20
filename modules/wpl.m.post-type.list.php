@@ -271,7 +271,7 @@ function wpleads_get_list_by_taxonomy_id($term_id)
 
 }
 
-function wpleads_add_lead_to_list($list_id, $lead_id, $add = true)
+function wpleads_add_lead_to_list( $list_id, $lead_id )
 {
 
 	$wplead_cat_id = get_post_meta($list_id,'wplead_list_category_id', true);

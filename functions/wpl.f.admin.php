@@ -601,7 +601,7 @@ function wpleads_count_associated_lead_items($post_id, $get_transient = false)
 	
 	$num = count( get_posts( $args ) );
 	
-	set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*1);
+	set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*6);
 	
 	return "$num leads";
 }

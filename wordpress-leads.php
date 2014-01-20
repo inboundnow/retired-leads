@@ -21,10 +21,16 @@ include_once('modules/wpl.m.form-integrations.php');
 include_once('functions/wpl.f.global.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
-/* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_shared_leads' );
-function inbound_load_shared_leads(){
+function inbound_load_shared_leads()
+{
+	/* Check if Shared Files Already Loaded */
+	if (defined('INBOUDNOW_SHARED'))
+		return;
 	
+	/* Define Shared Constant for Load Prevention*/
+	define('INBOUDNOW_SHARED','loaded');
+		
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 	include_once('shared/classes/form.class.php');  // Mirrored forms
 	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
