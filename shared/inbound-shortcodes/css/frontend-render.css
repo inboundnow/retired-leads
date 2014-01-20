@@ -23,6 +23,9 @@ padding-right: 5px;
 .inbound-label.inbound-label-placeholder {
     display: none;
 }
+.inbound-label.inbound-label-placeholder.inbound-input-dropdown {
+ display: block;
+}
 .inbound-horizontal {
     display: inline-block;
 }
