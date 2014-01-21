@@ -4,6 +4,9 @@
 *  This class enabled users to dequeue third party javascript from pages to stop JS errors
 */
 
+if (!defined('INBOUND_CLASS_URL'))
+    define('INBOUND_CLASS_URL', plugin_dir_url(__FILE__));
+
 if (!class_exists('InboundDebugScripts')) {
   class InboundDebugScripts {
     static $add_debug;
@@ -100,7 +103,7 @@ if (!class_exists('InboundDebugScripts')) {
       if (isset($_GET['inbound-dequeue-scripts'])) {
         if ( 'wp-call-to-action' == get_post_type() ) {
           //show_admin_bar( false );
-          wp_enqueue_script('inbound-dequeue-scripts', WP_CTA_URLPATH . 'js/inbound-dequeue-scripts.js', array( 'jquery' ));
+          wp_enqueue_script('inbound-dequeue-scripts', INBOUND_CLASS_URL . 'js/inbound-dequeue-scripts.js', array( 'jquery' ));
           wp_localize_script( 'inbound-dequeue-scripts' , 'inbound_debug' , array( 'admin_url' => admin_url( 'admin-ajax.php' )));
 
             global $wp_scripts;
