@@ -24,9 +24,9 @@ define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/wp-calls-to-action/templa
 define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' );
 
 
+
 if (is_admin())
 	if(!isset($_SESSION)){@session_start();}
-
 
 /* load core files */
 switch (is_admin()) :
@@ -57,7 +57,7 @@ switch (is_admin()) :
 	case false :
 		/* load front-end files */
 		// include_once('functions/functions.global.php'); // old
-		include_once('modules/module.post-type.php');		
+		include_once('modules/module.post-type.php');
 		include_once('modules/module.enqueue.php');
 		include_once('modules/module.track.php');
 		include_once('modules/module.click-tracking.php');
@@ -79,6 +79,7 @@ function inbound_load_shared(){
 
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
 	include_once('shared/classes/form.class.php');  // Mirrored forms
+	include_once('shared/classes/debug.class.php');  // DEBUG Class for dequeuing JS
 	include_once('shared/inboundnow/inboundnow.extend.php'); // Legacy
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating

@@ -4,19 +4,19 @@
 //=============================================
 // Define constants
 //=============================================
-if (!defined('INBOUND_FORMS')) 
+if (!defined('INBOUND_FORMS'))
     define('INBOUND_FORMS', plugin_dir_url(__FILE__));
 
-if (!defined('INBOUND_FORMS_PATH')) 
+if (!defined('INBOUND_FORMS_PATH'))
     define('INBOUND_FORMS_PATH', plugin_dir_path(__FILE__));
 
-if (!defined('INBOUND_FORMS_BASENAME')) 
+if (!defined('INBOUND_FORMS_BASENAME'))
     define('INBOUND_FORMS_BASENAME', plugin_basename(__FILE__));
 
-if (!defined('INBOUND_FORMS_ADMIN')) 
+if (!defined('INBOUND_FORMS_ADMIN'))
     define('INBOUND_FORMS_ADMIN', get_bloginfo('url') . "/wp-admin");
 
-if (!defined('INBOUND_LABEL')) 
+if (!defined('INBOUND_LABEL'))
 	define( 'INBOUND_LABEL', str_replace( ' ', '_', strtolower( 'Inbound Now' ) ) );
 
 
@@ -42,32 +42,32 @@ class InboundShortcodes {
     add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
     add_shortcode('social_share',  array(__CLASS__, 'inbound_shortcode_social_links'));
   }
-  
+
   // Set Consistant File Paths for inbound now plugins
   static function set_file_path(){
     if (is_plugin_active('leads/wordpress-leads.php')) {
-      $final_path = LEADS_URL . "/";
+      $final_path = WPL_URL . "/";
     } else if (is_plugin_active('landing-pages/landing-pages.php')) {
       $final_path = LANDINGPAGES_URLPATH;
     } else if (is_plugin_active('cta/wordpress-cta.php')) {
-      $final_path = WP_WP_CTA_URLPATH;
+      $final_path = WP_CTA_URLPATH;
     }
     return $final_path;
   }
-  
+
 	/*  Loads
 	*  --------------------------------------------------------- */
   static function loads($hook) {
     global $post;
     $final_path = self::set_file_path();
-    if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) 
+    if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' )
 	{
 
 		 wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
 		  wp_enqueue_script('jquery-ui-sortable' );
 		  wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
-		
-		if (isset($post) && post_type_supports( $post->post_type, 'editor') )	 
+
+		if (isset($post) && post_type_supports( $post->post_type, 'editor') )
 		{
 			wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
 			$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
@@ -75,14 +75,14 @@ class InboundShortcodes {
 			wp_enqueue_script('selectjs', $final_path.'shared/inbound-shortcodes/js/select2.min.js');
 			wp_enqueue_style('selectjs', $final_path.'shared/inbound-shortcodes/css/select2.css');
 		}
-		
+
 		// Forms CPT only
 		if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
 			 wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
 			 wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
 			 wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
 		}
-		
+
 		// Check for active plugins and localize
 		$plugins_loaded = array();
 

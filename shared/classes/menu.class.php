@@ -414,6 +414,20 @@ if (!class_exists('InboundMenu')) {
               'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Plugin HQ', 'edd-toolbar' ) )
             );
 
+            /** Easy Digital Downloads HQ menu items */
+            $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            if (preg_match("/inbound-dequeue-scripts/", $actual_link)) {
+              $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            } else {
+              $actual_link = $actual_link . '&inbound-dequeue-scripts';
+            }
+            $inboundsecondary_menu_items['inbounddebug'] = array(
+              'parent' => $inboundgroup,
+              'title'  => __( '<span style="color:red;">Debug Javascript</span>', 'edd-toolbar' ),
+              'href'   => $actual_link,
+              'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Click here to DEBUG this page', 'edd-toolbar' ) )
+            );
+
             /** HQ: GitHub */
             $inboundsecondary_menu_items['inboundsites-dev'] = array(
               'parent' => $inboundsites,

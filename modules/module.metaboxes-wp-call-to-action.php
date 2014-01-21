@@ -6,7 +6,7 @@ add_action('add_meta_boxes', 'wp_cta_generate_meta');
 function wp_cta_generate_meta()
 {
 	global $post;
-	
+
 	if ($post->post_type!='wp-call-to-action')
 		return;
 
@@ -18,7 +18,7 @@ function wp_cta_generate_meta()
 		'wp-call-to-action', // $page
 		'normal', // $context
 		'high'); // $priority
-	
+
 
 	/* render templates and extension metaboxes */
 	$extension_data = wp_cta_get_extension_data();
@@ -43,7 +43,7 @@ function wp_cta_generate_meta()
 				); //callback args
 		}
 	}
-	
+
 	/* extension only */
 	foreach ($extension_data as $key=>$data)
 	{
@@ -69,7 +69,7 @@ function wp_cta_generate_meta()
 
 		}
 	}
-	
+
 	/* Advanced Call to Action Options */
 	 add_meta_box(
         'wp_cta_tracking_metabox', // $id
@@ -78,23 +78,23 @@ function wp_cta_generate_meta()
         'wp-call-to-action', // $page
         'normal', // $context
         'low'); // $priority
-	
+
 	/* Custom CSS */
 	add_meta_box(
-		'wp_cta_3_custom_css', 
-		'Custom CSS', 
-		'wp_cta_custom_css_input', 
-		'wp-call-to-action', 
-		'normal', 
+		'wp_cta_3_custom_css',
+		'Custom CSS',
+		'wp_cta_custom_css_input',
+		'wp-call-to-action',
+		'normal',
 		'low');
 
 	/* Custom JS */
 	add_meta_box(
-		'wp_cta_3_custom_js', 
-		'Custom JS', 
-		'wp_cta_custom_js_input', 
-		'wp-call-to-action', 
-		'normal', 
+		'wp_cta_3_custom_js',
+		'Custom JS',
+		'wp_cta_custom_js_input',
+		'wp-call-to-action',
+		'normal',
 		'low');
 }
 
@@ -102,14 +102,14 @@ function wp_cta_generate_meta()
 /* template select metabox */
 function wp_cta_display_meta_box_select_template() {
 	global $post;
-	
+
 	$template =  get_post_meta($post->ID, 'wp-cta-selected-template', true);
 	$template = apply_filters('wp_cta_selected_template',$template);
 
 	if (!isset($template)||isset($template)&&!$template){ $template = 'default';}
 
 	$name = apply_filters('wp_cta_selected_template_id','wp-cta-selected-template');
-	
+
 	// Use nonce for verification
 	echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 	?>
@@ -211,8 +211,8 @@ function wp_cta_save_custom_height_width( $post_id )
 function wp_cta_get_advanced_settings()
 {
 	global $custom_wp_cta_metaboxes;
-	
-	$custom_wp_cta_metaboxes[] = 
+
+	$custom_wp_cta_metaboxes[] =
     array(
         'label' => 'Open Links',
         'description' => "How do you want links on the call to action to work?",
@@ -222,28 +222,28 @@ function wp_cta_get_advanced_settings()
         'options' => array('this_window' => 'Open Links in Same Window (default)','new_tab'=>'Open Links in New Tab'),
         'context'  => 'normal'
         );
-	
+
 	$custom_wp_cta_metaboxes = apply_filters( 'wp_cta_advanced_settings' , $custom_wp_cta_metaboxes );
-	
+
 	return $custom_wp_cta_metaboxes;
 }
 
 function wp_cta_show_advanced_settings_metabox() {
     global $post;
-	
+
 	$custom_wp_cta_metaboxes = wp_cta_get_advanced_settings();
-	
+
     // Use nonce for verification
     //echo '<input type="hidden" name="custom_wp_cta_metaboxes_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
     wp_nonce_field('save-custom-wp-cta-boxes','custom_wp_cta_metaboxes_nonce');
     // Begin the field table and loop
     echo '<div class="form-table">';
     echo '<div class="cta-description-box"><span class="calc button-secondary">Calculate height/width</span></div>';
-   
+
 	wp_cta_render_metaboxes($custom_wp_cta_metaboxes);
-    
+
 	do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
-   
+
    echo '</div>'; // end table
 }
 
@@ -285,12 +285,12 @@ function wp_cta_render_metaboxes($meta_boxes) {
                     // textarea
                     case 'textarea':
                         echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="250" rows="6">'.$meta.'</textarea>
-                                <br /><span class="description">'.$field['desc'].'</span>';
+                                <br /><span class="description">'.$field['description'].'</span>';
                     break;
                     // checkbox
                     case 'checkbox':
                         echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$meta ? ' checked="checked"' : '','/>
-                                <label for="'.$field['id'].'">'.$field['desc'].'</label>';
+                                <label for="'.$field['id'].'">'.$field['description'].'</label>';
                     break;
                     // select
                     case 'select':
@@ -298,7 +298,7 @@ function wp_cta_render_metaboxes($meta_boxes) {
                         foreach ($field['options'] as $option) {
                             echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
                         }
-                        echo '</select><br /><span class="description">'.$field['desc'].'</span>';
+                        echo '</select><br /><span class="description">'.$field['description'].'</span>';
                     break;
                     // radio
                     case 'radio':
@@ -306,7 +306,7 @@ function wp_cta_render_metaboxes($meta_boxes) {
                             echo '<input type="radio" name="'.$field['id'].'" id="'.$option['value'].'" value="'.$option['value'].'" ',$meta == $option['value'] ? ' checked="checked"' : '',' />
                                     <label for="'.$option['value'].'">'.$option['label'].'</label><br />';
                         }
-                        echo '<span class="description">'.$field['desc'].'</span>';
+                        echo '<span class="description">'.$field['description'].'</span>';
                     break;
                     // checkbox_group
                     case 'checkbox_group':
@@ -314,7 +314,7 @@ function wp_cta_render_metaboxes($meta_boxes) {
                             echo '<input type="checkbox" value="'.$option['value'].'" name="'.$field['id'].'[]" id="'.$option['value'].'"',$meta && in_array($option['value'], $meta) ? ' checked="checked"' : '',' />
                                     <label for="'.$option['value'].'">'.$option['label'].'</label><br />';
                         }
-                        echo '<span class="description">'.$field['desc'].'</span>';
+                        echo '<span class="description">'.$field['description'].'</span>';
                     break;
                     case 'meta_vals':
                     	$post_type = 'wp-lead';
@@ -361,7 +361,7 @@ function wp_cta_render_metaboxes($meta_boxes) {
 
 				        }
 				    }
-		 			echo "</select><br><span class='description'>'".$field['desc']."'</span>";
+		 			echo "</select><br><span class='description'>'".$field['description']."'</span>";
 		 			break;
 
 		 			case 'list_type':
@@ -386,7 +386,7 @@ function wp_cta_render_metaboxes($meta_boxes) {
 				            echo '<option', $selected, ' value="'.$term_id.'" rel="" >'.$cat_name.'</option>';
 
 				    }
-		 			echo "</select><br><span class='description'>'".$field['desc']."'</span>";
+		 			echo "</select><br><span class='description'>'".$field['description']."'</span>";
 		 			break;
 
                 } //end switch
@@ -398,9 +398,10 @@ function wp_cta_render_metaboxes($meta_boxes) {
 add_action('save_post', 'save_wp_cta_post_metaboxes', 15);
 function save_wp_cta_post_metaboxes($post_id) {
     global $post;
+    global $custom_wp_cta_metaboxes_two;
 
 	$custom_wp_cta_metaboxes = wp_cta_get_advanced_settings();
-	
+
 	if ( isset($post) && 'wp-call-to-action' == $post->post_type )
     {
 
@@ -421,7 +422,7 @@ function save_wp_cta_post_metaboxes($post_id) {
 		}
 
 		wp_cta_meta_save_loop($custom_wp_cta_metaboxes);
-		//wp_cta_meta_save_loop($custom_wp_cta_metaboxes_two);
+		wp_cta_meta_save_loop($custom_wp_cta_metaboxes_two);
 		//exit;
 		// save taxonomies
 		$post = get_post($post_id);
@@ -634,13 +635,13 @@ function wp_cta_custom_css_input() {
 
 	echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
 	echo '<input type="hidden" name="wp-cta-custom-css-noncename" id="wp_cta_custom_css_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
-	
+
 	$custom_css_name = apply_filters('wp-cta-custom-css-name','wp-cta-custom-css');
 	$custom_css = get_post_meta($post->ID,$custom_css_name,true);
-	
-	$line_count = substr_count( $custom_css , "\n" );	
-	($line_count) ? $line_count : $line_count = 5; 
-	
+
+	$line_count = substr_count( $custom_css , "\n" );
+	($line_count) ? $line_count : $line_count = 5;
+
 	echo '<textarea name="'.$custom_css_name.'" id="wp-cta-custom-css" rows="'. $line_count .'" cols="30" style="width:100%;">'.$custom_css .'</textarea>';
 }
 
@@ -654,7 +655,7 @@ function wp_call_to_actions_save_custom_css($post_id) {
 
 
 	$custom_css_name = apply_filters('wp-cta-custom-css-name','wp-cta-custom-css');
-	
+
 	$wp_cta_custom_css = $_POST[$custom_css_name];
 	update_post_meta($post_id, 'wp-cta-custom-css', $wp_cta_custom_css);
 }
@@ -668,9 +669,9 @@ function wp_cta_custom_js_input() {
 	$custom_js_name = apply_filters('wp-cta-custom-js-name','wp-cta-custom-js');
 	$custom_js = get_post_meta($post->ID,$custom_js_name,true);
 	$line_count = substr_count( $custom_js , "\n" );
-	
-	($line_count) ? $line_count : $line_count = 5; 
-	
+
+	($line_count) ? $line_count : $line_count = 5;
+
 	echo '<input type="hidden" name="wp_cta_custom_js_noncename" id="wp_cta_custom_js_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 	echo '<textarea name="'.$custom_js_name.'" id="wp_cta_custom_js" rows="'.$line_count.'" cols="30" style="width:100%;">'.$custom_js.'</textarea>';
 }
@@ -678,10 +679,10 @@ function wp_cta_custom_js_input() {
 add_action('save_post', 'wp_call_to_actions_save_custom_js');
 function wp_call_to_actions_save_custom_js($post_id) {
 	global $post;
-	
+
 	if (!isset($post)||!isset($_POST['wp-cta-custom-js']))
 		return;
-		
+
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
 
 	$custom_js_name = apply_filters('wp-cta-custom-js-name','wp-cta-custom-js');
