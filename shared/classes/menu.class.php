@@ -416,10 +416,11 @@ if (!class_exists('InboundMenu')) {
 
             /** Easy Digital Downloads HQ menu items */
             $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $param = (preg_match("/\?/", $actual_link)) ? "&" : '?';
             if (preg_match("/inbound-dequeue-scripts/", $actual_link)) {
               $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             } else {
-              $actual_link = $actual_link . '&inbound-dequeue-scripts';
+              $actual_link = $actual_link . $param .'inbound-dequeue-scripts';
             }
             $inboundsecondary_menu_items['inbounddebug'] = array(
               'parent' => $inboundgroup,
