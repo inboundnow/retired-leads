@@ -52,6 +52,7 @@ switch (is_admin()) :
 		include_once('modules/module.utils.php');
 		include_once('modules/module.customizer.php');
 		include_once('modules/module.track.php');
+
 		BREAK;
 
 	case false :
@@ -62,7 +63,7 @@ switch (is_admin()) :
 		include_once('modules/module.track.php');
 		include_once('modules/module.click-tracking.php');
 		include_once('modules/module.ajax-setup.php');
-		include_once('modules/module.widgets.php');
+
 		include_once('modules/module.cookies.php');
 		include_once('modules/module.ab-testing.php');
 		include_once('modules/module.calls-to-action.php');
@@ -72,6 +73,8 @@ switch (is_admin()) :
 		BREAK;
 endswitch;
 
+include_once('modules/module.widgets.php'); // Loads in both
+
 /* Inbound Core Shared Files. */
 add_action( 'plugins_loaded', 'inbound_load_shared' , 12);
 
@@ -79,10 +82,10 @@ function inbound_load_shared(){
 	/* Check if Shared Files Already Loaded */
 	if (defined('INBOUDNOW_SHARED'))
 		return;
-	
+
 	/* Define Shared Constant for Load Prevention*/
 	define('INBOUDNOW_SHARED','loaded');
-	
+
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
 	include_once('shared/classes/form.class.php');  // Mirrored forms
 	include_once('shared/classes/debug.class.php');  // DEBUG Class for dequeuing JS
