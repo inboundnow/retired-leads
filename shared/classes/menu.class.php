@@ -416,15 +416,30 @@ if (!class_exists('InboundMenu')) {
 
             /** Easy Digital Downloads HQ menu items */
             $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
             $param = (preg_match("/\?/", $actual_link)) ? "&" : '?';
             if (preg_match("/inbound-dequeue-scripts/", $actual_link)) {
               $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             } else {
               $actual_link = $actual_link . $param .'inbound-dequeue-scripts';
             }
-            $inboundsecondary_menu_items['inbounddebug'] = array(
+            $actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $param_two = (preg_match("/\?/", $actual_link_two)) ? "&" : '?';
+            if (preg_match("/inbound_js/", $actual_link_two)) {
+              $actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            } else {
+              $actual_link_two = $actual_link_two . $param_two .'inbound_js';
+            }
+            $inboundsecondary_menu_items['inboundlaunchdebug'] = array(
               'parent' => $inboundgroup,
               'title'  => __( '<span style="color:red;">Debug Javascript</span>', 'edd-toolbar' ),
+              'href'   => $actual_link_two,
+              'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Click here to DEBUG this page', 'edd-toolbar' ) )
+            );
+
+            $inboundsecondary_menu_items['inbounddebug'] = array(
+              'parent' => $inboundgroup,
+              'title'  => __( '<span style="color:red;">Fix Javascript</span>', 'edd-toolbar' ),
               'href'   => $actual_link,
               'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Click here to DEBUG this page', 'edd-toolbar' ) )
             );
