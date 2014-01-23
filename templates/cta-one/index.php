@@ -1,11 +1,11 @@
-<?php 
+<?php
 /*****************************************/
 // Template Title:  CTA one
 // Plugin: CTA - Inboundnow.com
 /*****************************************/
 
 /* Declare Template Key */
-$key = wp_cta_get_parent_directory(dirname(__FILE__)); 
+$key = wp_cta_get_parent_directory(dirname(__FILE__));
 $path = WP_CTA_URLPATH.'templates/'.$key.'/';
 $url = plugins_url();
 /* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
@@ -15,7 +15,7 @@ do_action('wp_cta_init');
 function Hex_2_RGB($hex) {
         $hex = preg_replace("/#/", "", $hex);
         $color = array();
- 
+
         if(strlen($hex) == 3) {
             $color['r'] = hexdec(substr($hex, 0, 1) . $r);
             $color['g'] = hexdec(substr($hex, 1, 1) . $g);
@@ -26,9 +26,9 @@ function Hex_2_RGB($hex) {
             $color['g'] = hexdec(substr($hex, 2, 2));
             $color['b'] = hexdec(substr($hex, 4, 2));
         }
- 
+
         return $color;
-        
+
 }
 if ( isset($_GET['wp-cta-variation-id']) ){
   $var_id = $_GET['wp-cta-variation-id'];
@@ -38,27 +38,27 @@ if ( isset($_GET['wp-cta-variation-id']) ){
 
 /* Load $post data */
 if (have_posts()) : while (have_posts()) : the_post();
-    
+
     /* Pre-load meta data into variables */
     $width = get_post_meta( get_the_ID(), 'wp_cta_width-'.$var_id, true ) . "px";
     $height = get_post_meta( get_the_ID(), 'wp_cta_height-'.$var_id, true ) . "px";
-    $content_color = wp_cta_get_value($post, $key, 'content-color'); 
+    $content_color = wp_cta_get_value($post, $key, 'content-color');
     $body_color = wp_cta_get_value($post, $key, 'cta-background-color');
     $text_color = wp_cta_get_value($post, $key, 'content-text-color');
 
     $headline_color = wp_cta_get_value($post, $key, 'headline-color');
     $headline_text = wp_cta_get_value($post, $key, 'header-text');
-    
+
     $button_text = wp_cta_get_value($post, $key, 'button-text');
      $button_link = wp_cta_get_value($post, $key, 'button-link');
-    $submit_button_color = wp_cta_get_value($post, $key, 'button-background-color'); 
-    $ribbon_status = wp_cta_get_value($post, $key, 'link_status' ); 
+    $submit_button_color = wp_cta_get_value($post, $key, 'button-background-color');
+    $ribbon_status = wp_cta_get_value($post, $key, 'link_status' );
 
 $RBG_array = Hex_2_RGB($submit_button_color);
 $red = $RBG_array['r'];
 $green = $RBG_array["g"];
-$blue = $RBG_array["b"]; 
-    
+$blue = $RBG_array["b"];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -82,7 +82,7 @@ $blue = $RBG_array["b"];
             echo ".box {height: ".$height." !important;}";
         }
         ?>
-      
+
          <?php if ($submit_button_color != "") {
           echo".cta:hover { background: #$submit_button_color;}
                  a.cta {  border: 1px solid #$submit_button_color;
@@ -96,7 +96,7 @@ $blue = $RBG_array["b"];
 
            }
 
-        ?> 
+        ?>
         #content-wrapper {
             padding:20px;
             padding-top: 0px;
@@ -111,13 +111,13 @@ $blue = $RBG_array["b"];
 <body>
 
 <div class="box">
-<?php if ($ribbon_status === "option_on"){ ?> 
+<?php if ($ribbon_status === "option_on"){ ?>
   <img class="ribbon" src="http://tempsitebeta.com/img/corner-ribbon.png" />
-  <?php } ?>  
+  <?php } ?>
   <h2><?php echo $headline_text; ?></h2>
     <div class='center'><?php the_content();?></div>
   <p class="buy-now"><a href="<?php echo $button_link;?>" class="cta"><?php echo $button_text; ?></a></p>
-</div>     
+</div>
 
  <?php break; endwhile; endif; // end wordpress loop
     do_action('wp_cta_footer'); // load landing pages footer hook

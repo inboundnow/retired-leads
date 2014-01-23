@@ -46,6 +46,7 @@ $submit_color_scheme = inbound_color_scheme($submit_button_color);
 $darker = inbound_color($submit_color_scheme, 55);
 
 ?>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
@@ -140,5 +141,8 @@ endwhile; endif;
 do_action('wp_cta_footer');
 wp_footer();
 ?>
+<script type="text/javascript">
+
+</script>
 </body>
 </html>

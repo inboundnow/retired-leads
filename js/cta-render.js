@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
     //var full_link = url + "?wp-cta-variation-id=" + rand;
     //var extra_params = "&cta";
     //jQuery("#wp-cta").attr("src", full_link + extra_params);
-	
+
     jQuery("#wp-cta-per-page").attr("src", url );
     var widget_defaults = jQuery('iframe#wp-cta').hasClass("widget-default-cta-size");
     console.log(widget_defaults);

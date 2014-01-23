@@ -21,75 +21,44 @@ if (!class_exists('InboundDebugScripts')) {
    *  --------------------------------------------------------- */
     static function init() {
       self::$add_debug = true;
-      add_action('wp_loaded', array(__CLASS__, 'inbound_check_for_error'));
-      add_action('wp_footer', array(__CLASS__, 'display_errors'));
-      add_action('init', array(__CLASS__, 'admin_display_errors'));
+      //add_action('wp_loaded', array(__CLASS__, 'inbound_check_for_error'));
+      //add_action('wp_footer', array(__CLASS__, 'display_errors'));
+      //add_action('init', array(__CLASS__, 'admin_display_errors'));
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_scripts'), 100);
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
+
       add_action('admin_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
       add_action('admin_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_admin_scripts'), 100);
       add_action('wp_ajax_inbound_dequeue_js', array(__CLASS__, 'inbound_dequeue_js'));
       add_action('wp_ajax_nopriv_inbound_dequeue_js', array(__CLASS__, 'inbound_dequeue_js'));
       add_action('wp_ajax_inbound_dequeue_admin_js', array(__CLASS__, 'inbound_dequeue_admin_js'));
       add_action('wp_ajax_nopriv_inbound_dequeue_admin_js', array(__CLASS__, 'inbound_dequeue_admin_js'));
+      if (isset($_GET['inbound_js'])){
+      add_action('wp_enqueue_scripts', array(__CLASS__, 'run_debug_script'), 102);
+      add_action('admin_enqueue_scripts', array(__CLASS__, 'run_debug_script'), 102);
+      }
     }
 
-    // Visible feedback for users where JS is failing
-    static function inbound_check_for_error() {
-    if (isset($_GET['inbound_js'])){
-      echo "<script type='text/javascript'>
-            errors = [];
-            window.onerror = function(msg, url, linenumber) {
-              //alert('Error message: '+msg+' URL: '+url+' Line Number: '+linenumber);
-              errors.push(msg + ' from ' + url + ' on line ' +linenumber);
+
+    // dequeue all js and set first script, then requeue scripts
+    static function run_debug_script() {
+      global $wp_scripts;
+
+        if ( !empty( $wp_scripts->queue ) ) {
+            $store = $wp_scripts->queue; // store the scripts
+            foreach ( $wp_scripts->queue as $handle ) {
+                wp_dequeue_script( $handle );
             }
-        </script>";
-    }}
+            //wp_enqueue_script( 'jquery' );
+            wp_register_script('inbound-debug', WP_CTA_URLPATH . 'shared/classes/js/debug.js', array('jquery'));
+            wp_enqueue_script( 'inbound-debug' );
 
-    static function display_errors() {
-      if (isset($_GET['inbound_js'])){
-        echo '<script type="text/javascript">
-              jQuery(document).ready(function($) {
-                var url = window.location.href + "?inbound-dequeue-scripts";
-                setTimeout(function() {
-                  document.write("<strong>Below are the javascript errors on this page</strong> " + "<br>");
-                  if (errors.length === 0 ) {
-                      document.write("<strong style="color:green;">None Detected</strong> " + "<br>");
-                  }
-                   for (var i=0,len=errors.length; i<len; i++){
-                      document.write(i + 1 + ". " + errors[i] + "<br>");
-                   }
-                  document.write("<div style=\'margin-top:20px;\'><strong>You need to fix these errors for things to work. There are 3 options:</strong> " + "<br>");
-                  document.write("<strong>1. <a href=\'" +url+ "\'>Click here and dequeue (turn off) the broken javascript files</a> from this page.</strong> " + "<br>");
-                  document.write("<strong>2. Contact the original developer of the plugin/theme causing the error.</strong> " + "<br>");
-                  document.write("<strong>3. Disable the plugin or theme causing the conflict.</strong> " + "<br></div>");
-                 }, 500);
-               });
-              </script>';
-    }}
-
-    static function admin_display_errors() {
-      if (isset($_GET['inbound_js'])){
-        if (is_admin()){
-        echo '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>';
-
-        echo '<script type="text/javascript">
-              jQuery(document).ready(function($) {
-                var url = window.location.href + "?inbound-dequeue-scripts";
-                setTimeout(function() {
-                  document.write("<strong>Below are the javascript errors on this page</strong> " + "<br>");
-                   for (var i=0,len=errors.length; i<len; i++){
-                      document.write(i + 1 + ". " + errors[i] + "<br>");
-                   }
-                  document.write("<div style=\'margin-top:20px;\'><strong>You need to fix these errors for things to work. There are 3 options:</strong> " + "<br>");
-                  document.write("<strong>1. <a href=\'" +url+ "\'>Click here and dequeue (turn off) the broken javascript files</a> from this page.</strong> " + "<br>");
-                  document.write("<strong>2. Contact the original developer of the plugin/theme causing the error.</strong> " + "<br>");
-                  document.write("<strong>3. Disable the plugin or theme causing the conflict.</strong> " + "<br></div>");
-                 }, 500);
-               });
-              </script>';
+            foreach ( $store as $handle ) {
+                wp_enqueue_script( $handle );
+            }
         }
-    }}
+
+    }
 
     static function inbound_dequeue_js() {
       if ( ! self::$add_debug )
