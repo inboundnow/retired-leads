@@ -11,10 +11,10 @@
 
 /* 	Include wp-load
  * 	----------------------------------------------------- */
-	$path_to_file = explode( 'wp-content', __FILE__ );
-	$path_to_wp = $path_to_file[0];
+$path_to_file = explode( 'wp-content', __FILE__ );
+$path_to_wp = $path_to_file[0];
 
-	require_once( $path_to_wp . '/wp-load.php' );
+require_once( $path_to_wp . '/wp-load.php' );
 
 /* 	The Class
  * 	----------------------------------------------------- */
@@ -150,23 +150,23 @@ class InboundShortcodesFields {
 						break;
 
 					case 'cta' :
-					            $args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
-					            $cta_post_type = get_posts($args);
-					    		$output  = $row_start;
-					    		$output .= '<select multiple name="insert_inbound_cta[]"" id="insert_inbound_cta">';
-					            foreach ($cta_post_type as $cta) {
-					                //setup_postdata($cta);
-					                $this_id = $cta->ID;
-					                $post_title = $cta->post_title;
+								$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
+								$cta_post_type = get_posts($args);
+								$output  = $row_start;
+								$output .= '<select multiple name="insert_inbound_cta[]"" id="insert_inbound_cta">';
+								foreach ($cta_post_type as $cta) {
+									//setup_postdata($cta);
+									$this_id = $cta->ID;
+									$post_title = $cta->post_title;
 									$this_link = get_permalink( $this_id );
 									$this_link = preg_replace('/\?.*/', '', $this_link);
-					                //$output .= '<input class="checkbox" type="checkbox" value="" name="" id="" />' . $post_title . '<span id="view-cta-in-new-window">'.$this_link.'</span><br>';
-					                $output .= '<option value="'.$this_id.'" rel="" >'.$post_title.'</option>';
-					           	}
-					        $output .= '</select></div></div>';
-					        $output .= $row_end;
-					 		$this->append_output($output);
-					    	break;
+									//$output .= '<input class="checkbox" type="checkbox" value="" name="" id="" />' . $post_title . '<span id="view-cta-in-new-window">'.$this_link.'</span><br>';
+									$output .= '<option value="'.$this_id.'" rel="" >'.$post_title.'</option>';
+								}
+							$output .= '</select></div></div>';
+							$output .= $row_end;
+							$this->append_output($output);
+							break;
 				}
 				$count++;
 			}
@@ -291,3 +291,4 @@ class InboundShortcodesFields {
 	}
 
 }
+

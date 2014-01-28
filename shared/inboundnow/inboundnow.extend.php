@@ -67,7 +67,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 		}
 
 		public function lp_settings( $lp_global_settings ) {
-			$lp_global_settings['lp-license-keys']['settings'][] = array(
+			$lp_global_settings['lp-license-keys']['settings'][$this->plugin_slug] = array(
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
@@ -82,7 +82,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 
 		public function wp_cta_settings( $wp_cta_global_settings ) {
 		
-			$wp_cta_global_settings['wp-cta-license-keys']['settings'][] = array(
+			$wp_cta_global_settings['wp-cta-license-keys']['settings'][$this->plugin_slug] = array(
 				'id' => $this->plugin_slug,
 				'slug' => $this->plugin_slug,
 				'remote_download_slug' => $this->remote_download_slug,
@@ -98,7 +98,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 
 		public function wpleads_settings( $wpleads_global_settings ) {
 			$wpleads_global_settings['wpleads-license-keys']['label'] = 'License Keys';
-			$wpleads_global_settings['wpleads-license-keys']['settings'][] = array(					
+			$wpleads_global_settings['wpleads-license-keys']['settings'][$this->plugin_slug] = array(					
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
