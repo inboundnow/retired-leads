@@ -100,9 +100,9 @@ function wp_leads_get_lead_fields(){
 
 	);
 
-$lead_fields = apply_filters('wp_leads_add_lead_field',$lead_fields);
+	$lead_fields = apply_filters('wp_leads_add_lead_field',$lead_fields);
 
-return $lead_fields;
+	return $lead_fields;
 }
 
 // Create Field Mapping Array
