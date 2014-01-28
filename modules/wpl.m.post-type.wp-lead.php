@@ -95,11 +95,11 @@ if (is_admin())
 	function wpleads_custom_columns( $column, $post_id )
 	{
 		global $post;
-		
+
 		if ($post->post_type !='wp-lead')
 			return $column;
-			
-			
+
+
 		switch ( $column ) {
 			case "lead-picture":
 			$email = get_post_meta( $post_id , 'wpleads_email_address', true );
@@ -238,7 +238,7 @@ if (is_admin())
 		  return;
 	}
 
-	
+
 	add_action('admin_init', 'run_custom_lead_queries');
 	// Run queries after admin init
 	function run_custom_lead_queries(){

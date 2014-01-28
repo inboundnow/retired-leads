@@ -19,22 +19,23 @@ include_once('modules/wpl.m.post-type.list.php');
 include_once('modules/wpl.m.ajax-setup.php');
 include_once('modules/wpl.m.form-integrations.php');
 include_once('functions/wpl.f.global.php');
+include_once('modules/wpl.m.management.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 /* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_shared_leads' );
 function inbound_load_shared_leads(){
-	
+
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 	include_once('shared/classes/form.class.php');  // Mirrored forms
 	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
 	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 
 	include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
-	include_once('shared/inboundnow/inboundnow.extend.php'); 
+	include_once('shared/inboundnow/inboundnow.extend.php');
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Legacy -Inboundnow Package Updating
-	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings 
+	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings
 }
 
 
@@ -261,6 +262,9 @@ function wpleads_admin_enqueuescripts($hook)
 
 		if ( $hook == 'post.php' )
 		{
+			if (isset($_GET['small_lead_preview'])) {
+			wp_enqueue_style('wpleads-popup-css', WPL_URL.'/css/wpl.popup.css');
+			}
 			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
 
@@ -354,6 +358,8 @@ if (is_admin())
 			add_submenu_page('edit.php?post_type=wp-lead', 'Forms', 'Create Forms', 'manage_options', 'inbound-forms-redirect',100);
 
 			add_submenu_page('edit.php?post_type=wp-lead', 'Settings', 'Global Settings', 'manage_options', 'wpleads_global_settings','wpleads_display_global_settings');
+
+			add_submenu_page('edit.php?post_type=wp-lead', 'Lead Management', 'Lead Management', 'manage_options', 'lead_management','lead_management_admin_screen');
 
 		}
 	}

@@ -220,7 +220,7 @@ if (is_admin())
 
 		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
 		wp_delete_term($wplead_cat_id,'wplead_list_category');
-		
+
 		do_action('wplead_trash_list', $post_id);
 	}
 }
@@ -277,19 +277,19 @@ function wpleads_add_lead_to_list($list_id, $lead_id, $add = true)
 	$wplead_cat_id = get_post_meta($list_id,'wplead_list_category_id', true);
 
 	wp_set_post_terms( $lead_id, intval($wplead_cat_id), 'wplead_list_category', true);
-	
+
 	//build meta pair for list ids lead belongs to
 	$wpleads_list_ids = get_post_meta($lead_id, 'wpleads_list_ids', true);
 
 	if ($wpleads_list_ids)
 	{
 		$wpleads_list_ids_new = array();
-		
+
 		//get array
 		$wpleads_list_ids = json_decode($wpleads_list_ids, true);
 		if ( !is_array($wpleads_list_ids) )
 			$wpleads_list_ids = array();
-			
+
 		//clean
 		delete_post_meta($lead_id, 'wpleads_list_ids');
 
@@ -306,14 +306,14 @@ function wpleads_add_lead_to_list($list_id, $lead_id, $add = true)
 				$wpleads_list_ids_new[$list_name]['list_id'] = $value['list_id'];
 				$wpleads_list_ids_new[$list_name]['wplead_list_category_id'] = $wplead_cat_id;
 			}
-		}				
-			
+		}
+
 		//push newest if not exists
 		if (!in_array($list_id, $wpleads_list_ids_new))
 		{
 			$list = get_post($list_id);
 			$list_name = $list->post_name;
-			
+
 			$wplead_cat_id = get_post_meta($list_id,'wplead_list_category_id', true);
 
 			$wpleads_list_ids_new[$list_name]['list_id'] = $list_id;
@@ -342,42 +342,42 @@ function wpleads_add_lead_to_list($list_id, $lead_id, $add = true)
 function wpleads_remove_lead_from_list( $list_id, $lead_id )
 {
 	$categories = wp_get_post_terms( $lead_id, 'wplead_list_category', array( 'fields'=>'ids' ) );
-	
+
 	$list_category_id = get_post_meta($list_id,'wplead_list_category_id', true);
 
-	$pos = array_search( $list_category_id, $categories );		
-	
-	if( false !== $pos ) {			
-		unset( $categories[$pos] );					
+	$pos = array_search( $list_category_id, $categories );
+
+	if( false !== $pos ) {
+		unset( $categories[$pos] );
 	}
-	
+
 	wp_set_post_terms ($lead_id, $categories, 'wplead_list_category');
-	
+
 	//build meta pair for list ids lead belongs to
 	$wpleads_list_ids = get_post_meta($lead_id, 'wpleads_list_ids' , true);
-	
+
 	if ($wpleads_list_ids)
 	{
 		//get array
 		$wpleads_list_ids = json_decode($wpleads_list_ids, true);
-		
+
 		if ( !is_array(wpleads_list_ids) )
 			$wpleads_list_ids = array();
-			
+
 		//clean
 		delete_post_meta($lead_id, 'wpleads_list_ids');
-		
+
 		//rebuild
 		foreach ($wpleads_list_ids as $key=>$value)
 		{
 			if ($value['ID']==$list_id)
 				unset($wpleads_list_ids[$key]);
 		}
-		
+
 		//store
 		$wpleads_list_ids = json_encode($wpleads_list_ids);
 		$wpleads_list_ids = update_post_meta($lead_id, 'wpleads_list_ids', $wpleads_list_ids);
-	}	
+	}
 }
 
 
