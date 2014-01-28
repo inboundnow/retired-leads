@@ -41,6 +41,7 @@ function inbound_load_shared_leads()
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Legacy -Inboundnow Package Updating
 	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings 
+	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 }
 
 
