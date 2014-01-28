@@ -745,7 +745,8 @@ function lead_management_admin_screen() {
 			}
 
 			echo '
-				<form method="get" action="' . get_option('siteurl') . '/wp-content/plugins/leads/modules/wpl.m.management.action.php">
+				<form method="get" action="'.admin_url( 'admin.php' ).'">
+				<input type="hidden" name="action" value="lead_action" />
 				<div id="posts">
 
 				<table class="widefat" id="lead-manage-table">
@@ -891,15 +892,14 @@ function lead_management_admin_screen() {
 	}
 }
 // Not in use yet
-//add_action('init', 'run_actions_leads');
-function run_actions_leads(){
+add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
+function lead_action_admin_action() {
 
 	if ( !current_user_can('level_9') )
 		die ( __('Cheatin&#8217; uh?') );
 
 	$_POST = stripslashes_deep($_POST);
 	$_GET = stripslashes_deep($_GET);
-if (isset($_GET['done'])) {
 
 	// Check if we've been submitted a tag/remove.
 	if ( !empty($_GET['ids']) ) {
@@ -1019,9 +1019,7 @@ if (isset($_GET['done'])) {
 
 		}
 	}
-
 	die("Invalid action.");
-}
 }
 
 ?>
