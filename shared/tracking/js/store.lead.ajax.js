@@ -16,12 +16,20 @@ jQuery(document).ready(function($) {
 		form_id = jQuery(this).attr('id');
 		form_class = jQuery(this).attr('class');
 
+		e.preventDefault(); // halt normal form
+
+		// Email Validation
+		var inbound_form_exists = $("#inbound-form-wrapper").length;
+		var email_validation = $(".inbound-email.invalid-email").length;
+		if (email_validation > 0 && inbound_form_exists > 0) {
+			jQuery(".inbound-email.invalid-email").focus();
+			alert("Please enter a valid email address");
+			return false;
+		}
+
 		jQuery('button, input[type="button"]').css('cursor', 'wait');
 		jQuery('input').css('cursor', 'wait');
 		jQuery('body').css('cursor', 'wait');
-
-
-		e.preventDefault(); // halt normal form
 
 		var email = "";
 		var firstname = "";
