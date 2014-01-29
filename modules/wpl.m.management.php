@@ -207,7 +207,7 @@ function leads_ajax_load_more_leads(){
 
 		$terms = wp_get_post_terms( $post->ID, $this_tax, 'id' );
 		$cats = '';
-
+		$lead_ID = $post->ID;
      	foreach ( $terms as $term ) {
 		  	$term_link = get_term_link( $term, $this_tax );
 		    if( is_wp_error( $term_link ) )
