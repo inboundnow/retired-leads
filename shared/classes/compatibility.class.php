@@ -2,6 +2,8 @@
 /**
  * Compability Mode Deregisters All Third party scripts not in the whitelist
  * - The class was made to cut down on third party support requests
+ *
+ * Call the dequeue manually InboundCompatibility::inbound_compatibilities_mode();
  */
 
 add_action('admin_enqueue_scripts', 'inbound_turn_on_compatiblity', 110);
