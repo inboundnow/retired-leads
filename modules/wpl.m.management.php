@@ -430,10 +430,11 @@ function lead_management_js() {
 
 function lead_management_admin_screen() {
 	global $wpdb;
-
+	InboundCompatibility::inbound_compatibilities_mode(); // Load only our scripts
 	if (isset($_GET['testthis'])) {
        test_query();
 	}
+
 	// Maybe make this an option some time
 	$per_page = 60;
 	$paged = empty($_GET['paged']) ? 1 : intval($_GET['paged']);
@@ -594,7 +595,7 @@ function lead_management_admin_screen() {
 	}
 	// ...then the tag filter.
 	echo '
-		<div class="filter">
+		<div class="filter" id="lead-tag-filter">
 			<label for="s">Tag:</label>
 			<input type="text" name="t" id="t" value="' . htmlentities($t) . '" title="\'foo, bar\': posts tagged with \'foo\' or \'bar\'. \'foo+bar\': posts tagged with both \'foo\' and \'bar\'." />
 		</div>

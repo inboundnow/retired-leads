@@ -36,7 +36,8 @@ function inbound_load_shared_leads()
 	include_once('shared/classes/form.class.php');  // Mirrored forms
 	include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
 	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
-
+	include_once('shared/classes/debug.class.php');  // Inbound Debug & Scripts Class
+	include_once('shared/classes/compatibility.class.php');  // Inbound Compatibility Class
 	include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 	include_once('shared/inboundnow/inboundnow.extend.php');
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
@@ -71,7 +72,6 @@ if (is_admin())
 	include_once('functions/wpl.f.admin.php');
 	include_once('modules/wpl.m.global-settings.php');
 	include_once('modules/wpl.m.dashboard.php');
-
 
 
 

@@ -99,6 +99,7 @@ if (!class_exists('InboundMenu')) {
         $inboundsupportsections = $prefix . 'inboundsupportsections';   // third level: support sections
         $inboundsupportaccount = $prefix . 'inboundsupportaccount';   // third level: support user account
         $inboundsites = $prefix . 'inboundsites';       // sub level: edd sites
+        $inbounddebug = $prefix . 'inbounddebug';
         $inboundsitesaccount = $prefix . 'inboundsitesaccount';
         $inboundsitesextensions = $prefix . 'inboundsitesextensions';   // third level: edd extensions
         $landingpages_menu = $prefix . 'landingpages';
@@ -221,18 +222,17 @@ if (!class_exists('InboundMenu')) {
                 'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'edd-toolbar' ) )
             );
             /** Leads search form */
-              $leads_search_text = "Search All Leads";
-              $menu_items['leads-search'] = array(
-                'parent' => $leads_menu,
-                'title' => '<form method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
-                <input type="text" placeholder="' . $leads_search_text . '" onblur="this.value=(this.value==\'\') ? \'' . $leads_search_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $leads_search_text . '\') ? \'\' : this.value;" value="' . $leads_search_text . '" name="s" value="' . esc_attr( 'Search Leads', 'edd-toolbar' ) . '" class="text eddtb-search-input" />
-                <input type="hidden" name="post_type" value="wp-lead" />
-                <input type="hidden" name="post_status" value="all" />
-                ' . $eddtb_go_button,
-                'href'   => false,
-                'meta'   => array( 'target' => '', 'title' => _x( 'Search Leads', 'Translators: For the tooltip', 'edd-toolbar' ) )
-              );
-
+            $leads_search_text = "Search All Leads";
+            $menu_items['leads-search'] = array(
+              'parent' => $leads_menu,
+              'title' => '<form method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
+              <input type="text" placeholder="' . $leads_search_text . '" onblur="this.value=(this.value==\'\') ? \'' . $leads_search_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $leads_search_text . '\') ? \'\' : this.value;" value="' . $leads_search_text . '" name="s" value="' . esc_attr( 'Search Leads', 'edd-toolbar' ) . '" class="text eddtb-search-input" />
+              <input type="hidden" name="post_type" value="wp-lead" />
+              <input type="hidden" name="post_status" value="all" />
+              ' . $eddtb_go_button,
+              'href'   => false,
+              'meta'   => array( 'target' => '', 'title' => _x( 'Search Leads', 'Translators: For the tooltip', 'edd-toolbar' ) )
+            );
               $menu_items['leads-view'] = array(
                   'parent' => $leads_menu,
                   'title'  => __( 'View All Leads', LANDINGPAGES_TEXT_DOMAIN ),
@@ -240,14 +240,14 @@ if (!class_exists('InboundMenu')) {
                   'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'edd-toolbar' ) )
                 );
               $menu_items['leads-list'] = array(
-                               'parent' => $leads_menu,
-                               'title'  => __( 'View Lead Lists', LANDINGPAGES_TEXT_DOMAIN ),
-                               'href'   => admin_url( 'edit.php?post_type=list' ),
-                               'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'edd-toolbar' ) )
-              );
+                  'parent' => $leads_menu,
+                  'title'  => __( 'View Lead Lists', LANDINGPAGES_TEXT_DOMAIN ),
+                  'href'   => admin_url( 'edit.php?post_type=list' ),
+                  'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'edd-toolbar' ) )
+                );
               $menu_items['leads-add'] = array(
                 'parent' => $leads_menu,
-                'title'  => __( 'Manually Create New Lead', LANDINGPAGES_TEXT_DOMAIN ),
+                'title'  => __( 'Create New Lead', LANDINGPAGES_TEXT_DOMAIN ),
                 'href'   => admin_url( 'post-new.php?post_type=wp-lead' ),
                 'meta'   => array( 'target' => '', 'title' => __( 'Add new lead', 'edd-toolbar' ) )
               );
@@ -415,6 +415,42 @@ if (!class_exists('InboundMenu')) {
               'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Plugin HQ', 'edd-toolbar' ) )
             );
 
+            /** Easy Digital Downloads HQ menu items */
+            $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            $param = (preg_match("/\?/", $actual_link)) ? "&" : '?';
+            if (preg_match("/inbound-dequeue-scripts/", $actual_link)) {
+              $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            } else {
+              $actual_link = $actual_link . $param .'inbound-dequeue-scripts';
+            }
+            $actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $param_two = (preg_match("/\?/", $actual_link_two)) ? "&" : '?';
+            if (preg_match("/inbound_js/", $actual_link_two)) {
+              $actual_link_two = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            } else {
+              $actual_link_two = $actual_link_two . $param_two .'inbound_js';
+            }
+            $inboundsecondary_menu_items['inbounddebug'] = array(
+              'parent' => $inboundgroup,
+              'title'  => __( '<span style="color:red;">Debug Tools</span>', 'edd-toolbar' ),
+              'href'   => "#",
+              'meta'   => ""
+            );
+            $inboundsecondary_menu_items['inbounddebug-checkjs'] = array(
+              'parent' => $inbounddebug,
+              'title'  => __( 'Check for Javascript Errors', 'edd-toolbar' ),
+              'href'   => $actual_link_two,
+              'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'edd-toolbar' ) )
+            );
+
+            $inboundsecondary_menu_items['inbounddebug-turnoffscripts'] = array(
+              'parent' => $inbounddebug,
+              'title'  => __( 'Remove Javascript Errors', 'edd-toolbar' ),
+              'href'   => $actual_link,
+              'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'edd-toolbar' ) )
+            );
+
             /** HQ: GitHub */
             $inboundsecondary_menu_items['inboundsites-dev'] = array(
               'parent' => $inboundsites,
@@ -459,22 +495,22 @@ if (!class_exists('InboundMenu')) {
 
         } else {
 
-          /** If Inbound Now is not active, to avoid PHP notices */
+          /** If Easy Digital Downloads is not active, to avoid PHP notices */
           if ( 'eddtb_resources_yes' == $eddtb_resources_check && $inboundsecondary_menu_items ) {
             $menu_items = $inboundsecondary_menu_items;
           }
 
-          /** If Inbound Now is not active and no icon filter is active, then display no icon */
+          /** If Easy Digital Downloads is not active and no icon filter is active, then display no icon */
           if ( ! has_filter( 'eddtb_filter_main_icon' ) ) {
             add_filter( 'eddtb_filter_main_item_icon_display', '__eddtb_no_icon_display' );
           }
 
         }
 
-        $inboundsecondary_menu_items = (isset( $inboundsecondary_menu_items)) ? $inboundsecondary_menu_items : '';
+
 
         /** Allow menu items to be filtered, but pass in parent menu item IDs */
-        $menu_items = (array) apply_filters( 'inboundnow_menu_items', $menu_items, ( 'eddtb_resources_yes' == $eddtb_resources_check ) ? $inboundsecondary_menu_items : '',
+        $menu_items = (array) apply_filters( 'ddw_eddtb_menu_items', $menu_items, ( 'eddtb_resources_yes' == $eddtb_resources_check ) ? $inboundsecondary_menu_items : '',
           $prefix,
           $inboundbar,
           $inboundsupport,
@@ -558,44 +594,43 @@ if (!class_exists('InboundMenu')) {
           'meta'   => array( 'class' => 'ab-sub-secondary' )
         ) );
 
-        if (is_array($inboundsecondary_menu_items)) {
-          // Load grey secondary items
-            foreach ( $inboundsecondary_menu_items as $id => $inboundgroup_menu_item ) {
+      if (is_array($inboundsecondary_menu_items)) {
+        // Load grey secondary items
+        foreach ( $inboundsecondary_menu_items as $id => $inboundgroup_menu_item ) {
 
-              /** EDD Group: Add in the item ID */
-              $inboundgroup_menu_item['id'] = $prefix . $id;
+          /** EDD Group: Add in the item ID */
+          $inboundgroup_menu_item['id'] = $prefix . $id;
 
-              /** EDD Group: Add meta target to each item where it's not already set, so links open in new window/tab */
-              if ( ! isset( $inboundgroup_menu_item['meta']['target'] ) )
-                $inboundgroup_menu_item['meta']['target'] = '_blank';
+          /** EDD Group: Add meta target to each item where it's not already set, so links open in new window/tab */
+          if ( ! isset( $inboundgroup_menu_item['meta']['target'] ) )
+            $inboundgroup_menu_item['meta']['target'] = '_blank';
 
-              /** EDD Group: Add class to links that open up in a new window/tab */
-              if ( '_blank' === $inboundgroup_menu_item['meta']['target'] ) {
+          /** EDD Group: Add class to links that open up in a new window/tab */
+          if ( '_blank' === $inboundgroup_menu_item['meta']['target'] ) {
 
-                if ( ! isset( $inboundgroup_menu_item['meta']['class'] ) ) {
-                  $inboundgroup_menu_item['meta']['class'] = '';
-                }
+            if ( ! isset( $inboundgroup_menu_item['meta']['class'] ) ) {
+              $inboundgroup_menu_item['meta']['class'] = '';
+            }
 
-                $inboundgroup_menu_item['meta']['class'] .= $prefix . 'eddtb-new-tab';
+            $inboundgroup_menu_item['meta']['class'] .= $prefix . 'eddtb-new-tab';
 
-              }
+          }
 
-              /** EDD Group: Add menu items */
-              $wp_admin_bar->add_menu( $inboundgroup_menu_item );
+          /** EDD Group: Add menu items */
+          $wp_admin_bar->add_menu( $inboundgroup_menu_item );
 
-            }  // end foreach EDD Group
-
-
-            /**
-             * Action Hook 'eddtb_custom_group_items'
-             * allows for hooking other EDD Group items in
-             *
-             * @since 1.2.0
-             */
-          //  do_action( 'eddtb_custom_group_items' );
-
-        }
+        }  // end foreach EDD Group
       }
+
+        /**
+         * Action Hook 'eddtb_custom_group_items'
+         * allows for hooking other EDD Group items in
+         *
+         * @since 1.2.0
+         */
+      //  do_action( 'eddtb_custom_group_items' );
+
+    }
 
     static function menu_admin_head() {
       /** No styles if admin bar is disabled or user is not logged in or items are disabled via constant */
@@ -611,7 +646,9 @@ if (!class_exists('InboundMenu')) {
       } else {
         $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
       }
+
       ?>
+
     <script type="text/javascript">
     /* <![CDATA[ */
     // Load inline scripts var freshthemes_theme_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', INBOUND_LABEL); ?>";

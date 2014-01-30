@@ -22,7 +22,7 @@ if (!function_exists('inbound_turn_on_compatiblity')) {
 
     $lead_compatiblity = get_option( 'wpl-main-inbound_compatibility_mode', $default = false );
     if ( $lead_compatiblity ) {
-      InboundCompatibility::inbound_compatibilities_mode();
+      InboundCompatibility::inbound_compatibilities_mode(); // kill third party scripts
     }
   }
 }

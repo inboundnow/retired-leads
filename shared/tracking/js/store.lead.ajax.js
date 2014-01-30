@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
 		var inbound_form_exists = $("#inbound-form-wrapper").length;
 		var email_validation = $(".inbound-email.invalid-email").length;
 		if (email_validation > 0 && inbound_form_exists > 0) {
-			jQuery(".inbound-email.invalid-email").focus()
+			jQuery(".inbound-email.invalid-email").focus();
 			alert("Please enter a valid email address");
 			return false;
 		}
