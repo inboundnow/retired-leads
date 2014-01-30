@@ -37,7 +37,7 @@ if (!class_exists('InboundMenu')) {
         $leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/wordpress-leads.php')) {
           $leads_status = TRUE;
-          $leads_version_number = defined( 'LEADS_CURRENT_VERSION' ) ? 'v' . LEADS_CURRENT_VERSION : '';
+          $leads_version_number = defined( 'WPL_CURRENT_VERSION' ) ? 'v' . WPL_CURRENT_VERSION : '';
         }
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('landing-pages/landing-pages.php')) {
           $landing_page_status = TRUE;
@@ -46,7 +46,7 @@ if (!class_exists('InboundMenu')) {
         }
         if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
           $cta_status = TRUE;
-          $cta_number = defined( 'WP_WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_WP_CTA_CURRENT_VERSION : '';
+          $cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
         }
 
         if ( $leads_status == FALSE && $landing_page_status == FALSE && $cta_status == FALSE  ) {
@@ -99,6 +99,7 @@ if (!class_exists('InboundMenu')) {
         $inboundsupportsections = $prefix . 'inboundsupportsections';   // third level: support sections
         $inboundsupportaccount = $prefix . 'inboundsupportaccount';   // third level: support user account
         $inboundsites = $prefix . 'inboundsites';       // sub level: edd sites
+        $inbounddebug = $prefix . 'inbounddebug';
         $inboundsitesaccount = $prefix . 'inboundsitesaccount';
         $inboundsitesextensions = $prefix . 'inboundsitesextensions';   // third level: edd extensions
         $landingpages_menu = $prefix . 'landingpages';
@@ -430,18 +431,24 @@ if (!class_exists('InboundMenu')) {
             } else {
               $actual_link_two = $actual_link_two . $param_two .'inbound_js';
             }
-            $inboundsecondary_menu_items['inboundlaunchdebug'] = array(
-              'parent' => $inboundgroup,
-              'title'  => __( '<span style="color:red;">Debug Javascript</span>', 'edd-toolbar' ),
-              'href'   => $actual_link_two,
-              'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Click here to DEBUG this page', 'edd-toolbar' ) )
-            );
-
             $inboundsecondary_menu_items['inbounddebug'] = array(
               'parent' => $inboundgroup,
-              'title'  => __( '<span style="color:red;">Fix Javascript</span>', 'edd-toolbar' ),
+              'title'  => __( '<span style="color:red;">Debug Tools</span>', 'edd-toolbar' ),
+              'href'   => "#",
+              'meta'   => ""
+            );
+            $inboundsecondary_menu_items['inbounddebug-checkjs'] = array(
+              'parent' => $inbounddebug,
+              'title'  => __( 'Check for Javascript Errors', 'edd-toolbar' ),
+              'href'   => $actual_link_two,
+              'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'edd-toolbar' ) )
+            );
+
+            $inboundsecondary_menu_items['inbounddebug-turnoffscripts'] = array(
+              'parent' => $inbounddebug,
+              'title'  => __( 'Remove Javascript Errors', 'edd-toolbar' ),
               'href'   => $actual_link,
-              'meta'   => array( 'title' => $eddtb_edd_name_tooltip . ' ' . __( 'Click here to DEBUG this page', 'edd-toolbar' ) )
+              'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'edd-toolbar' ) )
             );
 
             /** HQ: GitHub */
@@ -587,7 +594,7 @@ if (!class_exists('InboundMenu')) {
           'meta'   => array( 'class' => 'ab-sub-secondary' )
         ) );
 
-
+      if (is_array($inboundsecondary_menu_items)) {
         // Load grey secondary items
         foreach ( $inboundsecondary_menu_items as $id => $inboundgroup_menu_item ) {
 
@@ -613,7 +620,7 @@ if (!class_exists('InboundMenu')) {
           $wp_admin_bar->add_menu( $inboundgroup_menu_item );
 
         }  // end foreach EDD Group
-
+      }
 
         /**
          * Action Hook 'eddtb_custom_group_items'
@@ -630,12 +637,12 @@ if (!class_exists('InboundMenu')) {
       if ( ! is_admin_bar_showing() || ! is_user_logged_in() ) {
         return;
       }
-      if ( defined( 'LEADS_URL' )) {
-         $final_path = LEADS_URL . "/";
+      if ( defined( 'WPL_URL' )) {
+         $final_path = WPL_URL . "/";
       } else if (defined( 'LANDINGPAGES_URLPATH' )){
         $final_path = LANDINGPAGES_URLPATH;
-      } else if (defined( 'WP_WP_CTA_URLPATH' )){
-        $final_path = WP_WP_CTA_URLPATH;
+      } else if (defined( 'WP_CTA_URLPATH' )){
+        $final_path = WP_CTA_URLPATH;
       } else {
         $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
       }

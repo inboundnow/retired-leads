@@ -56,6 +56,14 @@ if (is_admin())
 				'default'  => '',
 				'options' => null
 			),
+			array(
+				'id'  => 'inbound_compatibility_mode',
+				'label' => 'Turn on compability mode',
+				'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
+				'type'  => 'radio',
+				'default'  => '0',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
 		);
 
 
@@ -349,19 +357,19 @@ if (is_admin())
 					if ($field['type']=='license-key')
 					{
 						$master_key = get_option('inboundnow_master_license_key' , '');
-						if ($master_key) 
+						if ($master_key)
 						{
 							$bool = update_option($field['id'], $master_key );
 						}
 						else
 						{
 							update_option($field['id'], '' );
-						}	
+						}
 					}
 					else
 					{
 						$bool = update_option($field['id'],$field['default']);
-					}	
+					}
 				}
 				else
 				{
@@ -580,8 +588,8 @@ if (is_admin())
 			echo '</td></tr>';
 		} // end foreach
 		echo '</table>'; // end table
-	}	
-	
+	}
+
 	function wp_cta_check_license_status($field)
 	{
 		//print_r($field);exit;

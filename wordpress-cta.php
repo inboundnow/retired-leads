@@ -88,7 +88,8 @@ function inbound_load_shared(){
 
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from cta
 	include_once('shared/classes/form.class.php');  // Mirrored forms
-	include_once('shared/classes/debug.class.php');  // DEBUG Class for dequeuing JS
+	include_once('shared/classes/debug.class.php');  // Inbound Debug & Scripts Class
+	include_once('shared/classes/compatibility.class.php');  // Inbound Compatibility Class
 	include_once('shared/inboundnow/inboundnow.extend.php'); // Legacy
 	include_once('shared/inboundnow/inboundnow.extension-licensing.php'); // Inboundnow Package Licensing
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Inboundnow Package Updating

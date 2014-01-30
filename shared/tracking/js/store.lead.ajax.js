@@ -145,7 +145,7 @@ jQuery(document).ready(function($) {
 			lastname = parts[1];
 		}
 
-		var form_inputs = jQuery('.wpl-track-me').find('input[type=text],textarea,select');
+		var form_inputs = jQuery('.wpl-track-me').find('input[type=text],input[type=hidden],textarea,select');
 		var post_values = {};
 		// unset values with exclude array
 		form_inputs.each(function() {

@@ -26,7 +26,6 @@ if (!class_exists('InboundDebugScripts')) {
       //add_action('init', array(__CLASS__, 'admin_display_errors'));
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_scripts'), 100);
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
-
       add_action('admin_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
       add_action('admin_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_admin_scripts'), 100);
       add_action('wp_ajax_inbound_dequeue_js', array(__CLASS__, 'inbound_dequeue_js'));
@@ -38,7 +37,6 @@ if (!class_exists('InboundDebugScripts')) {
       add_action('admin_enqueue_scripts', array(__CLASS__, 'run_debug_script'), 102);
       }
     }
-
 
     // dequeue all js and set first script, then requeue scripts
     static function run_debug_script() {
@@ -138,36 +136,37 @@ if (!class_exists('InboundDebugScripts')) {
          wp_die();
       }
 
-    static function script_whitelist() {
-        $white_list_scripts =
-        array( "admin-bar", // wp core
-               "autosave", // wp core
-               "common", // wp core
-               "media-editor", // wp core
-               "post", // wp core
-               "thickbox", // wp core
-               "utils", // wp core
-               "svg-painter", // wp core
-               "wp-auth-check", // wp core
-               "customize-controls", // wp core
-               "plugin-install", // wp core
-               "editor", // wp core
-               "media-upload", // wp core
-               "jquery", // wp core
-               "jquery-cookie",
-               "jquery-ui-sortable",
-               "form-population",
-               "jquery-total-storage",
-               "inbound-shortcodes-plugins",
-               "inbound-shortcodes",
-               "store-lead-ajax",
-               "cta-view-track",
-               "funnel-tracking",
-               'cta-admin-bar',
-               "inbound-dequeue-scripts");
+   static function wp_core_script_whitelist() {
+       // Wordpress Core Scripts List
+       $wp_core_scripts = array("jcrop", "swfobject", "swfupload", "swfupload-degrade", "swfupload-queue", "swfupload-handlers", "jquery", "jquery-form", "jquery-color", "jquery-masonry", "jquery-ui-core", "jquery-ui-widget", "jquery-ui-mouse", "jquery-ui-accordion", "jquery-ui-autocomplete", "jquery-ui-slider", "jquery-ui-progressbar", "jquery-ui-tabs", "jquery-ui-sortable", "jquery-ui-draggable", "jquery-ui-droppable", "jquery-ui-selectable", "jquery-ui-position", "jquery-ui-datepicker", "jquery-ui-tooltip", "jquery-ui-resizable", "jquery-ui-dialog", "jquery-ui-button", "jquery-effects-core", "jquery-effects-blind", "jquery-effects-bounce", "jquery-effects-clip", "jquery-effects-drop", "jquery-effects-explode", "jquery-effects-fade", "jquery-effects-fold", "jquery-effects-highlight", "jquery-effects-pulsate", "jquery-effects-scale", "jquery-effects-shake", "jquery-effects-slide", "jquery-effects-transfer", "wp-mediaelement", "schedule", "suggest", "thickbox", "hoverIntent", "jquery-hotkeys", "sack", "quicktags", "iris", "farbtastic", "colorpicker", "tiny_mce", "autosave", "wp-ajax-response", "wp-lists", "common", "editorremov", "editor-functions", "ajaxcat", "admin-categories", "admin-tags", "admin-custom-fields", "password-strength-meter", "admin-comments", "admin-users", "admin-forms", "xfn", "upload", "postbox", "slug", "post", "page", "link", "comment", "comment-reply", "admin-gallery", "media-upload", "admin-widgets", "word-count", "theme-preview", "json2", "plupload", "plupload-all", "plupload-html4", "plupload-html5", "plupload-flash", "plupload-silverlight", "underscore", "backbone", 'admin-bar', 'media-editor', 'svg-painter', 'wp-auth-check', 'editor', 'utils', 'customize-controls', 'plugin-install', 'customize-loader', 'dashboard');
 
-        return $white_list_scripts;
-    }
+       // add filter;
+
+       return $wp_core_scripts;
+   }
+
+   static function inbound_now_script_whitelist() {
+       global $wp_scripts;
+       // Match our plugins and whitelist them
+       $registered_scripts = $wp_scripts->registered;
+       $inbound_white_list = array();
+       foreach ($registered_scripts as $handle) {
+           if(preg_match("/\/plugins\/leads\//", $handle->src)) {
+             //echo $handle->handle;
+             $inbound_white_list[] = $handle->handle;
+           }
+           if(preg_match("/\/plugins\/cta\//", $handle->src)) {
+             //echo $handle->handle;
+             $inbound_white_list[]= $handle->handle;
+           }
+           if(preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
+             //echo $handle->handle;
+             $inbound_white_list[]= $handle->handle;
+           }
+       }
+       //print_r($inbound_white_list);
+       return $inbound_white_list;
+     }
     // Destroy all bad frontend scripts
     static function inbound_kill_bogus_scripts() {
         if (!isset($_GET['inbound-dequeue-scripts'])) {
@@ -177,11 +176,12 @@ if (!class_exists('InboundDebugScripts')) {
           $script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
           $script_data = json_decode($script_data,true);
 
-          $white_list_scripts = self::script_whitelist();
+          $inbound_white_list = self::inbound_now_script_whitelist();
+          $wp_core_scripts = self::wp_core_script_whitelist();
 
             // dequeue frontent scripts
             foreach ($script_list as $key => $value) {
-             if (!in_array($value, $white_list_scripts)) {
+            if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
                // Kill bad scripts
                if (isset($script_data[$value]) && in_array($script_data[$value], $script_data)) {
                  wp_dequeue_script( $value ); // Kill bad script
@@ -213,7 +213,7 @@ if (!class_exists('InboundDebugScripts')) {
 
     static function inbound_compatibilities() {
 
-      if (isset($_GET['inbound-dequeue-scripts'])) {
+      if (isset($_GET['inbound-dequeue-scripts']) && current_user_can( 'manage_options' ) ) {
 
           global $wp_query;
           $current_page_id = $wp_query->get_queried_object_id();
@@ -242,16 +242,21 @@ if (!class_exists('InboundDebugScripts')) {
 
 
             $script_list = $wp_scripts->queue; // All enqueued scripts
-            $white_list_scripts = self::script_whitelist();
+            $inbound_white_list = self::inbound_now_script_whitelist();
+            $wp_core_scripts = self::wp_core_script_whitelist();
             // TURN OFF ALL OTHER SCRIPTS FOR DISABLING
+            $count = 0;
             foreach ($script_list as $key => $value) {
-             //echo $key . $value;
-             if (!in_array($value, $white_list_scripts)){
+            // echo $key . $value;
+            if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
                wp_dequeue_script( $value );
+               $count++;
              }
 
             }
-            /*echo "<pre>";
+            // If no scripts third party enqueued scripts leave
+
+           /* echo "<pre>";
              print_r($wp_scripts->queue);
              echo "</pre>"; */
 
@@ -259,8 +264,8 @@ if (!class_exists('InboundDebugScripts')) {
              #launch-feedback {
              display:none;
            }
-             #group{text-align: left;border-bottom: 1px solid #fff;position:relative;margin:0 auto;padding:6px 10px 10px;background-image:linear-gradient(top,rgba(255,255,255,.1),rgba(0,0,0,.1));background-color:#555;width:300px}#group:after{content:" ";position:absolute;z-index:1;top:0;left:0;right:0;bottom:0;border-radius:5px}.switch{margin: 0px;position:relative;border:0;padding:0;width:245px;font-family:helvetica;font-weight:700;font-size:22px;color:#222;text-shadow:0 1px 0 rgba(255,255,255,.3)}.switch legend{float:left;width:40%;padding:7px 10% 3px 0;text-align:left}.switch input{position:absolute;opacity:0}.switch legend:after{content:"";position:absolute;top:0;left:50%;z-index:0;width:50%;height:100%;padding:2px;background-color:#222;border-radius:3px;box-shadow:inset -1px 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.2)}.switch label{position:relative;z-index:2;float:left;width:25%;margin-top:2px;padding:5px 0 3px;text-align:center;color:#64676b;text-shadow:0 1px 0 #000;cursor:pointer;transition:color 0s ease .1s}.switch input:checked+label{color:#fff}.switch input:focus+label{outline:0}.switch .switch-button{clear:both;position:absolute;top:-1px;left:50%;z-index:1;width:25%;height:100%;margin:2px;background-color:#70c66b;background-image:linear-gradient(top,rgba(255,255,255,.2),rgba(0,0,0,0));border-radius:3px;box-shadow:0 0 0 2px #70c66b,-2px 3px 2px #000;transition:all .3s ease-out}.switch .switch-button:after{content:" ";position:absolute;z-index:1;top:0;left:0;right:0;bottom:0;border-radius:3px;border:1px dashed #fff}#inbound-dequeue-id{display:none}.switch input:last-of-type:checked~.switch-button{left:75%}.switch .switch-button.status-off{background-color:red;box-shadow:0 0 0 3px red,-2px 3px 5px #000}.switch label.turn-on{color:#fff}
-           .script-info {padding-left:5px;}
+             #group{text-align: left;border-bottom: 1px solid #fff;position:relative;margin:0 auto;padding:6px 10px 10px;background-image:linear-gradient(top,rgba(255,255,255,.1),rgba(0,0,0,.1));background-color:#555;width:300px}#group:after{content:" ";position:absolute;z-index:1;top:0;left:0;right:0;bottom:0;border-radius:5px}.switch{margin: 0px;position:relative;border:0;padding:0;width:245px;font-family:helvetica;font-weight:700;font-size:22px;color:#222;text-shadow:0 1px 0 rgba(255,255,255,.3)}.switch legend{float:left;width: 98px;padding:7px 10% 3px 0;text-align:left;}.switch input{position:absolute;opacity:0}.switch legend:after{content:"";position:absolute;top:0;left:50%;z-index:0;width:50%;height:100%;padding:2px;background-color:#222;border-radius:3px;box-shadow:inset -1px 2px 5px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.2)}.switch label{position:relative;z-index:2;float:left;width:25%;margin-top:2px;padding:5px 0 3px;text-align:center;color:#64676b;text-shadow:0 1px 0 #000;cursor:pointer;transition:color 0s ease .1s}.switch input:checked+label{color:#fff}.switch input:focus+label{outline:0}.switch .switch-button{clear:both;position:absolute;top:-1px;left:50%;z-index:1;width:25%;height:100%;margin:2px;background-color:#70c66b;background-image:linear-gradient(top,rgba(255,255,255,.2),rgba(0,0,0,0));border-radius:3px;box-shadow:0 0 0 2px #70c66b,-2px 3px 2px #000;transition:all .3s ease-out}.switch .switch-button:after{content:" ";position:absolute;z-index:1;top:0;left:0;right:0;bottom:0;border-radius:3px;border:1px dashed #fff}#inbound-dequeue-id{display:none}.switch input:last-of-type:checked~.switch-button{left:75%}.switch .switch-button.status-off{background-color:red;box-shadow:0 0 0 3px red,-2px 3px 5px #000}.switch label.turn-on{color:#fff}
+           .script-info {padding-left:5px; position: absolute; z-index:999999999;}
            .debug-plugin-name { font-size:13px; color:#fff; text-shadow:none; padding-bottom: 6px;
 display: inline-block; }
            .debug-plugin-name span.debug-head, .debug-script-head {color:#ccc; width: 45px;
@@ -280,19 +285,26 @@ display: inline-block;}
             text-align: center;
             text-shadow: 0 1px 0 rgba(255,255,255,.3);
           }
-
+          #no-js-to-turn-off {width: 286px;}
+          #no-js-to-turn-off span {font-size:22px; line-height:25px; padding:10px; display:inline-block;}
+          #debug-close-link { color:red; float:right; font-size:10px; text-decoration:none;}
             </style>';
 
         $script_data = get_post_meta( $current_page_id , 'inbound_dequeue_js', TRUE );
         $script_data = json_decode($script_data,true);
+        $close_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $close_link = str_replace(array("&inbound-dequeue-scripts", "?inbound-dequeue-scripts"), "", $close_link);
 
-
-             echo '<div id="inbound-fix-page" class="'.$current_page_id.'" data-page-id="'.$page_id.'" data-admin-screen="'.$current.'" style="position:fixed; right:0px; padding-bottom: 80px; background-color: #555; overflow:auto; height: 100%; top: 32px; background:#fff; border: 1px solid; z-index: 999999999999; line-height: 1;">';
-             echo "<div id='main-debug-title'>Turn off Javascript</div>";
+             echo '<div id="inbound-fix-page" class="'.$current_page_id.'" data-page-id="'.$page_id.'" data-admin-screen="'.$current.'" style="position:fixed; right:0px; padding-bottom: 80px; background-color: #555; overflow:auto; height: 100%; top: 32px; background:#fff; border: 1px solid; z-index: 999999999999; line-height: 1; width: 317px;">';
+             echo "<div id='main-debug-title'>Turn off Javascript<a id='debug-close-link' href='".$close_link."'>Close</a></div>";
+             if ($count === 0) {
+               echo "<div id='no-js-to-turn-off'><span style=''>No javascript files found to dequeue</span></div></div>";
+               return;
+             }
              echo "<span id='inbound-dequeue-id'>".$current_page_id."</span>";
 
              foreach ($script_list as $key => $value) {
-              if (!in_array($value, $white_list_scripts)){
+              if (!in_array($value, $inbound_white_list) && !in_array($value, $wp_core_scripts)){
               $checked =  "";
               $status_class = "";
                 // Kill bad frontend script
@@ -326,7 +338,7 @@ display: inline-block;}
 
               echo '<div id="group">';
               echo '<span class="debug-plugin-name">'.$name_of_file.'</span>';
-              echo "<div title='".$scripts_registers[$value]->src."' class='js-title'><span class='debug-script-head'>Script:</span> ". $value ."<span class='script-info'><i class='fa fa-info-circle'></i></span></div>";
+              echo "<div class='js-title'><span class='debug-script-head'>Script:</span> ". $value ."<span  title='".$scripts_registers[$value]->src."' class='script-info'><i class='fa fa-info-circle'></i></span></div>";
                echo '<fieldset class="switch" id="'.$value.'">
                     <legend>Status:</legend>
 

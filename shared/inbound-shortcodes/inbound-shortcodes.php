@@ -17,7 +17,7 @@ if (!defined('INBOUND_FORMS_ADMIN'))
     define('INBOUND_FORMS_ADMIN', get_bloginfo('url') . "/wp-admin");
 
 if (!defined('INBOUND_LABEL'))
-	define( 'INBOUND_LABEL', str_replace( ' ', '_', strtolower( 'Inbound Now' ) ) );
+  define( 'INBOUND_LABEL', str_replace( ' ', '_', strtolower( 'Inbound Now' ) ) );
 
 
 require_once( 'shortcodes-includes.php' );
@@ -29,8 +29,8 @@ if (!class_exists('InboundShortcodes')) {
 class InboundShortcodes {
   static $add_script;
 
-	/*  Contruct
-	*  --------------------------------------------------------- */
+  /*  Contruct
+  *  --------------------------------------------------------- */
   static function init() {
 
     self::$add_script = true;
@@ -45,67 +45,69 @@ class InboundShortcodes {
 
   // Set Consistant File Paths for inbound now plugins
   static function set_file_path(){
-    if (is_plugin_active('leads/wordpress-leads.php')) {
-      $final_path = WPL_URL . "/";
-    } else if (is_plugin_active('landing-pages/landing-pages.php')) {
-      $final_path = LANDINGPAGES_URLPATH;
-    } else if (is_plugin_active('cta/wordpress-cta.php')) {
-      $final_path = WP_CTA_URLPATH;
+    if (function_exists('is_plugin_active')) {
+      if (is_plugin_active('leads/wordpress-leads.php')) {
+        $final_path = WPL_URL . "/";
+      } else if (is_plugin_active('landing-pages/landing-pages.php')) {
+        $final_path = LANDINGPAGES_URLPATH;
+      } else if (is_plugin_active('cta/wordpress-cta.php')) {
+        $final_path = WP_CTA_URLPATH;
+      }
     }
     return $final_path;
   }
 
-	/*  Loads
-	*  --------------------------------------------------------- */
+  /*  Loads
+  *  --------------------------------------------------------- */
   static function loads($hook) {
     global $post;
     $final_path = self::set_file_path();
     if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' )
-	{
+  {
 
-		 wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
-		  wp_enqueue_script('jquery-ui-sortable' );
-		  wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
+    wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
+    wp_enqueue_script('jquery-ui-sortable' );
+    wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
 
-		if (isset($post) && post_type_supports( $post->post_type, 'editor') )
-		{
-			wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
-			$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
-			wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-			wp_enqueue_script('selectjs', $final_path.'shared/inbound-shortcodes/js/select2.min.js');
-			wp_enqueue_style('selectjs', $final_path.'shared/inbound-shortcodes/css/select2.css');
-		}
+    if (isset($post) && post_type_supports( $post->post_type, 'editor') )
+    {
+      wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
+      $form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
+      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
+      wp_enqueue_script('selectjs', $final_path.'shared/inbound-shortcodes/js/select2.min.js');
+      wp_enqueue_style('selectjs', $final_path.'shared/inbound-shortcodes/css/select2.css');
+    }
 
-		// Forms CPT only
-		if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
-			 wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
-			 wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
-			 wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
-		}
+    // Forms CPT only
+    if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
+       wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
+       wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
+       wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
+    }
 
-		// Check for active plugins and localize
-		$plugins_loaded = array();
+    // Check for active plugins and localize
+    $plugins_loaded = array();
 
-		if (is_plugin_active('landing-pages/landing-pages.php')) {
-		  array_push($plugins_loaded, "landing-pages");
-		}
+    if (is_plugin_active('landing-pages/landing-pages.php')) {
+      array_push($plugins_loaded, "landing-pages");
+    }
 
-		if (is_plugin_active('cta/wordpress-cta.php')) {
-		  array_push($plugins_loaded, "cta");
-		}
-		if (is_plugin_active('leads/wordpress-leads.php')) {
-		  array_push($plugins_loaded, "leads");
-		}
+    if (is_plugin_active('cta/wordpress-cta.php')) {
+      array_push($plugins_loaded, "cta");
+    }
+    if (is_plugin_active('leads/wordpress-leads.php')) {
+      array_push($plugins_loaded, "leads");
+    }
 
-		wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
+    wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
-		if (isset($post)&&$post->post_type=='inbound-forms')
-		{
-		  require_once( 'shortcodes-fields.php' );
-		  add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
-		}
+    if (isset($post)&&$post->post_type=='inbound-forms')
+    {
+      require_once( 'shortcodes-fields.php' );
+      add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
+    }
 
-		  //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
+      //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
     }
   }
 
@@ -225,7 +227,7 @@ class InboundShortcodes {
     return $button;
   }
   static function inbound_shortcode_social_links( $atts, $content = null ) {
-    $final_path = self::set_file_path();
+    $final_path = INBOUND_FORMS;
       extract(shortcode_atts(array(
         'style' => 'bar',
         'align' => '',
@@ -256,8 +258,7 @@ class InboundShortcodes {
         $alignment = 'inline-block';
         $margin_setting = 'margin-right';
         if($heading_align == 'inline' ){
-          $header_align = "display:inline-block; padding-right: 10px; height: 32px;
-  vertical-align: top;";
+          $header_align = "display:inline-block; padding-right: 10px; height: 32px; vertical-align: top;";
           $float = "float: left;";
         }
 
@@ -277,13 +278,34 @@ class InboundShortcodes {
         $text = get_the_title();
       }
 
-      $out = '';
-      $out .= '<style type="text/css">
-
-      a.mt-share-inline-bar-sm img {
+      $out = "";
+      if ($heading != ""){
+        $heading = "<span class='inbound-social-share-header' style='$header_align'>$heading</span>";
+      }
+      $out .= '<span class="inbound-social-share-bar-container">' . $heading;
+      if( $facebook ) {
+        $out .= '<a class="mt-facebook '.$class.'" style="'.$float.'" href="https://www.facebook.com/sharer/sharer.php?u='.$link.'"><img src="'.$final_path.'images/facebook@2x.png"></a>';
+      }
+      if( $twitter ) {
+        $out .= '<a class="mt-twitter '.$class.'" style="'.$float.'" href="http://twitter.com/intent/tweet?text='.$text.'&amp;url='.$link.'" target="_blank"><img src="'.$final_path.'images/twitter@2x.png"></a>';
+      }
+      if( $google_plus ) {
+        $out .= '<a class="mt-google '.$class.'" style="'.$float.'" href="https://plus.google.com/share?url='.$link.'"><img src="'.$final_path.'images/google@2x.png"></a>';
+      }
+      if( $linkedin ) {
+        $out .= '<a class="mt-linkedin '.$class.'" style="'.$float.'" href="http://www.linkedin.com/shareArticle?mini=true&amp;url='.$link.'&amp;summary='.$text.'"><img src="'.$final_path.'images/linkedin@2x.png"></a>';
+      }
+      if( $pinterest ) {
+        $out .= '<a class="mt-pinterest '.$class.'" style="'.$float.'" href="http://www.pinterest.com/pin/create/button/?url='.$link.'&amp;media=&amp;guid=1234&amp;description='.$text.'"><img src="'.$final_path.'images/pinterest@2x.png"></a>';
+      }
+      $out .= '</span>';
+      $out .= '<style type="text/css">a.mt-share-inline-bar-sm img {
         width: 34px;
         height: auto;
         border: 0px;
+      }
+      .inbound-social-share-bar-container {
+        display: inline-block;
       }
       .inbound-social-share-header {
         vertical-align: middle;
@@ -306,7 +328,6 @@ class InboundShortcodes {
         transition: all 100ms ease-in;
         -webkit-transition: all 100ms ease-in;
         -webkit-transform: scale3d(1, 1, 1);
-
       }
       a.mt-share-inline-circle-sm img {
         width: 34px;
@@ -322,7 +343,6 @@ class InboundShortcodes {
         border-bottom-right-radius: 50%;
         border-bottom-left-radius: 50%;
         '.$margin_setting.': 4px;
-
       }
       a.mt-share-inline-square-sm img {
         width: 34px;
@@ -337,9 +357,7 @@ class InboundShortcodes {
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
         border-bottom-left-radius: 2px;
-        '.$margin_setting.': 4px;
-
-      }
+        '.$margin_setting.': 4px;}
       .mt-google:hover {
         background-color: rgb(225, 95, 79);
       }
@@ -402,47 +420,7 @@ class InboundShortcodes {
         background-color: rgb(51, 51, 51);
         transition: background-color 300ms ease-in;
         -webkit-transition: background-color 300ms ease-in;
-
-      }
-      </style>';
-      if ($heading != ""){
-        $heading = "<span class='inbound-social-share-header' style='$header_align'>$heading</span>";
-      }
-      $out .= '<span class="inbound-social-share-bar-container">' . $heading . "<span style='$header_align'>";
-      if( $facebook ) {
-        $out .= '<a class="mt-facebook '.$class.'" style="'.$float.'"
-              href="https://www.facebook.com/sharer/sharer.php?u='.$link.'">
-                <img src="'.$final_path.'shared/inbound-shortcodes/images/facebook@2x.png">
-              </a>';
-      }
-      if( $twitter ) {
-        $out .= '
-        <a class="mt-twitter '.$class.'" style="'.$float.'"
-          href="http://twitter.com/intent/tweet?text='.$text.'&amp;url='.$link.'" target="_blank">
-            <img src="'.$final_path.'shared/inbound-shortcodes/images/twitter@2x.png">
-          </a>';
-      }
-      if( $google_plus ) {
-        $out .= '<a class="mt-google '.$class.'" style="'.$float.'"
-              href="https://plus.google.com/share?url='.$link.'">
-                <img src="'.$final_path.'shared/inbound-shortcodes/images/google@2x.png">
-              </a>';
-      }
-      if( $linkedin ) {
-        $out .= ' <a class="mt-linkedin '.$class.'" style="'.$float.'"
-        href="http://www.linkedin.com/shareArticle?mini=true&amp;url='.$link.'&amp;summary='.$text.'">
-          <img src="'.$final_path.'shared/inbound-shortcodes/images/linkedin@2x.png">
-        </a>';
-      }
-      if( $pinterest ) {
-        $out .= '<a class="mt-pinterest '.$class.'" style="'.$float.'"
-    href="http://www.pinterest.com/pin/create/button/?url='.$link.'&amp;media=&amp;guid=1234&amp;description='.$text.'">
-      <img src="'.$final_path.'shared/inbound-shortcodes/images/pinterest@2x.png">
-    </a>';
-      }
-
-      $out .= '</span></span>';
-
+      }</style>';
       return $out;
     }
   static function inbound_shortcode_list( $atts, $content = null){
@@ -556,6 +534,7 @@ class InboundShortcodes {
       }
 
       return '<style type="text/css">
+
           #inbound-list.class-'.$num.' li {
           '.$final_text_color.'
           list-style: none;
@@ -577,6 +556,11 @@ class InboundShortcodes {
           text-align: center;
           }
           '.$column_css.'
+          @media only screen and (max-width: 580px) {
+           #inbound-list.class-'.$num.' li {
+              width:100%;
+            }
+          }
           </style>
           <div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">
           '. do_shortcode($content).'

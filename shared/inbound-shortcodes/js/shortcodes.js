@@ -622,7 +622,7 @@
 				            var final_form_name = obj.form_name;
 
 			                //var post_id_final = new_post.replace('"', '');
-			                var site_base = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit';
+			                var site_base = inbound_shortcodes.adminurl + '/post.php?post=' + form_id + '&action=edit';
 			                // jQuery('.lp-form').unbind('submit').submit();
 			                //var worked = '<span class="success-message-map">Success! ' + this_meta_id + ' set to ' + meta_to_save + '</span>';
 			                var worked = '<span class="lp-success-message">Form Created & Saved</span><a style="padding-left:10px;" target="_blank" href="' + site_base  +'" class="event-view-post">View/Edit Form</a>';
@@ -632,7 +632,7 @@
 			                   jQuery(self).text('Form Updated').css('font-size', '25px');
 			                   var draft = jQuery("#hidden_post_status").val();
 			                   if (draft === 'draft') {
-			                       window.location.href = window.location.origin + '/wp-admin/post.php?post=' + form_id + '&action=edit&reload=true'
+			                       window.location.href = inbound_shortcodes.adminurl + '/post.php?post=' + form_id + '&action=edit&reload=true'
 			                     }
 			                   setTimeout(function() {
 			                            jQuery(self).text('Save Form').css('font-size', '17px');
@@ -721,6 +721,7 @@
 					jQuery(this).text("Hide advanced options");
 
     		});
+			
     		jQuery("body").on('click', '.hide-advanced-options', function () {
 
 					jQuery(this).parent().parent().parent().parent().find(".inbound-tab-class-advanced").hide();

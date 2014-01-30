@@ -258,6 +258,7 @@ console.log(matched_form_items);
 		var post_values = {};
 		// unset values with exclude array
 		form_inputs.each(function() {
+
 			post_values[this.name] = jQuery(this).val();
 		});
 		var post_values_json = JSON.stringify(post_values);
