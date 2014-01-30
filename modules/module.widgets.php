@@ -28,47 +28,46 @@ class wp_cta_dynamic_widget extends WP_Widget
 	 */
 	function widget( $args, $instance ) {
 		global $wp_query; global $post;
-		$this_id = $wp_query->post->ID;
-		$this_type = $wp_query->post->post_type;
+		$this_id =  $wp_query->get_queried_object_id();
+		//echo $this_id;exit;
+
+		$wp_cta_post_template_ids = get_post_meta($this_id, 'cta_display_list');
+		$wp_cta_placement = get_post_meta($this_id, 'wp_cta_content_placement');
+
+		if (!empty($wp_cta_placement))
+		{
+			$placement = $wp_cta_placement[0];
+		} else {
+			$placement = 'off';
+		}
+
+		if ($placement=='widget_1')
+		{
+
+			$conversion_area = do_shortcode(get_post_meta($this_id, 'wp-cta-conversion-area', true));
+			$standardize_form = get_option( 'wp-cta-main-wp-call-to-action-auto-format-forms' , 1); // conditional to check for options
+
+			$count = count($wp_cta_post_template_ids[0]);
+			$rand_key = array_rand($wp_cta_post_template_ids[0], 1);
+			$ctaw_id = $wp_cta_post_template_ids[0][$rand_key];
+			$the_link = get_permalink( $ctaw_id );
 
 
+			$ad_content = '<div id="wordpress-cta" style="text-align:center;"><iframe id="wp-cta-per-page" class="wp-cta-display" src="" scrolling="no" frameBorder="0" style="border:none; overflow:hidden; " allowtransparency="true"></iframe></div>';
+			/* Before widget (defined by themes). */
+			//echo $before_widget;
 
-			$wp_cta_post_template_ids = get_post_meta($post->ID, 'cta_display_list');
-			$wp_cta_placement = get_post_meta($post->ID, 'wp_cta_content_placement');
-
-				if (!empty($wp_cta_placement)){
-				$placement = $wp_cta_placement[0];
-				} else {
-					$placement = 'off';
-				}
-
-			if ($placement=='widget_1')
+			/* Display the widget title if one was input (before and after defined by themes).
+			if ($title)
 			{
+				echo $before_title . $title . $after_title;
+			} */
 
-				$conversion_area = do_shortcode(get_post_meta($this_id, 'wp-cta-conversion-area', true));
-				$standardize_form = get_option( 'wp-cta-main-wp-call-to-action-auto-format-forms' , 1); // conditional to check for options
+			echo $ad_content;
 
-				$count = count($wp_cta_post_template_ids[0]);
-		        $rand_key = array_rand($wp_cta_post_template_ids[0], 1);
-		        $ctaw_id = $wp_cta_post_template_ids[0][$rand_key];
-		        $the_link = get_permalink( $ctaw_id );
-
-
-		    	$ad_content = '<div id="wordpress-cta" style="text-align:center;"><iframe id="wp-cta-per-page" class="wp-cta-display" src="" scrolling="no" frameBorder="0" style="border:none; overflow:hidden; " allowtransparency="true"></iframe></div>';
-				/* Before widget (defined by themes). */
-				//echo $before_widget;
-
-				/* Display the widget title if one was input (before and after defined by themes).
-				if ($title)
-				{
-					echo $before_title . $title . $after_title;
-				} */
-
-				echo $ad_content;
-
-				/* After widget (defined by themes). */
-				//echo $after_widget;
-			}
+			/* After widget (defined by themes). */
+			//echo $after_widget;
+		}
 
 	}
 
