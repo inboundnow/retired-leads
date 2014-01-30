@@ -13,6 +13,7 @@ define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
 define('WPL_STORE_URL', 'http://www.inboundnow.com' );
+define('WPL_TEXT_DOMAIN', 'leads' );
 
 include_once('modules/wpl.m.post-type.wp-lead.php');
 include_once('modules/wpl.m.post-type.list.php');
