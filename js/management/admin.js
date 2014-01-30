@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
 		}
 	}
 
-	jQuery("body").on('click', 'input[type=checkbox]', function () {
+	jQuery("body").on('click', '#the-list input[type=checkbox]', function () {
 
 		var checkbox = $(this);
 		var checked = checkbox.attr('checked');
@@ -252,6 +252,13 @@ jQuery(document).ready(function($) {
 		}
 	}
 
+	jQuery("body").on('change', '#bulk-lead-controls', function () {
+ 		var value = $(this).val();
+ 		console.log(value);
+ 		$(".action").hide();
+ 		$("#" + value).show();
+	});
+
 		 // Fix Thickbox width/hieght
 	    jQuery(function($) {
 	        tb_position = function() {
@@ -292,7 +299,7 @@ jQuery(document).ready(function($) {
 
 	jQuery("#toggle").change(
 		function() {
-			jQuery("#posts td input[type=checkbox]").each(
+			jQuery("#the-list .lead-select-checkbox").each(
 				function() {
 					jQuery(this)[0].checked = jQuery("#toggle")[0].checked;
 				}
