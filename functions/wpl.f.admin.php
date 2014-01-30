@@ -1,12 +1,13 @@
 <?php
 
-// Add to the admin_init hook of your theme functions.php file 
+// Add to the admin_init hook of your theme functions.php file
 add_action( 'admin_init', 'wp_leads_add_cats_and_tags' );
-function wp_leads_add_cats_and_tags() {  
+function wp_leads_add_cats_and_tags() {
 	// Add tag metabox to page
-	register_taxonomy_for_object_type('post_tag', 'page'); 
+	register_taxonomy_for_object_type('post_tag', 'page');
 	// Add category metabox to page
-	register_taxonomy_for_object_type('category', 'page');  
+	register_taxonomy_for_object_type('category', 'page');
+
 }
 
 /* Actions */
@@ -38,7 +39,7 @@ function wpleads_remote_connect($url)
 	{
 		$string = file_get_contents($url);
 	}
-	
+
 	return $string;
 }
 
@@ -46,21 +47,21 @@ function wpleads_check_url_for_queries($referrer)
 {
 	//now check if google
 	if (strstr($referrer,'q='))
-	{		
+	{
 		//get keywords
 		preg_match('/q=(.*?)(&|\z)/', $referrer,$matches);
 		$keywords = $matches[1];
-		$keywords = urldecode($keywords);		
+		$keywords = urldecode($keywords);
 		$keywords = str_replace('+',' ',$keywords);
-		
+
 		//get search engine domain
 		$parsed = parse_url($referrer);
-		$domain = $parsed['host'];						
-		
+		$domain = $parsed['host'];
+
 		return array($keywords,$domain);
-		
+
 	}
-	
+
 	return false;
 }
 
@@ -72,47 +73,47 @@ function wpleads_render_setting($fields)
 {
 	//print_r($fields);
 	uasort($fields,'wp_leads_sort_fields');
-	echo "<table id='wpleads_main_container'>"; 
-	
+	echo "<table id='wpleads_main_container'>";
+
 	foreach ($fields as $field)
-	{	
+	{
 		$id = strtolower($field['key']);
 		echo '<tr class="'.$id.'">
 			<th class="wpleads-th" ><label for="'.$id.'">'.__( $field['label'],'wpleads').':</label></th>
 			<td class="wpleads-td" id="wpleads-td-'.$id.'">';
-		switch(true) {					
+		switch(true) {
 			case strstr($field['type'],'textarea'):
-				$parts = explode('-',$field['type']);				
+				$parts = explode('-',$field['type']);
 				(isset($parts[1])) ? $rows= $parts[1] : $rows = '10';
 				echo '<textarea name="'.$id.'" id="'.$id.'" rows='.$rows.'" style="width:99%" >'.$field['value'].'</textarea>';
 				break;
 			case strstr($field['type'],'text'):
-				$parts = explode('-',$field['type']);				
+				$parts = explode('-',$field['type']);
 				(isset($parts[1])) ? $size = $parts[1] : $size = 35;
-				
+
 				echo '<input type="text" name="'.$id.'" id="'.$id.'" value="'.$field['value'].'" size="'.$size.'" />';
-				break;			
+				break;
 			case strstr($field['type'],'links'):
 				$parts = explode('-',$field['type']);
 				(isset($parts[1])) ? $channel= $parts[1] : $channel = 'related';
 				$links = explode(';',$field['value']);
 				$links = array_filter($links);
-				
+
 				echo "<div style='text-align:right;float:right'><span class='add-new-link'>".__( 'Add New Link')." <img src='".WPL_URL."/images/add.png' title='".__( 'add link' ) ."' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
 				echo "<div class='wpleads-links-container' id='{$id}-container'>";
-				
+
 				$remove_icon = WPL_URL.'/images/remove.png';
-				
+
 				if (count($links)>0)
 				{
 					foreach ($links as $key=>$link)
 					{
-						$icon = wpleads_get_link_icon($link);		
+						$icon = wpleads_get_link_icon($link);
 						$icon = apply_filters('wpleads_links_icon',$icon);
 						echo '<span id="'.$id.'-'.$key.'"><img src="'.$remove_icon.'" class="wpleads_remove_link" id = "'.$key.'" title="Remove Link">';
 						echo '<a href="'.$link.'" target="_blank"><img src="'.$icon.'" align="ABSMIDDLE" class="wpleads_link_icon"><input type="hidden" name="'.$id.'['.$key.']" value="'.$link.'" size="70"  class="wpleads_link"  />'.$link.'</a> ';
 						echo "</span><br>";
-						
+
 					}
 				}
 				else
@@ -124,20 +125,20 @@ function wpleads_render_setting($fields)
 			// wysiwyg
 			case strstr($field['type'],'wysiwyg'):
 				wp_editor( $field['value'], $id, $settings = array() );
-				echo	'<p class="description">'.$field['desc'].'</p>';							
+				echo	'<p class="description">'.$field['desc'].'</p>';
 				break;
-			// media					
+			// media
 			case strstr($field['type'],'media'):
 				//echo 1; exit;
 				echo '<label for="upload_image">';
 				echo '<input name="'.$id.'"  id="'.$id.'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
 				echo '<input class="upload_image_button" id="uploader_'.$id.'" type="button" value="Upload Image" />';
-				echo '<p class="description">'.$field['desc'].'</p>'; 
+				echo '<p class="description">'.$field['desc'].'</p>';
 				break;
 			// checkbox
 			case strstr($field['type'],'checkbox'):
 				$i = 1;
-				echo "<table class='wpl_check_box_table'>";						
+				echo "<table class='wpl_check_box_table'>";
 				if (!isset($field['value'])){$field['value']=array();}
 				elseif (!is_array($field['value'])){
 					$field['value'] = array($field['value']);
@@ -149,7 +150,7 @@ function wpleads_render_setting($fields)
 						$i=1;
 					}
 						echo '<td><input type="checkbox" name="'.$id.'[]" id="'.$id.'" value="'.$value.'" ',in_array($value,$field['value']) ? ' checked="checked"' : '','/>';
-						echo '<label for="'.$value.'">&nbsp;&nbsp;'.$field['label'].'</label></td>';					
+						echo '<label for="'.$value.'">&nbsp;&nbsp;'.$field['label'].'</label></td>';
 					if ($i==4)
 					{
 						echo "</tr>";
@@ -163,9 +164,9 @@ function wpleads_render_setting($fields)
 			case strstr($field['type'],'radio'):
 				foreach ($field['options'] as $value=>$field['label']) {
 					//echo $field['value'].":".$id;
-					//echo "<br>"; 
+					//echo "<br>";
 					echo '<input type="radio" name="'.$id.'" id="'.$id.'" value="'.$value.'" ',$field['value']==$value ? ' checked="checked"' : '','/>';
-					echo '<label for="'.$value.'">&nbsp;&nbsp;'.$field['label'].'</label> &nbsp;&nbsp;&nbsp;&nbsp;';								
+					echo '<label for="'.$value.'">&nbsp;&nbsp;'.$field['label'].'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 				echo '<div class="wpl_tooltip" title="'.$field['desc'].'"></div>';
 				break;
@@ -433,10 +434,10 @@ function wpleads_render_setting($fields)
 				break;
 		} //end switch
 		echo '</td></tr>';
-	}	
-	
+	}
+
 	echo '</table>';
-	
+
 }
 
 function wpleads_get_link_icon($link)
@@ -482,7 +483,7 @@ function wpleads_get_link_icon($link)
 			$icon = WPL_URL.'/images/icons/link.png';
 			break;
 	}
-	
+
 	return $icon;
 }
 
@@ -579,30 +580,28 @@ function wpleads_add_option($key,$type,$id,$default=null,$label=null,$descriptio
 	}
 }
 
-function wpleads_count_associated_lead_items($post_id, $get_transient = false)
-{
+function wpleads_count_associated_lead_items($post_id, $get_transient = false) {
 	global $wpdb;
 	$list = get_post($post_id);
 	$list_slug = $list->post_name;
-	
+
 	if ($get_transient)
 	{
 		$num = get_transient('wpleads_count_associated_lead_items-'.$post_id);
 		if ($num)
 			return $num.' leads';
 	}
-	
+
 	$args = array(
 		'post_type' => 'wp-lead',
 		'post_status' => 'published',
 		'wplead_list_category' => $list_slug,
 		'numberposts' => -1
 	);
-	
+
 	$num = count( get_posts( $args ) );
-	
+
 	set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*6);
-	
+
 	return "$num leads";
 }
-

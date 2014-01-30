@@ -1,5 +1,5 @@
 div.wrap { width:98%; display: none; }
-
+#lead-tag-filter { display: none;}
 #filters, #actions { position:relative; margin-top:15px;}
 
 div.filter, div.action { float:left; margin-left:15px; padding-right:15px; border-right:2px solid #C6D9E9; }

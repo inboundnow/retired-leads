@@ -10,8 +10,7 @@
 	}
 
 	/*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
-	function wpleads_get_global_settings()
-	{
+	function wpleads_get_global_settings() {
 		// Setup navigation and display elements
 		$tab_slug = 'wpl-main';
 		$wpleads_global_settings[$tab_slug]['label'] = 'Global Settings';
@@ -84,7 +83,15 @@
 				'type'  => 'text',
 				'default'  => '',
 				'options' => null
-			)
+			),
+			array(
+				'id'  => 'inbound_compatibility_mode',
+				'label' => 'Turn on compability mode',
+				'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
+				'type'  => 'radio',
+				'default'  => '0',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
 		);
 
 		/* Setup License Keys Tab */
@@ -132,8 +139,7 @@
 		return $wpleads_global_settings;
 	}
 
-	function wpleads_render_global_settings($key,$custom_fields,$active_tab)
-	{
+	function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 		//Check if active tab
 		if ($key==$active_tab)
@@ -274,8 +280,7 @@
 		echo '</table>'; // end table
 	}
 
-	function wpleads_display_global_settings_js()
-	{
+	function wpleads_display_global_settings_js() {
 		global $wpleads_global_settings;
 		$wpleads_global_settings = wpleads_get_global_settings();
 
@@ -324,8 +329,7 @@
 		<?php
 	}
 
-	function wpleads_display_global_settings()
-	{
+	function wpleads_display_global_settings() {
 		global $wpdb;
 		$wpleads_global_settings = wpleads_get_global_settings();
 
@@ -433,19 +437,19 @@
 					if ($field['type']=='license-key')
 					{
 						$master_key = get_option('inboundnow_master_license_key' , '');
-						if ($master_key) 
+						if ($master_key)
 						{
 							$bool = update_option($field['id'], $master_key );
 						}
 						else
 						{
 							update_option($field['id'], '' );
-						}	
+						}
 					}
 					else
 					{
 						$bool = update_option($field['id'],$field['default']);
-					}					
+					}
 				}
 
 				do_action('wpleads_save_global_settings',$field);

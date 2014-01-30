@@ -16,12 +16,20 @@ jQuery(document).ready(function($) {
 		form_id = jQuery(this).attr('id');
 		form_class = jQuery(this).attr('class');
 
+		e.preventDefault(); // halt normal form
+
+		// Email Validation
+		var inbound_form_exists = $("#inbound-form-wrapper").length;
+		var email_validation = $(".inbound-email.invalid-email").length;
+		if (email_validation > 0 && inbound_form_exists > 0) {
+			jQuery(".inbound-email.invalid-email").focus();
+			alert("Please enter a valid email address");
+			return false;
+		}
+
 		jQuery('button, input[type="button"]').css('cursor', 'wait');
 		jQuery('input').css('cursor', 'wait');
 		jQuery('body').css('cursor', 'wait');
-
-
-		e.preventDefault(); // halt normal form
 
 		var email = "";
 		var firstname = "";
@@ -140,7 +148,7 @@ jQuery(document).ready(function($) {
 		var form_inputs = jQuery('.wpl-track-me').find('input[type=text],input[type=hidden],textarea,select');
 		var post_values = {};
 		// unset values with exclude array
-		form_inputs.each(function() {	
+		form_inputs.each(function() {
 			post_values[this.name] = jQuery(this).val();
 		});
 		var post_values_json = JSON.stringify(post_values);

@@ -207,7 +207,7 @@ function leads_ajax_load_more_leads(){
 
 		$terms = wp_get_post_terms( $post->ID, $this_tax, 'id' );
 		$cats = '';
-
+		$lead_ID = $post->ID;
      	foreach ( $terms as $term ) {
 		  	$term_link = get_term_link( $term, $this_tax );
 		    if( is_wp_error( $term_link ) )
@@ -430,10 +430,11 @@ function lead_management_js() {
 
 function lead_management_admin_screen() {
 	global $wpdb;
-
+	InboundCompatibility::inbound_compatibilities_mode(); // Load only our scripts
 	if (isset($_GET['testthis'])) {
        test_query();
 	}
+
 	// Maybe make this an option some time
 	$per_page = 60;
 	$paged = empty($_GET['paged']) ? 1 : intval($_GET['paged']);
@@ -594,7 +595,7 @@ function lead_management_admin_screen() {
 	}
 	// ...then the tag filter.
 	echo '
-		<div class="filter">
+		<div class="filter" id="lead-tag-filter">
 			<label for="s">Tag:</label>
 			<input type="text" name="t" id="t" value="' . htmlentities($t) . '" title="\'foo, bar\': posts tagged with \'foo\' or \'bar\'. \'foo+bar\': posts tagged with both \'foo\' and \'bar\'." />
 		</div>
@@ -745,7 +746,8 @@ function lead_management_admin_screen() {
 			}
 
 			echo '
-				<form method="get" action="' . get_option('siteurl') . '/wp-content/plugins/leads/modules/wpl.m.management.action.php">
+				<form method="get" action="'.admin_url( 'admin.php' ).'">
+				<input type="hidden" name="action" value="lead_action" />
 				<div id="posts">
 
 				<table class="widefat" id="lead-manage-table">
@@ -891,15 +893,14 @@ function lead_management_admin_screen() {
 	}
 }
 // Not in use yet
-//add_action('init', 'run_actions_leads');
-function run_actions_leads(){
+add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
+function lead_action_admin_action() {
 
 	if ( !current_user_can('level_9') )
 		die ( __('Cheatin&#8217; uh?') );
 
 	$_POST = stripslashes_deep($_POST);
 	$_GET = stripslashes_deep($_GET);
-if (isset($_GET['done'])) {
 
 	// Check if we've been submitted a tag/remove.
 	if ( !empty($_GET['ids']) ) {
@@ -1019,9 +1020,7 @@ if (isset($_GET['done'])) {
 
 		}
 	}
-
 	die("Invalid action.");
-}
 }
 
 ?>
