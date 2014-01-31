@@ -566,7 +566,7 @@ function wpleads_display_metabox_main() {
 	foreach ($wpleads_user_fields as $key=>$field)
 	{
 			$wpleads_user_fields[$key]['value'] = get_post_meta( $post->ID , $wpleads_user_fields[$key]['key'] ,true );
-			if ( !$$wpleads_user_fields[$key]['value'] && isset($wpleads_user_fields[$key]['default']) )
+			if ( !$wpleads_user_fields[$key]['value'] && isset($wpleads_user_fields[$key]['default']) )
 				$wpleads_user_fields[$key]['value'] = $wpleads_user_fields[$key]['default'];
 	}
 
