@@ -398,13 +398,27 @@ class InboundForms {
 		$email_to = $form_meta_data['inbound_notify_email'];
 		}
 
-		//print_r($form_meta_data); exit;
-		//print_r($form_data); exit;
+		/* print_r($form_meta_data); exit;
+		print_r($form_data); exit; */
 
-		$form_email = (isset($form_data['email'])) ? $form_data['email'] : false;
+		 $form_email = false;
+		 foreach ($form_data as $key => $value) {
+		 	if (preg_match('/email|e-mail/i', $key)) {
+		 		$form_email = $form_data[$key];
+		 	}
 
-		if (!$form_email) {
-		$form_email = (isset($form_data['e-mail'])) ? $form_data['e-mail'] : false;
+		 }
+
+		 if (!$form_email) {
+			if (isset($form_data['email'])) {
+				$form_email = $form_data['email'];
+			} else if (isset($form_data['e-mail'])) {
+				$form_email = $form_data['e-mail'];
+			} else if (isset($form_data['wpleads_email_address'])) {
+				$form_email = $form_data['wpleads_email_address'];
+			} else {
+				$form_email = 'null map email field';
+			}
 		}
 
 		/* Might be better email send need to test and look at html edd emails */
