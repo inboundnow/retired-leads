@@ -143,25 +143,6 @@ if (is_admin())
 			//add list as category to lead cpt and store the category taxonomy as meta pair in list cpt
 			wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug);
 
-			//if role creation is turned on
-			$role_creation = get_option('wpl-main-role-creation', 1);
-
-			if ($role_creation)
-			{
-				//now create role
-				$result = add_role($list_slug, $list_title, array(
-					'read' => true, // True allows that capability
-					'edit_posts' => false,
-					'delete_posts' => false, // Use false to explicitly deny
-				));
-
-				if (null !== $result) {
-					//echo 'Yay!  New role created!';
-				} else {
-					//echo 'Oh... the basic_contributor role already exists.';
-				}
-			}
-
 			do_action('wpleads_save_list_post',$post_id);
 		}
 
