@@ -49,10 +49,6 @@ function inbound_load_shared_leads()
 
 
 
-
-
-add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
-
 if (is_admin())
 {
 	//load_plugin_textdomain('wpleads',false,dirname( plugin_basename( __FILE__ ) ) . '/languages/' );

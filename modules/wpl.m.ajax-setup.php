@@ -110,10 +110,9 @@ function wp_leads_update_page_view_obj($lead_id, $page_id, $current_url) {
 add_action('wp_ajax_wpl_check_lists', 'wpl_check_lists_callback');
 add_action('wp_ajax_nopriv_wpl_check_lists', 'wpl_check_lists_callback');
 
-function wpl_check_lists_callback()
-{
-$wp_lead_id = $_POST['wp_lead_id'];
-if (isset( $_POST['wp_lead_id'])&&!empty( $_POST['wp_lead_id']))
+function wpl_check_lists_callback() {
+	$wp_lead_id = $_POST['wp_lead_id'];
+	if (isset( $_POST['wp_lead_id'])&&!empty( $_POST['wp_lead_id']))
 	{
 		wp_leads_get_current_lists($wp_lead_id);
 	}
@@ -144,65 +143,4 @@ function wp_leads_get_current_lists($lead_id){
 		}
 }
 
-function wp_leads_get_meta_data($lead_id){
-	// function for grabbing any metadata from the backend and displaying to visitor.
-	// meta values etc.
-}
 
-// This function might need to just build the page_view meta on the lead and be in /shared/
-function wpleads_hook_store_lead_post($data)
-{
-	//setcookie('this_running', "EYP",time()+3600,"/"); // test if firing
-	//print_r($data);
-	if ($data['lead_id'])
-	{
-		global $wpdb;
-
-		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s", $time);
-
-		 // note: Grab page view obj instead of trackObj
-		(isset(	$_POST['json'] )) ? $json = $_POST['json'] : $json = 0;
-		(isset(	$_POST['page_view_count'] )) ? $view_count = $_POST['page_view_count'] : $view_count = 0;
-
-		$json = stripslashes($json);
-		$json = json_decode($json, true);
-		$json[0]['converted_page'] = array( 'page_id'=> $_POST['lp_id'] , 'datetime' => $wordpress_date_time );
-		$json = json_encode($json);
-
-		//$query = 'INSERT INTO '.$wpdb->prefix.'lead_tracking
-		//		(lead_id,tracking_id,date,data,nature) VALUES
-		//		("'.$data['lead_id'].'" , "'.$data['wp_lead_uid'].'" , "'.$wordpress_date_time.'" , "'.$json.'" , "conversion")';
-
-		$query = "SELECT * FROM ".$wpdb->prefix."lead_tracking WHERE tracking_id='".$data['wp_lead_uid']."' ORDER BY id DESC LIMIT 1";
-		$result = mysql_query($query);
-		if (!$result){ echo $query; echo mysql_error(); exit; }
-
-		if (mysql_num_rows($result)>0)
-		{
-			$row = mysql_fetch_array($result);
-			$row_id = $row['id'];
-
-			$query = "UPDATE ".$wpdb->prefix."lead_tracking SET date='{$wordpress_date_time}' , data = '{$json}' , lead_id= '{$data['lead_id']}' ,  nature = 'conversion' WHERE id='{$row_id}' ";
-
-			$result = mysql_query($query);
-			if (!$result){ echo $query; echo mysql_error(); exit; }
-		}
-		else
-		{
-			$query = "INSERT INTO ".$wpdb->prefix."lead_tracking
-					(lead_id,tracking_id,date,data,nature) VALUES
-					('".$data['lead_id']."' , '".$data['wp_lead_uid']."' , '".$wordpress_date_time."' , '".$json."' , 'conversion')";
-
-			$result = mysql_query($query);
-			if (!$result){ echo $query; echo mysql_error(); exit; }
-
-			$row_id = mysql_insert_id();
-		}
-
-		setcookie('user_data_json', "",time()+3600,"/"); // clear page view data
-
-
-
-	}
-}
