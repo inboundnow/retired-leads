@@ -35,11 +35,12 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['page_views'] = (isset($_POST['page_views'])) ?  $_POST['page_views'] : false;
 		$lead_data['page_view_count'] = (isset($_POST['page_view_count'] )) ? $_POST['page_view_count'] : false;
 
-		if ($args)
+		if ($args){
 			$lead_data = array_merge( $lead_data , $args );
-	
+		}
+		
 		$lead_data = apply_filters( 'inboundnow_store_lead_pre_filter_data' , $lead_data);
-	
+		
 		do_action('inbound_store_lead_pre' , $lead_data); // Global lead storage action hook
 
 		// check for set email
