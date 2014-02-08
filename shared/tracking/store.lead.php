@@ -20,6 +20,7 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['user_ID'] = $user_ID;
 		$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 		$lead_data['wpleads_email_address'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
+		$lead_data['email'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
 		$lead_data['element_type'] =	(isset($_POST['element_type'])) ? $_POST['element_type'] : false;
 		$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : false;
 		$lead_data['raw_post_values_json'] = (isset($_POST['raw_post_values_json'])) ? $_POST['raw_post_values_json'] : false;
