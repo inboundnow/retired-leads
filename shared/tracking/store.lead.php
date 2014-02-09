@@ -25,7 +25,9 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : false;
 		$lead_data['raw_post_values_json'] = (isset($_POST['raw_post_values_json'])) ? $_POST['raw_post_values_json'] : false;
 		$lead_data['wpleads_first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : false;
+		$lead_data['first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : false;
 		$lead_data['wpleads_last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : false;
+		$lead_data['last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : false;
 		$lead_data['wpleads_company_name'] = (isset($_POST['company_name'] )) ? $_POST['company_name'] : false;
 		$lead_data['wpleads_mobile_phone'] = (isset($_POST['phone'])) ? $_POST['phone'] : false;
 		$lead_data['wpleads_address_line_1'] = (isset($_POST['address'])) ? $_POST['address'] : false;
