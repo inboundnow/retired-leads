@@ -198,11 +198,16 @@ if (!class_exists('InboundDebugScripts')) {
             // dequeue admin scripts
             $screen = get_current_screen();
 
-              $array = array('load-qtip' => 'wp-call-to-action');
-              //update_option( 'inbound_global_dequeue', $array );
-              $global_array = get_option( 'inbound_global_dequeue' );
-              //print_r($global_array);
-
+            $array = array('load-qtip' => 'wp-call-to-action');
+            //update_option( 'inbound_global_dequeue', $array );
+            $global_array = get_option( 'inbound_global_dequeue' );
+            //print_r($global_array);
+			
+			
+			if (!$global_array){
+				return;
+			}
+			
             foreach ($global_array as $key => $value) {
               if ( $screen->id === $value) {
               wp_dequeue_script( $key );

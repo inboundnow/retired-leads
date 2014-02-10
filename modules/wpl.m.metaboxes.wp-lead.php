@@ -1076,6 +1076,13 @@ function wpleads_save_user_fields($post_id) {
 				}
 				else if (isset($new) && $new != $old ) {
 					update_post_meta($post_id, $field['key'], $new);
+					
+					if ($field['key']=='wpleads_email_address')
+					{
+						$args = array( 'ID'=>$post_id , 'post_title' => $new );
+						wp_update_post($args);
+					}
+					
 				}
 				else if ('' == $new && $old) {
 					//echo "here";exit;

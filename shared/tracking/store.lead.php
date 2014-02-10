@@ -20,11 +20,14 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['user_ID'] = $user_ID;
 		$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 		$lead_data['wpleads_email_address'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
+		$lead_data['email'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
 		$lead_data['element_type'] =	(isset($_POST['element_type'])) ? $_POST['element_type'] : false;
 		$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : false;
 		$lead_data['raw_post_values_json'] = (isset($_POST['raw_post_values_json'])) ? $_POST['raw_post_values_json'] : false;
 		$lead_data['wpleads_first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : false;
+		$lead_data['first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : false;
 		$lead_data['wpleads_last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : false;
+		$lead_data['last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : false;
 		$lead_data['wpleads_company_name'] = (isset($_POST['company_name'] )) ? $_POST['company_name'] : false;
 		$lead_data['wpleads_mobile_phone'] = (isset($_POST['phone'])) ? $_POST['phone'] : false;
 		$lead_data['wpleads_address_line_1'] = (isset($_POST['address'])) ? $_POST['address'] : false;
@@ -39,10 +42,9 @@ if (!function_exists('inbound_store_lead')) {
 		if ($args){
 			$lead_data = array_merge( $lead_data , $args );
 		}
-
-
+		
 		$lead_data = apply_filters( 'inboundnow_store_lead_pre_filter_data' , $lead_data);
-
+		
 		do_action('inbound_store_lead_pre' , $lead_data); // Global lead storage action hook
 
 		// check for set email
