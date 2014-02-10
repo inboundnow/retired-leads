@@ -24,8 +24,7 @@ include_once('modules/wpl.m.management.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_shared_leads' );
-function inbound_load_shared_leads()
-{
+function inbound_load_shared_leads() {
 	/* Check if Shared Files Already Loaded */
 	if (defined('INBOUDNOW_SHARED'))
 		return;
@@ -45,23 +44,14 @@ function inbound_load_shared_leads()
 	include_once('shared/inboundnow/inboundnow.extension-updating.php'); // Legacy -Inboundnow Package Updating
 	include_once('shared/inboundnow/inboundnow.global-settings.php'); // Inboundnow Global Settings
 	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
+	include_once('shared/functions/global.shared.functions.php'); // Global Shared Utility functions
+	include_once('shared/assets/assets.loader.class.php');  // Load Shared CSS and JS Assets
 }
-
-
-
 
 
 add_action( 'wpl_store_lead_post', 'wpleads_hook_store_lead_post' );
 
-if (is_admin())
-{
-	//load_plugin_textdomain('wpleads',false,dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-	/*SETUP NAVIGATION AND DISPLAY ELEMENTS
-	$tab_slug = 'lp-license-keys';
-	$lp_global_settings[$tab_slug]['label'] = 'License Keys';
-
-	$lp_global_settings[$tab_slug]['options'][] = lp_add_option($tab_slug,"license-key","lead-manager","","Lead Manager","Head to http://www.inboundnow.com/landing-pages/account/ to retrieve your license key for Lead Manager for Landing Pages", $options=null);
+if (is_admin()) {
 
 	/*SETUP END*/
 	register_activation_hook(__FILE__, 'wpleads_activate');
@@ -74,136 +64,36 @@ if (is_admin())
 	include_once('modules/wpl.m.global-settings.php');
 	include_once('modules/wpl.m.dashboard.php');
 
-
-
-}
-// Needs optimization
-add_action('wp_head', 'wp_leads_get_page_final_id');
-function wp_leads_get_page_final_id(){
-		global $post;
-		if (!isset($post))
-		return;
-		$current_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$current_url = preg_replace('/\?.*/', '', $current_url);
-
-		$page_id = wpl_url_to_postid($current_url);
-
-		$site_url = get_option('siteurl');
-		$clean_current_url = rtrim($current_url,"/");
-
-		// If homepage
-		if($clean_current_url === $site_url){
-			$page_id = get_option('page_on_front'); //
-		}
-
-		// If category page
-		if (is_category() || is_archive()) {
-		$cat = get_category_by_path(get_query_var('category_name'),false);
-			$page_id = "cat_" . $cat->cat_ID;
-			//$current_name = $cat->cat_name;
-			$post_type = "category";
-			}
-		if (is_tag()){
-			$page_id = "tag_" . get_query_var('tag_id');
-		}
-
-		if(is_home()) { $page_id = get_option( 'page_for_posts' ); }
-
-		elseif(is_front_page()){ $page_id = get_option('page_on_front'); }
-
-		if ($page_id === 0) {
-			$page_id = $post->ID;
-		}
-
-		return $page_id;
 }
 
 if (!function_exists('lp_remote_connect')) {
-function lp_remote_connect($url)
-{
-	$method1 = ini_get('allow_url_fopen') ? "Enabled" : "Disabled";
-	if ($method1 == 'Disabled')
-	{
-		//do curl
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "$url");
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
-		curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
-		curl_setopt ($ch, CURLOPT_TIMEOUT, 60);
-		$string = curl_exec($ch);
-	}
-	else
-	{
-		$string = file_get_contents($url);
-	}
+	function lp_remote_connect($url) {
+		$method1 = ini_get('allow_url_fopen') ? "Enabled" : "Disabled";
+		if ($method1 == 'Disabled') {
+			//do curl
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, "$url");
+			curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+			curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
+			curl_setopt ($ch, CURLOPT_TIMEOUT, 60);
+			$string = curl_exec($ch);
+		} else {
+			$string = file_get_contents($url);
+		}
 
-	return $string;
-}
+		return $string;
+	}
 }
 
 add_action('wp_enqueue_scripts', 'wpleads_enqueuescripts_header');
-function wpleads_enqueuescripts_header()
-{
+function wpleads_enqueuescripts_header() {
 	global $post;
-	$post_type = get_post_type( $post );
-	$current_page = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-	$post_id = wpl_url_to_postid($current_page);
-
-	(isset($_SERVER['HTTP_REFERER'])) ? $referrer = $_SERVER['HTTP_REFERER'] : $referrer ='direct access';
-	(isset($_SERVER['REMOTE_ADDR'])) ? $ip_address = $_SERVER['REMOTE_ADDR'] : $ip_address = '0.0.0.0.0';
-    $lead_cpt_id = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : false;
-    $lead_email = (isset($_COOKIE['wp_lead_email'])) ? $_COOKIE['wp_lead_email'] : false;
-    $lead_unique_key = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
-
-	// Localize lead data
-	$lead_data_array = array();
-		if ($lead_cpt_id) {
-			$lead_data_array['lead_id'] = $lead_cpt_id;
-			$type = 'wplid';}
-		if ($lead_email) {
-			$lead_data_array['lead_email'] = $lead_email;
-			$type = 'wplemail';}
-		if ($lead_unique_key) {
-	    	$lead_data_array['lead_uid'] = $lead_unique_key;
-			$type = 'wpluid';
-		}
-
+	$post_type = isset($post) ? get_post_type( $post ) : null;
 	// Load Tracking Scripts
 	if($post_type != "wp-call-to-action") {
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-cookie', WPL_URL . '/js/jquery.cookie.js', array( 'jquery' ));
-		wp_register_script('jquery-total-storage',WPL_URL . '/js/jquery.total-storage.min.js', array( 'jquery' ));
-		wp_enqueue_script('jquery-total-storage');
-
-		if($post_id === 0){
-			$final_page_id = wp_leads_get_page_final_id();
-			} else {
-			$final_page_id = $post_id;
-			}
-
-		wp_enqueue_script( 'funnel-tracking' , WPL_URL . '/shared/tracking/page-tracking.js', array( 'jquery','jquery-cookie'));
-		//wp_enqueue_script( 'selectron-js' , WPL_URL . '/shared/js/selectron.js', array( 'jquery','jquery-cookie')); // coming soon for field mapping
-		wp_enqueue_script( 'store-lead-ajax' , WPL_URL . '/shared/tracking/js/store.lead.ajax.js', array( 'jquery','jquery-cookie'));
-		wp_localize_script( 'store-lead-ajax' , 'inbound_ajax', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'post_id' => $final_page_id, 'post_type' => $post_type));
-		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
-		wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => $final_page_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time));
-
-		// Load Lead Page View Tracking
-		$lead_page_view_tracking = get_option( 'page-view-tracking' , 1);
-		if ($lead_page_view_tracking)
-		{
-			if($post_id === 0){
-				$final_page_id = wp_leads_get_page_final_id();
-			} else {
-				$final_page_id = $post_id;
-			}
-			wp_enqueue_script( 'wpl-behavorial-tracking' , WPL_URL . '/js/wpl.behavorial-tracking.js', array( 'jquery','jquery-cookie','funnel-tracking'));
-			wp_localize_script( 'wpl-behavorial-tracking' , 'wplnct', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'final_page_id' => $final_page_id  ));
-		}
-
 		// Load form pre-population
 		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
 		$lp_form_prepopulation = get_option( 'lp-main-landing-page-prepopulate-forms' , 1);
@@ -219,8 +109,7 @@ function wpleads_enqueuescripts_header()
 
 		// Load form tracking class
 		$form_ids = get_option( 'wpl-main-tracking-ids' , 1);
-		if ($form_ids)
-		{
+		if ($form_ids) {
 			wp_enqueue_script('wpl-assign-class', WPL_URL . '/js/wpl.assign-class.js', array( 'jquery'));
 			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids ) );
 		}
@@ -229,26 +118,29 @@ function wpleads_enqueuescripts_header()
 }
 
 add_action('admin_enqueue_scripts', 'wpleads_admin_enqueuescripts');
-function wpleads_admin_enqueuescripts($hook)
-{
+function wpleads_admin_enqueuescripts($hook) {
 	global $post;
-
+	$post_type = isset($post) ? get_post_type( $post ) : null;
 	if (isset($_GET['taxonomy']))
 		return;
-	wp_enqueue_script('jquery-cookie', WPL_URL . '/shared/js/jquery.cookie.js', array( 'jquery' ));
+
 	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
 		//echo $_GET['post_type'];exit;
-		if ( $hook == 'post.php' )
-		{
+		if ( $hook == 'post.php' ) {
 			wp_enqueue_script('wpleads-edit', WPL_URL.'/js/wpl.admin.edit.js', array('jquery'));
 			wp_enqueue_script('tinysort', WPL_URL.'/js/jquery.tinysort.js', array('jquery'));
 			wp_enqueue_script('tag-cloud', WPL_URL.'/js/jquery.tagcloud.js', array('jquery'));
 			wp_localize_script( 'wpleads-edit', 'wp_lead_map', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_lead_map_nonce' => wp_create_nonce('wp-lead-map-nonce') ) );
-			wp_enqueue_script('jquery-cookie', WPL_URL . 'shared/js/jquery.cookie.js', array( 'jquery' ));
+			/* Moved to shared asset loader
+			//wp_enqueue_script('jquery-cookie', WPL_URL . 'shared/js/jquery.cookie.js', array( 'jquery' ));
+			*/
+			if (isset($_GET['small_lead_preview'])) {
+			wp_enqueue_style('wpleads-popup-css', WPL_URL.'/css/wpl.popup.css');
+			}
+			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
-
 
 		//Tool tip js
 		wp_enqueue_script('jquery-qtip', WPL_URL . '/js/jquery-qtip/jquery.qtip.min.js');
@@ -256,31 +148,20 @@ function wpleads_admin_enqueuescripts($hook)
 		wp_enqueue_style('qtip-css', WPL_URL . '/css/jquery.qtip.min.css'); //Tool tip css
 		wp_enqueue_style('wpleads-admin-css', WPL_URL.'/css/wpl.admin.css');
 
-
 		// Leads list management js
 		wp_enqueue_script('wpleads-list', WPL_URL . '/js/wpl.leads-list.js');
 		wp_enqueue_style('wpleads-list-css', WPL_URL.'/css/wpl.leads-list.css');
 
 
 
-		if ( $hook == 'post-new.php' )
-		{
+		if ( $hook == 'post-new.php' ) {
 			wp_enqueue_script('wpleads-create-new-lead', WPL_URL . '/js/wpl.add-new.js');
-		}
-
-		if ( $hook == 'post.php' )
-		{
-			if (isset($_GET['small_lead_preview'])) {
-			wp_enqueue_style('wpleads-popup-css', WPL_URL.'/css/wpl.popup.css');
-			}
-			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
 
 
 	}
 
-	if ((isset($_GET['post_type'])&&$_GET['post_type']=='list')||(isset($post->post_type)&&$post->post_type=='list'))
-	{
+	if ((isset($_GET['post_type'])&&$_GET['post_type']=='list')||(isset($post->post_type)&&$post->post_type=='list')) {
 		wp_enqueue_style('wpleads-list-css', WPL_URL.'/css/wpl.leads-list.css');
 		wp_enqueue_script('lls-edit-list-cpt', WPL_URL . '/js/wpl.admin.cpt.list.js');
 	}
@@ -318,8 +199,7 @@ global $wp; global $post;
 $post_type = get_post_type( $post );
 
 // Only proceed if lead exists
-	if ( isset($_COOKIE['wp_lead_id']) && !is_admin() && !is_404() && $post_type != "wp-call-to-action")
-	{
+	if ( isset($_COOKIE['wp_lead_id']) && !is_admin() && !is_404() && $post_type != "wp-call-to-action") {
 
 		/*
 		//Revisit notication base
@@ -352,14 +232,12 @@ $post_type = get_post_type( $post );
 
 }
 
-if (is_admin())
-{
+if (is_admin()) {
 
 	/**********************************************************/
 	/******************CREATE SETTINGS SUBMENU*****************/
 	add_action('admin_menu', 'wpleads_add_menu');
-	function wpleads_add_menu()
-	{
+	function wpleads_add_menu() {
 		//echo 1; exit;
 		if (current_user_can('manage_options'))
 		{
@@ -375,15 +253,13 @@ if (is_admin())
 	}
 
 	add_action('lp_lead_table_data_is_details_column','wpleads_add_user_edit_button');
-	function wpleads_add_user_edit_button($item)
-	{
+	function wpleads_add_user_edit_button($item){
 		$image = WPL_URL.'/images/icons/edit_user.png';
 		echo '&nbsp;&nbsp;<a href="'.get_admin_url().'post.php?post='.$item['ID'].'&action=edit" target="_blank"><img src="'.$image.'" title="Edit Lead"></a>';
 	}
 
 	add_action('lp_module_lead_splash_post','wpleads_add_user_conversion_data_to_splash');
-	function wpleads_add_user_conversion_data_to_splash($data)
-	{
+	function wpleads_add_user_conversion_data_to_splash($data) {
 		$conversion_data = $data['lead_custom_fields']['wpleads_conversion_data'];
 		//$test = get_post_meta($data['lead_id'],'wpl-lead-conversions', true);
 		//print_r($test);

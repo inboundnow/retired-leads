@@ -158,7 +158,7 @@ if (!class_exists('InboundFeedback')) {
     <div class="inbound-close-fb">close</div>
           <div id="lp-slide-toggle">
           <header id="header" class='inbound-customhead'>
-            <img src="<?php echo $final_path . 'shared/images/inbound-now-logo.png';?>" width="315px">
+            <img src="<?php echo $final_path . 'shared/assets/admin/images/inbound-now-logo.png';?>" width="315px">
             <h3 class="main-feedback-header" >We love hearing from You!</h3>
             <h4>Please leave your <strong>idea/feature request</strong> to make the <?php echo $plugin_name;?> better below!</h4>
           </header>
@@ -322,7 +322,7 @@ border-color: #66afe9;
 outline: 0;
 -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
 box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
-    </style>
+ </style>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
                   jQuery("body").on('click', '#inbound-rule-footer', function () {

@@ -67,6 +67,8 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.3.2 =
+* New Feature: Send lead notification emails to multiple people. Use comma separated values
 = 1.3.1 =
 * New Feature: Bulk Lead management
 * Added tags to lead profiles for improved management/categorization

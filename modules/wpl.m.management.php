@@ -629,7 +629,7 @@ function lead_management_admin_screen() {
 
 	if ( !empty($_GET['wplead_list_category']) || !empty($_GET['s']) || !empty($_GET['t']) || !empty($_GET['on']) ) {
 		// A cat has been given; fetch posts that are in that category.
-		$q = "paged=$paged&posts_per_page=$per_page&orderby=$orderby&order=$order&post_type=wp-lead";
+		//$q = "paged=$paged&posts_per_page=$per_page&orderby=$orderby&order=$order&post_type=wp-lead";
 		if ( !empty($_GET['wplead_list_category']) ) {
 			$cat = $_GET['wplead_list_category'];
 			$prefix = '';
@@ -638,20 +638,20 @@ function lead_management_admin_screen() {
 			    $final_cats .= $prefix . $value;
 			    $prefix = ', ';
 			}
-			$q = "&tax=$cat";
+			//$q = "&tax=$cat";
 		}
 
 
 		//print_r($final_cats); exit;
 		// A keyword has been given; get posts whose content contains that keyword.
 		if ( !empty($_GET['s']) ) {
-			$q .= "&s=" . urlencode($_GET['s']);
+			///$q .= "&s=" . urlencode($_GET['s']);
 		}
 
 		// A tag has been given; get posts tagged with that tag.
 		if ( !empty($_GET['t']) ) {
 			$t = preg_replace('#[^a-z0-9\-\,\+]*#i', '', $_GET['t']);
-			$q .= "&tag=$t";
+			//$q .= "&tag=$t";
 		}
 
 

@@ -34,12 +34,15 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['lp_variation'] = (isset($_POST['lp_variation'])) ? $_POST['lp_variation'] : 'default';
 		$lead_data['page_views'] = (isset($_POST['page_views'])) ?  $_POST['page_views'] : false;
 		$lead_data['page_view_count'] = (isset($_POST['page_view_count'] )) ? $_POST['page_view_count'] : false;
+		$lead_data['source'] = (isset($_POST['source'] )) ? $_POST['source'] : 'n/a';
 
-		if ($args)
+		if ($args){
 			$lead_data = array_merge( $lead_data , $args );
-	
+		}
+
+
 		$lead_data = apply_filters( 'inboundnow_store_lead_pre_filter_data' , $lead_data);
-	
+
 		do_action('inbound_store_lead_pre' , $lead_data); // Global lead storage action hook
 
 		// check for set email
@@ -149,7 +152,7 @@ if (!function_exists('inbound_store_lead')) {
 				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
 				$conversion_data[$c_count]['first_time'] = 1;
 			}
-			
+
 			$lead_data['conversion_data'] = json_encode($conversion_data);
 			update_post_meta($lead_data['lead_id'],'wpleads_conversion_count', $c_count); // Store conversions count
 			update_post_meta($lead_data['lead_id'], 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
@@ -209,7 +212,7 @@ if (!function_exists('inbound_store_lead')) {
 
 
 			/* Raw Form Values Store */
-			if ($lead_data['raw_post_values_json']) 
+			if ($lead_data['raw_post_values_json'])
 			{
 				$raw_post_data = get_post_meta($lead_data['lead_id'],'wpleads_raw_post_data', true);
 				$a1 = json_decode( $raw_post_data, true );
