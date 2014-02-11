@@ -24,6 +24,8 @@ if (is_admin())
 	if(!isset($_SESSION)){@session_start();}
 
 
+	echo $_REQUEST['param'];
+	echo hi;
 /* load core files */
 switch (is_admin()) :
 	case true :
