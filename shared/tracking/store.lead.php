@@ -37,6 +37,7 @@ if (!function_exists('inbound_store_lead')) {
 		$lead_data['lp_variation'] = (isset($_POST['lp_variation'])) ? $_POST['lp_variation'] : 'default';
 		$lead_data['page_views'] = (isset($_POST['page_views'])) ?  $_POST['page_views'] : false;
 		$lead_data['page_view_count'] = (isset($_POST['page_view_count'] )) ? $_POST['page_view_count'] : false;
+		$lead_data['source'] = (isset($_POST['source'] )) ? $_POST['source'] : 'n/a';
 
 		if ($args){
 			$lead_data = array_merge( $lead_data , $args );
@@ -124,7 +125,7 @@ if (!function_exists('inbound_store_lead')) {
 			/* Store IP addresss & Store GEO Data */
 			if ($lead_data['ip_address']){
 				update_post_meta( $lead_data['lead_id'], 'wpleads_ip_address', $lead_data['ip_address'] );
-				$geo_array = unserialize(lp_remote_connect('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
+				$geo_array = unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
 				(isset($geo_array['geoplugin_areaCode'])) ? update_post_meta( $lead_data['lead_id'], 'wpleads_areaCode', $geo_array['geoplugin_areaCode'] ) : null;
 				(isset($geo_array['geoplugin_city'])) ? update_post_meta( $lead_data['lead_id'], 'wpleads_city', $geo_array['geoplugin_city'] ) : null;
 				(isset($geo_array['geoplugin_regionName'])) ? update_post_meta( $lead_data['lead_id'], 'wpleads_region_name', $geo_array['geoplugin_regionName'] ) : null;
@@ -153,7 +154,7 @@ if (!function_exists('inbound_store_lead')) {
 				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
 				$conversion_data[$c_count]['first_time'] = 1;
 			}
-			
+
 			$lead_data['conversion_data'] = json_encode($conversion_data);
 			update_post_meta($lead_data['lead_id'],'wpleads_conversion_count', $c_count); // Store conversions count
 			update_post_meta($lead_data['lead_id'], 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
@@ -213,7 +214,7 @@ if (!function_exists('inbound_store_lead')) {
 
 
 			/* Raw Form Values Store */
-			if ($lead_data['raw_post_values_json']) 
+			if ($lead_data['raw_post_values_json'])
 			{
 				$raw_post_data = get_post_meta($lead_data['lead_id'],'wpleads_raw_post_data', true);
 				$a1 = json_decode( $raw_post_data, true );

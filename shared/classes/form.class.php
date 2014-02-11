@@ -251,9 +251,6 @@ class InboundForms {
 			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$font_size.'">
 					  '.$icon_insert.''.$submit_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
-			if( $redirect != ""){
-				$form .=  '<input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">';
-			}
 
 			$form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
 
@@ -389,6 +386,7 @@ class InboundForms {
 		// defaults
 		$notification_status = "off";
 		$email_to = false;
+		$multi_send = false;
 
 		if (isset($form_meta_data['inbound_email_send_notification'][0])){
 		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
@@ -396,6 +394,10 @@ class InboundForms {
 
 		if (isset($form_meta_data['inbound_notify_email'])){
 		$email_to = $form_meta_data['inbound_notify_email'];
+		$email_addresses = explode(",", $email_to[0]);
+			if(is_array($email_addresses) && count($email_addresses) > 1) {
+				$multi_send = true;
+			}
 		}
 
 		/* print_r($form_meta_data); exit;
@@ -688,7 +690,15 @@ class InboundForms {
 			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $to, $email_subject, $email_message, $headers );
+			if($multi_send) {
+				foreach ($email_addresses as $key => $recipient) {
+				wp_mail( $recipient, $email_subject, $email_message, $headers );
+				}
+			} else {
+
+				wp_mail( $to, $email_subject, $email_message, $headers );
+			}
+
 			// and set the result text to the shortcode attribute named 'success'
 			//$result = $success;
 			// ...and switch the $sent variable to TRUE

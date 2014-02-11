@@ -131,7 +131,7 @@ function wp_leads_set_lead_fields() {
  * This function adds additional fields to your lead profiles.
  * Label: Name of the Field
  * key: Meta key associated with data
- * priority: Where you want the fields placed. See https://github.com/inboundnow/leads/blob/master/modules/wpl.m.userfields.php#L7 for current weights
+ * priority: Where you want the fields placed. See https://github.com/inboundnow/leads/blob/master/modules/module.userfields.php#L7 for current weights
  * type: type of user area. 'text' or 'textarea'
  */
 /*

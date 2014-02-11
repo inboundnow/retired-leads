@@ -725,7 +725,7 @@ ul.tabs-nav li:last-child{
 
 /* Content Box
  * ----------------------------------------------------- */
-.content-box{
+.inbound-content-box{
     background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255,255,255,0.5);
@@ -736,31 +736,31 @@ ul.tabs-nav li:last-child{
     position: relative;
     text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
 }
-.content-box > p:last-child{
+.inbound-content-box > p:last-child{
     margin-bottom: 0;
 }
-.content-box.blue{
+.inbound-content-box.blue{
     background: #EEF9FC;
     border: 1px solid #dfecf9;
 }
-.content-box.green{
+.inbound-content-box.green{
     background: #E9FFD6;
     border: 1px solid #D4F2BB;
 }
-.content-box.red{
+.inbound-content-box.red{
     background: #FCE3E3;
     border: 1px solid #fcd1d1;
 }
-.content-box.yellow{
+.inbound-content-box.yellow{
     background: #fcf7d1;
     border: 1px solid #f2ebba;
 }
-.content-box h1,
-.content-box h2,
-.content-box h3,
-.content-box h4,
-.content-box h5,
-.content-box h6{
+.inbound-content-box h1,
+.inbound-content-box h2,
+.inbound-content-box h3,
+.inbound-content-box h4,
+.inbound-content-box h5,
+.inbound-content-box h6{
     margin-bottom: 10px;
 }
 

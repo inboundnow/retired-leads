@@ -1,5 +1,8 @@
-
-
+	/* Cookie compatibility */
+	var cookies = (typeof (jQuery.cookie) != "undefined" ? true : false); // Check for JQuery Cookie
+	function cookie_notice() {
+	    alert('Oh no! jQuery Cookie not loaded. Your Server Might be Blocking this. Some functionality may be impaired');
+	}
 	// Row add function
 	function row_add_callback()
 			{
@@ -639,7 +642,12 @@
 			                           }, 5000);
 			                } else {
 			                	// set correct ID for insert
+			                	if(cookies){
 			                	var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+			                	} else {
+			                	var insert_to = 'content';
+			                	}
+
 			                	 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, final_short_form);
 			                	//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
 			                	/* Fix for editor not recognizing shortcode' */
@@ -721,7 +729,7 @@
 					jQuery(this).text("Hide advanced options");
 
     		});
-			
+
     		jQuery("body").on('click', '.hide-advanced-options', function () {
 
 					jQuery(this).parent().parent().parent().parent().find(".inbound-tab-class-advanced").hide();
@@ -817,7 +825,12 @@
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							}
 							// set correct ID for insert
-							var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+							if(cookies){
+							 var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
+							} else {
+							 var insert_to = 'content';
+							}
+
 							 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
 							//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
 							/* Fix for editor not recognizing shortcode' */
@@ -883,7 +896,9 @@
 		        }
 
 		        console.log(editor_name);
-		        jQuery.cookie('inbound_shortcode_editor_name', editor_name);
+		        if(cookies){
+		         jQuery.cookie('inbound_shortcode_editor_name', editor_name);
+		        }
 		        //jQuery.cookie('media_init', 1);
 		       // tb_show('', 'media-upload.php?type=image&type=image&amp;TB_iframe=true');
 		        return false;
@@ -897,10 +912,12 @@
 
 			window.history.replaceState({}, document.title, window_url);
 		}
-
-		var clicked = jQuery.cookie("inbound_shortcode_trigger");
+		if(cookies){
+			var clicked = jQuery.cookie("inbound_shortcode_trigger");
+		} else {
+			var clicked = "true";
+		}
 		if (clicked != "true") {
-
 
 			var alert = "<div class='updated inbound-shortcode-trigger'>Looks like you haven't clicked the <img style='vertical-align: bottom;' src='" + inbound_load.image_dir + "shortcodes-blue.png'> button <span style='background:yellow'>(highlighted in yellow)</span> in the content editor below. There are some awesome shortcodes for you to use! Check it out! <span style='float:right; color:red;' class='inbound-dismiss-shortcode'>Dismiss this</span></div>";
 			jQuery(".wrap h2").first().after(alert);
@@ -911,9 +928,10 @@
 		}
 
 		jQuery("body").on('click', '.inbound-dismiss-shortcode', function () {
+			if(cookies){
 			jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
+			}
 			jQuery('.updated').hide();
 		});
 
 	});
-
