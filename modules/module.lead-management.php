@@ -638,7 +638,7 @@ function lead_management_admin_screen() {
 			    $final_cats .= $prefix . $value;
 			    $prefix = ', ';
 			}
-			$q = "&tax=$cat";
+
 		}
 
 
@@ -979,6 +979,38 @@ $url = get_option('siteurl');
 </script>
 <?php }
 
+function add_lead_to_list_tax($lead_id, $list_id) {
+
+	$current_lists = wp_get_post_terms( $lead_id, 'wplead_list_category', 'id' );
+	$all_terms = array();
+	foreach ($current_lists as $term ) {
+		$add = $term->term_id;
+		$all_terms[] = $add;
+	}
+
+	if ( !in_array($list_id, $all_terms) ) {
+		$all_terms[] = $list_id;
+		wp_set_object_terms( $lead_id, $all_terms, 'wplead_list_category');
+	}
+}
+
+function remove_lead_from_list_tax($lead_id, $list_id) {
+	$current_terms = wp_get_post_terms( $lead_id, 'wplead_list_category', 'id' );
+	$all_remove_terms = '';
+	foreach ($current_terms as $term ) {
+		$add = $term->term_id;
+		$all_remove_terms .= $add . ' ,';
+	}
+	$final = explode(' ,', $all_remove_terms);
+	$final = array_filter($final, 'strlen');
+
+	if (in_array($list_id, $final) ) {
+		$new = array_flip ( $final );
+		unset($new[$list_id]);
+		$save = array_flip ( $new );
+		wp_set_object_terms( $lead_id, $save, 'wplead_list_category');
+	}
+}
 
 add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
 function lead_action_admin_action() {
@@ -1015,25 +1047,11 @@ function lead_action_admin_action() {
 		// We've been told to tag these posts with the given category.
 		if ( !empty($_GET['add']) ) {
 
-			foreach ( (array) $_GET['ids'] as $id ) {
-				$id = intval($id);
-				// $cats = wp_get_post_terms($id, "wplead_list_category_action"); // gets all cats
+			foreach ( $_GET['ids'] as $id ) {
+				$fid = intval($id);
 
-				$current_terms = wp_get_post_terms( $id, $this_tax, 'id' );
-				$current_terms_count = count($terms);
-				//print_r($current_terms);
-				$all_terms = array();
-				foreach ($current_terms as $term ) {
-					$add = $term->term_id;
-					$all_terms[] = $add;
-				}
+				add_lead_to_list_tax($fid, $cat); // add to list
 
-				//$cats = wp_get_post_categories($id);
-				if ( !in_array($cat, $all_terms) ) {
-					$all_terms[] = $cat;
-					//wp_set_post_categories($id, $cats);
-					wp_set_object_terms( $id, $all_terms, 'wplead_list_category');
-				}
 			}
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=$num$query");
 			die;
@@ -1042,30 +1060,9 @@ function lead_action_admin_action() {
 		elseif ( !empty($_GET['remove']) ) {
 			// wp_delete_term($wplead_cat_id,'wplead_list_category_action');
 			foreach ( (array) $_GET['ids'] as $id ) {
-				$id = intval($id);
+				$fid = intval($id);
 				// $cats = wp_get_post_terms($id, "wplead_list_category_action"); // gets all cats
-
-				$current_terms = wp_get_post_terms( $id, $this_tax, 'id' );
-				$current_terms_count = count($terms);
-				//print_r($current_terms);
-				$all_remove_terms = '';
-				foreach ($current_terms as $term ) {
-					$add = $term->term_id;
-					$all_remove_terms .= $add . ' ,';
-				}
-				$final = explode(' ,', $all_remove_terms);
-
-				$final = array_filter($final, 'strlen');
-
-				//$cats = wp_get_post_categories($id);
-				if (in_array($cat, $final) ) {
-					$new = array_flip ( $final );
-					unset($new[$cat]);
-					$save = array_flip ( $new );
-					//print_r($save);
-					//wp_set_post_categories($id, $cats);
-					wp_set_object_terms( $id, $save, 'wplead_list_category');
-				}
+				remove_lead_from_list_tax($fid, $cat);
 			}
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=$num");
 			die;

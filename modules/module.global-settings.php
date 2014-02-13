@@ -82,12 +82,12 @@
 				'options' => array('1'=>'On','0'=>'Off')
 			),
 			array(
-				'id'  => 'lead_rules_cronjob_period',
-				'label' => 'Cronjob Settings',
-				'description' => "<p>Set how often you would like to process lead rules.</p>",
+				'id'  => 'lead_automation_cronjob_period',
+				'label' => 'How often do you want to process marketing automation rules?',
+				'description' => "<p>Set how often you would like to process lead automation? Cronjob Settings.</p>",
 				'type'  => 'dropdown',
 				'default'  => 'hourly',
-				'options' => array('twicedaily'=>'twicedaily','daily'=>'daily','hourly'=>'hourly')
+				'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
 			)
 		);
 
@@ -262,7 +262,7 @@
 							foreach ($field['options'] as $value=>$label) {
 								echo '<option', $field['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
 							}
-							echo '</select><br /><div class="wpl_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
+							echo '</select><div class="wpl_tooltip tool_dropdown" title="'.$field['description'].'"></div>';
 						break;
 						case 'html':
 							echo $field['value'];

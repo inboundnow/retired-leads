@@ -1,8 +1,8 @@
-#ma-rule-name {
+#ma-automation-name {
 	width:284px;
 }
 
-#ma-rule-if-condition
+#ma-automation-if-condition
 {
 	width:38px;
 }
@@ -22,7 +22,7 @@
 	display:none;
 }
 
-.rule-delete-condition-button img
+.automation-delete-condition-button img
 {
    cursor:pointer;
    width:16px;
@@ -31,24 +31,24 @@
    margin-left:-8px;
 }
 
-.rule-delete-condition-button
+.automation-delete-condition-button
 {
    display:none;
 
 }
 
-.rule-save-button-container
+.automation-save-button-container
 {
 	text-align:right;
-	
+
 }
 
-.rule-hidden-steps
+.automation-hidden-steps
 {
 	display:none;
 }
 
-.ma-td 
+.ma-td
 {
 	padding:5px;
 }
@@ -61,20 +61,20 @@
 	padding: 13px;
 	vertical-align:top;
 	width:140px;
-	
+
 }
 
-.rules_text_input
+.automation_text_input
 {
-	width:100px; 
+	width:100px;
 }
 
-.rules_check_box_table
+.automation_check_box_table
 {
 	display:inline;
 }
 
-.rules-div-add-new-rule-condition
+.rules-div-add-new-automation-condition
 {
 	float:right;
 }
@@ -95,5 +95,5 @@
     text-shadow: 0 1px 0 #FFFFFF;
 	cursor:pointer;
     background: white;
-	
+
 }

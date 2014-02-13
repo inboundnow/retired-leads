@@ -1,21 +1,21 @@
 <?php
 
 /*  Generate Lead Rule Processing Batch */
-add_action('wp_ajax_rules_run_rules_on_all_leads', 'wpleads_lead_rules_build_queue');
-add_action('wp_ajax_nopriv_rules_run_rules_on_all_leads', 'wpleads_lead_rules_build_queue');
+add_action('wp_ajax_automation_run_automation_on_all_leads', 'wpleads_lead_automation_build_queue');
+add_action('wp_ajax_nopriv_automation_run_automation_on_all_leads', 'wpleads_lead_automation_build_queue');
 
-function wpleads_lead_rules_build_queue()
+function wpleads_lead_automation_build_queue()
 {
 	global $wpdb;
 
-	$rule_id = $_POST['rule_id'];
-	$rules_queue = get_option( 'rules_queue');
-	$rules_queue = json_decode( $rules_queue , true);
+	$automation_id = $_POST['automation_id'];
+	$automation_queue = get_option( 'automation_queue');
+	$automation_queue = json_decode( $automation_queue , true);
 
-	if ( !is_array($rules_queue) )
-		$rules_queue = array();
+	if ( !is_array($automation_queue) )
+		$automation_queue = array();
 
-	if ( !in_array( $rule_id , $rules_queue ) )
+	if ( !in_array( $automation_id , $automation_queue ) )
 	{
 		/* get all lead ids */
 		$sql = "SELECT distinct(ID) FROM {$wpdb->prefix}posts WHERE post_status='publish'  AND post_type = 'wp-lead' ";
@@ -32,16 +32,16 @@ function wpleads_lead_rules_build_queue()
 				$row=0;
 			}
 
-			$rules_queue[$rule_id][$batch][] = $lead['ID'];
+			$automation_queue[$automation_id][$batch][] = $lead['ID'];
 
 			$row++;
 		}
 	}
 
-	$rules_queue = json_encode( $rules_queue);
-	update_option( 'rules_queue' , $rules_queue);
+	$automation_queue = json_encode( $automation_queue);
+	update_option( 'automation_queue' , $automation_queue);
 
-	var_dump($rules_queue);
+	var_dump($automation_queue);
 	die();
 }
 

@@ -32,6 +32,18 @@ function wpleads_register() {
 
     register_post_type( 'wp-lead' , $args );
 
+	register_taxonomy('wplead_list_category','wp-lead', array(
+            'hierarchical' => true,
+            'label' => "Lead Lists",
+            'singular_label' => "List Management",
+            'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_nav_menus' => true,
+            'query_var' => true,
+			"rewrite" => false
+
+    ));
+
 }
 
 /* KEEP DATETIME TRACK OF UPDATED POST META FOR WP-LEAD CPT */

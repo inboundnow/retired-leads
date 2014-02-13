@@ -153,11 +153,22 @@ jQuery(document).ready(function($) {
 
 
 	//interval = setInterval(pull_leads,3000);
-
-
+	function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	var ajax_toggle = getParameterByName('submit');
+	var run_ajax = false;
+	if (typeof (ajax_toggle) != "undefined" && ajax_toggle != null && ajax_toggle != "") {
+		var run_ajax = true;
+	}
 	// run initial lead pull
 	setTimeout(function() {
-	              pull_leads()
+		if (run_ajax){
+			pull_leads();
+		}
 	}, 2000);
 	// run on ajax done
 	function run_lead_pull_again() {
