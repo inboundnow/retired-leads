@@ -1,10 +1,12 @@
 var inbound_form_data = inbound_form_data || {};
+// Ensure global _gaq Google Analytics queue has been initialized.
+var _gaq = _gaq || [];
 
 function add_inbound_form_class(el, value) {
-  var value = value.replace(" ", "_");
-  var value = value.replace("-", "_");
-  el.addClass('inbound_map_value');
-  el.attr('data-inbound-form-map', 'inbound_map_' + value);
+  //var value = value.replace(" ", "_");
+  //var value = value.replace("-", "_");
+  //el.addClass('inbound_map_value');
+  //el.attr('data-inbound-form-map', 'inbound_map_' + value);
 }
 
 function get_inbound_form_value(el) {
@@ -44,6 +46,10 @@ function trim(s) {
     s = s.replace(/\n /,"\n"); return s;
 }
 
+function inbound_ga_log_event(category, action, label) {
+  _gaq.push(['_trackEvent', category, action, label]);
+}
+
 // Run Form Mapper
 // TODO check for already processesed fields via in_object_already
 // check on the dupe value
@@ -60,7 +66,7 @@ function run_field_map_function(el, lookingfor) {
       for (var i = 0; i < array.length; i++) {
           var clean_output = trim(array[i]);
           var nice_name = clean_output.replace(/^\s+|\s+$/g,'');
-          var nice_name = nice_name.replace(" ",'-');
+          var nice_name = nice_name.replace(" ",'_');
           var in_object_already = nice_name in inbound_form_data;
           //console.log(clean_output);
 
@@ -128,7 +134,7 @@ function return_mapped_values(this_form) {
 	jQuery(this_form).find('input[type=text],input[type=email],textarea,select').each(function() {
 		var this_input = jQuery(this);
 		if (this.value) {
-		var inbound_form_data = run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, phone, tele, address");
+		var inbound_form_data = run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, tele, address");
 		}
 		return inbound_form_data;
 	});
@@ -140,6 +146,25 @@ function merge_form_options(obj1,obj2){
     for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
     for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
     return obj3;
+}
+
+function release_form_sub(this_form, element_type){
+	jQuery('body, button, input, input[type="button"]').css('cursor', 'default');
+
+	if (element_type=='FORM') {
+		this_form.unbind('submit');
+		this_form.submit();
+	}
+
+	if (element_type=='A') {
+		this_form.unbind('wpl-track-me');
+
+		if (a_href) {
+			window.location = a_href;
+		} else {
+			location.reload();
+		}
+	}
 }
 
 jQuery(document).ready(function($) {
@@ -154,13 +179,11 @@ jQuery(document).ready(function($) {
 		if (processed === true) {
 			return;
 		}
+		// halt normal form submission
+		$('body, button, input[type="button"], input').css('cursor', 'wait');
+		e.preventDefault();
 
-		form_id = this_form.attr('id');
-		form_class = this_form.attr('class');
-
-		e.preventDefault(); // halt normal form
-
-		// Email Validation
+		// Email Validation Check
 		var inbound_form_exists = $("#inbound-form-wrapper").length;
 		var email_validation = $(".inbound-email.invalid-email").length;
 		if (email_validation > 0 && inbound_form_exists > 0) {
@@ -169,46 +192,57 @@ jQuery(document).ready(function($) {
 			return false;
 		}
 
-		jQuery('button, input[type="button"]').css('cursor', 'wait');
-		jQuery('input').css('cursor', 'wait');
-		jQuery('body').css('cursor', 'wait');
-
-
 		/* Define Variables */
 		var tracking_obj = "";
-		var page_view_count = countProperties(pageviewObj);
-		var inbound_form_data = inbound_form_data || {}; // Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
+
+		// Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
+		var inbound_form_data = inbound_form_data || {};
+		inbound_form_data['page_view_count'] = countProperties(pageviewObj);
 		inbound_form_data['leads_list'] = jQuery(this_form).find('#inbound_form_lists').val();
-		var source = jQuery.cookie("wp_lead_referral_site");
+		inbound_form_data['source'] = jQuery.cookie("wp_lead_referral_site") || "NA";
+		inbound_form_data['page_id'] = inbound_ajax.post_id;
 
 		// Map form fields
 		var returned_form_data = return_mapped_values(this_form);
 		var inbound_form_data = merge_form_options(inbound_form_data,returned_form_data);
-		console.log(inbound_form_data);
+		//console.log(inbound_form_data);
 
 		// Set variables
 		var email = inbound_form_data['email'] || false; // back fallback
-		var firstname = inbound_form_data['first-name'] || false;
-		var lastname = inbound_form_data['last-name'] || "";
+		if (!email) {
+		var email = this_form.find('.inbound-email').val() || false; // email fallback
+		inbound_form_data['email'] = email;
+		}
+
+
+		var form_name = this_form.find('.inbound_form_name').val() || "Not Found";
+		inbound_form_data['form_name'] = form_name;
+		var firstname = inbound_form_data['first_name'] || false;
+		var lastname = inbound_form_data['last_name'] || false;
 		var phone = inbound_form_data['phone'] || "";
 		var company = inbound_form_data['company'] || "";
 		var address = inbound_form_data['address'] || "";
+
+		if (firstname && lastname) {
+			inbound_form_data['name'] = firstname + " " + lastname;
+		}
 
 		if(!firstname){
 		  var firstname = inbound_form_data['name'] || false;
 		}
 
-		if (!lastname&&firstname) {
+		if (!lastname && firstname) {
 			var parts = firstname.split(" ");
 			firstname = parts[0];
 			lastname = parts[1];
 		}
-		return false;
+
 		var form_inputs = jQuery('.wpl-track-me').find('input[type=text],input[type=hidden],textarea,select');
 		var post_values = {};
+
 		// unset values with exclude array
 		var inbound_exclude = inbound_exclude || [];
-		inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's');
+		inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id');
 
 		form_inputs.each(function() {
 			if (jQuery.inArray(this.name, inbound_exclude) === -1){
@@ -220,39 +254,37 @@ jQuery(document).ready(function($) {
 			}
 		});
 
-		var post_values_json = JSON.stringify(post_values);
+		var all_form_fields = JSON.stringify(post_values);
 
-		var wp_lead_uid = jQuery.cookie("wp_lead_uid");
 		var page_views = JSON.stringify(pageviewObj);
-		var page_id = inbound_ajax.post_id;
+
 		if (typeof (landing_path_info) != "undefined" && landing_path_info != null && landing_path_info != "") {
 			var lp_variation = landing_path_info.variation;
 		} else if (typeof (cta_path_info) != "undefined" && cta_path_info != null && cta_path_info != "") {
 			var lp_variation = cta_path_info.variation;
 		} else {
-			var lp_variation = null;
+			var lp_variation = 0;
 		}
 
-		jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 });
-
-		// Ensure global _gaq Google Analytics queue has been initialized.
-		 var _gaq = _gaq || [];
-
-		function inbound_ga_log_event(category, action, label) {
-		  _gaq.push(['_trackEvent', category, action, label]);
-		}
+		inbound_form_data['variation'] = lp_variation;
+		inbound_form_data['post_type'] = inbound_ajax.post_type;
+		inbound_form_data['wp_lead_uid'] = jQuery.cookie("wp_lead_uid") || null;
 
 		var lp_check = (inbound_ajax.post_type === 'landing-page') ? 'Landing Page' : "";
 		var cta_check = (inbound_ajax.post_type === 'wp-call-to-action') ? 'Call to Action' : "";
 		var page_type = (!cta_check && !lp_check) ? inbound_ajax.post_type : lp_check + cta_check;
-		var post_form_data = JSON.stringify(inbound_form_data);
 
+		// jsonify inbound_form_data
+		var post_form_data = JSON.stringify(inbound_form_data);
+		console.log(post_form_data);
+
+		jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 }); // save email
+		return false;
 		jQuery.ajax({
 			type: 'POST',
 			url: inbound_ajax.admin_url,
 			timeout: 10000,
 			data: {
-				element_type : element_type,
 				action: 'inbound_store_lead',
 				emailTo: email,
 				first_name: firstname,
@@ -260,16 +292,9 @@ jQuery(document).ready(function($) {
 				phone: phone,
 				address: address,
 				company_name: company,
-				wp_lead_uid: wp_lead_uid,
-				page_view_count: page_view_count,
 				page_views: page_views,
-				post_type: inbound_ajax.post_type,
-				lp_variation: lp_variation,
-				json: tracking_obj, // replace with page_view_obj
-				raw_post_values_json : post_values_json,
-				lp_id: page_id,
-				source: source,
-				Form_Data: post_form_data
+				raw_post_values_json : all_form_fields,
+				Mapped_Data: post_form_data
 				/* Replace with jquery hook
 					do_action('wpl-lead-collection-add-ajax-data');
 				*/
@@ -279,24 +304,22 @@ jQuery(document).ready(function($) {
 					jQuery.cookie("wp_lead_id", user_id, { path: '/', expires: 365 });
 					jQuery.totalStorage('wp_lead_id', user_id);
 					this_form.addClass('lead_processed');
-					inbound_ga_log_event('Inbound Form Conversions', 'Conversion', "Conversion on "+ page_type + ' ID: ' + page_id + ' on ' + window.location.href); // GA push
+					inbound_ga_log_event('Inbound Form Conversions', 'Conversion', "Conversion on '"+ form_name + "' form on page '" + document.title + "' on url '" + window.location.href + "'"); // GA push
+					//console.log(_gaq);
 
 					// Unbind form
-					this_form.unbind('click');
-					this_form.submit();
+					release_form_sub(this_form, 'FORM');
 
-					jQuery('button, input[type="button"]').css('cursor', 'default');
-					jQuery('input').css('cursor', 'default');
-					jQuery('body').css('cursor', 'default');
+					$('body, button, input[type="button"], input').css('cursor', 'default');
 
-
-					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
+
+
 				   },
 			error: function(MLHttpRequest, textStatus, errorThrown){
-					//alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+					//console.log(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
 
 					// Create fallback localstorage object
 					var conversionObj = new Array();
@@ -310,9 +333,8 @@ jQuery(document).ready(function($) {
 										page_views: page_views,
 										post_type: inbound_ajax.post_type,
 										lp_variation: lp_variation,
-										json: tracking_obj,
 										// type: 'form-completion',
-										raw_post_values_json : post_values_json,
+										raw_post_values_json : all_form_fields,
 										lp_id: page_id
 										});
 
@@ -372,13 +394,10 @@ jQuery(document).ready(function($) {
 			timeout: 10000,
 			data: {
 				action: 'inbound_store_lead',
-				element_type : 'A',
 				wp_lead_uid: wp_lead_uid,
-				page_view_count: page_view_count,
 				page_views: page_views,
 				post_type: inbound_ajax.post_type,
 				lp_variation: lp_variation,
-				json: tracking_obj, // replace with page_view_obj
 				lp_id: page_id
 				/* Replace with jquery hook
 					do_action('wpl-lead-collection-add-ajax-data');
@@ -390,24 +409,15 @@ jQuery(document).ready(function($) {
 					jQuery.totalStorage('wp_lead_id', user_id);
 					this_form.addClass('lead_processed');
 
-					this_form.unbind('click');
+					// Unbind form
+					release_form_sub(this_form, 'A');
 
-					if (a_href)
-					{
-						window.location = a_href;
-					}
-					else
-					{
-						location.reload();
-					}
-
-					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
 				   },
 			error: function(MLHttpRequest, textStatus, errorThrown){
-					//alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+					//console.log(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
 
 					// Create fallback localstorage object
 					var conversionObj = new Array();
@@ -417,13 +427,12 @@ jQuery(document).ready(function($) {
 										first_name: firstname,
 										last_name: lastname,
 										wp_lead_uid: wp_lead_uid,
-										page_view_count: page_view_count,
+
 										page_views: page_views,
 										post_type: inbound_ajax.post_type,
 										lp_variation: lp_variation,
-										json: tracking_obj,
 										// type: 'form-completion',
-										raw_post_values_json : post_values_json,
+										raw_post_values_json : all_form_fields,
 										lp_id: page_id
 										});
 
@@ -442,12 +451,12 @@ jQuery(document).ready(function($) {
 });
 
 
-/*  Fallback for form ajax fails */
+/*  Fallback for lead storage if ajax fails */
 var failed_conversion = jQuery.cookie("failed_conversion");
 var fallback_obj = jQuery.totalStorage('failed_conversion');
 
 if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
-	if (typeof fallback_obj =='object' && fallback_obj) {
+	if (typeof fallback_obj == 'object' && fallback_obj) {
 		//console.log('fallback ran');
 			jQuery.ajax({
 				type: 'POST',
@@ -458,7 +467,7 @@ if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
 						first_name: fallback_obj[0].first_name,
 						last_name: fallback_obj[0].last_name,
 						wp_lead_uid: fallback_obj[0].wp_lead_uid,
-						page_view_count: fallback_obj[0].page_view_count,
+
 						page_views: fallback_obj[0].page_views,
 						post_type: fallback_obj[0].post_type,
 						lp_variation: fallback_obj[0].lp_variation,
@@ -474,36 +483,14 @@ if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
 					//console.log('Fallback fired');
 					jQuery.removeCookie("failed_conversion"); // remove failed cookie
 					jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data
-					jQuery.totalStorage.deleteItem('cpath'); // remove cpath
-					   },
+				},
 				error: function(MLHttpRequest, textStatus, errorThrown){
 						//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
 						//die();
-					}
+				}
 
 			});
 	}
 }
 
 });
-
-function release_form_sub(this_form , element_type){
-	jQuery('button, input[type="button"]').css('cursor', 'default');
-	jQuery('input').css('cursor', 'default');
-	jQuery('body').css('cursor', 'default');
-
-	if (element_type=='FORM') {
-		this_form.unbind('submit');
-		this_form.submit();
-	}
-
-	if (element_type=='A') {
-		this_form.unbind('wpl-track-me');
-
-		if (a_href) {
-			window.location = a_href;
-		} else {
-			location.reload();
-		}
-	}
-}
