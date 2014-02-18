@@ -20,12 +20,10 @@ $uploads = wp_upload_dir();
 define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
 define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
 
-if (is_admin())
+if (is_admin()){
 	if(!isset($_SESSION)){@session_start();}
+}
 
-
-	echo $_REQUEST['param'];
-	echo hi;
 /* load core files */
 switch (is_admin()) :
 	case true :
@@ -68,7 +66,7 @@ switch (is_admin()) :
 		BREAK;
 endswitch;
 
-/* load cron definitions - must be loaded outside of is_admin() conditional */
+/* load cron definitions - has to be loaded outside of is_admin() conditional */
 include_once('modules/module.cron.lead-rules.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
