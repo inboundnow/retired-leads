@@ -103,7 +103,7 @@ text-align: right;
 .inbound-label.inbound-input-radio {
     display: block;
 }
-.rule-done {
+.automation-done {
 margin-top: 4px;
 width: auto !important;
 float: left;

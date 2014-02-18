@@ -1,5 +1,8 @@
 <?php
-/* CPT Lead Lists */
+/* CPT Lead Lists
+
+// LIST CPT IS RETIRED NOW. wplead_list_category taxonomy controls lists
+
 add_action('init', 'wpleads_register_list',11);
 function wpleads_register_list() {
 	//echo $slug;exit;
@@ -55,12 +58,7 @@ function wpleads_register_list() {
 		//print_r($submenu); exit;
 	}
 }
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*********************** PREPARE COLLUMNS FOR LISTS****************************************************************************/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-
+*/
 if (is_admin())
 {
 	// Change the columns for the edit CPT screen
@@ -337,6 +335,7 @@ function wpleads_add_lead_to_list( $list_id, $lead_id )
 	}
 	else
 	{
+		// REWRITE TO GET TAX ID
 		$list = get_post($list_id);
 		$list_name = $list->post_name;
 		$wpleads_list_ids[$list_name]['list_id'] = $list_id;
@@ -390,22 +389,20 @@ function wpleads_remove_lead_from_list( $list_id, $lead_id )
 
 }
 
-/* Get Array of Lead Lists */
-function wpleads_get_lead_lists_as_array()
-{
+/* Get Array of Lead Lists from taxonomy */
+function wpleads_get_lead_lists_as_array() {
 
-	$lists = get_posts('post_type=list&posts_per_page=-1');
+	$args = array(
+	    'hide_empty' => false,
+	);
+	$terms = get_terms('wplead_list_category', $args);
 
-	foreach ( $lists as $list  )
-	{
-		$array[$list->ID] = $list->post_title;
-
+	foreach ( $terms as $term  ) {
+		$array[$term->term_id] = $term->name;
 	}
 
 	return $array;
 }
-
-
 
 
 ?>

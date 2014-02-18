@@ -6,9 +6,9 @@ add_action('wp_enqueue_scripts', 'wpleads_enqueuescripts_header');
 function wpleads_enqueuescripts_header()
 {
 	global $post;
-	
+
 	$post_type = isset($post) ? get_post_type( $post ) : null;
-	
+
 	$current_page = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 	$post_id = wpl_url_to_postid($current_page);
 
@@ -34,7 +34,7 @@ function wpleads_enqueuescripts_header()
 	}
 
 	// Load Tracking Scripts
-	if($post_type != "wp-call-to-action") 
+	if($post_type != "wp-call-to-action")
 	{
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('jquery-cookie', WPL_URL . '/js/jquery.cookie.js', array( 'jquery' ));
@@ -97,15 +97,15 @@ add_action('admin_enqueue_scripts', 'wpleads_admin_enqueuescripts');
 function wpleads_admin_enqueuescripts($hook)
 {
 	global $post;
-	
+
 	$post_type = isset($post) ? get_post_type( $post ) : null;
-	
+
 	if (isset($_GET['taxonomy'])){
 		return;
 	}
-	
+
 	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
-	
+
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
 		//echo $_GET['post_type'];exit;
@@ -116,11 +116,11 @@ function wpleads_admin_enqueuescripts($hook)
 			wp_enqueue_script('tag-cloud', WPL_URL.'/js/jquery.tagcloud.js', array('jquery'));
 			wp_localize_script( 'wpleads-edit', 'wp_lead_map', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_lead_map_nonce' => wp_create_nonce('wp-lead-map-nonce') ) );
 			wp_enqueue_script('jquery-cookie', WPL_URL . '/shared/js/jquery.cookie.js', array( 'jquery' ));
-			
+
 			if (isset($_GET['small_lead_preview'])) {
 				wp_enqueue_style('wpleads-popup-css', WPL_URL.'/css/wpl.popup.css');
 			}
-			
+
 			wp_enqueue_style('wpleads-admin-edit-css', WPL_URL.'/css/wpl.edit-lead.css');
 		}
 
@@ -158,25 +158,25 @@ function wpleads_admin_enqueuescripts($hook)
 		wp_enqueue_style('wpleads-list-css', WPL_URL.'/css/wpl.leads-list.css');
 		wp_enqueue_script('lls-edit-list-cpt', WPL_URL . '/js/wpl.admin.cpt.list.js');
 	}
-	
+
 	/* do enqueues for global settings */
 	if (isset($_GET['page'])&&($_GET['page']=='lp_global_settings'&&$_GET['page']=='lp_global_settings'))
 	{
 		wp_enqueue_style('wpl_manage_lead_css', WPL_URL . '/css/wpl.admin-global-settings.css');
 	}
-	
+
 	/* do enqueue for post type rule */
-	if ((isset($post)&&$post->post_type=='rule')||(isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='rule'))
+	if ((isset($post)&&$post->post_type=='automation')||(isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='automation'))
 	{
 		wp_enqueue_script('jquery-qtip', WPL_URL . '/js/jquery-qtip/jquery.qtip.min.js');
 		wp_enqueue_script('rules-load-qtip', WPL_URL . '/js/jquery-qtip/load.qtip.js');
-		
+
 		if (isset($post))
 		{
-			wp_enqueue_script('rules-rules-js', WPL_URL . '/js/admin.rules-management.js');
-			wp_localize_script( 'rules-rules-js' , 'rules_rule', array( 'rule_id' => $post->ID , 'admin_url' => admin_url('admin-ajax.php')));
-		
-			wp_enqueue_style('rules-rules-management-css', WPL_URL.'/css/admin.rules-management.css');
+			wp_enqueue_script('automation-js', WPL_URL . '/js/admin.rules-management.js');
+			wp_localize_script( 'automation-js' , 'automation_rule', array( 'automation_id' => $post->ID , 'admin_url' => admin_url('admin-ajax.php')));
+
+			wp_enqueue_style('automation-management-css', WPL_URL.'/css/admin.rules-management.css');
 		}
 	}
 

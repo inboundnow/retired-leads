@@ -20,31 +20,33 @@ $uploads = wp_upload_dir();
 define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
 define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
 
-if (is_admin()){
+if (is_admin())
 	if(!isset($_SESSION)){@session_start();}
-}
+
+
+
+/* loads global */
+include_once('modules/module.lead-management.php');
+include_once('modules/module.enqueue.php');
+include_once('modules/module.post-type.wp-lead.php');
+include_once('modules/module.post-type.list.php');
+include_once('modules/module.ajax-setup.php');
+include_once('modules/module.form-integrations.php');
+include_once('modules/module.post-type.automation.php');
 
 /* load core files */
 switch (is_admin()) :
 	case true :
 
-		/* loads global */
-		include_once('modules/module.enqueue.php');
-		include_once('modules/module.post-type.wp-lead.php');
-		include_once('modules/module.post-type.list.php');
-		include_once('modules/module.ajax-setup.php');
-		include_once('modules/module.form-integrations.php');
-
 		/* load admin */
 		include_once('modules/module.activate.php');
 		include_once('modules/module.nav-menus.php');
-		include_once('modules/module.lead-management.php');
 		include_once('modules/module.metaboxes.wp-lead.php');
-		include_once('modules/module.metaboxes.rule.php');
+		include_once('modules/module.metaboxes.automation.php');
 		include_once('modules/module.wp_list_table-leads.php');
 		include_once('modules/module.metaboxes.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
-		include_once('modules/module.post-type.rule.php');
+		include_once('modules/module.post-type.automation.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.dashboard.php');
 		include_once('modules/module.tracking.php');
@@ -52,21 +54,15 @@ switch (is_admin()) :
 		BREAK;
 
 	case false :
-		/* load global */
-		include_once('modules/module.enqueue.php');
-		include_once('modules/module.post-type.wp-lead.php');
-		include_once('modules/module.post-type.list.php');
-		include_once('modules/module.post-type.rule.php');
-		include_once('modules/module.ajax-setup.php');
-		include_once('modules/module.form-integrations.php');
-		include_once('modules/module.tracking.php');
 
 		/* load frontend */
+		include_once('modules/module.tracking.php');
+
 
 		BREAK;
 endswitch;
 
-/* load cron definitions - has to be loaded outside of is_admin() conditional */
+/* load cron definitions - must be loaded outside of is_admin() conditional */
 include_once('modules/module.cron.lead-rules.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */

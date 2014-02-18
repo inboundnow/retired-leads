@@ -182,7 +182,7 @@ if (!class_exists('InboundFeedback')) {
           </form>
           </section>
           </div>
-          <div id="inbound-rule-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
+          <div id="inbound-automation-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
     </div>
     <style type="text/css">
     #wpfooter {
@@ -257,7 +257,7 @@ if (!class_exists('InboundFeedback')) {
     #lp-slide-toggle {
     display: none;
     }
-    #inbound-rule-footer.inbound-selectron-foot {
+    #inbound-automation-footer.inbound-selectron-foot {
       color: #777;
       font-size: 20px;
       padding: 0 15px !important;
@@ -325,7 +325,7 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
  </style>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-                  jQuery("body").on('click', '#inbound-rule-footer', function () {
+                  jQuery("body").on('click', '#inbound-automation-footer', function () {
 
                     jQuery("#lp-slide-toggle").slideToggle();
                     jQuery("#lp-open-close").toggleClass("lp-options-up");
