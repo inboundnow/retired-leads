@@ -45,11 +45,13 @@ function trim(s) {
 }
 
 // Run Form Mapper
+// TODO check for already processesed fields via in_object_already
+// check on the dupe value
 function run_field_map_function(el, lookingfor) {
   var return_form;
   var formObj = new Array();
   var $this = el;
-
+  var body = jQuery("body");
   var this_val = $this.attr("value");
       var array = lookingfor.split(",");
       var array_length = array.length - 1;
@@ -59,6 +61,7 @@ function run_field_map_function(el, lookingfor) {
           var clean_output = trim(array[i]);
           var nice_name = clean_output.replace(/^\s+|\s+$/g,'');
           var nice_name = nice_name.replace(" ",'-');
+          var in_object_already = nice_name in inbound_form_data;
           //console.log(clean_output);
 
           // Look for attr name match
@@ -66,14 +69,19 @@ function run_field_map_function(el, lookingfor) {
             var the_map = inbound_map_fields($this, clean_output, formObj);
             add_inbound_form_class($this, clean_output);
             console.log('match name: ' + clean_output);
+            console.log(nice_name in inbound_form_data);
+            if (!in_object_already) {
             inbound_form_data[nice_name] = this_val;
+        	}
           }
           // look for id match
           else if ($this.attr("id").toLowerCase().indexOf(clean_output)>-1) {
             var the_map = inbound_map_fields($this, clean_output, formObj);
             add_inbound_form_class($this, clean_output);
             console.log('match id: ' + clean_output);
+            if (!in_object_already) {
             inbound_form_data[nice_name] = this_val;
+        	}
           }
           // Look for label name match
           else if ($this.closest('li').children('label').length>0)
@@ -82,8 +90,15 @@ function run_field_map_function(el, lookingfor) {
             {
               var the_map = inbound_map_fields($this, clean_output, formObj);
               add_inbound_form_class($this, clean_output);
+              console.log($this.context);
+
+              var exists_in_dom = body.find("[data-inbound-form-map='inbound_map_" + nice_name + "']").length;
+              console.log(exists_in_dom);
               console.log('match li: ' + clean_output);
-              inbound_form_data[nice_name] = this_val;
+              if (!in_object_already) {
+              	inbound_form_data[nice_name] = this_val;
+              }
+
             }
           }
           // Look for closest div label name match
@@ -94,9 +109,12 @@ function run_field_map_function(el, lookingfor) {
               var the_map = inbound_map_fields($this, clean_output, formObj);
               add_inbound_form_class($this, clean_output);
               console.log('match div: ' + clean_output);
+              if (!in_object_already) {
               inbound_form_data[nice_name] = this_val;
+          	  }
             }
           } else {
+          	// regex check?
           	return false;
           }
       }
@@ -110,7 +128,7 @@ function return_mapped_values(this_form) {
 	jQuery(this_form).find('input[type=text],input[type=email],textarea,select').each(function() {
 		var this_input = jQuery(this);
 		if (this.value) {
-		var inbound_form_data = run_field_map_function( this_input, "job title, first name, last name, email, e-mail, company, phone, tele, address, name");
+		var inbound_form_data = run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, phone, tele, address");
 		}
 		return inbound_form_data;
 	});
@@ -164,13 +182,6 @@ jQuery(document).ready(function($) {
 		var source = jQuery.cookie("wp_lead_referral_site");
 
 		// Map form fields
-		jQuery(this_form).find('input[type=text],input[type=email],textarea,select').each(function() {
-			var this_input = jQuery(this);
-			if (this.value) {
-			var inbound_form_data = run_field_map_function( this_input, "job title, first name, last name, email, e-mail, company, phone, tele, address");
-			}
-		});
-
 		var returned_form_data = return_mapped_values(this_form);
 		var inbound_form_data = merge_form_options(inbound_form_data,returned_form_data);
 		console.log(inbound_form_data);
@@ -192,7 +203,7 @@ jQuery(document).ready(function($) {
 			firstname = parts[0];
 			lastname = parts[1];
 		}
-
+		return false;
 		var form_inputs = jQuery('.wpl-track-me').find('input[type=text],input[type=hidden],textarea,select');
 		var post_values = {};
 		// unset values with exclude array
