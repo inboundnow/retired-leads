@@ -42,6 +42,7 @@ class Inbound_Asset_Loader {
 
 			$inbound_now_screens = InboundCompatibility::return_inbound_now_screens(); // list of inbound now screens
 			$screen = get_current_screen();
+			//echo $screen->id;
 			/* Target Specific screen with // echo $screen->id;
 			if ( $screen->id != 'landing-page_page_lp_global_settings') {
 
@@ -106,7 +107,8 @@ class Inbound_Asset_Loader {
 		$lead_id = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : false;
 		$lead_email = (isset($_COOKIE['wp_lead_email'])) ? $_COOKIE['wp_lead_email'] : false;
 		$lead_uid = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
-
+		$custom_map_values = array();
+		$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
 		// Get correct post ID
 		if (!is_archive()){
 		   $post_id = (isset($post)) ? $post->ID : false;
@@ -135,7 +137,7 @@ class Inbound_Asset_Loader {
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
 
-		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking);
+		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking, 'custom_mapping' => $custom_map_values);
 
 		return $inbound_localized_data;
 	} // end localize lead data

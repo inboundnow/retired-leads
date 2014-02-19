@@ -285,7 +285,7 @@ function automation_metabox_sidebar_tools() {
 	$automation_queue = get_option('automation_queue');
 
 	$automation_queue = json_decode($automation_queue, true);
-
+	$est_time_remaining = 0;
 	if ( is_array($automation_queue) && array_key_exists( $post->ID , $automation_queue))
 	{
 		$style = "display:inline";
@@ -296,7 +296,7 @@ function automation_metabox_sidebar_tools() {
 			$batch_count[$automation_id] = count($batches);
 		}
 
-		$est_time_remaining = 0;
+
 		foreach ($batch_count as $automation_id => $count)
 		{
 			$time_calc = $count * 2;

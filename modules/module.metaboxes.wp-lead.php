@@ -94,7 +94,7 @@ function wplead_display_quick_stat_metabox() {
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	add_meta_box(
 	'wplead-quick-stats-metabox',
-	__( "Lead Stats", 'wplead_metabox_gravatar_preview' ),
+	__( "Lead Stats", WPL_TEXT_DOMAIN ),
 	'wplead_quick_stats_metabox',
 	'wp-lead' ,
 	'side',
@@ -112,17 +112,17 @@ function leads_time_diff($date1, $date2) {
 	$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
 
 	$time_diff['years'] = $years;
-	$time_diff['y-text'] = ($years > 1) ? "Years" : "Year";
+	$time_diff['y-text'] = ($years > 1) ? __('Years' , WPL_TEXT_DOMAIN) : __('Year' , WPL_TEXT_DOMAIN);
 	$time_diff['months'] = $months;
-	$time_diff['m-text'] = ($months > 1) ? "Months" : "Month";
+	$time_diff['m-text'] = ($months > 1) ? __('Months' , WPL_TEXT_DOMAIN) : __('Month' , WPL_TEXT_DOMAIN);
 	$time_diff['days'] = $days;
-	$time_diff['d-text'] = ($days > 1) ? "Days" : "Day";
+	$time_diff['d-text'] = ($days > 1) ? __('Days' , WPL_TEXT_DOMAIN) : __('Day' , WPL_TEXT_DOMAIN);
 	$time_diff['hours'] = $hours;
-	$time_diff['h-text'] = ($hours > 1) ? "Hours" : "Hour";
+	$time_diff['h-text'] = ($hours > 1) ? __('Hours' , WPL_TEXT_DOMAIN) : __('Hour' , WPL_TEXT_DOMAIN);
 	$time_diff['minutes'] = $minutes;
-	$time_diff['mm-text'] = ($minutes > 1) ? "Minutes" : "Minute";
+	$time_diff['mm-text'] = ($minutes > 1) ? __('Minutes' , WPL_TEXT_DOMAIN) : __('Minute' , WPL_TEXT_DOMAIN);
 	$time_diff['seconds'] = $seconds;
-	$time_diff['sec-text'] = ($seconds > 1) ? "Seconds" : "Second";
+	$time_diff['sec-text'] = ($seconds > 1) ? __('Seconds' , WPL_TEXT_DOMAIN) : __('Second' , WPL_TEXT_DOMAIN);
 
 	return $time_diff;
 }
@@ -132,6 +132,8 @@ function wplead_quick_stats_metabox() {
 	global $wpdb;
 
 	//define last touch point
+	$form_data = get_post_meta($post->ID,'FormData', true);
+	//print_r($form_data);
 
 	$last_conversion = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$last_conversion = json_decode($last_conversion, true);
@@ -165,10 +167,10 @@ function wplead_quick_stats_metabox() {
 		<div class="inside" style='margin-left:-8px;text-align:center;'>
 			<div id="quick-stats-box">
 			<?php do_action('wpleads_before_quickstats', $post);?>
-			<div id="page_view_total">Total Page Views <span id="p-view-total"><?php echo $page_view_count; ?></span>
+			<div id="page_view_total"><?php _e('Total Page Views ' , WPL_TEXT_DOMAIN);?><span id="p-view-total"><?php echo $page_view_count; ?></span>
 			</div>
 
-			<div id="conversion_count_total"># of Conversions <span id="conversion-total"><?php echo $count_conversions; ?></span>
+			<div id="conversion_count_total"><?php _e('# of Conversions ' , WPL_TEXT_DOMAIN);?><span id="conversion-total"><?php echo $count_conversions; ?></span>
 			</div>
 
 		<?php if (!empty($the_date)) {
@@ -191,7 +193,7 @@ function wplead_quick_stats_metabox() {
 		$minute_text = $date_obj['mm-text']; ?>
 
 		<?php // echo "<br>c date:".$the_date . "<br>wpdate:" . $wordpress_date_time; ?>
-			<div id="last_touch_point">Time Since Last Conversion
+			<div id="last_touch_point"><?php _e('Time Since Last Conversion' , WPL_TEXT_DOMAIN);?>
 
 				<span id="touch-point">
 
@@ -232,7 +234,7 @@ function wplead_ip_address_metabox() {
 
 	$geo_result = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
 	$geo_result_body = $geo_result['body'];
-	
+
 	$geo_array = unserialize($geo_result_body);
 
 	$city = get_post_meta($post->ID, 'wpleads_city', true);
@@ -258,18 +260,18 @@ function wplead_ip_address_metabox() {
 					unset($geo_array['geoplugin_currencySymbol']);
 					unset($geo_array['geoplugin_dmaCode']);
 					if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>City:</span>" . $geo_array['geoplugin_city'] . "</div>"; }
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_city'] . "</div>"; }
 					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>State:</span>" . $geo_array['geoplugin_regionName'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('State:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_regionName'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_areaCode']) && $geo_array['geoplugin_areaCode'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>Area Code:</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Area Code:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_countryName']) && $geo_array['geoplugin_countryName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>Country:</span>" . $geo_array['geoplugin_countryName'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Country:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_countryName'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>IP Address:</span>" . $ip_address . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , WPL_TEXT_DOMAIN)."</span>" . $ip_address . "</div>";
 					}
 					/*
 					foreach ($geo_array as $key=>$val)
@@ -283,14 +285,14 @@ function wplead_ip_address_metabox() {
 				}
 				if (($latitude != 0) && ($longitude != 0))
 				{
-					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">View Map</a>';
+					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , WPL_TEXT_DOMAIN).'</a>';
 					echo '<div id="lead-google-map">
 							<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
 							</div>';
 				}
 				else
 				{
-					echo "<h2>No Geo data collected</h2>";
+					echo "<h2>".__('No Geo data collected' , WPL_TEXT_DOMAIN)."</h2>";
 				}
 		?>
 				</div>
@@ -326,7 +328,7 @@ function wp_leads_header_area()
 		$values = get_post_custom( $post->ID );
 		$selected = isset( $values['wp_lead_status'] ) ? esc_attr( $values['wp_lead_status'][0] ) : "";
 		?>
-
+		<!-- REWRITE FOR FILTERS -->
 		<div id='lead-status'>
 			<label for="wp_lead_status">Lead Status:</label>
 			<select name="wp_lead_status" id="wp_lead_status">
@@ -347,8 +349,7 @@ function wp_leads_header_area()
 
 
 add_action( 'save_post', 'wp_leads_save_header_area' );
-function wp_leads_save_header_area( $post_id )
-{
+function wp_leads_save_header_area( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
         return;
 
@@ -363,8 +364,7 @@ function wp_leads_save_header_area( $post_id )
     delete_post_meta( $post_id, $key );
 }
 
-function wp_leads_grab_extra_data()
-{
+function wp_leads_grab_extra_data() {
 
     // do not load on admin
     if (!is_admin() ) {
@@ -408,11 +408,11 @@ function wp_leads_grab_extra_data()
                 update_post_meta($post->ID, 'social_data', $person_obj );
 
             } elseif ($status_code === 404) {
-            	echo "<div class='lead-notice'>No additional data found for this email address. It could be malformed (code: " . $status_code . ")</div>";
+            	//echo "<div class='lead-notice'>No additional data found for this email address. It could be malformed (code: " . $status_code . ")</div>";
                 $person_obj = array(); // return empty on failure
 
             } else {
-                echo "<div class='lead-notice'>Error with Email Parse. Not found in social database (code: " . $status_code . ")</div>";
+                //echo "<div class='lead-notice'>Error with Email Parse. Not found in social database (code: " . $status_code . ")</div>";
                 $person_obj = array(); // return empty on failure
             }
 
@@ -604,7 +604,11 @@ function wpleads_display_metabox_main() {
 			    $gravatar = $default;
 			   	$gravatar2 = WPL_URL . '/images/gravatar_default_32-2x.png';
 			}
-
+			// If social picture exists use it
+			if(preg_match("/gravatar_default_/", $gravatar) && $extra_image != ""){
+				$gravatar = $extra_image;
+				$gravatar2 = $extra_image;
+			}
 			?>
 			<div id="lead_image">
 				<div id="lead_image_container">
@@ -613,10 +617,12 @@ function wpleads_display_metabox_main() {
 				</div>
 				<?php } ?>
 					<?php
-						echo'<img src="'.$gravatar.'"  title="'.$first_name.' '.$last_name.'"></a>';
+						if(preg_match("/gravatar_default_/", $gravatar) && $extra_image != ""){
+							$gravatar = $extra_image;
+						}
+						echo'<img src="'.$gravatar.'" width="150" id="lead-main-image" title="'.$first_name.' '.$last_name.'"></a>';
 						wp_lead_display_extra_data($social_values, 'work'); // Display extra data work history
 						wp_lead_display_extra_data($social_values, 'social'); // Display extra social
-
 					?>
 				</div>
 
@@ -1496,13 +1502,13 @@ function wpleads_save_user_fields($post_id) {
 				}
 				else if (isset($new) && $new != $old ) {
 					update_post_meta($post_id, $field['key'], $new);
-					
+
 					if ($field['key']=='wpleads_email_address')
 					{
 						$args = array( 'ID'=>$post_id , 'post_title' => $new );
 						wp_update_post($args);
 					}
-					
+
 				}
 				else if ('' == $new && $old) {
 					//echo "here";exit;

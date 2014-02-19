@@ -209,27 +209,6 @@ if (is_admin())
 		}
 	}
 
-	//add action for cpt deleting
-	add_action('before_delete_post', 'wpleads_permanently_delete_list');
-	function wpleads_permanently_delete_list($post_id){
-		global $post;
-		//if (!isset($post))
-		//	return;
-		$list_slug = $post->post_name;
-
-		//if role creation is turned on
-		$role_creation = get_option('wpl-main-role-creation', 1);
-
-		if ($role_creation)
-		{
-			$result = remove_role($list_slug);
-		}
-
-		$wplead_cat_id = get_post_meta( $post_id, 'wplead_list_category_id', true);
-		wp_delete_term($wplead_cat_id,'wplead_list_category');
-
-		do_action('wplead_trash_list', $post_id);
-	}
 }
 
 

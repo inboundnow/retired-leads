@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Leads
-Plugin URI: http://www.inboundnow.com/landing-pages/downloads/lead-management/
-Description: Wordpress Lead Manager provides CRM (Customer Relationship Management) applications for WordPress Landing Page plugin. Lead Manager Plugin provides a record management interface for viewing, editing, and exporting lead data collected by Landing Page Plugin.
+Plugin URI: http://www.inboundnow.com/leads/
+Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.3.1
+Version: 1.3.3
 Author URI: http://www.inboundnow.com/landing-pages/
 */
 
-define('WPL_CURRENT_VERSION', '1.3.1' );
+define('WPL_CURRENT_VERSION', '1.3.3' );
 define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -27,12 +27,12 @@ if (is_admin())
 
 /* loads global */
 include_once('modules/module.lead-management.php');
-include_once('modules/module.enqueue.php');
+
 include_once('modules/module.post-type.wp-lead.php');
 include_once('modules/module.post-type.list.php');
 include_once('modules/module.ajax-setup.php');
 include_once('modules/module.form-integrations.php');
-include_once('modules/module.post-type.automation.php');
+//include_once('modules/module.post-type.automation.php');
 
 /* load core files */
 switch (is_admin()) :
@@ -40,22 +40,24 @@ switch (is_admin()) :
 
 		/* load admin */
 		include_once('modules/module.activate.php');
+
 		include_once('modules/module.nav-menus.php');
 		include_once('modules/module.metaboxes.wp-lead.php');
-		include_once('modules/module.metaboxes.automation.php');
+		//include_once('modules/module.metaboxes.automation.php');
 		include_once('modules/module.wp_list_table-leads.php');
 		include_once('modules/module.metaboxes.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
-		include_once('modules/module.post-type.automation.php');
+		//include_once('modules/module.post-type.automation.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.dashboard.php');
 		include_once('modules/module.tracking.php');
-
+		include_once('modules/module.enqueue-admin.php');
 		BREAK;
 
 	case false :
 
 		/* load frontend */
+		include_once('modules/module.enqueue-frontend.php');
 		include_once('modules/module.tracking.php');
 
 

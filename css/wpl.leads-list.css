@@ -1,9 +1,15 @@
 .edit, .trash {
 	font-size: 0px;
-	margin-right: 10px;
+	margin-right: 5px;
 }
 #lead-picture {
 	width: 55px;
+}
+.tablenav .actions select#wplead_list_category {
+	max-width: 110px;
+}
+.tablenav .actions select#lead-tags {
+max-width: 105px;
 }
 select[name='seo_filter'] {
 	display: none;
@@ -87,28 +93,17 @@ border-left: 1px solid #EBEBEA;
 
 }
 .edit a, .trash a, .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
-	background: #94BA65 url('/wp-content/plugins/leads/images/leads-button.png') repeat-x top left;
-border: 1px solid rgba(0,0,0,0.15);
--webkit-border-radius: 2px;
--moz-border-radius: 2px;
-border-radius: 2px;
--webkit-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
--moz-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
-color: #fff;
-cursor: pointer;
 display: inline-block;
-font-size: 14px;
+font-size: 14px !important;
 font-weight: bold;
-padding: 0px 5px;
-text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
+padding: 0px 10px !important;
+margin-right: 5px !important;
 }
-.trash a:hover {
-border: 1px;
+.new-lead-row .mark-viewed-undo {
+ display: none;
 }
-.edit a:hover, .trash a:hover, .clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover  {
-background-image: url('/wp-content/plugins/leads/images/gradhov.png');
-color: #fff;
+ .clone a:hover, .mark-viewed:hover, .mark-viewed-undo:hover  {
+
 }
 .clone a:hover {
 	color:#000;
@@ -122,12 +117,18 @@ color: #fff;
 	display: none ;
 	margin-left: 8px;
 }
-.edit a, .trash a {
+.trash a {
 	color:#fff !important;
 }
 .trash a {
-	background-color: #fc5a5a;
-	font-size: 14px;
+	background: #fc5a5a !important;
+	border-color: #fc5a5a !important;
+	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+}
+.trash a:hover {
+	height: 28px !important;
+	padding-top: 1px !important;
 }
 .clone a {
 	font-size: 14px;
@@ -138,14 +139,4 @@ border-color: #ccc;
 box-shadow: 0px 1px 2px rgba(0,0,0,0.08), inset 1px 1px 1px rgba(255,255,255,0.2);
 color: #666;
 text-shadow: none;
-}
-li.trash a {
-	background-color: transparent;
-	font-size: 12px;
-	color:#21759b !important;
-	border: none;
-	box-shadow: none;
-	border-radius: none;
-	font-weight: normal;
-	text-shadow: none;
 }

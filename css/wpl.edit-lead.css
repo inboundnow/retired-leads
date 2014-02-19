@@ -5,3 +5,6 @@
 #wplead_metabox_main .handlediv {
 	display: none;
 }
+#lead-main-image {
+	min-height: 150px;
+}
