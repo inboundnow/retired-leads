@@ -32,18 +32,80 @@ function wpleads_register() {
 
     register_post_type( 'wp-lead' , $args );
 
-	register_taxonomy('wplead_list_category','wp-lead', array(
-            'hierarchical' => true,
-            'label' => "Lead Lists",
-            'singular_label' => "List Management",
-            'show_ui' => true,
-			'show_in_menu' => true,
-			'show_in_nav_menus' => true,
-            'query_var' => true,
-			"rewrite" => false
 
-    ));
+    // Lead Lists
+    $list_labels = array(
+    	'name'                       => _x( 'Lead Lists', 'taxonomy general name' ),
+    	'singular_name'              => _x( 'Lead List', 'taxonomy singular name' ),
+    	'search_items'               => __( 'Search Lead Lists' ),
+    	'popular_items'              => __( 'Popular Lead Lists' ),
+    	'all_items'                  => __( 'All Lead Lists' ),
+    	'parent_item'                => null,
+    	'parent_item_colon'          => null,
+    	'edit_item'                  => __( 'Edit Lead List' ),
+    	'update_item'                => __( 'Update Lead List' ),
+    	'add_new_item'               => __( 'Add New Lead List' ),
+    	'new_item_name'              => __( 'New Lead List' ),
+    	'separate_items_with_commas' => __( 'Separate Lead Lists with commas' ),
+    	'add_or_remove_items'        => __( 'Add or remove Lead Lists' ),
+    	'choose_from_most_used'      => __( 'Choose from the most used lead List' ),
+    	'not_found'                  => __( 'No Lead Lists found.' ),
+    	'menu_name'                  => __( 'Lead Lists' ),
+    );
 
+	$list_args = array(
+		'hierarchical'          => true,
+		'labels'                => $list_labels,
+		'singular_label' => "List Management",
+		'show_ui'               => true,
+		'show_in_menu' => true,
+		'show_in_nav_menus' => true,
+		'show_admin_column'     => true,
+		'query_var'             => true,
+		'rewrite'               => false,
+	);
+
+	register_taxonomy('wplead_list_category','wp-lead', $list_args );
+
+    // Lead Tags
+    $labels = array(
+    	'name'                       => _x( 'Lead Tags', 'taxonomy general name' ),
+    	'singular_name'              => _x( 'Lead Tag', 'taxonomy singular name' ),
+    	'search_items'               => __( 'Search Lead Tags' ),
+    	'popular_items'              => __( 'Popular Lead Tags' ),
+    	'all_items'                  => __( 'All Lead Tags' ),
+    	'parent_item'                => null,
+    	'parent_item_colon'          => null,
+    	'edit_item'                  => __( 'Edit Lead Tag' ),
+    	'update_item'                => __( 'Update Lead Tag' ),
+    	'add_new_item'               => __( 'Add New Lead Tag' ),
+    	'new_item_name'              => __( 'New Lead Tag' ),
+    	'separate_items_with_commas' => __( 'Separate Lead Tags with commas' ),
+    	'add_or_remove_items'        => __( 'Add or remove Lead Tags' ),
+    	'choose_from_most_used'      => __( 'Choose from the most used lead tags' ),
+    	'not_found'                  => __( 'No lead tags found.' ),
+    	'menu_name'                  => __( 'Lead Tags' ),
+    );
+
+    $args = array(
+    	'hierarchical'          => false,
+    	'labels'                => $labels,
+    	'show_ui'               => true,
+    	'show_admin_column'     => true,
+    	'update_count_callback' => '_update_post_term_count',
+    	'query_var'             => true,
+    	'rewrite'               => array( 'slug' => 'lead-tag' ),
+    );
+
+    register_taxonomy( 'lead-tags', 'wp-lead', $args );
+
+
+    add_action('admin_menu', 'remove_lead_tag_menu');
+    function remove_lead_tag_menu() {
+    	global $submenu;
+    	unset($submenu['edit.php?post_type=wp-lead'][16]);
+    	//print_r($submenu); exit;
+    }
 }
 
 /* KEEP DATETIME TRACK OF UPDATED POST META FOR WP-LEAD CPT */
@@ -112,6 +174,7 @@ if (is_admin())
 			$url = site_url();
 			$default = WPL_URL . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+			$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
 		/*
 			Super expensive call. Need more elegant solution
 		 	$response = get_headers($gravatar);
@@ -125,7 +188,11 @@ if (is_admin())
 			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 			    $gravatar = $default;
 			}
-			  echo'<img class="lead-grav-img" src="'.$gravatar.'">';
+			if(preg_match("/gravatar_default_/", $gravatar) && $extra_image != ""){
+				$gravatar = $extra_image;
+				$gravatar2 = $extra_image;
+			}
+			  echo'<img class="lead-grav-img" width="50" height="50" src="'.$gravatar.'">';
 			  break;
 			case "first-name":
 			  $first_name = get_post_meta( $post_id, 'wpleads_first_name', true);
@@ -191,7 +258,7 @@ if (is_admin())
 	            $tax_obj = get_taxonomy( $tax_slug );
 	            (isset($_GET[$tax_slug])) ? $current = $_GET[$tax_slug] : $current = 0;
 	            wp_dropdown_categories( array(
-	                'show_option_all' => __('Sort by Lead List'),
+	                'show_option_all' => __($tax_obj->label),
 	                'taxonomy' 	  => $tax_slug,
 	                'name' 		  => $tax_obj->name,
 	                'orderby' 	  => 'name',

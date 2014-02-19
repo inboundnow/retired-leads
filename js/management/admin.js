@@ -163,6 +163,8 @@ jQuery(document).ready(function($) {
 	var run_ajax = false;
 	if (typeof (ajax_toggle) != "undefined" && ajax_toggle != null && ajax_toggle != "") {
 		var run_ajax = true;
+		$('.wrap h2').first().hide();
+		$('.inbound-lead-filters').css('margin-top', "10px");
 	}
 	// run initial lead pull
 	setTimeout(function() {

@@ -53,6 +53,46 @@ function wp_leads_set_current_lists($lead_id){
 		}
 }
 
+// DOESNT RUN UNLESS USER LOGGED IN =/
+//add_action( 'wp_head', 'lead_revisit_notifications' );
+function lead_revisit_notifications() {
+global $wp; global $post;
+
+$post_type = get_post_type( $post );
+
+// Only proceed if lead exists
+	if ( isset($_COOKIE['wp_lead_id']) && !is_admin() && !is_404() && $post_type != "wp-call-to-action") {
+
+		/*
+		//Revisit notication base
+		// revisit cookie 2 hour timeout
+		// add action and rename this parent function
+		//http://www.flippercode.com/send-html-emails-using-wp-mail-wordpress
+		add_filter( 'wp_mail_from', 'wp_leads_mail_from' );
+		function wp_leads_mail_from( $email )
+		{
+		    return 'david@inboundnow.com';
+		}
+		add_filter( 'wp_mail_from_name', 'wp_leads_mail_from_name' );
+		function wp_leads_mail_from_name( $name )
+		{
+		    return 'David';
+		}
+		if (!isset($_GET['cta'])) {
+		$to = 'david@inboundnow.com';
+		$subject = 'Hello from my blog!';
+		$message = 'Check it out -- my blog is emailing you!';
+
+		$mail = wp_mail($to, $subject, $message);
+
+		if($mail) echo 'Your message has been sent!';
+		else echo 'There was a problem sending your message. Please try again.';
+		}
+		*/
+
+	}
+
+}
 
 /**
  * wp_leads_update_page_view_obj updates page_views meta for known leads

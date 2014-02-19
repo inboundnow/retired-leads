@@ -2,7 +2,9 @@ jQuery(document).ready(function($) {
 
 	if (jQuery('.wp-list-table').length > 0)
 	{
-
+		$('.edit a').addClass('button-primary').addClass('button');
+		$('.trash a').addClass('button-primary').addClass('button');
+		$('.clone a').addClass('button');
 		// Script for leads list page
 		jQuery('.row-actions').each(function() {
 			var jQuerylist = jQuery(this);
@@ -30,7 +32,7 @@ jQuery(document).ready(function($) {
 				// hide empty fields
 			  if( jQuery(this).text() == "" ) {
 				jQuery(this).text('New Lead');
-				jQuery(this).parent().css("background-color", "#e2ffc9");
+				jQuery(this).parent().css("background-color", "#e2ffc9").addClass('new-lead-row');
 				}
 				if( jQuery(this).text() == "New Lead" ) {
 		  jQuery(this).parent().css("background-color", "#e2ffc9");
@@ -58,7 +60,7 @@ jQuery(document).ready(function($) {
 		});
 
 
-		var mark_as_read = '<span class="mark-viewed" title="Mark lead as viewed">Mark as read</span><span class="mark-viewed-undo">Undo</span>';
+		var mark_as_read = '<span class="mark-viewed button" title="Mark lead as viewed">Mark as read</span><span class="mark-viewed-undo button">Undo</span>';
 		//jQuery(mark_as_read).appendTo(".row-actions");
 		jQuery(mark_as_read).appendTo(".edit");
 
@@ -96,7 +98,7 @@ jQuery(document).ready(function($) {
 		var current_status = jQuery(this).find(".status").text();
 		  if( current_status === "Read" ) {
 		jQuery(this).find(".mark-viewed").hide();
-			jQuery(this).find(".mark-viewed-undo").text("Mark as new").show();
+			jQuery(this).find(".mark-viewed-undo").text("Mark as new").css('display', 'inline-block');
 		   }
 		  });
 		//var move_box = jQuery(".alignleft.actions").first();
@@ -139,7 +141,7 @@ jQuery(document).ready(function($) {
 					//alert(data);
 					// jQuery('.lp-form').unbind('submit').submit();
 					jQuery(self).hide();
-					jQuery(self).parent().find(".mark-viewed-undo").show();
+					jQuery(self).parent().find(".mark-viewed-undo").css('display', 'inline-block');
 					jQuery(self).parent().parent().parent().parent().css("background-color", "#f2f2f2");
 					jQuery(self).parent().parent().parent().parent().find(".status").text("Read");
 					//alert("Changes Saved! Refresh the page to see your changes");

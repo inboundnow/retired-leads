@@ -32,6 +32,12 @@ function wp_leads_get_lead_fields(){
 	        'type'  => 'text'
 	        ),
 	    array(
+	        'label' => 'Job Title',
+	        'key'  => 'wpleads_job_title',
+	        'priority' => 68,
+	        'type'  => 'text'
+	        ),
+	    array(
 	        'label' => 'Company Name',
 	        'key'  => 'wpleads_company_name',
 	        'priority' => 75,

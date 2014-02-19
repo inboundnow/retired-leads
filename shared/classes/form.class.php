@@ -39,6 +39,7 @@ class InboundForms {
 		  'width' => '',
 		  'redirect' => '',
 		  'icon' => '',
+		  'lists' => '',
 		  'submit' => 'Submit'
 		), $atts));
 
@@ -47,6 +48,7 @@ class InboundForms {
 
 
 		$form_name = $name;
+		//$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name));
 		$form_layout = $layout;
 		$form_labels = $labels;
 		$form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
@@ -231,8 +233,12 @@ class InboundForms {
 				else
 				{
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+					$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
-					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$dynamic_value.'" type="'.$type.'" '.$req.'/>';
+					if ($type === 'hidden' && $dynamic_value != "") {
+						$fill_value = $dynamic_value;
+					}
+					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
 				}
 				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio" && $type != "html-block" && $type != "divider")
 				{
@@ -252,7 +258,7 @@ class InboundForms {
 					  '.$icon_insert.''.$submit_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
 
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -400,8 +406,8 @@ class InboundForms {
 			}
 		}
 
-		/* print_r($form_meta_data); exit;
-		print_r($form_data); exit; */
+		/* print_r($form_meta_data); exit; */
+		/* print_r($form_data); exit; */
 
 		 $form_email = false;
 		 foreach ($form_data as $key => $value) {

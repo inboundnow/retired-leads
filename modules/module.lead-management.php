@@ -516,8 +516,11 @@ function lead_management_admin_screen() {
 
 	if ( !empty($message) ) {
 		echo "<div id='message' class='updated fade'><p><strong>$message</strong></p></div>";
+		echo '<style type="text/css">
+		#display-lead-count, .starter-text, #filters{display:none !important;}
+		</style>';
 	}
-
+	$filter = ""; // default
 	// Create the hidden input which passes our current filter to the action script.
 	if ( !empty($_GET['wplead_list_category']) )
 		$filter = '<input id="hidden-cat" type="hidden" name="cat_two" value="' . urlencode(implode(',', $_GET['wplead_list_category'])) . '" />';
@@ -533,7 +536,7 @@ function lead_management_admin_screen() {
 
 	if ( empty($_GET['wplead_list_category']) && empty($_GET['s']) && empty($_GET['t']) ) {
 		echo '
-			<p>To get started, select the lead criteria below to see all matching leads.</p>
+			<p class="starter-text">To get started, select the lead criteria below to see all matching leads.</p>
 		';
 	}
 
@@ -542,7 +545,7 @@ function lead_management_admin_screen() {
 	// Filtering
 
 	echo '
-	<div id="filters" class="tablenav inbound-lead-filters">
+	<div id="filters" class="inbound-lead-filters">
 		<form id="lead-management-form" method="get" action="edit.php">
 		<input type="hidden" name="page" value="lead_management" />
 		<input type="hidden" name="post_type" value="wp-lead" />
@@ -561,11 +564,11 @@ function lead_management_admin_screen() {
 	}
 	echo '
 		<div id="and-or-params">
-		<label for="orderby">Show:</label>
+		<label for="orderby">Match:</label>
 			<select name="relation" id="relation">
 
-						<option value="AND"' . ( $relation == 'AND' ? ' selected="selected"' : '' ) . '>Only Leads that are in <u>ALL</u> of the selected lists</option>
-						<option value="OR"' . ( $relation == 'OR' ? ' selected="selected"' : '' ) . '>ALL Leads Matching ANY of the selected Lists</option>
+						<option value="AND"' . ( $relation == 'AND' ? ' selected="selected"' : '' ) . '>(ONLY) Leads that are in <u>ALL</u> of the selected lists</option>
+						<option value="OR"' . ( $relation == 'OR' ? ' selected="selected"' : '' ) . '>(ANY) Leads in at least 1 of the selected Lists</option>
 
 			</select>
 		</div></div>';
@@ -767,21 +770,21 @@ function lead_management_admin_screen() {
 		}
 		// Criteria were given, posts were matched... let's go!
 		else {
-			$all_cats = $_GET['wplead_list_category'];
+			$all_cats = (isset($_GET['wplead_list_category'])) ? $_GET['wplead_list_category'] : 0;
 			$prefix = "";
 			$name = "";
 			if (isset($_GET['wplead_list_category']) && $_GET['wplead_list_category'][0] != 'all') {
 				foreach ($all_cats as $key => $value) {
 					$term = get_term( $_GET['wplead_list_category'][$key], 'wplead_list_category' );
 				    $name .= $prefix . $term->name;
-				    $prefix = ' and ';
+				    $prefix = ' <span>and</span> ';
 				}
 			} else {
 				$name = "Total";
 			}
 
 			echo '
-				<form method="get" action="'.admin_url( 'admin.php' ).'">
+				<form method="get" id="man-table" action="'.admin_url( 'admin.php' ).'">
 				<input type="hidden" name="action" value="lead_action" />
 				<div id="posts">
 
@@ -789,7 +792,7 @@ function lead_management_admin_screen() {
 				if (!isset($_GET['on'])){
 				echo'<caption style="margin-top:0px;">' .
 						sprintf(
-							'<h2><strong><span id="lead-total-found">%s</span> Leads Found</strong> in <strong>%s</strong></h2><strong>Additional Search Criteria:</strong> tagged with <strong><u>%s</u></strong>, %s ordered by <strong><u>%s</u></strong> %s.',
+							'<h2 class="found-text"><strong><span id="lead-total-found">%s</span></strong> Leads Found in <strong>%s</strong></h2><strong>Additional Search Criteria:</strong> tagged with <strong><u>%s</u></strong>, %s ordered by <strong><u>%s</u></strong> %s.',
 							$query->found_posts,
 							!empty($_GET['wplead_list_category']) ? $name : 'any category',
 							!empty($_GET['t']) ? htmlentities($_GET['t']) : 'any tag',
@@ -818,15 +821,16 @@ function lead_management_admin_screen() {
 					<tbody id="the-list">
 			';
 			$loop_count = 1;
+			$i = 0;
 			foreach ( (array) $posts as $post ) {
 
 				//$categories = wp_get_post_categories($post->ID);
-				$this_tax = "wplead_list_category";
-				$terms = wp_get_post_terms( $post->ID, $this_tax, 'id' );
+
+				$terms = wp_get_post_terms( $post->ID, 'wplead_list_category', 'id' );
 				$cats = '';
 				$lead_ID = $post->ID;
 	         	foreach ( $terms as $term ) {
-				  	$term_link = get_term_link( $term, $this_tax );
+				  	$term_link = get_term_link( $term, 'wplead_list_category' );
 				    if( is_wp_error( $term_link ) )
 				        continue;
 				    //We successfully got a link. Print it out.
@@ -835,10 +839,10 @@ function lead_management_admin_screen() {
 				}
 
 
-				$_tags = wp_get_post_tags($post->ID);
+				$_tags = wp_get_post_terms( $post->ID, 'lead-tags', 'id' );
 				$tags = '';
 				foreach ( $_tags as $tag ) {
-					$tags .= "<a href='?page=lead_management&t=$tag->slug'>$tag->name</a>, ";
+					$tags .= "<a title='Click to Edit Lead Tag Name' target='_blank' href='".admin_url('edit-tags.php?action=edit&taxonomy=lead-tags&tag_ID='.$tag->term_id.'&post_type=wp-lead')."'>$tag->name</a>, ";
 				}
 				$tags = substr($tags, 0, strlen($tags) - 2);
 				if ( empty ($tags) ) {
@@ -863,7 +867,7 @@ function lead_management_admin_screen() {
 
 				echo '</td>
 							<td><span class="lead-email">' . $post->post_title . '</span></td>
-							<td>' . $cats . '</td>
+							<td class="list-column-row">' . $cats . '</td>
 							<td>' . $tags . '</td>
 
 							<td><a class="thickbox" href="post.php?action=edit&post=' . $post->ID . '&amp;small_lead_preview=true&amp;TB_iframe=true&amp;width=1345&amp;height=244">View</a></td>
@@ -894,16 +898,16 @@ function lead_management_admin_screen() {
 				<div class="action" id="lead-update-lists">
 					<label for="lead-update-lists" >Choose List:</label>';
 					lead_select_taxonomy_dropdown( 'wplead_list_category', 'single', '_action' );
-			echo '<input type="submit" name="add" value="Add to" title="Add the selected posts to this category." />
-					<input type="submit" name="remove" value="Remove from" title="Remove the selected posts from this category." />
+			echo '<input type="submit" class="button-primary button" name="add" value="Add to" title="Add the selected posts to this category." />
+					<input type="submit" class="manage-remove button-primary button" name="remove" value="Remove from" title="Remove the selected posts from this category." />
 				</div>
 
 				<div class="action" id="lead-update-tags">
 					<label for="lead-update-tags">Tags:</label>
-					<input type="text" name="tags" title="Separate multiple tags with commas." />
-					<input type="submit" name="replace_tags" value="Replace" title="Replace the selected posts\' current tags with these ones." />
-					<input type="submit" name="tag" value="Add" title="Add these tags to the selected posts without altering the posts\' existing tags." />
-					<input type="submit" name="untag" value="Remove" title="Remove these tags from the selected posts." />
+					<input type="text" id="inbound-lead-tags-input" name="tags" placeholder="Separate multiple tags with commas." title="Separate multiple tags with commas." />
+					<input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="Replace" title="Replace the selected leads\' current tags with these ones. Warning this will delete current tags and replace them" />
+					<input type="submit" name="tag" class="manage-tag-add button-primary button" value="Add" title="Add tags to the selected leads without altering the leads\' existing tags." />
+					<input type="submit" name="untag" class="manage-remove button-primary button" value="Remove" title="Remove these tags from the selected leads." />
 				</div>
 
 				<div class="action" id="lead-update-meta">
@@ -915,9 +919,9 @@ function lead_management_admin_screen() {
 				</div>
 
 				<div class="action" id="lead-delete">
-					<label for="lead-delete" id="del-label"><span style="color:red;">DELETE LEADS (There is no UNDO):</span></label>
+					<label for="lead-delete" id="del-label"><span style="color:red;">Delete Selected Leads (Warning! There is no UNDO):</span></label>
 
-					<input type="submit" name="delete_leads" value="Permanently Delete Selected Leads" title="This will delete the selected leads from your database. There is no undo." />
+					<input type="submit" class="manage-remove button-primary button" name="delete_leads" value="Permanently Delete Selected Leads" title="This will delete the selected leads from your database. There is no undo." />
 
 				</div></div>
 
@@ -977,25 +981,73 @@ $url = get_option('siteurl');
 		});
     });
 </script>
+
 <?php }
 
-function add_lead_to_list_tax($lead_id, $list_id) {
+// Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax
+function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
-	$current_lists = wp_get_post_terms( $lead_id, 'wplead_list_category', 'id' );
-	$all_terms = array();
+	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
+	$all_term_ids = array();
+	$all_term_slugs = array();
 	foreach ($current_lists as $term ) {
 		$add = $term->term_id;
-		$all_terms[] = $add;
+		$slug = $term->slug;
+		$all_term_ids[] = $add;
+		$all_term_slugs[] = $slug;
 	}
-
-	if ( !in_array($list_id, $all_terms) ) {
-		$all_terms[] = $list_id;
-		wp_set_object_terms( $lead_id, $all_terms, 'wplead_list_category');
+	// Set terms for lead tags taxomony
+	$list_array = $list_id;
+	if(is_array($list_array)) {
+		foreach ($list_array as $key => $value) {
+			$num = intval($value);
+			if ( !in_array($num, $all_term_ids) ) {
+				$all_term_ids[] = $num;
+				wp_set_object_terms( $lead_id, $all_term_ids, $tax);
+			}
+		}
 	}
 }
 
-function remove_lead_from_list_tax($lead_id, $list_id) {
-	$current_terms = wp_get_post_terms( $lead_id, 'wplead_list_category', 'id' );
+function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category') {
+
+	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
+
+	$all_term_ids = array();
+	$all_term_slugs = array();
+	foreach ($current_lists as $term ) {
+		$add = $term->term_id;
+		$slug = $term->slug;
+		$all_term_ids[] = $add;
+		$all_term_slugs[] = $slug;
+	}
+
+	$tag_check = strpos($list_id, ",");
+	if ($tag_check !== false) {
+		// Set terms for lead tags taxomony
+		$list_array = explode(",", $list_id);
+		if(is_array($list_array)) {
+			foreach ($list_array as $key => $value) {
+				$trim = trim(strtolower($value));
+				$add_slug = preg_replace('/\s+/', '-', $trim);
+				if ( !in_array($add_slug, $all_term_slugs) ) {
+					$all_term_slugs[] = $add_slug;
+					wp_set_object_terms( $lead_id, $all_term_slugs, $tax);
+				}
+			}
+		}
+	} else {
+		// Set terms for list taxomony
+		if ( !in_array($list_id, $all_term_ids) ) {
+			$all_term_ids[] = $list_id;
+			wp_set_object_terms( $lead_id, $all_term_ids, $tax);
+		}
+	}
+}
+
+function remove_lead_from_list_tax($lead_id, $list_id,  $tax = 'wplead_list_category') {
+	$current_terms = wp_get_post_terms( $lead_id, $tax, 'id' );
+
 	$all_remove_terms = '';
 	foreach ($current_terms as $term ) {
 		$add = $term->term_id;
@@ -1008,8 +1060,30 @@ function remove_lead_from_list_tax($lead_id, $list_id) {
 		$new = array_flip ( $final );
 		unset($new[$list_id]);
 		$save = array_flip ( $new );
-		wp_set_object_terms( $lead_id, $save, 'wplead_list_category');
+		wp_set_object_terms( $lead_id, $save, $tax);
 	}
+}
+
+add_action( 'edit_term', 'wp_leads_sync_lead_tag_slug', 10, 3 );
+function wp_leads_sync_lead_tag_slug( $term_id, $tt_id, $taxonomy ) {
+		global $wpdb;
+		//print_r($taxonomy); exit;
+
+		$whitelist  = array( 'lead-tags' ); /* maybe this needs to include attachment, revision, feedback as well? */
+		if ( !in_array( $taxonomy, $whitelist ) ) {
+			return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
+		}
+
+		$the_term = get_term_by( 'id', $term_id, $taxonomy );
+
+		if ( $the_term && $_POST )
+		{
+			/* ran into some issues when define('WP_CACHE', true); is set */
+			$slug = sanitize_title( filter_input( INPUT_POST, 'name', FILTER_SANITIZE_STRING ), $the_term->term_id );
+			$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
+		}
+
+		return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
 }
 
 add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
@@ -1071,9 +1145,10 @@ function lead_action_admin_action() {
 		elseif ( !empty($_GET['tag']) || !empty($_GET['replace_tags']) ) {
 			$tags = $_GET['tags'];
 			foreach ( (array) $_GET['ids'] as $id ) {
-				$id = intval($id);
+				$lead_ID = intval($id);
 				$append = empty($_GET['replace_tags']);
-				wp_set_post_tags($id, $tags, $append);
+				//wp_set_post_tags($id, $tags, $append);
+				add_lead_to_list_tax($lead_ID, $tags, 'lead-tags');
 			}
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=$num$query&on=$pass_ids");
 			die;

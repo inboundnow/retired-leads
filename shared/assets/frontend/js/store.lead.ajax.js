@@ -193,8 +193,6 @@ jQuery(document).ready(function($) {
 		}
 
 		/* Define Variables */
-		var tracking_obj = "";
-
 		// Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
 		var inbound_form_data = inbound_form_data || {};
 		inbound_form_data['page_view_count'] = countProperties(pageviewObj);
@@ -242,7 +240,7 @@ jQuery(document).ready(function($) {
 
 		// unset values with exclude array
 		var inbound_exclude = inbound_exclude || [];
-		inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id');
+		inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id', 'inbound_form_lists');
 
 		form_inputs.each(function() {
 			if (jQuery.inArray(this.name, inbound_exclude) === -1){
@@ -269,6 +267,7 @@ jQuery(document).ready(function($) {
 		inbound_form_data['variation'] = lp_variation;
 		inbound_form_data['post_type'] = inbound_ajax.post_type;
 		inbound_form_data['wp_lead_uid'] = jQuery.cookie("wp_lead_uid") || null;
+		inbound_form_data['ip_address'] = inbound_ajax.ip_address;
 
 		var lp_check = (inbound_ajax.post_type === 'landing-page') ? 'Landing Page' : "";
 		var cta_check = (inbound_ajax.post_type === 'wp-call-to-action') ? 'Call to Action' : "";
@@ -279,7 +278,7 @@ jQuery(document).ready(function($) {
 		console.log(post_form_data);
 
 		jQuery.cookie("wp_lead_email", email, { path: '/', expires: 365 }); // save email
-		return false;
+
 		jQuery.ajax({
 			type: 'POST',
 			url: inbound_ajax.admin_url,
@@ -293,7 +292,7 @@ jQuery(document).ready(function($) {
 				address: address,
 				company_name: company,
 				page_views: page_views,
-				raw_post_values_json : all_form_fields,
+				form_input_values: all_form_fields,
 				Mapped_Data: post_form_data
 				/* Replace with jquery hook
 					do_action('wpl-lead-collection-add-ajax-data');
@@ -334,7 +333,7 @@ jQuery(document).ready(function($) {
 										post_type: inbound_ajax.post_type,
 										lp_variation: lp_variation,
 										// type: 'form-completion',
-										raw_post_values_json : all_form_fields,
+										form_input_values : all_form_fields,
 										lp_id: page_id
 										});
 
@@ -432,7 +431,7 @@ jQuery(document).ready(function($) {
 										post_type: inbound_ajax.post_type,
 										lp_variation: lp_variation,
 										// type: 'form-completion',
-										raw_post_values_json : all_form_fields,
+										form_input_values : all_form_fields,
 										lp_id: page_id
 										});
 
@@ -473,7 +472,7 @@ if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
 						lp_variation: fallback_obj[0].lp_variation,
 						json: fallback_obj[0].json, // replace with page_view_obj
 						// type: 'form-completion',
-						raw_post_values_json : fallback_obj[0].raw_post_values_json,
+						form_input_values: fallback_obj[0].raw_post_values_json,
 						lp_id: fallback_obj[0].lp_id
 						/* Replace with jquery hook
 							do_action('wpl-lead-collection-add-ajax-data');
