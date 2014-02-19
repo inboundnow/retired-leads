@@ -43,10 +43,11 @@ switch (is_admin()) :
 
 		include_once('modules/module.nav-menus.php');
 		include_once('modules/module.metaboxes.wp-lead.php');
-		//include_once('modules/module.metaboxes.automation.php');
+
 		include_once('modules/module.wp_list_table-leads.php');
 		include_once('modules/module.metaboxes.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
+		//include_once('modules/module.metaboxes.automation.php');
 		//include_once('modules/module.post-type.automation.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.dashboard.php');
@@ -65,7 +66,7 @@ switch (is_admin()) :
 endswitch;
 
 /* load cron definitions - must be loaded outside of is_admin() conditional */
-include_once('modules/module.cron.lead-rules.php');
+//include_once('modules/module.cron.lead-rules.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_shared_leads' );

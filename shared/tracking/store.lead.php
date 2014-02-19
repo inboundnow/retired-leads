@@ -5,6 +5,7 @@
 * - Handles lead creation and storage
 */
 
+/* Custom Mappings coming soon
 add_filter('inboundnow_custom_map_values_filter', 'inbound_map_custom_fields', 10, 1);
 if (!function_exists('inbound_map_custom_fields')) {
 function inbound_map_custom_fields($custom_map_values) {
@@ -32,7 +33,7 @@ var inbound_form_data = inbound_form_data || {};
 inbound_form_data['custom_map_val'] = 'hi hi hi';
 </script>
 <?php }
-
+*/
 if (!function_exists('inbound_store_lead')) {
 
 add_action('wp_ajax_inbound_store_lead', 'inbound_store_lead');
