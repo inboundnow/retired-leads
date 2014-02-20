@@ -4,7 +4,7 @@
 add_action('wp_footer', 'wp_cta_footer_scripts');
 function wp_cta_footer_scripts(){
 global $post;
-	wp_enqueue_script('wp_cta_js', WP_CTA_URLPATH . 'js/cta-on-page.js', array( 'jquery' ), true);
+    if (isset($post)&&$post->post_type=='wp-call-to-action') {
 	if (isset($_GET['wp-cta-variation-id'])) {
 		$version = $_GET['wp-cta-variation-id'];
 		$width = get_post_meta($post->ID, 'wp_cta_width-'.$version, true);
@@ -17,8 +17,9 @@ global $post;
 		$height = get_post_meta($current_page_id, 'wp_cta_height-0', true);
 		//$replace = null; // more to ext
 	}
-
+	wp_enqueue_script('wp_cta_js', WP_CTA_URLPATH . 'js/cta-on-page.js', array( 'jquery' ), true);
 	wp_localize_script( 'wp_cta_js' , 'cta_options' , array( 'cta_width' => $width, 'cta_height' => $height ));
+    }
 }
 
 add_action('wp_enqueue_scripts','wp_cta_fontend_enqueue_scripts');
