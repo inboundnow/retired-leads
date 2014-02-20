@@ -26,11 +26,11 @@ function wp_cta_fontend_enqueue_scripts($hook)
 {
 	global $post;
 	global $wp_query;
-	
+
 
 	if (!isset($post))
 		return;
-	
+
 	$post_type = $post->post_type;
 	$post_id = $post->ID;
 
@@ -42,21 +42,21 @@ function wp_cta_fontend_enqueue_scripts($hook)
 	wp_enqueue_script('jquery');
 	wp_dequeue_script('jquery-cookie');
 	wp_enqueue_script('jquery-cookie', WP_CTA_URLPATH . 'js/jquery.cta.cookie.js', array( 'jquery' ));
-	
+
 	wp_register_script('jquery-total-storage',WP_CTA_URLPATH . 'js/jquery.total-storage.min.js', array( 'jquery', 'json2' ));
 	wp_enqueue_script('jquery-total-storage');
-	
+
 	wp_register_script('funnel-tracking', WP_CTA_URLPATH . 'shared/tracking/page-tracking.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
 	wp_register_script('form-population', WP_CTA_URLPATH . 'shared/tracking/form-population.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
 	wp_enqueue_script('form-population');
-	
+
 	/* Global Lead Data */
 	$lead_cpt_id = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : false;
     $lead_email = (isset($_COOKIE['wp_lead_email'])) ? $_COOKIE['wp_lead_email'] : false;
     $lead_unique_key = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
-	
+
 	$lead_data_array = array();
-	
+
 	if ($lead_cpt_id) {
 		$lead_data_array['lead_id'] = $lead_cpt_id;
 		$type = 'wplid';}
@@ -67,22 +67,22 @@ function wp_cta_fontend_enqueue_scripts($hook)
 		$lead_data_array['lead_uid'] = $lead_unique_key;
 		$type = 'wpluid';
 	}
-		
+
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s T", $time);
-	
+
 	wp_enqueue_script('funnel-tracking');
 	wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time));
 
 	// Load on Non CTA Pages
-	if (isset($post)&&$post->post_type !=='wp-call-to-action') 
+	if (isset($post)&&$post->post_type !=='wp-call-to-action')
 	{
-	
+
 		wp_enqueue_script('cta-render-js', WP_CTA_URLPATH.'js/cta-render.js', array('jquery'), true);
-		
+
 		$cta_obj = wp_cta_localize_script();
 		$params = array( 'wp_cta_obj' => $cta_obj );
-		
+
 		wp_localize_script( 'cta-render-js', 'cta_display', $params );
 
 		// load common cta styles
@@ -98,10 +98,10 @@ function wp_cta_fontend_enqueue_scripts($hook)
 		$popup_pageviews = get_post_meta($current_page_id, 'wp_cta_popup_pageviews', TRUE);
 		$global_cookie = get_option( 'wp-cta-main-global-cookie', 0 );
 		$global_cookie_length = get_option( 'wp-cta-main-global-cookie-length', 30 );
-	   
+
 		wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'js/libraries/popup/jquery.magnific-popup.min.js', array( 'jquery' ));
 	    wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'js/libraries/popup/magnific-popup.css');
-	  
+
 		$popup_params = array(  'timeout' => $pop_time_final,
 	            				'c_status' => $popup_cookie,
 	            				'c_length' => $popup_cookie_length,
@@ -113,7 +113,7 @@ function wp_cta_fontend_enqueue_scripts($hook)
 	    wp_localize_script( 'magnific-popup', 'wp_cta_popup', $popup_params );
 	    }
 	    // Slideout CTA
-    	if (isset($wp_cta_placement[0]) && $wp_cta_placement[0] == 'slideout') 
+    	if (isset($wp_cta_placement[0]) && $wp_cta_placement[0] == 'slideout')
 		{
 			wp_register_script('scroll-js',WP_CTA_URLPATH . 'js/libraries/scroll.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
 			wp_enqueue_script('scroll-js');
@@ -149,7 +149,7 @@ function wp_cta_fontend_enqueue_scripts($hook)
 	if (isset($post)&&$post->post_type=='wp-call-to-action')
 	{
 		// not in use
-		if (isset($_GET['cta'])) 
+		if (isset($_GET['cta']))
 		{
 			show_admin_bar( false );
 			add_action('wp_head', 'cta_kill_admin_css');
@@ -261,11 +261,6 @@ if (is_admin())
 				$params = array('selected_template'=>$template, 'templates'=>$template_data);
 				wp_localize_script('wp-cta-js-metaboxes', 'data', $params);
 
-
-				// Isotope sorting
-				//wp_enqueue_script('wp-cta-js-isotope', WP_CTA_URLPATH . 'js/libraries/isotope/jquery.isotope.js', array('jquery'), '1.0', true );
-				wp_enqueue_script('wp-cta-js-isotope', WP_CTA_URLPATH . 'js/libraries/isotope/jquery.isotope.js', array('jquery'));
-				wp_enqueue_style('wp-cta-css-isotope', WP_CTA_URLPATH . 'js/libraries/isotope/css/style.css');
 
 				// Conditional TINYMCE for landing pages
 				wp_dequeue_script('jquery-tinymce');

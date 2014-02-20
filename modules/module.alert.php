@@ -1,29 +1,41 @@
 <?php
 
-/* Temporarily off** 
-/* Template page notices 
-function wp_cta_template_page_notice(){
+/* Temporarily off**
+/* Template page notices  */
+function wp_cta_update_notice(){
     global $pagenow;
     global $current_user ;
-    $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
     $user_id = $current_user->ID;
-    if ( ! get_user_meta($user_id, 'wp_cta_template_page_notice') ) {    
-        if ( ($pagenow == 'edit.php') && ($page_string == "wp_cta_manage_templates") ) {
-             echo '<div class="updated">
-                 <p>To add a new template to the landing page plugin. <strong>Click on "Add New Template" above</strong> (Video popout Link)  <a style="float:right;" href="?wp_cta_template_page_ignore=0">Hide This</a></p>
+    if ( ! get_user_meta($user_id, 'wp_cta_update_ignore') ) {
+             echo '<div class="updated" style="position:relative;">
+                 <p><b style="font-size:18px; font-weight:bold;">Notice to all Call to Action Plugin users:</b><br>We have a new and improved version of the call to action tool coming out in the next major release.<a style="position: absolute;
+font-size: 20px; top: 10px;
+right: 30px;" href="?wp_cta_update_ignore=0">Sounds good! Hide This Message</a>
+                    <h4 style="font-weight:bold; margin-top-10px;">Updates include:</h4>
+                    <ul style="list-style: square;
+padding-left: 20px;
+margin-top: -10px;">
+                    <li>A new & improved call to action templating engine</li>
+                    <li>Faster CTA load times</li>
+                    <li>Better A/B Testing functionality</li>
+                    <li>All around code improvements</li>
+                    </ul>
+
+                <span style="color:red;">Important:</span> Updating will mean your current calls to action will need to be recreated/updated. If you do not wish for this to happen you can stay on the current version, but we are no longer supporting versions lower than 1.3.3. Your plugin will continue functioning normally but we <u>highly</u> encourage updating when the time comes.  (Sorry! It is for the best we promise)
+                 </p>
              </div>';
-        }
     }
-} 
-add_action('admin_notices', 'wp_cta_template_page_notice'); 
+}
+add_action('admin_notices', 'wp_cta_update_notice');
 add_action('admin_init', 'wp_cta_template_page_ignore');
 function wp_cta_template_page_ignore() {
     global $current_user;
         $user_id = $current_user->ID;
-        if ( isset($_GET['wp_cta_template_page_ignore']) && '0' == $_GET['wp_cta_template_page_ignore'] ) {
-             add_user_meta($user_id, 'wp_cta_template_page_ignore', 'true', true);
+        if ( isset($_GET['wp_cta_update_ignore']) && '0' == $_GET['wp_cta_update_ignore'] ) {
+             add_user_meta($user_id, 'wp_cta_update_ignore', 'true', true);
     }
 }
+/*
 // Start Landing Page Welcome
 add_action('admin_notices', 'wp_cta_activation_notice');
 function wp_cta_activation_notice() {
@@ -46,9 +58,9 @@ function wp_cta_activation_message_ignore() {
     }
 } */
 // End Landing Page Welcome
-
+/*
 function wp_cta_template_page_get_more(){
-    global $pagenow;  
+    global $pagenow;
     $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
         if ( (($pagenow == 'edit.php') && ($page_string == "wp_cta_manage_templates")) || (($pagenow == "post-new.php") &&  ($_GET['post_type'] == "wp-call-to-action")) ) {
              echo '<div id="more-templates" style="display:none;">
@@ -59,9 +71,9 @@ jQuery("#bulk_actions").prepend(moretemp); jQuery(".wp-cta-selection-heading").a
 }
 add_action('admin_notices', 'wp_cta_template_page_get_more');
 /* End Template Notices */
-
+/*
 function wp_cta_ab_notice(){
-    global $pagenow;  
+    global $pagenow;
     $page_string = isset($_GET["page"]) ? $_GET["page"] : "null";
         if ( (($pagenow == 'edit.php') && ($page_string == "wp_cta_split_testing")) ) {
                echo '<div class="error"><p>';
@@ -70,3 +82,4 @@ function wp_cta_ab_notice(){
         }
 }
 add_action('admin_notices', 'wp_cta_ab_notice');
+*/

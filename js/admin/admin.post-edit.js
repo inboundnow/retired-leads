@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
 
-	jQuery('#templates-container').isotope();
+
 	// jQuery("#content_ifr").contents().find("img").width(); // image width
 
 	var test = jQuery("#wp_cta_metabox_select_template");
@@ -10,8 +10,10 @@ jQuery(document).ready(function ($) {
 	// filter items when filter link is clicked
 	jQuery('#template-filter a').click(function(){
 		var selector = jQuery(this).attr('data-filter');
-		//alert(selector);
-		jQuery('#templates-container').isotope({ filter: selector });
+		$(".template-item-boxes").fadeOut(500);
+        setTimeout(function() {
+         $(selector).fadeIn(500);
+        }, 500);
 		return false;
 	});
 
@@ -150,7 +152,7 @@ jQuery(document).ready(function ($) {
         $(window).resize( function() { tb_position() } );
     });
 
-    // Isotope Styling
+    // Filtering Styling
     jQuery('#template-filter a').first().addClass('button-primary');
     jQuery('#template-filter a').click(function(){
         jQuery("#template-filter a.button-primary").removeClass("button-primary");
@@ -324,7 +326,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('#wp-cta-change-template-button').live('click', function () {
         jQuery(".wrap").fadeOut(500,function(){
-            jQuery('#templates-container').isotope();
+
             jQuery(".wp-cta-template-selector-container").fadeIn(500, function(){
                 jQuery(".currently_selected").show();
                 jQuery('#wp-cta-cancel-selection').show();

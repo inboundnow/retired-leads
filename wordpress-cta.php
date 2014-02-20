@@ -3,15 +3,15 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 1.3.1
-Author: David Wells, Hudson Atwell
+Version: 1.3.2
+Author: Inbound Now
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
 Domain Path: shared/languages/cta/
 */
 
 // DEFINE CONSTANTS AND GLOBAL VARIABLES
-define('WP_CTA_CURRENT_VERSION', '1.3.1' );
+define('WP_CTA_CURRENT_VERSION', '1.3.2' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -52,6 +52,7 @@ switch (is_admin()) :
 		include_once('modules/module.utils.php');
 		include_once('modules/module.customizer.php');
 		include_once('modules/module.track.php');
+		include_once('modules/module.alert.php');
 
 		BREAK;
 
@@ -74,6 +75,34 @@ switch (is_admin()) :
 endswitch;
 
 include_once('modules/module.widgets.php'); // Loads in both
+
+/* TEMP function to make ajax call function */
+// Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax
+if (!function_exists('add_lead_lists_ajax')) {
+function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
+
+    $current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
+    $all_term_ids = array();
+    $all_term_slugs = array();
+    foreach ($current_lists as $term ) {
+        $add = $term->term_id;
+        $slug = $term->slug;
+        $all_term_ids[] = $add;
+        $all_term_slugs[] = $slug;
+    }
+    // Set terms for lead tags taxomony
+    $list_array = $list_id;
+    if(is_array($list_array)) {
+        foreach ($list_array as $key => $value) {
+            $num = intval($value);
+            if ( !in_array($num, $all_term_ids) ) {
+                $all_term_ids[] = $num;
+                wp_set_object_terms( $lead_id, $all_term_ids, $tax);
+            }
+        }
+    }
+}
+}
 
 /* Inbound Core Shared Files. */
 add_action( 'plugins_loaded', 'inbound_load_shared' , 12);
@@ -100,4 +129,15 @@ function inbound_load_shared(){
 	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 }
 
+/* Display Where CTA shortcodes are being used
+$test = show_pages_containing_ctas('cta id=\"1802\"');
+print_r($test);
 
+function show_pages_containing_ctas($tag,$limit=1){
+	global $wpdb;
+	$sql = "SELECT ID FROM `{$wpdb->posts}` WHERE post_content LIKE \"%[$tag%\" LIMIT $limit";
+	$sql = "SELECT DISTINCT(ID) FROM `{$wpdb->posts}` WHERE post_content LIKE \"%[$tag%\" AND post_status IN ('publish') LIMIT $limit";
+	$ids = $wpdb->get_col($sql,0);
+	return (is_array($ids)&&count($ids)>0)?$ids:array();
+}
+*/

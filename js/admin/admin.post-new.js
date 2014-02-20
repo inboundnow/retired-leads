@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
 
     jQuery('.wp-cta-template-selector-container').css('display','block');
-    jQuery('#templates-container').isotope();
+
     jQuery("#submitdiv").siblings().hide();
     jQuery("#title-prompt-text").text("Name Your New Call to Action");
     var titledescription = jQuery("<span id='descriptor'>This will be the administrative title your call to action (not visible to visitors)</span>");
@@ -38,7 +38,10 @@ jQuery('.wp_cta_select_template').click(function(){
     jQuery('#template-filter a').click(function(){
       var selector = jQuery(this).attr('data-filter');
       //alert(selector);
-      jQuery('#templates-container').isotope({ filter: selector });
+        $(".template-item-boxes").fadeOut(500);
+        setTimeout(function() {
+         $(selector).fadeIn(500);
+        }, 500);
       return false;
     });
 
