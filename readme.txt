@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.7
 Tested up to: 3.8
-Stable Tag: 1.3.2
+Stable Tag: 1.3.3
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -65,6 +65,12 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+
+= 1.3.3 =
+* Added Google Analytics Custom Event Tracking for form submissions
+* Added Ability: Send lead notification emails to multiple people. Use comma separated values
+* Updated main docs.inboundnow.com site. Check it out!
+
 = 1.3.2 =
 * GPL JS license fix
 
