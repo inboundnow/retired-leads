@@ -33,7 +33,7 @@
 		);
 	}
 	//print_r($lead_mapping_fields);
-
+	$lists_link = admin_url( 'edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead' );
 	$shortcodes_config['forms'] = array(
 		'no_preview' => false,
 		'options' => array(
@@ -90,7 +90,7 @@
 			),
 			'lists' => array(
 				'name' => __('Add to List(s)', INBOUND_LABEL),
-				'desc' => __('Add the converting lead to 1 or more lead lists', INBOUND_LABEL),
+				'desc' => __('Add the converting lead to 1 or more <a target="_blank" title="Create Lead Lists" href="'.$lists_link.'">lead lists</a>', INBOUND_LABEL),
 				'type' => 'multiselect',
 				'options' => $lead_list_names,
 				'class' => 'main-form-settings',

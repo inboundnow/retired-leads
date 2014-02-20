@@ -305,8 +305,7 @@ function wplead_ip_address_metabox() {
 
 /* Top Metabox */
 add_action( 'edit_form_after_title', 'wp_leads_header_area' );
-function wp_leads_header_area()
-{
+function wp_leads_header_area() {
    global $post;
 
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name', true );

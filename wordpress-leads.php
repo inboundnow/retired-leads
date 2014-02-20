@@ -93,6 +93,7 @@ function inbound_load_shared_leads()
 	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 	include_once('shared/functions/global.shared.functions.php'); // Global Shared Utility functions
 	include_once('shared/assets/assets.loader.class.php');  // Load Shared CSS and JS Assets
+	include_once('shared/functions/global.leads.cpt.php'); // Shared Lead functionality
 }
 
 function wpleads_check_active() {

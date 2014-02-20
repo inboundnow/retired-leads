@@ -3,11 +3,11 @@
 
 register_activation_hook( WPL_FILE , 'wpleads_activate');
 
-function wpleads_activate()
-{
+function wpleads_activate() {
 	global $wpdb;
 	$blogids = ""; // define to kill error
 	$multisite = 0;
+	add_option( 'Leads_Activated', true ); // global definition for loading lead files
 	// Makes sure the plugin is defined before trying to use it
 	if ( ! function_exists( 'is_plugin_active_for_network' ) )
 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
@@ -55,6 +55,12 @@ function wpleads_activate()
 
 	}
 
+}
+
+register_deactivation_hook( WPL_FILE , 'wpleads_deactivate');
+// toggle main lead stuff off
+function wpleads_deactivate() {
+	delete_option( 'Leads_Activated');
 }
 
 ?>
