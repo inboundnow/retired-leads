@@ -166,6 +166,7 @@ function wplead_quick_stats_metabox() {
 	<div>
 		<div class="inside" style='margin-left:-8px;text-align:center;'>
 			<div id="quick-stats-box">
+
 			<?php do_action('wpleads_before_quickstats', $post);?>
 			<div id="page_view_total"><?php _e('Total Page Views ' , WPL_TEXT_DOMAIN);?><span id="p-view-total"><?php echo $page_view_count; ?></span>
 			</div>
@@ -664,6 +665,7 @@ function wpleads_display_metabox_main() {
 				<?php //define activity toggles. Filterable
 					$nav_items[] = array('id'=>'lead-conversions','label'=>'Conversions');
 					$nav_items[] = array('id'=>'lead-page-views','label'=>'Page Views');
+					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>
 
 			<div class="nav-container">
@@ -702,26 +704,21 @@ function wpleads_display_metabox_main() {
 			        return strtotime($a['datetime'])<strtotime($b['datetime'])?1:-1;
 			};
 
-			if (is_array($conversions_array))
-          	{
+			if (is_array($conversions_array)) {
 				uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
 				$conversion_count = count($conversions_array);
 
  				$i = $conversion_count;
-				foreach ($conversions_array as $key => $value)
-				{
+				foreach ($conversions_array as $key => $value) {
 					//print_r($value);
 
 						$converted_page_id  = $value['id'];
 						$converted_page_permalink   = get_permalink($converted_page_id);
 						$converted_page_title = get_the_title($converted_page_id);
 
-						if (array_key_exists('datetime', $value))
-						{
+						if (array_key_exists('datetime', $value)) {
 							$converted_page_time = $value['datetime'];
-						}
-						else
-						{
+						} else {
 							$converted_page_time = $wordpress_date_time;
 						}
 
@@ -744,13 +741,74 @@ function wpleads_display_metabox_main() {
 						$i--;
 
 				}
+
 			} else {
+
 				echo "<span id='wpl-message-none'>No conversions found!</span>";
 			}
 
 			?>
 
 			</div> <!-- end lead conversions -->
+			<div id="lead-comments" class='lead-activity'>
+				<h2>Lead Comments</h2>
+
+			<?php
+			 $args = array(
+			   	'author_email' => $email,
+			);
+
+			// The Query
+			$comments_query = new WP_Comment_Query;
+			$comments_array = $comments_query->query( $args );
+
+			$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
+			$conversions_array = json_decode($conversions, true);
+           	//print_r($conversions);
+            // Sort Array by date
+
+
+			if (is_array($comments_array)) {
+				//uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
+					$comment_count = count($comments_array);
+
+ 					$c_i = $comment_count;
+					foreach ( $comments_array as $comment ) {
+						//print_r($comment);
+						$comment_date_raw = new DateTime($comment->comment_date);
+						$date_of_comment = $comment_date_raw->format('F jS, Y \a\t g:ia (l)');
+						$comment_clean_date = $comment_date_raw->format('Y-m-d H:i:s');
+
+						$commented_page_permalink   = get_permalink($comment->comment_post_ID);
+						$commented_page_title = get_the_title($comment->comment_post_ID);
+
+						//comment_author_url
+						//comment_content
+
+						// Display Data
+						echo '<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="'.$comment_clean_date.'">
+								<a class="lead-timeline-img" href="#non">
+									<img src="/wp-content/plugins/leads/images/comment.png" alt="" width="50" height="50" />
+								</a>
+
+								<div class="lead-timeline-body">
+									<div class="lead-event-text lead-comment-div">
+									  <p><span class="lead-item-num">'.$c_i.'.</span><span class="lead-helper-text">Comment on </span><a href="'.$commented_page_permalink.'" id="lead-session-'.$c_i.'" rel="'.$c_i.'" target="_blank">'.$commented_page_title.'</a><span class="conversion-date">'.$date_of_comment.'</span> <!--<a rel="'.$c_i.'" href="#view-session-"'.$c_i.'">(view visit path)</a>--></p>
+									  <p class="lead-comment">"'.$comment->comment_content.'" - <a target="_blank" href="'.$comment->comment_author_url.'">'.$comment->comment_author.'</a></p>
+									</div>
+								</div>
+							</div>';
+						$c_i--;
+
+				}
+
+			} else {
+				echo "<span id='wpl-message-none'>No comments found!</span>";
+			}
+
+			?>
+
+			</div> <!-- end lead comments -->
 			<div id="lead-page-views" class='lead-activity'>
 				<h2>Page Views</h2>
 			 <?php

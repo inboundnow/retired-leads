@@ -92,11 +92,8 @@ border-left: 1px solid #EBEBEA;
 	margin-left: 8px;
 
 }
-.edit a, .trash a, .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
-display: inline-block;
-font-size: 14px !important;
-font-weight: bold;
-padding: 0px 10px !important;
+.edit a,  .clone a, .mark-viewed, .mark-viewed-undo, .mark-viewed, .mark-viewed-undo {
+
 margin-right: 5px !important;
 }
 .new-lead-row .mark-viewed-undo {
@@ -117,6 +114,67 @@ margin-right: 5px !important;
 	display: none ;
 	margin-left: 8px;
 }
+.trash a{
+	background: #2ea2cc;
+	border-color: #0074a2;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,.5),0 1px 0 rgba(0,0,0,.15);
+	color: #fff;
+	text-decoration: none;
+	vertical-align: top;
+	display: inline-block;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	font-size: 14px !important;
+	font-weight: bold;
+	padding: 0px 10px !important;
+	margin-right: 5px !important;
+	-moz-transition: none;
+	-webkit-transition: none;
+	transition: none;
+	word-wrap: break-word;
+	outline: 0;
+	font-family: inherit;
+	border-spacing: 0;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+.wp-core-ui .button-primary.hover, .wp-core-ui .button-primary.submitdelete:hover, .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
+background: #1e8cbe;
+border-color: #0074a2;
+-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+box-shadow: inset 0 1px 0 rgba(120,200,230,.6);
+color: #fff;
+text-decoration: none;
+vertical-align: top;
+display: inline-block;
+text-decoration: none;
+font-size: 13px;
+line-height: 26px;
+height: 28px;
+margin: 0;
+padding: 0 10px 1px;
+cursor: pointer;
+border-width: 1px;
+border-style: solid;
+-webkit-border-radius: 3px;
+-webkit-appearance: none;
+border-radius: 3px;
+white-space: nowrap;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
 .trash a {
 	color:#fff !important;
 }
@@ -127,9 +185,11 @@ margin-right: 5px !important;
 	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
 }
 .trash a:hover {
-	height: 28px !important;
-	padding-top: 1px !important;
+	border-color: #fc5a5a !important;
+	-webkit-box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
+	box-shadow: inset 0 1px 0 rgba(242, 45, 58, 0.5),0 1px 0 rgba(242, 45, 58, 0.15) !important;
 }
+
 .clone a {
 	font-size: 14px;
 	background-color: #f4f4f4;

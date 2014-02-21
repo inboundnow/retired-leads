@@ -19,15 +19,15 @@
 		array(
 			array(
 				'id'  => 'tracking-ids',
-				'label' => 'IDs of forms to track',
-				'description' => "<p>Enter in a value found in a HTML form's id attribute to track it as a conversion.</p><p>Do not include the # in the id. <strong>Example format: Form_ID, Form-ID-2</strong></p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here). Comma separated values</p>",
+				'label' => 'IDs or Classes of forms to track',
+				'description' => "<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>",
 				'type'  => 'text',
 				'default'  => '',
 				'options' => null
 			),
 			array(
 				'id'  => 'exclude-tracking-ids',
-				'label' => 'IDs of forms <u>NOT</u> to track',
+				'label' => 'IDs of forms <b><u>NOT</u></b> to track',
 				'description' => "<p>Enter in a value found in a HTML form's id attribute to turn off tracking.</p>",
 				'type'  => 'text',
 				'default'  => '',

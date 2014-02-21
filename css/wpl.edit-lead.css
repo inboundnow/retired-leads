@@ -8,3 +8,6 @@
 #lead-main-image {
 	min-height: 150px;
 }
+.lead-comment-div p {
+	margin-top: 0px;
+}

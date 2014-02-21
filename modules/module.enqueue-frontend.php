@@ -29,10 +29,10 @@ function wpleads_enqueuescripts_header()
 
 		// Load form tracking class
 		$form_ids = get_option( 'wpl-main-tracking-ids' , 1);
-		if ($form_ids)
-		{
+		$form_exclude_ids = get_option( 'wpl-main-exclude-tracking-ids');
+		if ($form_ids || $form_exclude_ids) {
 			wp_enqueue_script('wpl-assign-class', WPL_URL . '/js/wpl.assign-class.js', array( 'jquery'));
-			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids ) );
+			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids, 'form_exclude_ids' => $form_exclude_ids ) );
 		}
 
 	}
