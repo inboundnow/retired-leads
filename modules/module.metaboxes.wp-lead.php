@@ -679,6 +679,7 @@ function wpleads_display_metabox_main() {
 				<?php //define activity toggles. Filterable
 					$nav_items[] = array('id'=>'lead-conversions','label'=> __( 'Conversions' , 'leads' ) );
 					$nav_items[] = array('id'=>'lead-page-views','label'=>  __( 'Page Views' , 'leads' ) );
+					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>
 
 			<div class="nav-container">
