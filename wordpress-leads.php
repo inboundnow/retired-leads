@@ -44,10 +44,11 @@ switch (is_admin()) :
 
 		include_once('modules/module.nav-menus.php');
 		include_once('modules/module.metaboxes.wp-lead.php');
-		//include_once('modules/module.metaboxes.automation.php');
+
 		include_once('modules/module.wp_list_table-leads.php');
 		include_once('modules/module.metaboxes.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
+		//include_once('modules/module.metaboxes.automation.php');
 		//include_once('modules/module.post-type.automation.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.dashboard.php');
@@ -66,7 +67,7 @@ switch (is_admin()) :
 endswitch;
 
 /* load cron definitions - must be loaded outside of is_admin() conditional */
-include_once('modules/module.cron.lead-rules.php');
+//include_once('modules/module.cron.lead-rules.php');
 
 /* Inbound Core Shared Files. Lead files take presidence */
 add_action( 'plugins_loaded', 'inbound_load_shared_leads' );
@@ -93,6 +94,7 @@ function inbound_load_shared_leads()
 	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 	include_once('shared/functions/global.shared.functions.php'); // Global Shared Utility functions
 	include_once('shared/assets/assets.loader.class.php');  // Load Shared CSS and JS Assets
+	include_once('shared/functions/global.leads.cpt.php'); // Shared Lead functionality
 }
 
 function wpleads_check_active() {

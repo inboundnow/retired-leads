@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.7
 Tested up to: 3.8
-Stable Tag: 1.3.1
+Stable Tag: 1.3.3
 
 Track website visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -71,9 +71,11 @@ We built Lead Management as a framework! You can use our extendable framework to
 == Changelog ==
 = 1.3.3 =
 * Updated Bulk lead management tool
+* Added Google Analytics Custom Event Tracking for form submissions
 * Added Ability: automatically sort leads into lists on form completions
 * Added Ability: Send lead notification emails to multiple people. Use comma separated values
 * Added New Lead Tags option for additional ways to sort and categorize/tag leads
+* Updated main docs.inboundnow.com site. Check it out!
 
 = 1.3.2 =
 * GPL update with js

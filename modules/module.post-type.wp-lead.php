@@ -1,5 +1,6 @@
 <?php
 
+/*
 add_action('init', 'wpleads_register', 11);
 function wpleads_register() {
 	//echo $slug;exit;
@@ -107,6 +108,7 @@ function wpleads_register() {
     	//print_r($submenu); exit;
     }
 }
+*/
 
 /* KEEP DATETIME TRACK OF UPDATED POST META FOR WP-LEAD CPT */
 add_action( 'added_post_meta', 'wpleads_after_post_meta_change', 10, 4 );

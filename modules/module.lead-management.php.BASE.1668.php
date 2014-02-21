@@ -10,69 +10,70 @@ TODO:
 define('BATCH_PATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ) );
 
 function lead_dropdown_generator() {
-global $wpdb;
+		global $wpdb;
 
-	$post_type = 'wp-lead';
-	$query = "
-		SELECT DISTINCT($wpdb->postmeta.meta_key)
-		FROM $wpdb->posts
-		LEFT JOIN $wpdb->postmeta
-		ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-		WHERE $wpdb->posts.post_type = 'wp-lead'
-		AND $wpdb->postmeta.meta_key != ''
-		AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
-		AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
-	";
-	$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
-	$fields = $wpdb->get_col($wpdb->prepare($query, $post_type));
+				$post_type = 'wp-lead';
+				$query = "
+					SELECT DISTINCT($wpdb->postmeta.meta_key)
+					FROM $wpdb->posts
+					LEFT JOIN $wpdb->postmeta
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+					WHERE $wpdb->posts.post_type = 'wp-lead'
+					AND $wpdb->postmeta.meta_key != ''
+					AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
+					AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
+				";
+				$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
+				$fields = $wpdb->get_col($wpdb->prepare($query, $post_type));
+				//print_r($fields);
+				// $fields = $wpdb->get_results($sql, ARRAY_N);
+			?>
+				<select multiple name="wp_leads_filter_field" id="lead-meta-filter">
 
-	?>
-	<select multiple name="wp_leads_filter_field" id="lead-meta-filter">
+				<?php
+					$current = isset($_GET['wp_leads_filter_field'])? $_GET['wp_leads_filter_field']:'';
+					$current_v = isset($_GET['wp_leads_filter_field_val'])? $_GET['wp_leads_filter_field_val']:'';
+					$nice_names = array(
+						"wpleads_first_name" => "First Name",
+						"wpleads_last_name" => "Last Name",
+						"wpleads_email_address" => "Email Address",
+						"wpleads_city" => "City",
+						"wpleads_areaCode" => "Area Code",
+						"wpleads_country_name" => "Country Name",
+						"wpleads_region_code" => "State Abbreviation",
+						"wpleads_region_name" => "State Name",
+						"wp_lead_status" => "Lead Status",
+						"events_triggered" => "Number of Events Triggered",
+						"lp_page_views_count" => "Page View Count",
+						"wpleads_conversion_count" => "Number of Conversions"
+					);
 
-	<?php
-		$current = isset($_GET['wp_leads_filter_field'])? $_GET['wp_leads_filter_field']:'';
-		$current_v = isset($_GET['wp_leads_filter_field_val'])? $_GET['wp_leads_filter_field_val']:'';
+					$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
 
-		$nice_names = array(
-			"wpleads_first_name" => "First Name",
-			"wpleads_last_name" => "Last Name",
-			"wpleads_email_address" => "Email Address",
-			"wpleads_city" => "City",
-			"wpleads_areaCode" => "Area Code",
-			"wpleads_country_name" => "Country Name",
-			"wpleads_region_code" => "State Abbreviation",
-			"wpleads_region_name" => "State Name",
-			"wp_lead_status" => "Lead Status",
-			"events_triggered" => "Number of Events Triggered",
-			"lp_page_views_count" => "Page View Count",
-			"wpleads_conversion_count" => "Number of Conversions"
-		);
+					foreach ($fields as $field) {
+						//echo $field;
+						if (array_key_exists($field, $nice_names)) {
+							$label = $nice_names[$field];
+							echo "<option value='$field' ".selected( $current, $field ).">$label</option>";
+						}
 
-		$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
-
-		foreach ($fields as $field) {
-			//echo $field;
-			if (array_key_exists($field, $nice_names)) {
-				$label = $nice_names[$field];
-				echo "<option value='$field' ".selected( $current, $field ).">$label</option>";
-			}
-
-		}
-	?>
-	</select>
-	<style type="text/css" media="screen">
-	/*<![CDATA[*/
-		.select2-container {
-			width: 50%;
-			padding-top: 15px;
-		}
-	/*]]>*/
-	</style>
-	<?php
+					}
+				?>
+				</select>
+				<style type="text/css" media="screen">
+				/*<![CDATA[*/
+					.select2-container {
+						width: 50%;
+						padding-top: 15px;
+					}
+				/*]]>*/
+				</style>
+				<?php
 }
 
-add_action('wp_ajax_leads_delete_from_list', 'leads_delete_from_list');
+add_action('wp_ajax_leads_delete_from_list', 'leads_delete_from_list');           // for logged in user
 add_action('wp_ajax_nopriv_leads_delete_from_list', 'leads_delete_from_list');
+
 function leads_delete_from_list(){
 	//check_ajax_referer('leads_ajax_load_more_leads');
 
@@ -127,8 +128,7 @@ function leads_ajax_load_more_leads(){
     // fix the bullshit
 
     // magic fix http://wordpress.stackexchange.com/questions/96584/how-do-i-filter-posts-by-taxomony-using-ajax
-   if ( $cat != 'all')
-   {
+   if ( $cat != 'all'){
    		/* OLD Tax setup
   		//$args['term'] = $cat;
     	/*$args['tax_query'] = array(
@@ -148,8 +148,7 @@ function leads_ajax_load_more_leads(){
 		//echo json_encode($taxonomy_array,JSON_FORCE_OBJECT);
 		//wp_die();
 		$loop_count_two = 0;
-		foreach($taxonomy_array as $taxonomy_array_value => $test)
-		{
+		foreach($taxonomy_array as $taxonomy_array_value => $test){
 
 		        $tax_query[] = array(
 		        'taxonomy' => 'wplead_list_category',
@@ -160,14 +159,12 @@ function leads_ajax_load_more_leads(){
 		    );
 
 		}
-		
 	    $args['tax_query'] = $tax_query;
     }
     //echo json_encode($args,JSON_FORCE_OBJECT);
     //wp_die();
     $term_id = $cat;
-	/*  
-	$args = array(
+ /*  $args = array(
    'post_type' => 'wp-lead',
    'term' => 54,
    'posts_per_page' => -1,
@@ -192,7 +189,7 @@ function leads_ajax_load_more_leads(){
 
     $output =  $args;
   	//echo json_encode($output,JSON_FORCE_OBJECT);
-    //wp_die();
+   //wp_die();
 
     $query = new WP_Query( $args );
     $posts = $query->posts;
@@ -263,10 +260,8 @@ function leads_ajax_load_more_leads(){
 function test_query(){
 
 }
-
 function leads_count_posts_in_term($taxonomy, $term, $type="post"){
 	global $wpdb;
-	
 	$query = "
 	SELECT COUNT( DISTINCT cat_posts.ID ) AS post_count
 	FROM $wpdb->term_taxonomy AS cat_term_taxonomy INNER JOIN $wpdb->terms AS cat_terms ON
@@ -280,7 +275,6 @@ function leads_count_posts_in_term($taxonomy, $term, $type="post"){
 	AND cat_term_taxonomy.taxonomy = '".$taxonomy."'
 	AND cat_terms.slug IN ('".$term."')
 	";
-	
 	return $wpdb->get_var($query);
 }
 
@@ -292,28 +286,25 @@ function lead_select_taxonomy_dropdown($taxonomy, $select_type = 'multiple', $cu
 	}
 	?>
 	<select <?php echo $type;?> name="wplead_list_category<?php echo $custom_class;?>" id="<?php echo $id;?>" class="postform <?php echo $custom_class;?>">
-	<?php 
-	
-	(isset($_GET['wplead_list_category']) && $_GET['wplead_list_category'][0] === 'all' ) ? $all_selected = 'selected="selected"' : $all_selected = '';
-
-	if ($select_type != 'single')
-	{ 
-		?>
-		<option class="" value="all" <?php echo $all_selected;?>><?php _e( 'All Leads in Database' , 'leads' ); ?></option>
-		<?php 
+	<?php if (isset($_GET['wplead_list_category']) && $_GET['wplead_list_category'][0] === 'all' ){
+		$all_selected = 'selected="selected"';
+	} else {
+		$all_selected = '';
 	}
+	if ($select_type != 'single'){ ?>
+		<option class="" value="all" <?php echo $all_selected;?>>All Leads in Database</option>
+	<?php }
 
 	$args = array(
-	    'hide_empty' => false,
+	    'hide_empty'    => false,
 	);
-	
 	$terms = get_terms($taxonomy, $args);
 	if (isset($_GET['wplead_list_category'])) {
 		$list_array = $_GET['wplead_list_category'];
 	}
 
-	foreach ($terms as $term) 
-	{
+	foreach ($terms as $term) {
+
 		$count = leads_count_posts_in_term('wplead_list_category', $term->slug, 'wp-lead');
 		$selected = (isset($_GET['wplead_list_category']) && in_array($term->term_id, $list_array) ) ? 'selected="selected"' : '';
 
@@ -321,9 +312,105 @@ function lead_select_taxonomy_dropdown($taxonomy, $select_type = 'multiple', $cu
 	}
 	echo '</select>';
 
+	?>
+<?php }
+
+/*
+function add_sketchbook_category_automatically($post_ID) {
+	global $wpdb;
+	if(!has_term('','category',$post_ID)){
+		$cat = array(4);
+		wp_set_object_terms($post_ID, $cat, 'category');
+	}
 }
+add_action('publish_sketchbook', 'add_sketchbook_category_automatically');
+*/
+
+//add_action( 'wp_head', 'add_all_leads_to_master_list' );
+function delete_leads() {
+	global $post;
+	$args = array(
+	'posts_per_page'  => 20,
+	'post_type'=> 'wp-lead');
+
+$mycustomposts = get_posts($args);
+//print_r($mycustomposts);
+   foreach( $mycustomposts as $mypost ) {
+     // Delete's each post.
+     //wp_delete_post( $mypost->ID, true);
+     wp_set_object_terms( $mypost->ID, 'all-leads', 'wplead_list_category');
+
+    // Set to False if you want to send them to Trash.
+   }
+// 50 custom post types are being deleted everytime you refresh the page.
+}
+function generate_dummy_email() {
+
+	// array of possible top-level domains
+	 $tlds = array("com", "net", "gov", "org", "edu", "biz", "info");
+
+	 // string of possible characters
+	 $char = "0123456789abcdefghijklmnopqrstuvwxyz";
+
+	 // start output
+	 echo "<p>\n";
+
+	 // main loop - this gives 1000 addresses
+	 for ($j = 0; $j < 1000; $j++) {
+
+	   // choose random lengths for the username ($ulen) and the domain ($dlen)
+	   $ulen = mt_rand(5, 10);
+	   $dlen = mt_rand(7, 17);
+
+	   // reset the address
+	   $a = "";
+
+	   // get $ulen random entries from the list of possible characters
+	   // these make up the username (to the left of the @)
+	   for ($i = 1; $i <= $ulen; $i++) {
+	     $a .= substr($char, mt_rand(0, strlen($char)), 1);
+	   }
+
+	   // wouldn't work so well without this
+	   $a .= "@";
+
+	   // now get $dlen entries from the list of possible characters
+	   // this is the domain name (to the right of the @, excluding the tld)
+	   for ($i = 1; $i <= $dlen; $i++) {
+	     $a .= substr($char, mt_rand(0, strlen($char)), 1);
+	   }
+
+	   // need a dot to separate the domain from the tld
+	   $a .= ".";
+
+	   // finally, pick a random top-level domain and stick it on the end
+	   $a .= $tlds[mt_rand(0, (sizeof($tlds)-1))];
+
+	   // done - echo the address inside a link
+	  return $a;
+
+	 }
+
+	 // tidy up - finish the paragraph
+}
+//generate_dummy_leads();
+function generate_dummy_leads(){
 
 
+	for ($i=0; $i < 50; $i++) {
+		$email = generate_dummy_email();
+		$post = array(
+			'post_title'		=> $email,
+			'post_status'		=> 'publish',
+			'post_type'		=> 'wp-lead',
+			'post_author'		=> 1
+		);
+
+		//$post = add_filter('lp_leads_post_vars',$post);
+		wp_insert_post($post);
+	}
+
+}
 
 add_action('admin_enqueue_scripts', 'lead_management_js');
 function lead_management_js() {
@@ -409,26 +496,26 @@ function lead_management_admin_screen() {
 	if (isset($_GET['done'])) {
 		switch ( $_GET['done'] ) {
 			case 'add':
-				$message = sprintf(__("Added %d posts to the list &ldquo;$what&rdquo;." , 'leads' ) , $num );
+				$message = "Added $num posts to the list &ldquo;$what&rdquo;.";
 				break;
 			case 'remove':
-				$message = sprintf(_("Removed %d posts from the list &ldquo;$what&rdquo;." , 'leads' ) , $num );
+				$message = "Removed $num posts from the list &ldquo;$what&rdquo;.";
 				break;
 			case 'tag':
-				$message = sprintf(__("Tagged %d posts with &ldquo;$what&rdquo; on $on." , 'leads' ) , $num );
+				$message = "Tagged $num posts with &ldquo;$what&rdquo; on $on.";
 				break;
 			case 'untag':
-				$message = sprintf(__("Untagged %d posts with &ldquo;$what&rdquo;." , 'leads' ) , $num );
+				$message = "Untagged $num posts with &ldquo;$what&rdquo;.";
 				break;
 			case 'delete_leads':
-				$message = sprintf(__("%d  leads permanently deleted" , 'leads' ) , $num );
+				$message = "$num leads permanently deleted";
 				break;
 
 		}
 	}
 
 	if ( !empty($message) ) {
-		echo "<div id='message' class='updated fade'><p><strong>".$message."</strong></p></div>";
+		echo "<div id='message' class='updated fade'><p><strong>$message</strong></p></div>";
 		echo '<style type="text/css">
 		#display-lead-count, .starter-text, #filters{display:none !important;}
 		</style>';
@@ -442,11 +529,15 @@ function lead_management_admin_screen() {
 	if ( isset($_GET['t']) && !empty($_GET['t']) )
 		$filter = '<input type="hidden" name="t" value="' . urlencode($_GET['t']) . '" />';
 
-	echo '<div class="wrap">
-			<h2>'. __('Lead Management - Bulk Update Leads' , 'leads') .'</h2>';
+	echo '
+		<div class="wrap">
+			<h2>Lead Management - Bulk Update Leads</h2>
+	';
 
-	if ( empty($_GET['wplead_list_category']) && empty($_GET['s']) && empty($_GET['t']) ){
-		echo '<p class="starter-text">'. __('To get started, select the lead criteria below to see all matching leads.' , 'leads' ) .'</p>';
+	if ( empty($_GET['wplead_list_category']) && empty($_GET['s']) && empty($_GET['t']) ) {
+		echo '
+			<p class="starter-text">To get started, select the lead criteria below to see all matching leads.</p>
+		';
 	}
 
 	$page_output = (isset($_GET['paged'])) ? $_GET['paged'] : '1';
@@ -461,7 +552,7 @@ function lead_management_admin_screen() {
 	';
 	// Category drop-down
 	echo '<div id="top-filters"><div  id="inbound-lead-lists-dropdown">
-		<label for="cat">'. __('Select Lead List(s):' , 'leads' ) .'</label>';
+		<label for="cat">Select Lead List(s):</label>';
 		//wp_lead_lists_dropdown();
 		lead_select_taxonomy_dropdown( 'wplead_list_category' );
 	echo '</div>';
@@ -473,18 +564,18 @@ function lead_management_admin_screen() {
 	}
 	echo '
 		<div id="and-or-params">
-		<label for="orderby">'.__('Match:', 'leads' ).'</label>
+		<label for="orderby">Match:</label>
 			<select name="relation" id="relation">
 
-						<option value="AND"' . ( $relation == 'AND' ? ' selected="selected"' : '' ) . '>'. __('(ONLY) Leads that are in <u>ALL</u> of the selected lists' , 'leads' ) .'</option>
-						<option value="OR"' . ( $relation == 'OR' ? ' selected="selected"' : '' ) . '>'. __('(ANY) Leads in at least 1 of the selected Lists' , 'leads' ) .'</option>
+						<option value="AND"' . ( $relation == 'AND' ? ' selected="selected"' : '' ) . '>(ONLY) Leads that are in <u>ALL</u> of the selected lists</option>
+						<option value="OR"' . ( $relation == 'OR' ? ' selected="selected"' : '' ) . '>(ANY) Leads in at least 1 of the selected Lists</option>
 
 			</select>
 		</div></div>';
 	// Sorting
 	echo '<div id="bottom-filters">
 		<div class="filter" id="lead-sort-by">
-			<label for="orderby">'. __( 'Sort by:' , 'leads' ) .'</label>
+			<label for="orderby">Sort by:</label>
 			<select name="orderby" id="orderby">
 	';
 	foreach ( $orderbys as $title => $value ) {
@@ -510,8 +601,8 @@ function lead_management_admin_screen() {
 	// ...then the keyword search.
 	echo '
 		<div class="filter" style="display:none;">
-			<label for="s">'. __('Keyword:' , 'leads') .'</label>
-			<input type="text" name="s" id="s" value="' . htmlentities($s) . '" title="'.__('Use % for wildcards.' , 'leads') .'" />
+			<label for="s">Keyword:</label>
+			<input type="text" name="s" id="s" value="' . htmlentities($s) . '" title="Use % for wildcards." />
 		</div>
 	';
 
@@ -524,13 +615,13 @@ function lead_management_admin_screen() {
 	echo '
 		<div class="filter" id="lead-tag-filter">
 			<label for="s">Tag:</label>
-			<input type="text" name="t" id="t" value="' . htmlentities($t) . '" title="\'foo, bar\': posts tagged with \'foo\' or \'bar\'. \'foo+bar\': posts tagged with both \'foo\' and \'bar\'" />
+			<input type="text" name="t" id="t" value="' . htmlentities($t) . '" title="\'foo, bar\': posts tagged with \'foo\' or \'bar\'. \'foo+bar\': posts tagged with both \'foo\' and \'bar\'." />
 		</div>
 	';
 
 	echo '
 		<div class="filter">
-			<input type="submit" class="button-primary" value="'.__('Search Leads' , 'leads') .'" name="submit" />
+			<input type="submit" class="button-primary" value="Search Leads" name="submit" />
 		</div>';
 
 	echo '</div>
@@ -635,15 +726,14 @@ function lead_management_admin_screen() {
 		//	print_r($posts); exit;
 		// Pagination
 		$pagination = '';
-		if ( $query->max_num_pages > 1 ) 
-		{
+		if ( $query->max_num_pages > 1 ) {
 			$current = preg_replace('/&?paged=[0-9]+/i', '', strip_tags($_SERVER['REQUEST_URI'])); // I'll happily take suggestions on a better way to do this, but it's 3am so
 
 			$pagination .= "<div class='tablenav-pages'>";
 
 			if ( $paged > 1 ) {
 				$prev = $paged - 1;
-				$pagination .= "<a class='prev page-numbers' href='$current&amp;paged=$prev'>&laquo; ". __( 'Previous' , 'leads' )."</a>";
+				$pagination .= "<a class='prev page-numbers' href='$current&amp;paged=$prev'>&laquo; Previous</a>";
 			}
 
 			for ( $i = 1; $i <= $query->max_num_pages; $i++ ) {
@@ -656,7 +746,7 @@ function lead_management_admin_screen() {
 
 			if ( $paged < $query->max_num_pages ) {
 				$next = $paged + 1;
-				$pagination .= "<a class='next page-numbers' href='$current&amp;paged=$next'>".__( 'Next' , 'leads' ) ." &raquo;</a>";
+				$pagination .= "<a class='next page-numbers' href='$current&amp;paged=$next'>Next &raquo;</a>";
 			}
 
 			$pagination .= "</div>";
@@ -668,17 +758,14 @@ function lead_management_admin_screen() {
 	echo "</div>"; // tablenav
 	//lead_dropdown_generator();
 	// No posts have been fetched, let's tell the user:
-	if ( empty($_GET['wplead_list_category']) && empty($_GET['s']) && empty($_GET['t']) && !isset($_GET['on']) ) 
-	{
+	if ( empty($_GET['wplead_list_category']) && empty($_GET['s']) && empty($_GET['t']) && !isset($_GET['on']) ) {
 		echo '';
 		// List all leads?
-	} 
-	else 
-	{
+	} else {
 		// Criteria were given, but no posts were matched.
 		if ( empty($posts) ) {
 			echo '
-				<p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>
+				<p>No posts matched that criteria, sorry! Try again with something different.</p>
 			';
 		}
 		// Criteria were given, posts were matched... let's go!
@@ -693,7 +780,7 @@ function lead_management_admin_screen() {
 				    $prefix = ' <span>and</span> ';
 				}
 			} else {
-				$name = __( "Total" , 'leads' );
+				$name = "Total";
 			}
 
 			echo '
@@ -707,30 +794,28 @@ function lead_management_admin_screen() {
 						sprintf(
 							'<h2 class="found-text"><strong><span id="lead-total-found">%s</span></strong> Leads Found in <strong>%s</strong></h2><strong>Additional Search Criteria:</strong> tagged with <strong><u>%s</u></strong>, %s ordered by <strong><u>%s</u></strong> %s.',
 							$query->found_posts,
-							!empty($_GET['wplead_list_category']) ? $name : __( 'any category' , 'leads') ,
-							!empty($_GET['t']) ? htmlentities($_GET['t']) : __( 'any tag' , 'leads' ) ,
-							!empty($_GET['s']) ? __('containing the string' , 'leads' ).' <strong>' . htmlentities($_GET['s']) . '</strong>, ' : '',
+							!empty($_GET['wplead_list_category']) ? $name : 'any category',
+							!empty($_GET['t']) ? htmlentities($_GET['t']) : 'any tag',
+							!empty($_GET['s']) ? 'containing the string <strong>' . htmlentities($_GET['s']) . '</strong>, ' : '',
 							strtolower($orderbys_flip[$orderby]),
 							$order == 'asc' ? 'ascending' : 'descending'
 						);
 				} else {
 					echo'<caption style="margin-top:0px;">';
 				}
-				echo '<div><input type="search" class="light-table-filter" data-table="widefat" placeholder="Filter Results Below" /><span id="search-icon"></span>
-					<span style="float:right;margin-top: 19px;margin-right: 3px;" id="display-lead-count">
-						<i class="lead-spinner"></i><span id="lead-count-text">'.__( 'Grabbing Matching Leads' , 'leads' ) .'</span></span></div>
+				echo '<div><input type="search" class="light-table-filter" data-table="widefat" placeholder="Filter Results Below" /><span id="search-icon"></span><span style="float:right;margin-top: 19px;margin-right: 3px;" id="display-lead-count"><i class="lead-spinner"></i><span id="lead-count-text">Grabbing Matching Leads</span></span></div>
 				</caption>
 
 					<thead>
 						<tr>
 							<th class="checkbox-header no-sort" scope="col"><input type="checkbox" id="toggle" title="Select all posts" /></th>
 							<th class="count-sort-header" scope="col">#</th>
-							<th scope="col">'. __( 'Date' , 'leads' ) .'</th>
-							<th scope="col">'. __( 'Email' , 'leads' ) .'</th>
-							<th scope="col">'. __( 'Current Lists' , 'leads' ) .'</th>
-							<th scope="col">'. __( 'Current Tags' , 'leads' ) .'</th>
-							<th scope="col" class="no-sort">'. __( 'View' , 'leads' ).'</th>
-							<th scope="col">'. __( 'ID' , 'leads' ) .'</th>
+							<th scope="col">Date</th>
+							<th scope="col">Email</th>
+							<th scope="col">Current Lists</th>
+							<th scope="col">Current Tags</th>
+							<th scope="col" class="no-sort">View</th>
+							<th scope="col">ID</th>
 						</tr>
 					</thead>
 					<tbody id="the-list">
@@ -801,7 +886,7 @@ function lead_management_admin_screen() {
 			echo '
 			<div id="all-actions" class="tablenav">
 
-			<div id="inbound-lead-management"><span class="lead-actions-title">'. __( 'What do you want to do with the selected leads?' , 'leads' ) .'</span>
+			<div id="inbound-lead-management"><span class="lead-actions-title">What do you want to do with the selected leads?</span>
 
 			<div id="controls">';
 			lead_management_drop_down();
@@ -813,30 +898,30 @@ function lead_management_admin_screen() {
 				<div class="action" id="lead-update-lists">
 					<label for="lead-update-lists" >Choose List:</label>';
 					lead_select_taxonomy_dropdown( 'wplead_list_category', 'single', '_action' );
-			echo '<input type="submit" class="button-primary button" name="add" value="'. __('Add to' , 'leads' ) .'" title="Add the selected posts to this category." />
-					<input type="submit" class="manage-remove button-primary button" name="remove" value="'. __( 'Remove from' , 'leads' ) .'" title="Remove the selected posts from this category." />
+			echo '<input type="submit" class="button-primary button" name="add" value="Add to" title="Add the selected posts to this category." />
+					<input type="submit" class="manage-remove button-primary button" name="remove" value="Remove from" title="Remove the selected posts from this category." />
 				</div>
 
 				<div class="action" id="lead-update-tags">
 					<label for="lead-update-tags">Tags:</label>
-					<input type="text" id="inbound-lead-tags-input" name="tags" placeholder="'. __( 'Separate multiple tags with commas. ' , 'leads' ) .'" title="Separate multiple tags with commas." />
-					<input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="'. __( 'Replace' , 'leads' ) .'" title="Replace the selected leads\' current tags with these ones. Warning this will delete current tags and replace them" />
-					<input type="submit" name="tag" class="manage-tag-add button-primary button" value="'. __( 'Add' , 'leads' ) .'" title="Add tags to the selected leads without altering the leads\' existing tags." />
-					<input type="submit" name="untag" class="manage-remove button-primary button" value="'. __( 'Remove' , 'leads' ) .'" title="Remove these tags from the selected leads." />
+					<input type="text" id="inbound-lead-tags-input" name="tags" placeholder="Separate multiple tags with commas." title="Separate multiple tags with commas." />
+					<input type="submit" name="replace_tags" class="manage-tag-replace button-primary button" value="Replace" title="Replace the selected leads\' current tags with these ones. Warning this will delete current tags and replace them" />
+					<input type="submit" name="tag" class="manage-tag-add button-primary button" value="Add" title="Add tags to the selected leads without altering the leads\' existing tags." />
+					<input type="submit" name="untag" class="manage-remove button-primary button" value="Remove" title="Remove these tags from the selected leads." />
 				</div>
 
 				<div class="action" id="lead-update-meta">
 					<label for="lead-update-meta">Meta:</label>
 					<input type="text" name="meta_val" title="Separate multiple tags with commas." />
-					<input type="submit" name="replace_meta" value="'. __( 'Replace' , 'leads' ) .'" title="Replace the selected posts\' current meta values with these ones." />
-					<input type="submit" name="meta" value="'. __( 'Add' , 'leads' ) .'" title="Add these meta values to the selected posts without altering the posts\' existing tags." />
-					<input type="submit" name="unmeta" value="'. __( 'Remove' , 'leads' ) .'" title="Remove these meta values from the selected posts." />
+					<input type="submit" name="replace_meta" value="Replace" title="Replace the selected posts\' current meta values with these ones." />
+					<input type="submit" name="meta" value="Add" title="Add these meta values to the selected posts without altering the posts\' existing tags." />
+					<input type="submit" name="unmeta" value="Remove" title="Remove these meta values from the selected posts." />
 				</div>
 
 				<div class="action" id="lead-delete">
 					<label for="lead-delete" id="del-label"><span style="color:red;">Delete Selected Leads (Warning! There is no UNDO):</span></label>
 
-					<input type="submit" class="manage-remove button-primary button" name="delete_leads" value="'. __( 'Permanently Delete Selected Leads' , 'leads' ) .'" title="This will delete the selected leads from your database. There is no undo." />
+					<input type="submit" class="manage-remove button-primary button" name="delete_leads" value="Permanently Delete Selected Leads" title="This will delete the selected leads from your database. There is no undo." />
 
 				</div></div>
 
@@ -863,11 +948,11 @@ $url = get_option('siteurl');
 <section id="set-3">
 <div class="fleft">
 					<select id="cd-dropdown" class="cd-select">
-						<option value="-1" selected class="db-drop-label"><?php _e('Choose action to apply to selected leads' , 'leads' ); ?></option>
+						<option value="-1" selected class="db-drop-label">Choose action to apply to selected leads</option>
 
-						<option value="lead-update-lists"  class="action-symbol lead-update-lists-symbol db-drop-label"><?php _e( 'Add or Remove Selected Leads from Lists' , 'leads' ); ?></option>
-						<option value="lead-update-tags"  class="action-symbol lead-update-tags-symbol db-drop-label"><?php _e( 'Add or Remove Tags to Selected Leads' , 'leads' ); ?></option>
-						<option value="lead-delete"  class="action-symbol lead-update-delete-symbol db-drop-label"><?php _e( 'Permanently Delete Selected Leads' , 'leads' ); ?></option>
+						<option value="lead-update-lists"  class="action-symbol lead-update-lists-symbol db-drop-label">Add or Remove Selected Leads from Lists</option>
+						<option value="lead-update-tags"  class="action-symbol lead-update-tags-symbol db-drop-label">Add or Remove Tags to Selected Leads</option>
+						<option value="lead-delete"  class="action-symbol lead-update-delete-symbol db-drop-label">Permanently Delete Selected Leads</option>
 					</select>
 				</div>
 
@@ -896,31 +981,25 @@ $url = get_option('siteurl');
 		});
     });
 </script>
-<?php 
-}
 
-/* Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax */
-if (!function_exists('add_lead_lists_ajax')) {
+<?php }
+
+// Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax
 function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
 	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
 	$all_term_ids = array();
 	$all_term_slugs = array();
-	
-	foreach ($current_lists as $term ) 
-	{
+	foreach ($current_lists as $term ) {
 		$add = $term->term_id;
 		$slug = $term->slug;
 		$all_term_ids[] = $add;
 		$all_term_slugs[] = $slug;
 	}
-	
-	/* Set terms for lead tags taxomony */
+	// Set terms for lead tags taxomony
 	$list_array = $list_id;
-	if(is_array($list_array)) 
-	{
-		foreach ($list_array as $key => $value) 
-		{
+	if(is_array($list_array)) {
+		foreach ($list_array as $key => $value) {
 			$num = intval($value);
 			if ( !in_array($num, $all_term_ids) ) {
 				$all_term_ids[] = $num;
@@ -929,7 +1008,6 @@ function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') 
 		}
 	}
 }
-}
 
 function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
@@ -937,9 +1015,7 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 
 	$all_term_ids = array();
 	$all_term_slugs = array();
-	
-	foreach ($current_lists as $term ) 
-	{
+	foreach ($current_lists as $term ) {
 		$add = $term->term_id;
 		$slug = $term->slug;
 		$all_term_ids[] = $add;
@@ -947,14 +1023,11 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 	}
 
 	$tag_check = strpos($list_id, ",");
-	if ($tag_check !== false) 
-	{
+	if ($tag_check !== false) {
 		// Set terms for lead tags taxomony
 		$list_array = explode(",", $list_id);
-		if(is_array($list_array)) 
-		{
-			foreach ($list_array as $key => $value) 
-			{
+		if(is_array($list_array)) {
+			foreach ($list_array as $key => $value) {
 				$trim = trim(strtolower($value));
 				$add_slug = preg_replace('/\s+/', '-', $trim);
 				if ( !in_array($add_slug, $all_term_slugs) ) {
@@ -963,10 +1036,8 @@ function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category')
 				}
 			}
 		}
-	} 
-	else 
-	{
-		/* Set terms for list taxomony */
+	} else {
+		// Set terms for list taxomony
 		if ( !in_array($list_id, $all_term_ids) ) {
 			$all_term_ids[] = $list_id;
 			wp_set_object_terms( $lead_id, $all_term_ids, $tax);
@@ -978,17 +1049,14 @@ function remove_lead_from_list_tax($lead_id, $list_id,  $tax = 'wplead_list_cate
 	$current_terms = wp_get_post_terms( $lead_id, $tax, 'id' );
 
 	$all_remove_terms = '';
-	foreach ($current_terms as $term ) 
-	{
+	foreach ($current_terms as $term ) {
 		$add = $term->term_id;
 		$all_remove_terms .= $add . ' ,';
 	}
-	
 	$final = explode(' ,', $all_remove_terms);
 	$final = array_filter($final, 'strlen');
 
-	if (in_array($list_id, $final) ) 
-	{
+	if (in_array($list_id, $final) ) {
 		$new = array_flip ( $final );
 		unset($new[$list_id]);
 		$save = array_flip ( $new );
@@ -1021,95 +1089,79 @@ function wp_leads_sync_lead_tag_slug( $term_id, $tt_id, $taxonomy ) {
 add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
 function lead_action_admin_action() {
 
-	if ( !current_user_can('level_9') ){
-		die ( __('User does not have admin level permissions.') );
-	}
-	
+	if ( !current_user_can('level_9') )
+		die ( __('Cheatin&#8217; uh?') );
+
 	$_POST = stripslashes_deep($_POST);
 	$_GET = stripslashes_deep($_GET);
 
 	// Check if we've been submitted a tag/remove.
-	if ( !empty($_GET['ids']) ) 
-	{
+	if ( !empty($_GET['ids']) ) {
 		check_admin_referer('lead_management-edit');
-		
-		(is_array($_GET['ids'])) ? $pass_ids = implode(',', $_GET['ids']) : $pass_ids = $_GET['ids'];
+		if(is_array($_GET['ids'])){
+			$pass_ids = implode(',', $_GET['ids']);
+		} else {
+			$pass_ids = $_GET['ids'];
+		}
 
 		$cat = intval($_GET['wplead_list_category_action']);
 		$num = count($_GET['ids']);
 
 
-		if ( !empty($_GET['wplead_list_category_action']) ){		
+		if ( !empty($_GET['wplead_list_category_action']) )
 			$query = '&cat=' . $_GET['wplead_list_category_action'];
-		}
-		
-		if ( !empty($_GET['s']) ) {
+		if ( !empty($_GET['s']) )
 			$query = '&s=' . $_GET['s'];
-		}
-		
-		if ( !empty($_GET['t']) ){
+		if ( !empty($_GET['t']) )
 			$query = '&t=' . $_GET['t'];
-		}
 
 		$term = get_term( $_GET['wplead_list_category_action'], 'wplead_list_category' );
 		$name = $term->slug;
 		$this_tax = "wplead_list_category";
-		
-		/* We've been told to tag these posts with the given category. */
-		if ( !empty($_GET['add']) ) 
-		{
+		// We've been told to tag these posts with the given category.
+		if ( !empty($_GET['add']) ) {
 
-			foreach ( $_GET['ids'] as $id ) 
-			{
+			foreach ( $_GET['ids'] as $id ) {
 				$fid = intval($id);
+
 				add_lead_to_list_tax($fid, $cat); // add to list
+
 			}
-			
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=$num$query");
 			die;
 		}
-		/* We've been told to remove these posts from the given category. */
-		elseif ( !empty($_GET['remove']) ) 
-		{
-
-			foreach ( (array) $_GET['ids'] as $id ) 
-			{
+		// We've been told to remove these posts from the given category.
+		elseif ( !empty($_GET['remove']) ) {
+			// wp_delete_term($wplead_cat_id,'wplead_list_category_action');
+			foreach ( (array) $_GET['ids'] as $id ) {
 				$fid = intval($id);
+				// $cats = wp_get_post_terms($id, "wplead_list_category_action"); // gets all cats
 				remove_lead_from_list_tax($fid, $cat);
 			}
-			
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=$num");
 			die;
 		}
-		/* We've been told to tag these posts */
-		elseif ( !empty($_GET['tag']) || !empty($_GET['replace_tags']) )
-		{
+		// We've been told to tag these posts
+		elseif ( !empty($_GET['tag']) || !empty($_GET['replace_tags']) ) {
 			$tags = $_GET['tags'];
-			
-			foreach ( (array) $_GET['ids'] as $id ) 
-			{
+			foreach ( (array) $_GET['ids'] as $id ) {
 				$lead_ID = intval($id);
 				$append = empty($_GET['replace_tags']);
+				//wp_set_post_tags($id, $tags, $append);
 				add_lead_to_list_tax($lead_ID, $tags, 'lead-tags');
 			}
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=$num$query&on=$pass_ids");
 			die;
 		}
-		/* We've been told to untag these posts */
-		elseif ( !empty($_GET['untag']) ) 
-		{
+		// We've been told to untag these posts
+		elseif ( !empty($_GET['untag']) ) {
 			$tags = explode(',', $_GET['tags']);
-			
-			foreach ( (array) $_GET['ids'] as $id ) 
-			{
+			foreach ( (array) $_GET['ids'] as $id ) {
 				$id = intval($id);
 				$existing = wp_get_post_tags($id);
 				$new = array();
-				
-				foreach ( (array) $existing as $_tag ) 
-				{
-					foreach ( (array) $tags as $tag ) 
-					{
+				foreach ( (array) $existing as $_tag ) {
+					foreach ( (array) $tags as $tag ) {
 						if ( $_tag->name != $tag ) {
 							$new[] = $_tag->name;
 						}
@@ -1117,20 +1169,16 @@ function lead_action_admin_action() {
 				}
 				wp_set_post_tags($id, $new);
 			}
-			
 			$tags = join(', ', $tags);
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=$num$query");
 			die;
 		}
-		/* Delete selected leads */
-		elseif ( !empty($_GET['delete_leads']) ) 
-		{
-			foreach ( (array) $_GET['ids'] as $id ) 
-			{
+		// Delete selected leads
+		elseif ( !empty($_GET['delete_leads']) ) {
+			foreach ( (array) $_GET['ids'] as $id ) {
 				$id = intval($id);
 				wp_delete_post( $id, true);
 			}
-			
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=$num$query");
 			die;
 
