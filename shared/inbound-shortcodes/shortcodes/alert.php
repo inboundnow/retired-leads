@@ -9,27 +9,27 @@
 		'no_preview' => true,
 		'options' => array(
 			'color' => array(
-				'name' => __('Color Style', INBOUND_LABEL),
-				'desc' => __('Select the style.', INBOUND_LABEL),
+				'name' => __('Color Style', 'leads'),
+				'desc' => __('Select the style.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', INBOUND_LABEL),
-					'blue' => __('Blue', INBOUND_LABEL),
-					'green' => __('Green', INBOUND_LABEL),
-					'red' => __('Red', INBOUND_LABEL),
-					'yellow' => __('Yellow', INBOUND_LABEL)
+					'default' => __('Default', 'leads'),
+					'blue' => __('Blue', 'leads'),
+					'green' => __('Green', 'leads'),
+					'red' => __('Red', 'leads'),
+					'yellow' => __('Yellow', 'leads')
 				),
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Message', INBOUND_LABEL),
-				'desc' => __('Your message here.', INBOUND_LABEL),
+				'name' => __('Message', 'leads'),
+				'desc' => __('Your message here.', 'leads'),
 				'type' => 'textarea',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[alert color="{{color}}"]{{content}}[/alert]',
-		'popup_title' => __('Insert Alert Message Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Alert Message Shortcode', 'leads')
 	);
 
 /* 	Add shortcode

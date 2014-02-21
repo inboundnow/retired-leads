@@ -11,63 +11,63 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading Text', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading Text', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Recent Content Offers'
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL)
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads')
 				),
 				'std' => '4'
 			),
 			'number' => array(
-				'name' => __('Post Number', INBOUND_LABEL),
-				'desc' => __('Enter the number of post to show.', INBOUND_LABEL),
+				'name' => __('Post Number', 'leads'),
+				'desc' => __('Enter the number of post to show.', 'leads'),
 				'type' => 'text',
 				'std' => '4'
 			)
 		),
 		'shortcode' => '[landing-page-list heading="{{heading}}" column="{{column}}" number="{{number}}"]',
-		'popup_title' => __('Insert Landing Page List Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Landing Page List Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['landing-page-list'] = array(
-		'name' => __('Portfolio', INBOUND_LABEL),
+		'name' => __('Portfolio', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Recent Project',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL)
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads')
 				),
 				'std' => '4',
 				'class' => '',
 				'is_content' => 0
 			),
 			'number' => array(
-				'name' => __('Post Number', INBOUND_LABEL),
-				'desc' => __('Enter the number of post to show.', INBOUND_LABEL),
+				'name' => __('Post Number', 'leads'),
+				'desc' => __('Enter the number of post to show.', 'leads'),
 				'type' => 'text',
 				'std' => '4',
 				'class' => '',
@@ -114,7 +114,7 @@
 							<figure class="item-thumb">
 		                        '.get_the_post_thumbnail($post->ID, '500x360').'
 		                        <div class="overlay">
-		                            <a class="view-link" href="'.get_permalink().'" rel="bookmark">'.__('View Project', INBOUND_LABEL) .'</a>
+		                            <a class="view-link" href="'.get_permalink().'" rel="bookmark">'.__('View Project', 'leads') .'</a>
 		                        </div>
 		                    </figure>
 

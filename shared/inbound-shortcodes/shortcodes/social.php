@@ -9,56 +9,56 @@
 		'no_preview' => true,
 		'options' => array(
 			'facebook' => array(
-				'name' => __('Facebook', INBOUND_LABEL),
-				'desc' => __('Enter your facebook profile URL', INBOUND_LABEL),
+				'name' => __('Facebook', 'leads'),
+				'desc' => __('Enter your facebook profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'twitter' => array(
-				'name' => __('Twitter', INBOUND_LABEL),
-				'desc' => __('Enter your twitter profile URL', INBOUND_LABEL),
+				'name' => __('Twitter', 'leads'),
+				'desc' => __('Enter your twitter profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'google_plus' => array(
-				'name' => __('Google+', INBOUND_LABEL),
-				'desc' => __('Enter your google plus profile URL', INBOUND_LABEL),
+				'name' => __('Google+', 'leads'),
+				'desc' => __('Enter your google plus profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'linkedin' => array(
-				'name' => __('Linkedin', INBOUND_LABEL),
-				'desc' => __('Enter your linkedin profile URL', INBOUND_LABEL),
+				'name' => __('Linkedin', 'leads'),
+				'desc' => __('Enter your linkedin profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'github' => array(
-				'name' => __('Github', INBOUND_LABEL),
-				'desc' => __('Enter your github profile URL', INBOUND_LABEL),
+				'name' => __('Github', 'leads'),
+				'desc' => __('Enter your github profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'pinterest' => array(
-				'name' => __('Instagram', INBOUND_LABEL),
-				'desc' => __('Enter your instagram profile URL', INBOUND_LABEL),
+				'name' => __('Instagram', 'leads'),
+				'desc' => __('Enter your instagram profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'pinterest' => array(
-				'name' => __('Pinterest', INBOUND_LABEL),
-				'desc' => __('Enter your pinterest profile URL', INBOUND_LABEL),
+				'name' => __('Pinterest', 'leads'),
+				'desc' => __('Enter your pinterest profile URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'rss' => array(
-				'name' => __('RSS', INBOUND_LABEL),
-				'desc' => __('Enter your RSS feeds URL', INBOUND_LABEL),
+				'name' => __('RSS', 'leads'),
+				'desc' => __('Enter your RSS feeds URL', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[social_links facebook="{{facebook}}" twitter="{{twitter}}" google_plus="{{google_plus}}" linkedin="{{linkedin}}" github="{{github}}" pinterest="{{pinterest}}" /]',
-		'popup_title' => __('Insert Social Link Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Social Link Shortcode', 'leads')
 	);
 
 /* 	Add shortcode

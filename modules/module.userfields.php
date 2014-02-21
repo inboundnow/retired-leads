@@ -8,97 +8,97 @@ function wp_leads_get_lead_fields(){
 
 	$lead_fields = array(
 	    array(
-	        'label' => 'First Name',
+	        'label' => __( 'First Name' , 'leads' ) ,
 	        'key'  => 'wpleads_first_name',
 	        'priority' => 15,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Last Name',
+	        'label' => __( 'Last Name' , 'leads' ) ,
 	        'key'  => 'wpleads_last_name',
 	        'priority' => 45,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Email',
+	        'label' => __( 'Email' , 'leads' ) ,
 	        'key'  => 'wpleads_email_address',
 	        'priority' => 60,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Website',
+	        'label' => __( 'Website' , 'leads' ) ,
 	        'key'  => 'wpleads_website',
 	        'priority' => 60,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Job Title',
+	        'label' => __( 'Job Title' , 'leads' ) ,
 	        'key'  => 'wpleads_job_title',
 	        'priority' => 68,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Company Name',
+	        'label' => __( 'Company Name' , 'leads' ) ,
 	        'key'  => 'wpleads_company_name',
 	        'priority' => 75,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Mobile Phone',
+	        'label' => __( 'Mobile Phone' , 'leads' ) ,
 	        'key'  => 'wpleads_mobile_phone',
 	        'priority' => 90,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Work Phone',
+	        'label' => __( 'Work Phone' , 'leads' ) ,
 	        'key'  => 'wpleads_work_phone',
 	        'priority' => 105,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Address',
+	        'label' => __( 'Address' , 'leads' ) ,
 	        'key'  => 'wpleads_address_line_1',
 	        'priority' => 120,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Address Continued',
+	        'label' => __( 'Address Continued' , 'leads' ) ,
 	        'key'  => 'wpleads_address_line_2',
 	        'priority' => 135,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'City',
+	        'label' => __( 'City' , 'leads' ) ,
 	        'key'  => 'wpleads_city',
 	        'priority' => 150,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'State/Region',
+	        'label' => __( 'State/Region' , 'leads' ) ,
 	        'key'  => 'wpleads_region_name',
 	        'priority' => 165,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Zip-code',
+	        'label' => __( 'Zip-code' , 'leads' ) ,
 	        'key'  => 'wpleads_zip',
 	        'priority' => 180,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Country',
+	        'label' => __( 'Country' , 'leads' ) ,
 	        'key'  => 'wpleads_country_code',
 	        'priority' => 195,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => 'Related Websites',
+	        'label' => __( 'Related Websites' , 'leads' ) ,
 	        'key'  => 'wpleads_websites',
 	        'priority' => 215,
 	        'type'  => 'links'
 	        ),
 	    array(
-	        'label' => 'Notes',
+	        'label' => __( 'Notes' , 'leads' ) ,
 	        'key'  => 'wpleads_notes',
 	        'priority' => 230,
 	        'type'  => 'textarea'
@@ -146,25 +146,25 @@ function custom_add_more_lead_fields($lead_fields) {
 
  $new_fields =  array(
  					array(
-				        'label' => 'Timmmm Company',
+				        'label' => __( 'Timmmm Company' , 'leads' ) ,
 				        'key'  => 'wpleads_ip_addressy',
 				        'priority' => 18,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => 'Lead Source',
+				        'label' => __( 'Lead Source' , 'leads' ) ,
 				        'key'  => 'wpleads_lead_source',
 				        'priority' => 19,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => 'New Field',
+				        'label' => __( 'New Field' , 'leads' ) ,
 				        'key'  => 'wpleads_lead_source',
 				        'priority' => 19,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => 'Description',
+				        'label' => __( 'Description' , 'leads' ) ,
 				        'key'  => 'wpleads_description',
 				        'priority' => 19,
 				        'type'  => 'textarea'

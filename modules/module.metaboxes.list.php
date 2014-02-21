@@ -12,7 +12,7 @@ function wpleads_add_metabox_leads_list() {
 	$title = get_the_title($id);	
 	add_meta_box(
 		'wpleads_metabox_leads_list', // $id
-		__( 'Leads in '. $title . ' list', 'lls' ),
+		sprintf( __( 'Leads in %s list', 'lead' ) , $title ),
 		'wpleads_display_metabox_leads_list', // $callback
 		'list', // $cpt
 		'normal', // $context

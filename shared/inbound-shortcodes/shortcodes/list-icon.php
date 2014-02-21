@@ -11,24 +11,24 @@
 		'child' => array(
 			'options' => array(
 				'icon' => array(
-					'name' => __('Icon', INBOUND_LABEL),
-					'desc' => __('Select the icon.', INBOUND_LABEL),
+					'name' => __('Icon', 'leads'),
+					'desc' => __('Select the icon.', 'leads'),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => 'none'
 				),
 				'content' => array(
-					'name' => __('List Content',  INBOUND_LABEL),
-					'desc' => __('Put the content here.',  INBOUND_LABEL),
+					'name' => __('List Content',  'leads'),
+					'desc' => __('Put the content here.',  'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[list icon="{{icon}}"]{{content}}[/list]',
-			'clone' => __('Add More List',  INBOUND_LABEL )
+			'clone' => __('Add More List',  'leads' )
 		),
 		'shortcode' => '[list_icons]{{child}}[/list_icons]',
-		'popup_title' => __('Insert List Icons Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert List Icons Shortcode', 'leads')
 	);
 
 /* 	Add shortcode

@@ -9,80 +9,80 @@
 		'no_preview' => true,
 		'options' => array(
 			'style' => array(
-				'name' => __('Border Style', INBOUND_LABEL),
-				'desc' => __('Select the style.', INBOUND_LABEL),
+				'name' => __('Border Style', 'leads'),
+				'desc' => __('Select the style.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'none' => __('No Border', INBOUND_LABEL),
-					'dashed' => __('Dashed', INBOUND_LABEL),
-					'dotted' => __('Dotted', INBOUND_LABEL),
-					'double' => __('Double', INBOUND_LABEL),
-					'solid' => __('Solid', INBOUND_LABEL)
+					'none' => __('No Border', 'leads'),
+					'dashed' => __('Dashed', 'leads'),
+					'dotted' => __('Dotted', 'leads'),
+					'double' => __('Double', 'leads'),
+					'solid' => __('Solid', 'leads')
 				),
 				'std' => 'none'
 			),
 			'color' => array(
-				'name' => __('Border Color', INBOUND_LABEL),
-				'desc' => __('Enter a hex color code.', INBOUND_LABEL),
+				'name' => __('Border Color', 'leads'),
+				'desc' => __('Enter a hex color code.', 'leads'),
 				'type' => 'text',
 				'std' => '#ebebea'
 			),
 			'margin_top' => array(
-				'name' => __('Top Margin', INBOUND_LABEL),
-				'desc' => __('Enter the top margin value.', INBOUND_LABEL),
+				'name' => __('Top Margin', 'leads'),
+				'desc' => __('Enter the top margin value.', 'leads'),
 				'type' => 'text',
 				'std' => '0px'
 			),
 			'margin_bottom' => array(
-				'name' => __('Bottom Margin', INBOUND_LABEL),
-				'desc' => __('Enter the bottom margin value.', INBOUND_LABEL),
+				'name' => __('Bottom Margin', 'leads'),
+				'desc' => __('Enter the bottom margin value.', 'leads'),
 				'type' => 'text',
 				'std' => '0px'
 			)
 		),
 		'shortcode' => '[divider style="{{style}}" color="{{color}}" margin_top="{{margin_top}}" margin_bottom="{{margin_bottom}}"]',
-		'popup_title' => __('Insert Divider Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Divider Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['divider'] = array(
-		'name' => __('Divider', INBOUND_LABEL),
+		'name' => __('Divider', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'style' => array(
-				'name' => __('Border Style', INBOUND_LABEL),
-				'desc' => __('Select the style.', INBOUND_LABEL),'type' => 'select',
+				'name' => __('Border Style', 'leads'),
+				'desc' => __('Select the style.', 'leads'),'type' => 'select',
 				'options' => array(
-					'none' => __('No Border', INBOUND_LABEL),
-					'dashed' => __('Dashed', INBOUND_LABEL),
-					'dotted' => __('Dotted', INBOUND_LABEL),
-					'double' => __('Double', INBOUND_LABEL),
-					'solid' => __('Solid', INBOUND_LABEL)
+					'none' => __('No Border', 'leads'),
+					'dashed' => __('Dashed', 'leads'),
+					'dotted' => __('Dotted', 'leads'),
+					'double' => __('Double', 'leads'),
+					'solid' => __('Solid', 'leads')
 				),
 				'std' => 'none',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'color' => array(
-				'name' => __('Border Color', INBOUND_LABEL),
-				'desc' => __('Enter a hex color code.', INBOUND_LABEL),
+				'name' => __('Border Color', 'leads'),
+				'desc' => __('Enter a hex color code.', 'leads'),
 				'type' => 'text',
 				'std' => '#ebebea',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'margin_top' => array(
-				'name' => __('Margin Top', INBOUND_LABEL),
-				'desc' => __('Enter the top margin value.', INBOUND_LABEL),
+				'name' => __('Margin Top', 'leads'),
+				'desc' => __('Enter the top margin value.', 'leads'),
 				'type' => 'text',
 				'std' => '0px',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'margin_bottom' => array(
-				'name' => __('Margin Bottom', INBOUND_LABEL),
-				'desc' => __('Enter the bottom margin value.', INBOUND_LABEL),
+				'name' => __('Margin Bottom', 'leads'),
+				'desc' => __('Enter the bottom margin value.', 'leads'),
 				'type' => 'text',
 				'std' => '0px',
 				'class' => '',
