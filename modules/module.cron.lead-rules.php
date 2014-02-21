@@ -80,12 +80,12 @@ class InboundAutomationCron
 
 		$count = count($this->queue);
 
-		echo "Rules in processing queue: {$count} <br>";
+		_e("Rules in processing queue: {$count} <br>" , 'leads' );
 
 		foreach ($this->queue as $automation_id => $automation_data)
 		{
 
-			echo "Processing next rule in line: {$automation_id} <br>";
+			_e("Processing next rule in line: {$automation_id} <br>" , 'leads' );
 
 
 			$tmp = $automation_data;
@@ -94,7 +94,7 @@ class InboundAutomationCron
 			$last_key = key($tmp);
 			foreach ($automation_data as $batch_id=>$lead_ids)
 			{
-				echo "Processing batch number: {$batch_id} of {$last_key} <br>";
+				_e("Processing batch number: {$batch_id} of {$last_key} <br>" , 'leads' );
 				echo "<hr>";
 				$i=0;
 				foreach ($lead_ids as $lead_id)
@@ -164,7 +164,7 @@ class InboundAutomationCron
 		$leads = get_posts( $args );
 		//print_r($leads);
 
-		echo "Processing Begin: ". count($leads) ." Leads to process <br><br>";
+		_e("Processing Begin: ". count($leads) ." Leads to process <br><br>" , 'leads' );
 
 		foreach  ($leads as $lead)
 		{
@@ -172,7 +172,7 @@ class InboundAutomationCron
 			$lead_id = $lead->ID;
 
 			/********* LOOP THROUGH RULES - PERFORM ACTIONS ******************/
-			$automation_q = "SELECT ID FROM  {$wpdb->prefix}posts WHERE post_type = 'automation' AND post_status = 'publish' ";
+			$automation_q = "SELECT ID FROM  {$wpdb->prefix}posts WHERE post_type = 'automation' AND post_status = 'publish' " ;
 
 
 			$automation_r = mysql_query($automation_q);
@@ -199,7 +199,7 @@ class InboundAutomationCron
 		$conditions_met = array();
 
 		echo "<br><br>";
-		echo "Running Rule ID $automation_id on Lead ID: {$lead_id} <br>";
+		_e("Running Rule ID $automation_id on Lead ID: {$lead_id} <br>" , 'leads' );
 
 		/* get session count */
 		//$session_count_total = automation_cron_get_session_count($lead_id);
@@ -219,7 +219,7 @@ class InboundAutomationCron
 		$automation_meta_data['automation_id'] = array($automation_id);
 		$automation_meta_data['automation_name'] = array(get_the_title($automation_id));
 
-		echo "Rule Name: ".$automation_meta_data['automation_name'][0]."<br>";
+		_e("Rule Name: ".$automation_meta_data['automation_name'][0]."<br>" , 'leads' );
 
 		/* get rule conditions */
 		$automation_block_ids = $automation_meta_data['automation_condition_blocks'][0];
@@ -231,7 +231,7 @@ class InboundAutomationCron
 
 		if ($automation_meta_data['automation_active'][0]!='active')
 		{
-			echo  "Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") is set to inactive! <br>";
+			_e("Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") is set to inactive! <br>" , 'leads' );
 			return;
 		}
 
@@ -245,7 +245,7 @@ class InboundAutomationCron
 
 			if ( array_key_exists ( $automation_meta_data['automation_id'][0] , $automation_accomplished ) )
 			{
-				echo  "Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") already completed for lead $lead_id! <br>";
+				_e("Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") already completed for lead $lead_id! <br>" , 'leads' );
 				continue;
 			}
 		}
@@ -261,7 +261,7 @@ class InboundAutomationCron
 				case "page_views_general":
 					if ($pages_viewed_count>=$automation_meta_data['automation_condition_number_'.$cid][0])
 					{
-						//echo "here";exit;
+						//_e("here" , 'leads' );exit;
 						$conditions_met[$cid] = true;
 					}
 					break;
@@ -291,7 +291,7 @@ class InboundAutomationCron
 					}
 					else
 					{
-						echo "Message: $page_views_count out of ".$automation_meta_data['automation_condition_number_'.$cid][0]." exist in target rule category.<br>";
+						_e("Message: $page_views_count out of ".$automation_meta_data['automation_condition_number_'.$cid][0]." exist in target rule category.<br>" , 'leads' );
 					}
 					break;
 				case "page_conversions_general":
@@ -352,7 +352,7 @@ class InboundAutomationCron
 			{
 				//$conditions_met = implode(':',$conditions_met);
 
-				echo  "Failed to meet required conditions: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") ---- Conditions Met:";
+				_e("Failed to meet required conditions: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") ---- Conditions Met:" , 'leads' );
 				print_r($conditions_met);
 			}
 		}
@@ -361,15 +361,15 @@ class InboundAutomationCron
 			$run_rule = false;
 			foreach ($automation_block_ids as $condtion_key => $cid)
 			{
-				if ($conditions_met[$cid])
+				if ($conditions_met[$cid]){
 					$run_rule = true;
+				}
 			}
 
 			if (!$run_rule)
 			{
 				//$conditions_met = implode(':',$conditions_met);
-
-				echo  "Failed to meet required conditions: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") ---- Conditions Met: ";
+				_e("Failed to meet required conditions: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") ---- Conditions Met: " , 'leads' );
 				print_r($conditions_met);
 			}
 		}
@@ -449,7 +449,7 @@ class InboundAutomationCron
 			{
 				foreach ($lists_wp as $k=>$list_id)
 				{
-					echo "Action: Synching Lead $lead_id with List $list_id <br>";
+					_e("Action: Synching Lead $lead_id with List $list_id <br>" , 'leads' );
 					// wpleads_add_lead_to_list($list_id, $lead_id, $add = true); // old list cpt function
 					add_lead_to_list_tax($lead_id, intval($list_id));
 				}
@@ -466,7 +466,7 @@ class InboundAutomationCron
 				foreach ($lists_wp as $k=>$list_id)
 				{
 
-					echo "Action: Removing Lead $lead_id from List $list_id <br>";
+					_e("Action: Removing Lead $lead_id from List $list_id <br>" , 'leads' );
 					// wpleads_remove_lead_from_list($list_id , $lead_id); // old for list CPT
 					remove_lead_from_list_tax($lead_id, intval($list_id));
 				}
@@ -497,11 +497,13 @@ class InboundAutomationCron
 			$automation_accomplished = get_post_meta($lead_id, 'automation_accomplished', true);
 			$automation_accomplished = json_decode( $automation_accomplished , true );
 
-			if ( !is_array($automation_accomplished) )
+			if ( !is_array($automation_accomplished) ){
 				$automation_accomplished = array();
+			}
 
-			if ( !array_key_exists ( $automation_meta_data['automation_id'][0] , $automation_accomplished ) )
+			if ( !array_key_exists ( $automation_meta_data['automation_id'][0] , $automation_accomplished ) ){
 				$automation_accomplished[$automation_meta_data['automation_id'][0]] = $automation_meta_data['automation_name'][0];
+			}
 
 			$automation_accomplsihed_count = count( $automation_accomplished );
 			$automation_accomplished = json_encode( $automation_accomplished );
@@ -512,8 +514,8 @@ class InboundAutomationCron
 
 			do_action('automation_cron_perform_action_post', $lead_id, $automation_meta_data);
 
-			echo  "Message: Lead matched this rule & all actions completed!<br>";
-			echo  "Message: Total rules accomplished for this lead {$automation_accomplsihed_count}<br>";
+			_e("Message: Lead matched this rule & all actions completed!<br>" , 'leads' );
+			_e("Message: Total rules accomplished for this lead {$automation_accomplsihed_count}<br>" , 'leads' );
 		}
 	}
 }

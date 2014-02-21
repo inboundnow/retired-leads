@@ -65,7 +65,7 @@ function wp_leads_get_search_keywords($url = '')
 
 	// Parse the query string into a query array
 	parse_str($query_str, $query);
-	$empty_keywords = "Empty Keywords, User is probably logged into " . $is_search_engine;
+	$empty_keywords = __( 'Empty Keywords, User is probably logged into ' , 'leads' ) . $is_search_engine;
 	// Check some major search engines to get the correct query var
 	$search_engines = array(
 		'q' => 'alltheweb|aol|ask|ask|bing|google',
@@ -94,7 +94,7 @@ function wplead_display_quick_stat_metabox() {
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	add_meta_box(
 	'wplead-quick-stats-metabox',
-	__( "Lead Stats", WPL_TEXT_DOMAIN ),
+	__( "Lead Stats", 'leads' ),
 	'wplead_quick_stats_metabox',
 	'wp-lead' ,
 	'side',
@@ -112,17 +112,17 @@ function leads_time_diff($date1, $date2) {
 	$seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
 
 	$time_diff['years'] = $years;
-	$time_diff['y-text'] = ($years > 1) ? __('Years' , WPL_TEXT_DOMAIN) : __('Year' , WPL_TEXT_DOMAIN);
+	$time_diff['y-text'] = ($years > 1) ? __('Years' , 'leads') : __('Year' , 'leads');
 	$time_diff['months'] = $months;
-	$time_diff['m-text'] = ($months > 1) ? __('Months' , WPL_TEXT_DOMAIN) : __('Month' , WPL_TEXT_DOMAIN);
+	$time_diff['m-text'] = ($months > 1) ? __('Months' , 'leads') : __('Month' , 'leads');
 	$time_diff['days'] = $days;
-	$time_diff['d-text'] = ($days > 1) ? __('Days' , WPL_TEXT_DOMAIN) : __('Day' , WPL_TEXT_DOMAIN);
+	$time_diff['d-text'] = ($days > 1) ? __('Days' , 'leads') : __('Day' , 'leads');
 	$time_diff['hours'] = $hours;
-	$time_diff['h-text'] = ($hours > 1) ? __('Hours' , WPL_TEXT_DOMAIN) : __('Hour' , WPL_TEXT_DOMAIN);
+	$time_diff['h-text'] = ($hours > 1) ? __('Hours' , 'leads') : __('Hour' , 'leads');
 	$time_diff['minutes'] = $minutes;
-	$time_diff['mm-text'] = ($minutes > 1) ? __('Minutes' , WPL_TEXT_DOMAIN) : __('Minute' , WPL_TEXT_DOMAIN);
+	$time_diff['mm-text'] = ($minutes > 1) ? __('Minutes' , 'leads') : __('Minute' , 'leads');
 	$time_diff['seconds'] = $seconds;
-	$time_diff['sec-text'] = ($seconds > 1) ? __('Seconds' , WPL_TEXT_DOMAIN) : __('Second' , WPL_TEXT_DOMAIN);
+	$time_diff['sec-text'] = ($seconds > 1) ? __('Seconds' , 'leads') : __('Second' , 'leads');
 
 	return $time_diff;
 }
@@ -131,18 +131,13 @@ function wplead_quick_stats_metabox() {
 	global $post;
 	global $wpdb;
 
-	//define last touch point
 	$form_data = get_post_meta($post->ID,'FormData', true);
-	//print_r($form_data);
 
 	$last_conversion = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$last_conversion = json_decode($last_conversion, true);
-	//print_r($last_conversion);
-		if (is_array($last_conversion)){
-		$count_conversions = count($last_conversion);
-		} else {
-		$count_conversions = get_post_meta($post->ID,'wpleads_conversion_count', true);
-		}
+
+	(is_array($last_conversion)) ? $count_conversions = count($last_conversion) : $count_conversions = get_post_meta($post->ID,'wpleads_conversion_count', true);
+
 	$the_date = $last_conversion[$count_conversions]['datetime']; // actual
 
 	$email = get_post_meta( $post->ID , 'wpleads_email_address', true );
@@ -151,16 +146,22 @@ function wplead_quick_stats_metabox() {
 
 	$page_views = get_post_meta($post->ID,'page_views', true);
     $page_view_array = json_decode($page_views, true);
+
     $main_count = 0;
     $page_view_count = 0;
-	    if (is_array($page_view_array)){
-	    	foreach($page_view_array as $key=>$val) {
-	         $page_view_count += count($page_view_array[$key]);
-	        }
-	    update_post_meta($post->ID,'wpleads_page_view_count', $page_view_count);
-	   	} else {
-	      	$page_view_count = get_post_meta($post->ID,'wpleads_page_view_count', true);
-	    }
+
+	if (is_array($page_view_array))
+	{
+		foreach($page_view_array as $key=>$val)
+		{
+			$page_view_count += count($page_view_array[$key]);
+		}
+		update_post_meta($post->ID,'wpleads_page_view_count', $page_view_count);
+	}
+	else
+	{
+		$page_view_count = get_post_meta($post->ID,'wpleads_page_view_count', true);
+	}
 
 	?>
 	<div>
@@ -168,43 +169,47 @@ function wplead_quick_stats_metabox() {
 			<div id="quick-stats-box">
 
 			<?php do_action('wpleads_before_quickstats', $post);?>
-			<div id="page_view_total"><?php _e('Total Page Views ' , WPL_TEXT_DOMAIN);?><span id="p-view-total"><?php echo $page_view_count; ?></span>
+			<div id="page_view_total"><?php _e('Total Page Views ' , 'leads' );?><span id="p-view-total"><?php echo $page_view_count; ?></span>
 			</div>
 
-			<div id="conversion_count_total"><?php _e('# of Conversions ' , WPL_TEXT_DOMAIN);?><span id="conversion-total"><?php echo $count_conversions; ?></span>
+			<div id="conversion_count_total"><?php _e( '# of Conversions ' , 'leads' ); ?><span id="conversion-total"><?php echo $count_conversions; ?></span>
 			</div>
 
-		<?php if (!empty($the_date)) {
-		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s", $time);
+		<?php
+		if (!empty($the_date))
+		{
+			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$wordpress_date_time = date("Y-m-d G:i:s", $time);
 
-		$today = new DateTime($wordpress_date_time);
-		$today = $today->format('Y-m-d G:i:s');
-		$date_obj = leads_time_diff($the_date, $today);
-		$wordpress_timezone = get_option('gmt_offset');
-		$years = $date_obj['years'];
-		$months = $date_obj['months'];
-		$days = $date_obj['days'];
-		$hours = $date_obj['hours'];
-		$minutes = $date_obj['minutes'];
-		$year_text = $date_obj['y-text'];
-		$month_text = $date_obj['m-text'];
-		$day_text = $date_obj['d-text'];
-		$hours_text = $date_obj['h-text'];
-		$minute_text = $date_obj['mm-text']; ?>
+			$today = new DateTime($wordpress_date_time);
+			$today = $today->format('Y-m-d G:i:s');
+			$date_obj = leads_time_diff($the_date, $today);
+			$wordpress_timezone = get_option('gmt_offset');
+			$years = $date_obj['years'];
+			$months = $date_obj['months'];
+			$days = $date_obj['days'];
+			$hours = $date_obj['hours'];
+			$minutes = $date_obj['minutes'];
+			$year_text = $date_obj['y-text'];
+			$month_text = $date_obj['m-text'];
+			$day_text = $date_obj['d-text'];
+			$hours_text = $date_obj['h-text'];
+			$minute_text = $date_obj['mm-text'];
 
-		<?php // echo "<br>c date:".$the_date . "<br>wpdate:" . $wordpress_date_time; ?>
-			<div id="last_touch_point"><?php _e('Time Since Last Conversion' , WPL_TEXT_DOMAIN);?>
+			?>
+				<div id="last_touch_point"><?php _e('Time Since Last Conversion' , 'leads');?>
 
-				<span id="touch-point">
+					<span id="touch-point">
 
-					<?php
+						<?php
 
-					echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> ".$year_text." </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months."</span> ".$month_text." </span><span class='touchpoint-day'><span class='touchpoint-value'>".$days."</span> ".$day_text." </span><span class='touchpoint-hour'><span class='touchpoint-value'>".$hours."</span> ".$hours_text." </span><span class='touchpoint-minute'><span class='touchpoint-value'>".$minutes."</span> ".$minute_text."</span>";
-					?>
-				</span>
-			</div>
-		<?php } ?>
+						echo "<span class='touchpoint-year'><span class='touchpoint-value'>" . $years . "</span> ".$year_text." </span><span class='touchpoint-month'><span class='touchpoint-value'>" . $months."</span> ".$month_text." </span><span class='touchpoint-day'><span class='touchpoint-value'>".$days."</span> ".$day_text." </span><span class='touchpoint-hour'><span class='touchpoint-value'>".$hours."</span> ".$hours_text." </span><span class='touchpoint-minute'><span class='touchpoint-value'>".$minutes."</span> ".$minute_text."</span>";
+						?>
+					</span>
+				</div>
+			<?php
+		}
+		?>
 			<div id="time-since-last-visit"></div>
 			<div id="lead-score"></div><!-- Custom Before Quick stats and After Hook here for custom fields shown -->
 			</div>
@@ -219,9 +224,10 @@ function wplead_quick_stats_metabox() {
 add_action('add_meta_boxes', 'wplead_display_ip_address_metabox');
 function wplead_display_ip_address_metabox() {
 	global $post;
+
 	add_meta_box(
 	'lp-ip-address-sidebar-preview',
-	__( 'Last Conversion Activity Location', 'wplead_metabox_ip_address_preview' ),
+	__( 'Last Conversion Activity Location', 'leads' ),
 	'wplead_ip_address_metabox',
 	'wp-lead' ,
 	'side',
@@ -240,7 +246,7 @@ function wplead_ip_address_metabox() {
 
 	$city = get_post_meta($post->ID, 'wpleads_city', true);
 	$state = get_post_meta($post->ID, 'wpleads_region_name', true);
-	//print_r($geo_array);
+
 	$latitude = $geo_array['geoplugin_latitude'];
 	$longitude = $geo_array['geoplugin_longitude'];
 
@@ -261,18 +267,18 @@ function wplead_ip_address_metabox() {
 					unset($geo_array['geoplugin_currencySymbol']);
 					unset($geo_array['geoplugin_dmaCode']);
 					if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_city'] . "</div>"; }
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , 'leads')."</span>" . $geo_array['geoplugin_city'] . "</div>"; }
 					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>".__('State:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_regionName'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('State:' , 'leads')."</span>" . $geo_array['geoplugin_regionName'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_areaCode']) && $geo_array['geoplugin_areaCode'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Area Code:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Area Code:' , 'leads')."</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_countryName']) && $geo_array['geoplugin_countryName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Country:' , WPL_TEXT_DOMAIN)."</span>" . $geo_array['geoplugin_countryName'] . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('Country:' , 'leads')."</span>" . $geo_array['geoplugin_countryName'] . "</div>";
 					}
 					if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-					echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , WPL_TEXT_DOMAIN)."</span>" . $ip_address . "</div>";
+					echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , 'leads')."</span>" . $ip_address . "</div>";
 					}
 					/*
 					foreach ($geo_array as $key=>$val)
@@ -286,14 +292,14 @@ function wplead_ip_address_metabox() {
 				}
 				if (($latitude != 0) && ($longitude != 0))
 				{
-					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , WPL_TEXT_DOMAIN).'</a>';
+					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , 'leads').'</a>';
 					echo '<div id="lead-google-map">
 							<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
 							</div>';
 				}
 				else
 				{
-					echo "<h2>".__('No Geo data collected' , WPL_TEXT_DOMAIN)."</h2>";
+					echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 				}
 		?>
 				</div>
@@ -313,14 +319,17 @@ function wp_leads_header_area() {
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	$lead_status = 'wp_lead_status';
 
-    if ( empty ( $post ) || 'wp-lead' !== get_post_type( $GLOBALS['post'] ) )
+    if ( empty ( $post ) || 'wp-lead' !== get_post_type( $GLOBALS['post'] ) ){
         return;
+	}
 
-    if ( ! $content = get_post_meta( $post->ID , 'wpleads_first_name',true ) )
+    if ( ! $content = get_post_meta( $post->ID , 'wpleads_first_name',true ) ){
         $content = '';
+	}
 
-    if ( ! $status_content = get_post_meta( $post->ID, $lead_status, TRUE ) )
+    if ( ! $status_content = get_post_meta( $post->ID, $lead_status, TRUE ) ){
         $status_content = '';
+	}
 
     echo "<div id='lead-top-area'>";
 		echo "<div id='lead-header'><h1>".$first_name.' '.$last_name. "</h1></div>";
@@ -330,15 +339,15 @@ function wp_leads_header_area() {
 		?>
 		<!-- REWRITE FOR FILTERS -->
 		<div id='lead-status'>
-			<label for="wp_lead_status">Lead Status:</label>
+			<label for="wp_lead_status"><?php _e( 'Lead Status:' , 'leads' ); ?></label>
 			<select name="wp_lead_status" id="wp_lead_status">
-				<option value="Read" <?php selected( $selected, 'Read' ); ?>>Read/Viewed</option>
-				<option value="New Lead" <?php selected( $selected, 'New Lead' ); ?>>New Lead</option>
-				<option value="Contacted" <?php selected( $selected, 'Contacted' ); ?>>Contacted</option>
-				<option value="Active" <?php selected( $selected, 'Active' ); ?>>Active</option>
-				<option value="Lost" <?php selected( $selected, 'Lost' ); ?>>Disqualified/Lost</option>
-				<option value="Customer" <?php selected( $selected, 'Customer' ); ?>>Customer</option>
-				<option value="Archive" <?php selected( $selected, 'Archive' ); ?>>Archive</option>
+				<option value="Read" <?php selected( $selected, 'Read' ); ?>><?php _e( 'Read/Viewed' , 'leads' ); ?></option>
+				<option value="New Lead" <?php selected( $selected, 'New Lead' ); ?>><?php _e( 'New Lead' , 'leads' ); ?></option>
+				<option value="Contacted" <?php selected( $selected, 'Contacted' ); ?>><?php _e( 'Contacted' , 'leads' ); ?></option>
+				<option value="Active" <?php selected( $selected, 'Active' ); ?>><?php _e( 'Active' , 'leads' ); ?></option>
+				<option value="Lost" <?php selected( $selected, 'Lost' ); ?>><?php _e( 'Disqualified/Lost' , 'leads' ); ?></option>
+				<option value="Customer" <?php selected( $selected, 'Customer' ); ?>><?php _e( 'Customer' , 'leads' ); ?></option>
+				<option value="Archive" <?php selected( $selected, 'Archive' ); ?>><?php _e( 'Archive' , 'leads' ); ?></option>
 				<!-- Action hook here for custom lead status addon -->
 			</select>
 		</div>
@@ -400,19 +409,21 @@ function wp_leads_grab_extra_data() {
 
             $status_code = $response['response']['code']; // Check for API limit
 
-            if ($status_code === 200) {
+            if ($status_code === 200)
+			{
                 // if api still good. parse return values
                 $person_obj = json_decode($response['body'], true);
                 $image = (isset($person_obj['photos'][0]['url'])) ?$person_obj['photos'][0]['url'] : "";
                 update_post_meta($post->ID, 'lead_main_image', $image );
                 update_post_meta($post->ID, 'social_data', $person_obj );
 
-            } elseif ($status_code === 404) {
-            	//echo "<div class='lead-notice'>No additional data found for this email address. It could be malformed (code: " . $status_code . ")</div>";
+            }
+			elseif ($status_code === 404)
+			{
                 $person_obj = array(); // return empty on failure
-
-            } else {
-                //echo "<div class='lead-notice'>Error with Email Parse. Not found in social database (code: " . $status_code . ")</div>";
+            }
+			else
+			{
                 $person_obj = array(); // return empty on failure
             }
 
@@ -426,94 +437,96 @@ function wp_leads_grab_extra_data() {
 
 function wp_lead_display_extra_data($values, $type) {
 
-		$person_obj = $values;
-		//print_r($person_obj);
-		$confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
+	$person_obj = $values;
+	//print_r($person_obj);
+	$confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
 
-		$photos = (isset($person_obj['photos'])) ? $person_obj['photos'] : "No Photos";
-		$fullname = (isset($person_obj['contactInfo']['fullName'])) ? $person_obj['contactInfo']['fullName'] : "";
-		$websites = (isset($person_obj['contactInfo']['websites'])) ? $person_obj['contactInfo']['websites'] : "N/A";
-		$chats = (isset($person_obj['contactInfo']['chats'])) ? $person_obj['contactInfo']['chats'] : "No";
-		$social_profiles = (isset($person_obj['socialProfiles'])) ? $person_obj['socialProfiles'] : "No Profiles Found";
-		$organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
-		$demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
-		$interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
+	$photos = (isset($person_obj['photos'])) ? $person_obj['photos'] : "No Photos";
+	$fullname = (isset($person_obj['contactInfo']['fullName'])) ? $person_obj['contactInfo']['fullName'] : "";
+	$websites = (isset($person_obj['contactInfo']['websites'])) ? $person_obj['contactInfo']['websites'] : "N/A";
+	$chats = (isset($person_obj['contactInfo']['chats'])) ? $person_obj['contactInfo']['chats'] : "No";
+	$social_profiles = (isset($person_obj['socialProfiles'])) ? $person_obj['socialProfiles'] : "No Profiles Found";
+	$organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
+	$demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
+	$interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
 
-		$image = (isset($person_obj['photos'][0]['url'])) ?$person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
-		$klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
+	$image = (isset($person_obj['photos'][0]['url'])) ?$person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
+	$klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
 
-		//echo "<img src='" . $image . "'><br>";
-		//echo "<h2>Extra social Data <span class='confidence-level'>".$confidence_level."</span></h2>";
-		//echo $fullname;
+	//echo "<img src='" . $image . "'><br>";
+	//echo "<h2>Extra social Data <span class='confidence-level'>".$confidence_level."</span></h2>";
+	//echo $fullname;
 
-		// Get All Photos associated with the person
-		if($type === 'photo' && isset($photos) && is_array($photos)) {
+	// Get All Photos associated with the person
+	if($type === 'photo' && isset($photos) && is_array($photos))
+	{
 
-			foreach($photos as $photo)
-		    {
-		    	//print_r($photo);
-		    	echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
-		    }
-
+		foreach($photos as $photo)
+		{
+			//print_r($photo);
+			echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
 		}
-		// Get All Websites associated with the person
-		elseif ($type === 'website' && isset($websites) && is_array($websites)) {
-				echo "<div id='lead-websites'><h4>Websites</h4>";
-				//print_r($websites);
-				foreach($websites as $site)
-			    {
-			    	echo "<a href='". $site['url'] . "' target='_blank'>".$site['url']."</a><br>";
-			    }
-			    echo "</div>";
-		}
-	    // Get All Social Media Account associated with the person
-	    elseif ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
-		    	echo "<div id='lead-social-profiles'><h4>Social Media Profiles</h4>";
-		    	//print_r($social_profiles);
-				foreach($social_profiles as $profiles)
-			    {
-			    	$network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
-			    	$username = (isset($profiles['username'])) ? $profiles['username'] : "";
-			    	($network == 'Twitter' ) ? $echo_val = "@" . $username : $echo_val = "";
-			    	echo "<a href='". $profiles['url'] . "' target='_blank'>".$profiles['typeName']."</a> ". $echo_val ."<br>";
-			    }
-			    echo "</div>";
-		}
-		// Get All Work Organizations associated with the person
-	    elseif ($type === 'work' && isset($organizations) && is_array($organizations)) {
-	    	echo "<div id='lead-work-history'>";
 
-			foreach($organizations as $org)
-		    {
-		    	$title = (isset($org['title'])) ? $org['title'] : "";
-		    	$org_name = (isset($org['name'])) ? $org['name'] : "";
-		    	(isset($org['name'])) ? $at_org = "<span class='primary-work-org'>" . $org['name'] . "</span>" : $at_org = ""; // get primary org
-		    	($org['isPrimary'] === true) ? $print = "<span id='primary-title'>" . $title ."</span> at " . $at_org : $print = "";
-		    	($org['isPrimary'] === true) ? $hideclass = "work-primary" : $hideclass = "work-secondary";
-		    	echo $print;
-		    	echo "<span class='lead-work-label ".$hideclass."'>" . $title . " at ". $org_name ."</span>";
-		    }
-		    echo "<span id='show-work-history'>View past work</span></div>";
+	}
+
+	// Get All Websites associated with the person
+	elseif ($type === 'website' && isset($websites) && is_array($websites)) {
+			echo "<div id='lead-websites'><h4>". _e( 'Websites' , 'leads' ) ."</h4>";
+			//print_r($websites);
+			foreach($websites as $site)
+			{
+				echo "<a href='". $site['url'] . "' target='_blank'>".$site['url']."</a><br>";
+			}
+			echo "</div>";
+	}
+	// Get All Social Media Account associated with the person
+	elseif ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
+			echo "<div id='lead-social-profiles'><h4>". _e( 'Social Media Profiles' , 'leads' ) ."</h4>";
+			//print_r($social_profiles);
+			foreach($social_profiles as $profiles)
+			{
+				$network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
+				$username = (isset($profiles['username'])) ? $profiles['username'] : "";
+				($network == 'Twitter' ) ? $echo_val = "@" . $username : $echo_val = "";
+				echo "<a href='". $profiles['url'] . "' target='_blank'>".$profiles['typeName']."</a> ". $echo_val ."<br>";
+			}
+			echo "</div>";
+	}
+	// Get All Work Organizations associated with the person
+	elseif ($type === 'work' && isset($organizations) && is_array($organizations)) {
+		echo "<div id='lead-work-history'>";
+
+		foreach($organizations as $org)
+		{
+			$title = (isset($org['title'])) ? $org['title'] : "";
+			$org_name = (isset($org['name'])) ? $org['name'] : "";
+			(isset($org['name'])) ? $at_org = "<span class='primary-work-org'>" . $org['name'] . "</span>" : $at_org = ""; // get primary org
+			($org['isPrimary'] === true) ? $print = "<span id='primary-title'>" . $title ."</span> at " . $at_org : $print = "";
+			($org['isPrimary'] === true) ? $hideclass = "work-primary" : $hideclass = "work-secondary";
+			echo $print;
+			echo "<span class='lead-work-label ".$hideclass."'>" . $title . " at ". $org_name ."</span>";
 		}
-		// Get All demo graphic info associated with the person
-	    elseif ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
-	    	echo "<div id='lead-demographics'><h4>Demographics</h4>";
-	    	$location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
-	    	$age = (isset($demographics['age'])) ? $demographics['age'] : "";
-	    	$ageRange = (isset($demographics['ageRange'])) ? $demographics['ageRange'] : "";
-	    	$gender = (isset($demographics['gender'])) ? $demographics['gender'] : "";
-	    	echo $gender . " in " . $location;
-	    	echo "</div>";
+		echo "<span id='show-work-history'>". _e( 'View past work' , 'leads' ) ."</span></div>";
+	}
+	// Get All demo graphic info associated with the person
+	elseif ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
+		echo "<div id='lead-demographics'><h4>". _e( 'Demographics' ,'leads' ) ."</h4>";
+		$location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
+		$age = (isset($demographics['age'])) ? $demographics['age'] : "";
+		$ageRange = (isset($demographics['ageRange'])) ? $demographics['ageRange'] : "";
+		$gender = (isset($demographics['gender'])) ? $demographics['gender'] : "";
+		echo $gender . " in " . $location;
+		echo "</div>";
+	}
+	// Get All Topics associated with the person
+	elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
+		echo "<div id='lead-topics'><h4>". _e( 'Interests' , 'leads' ) ."</h4>";
+		foreach($interested_in as $topic)
+		{
+			echo "<span class='lead-topic-tag'>". $topic['value'] . "</span>";
 		}
-		// Get All Topics associated with the person
-		elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
-			echo "<div id='lead-topics'><h4>Interests</h4>";
-			foreach($interested_in as $topic)
-		    {
-		    	echo "<span class='lead-topic-tag'>". $topic['value'] . "</span>";
-		    }
-		    echo "</div>";
-		}
+		echo "</div>";
+	}
 
 }
 /* ADD MAIN METABOX */
@@ -524,9 +537,10 @@ function wplead_add_metabox_main() {
 
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name',true );
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
+
 	add_meta_box(
 		'wplead_metabox_main', // $id
-		__( 'Lead Overview', 'wpleads' ),
+		__( 'Lead Overview', 'leads' ),
 		'wpleads_display_metabox_main', // $callback
 		'wp-lead', // $page
 		'normal', // $context
@@ -584,7 +598,7 @@ function wpleads_display_metabox_main() {
 		</h2>
 		<div class="wpl-tab-display" id='wpleads_lead_tab_main'>
 			<div id="wpleads_lead_tab_main_inner">
-			<div id='toggle-lead-fields'><a class="preview button" href="#" id="show-hidden-fields">Show Hidden/Empty Fields</a></div>
+			<div id='toggle-lead-fields'><a class="preview button" href="#" id="show-hidden-fields"><?php _e( 'Show Hidden/Empty Fields' , 'leads' ); ?></a></div>
 			<?php
 
 			$social_values = wp_leads_grab_extra_data(); // Get extra data on lead
@@ -643,7 +657,7 @@ function wpleads_display_metabox_main() {
 
 			$tags = wpl_tag_cloud(); // get content tags
 				if (!empty($tags)){
-				echo '<div id="lead-tag-cloud"><h4>Tag cloud of content consumed</h4>';
+				echo '<div id="lead-tag-cloud"><h4>'. __( 'Tag cloud of content consumed' , 'leads' ) .'</h4>';
 				foreach ($tags as $key => $value) {
 					echo "<a href='#' rel='$value'>$key</a>";
 				}
@@ -663,15 +677,14 @@ function wpleads_display_metabox_main() {
 		<div class="wpl-tab-display" id="wpleads_lead_tab_conversions" style="display: <?php if ($active_tab == 'wpleads_lead_tab_conversions') { echo 'block;'; } else { echo 'none;'; } ?>">
 			<div id="conversions-data-display">
 				<?php //define activity toggles. Filterable
-					$nav_items[] = array('id'=>'lead-conversions','label'=>'Conversions');
-					$nav_items[] = array('id'=>'lead-page-views','label'=>'Page Views');
-					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
+					$nav_items[] = array('id'=>'lead-conversions','label'=> __( 'Conversions' , 'leads' ) );
+					$nav_items[] = array('id'=>'lead-page-views','label'=>  __( 'Page Views' , 'leads' ) );
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>
 
 			<div class="nav-container">
 				<nav>
 			      <ul>
-			        <li class="active"><a href="#all" class="lead-activity-show-all">All</a></li>
+			        <li class="active"><a href="#all" class="lead-activity-show-all"><?php _e( 'All' , 'leads' ); ?></a></li>
 			        <?php
 			        	// Print toggles
 						foreach ($nav_items as $key=>$array)
@@ -686,21 +699,21 @@ function wpleads_display_metabox_main() {
 			</div>
 			<ul class="event-order-list" data-change-sort='#all-lead-history'>
 			Sort by:
-		    <li id="newest-event" class='lead-sort-active'>Most Recent</li> |
-		    <li id="oldest-event">Oldest</li>
+		    <li id="newest-event" class='lead-sort-active'><?php _e( 'Most Recent' , 'leads' ); ?></li> |
+		    <li id="oldest-event"><?php _e( 'Oldest' , 'leads' ); ?></li>
 			   <!-- <li id="highest">Highest Rated</li>
 			    <li id="lowest">Lowest Rated</li> -->
 			</ul>
 			<div id="all-lead-history"><ol></ol></div>
 			<div id="lead-conversions" class='lead-activity'>
-				<h2>Landing Page Conversions</h2>
+				<h2><?php _e('Landing Page Conversions' , 'leads' ); ?></h2>
 
 			<?php
 			$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
 			$conversions_array = json_decode($conversions, true);
-           	//print_r($conversions);
+
             // Sort Array by date
-			 function leads_sort_array_datetime($a,$b){
+			function leads_sort_array_datetime($a,$b){
 			        return strtotime($a['datetime'])<strtotime($b['datetime'])?1:-1;
 			};
 
@@ -734,7 +747,7 @@ function wpleads_display_metabox_main() {
 
 								<div class="lead-timeline-body">
 									<div class="lead-event-text">
-									  <p><span class="lead-item-num">'.$i.'.</span><span class="lead-helper-text">Converted on landing page/form: </span><a href="'.$converted_page_permalink.'" id="lead-session-'.$i.'" rel="'.$i.'" target="_blank">'.$converted_page_title.'</a><span class="conversion-date">'.$date_of_conv.'</span> <!--<a rel="'.$i.'" href="#view-session-"'.$i.'">(view visit path)</a>--></p>
+									  <p><span class="lead-item-num">'.$i.'.</span><span class="lead-helper-text">Converted on landing page/form: </span><a href="'.$converted_page_permalink.'" id="lead-session-'.$i.'" rel="'.$i.'" target="_blank">'.$converted_page_title.'</a><span class="conversion-date">'.$date_of_conv.'</span> <!--<a rel="'.$i.'" href="#view-session-"'.$i.'">('. __( 'view visit path' , 'leads') .')</a>--></p>
 									</div>
 								</div>
 							</div>';
@@ -743,8 +756,7 @@ function wpleads_display_metabox_main() {
 				}
 
 			} else {
-
-				echo "<span id='wpl-message-none'>No conversions found!</span>";
+				echo "<span id='wpl-message-none'>". __( 'No conversions found!' , 'leads' ) ."</span>";
 			}
 
 			?>
@@ -810,7 +822,7 @@ function wpleads_display_metabox_main() {
 
 			</div> <!-- end lead comments -->
 			<div id="lead-page-views" class='lead-activity'>
-				<h2>Page Views</h2>
+				<h2><?php _e( 'Page Views' , 'leads' ); ?></h2>
 			 <?php
 
 		 		$page_views = get_post_meta($post->ID,'page_views', true);
@@ -927,7 +939,7 @@ function wpleads_display_metabox_main() {
 
 
             } else {
-                echo "<span id='wpl-message-none'>No Page View History Found</span>";
+                echo "<span id='wpl-message-none'>". __( 'No Page View History Found' , 'leads' ) ."</span>";
             }
 
             ?>
@@ -941,10 +953,10 @@ function wpleads_display_metabox_main() {
 			<div class="nav-container">
 				<nav>
 			      <ul>
-			        <li class="active"><a href="index.html">All</a></li>
-			        <li><a href="index.html">Form Data</a></li>
-			        <li><a href="index.html">Page Data</a></li>
-			        <li><a href="index.html">Event Data</a></li>
+			        <li class="active"><a href="index.html"><?php _e( 'All' , 'leads' ); ?></a></li>
+			        <li><a href="index.html"><?php _e( 'Form Data' , 'leads' ); ?></a></li>
+			        <li><a href="index.html"><?php _e( 'Page Data' , 'leads' ); ?></a></li>
+			        <li><a href="index.html"><?php _e( 'Event Data' , 'leads' ); ?></a></li>
 			      </ul>
 			    </nav>
 			</div>
@@ -957,7 +969,7 @@ function wpleads_display_metabox_main() {
 			if ($raw_data)
 			{
 				$raw_data = json_decode($raw_data, true);
-				echo "<h2>Form Inputs with Values</h2>";
+				echo "<h2>". __( 'Form Inputs with Values' , 'leads' ) ."</h2>";
 				echo "<span id='click-to-map'></span>";
 				 echo "<div id='wpl-raw-form-data-table'>";
 				foreach($raw_data as  $key=>$value)
@@ -965,7 +977,7 @@ function wpleads_display_metabox_main() {
 					?>
 					<div class="wpl-raw-data-tr">
 						<span class="wpl-raw-data-td-label">
-							<?php echo "Input name: <span class='lead-key-normal'>". $key . "</span> &rarr; values:"; ?>
+							<?php echo __( 'Input name:' , 'leads' ) ." <span class='lead-key-normal'>". $key . "</span> &rarr; values:"; ?>
 						</span>
 						<span class="wpl-raw-data-td-value">
 							<?php
@@ -992,7 +1004,7 @@ function wpleads_display_metabox_main() {
 
 				}
 				echo "<div id='raw-array'>";
-				echo "<h2>Raw Form Data Array</h2>";
+				echo "<h2>". __( 'Raw Form Data Array' , 'leads' ) ."</h2>";
 				echo "<pre>";
 				print_r($raw_data);
 				echo "</pre>";
@@ -1001,7 +1013,7 @@ function wpleads_display_metabox_main() {
 			}
 			else
 			{
-				echo "<span id='wpl-message-none'>No raw data found!</span>";
+				echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
 			}
 
 			?>
@@ -1033,7 +1045,7 @@ function wpleads_render_setting($fields)
 	{
 		$id = strtolower($field['key']);
 		echo '<tr class="'.$id.'">
-			<th class="wpleads-th" ><label for="'.$id.'">'.__( $field['label'],'wpleads').':</label></th>
+			<th class="wpleads-th" ><label for="'.$id.'">'.$field['label'].':</label></th>
 			<td class="wpleads-td" id="wpleads-td-'.$id.'">';
 		switch(true) {
 			case strstr($field['type'],'textarea'):
@@ -1136,253 +1148,253 @@ function wpleads_render_setting($fields)
 				echo '<input type="hidden" id="hidden-country-value" value="'.$field['value'].'">';
 				echo '<select name="'.$id.'" id="'.$id.'" class="wpleads-country-dropdown">';
 					?>
-					<option value="">Country...</option>
-					<option value="AF">Afghanistan</option>
-					<option value="AL">Albania</option>
-					<option value="DZ">Algeria</option>
-					<option value="AS">American Samoa</option>
-					<option value="AD">Andorra</option>
-					<option value="AG">Angola</option>
-					<option value="AI">Anguilla</option>
-					<option value="AG">Antigua &amp; Barbuda</option>
-					<option value="AR">Argentina</option>
-					<option value="AA">Armenia</option>
-					<option value="AW">Aruba</option>
-					<option value="AU">Australia</option>
-					<option value="AT">Austria</option>
-					<option value="AZ">Azerbaijan</option>
-					<option value="BS">Bahamas</option>
-					<option value="BH">Bahrain</option>
-					<option value="BD">Bangladesh</option>
-					<option value="BB">Barbados</option>
-					<option value="BY">Belarus</option>
-					<option value="BE">Belgium</option>
-					<option value="BZ">Belize</option>
-					<option value="BJ">Benin</option>
-					<option value="BM">Bermuda</option>
-					<option value="BT">Bhutan</option>
-					<option value="BO">Bolivia</option>
-					<option value="BL">Bonaire</option>
-					<option value="BA">Bosnia &amp; Herzegovina</option>
-					<option value="BW">Botswana</option>
-					<option value="BR">Brazil</option>
-					<option value="BC">British Indian Ocean Ter</option>
-					<option value="BN">Brunei</option>
-					<option value="BG">Bulgaria</option>
-					<option value="BF">Burkina Faso</option>
-					<option value="BI">Burundi</option>
-					<option value="KH">Cambodia</option>
-					<option value="CM">Cameroon</option>
-					<option value="CA">Canada</option>
-					<option value="IC">Canary Islands</option>
-					<option value="CV">Cape Verde</option>
-					<option value="KY">Cayman Islands</option>
-					<option value="CF">Central African Republic</option>
-					<option value="TD">Chad</option>
-					<option value="CD">Channel Islands</option>
-					<option value="CL">Chile</option>
-					<option value="CN">China</option>
-					<option value="CI">Christmas Island</option>
-					<option value="CS">Cocos Island</option>
-					<option value="CO">Colombia</option>
-					<option value="CC">Comoros</option>
-					<option value="CG">Congo</option>
-					<option value="CK">Cook Islands</option>
-					<option value="CR">Costa Rica</option>
-					<option value="CT">Cote D'Ivoire</option>
-					<option value="HR">Croatia</option>
-					<option value="CU">Cuba</option>
-					<option value="CB">Curacao</option>
-					<option value="CY">Cyprus</option>
-					<option value="CZ">Czech Republic</option>
-					<option value="DK">Denmark</option>
-					<option value="DJ">Djibouti</option>
-					<option value="DM">Dominica</option>
-					<option value="DO">Dominican Republic</option>
-					<option value="TM">East Timor</option>
-					<option value="EC">Ecuador</option>
-					<option value="EG">Egypt</option>
-					<option value="SV">El Salvador</option>
-					<option value="GQ">Equatorial Guinea</option>
-					<option value="ER">Eritrea</option>
-					<option value="EE">Estonia</option>
-					<option value="ET">Ethiopia</option>
-					<option value="FA">Falkland Islands</option>
-					<option value="FO">Faroe Islands</option>
-					<option value="FJ">Fiji</option>
-					<option value="FI">Finland</option>
-					<option value="FR">France</option>
-					<option value="GF">French Guiana</option>
-					<option value="PF">French Polynesia</option>
-					<option value="FS">French Southern Ter</option>
-					<option value="GA">Gabon</option>
-					<option value="GM">Gambia</option>
-					<option value="GE">Georgia</option>
-					<option value="DE">Germany</option>
-					<option value="GH">Ghana</option>
-					<option value="GI">Gibraltar</option>
-					<option value="GB">Great Britain</option>
-					<option value="GR">Greece</option>
-					<option value="GL">Greenland</option>
-					<option value="GD">Grenada</option>
-					<option value="GP">Guadeloupe</option>
-					<option value="GU">Guam</option>
-					<option value="GT">Guatemala</option>
-					<option value="GN">Guinea</option>
-					<option value="GY">Guyana</option>
-					<option value="HT">Haiti</option>
-					<option value="HW">Hawaii</option>
-					<option value="HN">Honduras</option>
-					<option value="HK">Hong Kong</option>
-					<option value="HU">Hungary</option>
-					<option value="IS">Iceland</option>
-					<option value="IN">India</option>
-					<option value="ID">Indonesia</option>
-					<option value="IA">Iran</option>
-					<option value="IQ">Iraq</option>
-					<option value="IR">Ireland</option>
-					<option value="IM">Isle of Man</option>
-					<option value="IL">Israel</option>
-					<option value="IT">Italy</option>
-					<option value="JM">Jamaica</option>
-					<option value="JP">Japan</option>
-					<option value="JO">Jordan</option>
-					<option value="KZ">Kazakhstan</option>
-					<option value="KE">Kenya</option>
-					<option value="KI">Kiribati</option>
-					<option value="NK">Korea North</option>
-					<option value="KS">Korea South</option>
-					<option value="KW">Kuwait</option>
-					<option value="KG">Kyrgyzstan</option>
-					<option value="LA">Laos</option>
-					<option value="LV">Latvia</option>
-					<option value="LB">Lebanon</option>
-					<option value="LS">Lesotho</option>
-					<option value="LR">Liberia</option>
-					<option value="LY">Libya</option>
-					<option value="LI">Liechtenstein</option>
-					<option value="LT">Lithuania</option>
-					<option value="LU">Luxembourg</option>
-					<option value="MO">Macau</option>
-					<option value="MK">Macedonia</option>
-					<option value="MG">Madagascar</option>
-					<option value="MY">Malaysia</option>
-					<option value="MW">Malawi</option>
-					<option value="MV">Maldives</option>
-					<option value="ML">Mali</option>
-					<option value="MT">Malta</option>
-					<option value="MH">Marshall Islands</option>
-					<option value="MQ">Martinique</option>
-					<option value="MR">Mauritania</option>
-					<option value="MU">Mauritius</option>
-					<option value="ME">Mayotte</option>
-					<option value="MX">Mexico</option>
-					<option value="MI">Midway Islands</option>
-					<option value="MD">Moldova</option>
-					<option value="MC">Monaco</option>
-					<option value="MN">Mongolia</option>
-					<option value="MS">Montserrat</option>
-					<option value="MA">Morocco</option>
-					<option value="MZ">Mozambique</option>
-					<option value="MM">Myanmar</option>
-					<option value="NA">Nambia</option>
-					<option value="NU">Nauru</option>
-					<option value="NP">Nepal</option>
-					<option value="AN">Netherland Antilles</option>
-					<option value="NL">Netherlands (Holland, Europe)</option>
-					<option value="NV">Nevis</option>
-					<option value="NC">New Caledonia</option>
-					<option value="NZ">New Zealand</option>
-					<option value="NI">Nicaragua</option>
-					<option value="NE">Niger</option>
-					<option value="NG">Nigeria</option>
-					<option value="NW">Niue</option>
-					<option value="NF">Norfolk Island</option>
-					<option value="NO">Norway</option>
-					<option value="OM">Oman</option>
-					<option value="PK">Pakistan</option>
-					<option value="PW">Palau Island</option>
-					<option value="PS">Palestine</option>
-					<option value="PA">Panama</option>
-					<option value="PG">Papua New Guinea</option>
-					<option value="PY">Paraguay</option>
-					<option value="PE">Peru</option>
-					<option value="PH">Philippines</option>
-					<option value="PO">Pitcairn Island</option>
-					<option value="PL">Poland</option>
-					<option value="PT">Portugal</option>
-					<option value="PR">Puerto Rico</option>
-					<option value="QA">Qatar</option>
-					<option value="ME">Republic of Montenegro</option>
-					<option value="RS">Republic of Serbia</option>
-					<option value="RE">Reunion</option>
-					<option value="RO">Romania</option>
-					<option value="RU">Russia</option>
-					<option value="RW">Rwanda</option>
-					<option value="NT">St Barthelemy</option>
-					<option value="EU">St Eustatius</option>
-					<option value="HE">St Helena</option>
-					<option value="KN">St Kitts-Nevis</option>
-					<option value="LC">St Lucia</option>
-					<option value="MB">St Maarten</option>
-					<option value="PM">St Pierre &amp; Miquelon</option>
-					<option value="VC">St Vincent &amp; Grenadines</option>
-					<option value="SP">Saipan</option>
-					<option value="SO">Samoa</option>
-					<option value="AS">Samoa American</option>
-					<option value="SM">San Marino</option>
-					<option value="ST">Sao Tome &amp; Principe</option>
-					<option value="SA">Saudi Arabia</option>
-					<option value="SN">Senegal</option>
-					<option value="SC">Seychelles</option>
-					<option value="SL">Sierra Leone</option>
-					<option value="SG">Singapore</option>
-					<option value="SK">Slovakia</option>
-					<option value="SI">Slovenia</option>
-					<option value="SB">Solomon Islands</option>
-					<option value="OI">Somalia</option>
-					<option value="ZA">South Africa</option>
-					<option value="ES">Spain</option>
-					<option value="LK">Sri Lanka</option>
-					<option value="SD">Sudan</option>
-					<option value="SR">Suriname</option>
-					<option value="SZ">Swaziland</option>
-					<option value="SE">Sweden</option>
-					<option value="CH">Switzerland</option>
-					<option value="SY">Syria</option>
-					<option value="TA">Tahiti</option>
-					<option value="TW">Taiwan</option>
-					<option value="TJ">Tajikistan</option>
-					<option value="TZ">Tanzania</option>
-					<option value="TH">Thailand</option>
-					<option value="TG">Togo</option>
-					<option value="TK">Tokelau</option>
-					<option value="TO">Tonga</option>
-					<option value="TT">Trinidad &amp; Tobago</option>
-					<option value="TN">Tunisia</option>
-					<option value="TR">Turkey</option>
-					<option value="TU">Turkmenistan</option>
-					<option value="TC">Turks &amp; Caicos Is</option>
-					<option value="TV">Tuvalu</option>
-					<option value="UG">Uganda</option>
-					<option value="UA">Ukraine</option>
-					<option value="AE">United Arab Emirates</option>
-					<option value="GB">United Kingdom</option>
-					<option value="US">United States of America</option>
-					<option value="UY">Uruguay</option>
-					<option value="UZ">Uzbekistan</option>
-					<option value="VU">Vanuatu</option>
-					<option value="VS">Vatican City State</option>
-					<option value="VE">Venezuela</option>
-					<option value="VN">Vietnam</option>
-					<option value="VB">Virgin Islands (Brit)</option>
-					<option value="VA">Virgin Islands (USA)</option>
-					<option value="WK">Wake Island</option>
-					<option value="WF">Wallis &amp; Futana Is</option>
-					<option value="YE">Yemen</option>
-					<option value="ZR">Zaire</option>
-					<option value="ZM">Zambia</option>
-					<option value="ZW">Zimbabwe</option>
+					<option value=""><?php _e( 'Country...' , 'leads' ); ?></option>
+					<option value="AF"><?php _e( 'Afghanistan' , 'leads' ); ?></option>
+					<option value="AL"><?php _e( 'Albania' , 'leads' ); ?></option>
+					<option value="DZ"><?php _e( 'Algeria' , 'leads' ); ?></option>
+					<option value="AS"><?php _e( 'American Samoa' , 'leads' ); ?></option>
+					<option value="AD"><?php _e( 'Andorra' , 'leads' ); ?></option>
+					<option value="AG"><?php _e( 'Angola' , 'leads' ); ?></option>
+					<option value="AI"><?php _e( 'Anguilla' , 'leads' ); ?></option>
+					<option value="AG"><?php _e( 'Antigua &amp; Barbuda' , 'leads' ); ?></option>
+					<option value="AR"><?php _e( 'Argentina' , 'leads' ); ?></option>
+					<option value="AA"><?php _e( 'Armenia' , 'leads' ); ?></option>
+					<option value="AW"><?php _e( 'Aruba' , 'leads' ); ?></option>
+					<option value="AU"><?php _e( 'Australia' , 'leads' ); ?></option>
+					<option value="AT"><?php _e( 'Austria' , 'leads' ); ?></option>
+					<option value="AZ"><?php _e( 'Azerbaijan' , 'leads' ); ?></option>
+					<option value="BS"><?php _e( 'Bahamas' , 'leads' ); ?></option>
+					<option value="BH"><?php _e( 'Bahrain' , 'leads' ); ?></option>
+					<option value="BD"><?php _e( 'Bangladesh' , 'leads' ); ?></option>
+					<option value="BB"><?php _e( 'Barbados' , 'leads' ); ?></option>
+					<option value="BY"><?php _e( 'Belarus' , 'leads' ); ?></option>
+					<option value="BE"><?php _e( 'Belgium' , 'leads' ); ?></option>
+					<option value="BZ"><?php _e( 'Belize' , 'leads' ); ?></option>
+					<option value="BJ"><?php _e( 'Benin' , 'leads' ); ?></option>
+					<option value="BM"><?php _e( 'Bermuda' , 'leads' ); ?></option>
+					<option value="BT"><?php _e( 'Bhutan' , 'leads' ); ?></option>
+					<option value="BO"><?php _e( 'Bolivia' , 'leads' ); ?></option>
+					<option value="BL"><?php _e( 'Bonaire' , 'leads' ); ?></option>
+					<option value="BA"><?php _e( 'Bosnia &amp; Herzegovina' , 'leads' ); ?></option>
+					<option value="BW"><?php _e( 'Botswana' , 'leads' ); ?></option>
+					<option value="BR"><?php _e( 'Brazil' , 'leads' ); ?></option>
+					<option value="BC"><?php _e( 'British Indian Ocean Ter' , 'leads' ); ?></option>
+					<option value="BN"><?php _e( 'Brunei' , 'leads' ); ?></option>
+					<option value="BG"><?php _e( 'Bulgaria' , 'leads' ); ?></option>
+					<option value="BF"><?php _e( 'Burkina Faso' , 'leads' ); ?></option>
+					<option value="BI"><?php _e( 'Burundi' , 'leads' ); ?></option>
+					<option value="KH"><?php _e( 'Cambodia' , 'leads' ); ?></option>
+					<option value="CM"><?php _e( 'Cameroon' , 'leads' ); ?></option>
+					<option value="CA"><?php _e( 'Canada' , 'leads' ); ?></option>
+					<option value="IC"><?php _e( 'Canary Islands' , 'leads' ); ?></option>
+					<option value="CV"><?php _e( 'Cape Verde' , 'leads' ); ?></option>
+					<option value="KY"><?php _e( 'Cayman Islands' , 'leads' ); ?></option>
+					<option value="CF"><?php _e( 'Central African Republic' , 'leads' ); ?></option>
+					<option value="TD"><?php _e( 'Chad' , 'leads' ); ?></option>
+					<option value="CD"><?php _e( 'Channel Islands' , 'leads' ); ?></option>
+					<option value="CL"><?php _e( 'Chile' , 'leads' ); ?></option>
+					<option value="CN"><?php _e( 'China' , 'leads' ); ?></option>
+					<option value="CI"><?php _e( 'Christmas Island' , 'leads' ); ?></option>
+					<option value="CS"><?php _e( 'Cocos Island' , 'leads' ); ?></option>
+					<option value="CO"><?php _e( 'Colombia' , 'leads' ); ?></option>
+					<option value="CC"><?php _e( 'Comoros' , 'leads' ); ?></option>
+					<option value="CG"><?php _e( 'Congo' , 'leads' ); ?></option>
+					<option value="CK"><?php _e( 'Cook Islands' , 'leads' ); ?></option>
+					<option value="CR"><?php _e( 'Costa Rica' , 'leads' ); ?></option>
+					<option value="CT"><?php _e( 'Cote D\'Ivoire' , 'leads' ); ?></option>
+					<option value="HR"><?php _e( 'Croatia' , 'leads' ); ?></option>
+					<option value="CU"><?php _e( 'Cuba' , 'leads' ); ?></option>
+					<option value="CB"><?php _e( 'Curacao' , 'leads' ); ?></option>
+					<option value="CY"><?php _e( 'Cyprus' , 'leads' ); ?></option>
+					<option value="CZ"><?php _e( 'Czech Republic' , 'leads' ); ?></option>
+					<option value="DK"><?php _e( 'Denmark' , 'leads' ); ?></option>
+					<option value="DJ"><?php _e( 'Djibouti' , 'leads' ); ?></option>
+					<option value="DM"><?php _e( 'Dominica' , 'leads' ); ?></option>
+					<option value="DO"><?php _e( 'Dominican Republic' , 'leads' ); ?></option>
+					<option value="TM"><?php _e( 'East Timor' , 'leads' ); ?></option>
+					<option value="EC"><?php _e( 'Ecuador' , 'leads' ); ?></option>
+					<option value="EG"><?php _e( 'Egypt' , 'leads' ); ?></option>
+					<option value="SV"><?php _e( 'El Salvador' , 'leads' ); ?></option>
+					<option value="GQ"><?php _e( 'Equatorial Guinea' , 'leads' ); ?></option>
+					<option value="ER"><?php _e( 'Eritrea' , 'leads' ); ?></option>
+					<option value="EE"><?php _e( 'Estonia' , 'leads' ); ?></option>
+					<option value="ET"><?php _e( 'Ethiopia' , 'leads' ); ?></option>
+					<option value="FA"><?php _e( 'Falkland Islands' , 'leads' ); ?></option>
+					<option value="FO"><?php _e( 'Faroe Islands' , 'leads' ); ?></option>
+					<option value="FJ"><?php _e( 'Fiji' , 'leads' ); ?></option>
+					<option value="FI"><?php _e( 'Finland' , 'leads' ); ?></option>
+					<option value="FR"><?php _e( 'France' , 'leads' ); ?></option>
+					<option value="GF"><?php _e( 'French Guiana' , 'leads' ); ?></option>
+					<option value="PF"><?php _e( 'French Polynesia' , 'leads' ); ?></option>
+					<option value="FS"><?php _e( 'French Southern Ter' , 'leads' ); ?></option>
+					<option value="GA"><?php _e( 'Gabon' , 'leads' ); ?></option>
+					<option value="GM"><?php _e( 'Gambia' , 'leads' ); ?></option>
+					<option value="GE"><?php _e( 'Georgia' , 'leads' ); ?></option>
+					<option value="DE"><?php _e( 'Germany' , 'leads' ); ?></option>
+					<option value="GH"><?php _e( 'Ghana' , 'leads' ); ?></option>
+					<option value="GI"><?php _e( 'Gibraltar' , 'leads' ); ?></option>
+					<option value="GB"><?php _e( 'Great Britain' , 'leads' ); ?></option>
+					<option value="GR"><?php _e( 'Greece' , 'leads' ); ?></option>
+					<option value="GL"><?php _e( 'Greenland' , 'leads' ); ?></option>
+					<option value="GD"><?php _e( 'Grenada' , 'leads' ); ?></option>
+					<option value="GP"><?php _e( 'Guadeloupe' , 'leads' ); ?></option>
+					<option value="GU"><?php _e( 'Guam' , 'leads' ); ?></option>
+					<option value="GT"><?php _e( 'Guatemala' , 'leads' ); ?></option>
+					<option value="GN"><?php _e( 'Guinea' , 'leads' ); ?></option>
+					<option value="GY"><?php _e( 'Guyana' , 'leads' ); ?></option>
+					<option value="HT"><?php _e( 'Haiti' , 'leads' ); ?></option>
+					<option value="HW"><?php _e( 'Hawaii' , 'leads' ); ?></option>
+					<option value="HN"><?php _e( 'Honduras' , 'leads' ); ?></option>
+					<option value="HK"><?php _e( 'Hong Kong' , 'leads' ); ?></option>
+					<option value="HU"><?php _e( 'Hungary' , 'leads' ); ?></option>
+					<option value="IS"><?php _e( 'Iceland' , 'leads' ); ?></option>
+					<option value="IN"><?php _e( 'India' , 'leads' ); ?></option>
+					<option value="ID"><?php _e( 'Indonesia' , 'leads' ); ?></option>
+					<option value="IA"><?php _e( 'Iran' , 'leads' ); ?></option>
+					<option value="IQ"><?php _e( 'Iraq' , 'leads' ); ?></option>
+					<option value="IR"><?php _e( 'Ireland' , 'leads' ); ?></option>
+					<option value="IM"><?php _e( 'Isle of Man' , 'leads' ); ?></option>
+					<option value="IL"><?php _e( 'Israel' , 'leads' ); ?></option>
+					<option value="IT"><?php _e( 'Italy' , 'leads' ); ?></option>
+					<option value="JM"><?php _e( 'Jamaica' , 'leads' ); ?></option>
+					<option value="JP"><?php _e( 'Japan' , 'leads' ); ?></option>
+					<option value="JO"><?php _e( 'Jordan' , 'leads' ); ?></option>
+					<option value="KZ"><?php _e( 'Kazakhstan' , 'leads' ); ?></option>
+					<option value="KE"><?php _e( 'Kenya' , 'leads' ); ?></option>
+					<option value="KI"><?php _e( 'Kiribati' , 'leads' ); ?></option>
+					<option value="NK"><?php _e( 'Korea North' , 'leads' ); ?></option>
+					<option value="KS"><?php _e( 'Korea South' , 'leads' ); ?></option>
+					<option value="KW"><?php _e( 'Kuwait' , 'leads' ); ?></option>
+					<option value="KG"><?php _e( 'Kyrgyzstan' , 'leads' ); ?></option>
+					<option value="LA"><?php _e( 'Laos' , 'leads' ); ?></option>
+					<option value="LV"><?php _e( 'Latvia' , 'leads' ); ?></option>
+					<option value="LB"><?php _e( 'Lebanon' , 'leads' ); ?></option>
+					<option value="LS"><?php _e( 'Lesotho' , 'leads' ); ?></option>
+					<option value="LR"><?php _e( 'Liberia' , 'leads' ); ?></option>
+					<option value="LY"><?php _e( 'Libya' , 'leads' ); ?></option>
+					<option value="LI"><?php _e( 'Liechtenstein' , 'leads' ); ?></option>
+					<option value="LT"><?php _e( 'Lithuania' , 'leads' ); ?></option>
+					<option value="LU"><?php _e( 'Luxembourg' , 'leads' ); ?></option>
+					<option value="MO"><?php _e( 'Macau' , 'leads' ); ?></option>
+					<option value="MK"><?php _e( 'Macedonia' , 'leads' ); ?></option>
+					<option value="MG"><?php _e( 'Madagascar' , 'leads' ); ?></option>
+					<option value="MY"><?php _e( 'Malaysia' , 'leads' ); ?></option>
+					<option value="MW"><?php _e( 'Malawi' , 'leads' ); ?></option>
+					<option value="MV"><?php _e( 'Maldives' , 'leads' ); ?></option>
+					<option value="ML"><?php _e( 'Mali' , 'leads' ); ?></option>
+					<option value="MT"><?php _e( 'Malta' , 'leads' ); ?></option>
+					<option value="MH"><?php _e( 'Marshall Islands' , 'leads' ); ?></option>
+					<option value="MQ"><?php _e( 'Martinique' , 'leads' ); ?></option>
+					<option value="MR"><?php _e( 'Mauritania' , 'leads' ); ?></option>
+					<option value="MU"><?php _e( 'Mauritius' , 'leads' ); ?></option>
+					<option value="ME"><?php _e( 'Mayotte' , 'leads' ); ?></option>
+					<option value="MX"><?php _e( 'Mexico' , 'leads' ); ?></option>
+					<option value="MI"><?php _e( 'Midway Islands' , 'leads' ); ?></option>
+					<option value="MD"><?php _e( 'Moldova' , 'leads' ); ?></option>
+					<option value="MC"><?php _e( 'Monaco' , 'leads' ); ?></option>
+					<option value="MN"><?php _e( 'Mongolia' , 'leads' ); ?></option>
+					<option value="MS"><?php _e( 'Montserrat' , 'leads' ); ?></option>
+					<option value="MA"><?php _e( 'Morocco' , 'leads' ); ?></option>
+					<option value="MZ"><?php _e( 'Mozambique' , 'leads' ); ?></option>
+					<option value="MM"><?php _e( 'Myanmar' , 'leads' ); ?></option>
+					<option value="NA"><?php _e( 'Nambia' , 'leads' ); ?></option>
+					<option value="NU"><?php _e( 'Nauru' , 'leads' ); ?></option>
+					<option value="NP"><?php _e( 'Nepal' , 'leads' ); ?></option>
+					<option value="AN"><?php _e( 'Netherland Antilles' , 'leads' ); ?></option>
+					<option value="NL"><?php _e( 'Netherlands (Holland, Europe)' , 'leads' ); ?></option>
+					<option value="NV"><?php _e( 'Nevis' , 'leads' ); ?></option>
+					<option value="NC"><?php _e( 'New Caledonia' , 'leads' ); ?></option>
+					<option value="NZ"><?php _e( 'New Zealand' , 'leads' ); ?></option>
+					<option value="NI"><?php _e( 'Nicaragua' , 'leads' ); ?></option>
+					<option value="NE"><?php _e( 'Niger' , 'leads' ); ?></option>
+					<option value="NG"><?php _e( 'Nigeria' , 'leads' ); ?></option>
+					<option value="NW"><?php _e( 'Niue' , 'leads' ); ?></option>
+					<option value="NF"><?php _e( 'Norfolk Island' , 'leads' ); ?></option>
+					<option value="NO"><?php _e( 'Norway' , 'leads' ); ?></option>
+					<option value="OM"><?php _e( 'Oman' , 'leads' ); ?></option>
+					<option value="PK"><?php _e( 'Pakistan' , 'leads' ); ?></option>
+					<option value="PW"><?php _e( 'Palau Island' , 'leads' ); ?></option>
+					<option value="PS"><?php _e( 'Palestine' , 'leads' ); ?></option>
+					<option value="PA"><?php _e( 'Panama' , 'leads' ); ?></option>
+					<option value="PG"><?php _e( 'Papua New Guinea' , 'leads' ); ?></option>
+					<option value="PY"><?php _e( 'Paraguay' , 'leads' ); ?></option>
+					<option value="PE"><?php _e( 'Peru' , 'leads' ); ?></option>
+					<option value="PH"><?php _e( 'Philippines' , 'leads' ); ?></option>
+					<option value="PO"><?php _e( 'Pitcairn Island' , 'leads' ); ?></option>
+					<option value="PL"><?php _e( 'Poland' , 'leads' ); ?></option>
+					<option value="PT"><?php _e( 'Portugal' , 'leads' ); ?></option>
+					<option value="PR"><?php _e( 'Puerto Rico' , 'leads' ); ?></option>
+					<option value="QA"><?php _e( 'Qatar' , 'leads' ); ?></option>
+					<option value="ME"><?php _e( 'Republic of Montenegro' , 'leads' ); ?></option>
+					<option value="RS"><?php _e( 'Republic of Serbia' , 'leads' ); ?></option>
+					<option value="RE"><?php _e( 'Reunion' , 'leads' ); ?></option>
+					<option value="RO"><?php _e( 'Romania' , 'leads' ); ?></option>
+					<option value="RU"><?php _e( 'Russia' , 'leads' ); ?></option>
+					<option value="RW"><?php _e( 'Rwanda' , 'leads' ); ?></option>
+					<option value="NT"><?php _e( 'St Barthelemy' , 'leads' ); ?></option>
+					<option value="EU"><?php _e( 'St Eustatius' , 'leads' ); ?></option>
+					<option value="HE"><?php _e( 'St Helena' , 'leads' ); ?></option>
+					<option value="KN"><?php _e( 'St Kitts-Nevis' , 'leads' ); ?></option>
+					<option value="LC"><?php _e( 'St Lucia' , 'leads' ); ?></option>
+					<option value="MB"><?php _e( 'St Maarten' , 'leads' ); ?></option>
+					<option value="PM"><?php _e( 'St Pierre &amp; Miquelon' , 'leads' ); ?></option>
+					<option value="VC"><?php _e( 'St Vincent &amp; Grenadines' , 'leads' ); ?></option>
+					<option value="SP"><?php _e( 'Saipan' , 'leads' ); ?></option>
+					<option value="SO"><?php _e( 'Samoa' , 'leads' ); ?></option>
+					<option value="AS"><?php _e( 'Samoa American' , 'leads' ); ?></option>
+					<option value="SM"><?php _e( 'San Marino' , 'leads' ); ?></option>
+					<option value="ST"><?php _e( 'Sao Tome &amp; Principe' , 'leads' ); ?></option>
+					<option value="SA"><?php _e( 'Saudi Arabia' , 'leads' ); ?></option>
+					<option value="SN"><?php _e( 'Senegal' , 'leads' ); ?></option>
+					<option value="SC"><?php _e( 'Seychelles' , 'leads' ); ?></option>
+					<option value="SL"><?php _e( 'Sierra Leone' , 'leads' ); ?></option>
+					<option value="SG"><?php _e( 'Singapore' , 'leads' ); ?></option>
+					<option value="SK"><?php _e( 'Slovakia' , 'leads' ); ?></option>
+					<option value="SI"><?php _e( 'Slovenia' , 'leads' ); ?></option>
+					<option value="SB"><?php _e( 'Solomon Islands' , 'leads' ); ?></option>
+					<option value="OI"><?php _e( 'Somalia' , 'leads' ); ?></option>
+					<option value="ZA"><?php _e( 'South Africa' , 'leads' ); ?></option>
+					<option value="ES"><?php _e( 'Spain' , 'leads' ); ?></option>
+					<option value="LK"><?php _e( 'Sri Lanka' , 'leads' ); ?></option>
+					<option value="SD"><?php _e( 'Sudan' , 'leads' ); ?></option>
+					<option value="SR"><?php _e( 'Suriname' , 'leads' ); ?></option>
+					<option value="SZ"><?php _e( 'Swaziland' , 'leads' ); ?></option>
+					<option value="SE"><?php _e( 'Sweden' , 'leads' ); ?></option>
+					<option value="CH"><?php _e( 'Switzerland' , 'leads' ); ?></option>
+					<option value="SY"><?php _e( 'Syria' , 'leads' ); ?></option>
+					<option value="TA"><?php _e( 'Tahiti' , 'leads' ); ?></option>
+					<option value="TW"><?php _e( 'Taiwan' , 'leads' ); ?></option>
+					<option value="TJ"><?php _e( 'Tajikistan' , 'leads' ); ?></option>
+					<option value="TZ"><?php _e( 'Tanzania' , 'leads' ); ?></option>
+					<option value="TH"><?php _e( 'Thailand' , 'leads' ); ?></option>
+					<option value="TG"><?php _e( 'Togo' , 'leads' ); ?></option>
+					<option value="TK"><?php _e( 'Tokelau' , 'leads' ); ?></option>
+					<option value="TO"><?php _e( 'Tonga' , 'leads' ); ?></option>
+					<option value="TT"><?php _e( 'Trinidad &amp; Tobago' , 'leads' ); ?></option>
+					<option value="TN"><?php _e( 'Tunisia' , 'leads' ); ?></option>
+					<option value="TR"><?php _e( 'Turkey' , 'leads' ); ?></option>
+					<option value="TU"><?php _e( 'Turkmenistan' , 'leads' ); ?></option>
+					<option value="TC"><?php _e( 'Turks &amp; Caicos Is' , 'leads' ); ?></option>
+					<option value="TV"><?php _e( 'Tuvalu' , 'leads' ); ?></option>
+					<option value="UG"><?php _e( 'Uganda' , 'leads' ); ?></option>
+					<option value="UA"><?php _e( 'Ukraine' , 'leads' ); ?></option>
+					<option value="AE"><?php _e( 'United Arab Emirates' , 'leads' ); ?></option>
+					<option value="GB"><?php _e( 'United Kingdom' , 'leads' ); ?></option>
+					<option value="US"><?php _e( 'United States of America' , 'leads' ); ?></option>
+					<option value="UY"><?php _e( 'Uruguay' , 'leads' ); ?></option>
+					<option value="UZ"><?php _e( 'Uzbekistan' , 'leads' ); ?></option>
+					<option value="VU"><?php _e( 'Vanuatu' , 'leads' ); ?></option>
+					<option value="VS"><?php _e( 'Vatican City State' , 'leads' ); ?></option>
+					<option value="VE"><?php _e( 'Venezuela' , 'leads' ); ?></option>
+					<option value="VN"><?php _e( 'Vietnam' , 'leads' ); ?></option>
+					<option value="VB"><?php _e( 'Virgin Islands (Brit)' , 'leads' ); ?></option>
+					<option value="VA"><?php _e( 'Virgin Islands (USA)' , 'leads' ); ?></option>
+					<option value="WK"><?php _e( 'Wake Island' , 'leads' ); ?></option>
+					<option value="WF"><?php _e( 'Wallis &amp; Futana Is' , 'leads' ); ?></option>
+					<option value="YE"><?php _e( 'Yemen' , 'leads' ); ?></option>
+					<option value="ZR"><?php _e( 'Zaire' , 'leads' ); ?></option>
+					<option value="ZM"><?php _e( 'Zambia' , 'leads' ); ?></option>
+					<option value="ZW"><?php _e( 'Zimbabwe' , 'leads' ); ?></option>
 					</select>
 					<?php
 				break;
@@ -1557,7 +1569,8 @@ function wpleads_save_user_fields($post_id) {
 					$new = implode(';',$new);
 					update_post_meta($post_id, $field['key'], $new);
 				}
-				else if (isset($new) && $new != $old ) {
+				else if (isset($new) && $new != $old )
+				{
 					update_post_meta($post_id, $field['key'], $new);
 
 					if ($field['key']=='wpleads_email_address')
@@ -1568,7 +1581,6 @@ function wpleads_save_user_fields($post_id) {
 
 				}
 				else if ('' == $new && $old) {
-					//echo "here";exit;
 					delete_post_meta($post_id, $field['key'], $old);
 				}
 			}
@@ -1590,7 +1602,7 @@ function wplead_add_conversion_path() {
 
 	add_meta_box(
 		'wplead_metabox_conversion', // $id
-		__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'wplead_metabox_conversion' ),
+		__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'leads' ),
 		'wpleads_display_conversion_path', // $callback
 		'wp-lead', // $page
 		'normal', // $context
@@ -1613,7 +1625,8 @@ function wpleads_display_conversion_path() {
 	$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$conversions_array = json_decode($conversions, true);
 	$c_array = array();
-	if (is_array($conversions_array)) {
+	if (is_array($conversions_array))
+	{
 		uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
 		$conversion_count = count($conversions_array);
 		//print_r($conversions_array);
@@ -1629,7 +1642,6 @@ function wpleads_display_conversion_path() {
 	      	$c_count++;
 
 		}
-
 	}
 
 	$page_views = get_post_meta($post->ID,'page_views', true);
@@ -1642,42 +1654,46 @@ function wpleads_display_conversion_path() {
 
     $new_array = array();
     $loop = 0;
+
 	// Combine and loop through all page view objects
-	 foreach($page_view_array as $key=>$val)
-      {
+	foreach($page_view_array as $key=>$val)
+    {
       	foreach($page_view_array[$key] as $test){
       			$new_array[$loop]['page'] = $key;
       			$new_array[$loop]['date'] = $test;
       	      	$loop++;
       	}
+    }
 
-      }
     $new_array = array_merge($c_array, $new_array); // Merge conversion and page view json objects
-   // print_r($new_array);
-    //$timeout = 1800; // thirty minutes in seconds
-    //$test = abs(strtotime(Last Time) - strtotime(NEW TIME));
-   	/* $test = abs(strtotime("2013-11-19 12:58:12") - strtotime("2013-11-20 4:57:02 UTC")); */
+
   	uasort($new_array,'c_table_leads_sort_array_datetime'); // Date sort
 
   	//print_r($new_array);
   	$new_key_array = array();
   	$num = 0;
-  	foreach ( $new_array as $key => $val ) {
+
+  	foreach ( $new_array as $key => $val )
+	{
 		$new_key_array[ $num ] = $val;
 		$num++;
   	}
-  	//print_r($new_key_array);
+
+
   	$new_loop = 1;
   	$total_session_count = 0;
-    foreach ($new_key_array as $key => $value) {
+
+    foreach ($new_key_array as $key => $value)
+	{
 
     	$last_item = $key - 1;
-
     	$next_item = $key + 1;
+
     	$conversion = (isset($new_key_array[$key]['conversion'])) ? 'lead-conversion-mark' : '';
     	$conversion_text = (isset($new_key_array[$key]['conversion'])) ? '<span class="conv-text">(Conversion Event)</span>' : '';
     	$close_div = ($total_session_count != 0) ? '</div></div>' : '';
-    	//echo $new_key_array[$new_loop]['date'];
+
+
     	if(isset($new_key_array[$last_item]['date'])){
     		$timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
     	} else{
@@ -1686,7 +1702,9 @@ function wpleads_display_conversion_path() {
 
     	$date =  date_create($new_key_array[$key]['date']);
     	$break = 'off';
-    	if ($timeout >= 3600) {
+
+    	if ($timeout >= 3600)
+		{
     		echo $close_div . '<a class="session-anchor" id="view-session-'.$total_session_count.'""></a><div id="conversion-tracking" class="wpleads-conversion-tracking-table" summary="Conversion Tracking">
 
     		<div class="conversion-tracking-header">
@@ -1697,67 +1715,70 @@ function wpleads_display_conversion_path() {
     		//echo "</div>";
     		$break = "on";
     	}
+
     	$page_id = $new_key_array[$key]['page'];
-    		if (strpos($page_id,'cat_') !== false) {
-        	  	$cat_id = str_replace("cat_", "", $page_id);
-        	  	$page_name = get_cat_name($cat_id) . " Category Page";
-        	  	$tag_names = '';
-        	  	$page_permalink = get_category_link( $cat_id );
-    	  	} elseif (strpos($page_id,'tag_') !== false) {
-        	  	$tag_id = str_replace("tag_", "", $page_id);
-        	  	$tag = get_tag( $tag_id );
-        	  	$page_name = $tag->name . " - Tag Page";
-        	  	$tag_names = '';
-        	  	$page_permalink = get_tag_link($tag_id);
-    	  	} else {
-    		$page_title = get_the_title($page_id);
-    		$page_name = ($page_id != 0) ? $page_title : 'N/A';
-    		$page_permalink = get_permalink($page_id);
-    	}
+
+		if (strpos($page_id,'cat_') !== false)
+		{
+			$cat_id = str_replace("cat_", "", $page_id);
+			$page_name = get_cat_name($cat_id) . " Category Page";
+			$tag_names = '';
+			$page_permalink = get_category_link( $cat_id );
+		}
+		elseif (strpos($page_id,'tag_') !== false)
+		{
+			$tag_id = str_replace("tag_", "", $page_id);
+			$tag = get_tag( $tag_id );
+			$page_name = $tag->name . " - Tag Page";
+			$tag_names = '';
+			$page_permalink = get_tag_link($tag_id);
+		}
+		else
+		{
+			$page_title = get_the_title($page_id);
+			$page_name = ($page_id != 0) ? $page_title : 'N/A';
+			$page_permalink = get_permalink($page_id);
+		}
+
     	$timeon_page = $timeout / 60;
     	$date_print = date_create($new_key_array[$key]['date']);
-    	//$last_date = date_create($new_key_array[$last_item]['date']);
 
-
-    	//echo "<br>".$timeout."<-timeout on key " . $new_loop . " " . $new_key_array[$key]['date'] . ' on page: ' . $new_key_array[$key]['page'];
-    	//$second_diff = abs(date_format($last_date, 's') - date_format($date_print, 's'));
     	if(isset($new_key_array[$last_item]['date'])){
-    	$second_diff = leads_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
+			$second_diff = leads_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
     	} else {
-    	$second_diff['minutes'] = 0;
-    	$second_diff['seconds'] = 0;
+			$second_diff['minutes'] = 0;
+			$second_diff['seconds'] = 0;
     	}
-    	//print_r($second_diff);
-    	//$second_diff = date('i:s',$second_diff);
+
     	$minute = ($second_diff['minutes'] != 0) ? "<strong>" . $second_diff['minutes'] . "</strong> " : '';
     	$minute_text = ($second_diff['minutes'] != 0) ? $second_diff['mm-text'] . " " : '';
     	$second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
     	$second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
-    	if ($break === "on") {
+
+		if ($break === "on")
+		{
     		$minute = "";
     		$minute_text =  "";
     		$second =  "";
     		$second_text =  "Session Timeout";
     	}
-    	if ($page_id != "0" && $page_id != "null"){
-    	echo "<div class='lp-page-view-item ".$conversion."'>
+
+    	if ($page_id != "0" && $page_id != "null")
+		{
+			echo "<div class='lp-page-view-item ".$conversion."'>
 			<span class='marker'></span> <a href='".$page_permalink."' title='View This Page' target='_blank'>".$page_name."</a> on <span>".date_format($date_print, 'F jS, Y \a\t g:i:s a')."</span>
 			".$conversion_text."
 			<span class='time-on-page'>". $minute . $minute_text .  $second . $second_text . "</span>
 			</div>";
 		}
+
     	$new_loop++;
 
-     }
-?>
+    }
+	?>
 
 		</div><!-- end .conversion-session-view -->
 		</div><!-- end #conversion-tracking -->
 
-		<?php
-
-	//update_option($post->ID,'wpl-lead-conversions',implode(',',$conversions));
-	// echo count($array_page_view_total);
+	<?php
 }
-
- ?>

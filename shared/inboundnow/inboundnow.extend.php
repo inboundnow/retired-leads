@@ -71,7 +71,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( __( '%1$s', 'lp' ), $this->plugin_label ),
+					'label' => sprintf( '%1$s' , $this->plugin_label ),
 					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 					'type' => 'inboundnow-license-key',
 					'default'  => $this->master_license_key
@@ -86,7 +86,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 				'id' => $this->plugin_slug,
 				'slug' => $this->plugin_slug,
 				'remote_download_slug' => $this->remote_download_slug,
-				'label' => sprintf( __( '%1$s', 'lp' ), $this->plugin_label ),
+				'label' => sprintf( '%1$s' , $this->plugin_label ),
 				'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 				'type' => 'inboundnow-license-key',
 				'default'  => ''
@@ -102,7 +102,7 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( __( '%1$s', 'lp' ), $this->plugin_label ),
+					'label' => sprintf( '%1$s' , $this->plugin_label ),
 					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 					'type' => 'inboundnow-license-key',
 					'default'  => $this->master_license_key

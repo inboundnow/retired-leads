@@ -9,20 +9,20 @@
 		'no_preview' => true,
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', INBOUND_LABEL),
-				'desc' => __('Enter the sub title.', INBOUND_LABEL),
+				'name' => __('Sub Title', 'leads'),
+				'desc' => __('Enter the sub title.', 'leads'),
 				'type' => 'textarea',
 				'std' => ''
 			),
 			'button_color' => array(
-				'name' => __('Button Color', INBOUND_LABEL),
-				'desc' => __('Select the button color.', INBOUND_LABEL),
+				'name' => __('Button Color', 'leads'),
+				'desc' => __('Select the button color.', 'leads'),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -41,52 +41,52 @@
 				'std' => 'default'
 			),
 			'button_label' => array(
-				'name' => __('Button Text Label', INBOUND_LABEL),
-				'desc' => __('Enter the button text label.', INBOUND_LABEL),
+				'name' => __('Button Text Label', 'leads'),
+				'desc' => __('Enter the button text label.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'button_icon' => array(
-				'name' => __('Button Icon', INBOUND_LABEL),
-				'desc' => __('Select an icon.', INBOUND_LABEL),
+				'name' => __('Button Icon', 'leads'),
+				'desc' => __('Select an icon.', 'leads'),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none'
 			),
 			'link' => array(
-				'name' => __('Link', INBOUND_LABEL),
-				'desc' => __('Enter the button link destination URL.', INBOUND_LABEL),
+				'name' => __('Link', 'leads'),
+				'desc' => __('Enter the button link destination URL.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[callout title="{{title}}" subtitle="{{subtitle}}" button_label="{{button_label}}" button_icon="{{button_icon}}" link="{{link}}"]',
-		'popup_title' => __('Insert Call Out Shortcode',  INBOUND_LABEL)
+		'popup_title' => __('Insert Call Out Shortcode',  'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['callout'] = array(
-		'name' => __('Call Out', INBOUND_LABEL),
+		'name' => __('Call Out', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', INBOUND_LABEL),
-				'desc' => __('Enter the sub title.', INBOUND_LABEL),
+				'name' => __('Sub Title', 'leads'),
+				'desc' => __('Enter the sub title.', 'leads'),
 				'type' => 'textarea',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'button_color' => array(
-				'name' => __('Button Color', INBOUND_LABEL),
-				'desc' => __('Select the button color.', INBOUND_LABEL),
+				'name' => __('Button Color', 'leads'),
+				'desc' => __('Select the button color.', 'leads'),
 				'type' => 'select',
 				'options' => array(
 					'default' => 'Default',
@@ -107,15 +107,15 @@
 				'is_content' => '0'
 			),
 			'button_label' => array(
-				'name' => __('Button Text Label', INBOUND_LABEL),
-				'desc' => __('Enter the button text label.', INBOUND_LABEL),
+				'name' => __('Button Text Label', 'leads'),
+				'desc' => __('Enter the button text label.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'button_icon' => array(
-				'name' => __('Button Icon', INBOUND_LABEL),
-				'desc' => __('Select an icon.', INBOUND_LABEL),
+				'name' => __('Button Icon', 'leads'),
+				'desc' => __('Select an icon.', 'leads'),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -123,8 +123,8 @@
 				'is_content' => '0'
 			),
 			'link' => array(
-				'name' => __('Link', INBOUND_LABEL),
-				'desc' => __('Enter the button link destination URL.', INBOUND_LABEL),
+				'name' => __('Link', 'leads'),
+				'desc' => __('Enter the button link destination URL.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => '0'

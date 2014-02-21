@@ -9,95 +9,95 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading Text', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading Text', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Recent Landing Pages'
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '4'
 			),
 			'number' => array(
-				'name' => __('Post Number', INBOUND_LABEL),
-				'desc' => __('Enter the number of post to show. (enter -1 for all posts)', INBOUND_LABEL),
+				'name' => __('Post Number', 'leads'),
+				'desc' => __('Enter the number of post to show. (enter -1 for all posts)', 'leads'),
 				'type' => 'text',
 				'std' => '4'
 			),
 			'cat' => array(
-				'name' => __('Category', INBOUND_LABEL),
-				'desc' => __('Optional you can sort by a category.', INBOUND_LABEL),
+				'name' => __('Category', 'leads'),
+				'desc' => __('Optional you can sort by a category.', 'leads'),
 				'type' => 'select',
 				'options' => $lp_cats,
 				'std' => ''
 			),
 			'excerpt_lenght' => array(
-				'name' => __('Excerpt Lenght', INBOUND_LABEL),
-				'desc' => __('The post excerpt word lenght.', INBOUND_LABEL),
+				'name' => __('Excerpt Lenght', 'leads'),
+				'desc' => __('The post excerpt word lenght.', 'leads'),
 				'type' => 'text',
 				'std' => '30'
 			),
 			'thumbs' => array(
-				'name' => __('Show Featured Thumbnails', INBOUND_LABEL),
-				'checkbox_text' => __('Uncheck to hide featured thumbnails', INBOUND_LABEL),
+				'name' => __('Show Featured Thumbnails', 'leads'),
+				'checkbox_text' => __('Uncheck to hide featured thumbnails', 'leads'),
 				'desc' => '',
 				'type' => 'checkbox',
 				'std' => '1'
 			),
 		),
 		'shortcode' => '[landing_pages heading="{{heading}}" column="{{column}}" number="{{number}}" cat="{{cat}}" excerpt_lenght="{{excerpt_lenght}}" thumbs="{{thumbs}}"]',
-		'popup_title' => __('Insert Landing Page List Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Landing Page List Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['landing_pages'] = array(
-		'name' => __('Entries', INBOUND_LABEL),
+		'name' => __('Entries', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Recent Posts',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '4',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'number' => array(
-				'name' => __('Post Number', INBOUND_LABEL),
-				'desc' => __('Enter the number of post to show.', INBOUND_LABEL),
+				'name' => __('Post Number', 'leads'),
+				'desc' => __('Enter the number of post to show.', 'leads'),
 				'type' => 'text',
 				'std' => '4',
 				'class' => '',
 				'is_content' => '0'
 			),
 			'cat' => array(
-				'name' => __('Category', INBOUND_LABEL),
-				'desc' => __('Optional you can sort by a category.', INBOUND_LABEL),
+				'name' => __('Category', 'leads'),
+				'desc' => __('Optional you can sort by a category.', 'leads'),
 				'type' => 'select',
 				'options' => $lp_cats,
 				'std' => '',
@@ -105,8 +105,8 @@
 				'is_content' => '0'
 			),
 			'excerpt_lenght' => array(
-				'name' => __('Excerpt Lenght', INBOUND_LABEL),
-				'desc' => __('The post excerpt word lenght.', INBOUND_LABEL),
+				'name' => __('Excerpt Lenght', 'leads'),
+				'desc' => __('The post excerpt word lenght.', 'leads'),
 				'type' => 'text',
 				'std' => '30',
 				'class' => '',

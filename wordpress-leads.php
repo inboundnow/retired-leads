@@ -5,7 +5,9 @@ Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
 Version: 1.3.3
-Author URI: http://www.inboundnow.com/landing-pages/
+Author URI: http://www.inboundnow.com/
+Text Domain: landing-pages
+Domain Path: shared/languages/leads/
 */
 
 define('WPL_CURRENT_VERSION', '1.3.3' );
@@ -15,14 +17,13 @@ define('WPL_CORE', plugin_basename( __FILE__ ) );
 define('WPL_SLUG', plugin_basename( __FILE__ ) );
 define('WPL_FILE',  __FILE__ );
 define('WPL_STORE_URL', 'http://www.inboundnow.com' );
-define('WPL_TEXT_DOMAIN', 'leads' );
 $uploads = wp_upload_dir();
 define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
 define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
 
-if (is_admin())
+if (is_admin()){
 	if(!isset($_SESSION)){@session_start();}
-
+}
 
 
 /* loads global */

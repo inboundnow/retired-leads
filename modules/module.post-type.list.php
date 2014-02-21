@@ -1,215 +1,27 @@
 <?php
-/* CPT Lead Lists
-
-// LIST CPT IS RETIRED NOW. wplead_list_category taxonomy controls lists
-
-add_action('init', 'wpleads_register_list',11);
-function wpleads_register_list() {
-	//echo $slug;exit;
-    $labels = array(
-        'name' => _x('Lead Lists', 'post type general name'),
-        'singular_name' => _x('List', 'post type singular name'),
-        'add_new' => _x('Add New', 'List'),
-        'add_new_item' => __('Create New List'),
-        'edit_item' => __('Edit List'),
-        'new_item' => __('New Lists'),
-        'view_item' => __('View Lists'),
-        'search_items' => __('Search Lists'),
-        'not_found' =>  __('Nothing found'),
-        'not_found_in_trash' => __('Nothing found in Trash'),
-        'parent_item_colon' => ''
-    );
-
-    $args = array(
-        'labels' => $labels,
-        'public' => false,
-        'publicly_queryable' => false,
-        'show_ui' => true,
-        'query_var' => true,
-       	'show_in_menu'  => 'edit.php?post_type=wp-lead',
-        'menu_icon' => WPL_URL . '/images/lists.png',
-        'capability_type' => 'post',
-        'hierarchical' => false,
-        'menu_position' => null,
-        'supports' => array('title','custom-fields')
-      );
-
-    register_post_type( 'list' , $args );
-	//flush_rewrite_rules( false );
-
-	//add categories to wp-lead posttype
-	//flush_rewrite_rules( false );
-	register_taxonomy('wplead_list_category','wp-lead', array(
-            'hierarchical' => true,
-            'label' => "Lists",
-            'singular_label' => "List Management",
-            'show_ui' => true,
-			'show_in_menu' => false,
-			'show_in_nav_menus' => false,
-            'query_var' => true,
-			"rewrite" => false
-
-    ));
-
-	add_action('admin_menu', 'remove_list_cat_menu');
-	function remove_list_cat_menu() {
-		global $submenu;
-		unset($submenu['edit.php?post_type=wp-lead'][15]);
-		//print_r($submenu); exit;
-	}
-}
-*/
-if (is_admin())
-{
-	// Change the columns for the edit CPT screen
-	add_filter( "manage_list_posts_columns", "wpleads_list_change_columns" );
-	function wpleads_list_change_columns( $cols ) {
-		$cols = array(
-			"cb" => "<input type=\"checkbox\" />",
-			"title" => "List",
-			"wpleads-leads" => "Leads"
-		);
-
-		$cols = apply_filters('wpleads_list_change_columns',$cols);
-
-		return $cols;
-	}
 
 
-	add_action( "manage_posts_custom_column", "wpleads_list_custom_columns", 10, 2 );
-	function wpleads_list_custom_columns( $column, $post_id )
-	{
-		switch ( $column ) {
-			case "title":
-				$list_name = get_the_title( $post_id );
+function wpleads_count_associated_lead_items($post_id){
+	global $wpdb;
 
-				$list_name = apply_filters('wpleads_list_name',$list_name);
-
-				echo $list_name;
-			  break;
-
-			case "wpleads-leads":
-			  $lead_items = wpleads_count_associated_lead_items($post_id);
-			  echo $lead_items;
-			  break;
-		}
-
-		do_action('wpleads_list_custom_columns',$column, $post_id);
-
-	}
+	$list = get_post($post_id);
+	$list_slug = $list->post_name;
 
 
-	function wpleads_count_associated_lead_items($post_id, $get_transient = false){
-		global $wpdb;
+	$args = array(
+		'post_type' => 'wp-lead',
+		'post_status' => 'published',
+		'wplead_list_category' => $list_slug,
+		'numberposts' => -1
+	);
 
-		$list = get_post($post_id);
-		$list_slug = $list->post_name;
+	$num = count( get_posts( $args ) );
 
-		if ($get_transient)
-		{
-			$num = get_transient('wpleads_count_associated_lead_items-'.$post_id);
-			if ($num){
-				return $num.' leads';
-			}
-		}
 
-		$args = array(
-			'post_type' => 'wp-lead',
-			'post_status' => 'published',
-			'wplead_list_category' => $list_slug,
-			'numberposts' => -1
-		);
-
-		$num = count( get_posts( $args ) );
-
-		set_transient('wpleads_count_associated_lead_items-'.$post_id , $num , 60*60*24);
-
-		return "$num leads";
-	}
-
-	// Make these columns sortable
-	add_filter( "manage_edit-list_sortable_columns", "wpleads_list_sortable_columns" );
-	function wpleads_list_sortable_columns($columns) {
-
-		$columns = apply_filters('',$columns);
-
-		return $columns;
-	}
-
+	return sprintf( __( '%d leads' , 'leads' ) , $num );
 }
 
-//************************************************************************************//
-//*************** POST SAVING & POST DELETING ****************************************//
-//************************************************************************************//
-if (is_admin())
-{
-	//add action for cpt saving
-	add_action('save_post', 'wpleads_list_save_post');
-	function wpleads_list_save_post($post_id) {
-		global $post;
 
-		if (!isset($post))
-			$post = get_post($post_id);
-
-		if ($post->post_type=='revision' ||  'trash' == get_post_status( $post_id ))
-		{
-			return;
-		}
-		if ( ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) ||( isset($_POST['post_type']) && $_POST['post_type']=='revision'))
-		{
-			return;
-		}
-
-		if ($post->post_type=='list' && isset($_POST) && count($_POST) > 0 )
-		{
-
-			$list_title = (isset($_POST['post_title'])) ? $_POST['post_title'] : '';
-			$list_slug = (isset($_POST['post_name'])) ? $_POST['post_name'] : '';
-
-			//add list as category to lead cpt and store the category taxonomy as meta pair in list cpt
-			wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug);
-
-			do_action('wpleads_save_list_post',$post_id);
-		}
-
-		//add in meta pair markers for lists the lead belong to
-		if ($post->post_type=='wp-lead' && isset($_POST) && count($_POST) > 0 )
-		{
-
-			if (isset($_POST['tax_input']))
-			{
-				//delete_post_meta($post->ID, 'wpleads_list_ids');
-
-				$tax_input = $_POST['tax_input'];
-				foreach ($tax_input['wplead_list_category'] as $key=>$value)
-				{
-					if ($value)
-					{
-						$store_post = $post;
-						$list = wpleads_get_list_by_taxonomy_id($value);
-
-						$post = $store_post;
-						$list_name = $list['post_name'];
-						$list_id = $list['ID'];
-						$wpleads_list_ids[$list_name]['list_id'] = $list_id;
-						$wpleads_list_ids[$list_name]['wplead_list_category_id'] = $value;
-					}
-				}
-			}
-
-			if (isset($wpleads_list_ids) && count($wpleads_list_ids) > 0)
-			{
-				$wpleads_list_ids = json_encode($wpleads_list_ids);
-				$wpleads_list_ids = update_post_meta($post->ID, 'wpleads_list_ids', $wpleads_list_ids);
-			}
-			else
-			{
-				update_post_meta($post->ID, 'wpleads_list_ids', "");
-			}
-		}
-	}
-
-}
 
 
 function wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title, $list_slug = null)
@@ -237,24 +49,6 @@ function wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title
 
 		update_post_meta( $post_id, 'wplead_list_category_id', $term_id);
 	}
-}
-
-function wpleads_get_list_by_taxonomy_id($term_id)
-{
-
-	$args = array(
-		'post_type' => 'list',
-		'post_status' => 'published',
-		'meta_key'=> 'wplead_list_category_id',
-		'meta_value'=> $term_id,
-		'posts_per_page' => 1
-	);
-
-	$wp_query = new WP_Query( $args );
-	while ($wp_query->have_posts()) : $wp_query->the_post();
-		return array('ID'=>$wp_query->post->ID,'post_name'=>$wp_query->post->post_name , 'post_title'=>$wp_query->post->post_title);
-	endwhile;
-
 }
 
 function wpleads_add_lead_to_list( $list_id, $lead_id )
@@ -374,6 +168,7 @@ function wpleads_get_lead_lists_as_array() {
 	$args = array(
 	    'hide_empty' => false,
 	);
+	
 	$terms = get_terms('wplead_list_category', $args);
 
 	foreach ( $terms as $term  ) {

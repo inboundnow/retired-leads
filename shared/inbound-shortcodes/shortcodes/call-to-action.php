@@ -8,8 +8,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'insert_default' => array(
-						'name' => __('Insert cta', INBOUND_LABEL),
-						'desc' => __('Choose CTA', INBOUND_LABEL),
+						'name' => __('Insert cta', 'leads'),
+						'desc' => __('Choose CTA', 'leads'),
 						'type' => 'cta',
 						'std' => '',
 						'class' => 'main-form-settings',
@@ -17,5 +17,5 @@
 
 		),
 		'shortcode' => '[inbound_forms id="{{insert_default}}" name="{{form_name}}"]',
-		'popup_title' => __('Insert Call to Action',  INBOUND_LABEL)
+		'popup_title' => __('Insert Call to Action',  'leads')
 	);

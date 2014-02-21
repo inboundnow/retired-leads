@@ -75,10 +75,10 @@ class LLS_WPL_LISTING extends WP_List_Table
 	{
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
-			'lls_lead_name' => 'Lead Name',
-			'lls_lead_email' => 'Lead Email',
-			'lls_lead_points' => 'Lead Points',
-			'lls_lead_actions' => 'Actions'
+			'lls_lead_name' => __( 'Lead Name' , 'leads' ),
+			'lls_lead_email' => __( 'Lead Email' , 'leads' ),
+			'lls_lead_points' => __( 'Lead Points' , 'leads' ),
+			'lls_lead_actions' => __( 'Actions' , 'leads' )
 		);
 		return $columns;
 	}

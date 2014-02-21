@@ -5,58 +5,58 @@ function wpleads_lead_automation_get_fields()
 {
 	/* New structure */
 	$automation_fields['automation_if'] =
-	array('label' => 'IF condition',
+	array('label' => __( 'IF condition' , 'leads' ) ,
 		  'id' => 'automation_if',
 		  'position' => 'conditions',
 		  'priority' => 10,
 		  'type' => 'dropdown',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => "This condition allows us to set the primary criteria for lead sorting or points awarding.",
+		  'tooltip' => __( "This condition allows us to set the primary criteria for lead sorting or points awarding."  , 'leads' )
 		  'options' => array(
-							'page_views_general'=>'Visitor views any page',
-							'page_views_category_specific'=>'Visitor views category specific page',
-							'page_conversions_general'=>'Visitor converts on any page',
-							'page_conversions_category_specific'=>'Visitor converts on category specific page',
-							//'sessions_recorded'=>'Total site browsing sessions equals',
-							'automation_executed'=>'Total number of successful rule matches is at least'
+							'page_views_general'=> __( 'Visitor views any page' , 'leads' ),
+							'page_views_category_specific'=> __( 'Visitor views category specific page' , 'leads' ),
+							'page_conversions_general'=> __( 'Visitor converts on any page' , 'leads' ),
+							'page_conversions_category_specific'=> __( 'Visitor converts on category specific page' , 'leads' ),
+							//'sessions_recorded'=> __( 'Total site browsing sessions equals' , 'leads' ),
+							'automation_executed'=> __( 'Total number of successful rule matches is at least' , 'leads' )
 							),
 	);
 	$automation_if_options = apply_filters('automation_if_options',$automation_fields['automation_if']['options']);
 
 	$automation_fields['condition_count'] =
-	array('label' => '# Action Requirments',
+	array('label' => __( '# Action Requirments' , 'leads' ) ,
 		  'id' => 'automation_condition_number',
 		  'position' => 'conditions',
 		  'priority' => 20,
 		  'type' => 'text',
 		  'class' => 'automation_text_input',
 		  'show' => true,
-		  'tooltip' => "This condition sets the standard that the IF statement above must achieve before a rule is executed.",
+		  'tooltip' => __( "This condition sets the standard that the IF statement above must achieve before a rule is executed." , 'leads' ),
 		  'options' => array(
-							'page_views_general'=>'Visitor views any page',
-							'page_views_category_specific'=>'Visitor views category specific page',
-							'page_conversions_general'=>'Visitor converts on any page',
-							'page_conversions_category_specific'=>'Visitor converts on category specific page',
-							//'sessions_recorded'=>'Total site browsing sessions equals',
-							'automation_executed'=>'Total number of successful rule matches is at least'
+							'page_views_general'=> __( 'Visitor views any page' , 'leads' ),
+							'page_views_category_specific'=> __( 'Visitor views category specific page' , 'leads' ),
+							'page_conversions_general'=> __( 'Visitor converts on any page' , 'leads' ),
+							'page_conversions_category_specific'=> __( 'Visitor converts on category specific page' , 'leads' ),
+							//'sessions_recorded'=> __( 'Total site browsing sessions equals' , 'leads' ),
+							'automation_executed'=> __( 'Total number of successful rule matches is at least' , 'leads' )
 							),
 	);
 	$categories_option_array = automation_get_categories_array();
 	$automation_fields['condition_category'] =
-	array('label' => 'Category Condition',
+	array('label' => __( 'Category Condition' , 'leads' ) ,
 		  'id' => 'automation_condition_category',
 		  'position' => 'conditions',
 		  'priority' => 30,
 		  'type' => 'dropdown',
 		  'class' => 'automation_dropdown',
 		  'show' => false,
-		  'tooltip' => "When an IF statment requires category specific reader behavior this dropdown helps us target our category of interest.",
+		  'tooltip' => __( "When an IF statment requires category specific reader behavior this dropdown helps us target our category of interest." , 'leads' )
 		  'options' => $categories_option_array,
 	);
 
 	$automation_fields['condition_meta_automation_check'] =
-	array('label' => 'Rule Limitation',
+	array('label' => __( 'Rule Limitation' , 'leads' ) ,
 		  'id' => 'automation_condition_automation_check',
 		  'position' => 'actions',
 		  'default' => 'on',
@@ -64,43 +64,43 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => "To protect rule actions from firing multiple times on the same user turn this setting to on.",
-		  'options' => array('on'=>'Only run rule on lead once.'),
+		  'tooltip' => __( "To protect rule actions from firing multiple times on the same user turn this setting to on." , 'leads' )
+		  'options' => array('on'=> __( 'Only run rule on lead once.' , 'leads' )),
 	);
 	$list_options = wpleads_get_lead_lists_as_array();
 	$automation_fields['condition_list_add'] =
-	array('label' => 'Add to List(s)',
+	array('label' => __( 'Add to List(s)' , 'leads' ) ,
 		  'id' => 'automation_condition_list_add',
 		  'position' => 'actions',
 		  'priority' => 50,
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => "When all rule conditions are met by a lead then sort the lead into these lead lists.",
+		  'tooltip' => __( "When all rule conditions are met by a lead then sort the lead into these lead lists." , 'leads' )
 		  'options' => $list_options,
 	);
 
 	$automation_fields['condition_list_remove'] =
-	array('label' => 'Remove from List(s)',
+	array('label' => __( 'Remove from List(s)' , 'leads' ) ,
 		  'id' => 'automation_condition_list_remove',
 		  'position' => 'actions',
 		  'priority' => 51,
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => "When all rule conditions are met by a lead then remove the lead out of these lead lists.",
+		  'tooltip' => __( "When all rule conditions are met by a lead then remove the lead out of these lead lists." , 'leads' )
 		  'options' => $list_options,
 	);
 
 	$automation_fields['condition_points'] =
-	array('label' => 'Adjust Lead Score',
+	array('label' => __( 'Adjust Lead Score' , 'leads' ) ,
 		  'id' => 'automation_condition_points',
 		  'position' => 'actions',
 		  'priority' => 60,
 		  'type' => 'text',
 		  'class' => 'automation_input',
 		  'show' => true,
-		  'tooltip' => "When all rule conditions are met by a lead then award the user this many points. You may use - symbols before an interger for point removal."
+		  'tooltip' => __( "When all rule conditions are met by a lead then award the user this many points. You may use - symbols before an interger for point removal." , 'leads' )
 	);
 
 	$automation_fields = apply_filters('wpleads_automation_fields',$automation_fields);
@@ -127,7 +127,7 @@ function wpleads_lead_lists_add_metaboxes() {
 	/* main rule block */
 	add_meta_box(
 		'automation_metabox_main', // $id
-		__( 'Automation Rule Overview', 'automation_overview' ),
+		__( 'Automation Rule Overview', 'leads' ),
 		'automation_display_metabox_main', // $callback
 		'automation', // $page
 		'normal', // $context
@@ -136,7 +136,7 @@ function wpleads_lead_lists_add_metaboxes() {
 	/* sidebar */
 	add_meta_box(
 	'automation_metabox_run_tools_sidebar',
-	__( "Rule Tools", 'ma' ),
+	__( "Rule Tools", 'leads' ),
 	'automation_metabox_sidebar_tools',
 	'automation' ,
 	'side',
@@ -154,7 +154,7 @@ function automation_display_metabox_main() {
 	$automation_fields = wpleads_lead_automation_get_fields();
 
 	//define tabs
-	$tabs[] = array('id'=>'automation_condition_0','label'=>'Condition 1');
+	$tabs[] = array('id'=>'automation_condition_0','label'=> __( 'Condition 1' , 'leads' ) );
 
 
 	//define open tab
@@ -207,14 +207,14 @@ function automation_display_metabox_main() {
 
 	<div class='rules-div-add-new-automation-condition'>
 		<select class="automation_dropdown automation_active" id="automation_active" name="automation_active">
-			<option value="active" <?php if ($automation_activation_status=='active') echo "selected"; ?>>Activate Rule</option>
+			<option value="active" <?php if ($automation_activation_status=='active') echo "selected"; ?>><?php _e( 'Activate Rule' , 'leads' ); ?></option>
 			<option value="inactive" <?php if ($automation_activation_status=='inactive') echo "selected"; ?>>Deactivate Rule</option>
 		</select>
 		<select name='automation_conditions_nature'>
-			<option value='match_all' <?php if ($automation_conditions_nature=='match_all') echo "selected"; ?>>Match all conditions.</option>
-			<option value='match_any' <?php if ($automation_conditions_nature=='match_any') echo "selected"; ?>>Match any conditions.</option>
+			<option value='match_all' <?php if ($automation_conditions_nature=='match_all') echo "selected"; ?>><?php _e( 'Match all conditions.' , 'leads' ); ?></option>
+			<option value='match_any' <?php if ($automation_conditions_nature=='match_any') echo "selected"; ?>><?php _e( 'Match any conditions.' , 'leads' ); ?></option>
 		</select>
-		<a id="ma-a-add-new-automation-condition"  name='' class="button">Add New Condtion</a>
+		<a id="ma-a-add-new-automation-condition"  name='' class="button"><?php _e( 'Add New Condtion' , 'leads' ); ?></a>
 	</div>
 	<div class="metabox-holder split-test-ui">
 
@@ -228,7 +228,7 @@ function automation_display_metabox_main() {
 					$i = $key+1;
 					?>
 					<a  id='tabs-automation_condition_<?php echo $cid; ?>' rel='<?php echo $cid; ?>' class="ma-nav-tab nav-tab nav-tab-special<?php echo $key > 0 ? '-inactive' : '-active'; ?>">
-						<?php _e( "Condition {$i}", WPL_TEXT_DOMAIN ); ?>
+						<?php sprintf(_e( "Condition %d", 'leads' ) , $i ); ?>
 					</a>
 					<?php
 
@@ -236,7 +236,7 @@ function automation_display_metabox_main() {
 					{
 					?>
 					<span class='automation-delete-condition-button' id='automation-delete-condition-button-<?php echo $cid; ?>'>
-						<img title="<?php _e('Remove Condition', WPL_TEXT_DOMAIN );?>" src='<?php echo WPL_URL.'/images/delete.png'; ?>'>
+						<img title="<?php _e('Remove Condition', 'leads' );?>" src='<?php echo WPL_URL.'/images/delete.png'; ?>'>
 					</span>
 					<?php
 					}
@@ -258,7 +258,7 @@ function automation_display_metabox_main() {
 			</div>
 			<div class='automation-actions-block'>
 				<h2 id="ma-st-tabs-0" class="nav-tab-wrapper nav-tab-wrapper-actions">
-						<a  id='tabs-actions' style='padding-left:14px;'><?php _e('Actions',WPL_TEXT_DOMAIN); ?>:</a>
+						<a  id='tabs-actions' style='padding-left:14px;'><?php _e('Actions','leads'); ?>:</a>
 				</h2>
 				<?php
 				// Custom Before and After Hook here for custom fields shown on main view page
@@ -289,7 +289,7 @@ function automation_metabox_sidebar_tools() {
 	if ( is_array($automation_queue) && array_key_exists( $post->ID , $automation_queue))
 	{
 		$style = "display:inline";
-		$text = __('Processing...',WPL_TEXT_DOMAIN);
+		$text = __('Processing...','leads');
 
 		foreach ($automation_queue as $automation_id => $batches)
 		{
@@ -306,7 +306,7 @@ function automation_metabox_sidebar_tools() {
 	else
 	{
 		$style = "display:none";
-		$text = __( "Run rule on all leads." , WPL_TEXT_DOMAIN );
+		$text = __( "Run rule on all leads." , 'leads' );
 	}
 	?>
 
@@ -314,7 +314,11 @@ function automation_metabox_sidebar_tools() {
 
 		if ($est_time_remaining)
 		{
-			_e("<small>Estimated Time Remaining: {$est_time_remaining} minutes. Reload page to recalulate time remaining. <a href='?wpleads_lead_automation_run_manual_cron=1' title='Click here to manually run back-end processing and speed up processing time by 2 minutes.' target='_blank'>Force Processing</a></small>" , WPL_TEXT_DOMAIN);
+			echo '<small>';
+			sprintf( _e("Estimated Time Remaining: %d minutes. Reload page to recalulate time remaining." , 'leads' ) , $est_time_remaining );
+			echo "<a href='?wpleads_lead_automation_run_manual_cron=1' title='Click here to manually run back-end processing and speed up processing time by 2 minutes.' target='_blank'>";
+			_e( "Force Processing" , 'leads' );
+			echo "</a></small>";
 		}
 
 	?>
@@ -334,29 +338,31 @@ function automation_metabox_sidebar_tools() {
 function automation_render_setting($fields, $position=null, $container_class = '', $declare_automation_block = false)
 {
 	global $post;
-	//print_r($fields);
-	//echo $post->ID;exit;
+
 	$automation_block_ids = get_post_meta($post->ID,'automation_condition_blocks',true);
 	$automation_block_ids = json_decode($automation_block_ids,true);
 
-	if (!$automation_block_ids||$position=='actions')
+	if (!$automation_block_ids||$position=='actions'){
 		$automation_block_ids = array('0'=>'0');
-
+	}
 
 	foreach ($automation_block_ids as $key => $cid)
 	{
 
-		if ($declare_automation_block)
+		if ($declare_automation_block){
 			echo "<input type='hidden' name='automation_condition_blocks[]' id='automation_container_hidden_input_{$cid}' value='{$cid}'>";
+		}
 
 		($key>0) ? $style = 'display:none;' : $style = '';
-			echo "<table id='automation_main_container_{$position}_{$cid}' class='{$container_class}' style='{$style}'>";
+
+		echo "<table id='automation_main_container_{$position}_{$cid}' class='{$container_class}' style='{$style}'>";
 
 
 		foreach ($fields as $field_key => $field_array)
 		{
-			if ($field_array['position']!=$position)
+			if ($field_array['position']!=$position){
 				continue;
+			}
 			//print_r($field_array);
 
 
@@ -367,7 +373,7 @@ function automation_render_setting($fields, $position=null, $container_class = '
 			(!$field_array['show']) ? $hide_toggle = "automation-hidden-steps" : $hide_toggle = "";
 
 			echo '<tr class="'.$hide_toggle.'" id="tr_'.$id.'">
-				<th class="ma-th" ><label for="'.$id.'">'.__( $field_array['label'] , WPL_TEXT_DOMAIN ).':</label></th>
+				<th class="ma-th" ><label for="'.$id.'">'.$field_array['label'].':</label></th>
 				<td class="ma-td" id="ma-td-'.$id.'">';
 			switch(true) {
 				case strstr($field_array['type'],'textarea'):

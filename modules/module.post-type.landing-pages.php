@@ -11,22 +11,21 @@ add_action('lp_module_lead_splash_post','wpleads_add_user_conversion_data_to_spl
 function wpleads_add_user_conversion_data_to_splash($data)
 {
 	$conversion_data = $data['lead_custom_fields']['wpleads_conversion_data'];
-	//$test = get_post_meta($data['lead_id'],'wpl-lead-conversions', true);
-	//print_r($test);
-	echo "<h3  class='lp-lead-splash-h3'>Recent Conversions:</h3>";
+
+	echo "<h3  class='lp-lead-splash-h3'>".__( 'Recent Conversions:' , 'leads' ) ."</h3>";
 	echo "<table>";
 	echo "<tr>";
-				echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-0'>#</td>";
-				echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-1'>Location</td>";
-				echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-2'>Datetime</td>";
-				echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-3'>First-time?</td>";
+		echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-0'>#</td>";
+		echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-1'>". __( 'Location' , 'leads' ) ."</td>";
+		echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-2'>". __( 'Datetime' , 'leads' ) ."</td>";
+		echo "<td class='lp-lead-splash-td' 'id='lp-lead-splash-3'>". __( 'First-time?' , 'leads' ) ."</td>";
 	echo "<tr>";
+	
 	foreach ($conversion_data as $key=>$value)
 	{
 		$i = $key+1;
-		//print_r($conversion_data);
 		$value = json_decode($value, true);
-		//print_r($value);
+
 		foreach ($value as $k=>$row)
 		{
 
@@ -46,7 +45,7 @@ function wpleads_add_user_conversion_data_to_splash($data)
 				echo "<td>";
 					if ($row['first_time']==1)
 					{
-						echo "yes";
+						_e( 'yes' , 'leads' );
 					}
 				echo "</td>";
 			echo "<tr>";

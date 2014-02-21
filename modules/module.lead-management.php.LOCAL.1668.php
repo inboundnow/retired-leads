@@ -900,7 +900,6 @@ $url = get_option('siteurl');
 }
 
 /* Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax */
-if (!function_exists('add_lead_lists_ajax')) {
 function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
 	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
@@ -928,7 +927,6 @@ function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') 
 			}
 		}
 	}
-}
 }
 
 function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category') {

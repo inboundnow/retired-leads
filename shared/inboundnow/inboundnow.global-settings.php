@@ -17,7 +17,7 @@ if (!function_exists('inboundnow_add_master_license'))
 				break;
 			case 'wpleads_define_global_settings':
 				$key = 'wpleads-license-keys';
-				$text_domain = WPL_TEXT_DOMAIN;
+				$text_domain = 'leads';
 				break;
 			case 'wp_cta_define_global_settings':
 				$key = 'wp-cta-license-keys';

@@ -899,8 +899,14 @@ $url = get_option('siteurl');
 <?php 
 }
 
+<<<<<<< HEAD
 /* Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax */
+=======
+<?php }
+
+// Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax
 if (!function_exists('add_lead_lists_ajax')) {
+>>>>>>> 205c3eba63e2d15e8d6a8fc883fa9c19cc855807
 function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
 	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );

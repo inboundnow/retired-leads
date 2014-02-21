@@ -165,9 +165,9 @@ if (is_admin())
 	{
 		global $post;
 
-		if ($post->post_type !='wp-lead')
+		if ($post->post_type !='wp-lead'){
 			return $column;
-
+		}
 
 		switch ( $column ) {
 			case "lead-picture":

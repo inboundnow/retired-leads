@@ -9,14 +9,14 @@
 		'no_preview' => true,
 		'options' => array(
 			'url' => array(
-				'name' => __('Video URL', INBOUND_LABEL),
-				'desc' => __('Paste the video URL here, click <a href="http://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">here</a> to see all available video hosts.', INBOUND_LABEL),
+				'name' => __('Video URL', 'leads'),
+				'desc' => __('Paste the video URL here, click <a href="http://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">here</a> to see all available video hosts.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[video url="{{url}}" /]',
-		'popup_title' => __('Insert Video Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Video Shortcode', 'leads')
 	);
 
 /* 	Add shortcode

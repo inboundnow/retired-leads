@@ -9,62 +9,62 @@
 		'no_preview' => true,
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'alignment' => array(
-				'name' => __('Text Alignment', INBOUND_LABEL),
-				'desc' => __('Enter text alignment.', INBOUND_LABEL),
+				'name' => __('Text Alignment', 'leads'),
+				'desc' => __('Enter text alignment.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'align-center' => __('Align Center', INBOUND_LABEL),
-					'align-left' => __('Align Left', INBOUND_LABEL),
-					'align-right' => __('Align Right', INBOUND_LABEL)
+					'align-center' => __('Align Center', 'leads'),
+					'align-left' => __('Align Left', 'leads'),
+					'align-right' => __('Align Right', 'leads')
 				),
 				'std' => 'align-left',
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the content', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the content', 'leads'),
 				'type' => 'textarea',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[intro title="{{title}}" alignment="{{alignment}}"]{{content}}[/intro]',
-		'popup_title' => __('Insert Intro Shortcode',  INBOUND_LABEL)
+		'popup_title' => __('Insert Intro Shortcode',  'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['intro'] = array(
-		'name' => __('Intro', INBOUND_LABEL),
+		'name' => __('Intro', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'alignment' => array(
-				'name' => __('Text Alignment', INBOUND_LABEL),
-				'desc' => __('The text alignment', INBOUND_LABEL),
+				'name' => __('Text Alignment', 'leads'),
+				'desc' => __('The text alignment', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'align-center' => __('Align Center', INBOUND_LABEL),
-					'align-left' => __('Align Left', INBOUND_LABEL),
-					'align-right' => __('Align Right', INBOUND_LABEL)
+					'align-center' => __('Align Center', 'leads'),
+					'align-left' => __('Align Left', 'leads'),
+					'align-right' => __('Align Right', 'leads')
 				),
 				'std' => 'align-left',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the content', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the content', 'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

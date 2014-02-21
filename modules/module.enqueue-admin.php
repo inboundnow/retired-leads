@@ -7,9 +7,9 @@ function wpleads_admin_enqueuescripts($hook)
 
 	$post_type = isset($post) ? get_post_type( $post ) : null;
 
-	$screen = get_current_screen(); // check screen id
+	$screen = get_current_screen(); 
 
-	// /edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead page
+	/*  /edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead page */
 	if ( $screen->id === 'edit-wplead_list_category') {
 		wp_enqueue_script('wpleads-list-page', WPL_URL.'/js/wpl.list-page.js', array('jquery'));
 		return;
@@ -19,7 +19,6 @@ function wpleads_admin_enqueuescripts($hook)
 
 	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
 	{
-		//echo $_GET['post_type'];exit;
 		if ( $hook == 'post.php' ) {
 			wp_enqueue_script('wpleads-edit', WPL_URL.'/js/wpl.admin.edit.js', array('jquery'));
 			wp_enqueue_script('tinysort', WPL_URL.'/js/jquery.tinysort.js', array('jquery'));
@@ -67,10 +66,11 @@ function wpleads_admin_enqueuescripts($hook)
 	}
 
 	/* do enqueues for global settings */
-	if (isset($_GET['page'])&&($_GET['page']=='lp_global_settings'&&$_GET['page']=='lp_global_settings'))
+	if (isset($_GET['page'])&&$_GET['page']=='wpleads_global_settings')
 	{
 		wp_enqueue_style('wpl_manage_lead_css', WPL_URL . '/css/wpl.admin-global-settings.css');
 	}
+
 
 	/* do enqueue for post type rule */
 	if ((isset($post)&&$post->post_type=='automation')||(isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='automation'))
