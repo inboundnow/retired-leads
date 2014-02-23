@@ -231,7 +231,7 @@ class InboundAutomationCron
 
 		if ($automation_meta_data['automation_active'][0]!='active')
 		{
-			_e("Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") is set to inactive! <br>" , 'leads' );
+			sprintf( _e("Skipping Rule: Rule %d ( %s ) is set to inactive! <br>" , 'leads' ) , $automation_meta_data['automation_id'][0] , $automation_meta_data['automation_name'][0]);
 			return;
 		}
 
@@ -245,8 +245,8 @@ class InboundAutomationCron
 
 			if ( array_key_exists ( $automation_meta_data['automation_id'][0] , $automation_accomplished ) )
 			{
-				_e("Skipping Rule: Rule ".$automation_meta_data['automation_id'][0]." (".$automation_meta_data['automation_name'][0].") already completed for lead $lead_id! <br>" , 'leads' );
-				continue;
+				sprintf(  _e("Skipping Rule: Rule %d ( %s )  already completed for lead %d! <br>" , 'leads' ) , $automation_meta_data['automation_id'][0] , $automation_meta_data['automation_name'][0] , $lead_id);
+				return;
 			}
 		}
 
