@@ -12,7 +12,7 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'dropdown',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => __( "This condition allows us to set the primary criteria for lead sorting or points awarding."  , 'leads' )
+		  'tooltip' => __( "This condition allows us to set the primary criteria for lead sorting or points awarding."  , 'leads' ),
 		  'options' => array(
 							'page_views_general'=> __( 'Visitor views any page' , 'leads' ),
 							'page_views_category_specific'=> __( 'Visitor views category specific page' , 'leads' ),
@@ -51,7 +51,7 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'dropdown',
 		  'class' => 'automation_dropdown',
 		  'show' => false,
-		  'tooltip' => __( "When an IF statment requires category specific reader behavior this dropdown helps us target our category of interest." , 'leads' )
+		  'tooltip' => __( "When an IF statment requires category specific reader behavior this dropdown helps us target our category of interest." , 'leads' ),
 		  'options' => $categories_option_array,
 	);
 
@@ -64,7 +64,7 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => __( "To protect rule actions from firing multiple times on the same user turn this setting to on." , 'leads' )
+		  'tooltip' => __( "To protect rule actions from firing multiple times on the same user turn this setting to on." , 'leads' ),
 		  'options' => array('on'=> __( 'Only run rule on lead once.' , 'leads' )),
 	);
 	$list_options = wpleads_get_lead_lists_as_array();
@@ -76,7 +76,7 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => __( "When all rule conditions are met by a lead then sort the lead into these lead lists." , 'leads' )
+		  'tooltip' => __( "When all rule conditions are met by a lead then sort the lead into these lead lists." , 'leads' ),
 		  'options' => $list_options,
 	);
 
@@ -88,7 +88,7 @@ function wpleads_lead_automation_get_fields()
 		  'type' => 'checkbox',
 		  'class' => 'automation_dropdown',
 		  'show' => true,
-		  'tooltip' => __( "When all rule conditions are met by a lead then remove the lead out of these lead lists." , 'leads' )
+		  'tooltip' => __( "When all rule conditions are met by a lead then remove the lead out of these lead lists." , 'leads' ),
 		  'options' => $list_options,
 	);
 
