@@ -3,7 +3,7 @@
  * Lead CPT functionality used across plugins
  */
 
-add_action( 'init', 'inbound_leads_register' , 11 );
+add_action( 'init', 'inbound_leads_register' , 10 );
 if (!function_exists('inbound_leads_register')) {
 function inbound_leads_register() {
 

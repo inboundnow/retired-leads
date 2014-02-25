@@ -55,7 +55,6 @@ switch (is_admin()) :
 	case false :
 		/* load global */		
 		include_once('modules/module.ajax-setup.php');
-		include_once('modules/module.lead-management.php');
 		include_once('modules/module.post-type.wp-lead.php');
 		include_once('modules/module.post-type.list.php');		
 		include_once('modules/module.form-integrations.php');
