@@ -165,11 +165,10 @@ class InboundForms {
 
 				if ($type != 'hidden' && $form_labels != "bottom" && $type != "html-block" && $type != "divider" || $type === "radio")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
-				if ($type === 'textarea')
-				{
+				if ($type === 'textarea') {
 					$form .=  '<textarea class="inbound-input inbound-input-textarea" name="'.$field_name.'" id="in_'.$field_name.' '.$req.'"/></textarea>';
 				}
 				else if ($type === 'dropdown')
@@ -242,7 +241,7 @@ class InboundForms {
 				}
 				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio" && $type != "html-block" && $type != "divider")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
 				if ($description_block != "" && $type != 'hidden'){

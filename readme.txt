@@ -69,6 +69,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.3.4 =
+* Now tracking blog comments. View the new comments tab in the lead activity profile!
+
 = 1.3.3 =
 * Updated Bulk lead management tool
 * Added Google Analytics Custom Event Tracking for form submissions
