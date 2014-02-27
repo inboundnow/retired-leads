@@ -42,11 +42,14 @@ class Inbound_Asset_Loader {
 
 			$inbound_now_screens = InboundCompatibility::return_inbound_now_screens(); // list of inbound now screens
 			$screen = get_current_screen();
-			//echo $screen->id;
-			/* Target Specific screen with // echo $screen->id;
-			if ( $screen->id != 'landing-page_page_lp_global_settings') {
-
-			} */
+			
+			/* Target Specific screen with // echo $screen->id; */
+			
+			if ( $screen->id == 'wp-call-to-action') {
+				self::load_file('image-picker-js', 'admin/js/image-picker.js');
+				self::load_file('image-picker-css', 'admin/css/image-picker.css');
+			} 
+			
 	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
 
