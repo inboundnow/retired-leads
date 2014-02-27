@@ -4,7 +4,7 @@ function inbound_form_classes(forms_array, functionName, classes) {
 		for (var this_class in classes) {
 			if (selector.indexOf('#')>-1) {
 				jQuery(selector)[functionName](classes[this_class]);
-				console.log(selector);
+				//console.log(selector);
 			} else if (selector.indexOf('.')>-1) {
 				jQuery(selector)[functionName](classes[this_class]);
 			} else {

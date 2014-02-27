@@ -677,11 +677,47 @@ function wpleads_display_metabox_main() {
 		</div><!-- end wpleads_metabox_main AKA Tab 1-->
 		<div class="wpl-tab-display" id="wpleads_lead_tab_conversions" style="display: <?php if ($active_tab == 'wpleads_lead_tab_conversions') { echo 'block;'; } else { echo 'none;'; } ?>">
 			<div id="conversions-data-display">
+				<?php $conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
+					   $conversions_array = json_decode($conversions, true);
+					   $conversion_count = count($conversions_array);
+					   /* Comments Count */
+			   			$wpleads_search_data = get_post_meta($post->ID,'wpleads_search_data', true);
+			   			$wpleads_search_data = json_decode($wpleads_search_data, true);
+		    			if (is_array($wpleads_search_data)){
+		    				$search_count = count($wpleads_search_data);
+		    			} else {
+		    				$search_count = 0;
+		    			}
+
+		    			$page_view_badge = get_post_meta($post->ID,'wpleads_page_view_count', true);
+
+					   /* Comments Count */
+					   $comments_query = new WP_Comment_Query;
+					   $comments_array = $comments_query->query( array('author_email' => $email) );
+					   $conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
+					   $conversions_array = json_decode($conversions, true);
+
+					   if ($comments_array) {
+					   		$comment_count = count($comments_array);
+					   } else {
+					   		$comment_count = 0;
+					   } ?>
 				<?php //define activity toggles. Filterable
-					$nav_items[] = array('id'=>'lead-conversions','label'=> __( 'Conversions' , 'leads' ) );
-					$nav_items[] = array('id'=>'lead-page-views','label'=>  __( 'Page Views' , 'leads' ) );
-					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
-					$nav_items[] = array('id'=>'lead-searches','label'=>'Searches');
+					$nav_items = array(
+								     array('id'=>'lead-conversions',
+								     	   'label'=> __( 'Conversions' , 'leads' ),
+								     	   'count' => $conversion_count ),
+								     array('id'=>'lead-page-views',
+								     	   'label'=> __( 'Page Views' , 'leads' ),
+								     	   'count' => $page_view_badge ),
+								     array('id'=>'lead-comments',
+								     	   'label'=> __( 'Comments' , 'leads' ),
+								     	   'count' => $comment_count ),
+								     array('id'=>'lead-searches',
+								     	   'label'=> __( 'Searches' , 'leads' ),
+								     	   'count' => $conversion_count )
+								     );
+
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>
 
 			<div class="nav-container">
@@ -690,10 +726,10 @@ function wpleads_display_metabox_main() {
 			        <li class="active"><a href="#all" class="lead-activity-show-all"><?php _e( 'All' , 'leads' ); ?></a></li>
 			        <?php
 			        	// Print toggles
-						foreach ($nav_items as $key=>$array)
-						{
+						foreach ($nav_items as $key=>$array) {
+							$count = (isset($array['count'])) ? $array['count'] : '0';
 							?>
-							<li><a href='#<?php echo $array['id']; ?>' class="lead-activity-toggle"><?php echo $array['label']; ?></a></li>
+							<li><a href='#<?php echo $array['id']; ?>' class="lead-activity-toggle"><?php echo $array['label']; ?><span class="badge"><?php echo $count;?></span></a></li>
 							<?php
 						}
 					?>
@@ -712,8 +748,7 @@ function wpleads_display_metabox_main() {
 				<h2><?php _e('Landing Page Conversions' , 'leads' ); ?></h2>
 
 			<?php
-			$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
-			$conversions_array = json_decode($conversions, true);
+
 
             // Sort Array by date
 			function leads_sort_array_datetime($a,$b){
@@ -769,16 +804,7 @@ function wpleads_display_metabox_main() {
 				<h2>Lead Comments</h2>
 
 			<?php
-			 $args = array(
-			   	'author_email' => $email,
-			);
 
-			// The Query
-			$comments_query = new WP_Comment_Query;
-			$comments_array = $comments_query->query( $args );
-
-			$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
-			$conversions_array = json_decode($conversions, true);
            	//print_r($conversions);
             // Sort Array by date
 
@@ -829,14 +855,7 @@ function wpleads_display_metabox_main() {
 			<div id="lead-searches" class='lead-activity'>
 				<h2>Lead Searches</h2>
 
-			<?php
-			$wpleads_search_data = get_post_meta($post->ID,'wpleads_search_data', true);
-			$wpleads_search_data = json_decode($wpleads_search_data, true);
-           	//print_r($conversions);
-            // Sort Array by date
-
-
-			if (is_array($wpleads_search_data)){
+			<?php if (is_array($wpleads_search_data)){
 				//uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
 					$search_count = count($wpleads_search_data);
 

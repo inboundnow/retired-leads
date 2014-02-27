@@ -95,7 +95,7 @@ function inbound_template_metabox_render($key,$custom_fields,$post)
 							</div>';
 						break;
 					case 'text':
-						echo '<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
+						echo '<input type="text" class="'.$option_class.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 						break;
 					case 'number':

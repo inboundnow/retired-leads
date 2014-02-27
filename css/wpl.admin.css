@@ -1176,17 +1176,20 @@ padding-top: 6px;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.25);
 	border: 1px solid;
 	border-radius: 10px;
-	-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 1px rgba(0, 0, 0, 0.08);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 1px rgba(0, 0, 0, 0.08);
+
 }
 
 #wplead_metabox_main .wpl-tab-display nav .badge {
+	background: #727272;
+	border-color: #727272;
+	/*
   background: #67c1ef;
   border-color: #30aae9;
   background-image: -webkit-linear-gradient(top, #acddf6, #67c1ef);
   background-image: -moz-linear-gradient(top, #acddf6, #67c1ef);
   background-image: -o-linear-gradient(top, #acddf6, #67c1ef);
   background-image: linear-gradient(to bottom, #acddf6, #67c1ef);
+  */
 }
 
 #wplead_metabox_main .wpl-tab-display nav .badge.green {
