@@ -82,9 +82,9 @@ if (!class_exists('InboundMenu')) {
         $eddtb_filter_capability = apply_filters( 'eddtb_filter_capability_all', $eddtb_cap_default );
 
         // Exit if admin bar not there
-        if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
-          return;
-        }
+       // if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
+        //  return;
+        //}
 
         /** Set unique prefix */
         $prefix = 'inbound-';
