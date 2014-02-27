@@ -40,7 +40,10 @@ class InboundForms {
 		  'redirect' => '',
 		  'icon' => '',
 		  'lists' => '',
-		  'submit' => 'Submit'
+		  'submit' => 'Submit',
+		  'submit_colors' => '',
+		  'submit_text_color' => '',
+		  'submit_bg_color' => ''
 		), $atts));
 
 		if ( !$id && isset($_GET['post']) )
@@ -54,6 +57,15 @@ class InboundForms {
 		$form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
 		$submit_button = ($submit != "") ? $submit : 'Submit';
 		$icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . '" font-awesome fa"></i>' : '';
+
+		// Set submit button colors
+		if(isset($submit_colors) && $submit_colors === 'on'){
+			$submit_bg = " background:" . $submit_bg_color . "; border: 5px solid ".$submit_bg_color."; border-radius: 3px;";
+			$submit_color = " color:" . $submit_text_color . ";";
+		} else {
+			$submit_bg = "";
+			$submit_color = "";
+		}
 
 		if (preg_match("/px/", $font_size)){
 		  $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
@@ -253,7 +265,7 @@ class InboundForms {
 		  // End Loop
 
 			$current_page = get_permalink();
-			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$font_size.'">
+			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$font_size.$submit_bg.$submit_color.'">
 					  '.$icon_insert.''.$submit_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 

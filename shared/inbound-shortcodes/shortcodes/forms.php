@@ -163,6 +163,31 @@
 				'std' => 'Submit',
 				'class' => 'main-design-settings',
 			),
+			'submit-colors' => array(
+						'name' => __('Submit Color Options', 'leads'),
+						'desc' => __('Choose Your Form Layout', 'leads'),
+						'type' => 'select',
+						'options' => array(
+							"on" => "Color Options On",
+							"off" => "Color Options Off (use theme defaults)",
+							),
+						'std' => 'on',
+						'class' => 'main-design-settings',
+			),
+			'submit-text-color' => array(
+							'name' => __('Button Text Color', 'leads'),
+							'desc' => __('Color of text', 'leads'),
+							'type' => 'colorpicker',
+							'std' => '#434242',
+							'class' => 'main-design-settings',
+						),
+			'submit-bg-color' => array(
+							'name' => __('Button BG Color', 'leads'),
+							'desc' => __('Background Color of Submit button', 'leads'),
+							'type' => 'colorpicker',
+							'std' => '#E9E9E9',
+							'class' => 'main-design-settings',
+						),
 			'width' => array(
 				'name' => __('Custom Width', 'leads'),
 				'desc' => __('Enter in pixel width or % width. Example: 400 <u>or</u> 100%', 'leads'),
@@ -300,7 +325,7 @@
 			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
 			'clone' => __('Add Another Field',  'leads' )
 		),
-		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" width="{{width}}"]{{child}}[/inbound_form]',
+		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
 		'popup_title' => __('Insert Inbound Form Shortcode',  'leads')
 	);
 
