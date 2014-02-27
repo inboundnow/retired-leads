@@ -24,6 +24,7 @@ if (!class_exists('InboundDebugScripts')) {
       //add_action('wp_loaded', array(__CLASS__, 'inbound_check_for_error'));
       //add_action('wp_footer', array(__CLASS__, 'display_errors'));
       //add_action('init', array(__CLASS__, 'admin_display_errors'));
+      add_action( 'init',  array(__CLASS__, 'inbound_output_meta_debug') );
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_kill_bogus_scripts'), 100);
       add_action('wp_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
       add_action('admin_enqueue_scripts', array(__CLASS__, 'inbound_compatibilities'), 101);
@@ -35,7 +36,31 @@ if (!class_exists('InboundDebugScripts')) {
       if (isset($_GET['inbound_js'])){
       add_action('wp_enqueue_scripts', array(__CLASS__, 'run_debug_script'), 102);
       add_action('admin_enqueue_scripts', array(__CLASS__, 'run_debug_script'), 102);
+
       }
+    }
+
+    static function inbound_output_meta_debug() {
+        //print all global fields for post
+        if (isset($_GET['debug']) && ( isset($_GET['post']) && is_numeric($_GET['post']) ) ) {
+          global $wpdb;
+          $data   =   array();
+          $wpdb->query("
+            SELECT `meta_key`, `meta_value`
+            FROM $wpdb->postmeta
+            WHERE `post_id` = ".mysql_real_escape_string($_GET['post'])."
+          ");
+
+          foreach($wpdb->last_result as $k => $v){
+            $data[$v->meta_key] =   $v->meta_value;
+          };
+          if (isset($_GET['post']))
+          {
+            echo "<pre>";
+            print_r( $data);
+            echo "</pre>";
+          }
+        }
     }
 
     // dequeue all js and set first script, then requeue scripts

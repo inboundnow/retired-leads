@@ -65,6 +65,13 @@ jQuery(document).ready(function($) {
 		}
 	}, 800);
 
+	jQuery("body").on('mouseenter', '.recent-conversion-item', function () {
+		$(this).find('.lead-timeline-img').addClass('active-hover');
+	});
+
+	jQuery("body").on('mouseleave', '.recent-conversion-item', function () {
+		$(this).find('.lead-timeline-img').removeClass('active-hover');
+	});
 
 	jQuery("body").on('click', '.minimize-paths', function () {
 

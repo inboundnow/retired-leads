@@ -136,7 +136,6 @@ function wplead_quick_stats_metabox() {
 	$last_conversion = get_post_meta($post->ID,'wpleads_conversion_data', true);
 	$last_conversion = json_decode($last_conversion, true);
 
-
 	(is_array($last_conversion)) ? $count_conversions = count($last_conversion) : $count_conversions = get_post_meta($post->ID,'wpleads_conversion_count', true);
 
 	$the_date = $last_conversion[$count_conversions]['datetime']; // actual
@@ -678,15 +677,19 @@ function wpleads_display_metabox_main() {
 		<div class="wpl-tab-display" id="wpleads_lead_tab_conversions" style="display: <?php if ($active_tab == 'wpleads_lead_tab_conversions') { echo 'block;'; } else { echo 'none;'; } ?>">
 			<div id="conversions-data-display">
 				<?php //define activity toggles. Filterable
+<<<<<<< HEAD
+					$nav_items[] = array('id'=>'lead-conversions','label'=>'Conversions');
+					$nav_items[] = array('id'=>'lead-page-views','label'=>'Page Views');
+					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
+=======
 					$nav_items[] = array('id'=>'lead-conversions','label'=> __( 'Conversions' , 'leads' ) );
 					$nav_items[] = array('id'=>'lead-page-views','label'=>  __( 'Page Views' , 'leads' ) );
-					$nav_items[] = array('id'=>'lead-comments','label'=>'Comments');
-					$nav_items[] = array('id'=>'lead-searches','label'=>'Searches');
+>>>>>>> 52a8c90bb5764c8b0453542a36f26e2718ef6871
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>
 
 			<div class="nav-container">
 				<nav>
-			      <ul id="lead-activity-toggles">
+			      <ul>
 			        <li class="active"><a href="#all" class="lead-activity-show-all"><?php _e( 'All' , 'leads' ); ?></a></li>
 			        <?php
 			        	// Print toggles
@@ -759,7 +762,12 @@ function wpleads_display_metabox_main() {
 				}
 
 			} else {
+<<<<<<< HEAD
+
+				echo "<span id='wpl-message-none'>No conversions found!</span>";
+=======
 				echo "<span id='wpl-message-none'>". __( 'No conversions found!' , 'leads' ) ."</span>";
+>>>>>>> 52a8c90bb5764c8b0453542a36f26e2718ef6871
 			}
 
 			?>
@@ -783,7 +791,7 @@ function wpleads_display_metabox_main() {
             // Sort Array by date
 
 
-			if ($comments_array) {
+			if (is_array($comments_array)) {
 				//uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
 					$comment_count = count($comments_array);
 
@@ -796,20 +804,19 @@ function wpleads_display_metabox_main() {
 
 						$commented_page_permalink   = get_permalink($comment->comment_post_ID);
 						$commented_page_title = get_the_title($comment->comment_post_ID);
-						$comment_id = "#comment-" . $comment->comment_ID;
 
 						//comment_author_url
 						//comment_content
 
 						// Display Data
-						echo '<div class="lead-timeline recent-conversion-item lead-comment-conversion" data-date="'.$comment_clean_date.'">
+						echo '<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="'.$comment_clean_date.'">
 								<a class="lead-timeline-img" href="#non">
 									<img src="/wp-content/plugins/leads/images/comment.png" alt="" width="50" height="50" />
 								</a>
 
 								<div class="lead-timeline-body">
 									<div class="lead-event-text lead-comment-div">
-									  <p><span class="lead-item-num">'.$c_i.'.</span><span class="lead-helper-text">Comment on </span><a title="'.__( 'View and respond to the comment' ,'leads' ).'" href="'.$commented_page_permalink. $comment_id .'" id="lead-session-'.$c_i.'" rel="'.$c_i.'" target="_blank">'.$commented_page_title.'</a><span class="conversion-date">'.$date_of_comment.'</span> <!--<a rel="'.$c_i.'" href="#view-session-"'.$c_i.'">(view visit path)</a>--></p>
+									  <p><span class="lead-item-num">'.$c_i.'.</span><span class="lead-helper-text">Comment on </span><a href="'.$commented_page_permalink.'" id="lead-session-'.$c_i.'" rel="'.$c_i.'" target="_blank">'.$commented_page_title.'</a><span class="conversion-date">'.$date_of_comment.'</span> <!--<a rel="'.$c_i.'" href="#view-session-"'.$c_i.'">(view visit path)</a>--></p>
 									  <p class="lead-comment">"'.$comment->comment_content.'" - <a target="_blank" href="'.$comment->comment_author_url.'">'.$comment->comment_author.'</a></p>
 									</div>
 								</div>
@@ -825,58 +832,6 @@ function wpleads_display_metabox_main() {
 			?>
 
 			</div> <!-- end lead comments -->
-
-			<div id="lead-searches" class='lead-activity'>
-				<h2>Lead Searches</h2>
-
-			<?php
-			$wpleads_search_data = get_post_meta($post->ID,'wpleads_search_data', true);
-			$wpleads_search_data = json_decode($wpleads_search_data, true);
-           	//print_r($conversions);
-            // Sort Array by date
-
-
-			if (is_array($wpleads_search_data)){
-				//uasort($conversions_array,'leads_sort_array_datetime'); // Date sort
-					$search_count = count($wpleads_search_data);
-
- 					$c_i = $search_count;
-					foreach ($wpleads_search_data as $key => $value) {
-						//print_r($comment);
-						$search_date_raw = new DateTime($value['date']);
-						$date_of_search = $search_date_raw->format('F jS, Y \a\t g:ia (l)');
-						$search_clean_date = $search_date_raw->format('Y-m-d H:i:s');
-						$search_query = $value['value'];
-
-
-						//comment_author_url
-						//comment_content
-
-						// Display Data
-						echo '<div class="lead-timeline recent-conversion-item lead-search-conversion" data-date="'.$search_clean_date.'">
-								<a class="lead-timeline-img" href="#non">
-
-								</a>
-
-								<div class="lead-timeline-body">
-									<div class="lead-event-text lead-search-div">
-									  <p><span class="lead-item-num">'.$c_i.'.</span><span class="lead-helper-text">Search for "</span><strong>'.$search_query.'"</strong> on <span class="conversion-date">'.$date_of_search.'</span> <!--<a rel="'.$c_i.'" href="#view-session-"'.$c_i.'">(view visit path)</a>--></p>
-
-									</div>
-								</div>
-							</div>';
-						$c_i--;
-
-				}
-
-			} else {
-				echo "<span id='wpl-message-none'>No searches found!</span>";
-			}
-
-			?>
-
-			</div> <!-- end searches comments -->
-
 			<div id="lead-page-views" class='lead-activity'>
 				<h2><?php _e( 'Page Views' , 'leads' ); ?></h2>
 			 <?php

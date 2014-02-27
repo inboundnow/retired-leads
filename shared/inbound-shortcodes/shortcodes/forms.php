@@ -417,7 +417,6 @@ if (!function_exists('inbound_get_form_names')) {
 		'posts_per_page'  => -1,
 		'post_type'=> 'inbound-forms');
 		$form_list = get_posts($args);
-		//print_r($cta_list);
 		$form_array = array();
 		$default_array = array(
 								"none" => "None (build your own in step 2)",
@@ -426,17 +425,13 @@ if (!function_exists('inbound_get_form_names')) {
 								"default_form_2" => "Standard Company Form",
 								// Add in other forms made here
 							);
-		foreach ( $form_list as $form  )
-					{
+		foreach ( $form_list as $form ) {
 						$this_id = $form->ID;
 						$this_link = get_permalink( $this_id );
 						$title = $form->post_title;
-
-
 					    $form_array['form_' . $this_id] = $title;
 
-
-					 }
+		}
 		$result = array_merge( $default_array, $form_array);
 
 		set_transient('inbound-form-names', $result, 24 * HOUR_IN_SECONDS);
@@ -465,6 +460,32 @@ if (!function_exists('inbound_get_lead_list_names')) {
 
 	}
 }
+
+add_action( 'edit_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'created_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'edited_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'create_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'delete_term', 'inbound_lists_delete_transient', 10, 3 );
+if (!function_exists('inbound_lists_delete_transient')) {
+	function inbound_lists_delete_transient( $term_id, $tt_id, $taxonomy ) {
+			global $wpdb;
+			//print_r($taxonomy); exit;
+
+			$whitelist  = array( 'wplead_list_category' ); /* maybe this needs to include attachment, revision, feedback as well? */
+			if ( !in_array( $taxonomy, $whitelist ) ) {
+				echo 'yes';
+				return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
+			}
+
+			delete_transient('inbound-list-names');
+			inbound_get_lead_list_names();
+
+	}
+}
+
+add_action('save_post', 'inbound_form_delete_transient', 10, 2);
+add_action('edit_post', 'inbound_form_delete_transient', 10, 2);
+add_action('wp_insert_post', 'inbound_form_delete_transient', 10, 2);
 if (!function_exists('inbound_form_delete_transient')) {
 	// Refresh transient
 	function inbound_form_delete_transient($post_id, $post){
@@ -476,12 +497,8 @@ if (!function_exists('inbound_form_delete_transient')) {
 	    }
 	}
 }
-add_action('save_post', 'inbound_form_delete_transient', 10, 2);
-add_action('edit_post', 'inbound_form_delete_transient', 10, 2);
-add_action('wp_insert_post', 'inbound_form_delete_transient', 10, 2);
 
-if (!function_exists('inbound_form_save'))
-{
+if (!function_exists('inbound_form_save')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
 	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
@@ -645,8 +662,7 @@ if (!function_exists('inbound_form_get_data')) {
 	}
 }
 
-if (!function_exists('inbound_form_auto_publish'))
-{
+if (!function_exists('inbound_form_auto_publish')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
 	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');

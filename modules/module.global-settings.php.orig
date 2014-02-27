@@ -1,18 +1,109 @@
 <?php
 
 
+<<<<<<< HEAD
+		$wpleads_global_settings[$tab_slug]['settings'] =
+		array(
+			array(
+				'id'  => 'tracking-ids',
+				'label' => 'IDs or Classes of forms to track',
+				'description' => "<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>",
+				'type'  => 'text',
+				'default'  => '',
+				'options' => null
+			),
+			array(
+				'id'  => 'exclude-tracking-ids',
+				'label' => 'IDs of forms <b><u>NOT</u></b> to track',
+				'description' => "<p>Enter in a value found in a HTML form's id attribute to turn off tracking.</p>",
+				'type'  => 'text',
+				'default'  => '',
+				'options' => null
+			),
+			array(
+				'id'  => 'form-prepopulation',
+				'label' => 'Form prepopulation',
+				'description' => "<p>WordPress Leads records submitted field data for leads and will attempt to prepopulate forms with the last inputted data. Disabling this will turn this feature off.</p>",
+				'type'  => 'radio',
+				'default'  => '1',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
+			array(
+				'id'  => 'page-view-tracking',
+				'label' => 'Page View Tracking',
+				'description' => "<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales followups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>",
+				'type'  => 'radio',
+				'default'  => '1',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
+			array(
+				'id'  => 'enable-dashboard',
+				'label' => 'Show Lead/List Data in Dashboard',
+				'description' => "<p>Turn this on to show graphical and list data about lead collection in WP Dashboard.</p>",
+				'type'  => 'radio',
+				'default'  => '1',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
+			array(
+				'id'  => 'disable-widgets',
+				'label' => 'Disable Default WordPress Dashboard Widgets',
+				'description' => "<p>This turns off some default widgets on the wordpress dashboard.</p>",
+				'type'  => 'radio',
+				'default'  => '1',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
+			array(
+				'id'  => 'extra-lead-data',
+				'label' => 'Full Contact API Key',
+				'description' => "<p>Enter your Full contact API key. If you don't have one. Grab a free one here: <a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>here</a></p>",
+				'type'  => 'text',
+				'default'  => '',
+				'options' => null
+			),
+			array(
+				'id'  => 'inbound_compatibility_mode',
+				'label' => 'Turn on compability mode',
+				'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
+				'type'  => 'radio',
+				'default'  => '0',
+				'options' => array('1'=>'On','0'=>'Off')
+			),
+			array(
+				'id'  => 'lead_automation_cronjob_period',
+				'label' => 'How often do you want to process marketing automation rules?',
+				'description' => "<p>Set how often you would like to process lead automation? Cronjob Settings.</p>",
+				'type'  => 'dropdown',
+				'default'  => 'hourly',
+				'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
+			)
+		);
+
+		/* Setup License Keys Tab */
+		$tab_slug = 'wpleads-license-keys';
+		$wpleads_global_settings[$tab_slug]['label'] = 'License Keys';
+
+		/* Setup Extensions Tab */
+		$tab_slug = 'wpleads-extensions';
+		$wpleads_global_settings[$tab_slug]['label'] = 'Extensions';
+
+		$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
+
+		return $wpleads_global_settings;
+	}
+=======
 /*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
 function wpleads_get_global_settings() {
 	// Setup navigation and display elements
 	$tab_slug = 'wpl-main';
 	$wpleads_global_settings[$tab_slug]['label'] = 'Global Settings';
+>>>>>>> 52a8c90bb5764c8b0453542a36f26e2718ef6871
 
 	$wpleads_global_settings[$tab_slug]['settings'] =
 	array(
 		array(
 			'id'  => 'tracking-ids',
-			'label' => __('IDs or Classes of forms to track' , 'leads' ),
-			'description' => __("<p>Enter in a value found in a HTML form's id or class attribute to track it as a conversion as comma separated values</p><p><strong>Example ID format:</strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, .form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here).</p>" , 'leads' ),
+			'label' => __('IDs of forms to track' , 'leads' ),
+			'description' => __("<p>Enter in a value found in a HTML form's id attribute to track it as a conversion.</p><p>Do not include the # in the id. <strong>Example format: Form_ID, Form-ID-2</strong></p><p>Gravity Forms, Contact Form 7, and Ninja Forms are automatically tracked (no need to add their IDs in here). Comma separated values</p>" , 'leads' ),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
@@ -73,14 +164,14 @@ function wpleads_get_global_settings() {
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
 		),
-		/*array(
+		array(
 			'id'  => 'lead_automation_cronjob_period',
 			'label' => __('How often do you want to process marketing automation rules?' , 'leads' ),
 			'description' => __("<p>Set how often you would like to process lead automation? Cronjob Settings.</p>" , 'leads' ),
 			'type'  => 'dropdown',
 			'default'  => 'hourly',
 			'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
-		) */
+		)
 	);
 
 	/* Setup License Keys Tab */
