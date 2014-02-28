@@ -312,7 +312,9 @@ function grab_all_form_input_vals(this_form){
 	inbound_exclude = inbound_exclude || [],
 	form_inputs = this_form.find('input[type=text],input[type=hidden],textarea,select');
 	inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id', 'inbound_form_lists');
-	var form_type = inbound_form_type(this_form);
+	var form_type = inbound_form_type(this_form),
+	inbound_data = inbound_data || {},
+	email = inbound_data['email'] || false;
 
 	form_inputs.each(function() {
 		if (jQuery.inArray(this.name, inbound_exclude) === -1){
