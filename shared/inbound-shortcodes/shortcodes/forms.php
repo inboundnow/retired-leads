@@ -498,7 +498,6 @@ if (!function_exists('inbound_lists_delete_transient')) {
 
 			$whitelist  = array( 'wplead_list_category' ); /* maybe this needs to include attachment, revision, feedback as well? */
 			if ( !in_array( $taxonomy, $whitelist ) ) {
-				echo 'yes';
 				return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
 			}
 

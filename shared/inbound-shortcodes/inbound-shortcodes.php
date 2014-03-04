@@ -73,7 +73,7 @@ class InboundShortcodes {
 		wp_enqueue_script('jquery-ui-sortable' );
 		wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
 
-		if (isset($post) && post_type_supports( $post->post_type, 'editor') )
+		if (isset($post) && post_type_supports( $post->post_type, 'editor') || isset($post) && 'wp-call-to-action' === $post->post_type )
 		{
 			wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
 			$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
@@ -103,7 +103,7 @@ class InboundShortcodes {
 		  array_push($plugins_loaded, "leads");
 		}
 
-		wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
+		wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
 		if (isset($post)&&$post->post_type=='inbound-forms')
 		{
@@ -125,7 +125,7 @@ class InboundShortcodes {
   static function shortcodes_admin_head() { ?>
   <script type="text/javascript">
   /* <![CDATA[ */
-  // Load inline scripts var freshthemes_theme_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
+  // Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
   /* ]]> */
   </script>
  <?php }

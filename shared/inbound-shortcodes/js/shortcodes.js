@@ -856,11 +856,7 @@
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							}
 							// set correct ID for insert
-							if(cookies){
-							 var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
-							} else {
-							 var insert_to = 'content';
-							}
+							 var insert_to = jQuery.cookie('inbound_shortcode_editor_name') || 'content';
 
 							 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
 							//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
@@ -917,22 +913,19 @@
 			InboundShortcodes.insert_shortcode();
 		});
 		// Shortcode editor insert fix
-		jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton', function () {
+		jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton, .mceOpen.mce_InboundShortcodesButton', function () {
 
 		        var editor_name = jQuery(this).attr('id');
 		        if (typeof (editor_name) != "undefined" && editor_name != null && editor_name != "") {
 		        	editor_name = editor_name.replace('_InboundShortcodesButton_action','');
+		        	editor_name = editor_name.replace('_InboundShortcodesButton_open', '');
 		        } else {
 		        	return false;
 		        }
 
 		        console.log(editor_name);
-		        if(cookies){
-		         jQuery.cookie('inbound_shortcode_editor_name', editor_name);
-		        }
-		        //jQuery.cookie('media_init', 1);
-		       // tb_show('', 'media-upload.php?type=image&type=image&amp;TB_iframe=true');
-		        return false;
+
+		        jQuery.cookie('inbound_shortcode_editor_name', editor_name);
 		    }
 		 );
 		if (InboundShortcodes.getUrlVar("reload") === 'true') {
