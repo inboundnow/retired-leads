@@ -176,18 +176,21 @@ if (!class_exists('InboundDebugScripts')) {
        $registered_scripts = $wp_scripts->registered;
        $inbound_white_list = array();
        foreach ($registered_scripts as $handle) {
-           if(preg_match("/\/plugins\/leads\//", $handle->src)) {
-             //echo $handle->handle;
-             $inbound_white_list[] = $handle->handle;
-           }
-           if(preg_match("/\/plugins\/cta\//", $handle->src)) {
-             //echo $handle->handle;
-             $inbound_white_list[]= $handle->handle;
-           }
-           if(preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
-             //echo $handle->handle;
-             $inbound_white_list[]= $handle->handle;
-           }
+          $src = $handle->src;
+          if (!is_array($src)) {
+             if(preg_match("/\/plugins\/leads\//", $src)) {
+               //echo $handle->handle;
+               $inbound_white_list[] = $handle->handle;
+             }
+             if(preg_match("/\/plugins\/cta\//", $handle->src)) {
+               //echo $handle->handle;
+               $inbound_white_list[]= $handle->handle;
+             }
+             if(preg_match("/\/plugins\/landing-pages\//", $handle->src)) {
+               //echo $handle->handle;
+               $inbound_white_list[]= $handle->handle;
+             }
+         }
        }
        //print_r($inbound_white_list);
        return $inbound_white_list;
