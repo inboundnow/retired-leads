@@ -316,6 +316,18 @@ if (!class_exists('InboundMenu')) {
 				  'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
 				  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'leads' ) )
 			);
+			
+			/* 1.1.x Get Forms and List */
+			$forms = get_posts(array('post_type'=>'inbound-forms','post_status'=>'published'));
+			foreach ($forms as $form)
+			{
+				$menu_items['inbound-form-'.$form->ID] = array(
+				  'parent' => 'inbound-forms-view',
+				  'title'  => $form->post_title,
+				  'href'   => admin_url( 'post.php?post='.$form->ID.'&action=edit' ),
+				  'meta'   => array( 'target' => '_blank', 'title' => $form->post_title )
+				);
+			}
 
 			/* 1.2 - Create New Form */
 			$menu_items['inbound-forms-add'] = array(
