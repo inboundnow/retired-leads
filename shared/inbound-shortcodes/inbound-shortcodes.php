@@ -53,8 +53,6 @@ class InboundShortcodes {
         $final_path = LANDINGPAGES_URLPATH;
       } else if (is_plugin_active('cta/wordpress-cta.php')) {
         $final_path = WP_CTA_URLPATH;
-      } else if (is_plugin_active('calls-to-action/calls-to-action.php')) {
-        $final_path = WP_CTA_URLPATH;
       }
 
       if ( force_ssl_admin() ) {

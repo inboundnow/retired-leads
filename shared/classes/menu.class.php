@@ -182,7 +182,7 @@ if (!class_exists('InboundMenu')) {
 		function load_callstoaction( $menu_items )
 		{
 			/* Check if Calls To Action Active */
-			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('calls-to-action/calls-to-action.php')) {
+			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('cta/wordpress-cta.php')) {
 				return $menu_items;
 			}
 
