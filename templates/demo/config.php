@@ -9,8 +9,9 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
 
+$key = basename(dirname(__FILE__));
+$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 /// Information START - define template information
 /**
  * $wp_cta_data[$key]['info']
@@ -39,6 +40,7 @@ $key = wp_cta_get_parent_directory(dirname(__FILE__));
 
 $wp_cta_data[$key]['info'] =
 array(
+    'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
 	'label' => "Demo Template", // Nice Name
 	'category' => 'Box', // Template Category
@@ -78,20 +80,28 @@ array(
 // Define Meta Options for template
 $wp_cta_data[$key]['settings'] =
 array(
+    array(
+        'label' => 'Instructions', // Name of field
+        'description' => "This is a demo template for developers and designers to learn how to create your own call to action templates. View the source inside /wp-content/plugins/cta/templates/demo for more info", // what field does
+        'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
+        'type'  => 'description-block', // metafield type
+        'default'  => '', // default content
+        'context'  => 'normal' // Context in screen (advanced layouts in future)
+        ),
     /* Text field Example */
     array(
         'label' => 'Text Field Label', // Label of field
         'description' => "Text field Description", // field description
-        'id' => 'text-box-id', // metakey. The $key Prefix is appended making the meta value demo-text-box-id
+        'id' => 'text_box_id', // metakey. The $key Prefix is appended making the meta value demo-text-box-id
         'type'  => 'text', // text metafield type
-        'default'  => '2013-1-31 13:00', // default content
+        'default'  => 'Text in box', // default content
         'context'  => 'normal' // Context in screen for organizing options
         ),
     /* Textarea Example */
     array(
         'label' => 'Textarea Label',
         'description' => "Textarea description to the user",
-        'id'  => 'textarea-id', // called in template's index.php file with lp_get_value($post, $key, 'textarea-id');
+        'id'  => 'textarea_id', // called in template's index.php file with lp_get_value($post, $key, 'textarea-id');
         'type'  => 'textarea',
         'default'  => 'Default text in textarea',
         'context'  => 'normal'
@@ -100,16 +110,16 @@ array(
     array(
         'label' => 'ColorPicker Label',
         'description' => "Colorpicker field description",
-        'id'  => 'color-picker-id', // called in template's index.php file with lp_get_value($post, $key, 'color-picker-id');
+        'id'  => 'color_picker_id', // called in template's index.php file with lp_get_value($post, $key, 'color-picker-id');
         'type'  => 'colorpicker',
-        'default'  => 'ffffff',
+        'default'  => 'ce1010',
         'context'  => 'normal'
         ),
     /* Radio Button Example */
     array(
         'label' => 'Radio Label',
         'description' => "Radio field description",
-        'id'  => 'radio-id-here', // called in template's index.php file with lp_get_value($post, $key, 'radio-id-here');
+        'id'  => 'radio_id_here', // called in template's index.php file with lp_get_value($post, $key, 'radio-id-here');
         'type'  => 'radio',
         'default'  => '1',
         'options' => array('1' => 'on','0'=>'off'),
@@ -119,17 +129,17 @@ array(
     array(
         'label' => 'Checkbox Label',
         'description' => "Example Checkbox Description",
-        'id'  => 'checkbox-id-here', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
+        'id'  => 'checkbox_id_here', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
         'type'  => 'checkbox',
         'default'  => 'on',
-        'options' => array('option_on' => 'on','option_off'=>'off'),
+        'options' => array('option_on' => 'on'),
         'context'  => 'normal'
         ),
     /* Dropdown Example */
     array(
         'label' => 'Dropdown Label',
         'description' => "Dropdown option description",
-        'id'  => 'dropdown-id-here', // called in template's index.php file with lp_get_value($post, $key, 'dropdown-id-here');
+        'id'  => 'dropdown_id_here', // called in template's index.php file with lp_get_value($post, $key, 'dropdown-id-here');
         'type'  => 'dropdown',
         'default'  => 'default',
         'options' => array('right'=>'Float right','left'=>'Float left', 'default'=>'Default option'),
@@ -139,7 +149,7 @@ array(
      array(
         'label' => 'Date Picker Label',
         'description' => "Date Picker Description",
-        'id'  => 'date-picker', // called in template's index.php file with lp_get_value($post, $key, 'date-picker');
+        'id'  => 'date_picker', // called in template's index.php file with lp_get_value($post, $key, 'date-picker');
         'type'  => 'datepicker',
         'default'  => '2013-12-27',
         'context'  => 'normal'
@@ -148,7 +158,7 @@ array(
      array(
         'label' => 'Main Content Box 2',
         'description' => "wysiwyg description",
-        'id'  => 'wysiwyg-id', // called in template's index.php file with lp_get_value($post, $key, 'wysiwyg-id');
+        'id'  => 'wysiwyg_id', // called in template's index.php file with lp_get_value($post, $key, 'wysiwyg-id');
         'type'  => 'wysiwyg',
         'default'  => 'Default WYSIWYG content',
         'context'  => 'normal'
@@ -157,9 +167,21 @@ array(
      array(
         'label' => 'File/Image Upload Label',
         'description' => "File/Image Upload Description",
-        'id'  => 'media-id', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
+        'id'  => 'media_id', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
         'type'  => 'media',
         'default'  => 'http://www.fillmurray.com/200/300',
         'context'  => 'normal'
-        )
+        ),
+     array(
+         'label' => 'Boolean Test',
+         'description' => "Set the Boolean",
+         'id'  => 'boolean',
+         'type'  => 'dropdown',
+         'default'  => 'false',
+         'options' => array('false'=>'False', 'true'=>'True'),
+         'context'  => 'normal'
+         ),
     );
+
+/* define dynamic template markup */
+$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

@@ -1,60 +1,47 @@
 <?php
 
-
-// replacing wp_cta_show_metabox
-function inbound_template_show_metabox($post,$key)
-{
-	$extension_data = wp_cta_get_extension_data();
-	$key = $key['args']['key'];
-
-	$wp_cta_custom_fields = $extension_data[$key]['settings'];
-
-	$wp_cta_custom_fields = apply_filters('wp_cta_show_metabox',$wp_cta_custom_fields, $key);
-
-	inbound_template_metabox_render($key,$wp_cta_custom_fields,$post);
-}
-
 // replacing wp_cta_render_metabox
-function inbound_template_metabox_render($key,$custom_fields,$post)
+function inbound_template_metabox_render( $plugin , $key , $custom_fields , $post)
 {
-	$prefix = 'wp_cta';
-	$prefix_dash = 'wp-cta';
-	//print_r($custom_fields);exit;
+	switch ($plugin) {
+		case "cta" :
+			$prefix = 'wp_cta';
+			$prefix_dash = 'wp-cta';
+			$CTAExtensions = CTALoadExtensions();
+			$extension_data = $CTAExtensions->definitions;
+			break;
+	}
+	
+
 	// Use nonce for verification
 	echo "<input type='hidden' name='{$prefix}_{$key}_custom_fields_nonce' value='".wp_create_nonce(''.$prefix_dash.'-nonce')."' />";
 
 	// Begin the field table and loop
 	echo '<div class="form-table" id="inbound-meta">';
 
-	//print_r($custom_fields);exit;
 	$current_var = wp_cta_ab_testing_get_current_variation_id();
-	foreach ($custom_fields as $field) {
+
+	foreach ($custom_fields as $field) 
+	{
 		$field_id = $key . "-" .$field['id'];
-		$field_name = $field['id'];
 		$label_class = $field['id'] . "-label";
 		$type_class = " inbound-" . $field['type'];
 		$type_class_row = " inbound-" . $field['type'] . "-row";
 		$type_class_option = " inbound-" . $field['type'] . "-option";
 		$option_class = (isset($field['class'])) ? $field['class'] : '';
-		// get value of this field if it exists for this post
+
 		$meta = get_post_meta($post->ID, $field_id, true);
-		$global_meta = get_post_meta($post->ID, $field_name, true);
-		if(empty($global_meta)) {
-			$global_meta = $field['default'];
-		}
 
 		//print_r($field);
 		if ((!isset($meta)&&isset($field['default'])&&!is_numeric($meta))||isset($meta)&&empty($meta)&&isset($field['default'])&&!is_numeric($meta))
 		{
-			//echo $field['id'].":".$meta;
-			//echo "<br>";
 			$meta = $field['default'];
 		}
-
+		
         // Remove prefixes on global => true template options
         if (isset($field['global']) && $field['global'] === true) {
-        $field_id = $field_name;
-        $meta = get_post_meta($post->ID, $field_name, true);
+			$field_id = $field['id'];
+			$meta = get_post_meta($post->ID, $field['id'] , true);
         }
 
 		// begin a table row with
@@ -95,7 +82,7 @@ function inbound_template_metabox_render($key,$custom_fields,$post)
 							</div>';
 						break;
 					case 'text':
-						echo '<input type="text" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
+						echo '<input type="text" class="'.$option_class.'" name="'.$field_id.'" id="'.$field_id.'" value="'.$meta.'" size="30" />
 								<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 						break;
 					case 'number':
@@ -112,7 +99,7 @@ function inbound_template_metabox_render($key,$custom_fields,$post)
 					// wysiwyg
 					case 'wysiwyg':
 						echo "<div class='iframe-options iframe-options-".$field_id."' id='".$field['id']."'>";
-						wp_editor( $meta, $field_id, $settings = array( 'editor_class' => $field_name ) );
+						wp_editor( $meta, $field_id, $settings = array( 'editor_class' => $field['id'] ) );
 						echo	'<p class="description">'.$field['description'].'</p></div>';
 						break;
 					// media
@@ -165,6 +152,13 @@ function inbound_template_metabox_render($key,$custom_fields,$post)
 							echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
 						}
 						echo '</select><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+					break;
+					case 'image-select':
+						echo '<select name="'.$field_id.'" id="'.$field_id.'" class="image-picker">';
+						foreach ($field['options'] as $value=>$label) {
+							echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'" data-img-src="'.$extension_data[$key]['info']['path'].'assets/img/'.$value.'.'.$field['image_type'].'" >'.$label.'</option>';
+						}
+						echo '</select><div class="wp-cta-image-container" style="display:inline;"></div><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 					break;
 
 

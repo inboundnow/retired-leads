@@ -1,67 +1,33 @@
-<?php
-/**
-* Template Name:  Tweet to download
-*
-* @package  WordPress Landing Pages
-* @author   David Wells
-* @link(homepage, http://www.inboundnow.com)
-* @version  1.0
-*/
-
-
-/* Declare Template Key */
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
-$path = WP_CTA_URLPATH.'templates/'.$key.'/';
-$url = plugins_url();
-/* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
-do_action('wp_cta_init');
-
-/* Load Regular WordPress $post data and start the loop */
-if (have_posts()) : while (have_posts()) : the_post();
-$post_id = get_the_ID();
-$var_id=(isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
-$width = get_post_meta( $post_id, 'wp_cta_width-'.$var_id, true );
-$height = get_post_meta( $post_id, 'wp_cta_height-'.$var_id, true );
-$header_text = wp_cta_get_value($post, $key, 'header-text' );
-$share_url = wp_cta_get_value($post, $key, 'share-url' );
-$share_text = wp_cta_get_value($post, $key, 'share-text' );
-$twittername = wp_cta_get_value($post, $key, 'twittername' );
-$download_url = wp_cta_get_value($post, $key, 'download-url' );
-$content_color = wp_cta_get_value($post, $key, 'content-color' );
-$text_color = wp_cta_get_value($post, $key, 'text-color' );
-
-$download_text = wp_cta_get_value($post, $key, 'download-url-text' );
-$border_radius = wp_cta_get_value($post, $key, 'border-radius' );
-
-?>
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <!--  Define page title -->
-  <title><?php wp_title(); ?></title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <link rel="stylesheet" href="<?php echo $path; ?>css/style.css" />
-  <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <style type="text/css">
-body {margin: 0px; padding:0px;}
-<?php
-if ($border_radius != "0"){
-  echo "#content { border-radius: ".$border_radius."px;}";
+<style type="text/css">
+a.downloadButton , #placeholder-span{
+  display:inline-block;
+  width:187px;
+  height:67px;
+  text-indent:-99999px;
+  overflow:hidden;
+  background:url('{{template-urlpath}}img/buttons.png') no-repeat;
+  cursor:default;
+  border:none;
+  text-decoration:none !important;
 }
-/* Color Options CSS helper - Add to inline style tag */
-if ( $content_color != "" ) {
-echo "#content { background-color: #$content_color;}";
+
+a.downloadButton.active{
+  background-position:left bottom;
+  cursor:pointer;
 }
-if ( $text_color != "" ) {
-echo "#extra-text-area { color: #$text_color;}";
+
+#arrow-down {
+  width:32px;
+  height:36px;
+  margin: auto;
+  background:url('{{template-urlpath}}img/arrow_down.png') no-repeat;
 }
-?>
+#wp-cta-content { border-radius: {{border-radius}}px;}
+
+#wp-cta-content { background-color: #{{content-color}};}
+
+#extra-text-area { color: #{{text-color}};}
+
 #extra-text-area {
   text-align: center;
   text-shadow: none;
@@ -77,24 +43,15 @@ echo "#extra-text-area { color: #$text_color;}";
 }
 </style>
 
-<!-- Load Normal WordPress wp_head() function -->
-<?php wp_head(); ?>
-<!-- Load Landing Pages's custom pre-load hook for 3rd party plugin integration -->
-<?php do_action('wp_cta_head'); ?>
-
-</head>
-
-<body class="pop-up-container lightbox-pop">
-
-<div id="content" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px; margin: auto;">
-  <div id="extra-text-area"><?php echo do_shortcode( $header_text );?></div>
+<div id="wp-cta-content" style="width:{{width}};height:{{height}}; margin: auto;">
+  <div id="extra-text-area">{{header-text}}</div>
   <div id="inbound-share-model">
-            <p><span href="#" id="tweetLink"><img src="<?php echo $path;?>img/tweet-image.png" title="Click and Share on Twitter to activate the download" id="linkedshare" ></span></p>
+            <p><span href="#" id="tweetLink"><img src="{{template-urlpath}}img/tweet-image.png" title="Click and Share on Twitter to activate the download" id="linkedshare" ></span></p>
   <div id="arrow-down"></div>
 
   <span id="placeholder-span" class="downloadButton" title="click the above share button to activate the download">Download</span>
 
-  <a href="<?php echo $download_url; ?>" style="display:none;" class="downloadButton active" title="Thanks! Click to Download">Download</a>
+  <a href="{{download-url}}" style="display:none;" class="downloadButton active" title="Thanks! Click to Download">Download</a>
 
           <script>
           jQuery(document).ready(function($) {
@@ -113,10 +70,10 @@ echo "#extra-text-area { color: #$text_color;}";
           console.log('clicked');
           });
       $('#tweetLink').tweetAction({
-              text:       '<?php echo $share_text; ?>',
-              url:        '<?php echo $share_url; ?>',
-              via:        '<?php echo $twittername; ?>',
-              related:    '<?php echo $twittername; ?>'
+              text:       '{{$share_text}}',
+              url:        '{{$share_url}}',
+              via:        '{{$twittername}}',
+              related:    '{{$twittername}}'
           },function(){
           $("#placeholder-span").hide();
           // When the user closes the pop-up window:
@@ -134,13 +91,8 @@ echo "#extra-text-area { color: #$text_color;}";
 
   });
           </script>
-          <script src="<?php echo $path;?>js/jquery.tweetAction.js"></script>
-          <a id="the_link" style="display:none;" href="<?php echo $download_url; ?>"></a>
+          <script src="{{template-urlpath}}js/jquery.tweetAction.js"></script>
+          <a id="the_link" style="display:none;" href="{{download-url}}"></a>
      </div>
-<?php
-break;
-endwhile; endif;
-do_action('wp_cta_footer');
-wp_footer();
-?>
+
 </body>

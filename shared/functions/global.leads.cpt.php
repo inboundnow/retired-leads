@@ -3,7 +3,7 @@
  * Lead CPT functionality used across plugins
  */
 
-add_action( 'init', 'inbound_leads_register' , 11 );
+add_action( 'init', 'inbound_leads_register' , 10 );
 if (!function_exists('inbound_leads_register')) {
 function inbound_leads_register() {
 
@@ -31,7 +31,7 @@ function inbound_leads_register() {
         'publicly_queryable' => true,
         'show_ui' => true,
         'query_var' => true,
-        'menu_icon' => INBOUND_SHARED_ASSETS_PATH . '/global/images/leads.png',
+        'menu_icon' => INBOUND_SHARED_ASSETS . '/global/images/leads.png',
         'capability_type' => 'post',
         'hierarchical' => false,
         'menu_position' => null,

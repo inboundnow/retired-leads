@@ -47,8 +47,8 @@ else
 	$arr = mysql_fetch_array($result);
 	$pid = $arr['ID'];
 	
-	$variations = get_post_meta($pid,'wp-cta-ab-variations', true);
-	$marker = get_post_meta($pid,'wp-cta-ab-variations-marker', true);
+	$variations = get_post_meta($pid,'cta_ab_variations', true);
+	$marker = get_post_meta($pid,'cta_ab_variations-marker', true);
 	if (!is_numeric($marker))
 		$marker = 0;
 	
@@ -75,7 +75,7 @@ else
 			}
 			else
 			{
-				$variation_status = get_post_meta( $pid , 'wp_cta_ab_variation_status-'.$vid , true );
+				$variation_status = get_post_meta( $pid , 'cta_ab_variation_status_'.$vid , true );
 			}
 			//echo "Status:".$variation_status."ID".$vid;
 			//echo "<br>";
@@ -176,7 +176,7 @@ else
 		//echo "final marker:$marker";
 		//echo "<br>";
 		
-		update_post_meta($pid, 'wp-cta-ab-variations-marker', $marker);
+		update_post_meta($pid, 'cta_ab_variations-marker', $marker);
 		
 	}
 	else

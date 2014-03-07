@@ -7,11 +7,12 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
-
+$key = basename(dirname(__FILE__));
+$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
+  'data_type' => 'template',
 	'version' => "1.0", // Version Number
 	'label' => "Linkedin Share to Download", // Nice Name
 	'category' => 'social', // Template Category
@@ -26,7 +27,7 @@ $wp_cta_data[$key]['settings'] =
 array(
     array(
         'label' => 'Instructions', // Name of field
-        'description' => "This Call to action is used for share gating downloadable content. Basically you can get more shares on LinkedIn for any URL in return for a peice of downloadable content.<p><strong>Recommened Dimensions:</strong> 250px by 200px</p>", // what field does
+        'description' => "This Call to action is used for share gating downloadable content. Basically you can get more shares on LinkedIn for any URL in return for a peice of downloadable content.<p><strong>Recommened Dimensions:</strong> 330px by 300px</p>", // what field does
         'id' => 'description', // metakey. $key Prefix is appended from parent in array loop
         'type'  => 'description-block', // metafield type
         'default'  => '', // default content
@@ -36,8 +37,8 @@ array(
         'label' => 'Text Above the CTA (optional)',
         'description' => "This is the text above the call to action describing what they get if they share. You can use HTML or shortcodes in this box",
         'id'  => 'header-text',
-        'type'  => 'textarea',
-        'default'  => 'Download our Latest Ebook. To Access the download Share This on LinkedIn',
+        'type'  => 'wysiwyg',
+        'default'  => 'Download our Latest Ebook.<br>To Access the download Share This on LinkedIn',
         'context'  => 'normal'
         ),
     array(
@@ -96,3 +97,6 @@ array(
            'context'  => 'normal' // Context in screen (advanced layouts in future)
            ),
     );
+
+/* define dynamic template markup */
+$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

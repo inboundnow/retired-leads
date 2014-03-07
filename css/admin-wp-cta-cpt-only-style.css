@@ -32,7 +32,8 @@ margin-top: 0px;
 	border-radius: 7px;
 }
 
-.template-thumbnail {
+.template-thumbnail
+{
 	width:100%;
 	height:190px;
 	-webkit-border-radius: 4px;

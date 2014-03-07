@@ -9,17 +9,6 @@ jQuery(document).ready(function ($) {
 	var hidden_html = '<input type="hidden" id="better-ab-testing-variation" name="wp-cta-variation-id" value="'+ variation.vid +'">';
 	jQuery('.wrap form').prepend(hidden_html);
 	
-	if (variation.content_area.indexOf("<p") == -1 && variation.content_area.indexOf("<br") == -1 )
-	{
-		//variation.content_area = variation.content_area.replace(/\n/g, "<br />");
-	}
-	
-	jQuery("#wp-content-editor-container textarea").val(variation.content_area);
-	jQuery("#content_ifr").contents().find("body").html(variation.content_area);
-
-
-	
-
 	var html;
 	if (variation.vid>0&&variation.new_variation!=1)
 	{

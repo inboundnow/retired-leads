@@ -9,21 +9,21 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading Text', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading Text', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Testimonial'
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '1'
 			)
@@ -31,55 +31,55 @@
 		'child' => array(
 			'options' => array(
 				'author' => array(
-					'name' => __('Testimony Author',  INBOUND_LABEL),
-					'desc' => __('Enter the testimony author name.',  INBOUND_LABEL),
+					'name' => __('Testimony Author',  'leads'),
+					'desc' => __('Enter the testimony author name.',  'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'meta' => array(
-					'name' => __('Testimony Author Meta', INBOUND_LABEL),
-					'desc' => __('The author job, company or website name.', INBOUND_LABEL),
+					'name' => __('Testimony Author Meta', 'leads'),
+					'desc' => __('The author job, company or website name.', 'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Testimony Content',  INBOUND_LABEL),
-					'desc' => __('Put the content here.',  INBOUND_LABEL),
+					'name' => __('Testimony Content',  'leads'),
+					'desc' => __('Put the content here.',  'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[testimony author="{{author}}" meta="{{meta}}"]{{content}}[/testimony]',
-			'clone' => __('Add More Testimony',  INBOUND_LABEL )
+			'clone' => __('Add More Testimony',  'leads' )
 		),
 		'shortcode' => '[testimonial heading="{{heading}}"  column="{{column}}"]{{child}}[/testimonial]',
-		'popup_title' => __('Insert Testimonial Shortcode',  INBOUND_LABEL)
+		'popup_title' => __('Insert Testimonial Shortcode',  'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['testimonial'] = array(
-		'name' => __('Testimonial', INBOUND_LABEL),
+		'name' => __('Testimonial', 'leads'),
 		'size' => 'one_half',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => 'Testimonial',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '3',
 				'class' => '',
@@ -88,24 +88,24 @@
 		),
 		'child' => array(
 			'author' => array(
-				'name' => __('Testimony Author', INBOUND_LABEL),
-				'desc' => __('Enter the testimony author name.', INBOUND_LABEL),
+				'name' => __('Testimony Author', 'leads'),
+				'desc' => __('Enter the testimony author name.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'meta' => array(
-				'name' => __('Testimony Author Meta', INBOUND_LABEL),
-				'desc' => __('The author job, company or website name.', INBOUND_LABEL),
+				'name' => __('Testimony Author Meta', 'leads'),
+				'desc' => __('The author job, company or website name.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Testimony Text', INBOUND_LABEL),
-				'desc' => __('Put the content here.', INBOUND_LABEL),
+				'name' => __('Testimony Text', 'leads'),
+				'desc' => __('Put the content here.', 'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',
@@ -121,7 +121,7 @@
 
 	function inbound_shortcode_testimonial( $atts, $content = null ) {
 		extract(shortcode_atts(array(
-			'heading' => __('Testimonial', INBOUND_LABEL),
+			'heading' => __('Testimonial', 'leads'),
 			'column' => 1,
 		), $atts));
 

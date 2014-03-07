@@ -35,14 +35,14 @@ jQuery('.wp_cta_select_template').click(function(){
         //alert(label);
     });
     // filter items when filter link is clicked
+
     jQuery('#template-filter a').click(function(){
-      var selector = jQuery(this).attr('data-filter');
-      //alert(selector);
+        var selector = jQuery(this).attr('data-filter');
         $(".template-item-boxes").fadeOut(500);
-        setTimeout(function() {
-         $(selector).fadeIn(500);
-        }, 500);
-      return false;
+           setTimeout(function() {
+            $(selector).fadeIn(500);
+           }, 500);
+        return false;
     });
 
     jQuery('.wp_cta_select_template').click(function(){

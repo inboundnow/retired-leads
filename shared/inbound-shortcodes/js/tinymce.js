@@ -45,6 +45,24 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 			ed.addCommand('InboundShortcodesPopup', function(a, params) {
 				var popup = params.identifier;
 				tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + popup + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+				// ajax call
+				var userID = jQuery("#user-id").val();
+				var clicked = jQuery.cookie("inbound_shortcode_trigger");
+				console.log("CLICKED");
+				if (clicked != "true") {
+					jQuery.ajax({
+					  type: 'POST',
+					  url: ajaxurl,
+					  data: {
+						action: 'inbound_shortcode_prompt_ajax',
+						user_id: userID
+					  },
+					  success: function(data){
+						var self = this;
+						console.log('ran notice');
+					   }
+					});
+				}
 				jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
 			});
 		},

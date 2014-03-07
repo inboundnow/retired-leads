@@ -3,26 +3,28 @@
 add_action('add_meta_boxes', 'wp_cta_ab_display_stats_metabox');
 function wp_cta_ab_display_stats_metabox() {
 
-		add_meta_box( 
-		'wp_cta_ab_display_stats_metabox', 
+		add_meta_box(
+		'wp_cta_ab_display_stats_metabox',
 		__( 'A/B Testing', 'bab' ),
 		'wp_cta_ab_stats_metabox',
-		'wp-call-to-action' , 
-		'side', 
+		'wp-call-to-action' ,
+		'side',
 		'high' );
 }
 
 function wp_cta_ab_stats_metabox() {
 	global $post;
-	$variations = get_post_meta($post->ID,'wp-cta-ab-variations', true);
+
+	$variations = get_post_meta($post->ID,'cta_ab_variations', true);
 	$variations = explode(',',$variations);
 	$variations = array_filter($variations,'is_numeric');
+
 	?>
 	<div>
 		<style type="text/css">
-		
+
 		</style>
-		<div class="inside" style='margin-left:-8px;'> 
+		<div class="inside" id="a-b-testing">
 			<div id="bab-stat-box">
 			<?php if (isset($_GET['new_meta_key'])) { ?>
 			<script type="text/javascript">
@@ -54,38 +56,43 @@ function wp_cta_ab_stats_metabox() {
 				$howmany = count($variations);
 				foreach ($variations as $key=>$vid)
 				{
-					if (!is_numeric($vid)&&$key==0)
+					if (!is_numeric($vid)&&$key==0){
 						$vid = 0;
-						
-					$variation_status = wp_cta_ab_get_wp_cta_active_status($post,$vid);
-					$variation_status_class = ($variation_status ==1) ? "variation-on" : 'variation-off';
-					
+					}
+
+					$variation_status = wp_cta_ab_get_wp_cta_active_status( $post , $vid );
+
+					$variation_status_class = ($variation_status > 0 || $variation_status == ""  ) ? "variation-on" : 'variation-off';
+					$variation_status_class = apply_filters('wp_cta_variation_status_class' , $variation_status_class , $vid );
+
+					$variation_notes = apply_filters('wp_cta_edit_variation_notes', '' , $vid );
+
 					$permalink = get_permalink($post->ID);
 					if (strstr($permalink,'?wp-cta-variation-id'))
 					{
 						$permalink = explode('?',$permalink);
 						$permalink = $permalink[0];
 					}
-					$permalink = $permalink."?wp-cta-variation-id=".$vid;
-					
+
+					$permalink = add_query_arg( array('wp-cta-variation-id'=> $vid ) , $permalink ) ;
+
 					$impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true);
 					$conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
-					
-					
-					(is_numeric($impressions)) ? $impressions = $impressions : $impressions = 0; 
-					(is_numeric($conversions)) ? $conversions = $conversions : $conversions = 0; 
-					
-					if ($impressions>0)
-					{
+
+
+					(is_numeric($impressions)) ? $impressions = $impressions : $impressions = 0;
+					(is_numeric($conversions)) ? $conversions = $conversions : $conversions = 0;
+
+					if ($impressions>0) {
 						$conversion_rate = $conversions / $impressions;
-						(($conversions===0)) ? $sign = "" : $sign = "%"; 
-						$conversion_rate = round($conversion_rate,2) * 100 . $sign; 
-					}
-					else
-					{
+						$conversion_rate_number = $conversion_rate * 100;
+						$conversion_rate_number = round($conversion_rate_number, 2);
+						(($conversion_rate_number===0)) ? $sign = "" : $sign = "%";
+						$conversion_rate = $conversion_rate_number . $sign;
+					} else {
 						$conversion_rate = 0;
 					}
-					
+
 					if ($key==0)
 					{
 						$title = get_post_meta($post->ID,'wp-cta-main-headline', true);
@@ -94,27 +101,33 @@ function wp_cta_ab_stats_metabox() {
 					{
 						$title = get_post_meta($post->ID,'wp-cta-main-headline-'.$vid, true);
 					}
-					
+
 					//determine letter from key
 					?>
 
 					<div id="wp-cta-variation-<?php echo wp_cta_ab_key_to_letter($key); ?>" class="bab-variation-row <?php echo $variation_status_class;?>" >
 						<div class='bab-varation-header'>
-								<span class='bab-variation-name'>Variation <span class='bab-stat-letter'><?php echo wp_cta_ab_key_to_letter($vid); ?></span>
-								<?php 
-								if($variation_status!=1)
+								<span class='bab-variation-name'>Variation <span class='bab-stat-letter'><?php echo wp_cta_ab_key_to_letter($key); ?></span>
+								<?php
+								if( $variation_status_class =='variation-off' )
 								{
 								?>
 									<span class='is-paused'>(Paused)</span>
 								<?php
 								}
+
+								do_action('wp_cta_print_variation_status_note' , $variation_status );
+
 								?>
-								</span> 
-									
-									
+								</span>
+
+
 								<span class="wp-cta-delete-var-stats" data-letter='<?php echo wp_cta_ab_key_to_letter($vid); ?>' data-vid='<?php echo $vid; ?>' rel='<?php echo $post->ID;?>' title="Delete this variations stats">Clear Stats</span>
 							</div>
-						<div class="bab-stat-row">	
+						<div class="bab-variation-notes">
+						<?php echo $variation_notes; ?>
+						</div>
+						<div class="bab-stat-row">
 							<div class='bab-stat-stats' colspan='2'>
 								<div class='bab-stat-container-impressions bab-number-box'>
 									<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
@@ -134,26 +147,26 @@ function wp_cta_ab_stats_metabox() {
 									<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>'>Edit</a></span> <span class='bab-stat-seperator'>|</span>
 									<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&wp_cta_iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'>Preview</a></span> <span class='bab-stat-seperator'>|</span>
 									<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'>Clone</a></span> <span class='bab-stat-seperator'>|</span>
-									<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'>Delete</a></span> 
+									<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'>Delete</a></span>
 								</div>
 							</div>
 						</div>
-						<div class="bab-stat-row">	
-					
+						<div class="bab-stat-row">
+
 								<div class='bab-stat-menu-container'>
-									
-									<?php do_action('wp_cta_ab_testing_stats_menu_post'); ?>						
-						
+
+									<?php do_action('wp_cta_ab_testing_stats_menu_post'); ?>
+
 							</div>
 						</div>
 					</div>
 						<?php
-						
+
 				}
 				?>
 			</div>
-				
-		</div>	
+
+		</div>
 	</div>
 	<?php
 }
@@ -167,18 +180,11 @@ function wp_cta_ab_get_wp_cta_active_status($post,$vid=null)
 	}
 	else
 	{
-		$variation_status = get_post_meta( $post->ID , 'wp_cta_ab_variation_status-'.$vid , true);
+		$variation_status = get_post_meta( $post->ID , 'cta_ab_variation_status_'.$vid , true);
 	}
 
-	if (!is_numeric($variation_status))
-	{
-		return 1;
-	}
-	else
-	{
-		return $variation_status;
-	}
-}		
+	return $variation_status;
+}
 
 //print out tabs
 add_action('edit_form_after_title','wp_cta_ab_testing_add_tabs', 5);
@@ -187,77 +193,77 @@ function wp_cta_ab_testing_add_tabs()
 	global $post;
 	$post_type_is = get_post_type($post->ID);
 	$permalink = get_permalink($post->ID);
-	
+
 	// Only show wp-cta tabs on landing pages post types (for now)
-	if ($post_type_is === "wp-call-to-action") 
+	if ($post_type_is === "wp-call-to-action")
 	{
 		$current_variation_id = wp_cta_ab_testing_get_current_variation_id();
-		echo "<input type='hidden' id='open_variation' value='{$current_variation_id}'>";
 		if (isset($_GET['new_meta_key'])) {
-		echo "<input type='hidden' id='variation_new_meta_key' value='".$_GET['new_meta_key']."'>";
+			$current_variation_id = $_GET['new_meta_key'];
 		}
+
+		echo "<input type='hidden' id='open_variation' value='{$current_variation_id}'>";
+
+		if (isset($_GET['new_meta_key'])) {
+			echo "<input type='hidden' id='variation_new_meta_key' value='".$_GET['new_meta_key']."'>";
+		}
+
 		if (isset($_GET['clone'])) {
-		echo "<input type='hidden' id='clone_variation_id' value='".$_GET['clone']."'>";
+			echo "<input type='hidden' id='clone_variation_id' value='".$_GET['clone']."'>";
 		}
-		
-		$variations = get_post_meta($post->ID,'wp-cta-ab-variations', true);
+
+		$variations = get_post_meta($post->ID,'cta_ab_variations', true);
+		if ($variations === "0" && isset($_GET['new_meta_key'])){
+			$variations = $variations . ', 1';
+		}
 		$array_variations = explode(',',$variations);
 		$variations = array_filter($array_variations,'is_numeric');
 		sort($array_variations,SORT_NUMERIC);
-		
+
 		$lid = end($array_variations);
 		$new_variation_id = $lid+1;
-		
-		if ($current_variation_id>0||isset($_GET['new-variation']))
-		{
+
+		if ($current_variation_id>0||isset($_GET['new-variation'])) {
 			$first_class = 'inactive';
-		}
-		else
-		{
+		} else {
 			$first_class = 'active';
 		}
-		
+
 		echo '<h2 class="nav-tab-wrapper a_b_tabs">';
-		echo '<a href="?post='.$post->ID.'&wp-cta-variation-id=0&action=edit" class="wp-cta-ab-tab nav-tab nav-tab-special-'.$first_class.'" id="tabs-0">A</a>';					
+		echo '<a href="?post='.$post->ID.'&wp-cta-variation-id=0&action=edit" class="wp-cta-ab-tab nav-tab nav-tab-special-'.$first_class.'" id="tabs-0">A</a>';
 
 		$var_id_marker = 1;
 
-		
-		foreach ($array_variations as $i => $vid)
-		{
-			
-			if ($vid!=0)
-			{
-				$letter = wp_cta_ab_key_to_letter($vid);
-				
-				//alert (variation.new_variation); 
-				if ($current_variation_id==$vid&&!isset($_GET['new-variation']))
-				{
+
+		foreach ($array_variations as $i => $vid) {
+
+			if ($vid!=0) {
+				$letter = wp_cta_ab_key_to_letter($i);
+
+				//alert (variation.new_variation);
+				if ($current_variation_id==$vid&&!isset($_GET['new-variation']) || $current_variation_id==$vid && isset($_GET['clone'])) {
 					$cur_class = 'active';
-				}
-				else
-				{
+				} else {
 					$cur_class = 'inactive';
 				}
 				echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$vid.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-'.$cur_class.'" id="tabs-add-variation">'.$letter.'</a>';
-				
-			}					
-		} 
-		
-		if (!isset($_GET['new-variation']))
-		{
-			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit&new-variation=1" class="wp-cta-nav-tab nav-tab nav-tab-special-inactive nav-tab-add-new-variation" id="tabs-add-variation">Add New Variation</a>';
+
+			}
 		}
-		else
-		{
+
+		if (!isset($_GET['new-variation'])) {
+			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit&new-variation=1" class="wp-cta-nav-tab nav-tab nav-tab-special-inactive nav-tab-add-new-variation" id="tabs-add-variation">Add New Variation</a>';
+		} else {
 			$variation_count = count($array_variations);
-			$letter = wp_cta_ab_key_to_letter($variation_count);
+			if (isset($_GET['wp-cta-variation-id'])) {
+			$letter = wp_cta_ab_key_to_letter($_GET['wp-cta-variation-id']);
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
+			}
 		}
 		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '?wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '?wp-cta-variation-id=0';
 		$post_link = get_permalink($post->ID);
 		$post_link = preg_replace('/\?.*/', '', $post_link);
 		echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary new-save-wp-cta-frontend' href='$post_link$edit_link&cta-template-customize=on'>Launch Visual Editor</a>";
 		echo '</h2>';
-	} 
+	}
 }

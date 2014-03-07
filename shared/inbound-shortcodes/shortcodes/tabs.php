@@ -9,8 +9,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			)
@@ -18,41 +18,41 @@
 		'child' => array(
 			'options' => array(
 				'title' => array(
-					'name' => __('Tab Title',  INBOUND_LABEL),
-					'desc' => __('Enter the tab title.',  INBOUND_LABEL),
+					'name' => __('Tab Title',  'leads'),
+					'desc' => __('Enter the tab title.',  'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'icon' => array(
-					'name' => __('Icon', INBOUND_LABEL),
-					'desc' => __('Select an icon.', INBOUND_LABEL),
+					'name' => __('Icon', 'leads'),
+					'desc' => __('Select an icon.', 'leads'),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Tab Content',  INBOUND_LABEL),
-					'desc' => __('Put the content here.',  INBOUND_LABEL),
+					'name' => __('Tab Content',  'leads'),
+					'desc' => __('Put the content here.',  'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[tab title="{{title}}" icon="{{icon}}"]{{content}}[/tab]',
-			'clone' => __('Add More Tab',  INBOUND_LABEL )
+			'clone' => __('Add More Tab',  'leads' )
 		),
 		'shortcode' => '[tabs]{{child}}[/tabs]',
-		'popup_title' => __('Insert Tabs Shortcode',  INBOUND_LABEL)
+		'popup_title' => __('Insert Tabs Shortcode',  'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['tabs'] = array(
-		'name' => __('Tabs', INBOUND_LABEL),
+		'name' => __('Tabs', 'leads'),
 		'size' => 'one_half',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
@@ -61,16 +61,16 @@
 		),
 		'child' => array(
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the tab title', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the tab title', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'icon' => array(
-				'name' => __('Icon', INBOUND_LABEL),
-				'desc' => __('Select an icon.', INBOUND_LABEL),
+				'name' => __('Icon', 'leads'),
+				'desc' => __('Select an icon.', 'leads'),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -78,8 +78,8 @@
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the tab content', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the tab content', 'leads'),
 				'type' => 'textarea',
 				'class' => '',
 				'is_content' => 1

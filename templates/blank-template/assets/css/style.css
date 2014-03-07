@@ -3,17 +3,3 @@
 /* -------------------------------------------------- 
    Styles
 ----------------------------------------------------*/
-
-html,body {
-	margin: 0px;
-}
-html, body, #wrapper, #content-wrapper, #content {
-	background: transparent;
-}
-#content-wrapper {margin:auto; }
-#content-wrapper p {
-	margin: 0px;
-}
-#content {
-	text-align: center;
-}

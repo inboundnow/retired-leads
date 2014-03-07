@@ -25,30 +25,37 @@
 		"wpleads_notes" => "Notes"
 		);
 	}
+
+	if (empty($lead_list_names)){
+		// if lead transient doesn't exist use defaults
+		$lead_list_names = array(
+		'null' => 'No Lists detected',
+		);
+	}
 	//print_r($lead_mapping_fields);
 
 	$shortcodes_config['forms'] = array(
 		'no_preview' => false,
 		'options' => array(
 			'insert_default' => array(
-						'name' => __('Choose Starting Template', INBOUND_LABEL),
-						'desc' => __('Start Building Your Form from premade templates', INBOUND_LABEL),
+						'name' => __('Choose Starting Template', 'leads'),
+						'desc' => __('Start Building Your Form from premade templates', 'leads'),
 						'type' => 'select',
 						'options' => $form_names,
 						'std' => 'none',
 						'class' => 'main-form-settings',
 			),
 			'form_name' => array(
-				'name' => __('Form Name<span class="small-required-text">*</span>', INBOUND_LABEL),
-				'desc' => __('This is not shown to visitors', INBOUND_LABEL),
+				'name' => __('Form Name<span class="small-required-text">*</span>', 'leads'),
+				'desc' => __('This is not shown to visitors', 'leads'),
 				'type' => 'text',
 				'placeholder' => "Example: XYZ Whitepaper Download",
 				'std' => '',
 				'class' => 'main-form-settings',
 			),
 			/*'confirmation' => array(
-						'name' => __('Form Layout', INBOUND_LABEL),
-						'desc' => __('Choose Your Form Layout', INBOUND_LABEL),
+						'name' => __('Form Layout', 'leads'),
+						'desc' => __('Choose Your Form Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
 							"redirect" => "Redirect After Form Completion",
@@ -57,8 +64,8 @@
 						'std' => 'redirect'
 			),*/
 			'redirect' => array(
-				'name' => __('Redirect URL<span class="small-required-text">*</span>', INBOUND_LABEL),
-				'desc' => __('Where do you want to send people after they fill out the form?', INBOUND_LABEL),
+				'name' => __('Redirect URL<span class="small-required-text">*</span>', 'leads'),
+				'desc' => __('Where do you want to send people after they fill out the form?', 'leads'),
 				'type' => 'text',
 				'placeholder' => "http://www.yoursite.com/thank-you",
 				'std' => '',
@@ -66,38 +73,53 @@
 				'class' => 'main-form-settings',
 			),
 			/*'thank_you_text' => array(
-					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUND_LABEL),
-					'desc' => __('Put field description here.',  INBOUND_LABEL),
+					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('Put field description here.',  'leads'),
 					'type' => 'textarea',
 					'std' => '',
 					'class' => 'advanced',
 					'reveal_on' => 'text'
 			), */
 			'notify' => array(
-				'name' => __('Notify on Form Completions<span class="small-required-text">*</span>', INBOUND_LABEL),
-				'desc' => __('Who should get admin notifications on this form?', INBOUND_LABEL),
+				'name' => __('Notify on Form Completions<span class="small-required-text">*</span>', 'leads'),
+				'desc' => __('Who should get admin notifications on this form?<br>For multiple notifications separate email addresses with commas', 'leads'),
 				'type' => 'text',
 				'placeholder' => "youremail@email.com",
 				'std' => '',
 				'class' => 'main-form-settings',
 			),
+			'lists' => array(
+				'name' => __('Add to List(s)', 'leads'),
+				'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
+				'type' => 'multiselect',
+				'options' => $lead_list_names,
+				'class' => 'main-form-settings',
+			),
+
+			'lists_hidden' => array(
+				'name' => __('Hidden List Values', 'leads'),
+				'desc' => __('Hidden list values', 'leads'),
+				'type' => 'hidden',
+				'class' => 'main-form-settings',
+			),
+
 			'helper-block-one' => array(
-					'name' => __('Name Name Name',  INBOUND_LABEL),
-					'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  INBOUND_LABEL),
+					'name' => __('Name Name Name',  'leads'),
+					'desc' => __('<span class="switch-to-form-insert button">Cancel Form Creation & Insert Existing Form</span>',  'leads'),
 					'type' => 'helper-block',
 					'std' => '',
 					'class' => 'main-form-settings',
 			),
 			'heading_design' => array(
-					'name' => __('Name Name Name',  INBOUND_LABEL),
-					'desc' => __('Layout Options',  INBOUND_LABEL),
+					'name' => __('Name Name Name',  'leads'),
+					'desc' => __('Layout Options',  'leads'),
 					'type' => 'helper-block',
 					'std' => '',
 					'class' => 'main-design-settings',
 			),
 			'layout' => array(
-						'name' => __('Form Layout', INBOUND_LABEL),
-						'desc' => __('Choose Your Form Layout', INBOUND_LABEL),
+						'name' => __('Form Layout', 'leads'),
+						'desc' => __('Choose Your Form Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
 							"vertical" => "Vertical",
@@ -107,8 +129,8 @@
 						'class' => 'main-design-settings',
 			),
 			'labels' => array(
-						'name' => __('Label Alignment', INBOUND_LABEL),
-						'desc' => __('Choose Label Layout', INBOUND_LABEL),
+						'name' => __('Label Alignment', 'leads'),
+						'desc' => __('Choose Label Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
 							"top" => "Labels on Top",
@@ -120,30 +142,55 @@
 						'class' => 'main-design-settings',
 					),
 			'font-size' => array(
-							'name' => __('Form Font Size', INBOUND_LABEL),
-							'desc' => __('Size of Label Font. This also determines default submit button size', INBOUND_LABEL),
+							'name' => __('Form Font Size', 'leads'),
+							'desc' => __('Size of Label Font. This also determines default submit button size', 'leads'),
 							'type' => 'text',
 							'std' => '16',
 							'class' => 'main-design-settings',
 			),
 			'icon' => array(
-				'name' => __('Submit Button Icon', INBOUND_LABEL),
-				'desc' => __('Select an icon.', INBOUND_LABEL),
+				'name' => __('Submit Button Icon', 'leads'),
+				'desc' => __('Select an icon.', 'leads'),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
 				'class' => 'main-design-settings'
 			),
 			'submit' => array(
-				'name' => __('Submit Button Text', INBOUND_LABEL),
-				'desc' => __('Enter the text you want to show on the submit button. (or a link to a custom submit button image)', INBOUND_LABEL),
+				'name' => __('Submit Button Text', 'leads'),
+				'desc' => __('Enter the text you want to show on the submit button. (or a link to a custom submit button image)', 'leads'),
 				'type' => 'text',
 				'std' => 'Submit',
 				'class' => 'main-design-settings',
 			),
+			'submit-colors' => array(
+						'name' => __('Submit Color Options', 'leads'),
+						'desc' => __('Choose Your Form Layout', 'leads'),
+						'type' => 'select',
+						'options' => array(
+							"on" => "Color Options On",
+							"off" => "Color Options Off (use theme defaults)",
+							),
+						'std' => 'on',
+						'class' => 'main-design-settings',
+			),
+			'submit-text-color' => array(
+							'name' => __('Button Text Color', 'leads'),
+							'desc' => __('Color of text', 'leads'),
+							'type' => 'colorpicker',
+							'std' => '#434242',
+							'class' => 'main-design-settings',
+						),
+			'submit-bg-color' => array(
+							'name' => __('Button BG Color', 'leads'),
+							'desc' => __('Background Color of Submit button', 'leads'),
+							'type' => 'colorpicker',
+							'std' => '#E9E9E9',
+							'class' => 'main-design-settings',
+						),
 			'width' => array(
-				'name' => __('Custom Width', INBOUND_LABEL),
-				'desc' => __('Enter in pixel width or % width. Example: 400 <u>or</u> 100%', INBOUND_LABEL),
+				'name' => __('Custom Width', 'leads'),
+				'desc' => __('Enter in pixel width or % width. Example: 400 <u>or</u> 100%', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => 'main-design-settings',
@@ -152,15 +199,15 @@
 		'child' => array(
 			'options' => array(
 				'label' => array(
-					'name' => __('Field Label',  INBOUND_LABEL),
+					'name' => __('Field Label',  'leads'),
 					'desc' => '',
 					'type' => 'text',
 					'std' => '',
 					'placeholder' => "Enter the Form Field Label. Example: First Name"
 				),
 				'field_type' => array(
-					'name' => __('Field Type', INBOUND_LABEL),
-					'desc' => __('Select an form field type', INBOUND_LABEL),
+					'name' => __('Field Type', 'leads'),
+					'desc' => __('Select an form field type', 'leads'),
 					'type' => 'select',
 					'options' => array(
 						"text" => "Single Line Text",
@@ -182,76 +229,84 @@
 				),
 
 				'dropdown_options' => array(
-					'name' => __('Dropdown choices',  INBOUND_LABEL),
-					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  INBOUND_LABEL),
+					'name' => __('Dropdown choices',  'leads'),
+					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'placeholder' => 'Choice 1, Choice 2, Choice 3',
 					'reveal_on' => 'dropdown' // on select choice show this
 				),
 				'radio_options' => array(
-					'name' => __('Radio Choices',  INBOUND_LABEL),
-					'desc' => __('Enter Your Radio Options. Separate by commas.',  INBOUND_LABEL),
+					'name' => __('Radio Choices',  'leads'),
+					'desc' => __('Enter Your Radio Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'placeholder' => 'Choice 1, Choice 2',
 					'reveal_on' => 'radio' // on select choice show this
 				),
 				'checkbox_options' => array(
-					'name' => __('Checkbox choices',  INBOUND_LABEL),
-					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  INBOUND_LABEL),
+					'name' => __('Checkbox choices',  'leads'),
+					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'placeholder' => 'Choice 1, Choice 2, Choice 3',
 					'reveal_on' => 'checkbox' // on select choice show this
 				),
 				'html_block_options' => array(
-					'name' => __('HTML Block',  INBOUND_LABEL),
-					'desc' => __('This is a raw HTML block in the form. Insert text/HTML',  INBOUND_LABEL),
+					'name' => __('HTML Block',  'leads'),
+					'desc' => __('This is a raw HTML block in the form. Insert text/HTML',  'leads'),
 					'type' => 'textarea',
 					'std' => '',
 					'reveal_on' => 'html-block' // on select choice show this
 				),
+				'default_value' => array(
+					'name' => __('Default Value',  'leads'),
+					'desc' => __('Enter the Default Value',  'leads'),
+					'type' => 'text',
+					'std' => '',
+					'placeholder' => 'Enter Default Value',
+					'reveal_on' => 'hidden' // on select choice show this
+				),
 				'divider_options' => array(
-					'name' => __('Divider Text (optional)',  INBOUND_LABEL),
-					'desc' => __('This is the text in the divider',  INBOUND_LABEL),
+					'name' => __('Divider Text (optional)',  'leads'),
+					'desc' => __('This is the text in the divider',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'reveal_on' => 'divider' // on select choice show this
 				),
 				'helper' => array(
-					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUND_LABEL),
-					'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  INBOUND_LABEL),
+					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  'leads'),
 					'type' => 'helper-block',
 					'std' => '',
 					'class' => '',
 				),
 				'required' => array(
-					'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', INBOUND_LABEL),
-					'checkbox_text' => __('Check to make field required', INBOUND_LABEL),
+					'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', 'leads'),
+					'checkbox_text' => __('Check to make field required', 'leads'),
 					'desc' => '',
 					'type' => 'checkbox',
 					'std' => '0',
 					'class' => 'advanced',
 				),
 				'placeholder' => array(
-					'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  INBOUND_LABEL),
-					'desc' => __('Put field placeholder text here. Only works for normal text inputs',  INBOUND_LABEL),
+					'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('Put field placeholder text here. Only works for normal text inputs',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'class' => 'advanced',
 				),
 				'description' => array(
-					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUND_LABEL),
-					'desc' => __('Put field description here.',  INBOUND_LABEL),
+					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('Put field description here.',  'leads'),
 					'type' => 'textarea',
 					'std' => '',
 					'class' => 'advanced',
 				),
 
 				'hidden_input_options' => array(
-					'name' => __('Dynamic Field Filling',  INBOUND_LABEL),
-					'desc' => __('Enter Your Dynamic URL parameter',  INBOUND_LABEL),
+					'name' => __('Dynamic Field Filling',  'leads'),
+					'desc' => __('Enter Your Dynamic URL parameter',  'leads'),
 					'type' => 'text',
 					'std' => '',
 					'placeholder' => 'enter dynamic url parameter example: utm_campaign ',
@@ -259,19 +314,19 @@
 					//'reveal_on' => 'hidden' // on select choice show this
 				),
 				'map_to' => array(
-							'name' => __('Map Field To', INBOUND_LABEL),
-							'desc' => __('Map this field to Leads Value', INBOUND_LABEL),
+							'name' => __('Map Field To', 'leads'),
+							'desc' => __('Map this field to Leads Value', 'leads'),
 							'type' => 'select',
 							'options' => $lead_mapping_fields,
 							'std' => 'none',
 							'class' => 'advanced exclude',
 				),
 			),
-			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
-			'clone' => __('Add Another Field',  INBOUND_LABEL )
+			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
+			'clone' => __('Add Another Field',  'leads' )
 		),
-		'shortcode' => '[inbound_form name="{{form_name}}" redirect="{{redirect}}" notify="{{notify}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" width="{{width}}"]{{child}}[/inbound_form]',
-		'popup_title' => __('Insert Inbound Form Shortcode',  INBOUND_LABEL)
+		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
+		'popup_title' => __('Insert Inbound Form Shortcode',  'leads')
 	);
 
 /* CPT Lead Lists */
@@ -364,7 +419,6 @@ if (is_admin())
 	}
 }
 
-
 add_action('admin_init', 'inbound_forms_redirect');
 if (!function_exists('inbound_forms_redirect')) {
 function inbound_forms_redirect($value){
@@ -382,13 +436,12 @@ if (!function_exists('inbound_get_form_names')) {
 	function inbound_get_form_names() {
 		global $post;
 
-		$loop = get_transient( 'inbound-form-names-off' );
+		$loop = get_transient( 'inbound-form-names' );
 	    if ( false === $loop ) {
 		$args = array(
 		'posts_per_page'  => -1,
 		'post_type'=> 'inbound-forms');
 		$form_list = get_posts($args);
-		//print_r($cta_list);
 		$form_array = array();
 		$default_array = array(
 								"none" => "None (build your own in step 2)",
@@ -397,17 +450,13 @@ if (!function_exists('inbound_get_form_names')) {
 								"default_form_2" => "Standard Company Form",
 								// Add in other forms made here
 							);
-		foreach ( $form_list as $form  )
-					{
+		foreach ( $form_list as $form ) {
 						$this_id = $form->ID;
 						$this_link = get_permalink( $this_id );
 						$title = $form->post_title;
-
-
 					    $form_array['form_' . $this_id] = $title;
 
-
-					 }
+		}
 		$result = array_merge( $default_array, $form_array);
 
 		set_transient('inbound-form-names', $result, 24 * HOUR_IN_SECONDS);
@@ -415,8 +464,65 @@ if (!function_exists('inbound_get_form_names')) {
 
 	}
 }
-if (!function_exists('inbound_form_save'))
-{
+add_action('init', 'inbound_get_lead_list_names',16);
+if (!function_exists('inbound_get_lead_list_names')) {
+	function inbound_get_lead_list_names() {
+		global $post;
+
+		$loop = get_transient( 'inbound-list-names' );
+	    if ( false === $loop ) {
+		$args = array(
+			    'hide_empty'    => false,
+			);
+		$terms = get_terms('wplead_list_category', $args);
+		$list_names = array();
+		foreach ($terms as $term ) {
+			$list_names[$term->term_id] = $term->name;
+		}
+
+		set_transient('inbound-list-names', $list_names, 24 * HOUR_IN_SECONDS);
+		}
+
+	}
+}
+
+add_action( 'edit_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'created_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'edited_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'create_term', 'inbound_lists_delete_transient', 10, 3 );
+add_action( 'delete_term', 'inbound_lists_delete_transient', 10, 3 );
+if (!function_exists('inbound_lists_delete_transient')) {
+	function inbound_lists_delete_transient( $term_id, $tt_id, $taxonomy ) {
+			global $wpdb;
+			//print_r($taxonomy); exit;
+
+			$whitelist  = array( 'wplead_list_category' ); /* maybe this needs to include attachment, revision, feedback as well? */
+			if ( !in_array( $taxonomy, $whitelist ) ) {
+				return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
+			}
+
+			delete_transient('inbound-list-names');
+			inbound_get_lead_list_names();
+
+	}
+}
+
+add_action('save_post', 'inbound_form_delete_transient', 10, 2);
+add_action('edit_post', 'inbound_form_delete_transient', 10, 2);
+add_action('wp_insert_post', 'inbound_form_delete_transient', 10, 2);
+if (!function_exists('inbound_form_delete_transient')) {
+	// Refresh transient
+	function inbound_form_delete_transient($post_id, $post){
+	    //determine post type
+	    if(get_post_type( $post_id ) == 'inbound-forms'){
+	        //run your code
+	        delete_transient('inbound-form-names');
+	        inbound_get_form_names();
+	    }
+	}
+}
+
+if (!function_exists('inbound_form_save')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
 	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
@@ -437,7 +543,6 @@ if (!function_exists('inbound_form_save'))
 	    $email_contents = (isset( $_POST['email_contents'] )) ? $_POST['email_contents'] : "";
 	    $send_email = (isset( $_POST['send_email'] )) ? $_POST['send_email'] : "off";
 	    $send_subject = (isset( $_POST['send_subject'] )) ? $_POST['send_subject'] : "off";
-	    //delete_transient('inbound-form-names');
 
 	    if ($post_type === 'inbound-forms'){
 	    	$post_ID = $page_id;
@@ -519,6 +624,9 @@ if (!function_exists('inbound_form_save'))
 	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	        update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
 
+	    	inbound_form_delete_transient();
+
+
 	           	$output =  array('post_id'=> $post_ID,
 	                     'form_name'=>$form_name,
 	                     'redirect' => $redirect_value);
@@ -578,8 +686,7 @@ if (!function_exists('inbound_form_get_data')) {
 	}
 }
 
-if (!function_exists('inbound_form_auto_publish'))
-{
+if (!function_exists('inbound_form_auto_publish')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
 	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');

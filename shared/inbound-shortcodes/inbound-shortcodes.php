@@ -16,8 +16,6 @@ if (!defined('INBOUND_FORMS_BASENAME'))
 if (!defined('INBOUND_FORMS_ADMIN'))
     define('INBOUND_FORMS_ADMIN', get_bloginfo('url') . "/wp-admin");
 
-if (!defined('INBOUND_LABEL'))
-  define( 'INBOUND_LABEL', str_replace( ' ', '_', strtolower( 'Inbound Now' ) ) );
 
 
 require_once( 'shortcodes-includes.php' );
@@ -29,8 +27,8 @@ if (!class_exists('InboundShortcodes')) {
 class InboundShortcodes {
   static $add_script;
 
-  /*  Contruct
-  *  --------------------------------------------------------- */
+	/*  Contruct
+	*  --------------------------------------------------------- */
   static function init() {
 
     self::$add_script = true;
@@ -41,6 +39,9 @@ class InboundShortcodes {
     add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
     add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
     add_shortcode('social_share',  array(__CLASS__, 'inbound_shortcode_social_links'));
+    add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
+    add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
+    add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',  array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
   }
 
   // Set Consistant File Paths for inbound now plugins
@@ -52,62 +53,68 @@ class InboundShortcodes {
         $final_path = LANDINGPAGES_URLPATH;
       } else if (is_plugin_active('cta/wordpress-cta.php')) {
         $final_path = WP_CTA_URLPATH;
+      } else if (is_plugin_active('calls-to-action/calls-to-action.php')) {
+        $final_path = WP_CTA_URLPATH;
+      }
+
+      if ( force_ssl_admin() ) {
+        $final_path = str_replace("http", "https", $final_path);
       }
     }
     return $final_path;
   }
 
-  /*  Loads
-  *  --------------------------------------------------------- */
+	/*  Loads
+	*  --------------------------------------------------------- */
   static function loads($hook) {
     global $post;
     $final_path = self::set_file_path();
     if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' )
-  {
+	{
 
-    wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
-    wp_enqueue_script('jquery-ui-sortable' );
-    wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
+		wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
+		wp_enqueue_script('jquery-ui-sortable' );
+		wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
 
-    if (isset($post) && post_type_supports( $post->post_type, 'editor') )
-    {
-      wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
-      $form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
-      wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
-      wp_enqueue_script('selectjs', $final_path.'shared/inbound-shortcodes/js/select2.min.js');
-      wp_enqueue_style('selectjs', $final_path.'shared/inbound-shortcodes/css/select2.css');
-    }
+		if (isset($post) && post_type_supports( $post->post_type, 'editor') || isset($post) && 'wp-call-to-action' === $post->post_type )
+		{
+			wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
+			$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
+			wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
+			wp_enqueue_script('selectjs', $final_path.'shared/inbound-shortcodes/js/select2.min.js');
+			wp_enqueue_style('selectjs', $final_path.'shared/inbound-shortcodes/css/select2.css');
+		}
 
-    // Forms CPT only
-    if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
-       wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
-       wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
-       wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
-    }
+		// Forms CPT only
+		if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
+			 wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
+			 wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
+			 wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
+		}
 
-    // Check for active plugins and localize
-    $plugins_loaded = array();
+		// Check for active plugins and localize
+		$plugins_loaded = array();
 
-    if (is_plugin_active('landing-pages/landing-pages.php')) {
-      array_push($plugins_loaded, "landing-pages");
-    }
+		if (is_plugin_active('landing-pages/landing-pages.php')) {
+		  array_push($plugins_loaded, "landing-pages");
+		}
 
-    if (is_plugin_active('cta/wordpress-cta.php')) {
-      array_push($plugins_loaded, "cta");
-    }
-    if (is_plugin_active('leads/wordpress-leads.php')) {
-      array_push($plugins_loaded, "leads");
-    }
+		if (is_plugin_active('cta/wordpress-cta.php')) {
+		  array_push($plugins_loaded, "cta");
+		}
+		if (is_plugin_active('leads/wordpress-leads.php')) {
+		  array_push($plugins_loaded, "leads");
+		}
 
-    wp_localize_script( 'inbound-shortcodes', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
+		wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
-    if (isset($post)&&$post->post_type=='inbound-forms')
-    {
-      require_once( 'shortcodes-fields.php' );
-      add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
-    }
+		if (isset($post)&&$post->post_type=='inbound-forms')
+		{
+		  require_once( 'shortcodes-fields.php' );
+		  add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
+		}
 
-      //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
+		  //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
     }
   }
 
@@ -121,7 +128,7 @@ class InboundShortcodes {
   static function shortcodes_admin_head() { ?>
   <script type="text/javascript">
   /* <![CDATA[ */
-  // Load inline scripts var freshthemes_theme_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', INBOUND_LABEL); ?>";
+  // Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
   /* ]]> */
   </script>
  <?php }
@@ -226,6 +233,37 @@ class InboundShortcodes {
 
     return $button;
   }
+  static function inbound_shortcode_prompt($hook) {
+        global $pagenow, $current_user, $post;
+        $user_id = $current_user->ID;
+
+        if ( ! get_user_meta($user_id, 'inbound_shortcode_ignore') && ( $pagenow == 'post-new.php' || $pagenow == 'post.php' ) ) {
+                 $url = $_SERVER['REQUEST_URI'];
+                 echo '<div class="updated inbound-shortcode-trigger" style="position:relative;">
+                 <a style="position: absolute; font-size: 13px; top: 0px; right: 30px; color:red;" href="'.$url.'&inbound_shortcode_ignore=0">
+                 Sounds good! Dismiss this
+                 </a>
+                 Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUND_SHARED_ASSETS.'global/images/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
+                 </div>';
+                 echo "<style type='text/css'>.mce_InboundShortcodesButton { background-color: yellow; }</style>";
+
+       }
+    }
+
+  static function inbound_shortcode_prompt_ignore() {
+       global $pagenow, $current_user, $post;
+          $user_id = $current_user->ID;
+          if (( $pagenow == 'post-new.php' || $pagenow == 'post.php' )) {
+            if ( isset($_GET['inbound_shortcode_ignore']) && '0' == $_GET['inbound_shortcode_ignore'] ) {
+                 add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
+            }
+          }
+  }
+  static function inbound_shortcode_prompt_ajax() {
+      $user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : 1;
+      add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
+  }
+
   static function inbound_shortcode_social_links( $atts, $content = null ) {
     $final_path = INBOUND_FORMS;
       extract(shortcode_atts(array(
@@ -637,7 +675,7 @@ class InboundShortcodes {
                           <tbody style="display:none;">
                               <tr class="form-row" style="text-align: center;">
                                   <?php if( ! $shortcode->has_child ) : ?><td class="label">&nbsp;</td><?php endif; ?>
-                                  <td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', INBOUND_LABEL); ?></a></td>
+                                  <td class="field" style="width:500px;"><a href="#" id="inbound_insert_shortcode" class="button-primary inbound-shortcodes-insert"><?php _e('Insert Shortcode', 'leads'); ?></a></td>
                               </tr>
                           </tbody>
                       </table>
@@ -646,10 +684,10 @@ class InboundShortcodes {
 
               <div id="inbound-shortcodes-preview-wrap">
                   <div id="inbound-shortcodes-preview-head">
-                      <?php _e('Form Preview', INBOUND_LABEL); ?>
+                      <?php _e('Form Preview', 'leads'); ?>
                   </div>
                   <?php if( $shortcode->no_preview ) : ?>
-                      <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', INBOUND_LABEL); ?></div>
+                      <div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
                   <?php else : ?>
                       <iframe src='<?php echo $final_path . 'shared/inbound-shortcodes/'; ?>preview.php?sc=&post=<?php echo $_GET['post']; ?>' width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
                   <?php endif; ?>
@@ -659,7 +697,7 @@ class InboundShortcodes {
 
       </div>
       <div id="popup-controls">
-          <a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', INBOUND_LABEL); ?></a>
+          <a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
           <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
           <a href="#" id="inbound_save_form" style="display:none;" class="button">Save As New Form</a>
       </div>

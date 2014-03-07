@@ -31,23 +31,7 @@ if (is_admin())
 				'default'  => '<h4>CTA Core Settings</h4>',
 				'description' => "<a id='clear-cta-cookies' class='button'>Clear & Reset all Call to Action Cookies</a><div class='wp_cta_tooltip tool_radio' title='This will reset all CTA cookies to make popups work again etc. For testing purposes.'></div>",
 				'options' => null
-			),
-			array(
-				'id'  => 'global-cookie',
-				'label' => 'Show only 1 Popup Per Visitor (Global Override)',
-				'description' => "This will only show 1 popup per visitor globally throughout the site for the specific period of time set in the setting below.",
-				'type'  => 'radio',
-				'default'  => '0',
-				'options' => array('1'=>'on','0'=>'off')
-			),
-			array(
-				'id'  => 'global-cookie-length',
-				'label' => 'How Many Days Should pass before visitors see popups again?',
-				'description' => "This is the timeout that passes before web visitors see a popup again on your site",
-				'type'  => 'text',
-				'default'  => '7',
-				'options' => null
-			),
+			),			
 			array(
 				'id'  => 'global-css',
 				'label' => 'Global CSS overrides.',
@@ -56,17 +40,7 @@ if (is_admin())
 				'default'  => '',
 				'options' => null
 			),
-			array(
-				'id'  => 'inbound_compatibility_mode',
-				'label' => 'Turn on compability mode',
-				'description' => "<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>",
-				'type'  => 'radio',
-				'default'  => '0',
-				'options' => array('1'=>'On','0'=>'Off')
-			),
 		);
-
-
 
 		/* Setup License Keys Tab */
 		$tab_slug = 'wp-cta-license-keys';
@@ -357,19 +331,19 @@ if (is_admin())
 					if ($field['type']=='license-key')
 					{
 						$master_key = get_option('inboundnow_master_license_key' , '');
-						if ($master_key)
+						if ($master_key) 
 						{
 							$bool = update_option($field['id'], $master_key );
 						}
 						else
 						{
 							update_option($field['id'], '' );
-						}
+						}	
 					}
 					else
 					{
 						$bool = update_option($field['id'],$field['default']);
-					}
+					}	
 				}
 				else
 				{
@@ -493,10 +467,21 @@ if (is_admin())
 							break;
 						case 'license-key':
 							$license_status = wp_cta_check_license_status($field);
+							$master_key = get_option('inboundnow_master_license_key' , '');
+						
+							if ($master_key)
+							{							
+								$field['value'] = $master_key;
+								$input_type = 'hidden';
+							}
+							else
+							{
+								$input_type = 'text';
+							}
+							
 							//echo $license_status;exit;
 							echo '<input type="hidden" name="wp_cta_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />
-							<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
-									<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
+							<input type="'.$input_type.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
 
 							if ($license_status=='valid')
 							{
@@ -506,6 +491,8 @@ if (is_admin())
 							{
 								echo '<div class="wp_cta_license_status_invalid">Invalid</div>';
 							}
+							
+							echo '<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
 							break;
 						case 'text':
 							echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />
@@ -588,8 +575,8 @@ if (is_admin())
 			echo '</td></tr>';
 		} // end foreach
 		echo '</table>'; // end table
-	}
-
+	}	
+	
 	function wp_cta_check_license_status($field)
 	{
 		//print_r($field);exit;

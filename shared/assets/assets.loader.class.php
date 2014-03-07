@@ -42,11 +42,14 @@ class Inbound_Asset_Loader {
 
 			$inbound_now_screens = InboundCompatibility::return_inbound_now_screens(); // list of inbound now screens
 			$screen = get_current_screen();
-			//echo $screen->id;
-			/* Target Specific screen with // echo $screen->id;
-			if ( $screen->id != 'landing-page_page_lp_global_settings') {
 
-			} */
+			/* Target Specific screen with // echo $screen->id; */
+
+			if ( $screen->id == 'wp-call-to-action') {
+				self::load_file('image-picker-js', 'admin/js/image-picker.js');
+				self::load_file('image-picker-css', 'admin/css/image-picker.css');
+			}
+
 	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
 
@@ -101,6 +104,8 @@ class Inbound_Asset_Loader {
 		$post_id = null;
 		$id_check = false;
 		$page_tracking = 'on';
+		$search_tracking = 'on';
+		$comment_tracking = 'on';
 		$post_type = isset($post) ? get_post_type( $post ) : null;
 		$current_page = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 		$ip_address = (isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0.0';
@@ -110,7 +115,13 @@ class Inbound_Asset_Loader {
 		$custom_map_values = array();
 		$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
 		// Get correct post ID
-		if (!is_archive()){
+		if (is_home()){
+			global $wp_query;
+			$current_page_id = $wp_query->get_queried_object_id();
+			$post_id = $current_page_id;
+			$id_check = ($post_id != null) ? true : false;
+		}
+		if (!is_archive() && !$id_check){
 		   $post_id = (isset($post)) ? $post->ID : false;
 		   $id_check = ($post_id != null) ? true : false;
 		}
@@ -124,7 +135,15 @@ class Inbound_Asset_Loader {
 		}
 
 		// If page tracking on
-		$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking');
+		$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking', 1);
+		$lead_search_tracking = get_option( 'wpl-main-search-tracking', 1);
+		$lead_comment_tracking = get_option( 'wpl-main-comment-tracking', 1);
+		if (!$lead_search_tracking) {
+			$search_tracking = 'off';
+		}
+		if (!$lead_comment_tracking) {
+			$comment_tracking = 'off';
+		}
 		if (!$lead_page_view_tracking) {
 			$page_tracking = 'off';
 		}
@@ -137,7 +156,7 @@ class Inbound_Asset_Loader {
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
 
-		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking, 'custom_mapping' => $custom_map_values);
+		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking, 'search_tracking' => $search_tracking, 'comment_tracking' => $comment_tracking, 'custom_mapping' => $custom_map_values);
 
 		return $inbound_localized_data;
 	} // end localize lead data

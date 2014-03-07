@@ -39,7 +39,11 @@ class InboundForms {
 		  'width' => '',
 		  'redirect' => '',
 		  'icon' => '',
-		  'submit' => 'Submit'
+		  'lists' => '',
+		  'submit' => 'Submit',
+		  'submit_colors' => '',
+		  'submit_text_color' => '',
+		  'submit_bg_color' => ''
 		), $atts));
 
 		if ( !$id && isset($_GET['post']) )
@@ -47,11 +51,22 @@ class InboundForms {
 
 
 		$form_name = $name;
+		//$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name));
 		$form_layout = $layout;
 		$form_labels = $labels;
 		$form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
 		$submit_button = ($submit != "") ? $submit : 'Submit';
 		$icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . '" font-awesome fa"></i>' : '';
+
+		// Set submit button colors
+		if(isset($submit_colors) && $submit_colors === 'on'){
+			$submit_bg = " background:" . $submit_bg_color . "; border: 5px solid ".$submit_bg_color."; border-radius: 3px;";
+			$submit_color = " color:" . $submit_text_color . ";";
+
+		} else {
+			$submit_bg = "";
+			$submit_color = "";
+		}
 
 		if (preg_match("/px/", $font_size)){
 		  $font_size = (isset($font_size)) ? " font-size: $font_size;" : '';
@@ -67,9 +82,14 @@ class InboundForms {
 
 		// Check for image in submit button option
 		if (preg_match('/\.(jpg|jpeg|png|gif)(?:[\?\#].*)?$/i',$submit_button)) {
-		  $submit_button_type = 'style="background:url('.$submit_button.') no-repeat;color: rgba(0, 0, 0, 0);border: none;box-shadow: none;';
+		  $image_button = ' color: rgba(0, 0, 0, 0);border: none;box-shadow: none;background: transparent; border-radius:0px;padding: 0px;';
+		  $inner_button = "<img src='$submit_button' width='100%'>";
+		  $icon_insert = '';
+		  $submit_button = '';
 		} else {
-		  $submit_button_type = '';
+		  $image_button = '';
+		  $inner_button = '';
+
 		}
 
 		/* Sanitize width input */
@@ -163,11 +183,10 @@ class InboundForms {
 
 				if ($type != 'hidden' && $form_labels != "bottom" && $type != "html-block" && $type != "divider" || $type === "radio")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
-				if ($type === 'textarea')
-				{
+				if ($type === 'textarea') {
 					$form .=  '<textarea class="inbound-input inbound-input-textarea" name="'.$field_name.'" id="in_'.$field_name.' '.$req.'"/></textarea>';
 				}
 				else if ($type === 'dropdown')
@@ -231,12 +250,16 @@ class InboundForms {
 				else
 				{
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+					$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
-					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$dynamic_value.'" type="'.$type.'" '.$req.'/>';
+					if ($type === 'hidden' && $dynamic_value != "") {
+						$fill_value = $dynamic_value;
+					}
+					$form .=  '<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
 				}
 				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio" && $type != "html-block" && $type != "divider")
 				{
-					$form .= '<label class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
 				if ($description_block != "" && $type != 'hidden'){
@@ -248,15 +271,12 @@ class InboundForms {
 		  // End Loop
 
 			$current_page = get_permalink();
-			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$font_size.'">
-					  '.$icon_insert.''.$submit_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
+			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$submit_bg.$submit_color.$image_button.'">
+					  '.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
-			if( $redirect != ""){
-				$form .=  '<input type="hidden" id="inbound_redirect" name="inbound_redirect" value="'.$redirect.'">';
-			}
 
-			$form .= '<input type="hidden" name="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
-
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
+			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
 			return $form;
@@ -389,6 +409,7 @@ class InboundForms {
 		// defaults
 		$notification_status = "off";
 		$email_to = false;
+		$multi_send = false;
 
 		if (isset($form_meta_data['inbound_email_send_notification'][0])){
 		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
@@ -396,10 +417,14 @@ class InboundForms {
 
 		if (isset($form_meta_data['inbound_notify_email'])){
 		$email_to = $form_meta_data['inbound_notify_email'];
+		$email_addresses = explode(",", $email_to[0]);
+			if(is_array($email_addresses) && count($email_addresses) > 1) {
+				$multi_send = true;
+			}
 		}
 
-		/* print_r($form_meta_data); exit;
-		print_r($form_data); exit; */
+		/* print_r($form_meta_data); exit; */
+		/* print_r($form_data); exit; */
 
 		 $form_email = false;
 		 foreach ($form_data as $key => $value) {
@@ -464,7 +489,7 @@ class InboundForms {
         <tbody><tr>
           <td valign="top" style="font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:0 0 3px 3px;padding-top:3px;padding-right:30px;padding-bottom:15px;padding-left:30px">
 
-  <h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; color:#000;">New Lead on '.$form_data['inbound_form_name'].'</h1>
+  <h1 style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0; font-size:28px; line-height: 28px; color:#000;">New Lead on '.$form_data['inbound_form_name'].'</h1>
   <p style="margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0">There is a new lead that just converted on <strong>'.$data_time.'</strong> from page: '.$form_data['inbound_current_page_url'].'. '.$redirect_message.' </p>
 
 <!-- NEW TABLE -->
@@ -688,7 +713,15 @@ class InboundForms {
 			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $to, $email_subject, $email_message, $headers );
+			if($multi_send) {
+				foreach ($email_addresses as $key => $recipient) {
+				wp_mail( $recipient, $email_subject, $email_message, $headers );
+				}
+			} else {
+
+				wp_mail( $to, $email_subject, $email_message, $headers );
+			}
+
 			// and set the result text to the shortcode attribute named 'success'
 			//$result = $success;
 			// ...and switch the $sent variable to TRUE

@@ -22,6 +22,10 @@
 html {
 margin-top: 0px !important;
 }
+body {
+	background: transparent !important;
+	background-color: transparent !important;
+}
 .live-preview-active
 {
 	background-color: gray;

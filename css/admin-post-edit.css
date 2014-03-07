@@ -8,6 +8,10 @@ overflow: visible !important;
 #wp-cta-notes-area input {
 	width: 95%;
 	color: #AAAAAA;
+	height: 25px;
+	padding: 11px;
+	padding-top: 13px;
+	border: 1px solid #ccc;
 }
 #wp-cta-notes-area input:focus{
 	color: #000;
@@ -15,12 +19,26 @@ overflow: visible !important;
 #local-storage-notice {
 	display: none !important;
 }
+#wp_cta_clean-cta_custom_meta_box h3.hndle {
+	background-color: transparent !important;
+}
 .wp-cta-option-area.field-checkbox {
 	vertical-align: bottom;
 }
+#poststuff {
+	padding-top: 0px;
+}
+#titlediv #title {
+background-color: transparent;
+border: none;
+box-shadow: none;
+margin-bottom: 5px;
+}
 #titlediv #title:focus, #wp-cta-notes-area input:focus{
   border: solid 1px #dfdfdf;
+  background: #fff;
 }
+
 #wp_cta_metabox_select_template .handlediv {
 	display: none;
 }
@@ -117,23 +135,23 @@ height: 31px !important;
 width: 70px !important;
 }
 #wp-cta-notes-area .button-primary.new-save-wp-cta {
-position: absolute !important;
-top: 0px !important;
-font-size: 14px !important;
-padding-top: 0px !important;
-right: 0px !important;
-height: 24px !important;
-width: 66px !important;}
+	position: absolute !important;
+	top: 0px !important;
+	font-size: 14px !important;
+	padding-top: 0px !important;
+	right: -2px !important;
+	height: 28px !important;
+	width: 71px !important;}
 #main-title-area .wp-cta-success-message, #wp-cta-notes-area .wp-cta-success-message {
-position: absolute !important;
-top: 1px !important;
-font-size: 11px !important;
-padding-top: 3px !important;
-right: 0px !important;
-height: 17px !important;
-vertical-align: middle;
-margin-top: 0px;
-padding-bottom: 0px;
+	position: absolute !important;
+	top: 1px !important;
+	font-size: 11px !important;
+	padding-top: 3px !important;
+	right: -3px !important;
+	height: 21px !important;
+	vertical-align: middle;
+	margin-top: 0px;
+	padding-bottom: 0px;
 }
 #main-title-area .button-primary.new-save-wp-cta {
 padding-top: 6px !important; }

@@ -1,6 +1,6 @@
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
 	var viewchoice = $.cookie("wp-cta-view-choice");
-
+	jQuery("body").css('background', 'transparent');
 	var current_page = jQuery("#current_variation_id").text();
 var original_url = jQuery(parent.document).find("#TB_iframeContent").attr("src");
 console.log(original_url);

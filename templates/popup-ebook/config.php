@@ -8,20 +8,19 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
-
+$key = basename(dirname(__FILE__));
+$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
 	'data_type' => 'template', // Template Data Type
 	'version' => "1.0", // Version Number
-	'label' => "Popup Ebook", // Nice Name
+	'label' => "Ebook CTA", // Nice Name
 	'category' => 'Popup, Wide', // Template Category
-	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'This is a cta that works great as a popup but can also be placed anywhere on your site' // template description
+	'demo' => '', // Demo Link
+	'description'  => 'This is a cta that works great as a popup but can also be placed anywhere on your site', // template description
+	'path' => $this_path //path to template folder
 );
-
-
 
 // Define Meta Options for template
 $wp_cta_data[$key]['settings'] =
@@ -39,7 +38,7 @@ array(
         'description' => "This is the main graphic with the popup",
         'id'  => 'hero', // called in template's index.php file with lp_get_value($post, $key, 'media-id');
         'type'  => 'media',
-        'default'  => '/wp-content/plugins/cta/templates/popup-ebook/img/download.png',
+        'default'  => $this_path . '/img/download.png',
         'context'  => 'normal'
         ),
     array(
@@ -66,6 +65,14 @@ array(
         'default'  => 'ffffff',
         'context'  => 'normal'
         ),
+    array(
+       'label' => 'Main Content',
+       'description' => "Use this setting to change the content text color",
+       'id'  => 'main_content',
+       'type'  => 'wysiwyg',
+       'default'  => '',
+       'context'  => 'normal'
+       ),
      array(
         'label' => 'Content Text Color',
         'description' => "Use this setting to change the content text color",
@@ -117,3 +124,5 @@ array(
         'default'  => '.calc.button-secondary {display:none !important;}'
         ),
     );
+/* define dynamic template markup */
+$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

@@ -9,8 +9,8 @@
 		'no_preview' => true,
 		'options' => array(
 			'gutter' => array(
-				'name' => __('Gutter Width', INBOUND_LABEL),
-				'desc' => __('A space between the columns.', INBOUND_LABEL),
+				'name' => __('Gutter Width', 'leads'),
+				'desc' => __('A space between the columns.', 'leads'),
 				'type' => 'select',
 				'options' => array(
 					'20' => '20px',
@@ -19,8 +19,8 @@
 				'std' => ''
 			),
 			'set' => array(
-				'name' => __('Column Set', INBOUND_LABEL),
-				'desc' => __('Select the set.', INBOUND_LABEL),
+				'name' => __('Column Set', 'leads'),
+				'desc' => __('Select the set.', 'leads'),
 				'type' => 'select',
 				'options' => array(
 					'[one_full]Content goes here[/one_full]' => '1/1',
@@ -39,18 +39,18 @@
 			)
 		),
 		'shortcode' => '[columns gutter="{{gutter}}"]{{set}}[/columns]',
-		'popup_title' => __('Insert Column Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Column Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['column'] = array(
-		'name' => __('Column', INBOUND_LABEL),
+		'name' => __('Column', 'leads'),
 		'size' => 'one_fifth',
 		'options' => array(
 			'content' => array(
-				'name' => __('Column Content', INBOUND_LABEL),
-				'desc' => __('Enter the column content', INBOUND_LABEL),
+				'name' => __('Column Content', 'leads'),
+				'desc' => __('Enter the column content', 'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => 'wide',

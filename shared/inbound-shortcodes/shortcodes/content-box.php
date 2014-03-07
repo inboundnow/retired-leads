@@ -9,53 +9,53 @@
 		'no_preview' => true,
 		'options' => array(
 			'color' => array(
-				'name' => __('Box Color', INBOUND_LABEL),
-				'desc' => __('Select the color.', INBOUND_LABEL),
+				'name' => __('Box Color', 'leads'),
+				'desc' => __('Select the color.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', INBOUND_LABEL),
-					'blue' => __('Blue', INBOUND_LABEL),
-					'green' => __('Green', INBOUND_LABEL),
-					'red' => __('Red', INBOUND_LABEL),
-					'yellow' => __('Yellow', INBOUND_LABEL)
+					'default' => __('Default', 'leads'),
+					'blue' => __('Blue', 'leads'),
+					'green' => __('Green', 'leads'),
+					'red' => __('Red', 'leads'),
+					'yellow' => __('Yellow', 'leads')
 				),
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the content.', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the content.', 'leads'),
 				'type' => 'textarea',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[content_box color="{{color}}"]{{content}}[/content_box]',
-		'popup_title' => __('Insert Content Box Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Content Box Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['content_box'] = array(
-		'name' => __('Content Box', INBOUND_LABEL),
+		'name' => __('Content Box', 'leads'),
 		'size' => 'one_third',
 		'options' => array(
 			'color' => array(
-				'name' => __('Box Color', INBOUND_LABEL),
-				'desc' => __('Select the color.', INBOUND_LABEL),
+				'name' => __('Box Color', 'leads'),
+				'desc' => __('Select the color.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'default' => __('Default', INBOUND_LABEL),
-					'blue' => __('Blue', INBOUND_LABEL),
-					'green' => __('Green', INBOUND_LABEL),
-					'red' => __('Red', INBOUND_LABEL),
-					'yellow' => __('Yellow', INBOUND_LABEL)
+					'default' => __('Default', 'leads'),
+					'blue' => __('Blue', 'leads'),
+					'green' => __('Green', 'leads'),
+					'red' => __('Red', 'leads'),
+					'yellow' => __('Yellow', 'leads')
 				),
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the content', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the content', 'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

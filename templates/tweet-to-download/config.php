@@ -7,11 +7,12 @@
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
-
+$key = basename(dirname(__FILE__));
+$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
+  'data_type' => "template", // datatype
 	'version' => "1.0", // Version Number
 	'label' => "Tweet to Download", // Nice Name
 	'category' => 'social', // Template Category
@@ -36,7 +37,7 @@ array(
         'label' => 'Text Above the CTA (optional)',
         'description' => "This is the text above the call to action describing what they get if they share. You can use HTML or shortcodes in this box",
         'id'  => 'header-text',
-        'type'  => 'textarea',
+        'type'  => 'wysiwyg',
         'default'  => 'Download our Latest Ebook. To Access the download Tweet This',
         'context'  => 'normal'
         ),
@@ -112,3 +113,5 @@ array(
            'context'  => 'normal' // Context in screen (advanced layouts in future)
            ),
     );
+/* define dynamic template markup */
+$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

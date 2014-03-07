@@ -23,8 +23,8 @@ function inbound_create_default_post_type_cta(){
             );
         // Variation A
         add_post_meta($default_lander, 'wp-cta-selected-template', 'flat-cta');
-        add_post_meta($default_lander, 'wp_cta_height-0', '310');
-        add_post_meta($default_lander, 'wp_cta_width-0', '300');
+        add_post_meta($default_lander, 'wp_cta_width-0', '310');
+        add_post_meta($default_lander, 'wp_cta_height-0', '300');
         add_post_meta($default_lander, 'flat-cta-header-text', 'Snappy Headline');
         add_post_meta($default_lander, 'flat-cta-sub-header-text', 'Awesome Subheadline Text Goes here');
         add_post_meta($default_lander, 'flat-cta-text-color', '000000');
@@ -36,8 +36,8 @@ function inbound_create_default_post_type_cta(){
 
         // Varaition B
         add_post_meta($default_lander, 'wp-cta-selected-template-1', 'flat-cta');
-        add_post_meta($default_lander, 'wp_cta_height-1', '310');
-        add_post_meta($default_lander, 'wp_cta_width-1', '300');
+        add_post_meta($default_lander, 'wp_cta_width-1', '310');
+        add_post_meta($default_lander, 'wp_cta_height-1', '300');
         add_post_meta($default_lander, 'flat-cta-header-text-1', 'Great Offer');
         add_post_meta($default_lander, 'flat-cta-sub-header-text-1', 'Amazing Deals Await!<br> Click below to find<br> amazing deals');
         add_post_meta($default_lander, 'flat-cta-text-color-1', '000000');
@@ -48,7 +48,7 @@ function inbound_create_default_post_type_cta(){
         add_post_meta($default_lander, 'flat-cta-link_url-1', 'http://www.inboundnow.com');
 
         // Add A/B Testing meta
-        add_post_meta($default_lander, 'wp-cta-ab-variations', '0,1');
+        add_post_meta($default_lander, 'cta_ab_variations', '0,1');
         add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-0', 115);
         add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-1', 113);
         add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-0', 15);

@@ -21,7 +21,9 @@ if (!function_exists('inbound_turn_on_compatiblity')) {
     }
 
     $lead_compatiblity = get_option( 'wpl-main-inbound_compatibility_mode', $default = false );
-    if ( $lead_compatiblity ) {
+    $cta_compatiblity = get_option( 'wp-cta-main-inbound_compatibility_mode', $default = false );
+    $lp_compatiblity = get_option( 'lp-main-inbound_compatibility_mode', $default = false );
+    if ( $lead_compatiblity || $cta_compatiblity || $lp_compatiblity ) {
       InboundCompatibility::inbound_compatibilities_mode(); // kill third party scripts
     }
   }
@@ -31,9 +33,19 @@ add_action('admin_notices', 'inbound_compability_admin_notice'); // disable comp
 if (!function_exists('inbound_compability_admin_notice')) {
   function inbound_compability_admin_notice(){
     $lead_compatiblity = get_option( 'wpl-main-inbound_compatibility_mode', $default = false );
-    if ( $lead_compatiblity ) {
+    $cta_compatiblity = get_option( 'wp-cta-main-inbound_compatibility_mode', $default = false );
+    $lp_compatiblity = get_option( 'lp-main-inbound_compatibility_mode', $default = false );
+    if ($lead_compatiblity) {
+      $link = admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings' );
+    } elseif ($cta_compatiblity) {
+      $link = admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' );
+    } elseif ($lp_compatiblity) {
+      $link = admin_url( 'edit.php?post_type=landing-page&page=lp_global_settings' );
+    }
+
+    if ( $lead_compatiblity || $cta_compatiblity || $lp_compatiblity ) {
       echo '<div class="updated">
-         <p>Inbound Now Compatibility Mode is currently activated. To turn off go to global settings and toggle off</p>
+         <p>Inbound Now Compatibility Mode is currently activated. To turn off go to <a href="'.$link.'">global settings</a> and toggle off</p>
       </div>';
     }
   }

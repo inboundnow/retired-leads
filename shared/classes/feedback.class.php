@@ -158,7 +158,7 @@ if (!class_exists('InboundFeedback')) {
     <div class="inbound-close-fb">close</div>
           <div id="lp-slide-toggle">
           <header id="header" class='inbound-customhead'>
-            <img src="<?php echo $final_path . 'shared/images/inbound-now-logo.png';?>" width="315px">
+            <img src="<?php echo $final_path . 'shared/assets/admin/images/inbound-now-logo.png';?>" width="315px">
             <h3 class="main-feedback-header" >We love hearing from You!</h3>
             <h4>Please leave your <strong>idea/feature request</strong> to make the <?php echo $plugin_name;?> better below!</h4>
           </header>
@@ -182,7 +182,7 @@ if (!class_exists('InboundFeedback')) {
           </form>
           </section>
           </div>
-          <div id="inbound-rule-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
+          <div id="inbound-automation-footer" class="inbound-selectron-foot"><?php //echo $screen->id;?>Submit a Feature Request</div>
     </div>
     <style type="text/css">
     #wpfooter {
@@ -257,7 +257,7 @@ if (!class_exists('InboundFeedback')) {
     #lp-slide-toggle {
     display: none;
     }
-    #inbound-rule-footer.inbound-selectron-foot {
+    #inbound-automation-footer.inbound-selectron-foot {
       color: #777;
       font-size: 20px;
       padding: 0 15px !important;
@@ -322,10 +322,10 @@ border-color: #66afe9;
 outline: 0;
 -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
 box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
-    </style>
+ </style>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-                  jQuery("body").on('click', '#inbound-rule-footer', function () {
+                  jQuery("body").on('click', '#inbound-automation-footer', function () {
 
                     jQuery("#lp-slide-toggle").slideToggle();
                     jQuery("#lp-open-close").toggleClass("lp-options-up");

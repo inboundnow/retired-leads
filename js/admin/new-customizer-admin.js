@@ -63,9 +63,9 @@ console.log(link_varaition);
 			var iframe_width = jQuery('.cta-width').val() + "px";
 			var iframe_height = jQuery('.cta-height').val() + "px";
 		}
-
+		console.log("RUNNNNNNNNNN");
 		jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_width).css('height', iframe_height);
-
+		jQuery(parent.document).find("#wp-cta-live-preview").contents().find("html,body").css('background', 'transparent');
 	}
 
 });

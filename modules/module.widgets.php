@@ -14,60 +14,21 @@ class wp_cta_dynamic_widget extends WP_Widget
 	function wp_cta_dynamic_widget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_dynamic_widget', 'description' => __('Use this widget to display Calls to Action in sidebars', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_wp_cta_dynamic_widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'wp_cta_sidebar_widget') );
 
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_dynamic_widget', __('Dynamic Call to Action Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_wp_cta_dynamic_widget', __('Call to Action Placement Holder', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
 	}
 
 	/**
 	 * How to display the widget on the screen.
 	 */
 	function widget( $args, $instance ) {
-		global $wp_query; global $post;
-		$this_id =  $wp_query->get_queried_object_id();
-		//echo $this_id;exit;
 
-		$wp_cta_post_template_ids = get_post_meta($this_id, 'cta_display_list');
-		$wp_cta_placement = get_post_meta($this_id, 'wp_cta_content_placement');
-
-		if (!empty($wp_cta_placement))
-		{
-			$placement = $wp_cta_placement[0];
-		} else {
-			$placement = 'off';
-		}
-
-		if ($placement=='widget_1')
-		{
-
-			$conversion_area = do_shortcode(get_post_meta($this_id, 'wp-cta-conversion-area', true));
-			$standardize_form = get_option( 'wp-cta-main-wp-call-to-action-auto-format-forms' , 1); // conditional to check for options
-
-			$count = count($wp_cta_post_template_ids[0]);
-			$rand_key = array_rand($wp_cta_post_template_ids[0], 1);
-			$ctaw_id = $wp_cta_post_template_ids[0][$rand_key];
-			$the_link = get_permalink( $ctaw_id );
-
-
-			$ad_content = '<div id="wordpress-cta" style="text-align:center;"><iframe id="wp-cta-per-page" class="wp-cta-display" src="" scrolling="no" frameBorder="0" style="border:none; overflow:hidden; " allowtransparency="true"></iframe></div>';
-			/* Before widget (defined by themes). */
-			//echo $before_widget;
-
-			/* Display the widget title if one was input (before and after defined by themes).
-			if ($title)
-			{
-				echo $before_title . $title . $after_title;
-			} */
-
-			echo $ad_content;
-
-			/* After widget (defined by themes). */
-			//echo $after_widget;
-		}
+		do_action('wp_cta_cta_dynamic_widget');
 
 	}
 
@@ -101,122 +62,131 @@ class wp_cta_dynamic_widget extends WP_Widget
 	}
 }
 
+
 class wp_cta_placement_widget extends WP_Widget
 {
+	private $cta_templates;
 
 	function wp_cta_placement_widget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_placement_widget', 'description' => __('Use this widget to display Calls to Action in sidebars', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_wp_cta_placement_widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'wp_cta_sidebar_widget') );
 
 		/* Widget control settings. */
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_placement_widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_placement_widget', __('Call to Action Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_wp_cta_placement_widget', __('Call to Action Static Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
 	}
 
 	/**
 	 * How to display the widget on the screen.
 	 */
-	function widget( $args, $instance ) {
+	function widget( $args, $instance )
+	{
 		global $wp_query; global $post;
-		$this_id = $wp_query->post->ID;
-		$this_type = $wp_query->post->post_type;
 
 
+		if (!isset($instance['cta_ids'])) {
+			return;
+		}
+		
+		/* get enviroment object id if available */
+		$obj_id = $wp_query->get_queried_object_id();
+		
+		$CTALoadExtensions = CTALoadExtensions();
+		$this->cta_templates = $CTALoadExtensions->template_definitions;	
+			
+		$CallsToAction = CallsToAction();
 
-			$wp_cta_post_template_ids = get_post_meta($post->ID, 'cta_display_list');
-			$wp_cta_placement = get_post_meta($post->ID, 'wp_cta_content_placement');
+		$selected_ctas = $instance['cta_ids'];
 
-				if (!empty($wp_cta_placement)){
-				$placement = $wp_cta_placement[0];
-				} else {
-					$placement = 'off';
-				}
+		$cta_ids =  implode(",", $selected_ctas);
+		$count = count($selected_ctas);
+		$rand_key = array_rand($selected_ctas, 1);
+		$cta_id = $selected_ctas[$rand_key];
+		$this->cta_id = $cta_id;
+		
+		$selected_cta =  $CallsToAction->prepare_cta_dataset( $cta_id );		
 
+		/* Import Correct CSS & JS from Assets folder and Enqueue */
+		$loaded = array();
+		foreach ($selected_cta['templates'] as $template)
+		{
+			if ( in_array( $template['slug'] , $loaded) ){
+				continue;
+			}
 
-
-		    	$selected_ctas = array();
-               	$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
-            	$cta_post_type = get_posts($args);
-
-                foreach ($cta_post_type as $cta) {
-                    if(isset($instance['cta_ids_' . $cta->ID]) && $instance['cta_ids_' . $cta->ID] == '1'){
-                        array_push($selected_ctas, $cta->ID);
-                    }
-                }
-        		$cta_ids =  implode(",", $selected_ctas);
-        		$count = count($selected_ctas);
-        		$rand_key = array_rand($selected_ctas, 1);
-		        $ctaw_id = $selected_ctas[$rand_key];
-		        $the_link = get_permalink( $ctaw_id );
-        		$width = $instance['cta_default_width'];
-        		$height = $instance['cta_default_height'];
-        		$margin_top = $instance['cta_margin_top'];
-        		$margin_bottom = $instance['cta_margin_bottom'];
-
-        		// Behavorial function
-        		$behavorial = get_post_meta( $ctaw_id, 'wp_cta_global_bt_status', true ); // move to ext
-				$behavorial_class = "";
-				if(!empty($behavorial) && $behavorial != "") {
-					$behavorial_class = ' behavorial';
-				}
-
-
-        		$turn_iframes_off = $instance['no_a_b'];
-
-				if($turn_iframes_off === 1){
-					$cta_content = wp_cta_no_frame_display( $cta_ids );
-					echo $cta_content;
-					return;
-				}
-				$width_output = "";
-		    	$class = "";
-		    	$height_output = "";
-		    	$display_output = "display:none;";
-        		//print_r($cta_ids);
-        		if(!empty($width) && $width != "") {
-	    		str_replace("px", "", $width);
-	    			$width_output = "width:" . $width . "px;";
-	    			$class = " widget-default-cta-size";
-		    	}
-		    	//$height = get_post_meta( $ctaw_id, 'wp_cta_height', true );
-		    	if(!empty($height) && $height != "") {
-		    	str_replace("px", "", $height);
-		    		$height_output = "height:" . $height . "px;";
-		    		$display_output = "";
-		    		$class = " widget-default-cta-size";
-		    	}
-				$margin_top_output = "";
-		    	if(!empty($margin_top) && $margin_top != "") {
-		    	str_replace("px", "", $margin_top);
-		    		$margin_top_output = "margin-top:" . $margin_top . "px;";
-		    	}
-
-		    	$margin_bottom_output = "";
-		    	if(!empty($margin_bottom) && $margin_bottom != "") {
-		    	str_replace("px", "", $margin_bottom);
-		    		$margin_bottom_output = "margin-bottom:" . $margin_bottom . "px;";
-		    	}
-
-		    	$cta_content = '<div id="wordpress-cta" style="text-align:center;"><iframe id="wp-cta" class="wp-cta-display'.$class.''.$behavorial_class.'" src="'.$the_link.'" scrolling="no" frameBorder="0" style="border:none; overflow:hidden; '.$width_output.' '.$height_output.'  '.$margin_top_output.' '.$margin_bottom_output.'" allowtransparency="true"></iframe></div>';
-				/* Before widget (defined by themes). */
-				//echo $before_widget;
-
-				/* Display the widget title if one was input (before and after defined by themes).
-				if ($title)
+			$loaded[] = $template['slug'];
+			$assets = $CallsToAction->get_assets($template);
+			$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
+			foreach ($assets as $type => $file)
+			{
+				switch ($type)
 				{
-					echo $before_title . $title . $after_title;
-				} */
+					case 'js':
+						foreach ($file as $js)
+						{
+							wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
+							wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,  'post_id' => $obj_id ) );
+						}
+						break;
+					case 'css':
+						foreach ($file as $css)
+						{
+							wp_enqueue_style( md5($css) , $css );
+						}
+						break;
+				}
+			}
+		}
 
-				echo $cta_content;
+		/* Load CTA CSS Templates & Load Custom CSS & Custom JS */
+		foreach ($selected_cta['meta'] as $vid=>$cta)
+		{
+			($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
-				/* After widget (defined by themes). */
-				//echo $after_widget;
-				//echo do_shortcode($myhubspotwp_action->hs_display_action($before_widget, $after_widget, $before_title, $after_title, $hide_title, $cta_ids));
+			$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
+			$custom_css = get_post_meta( $cta_id , 'wp-cta-custom-css'.$suffix , true);
+			//echo $template_slug;
+			//print_r($this->cta_templates);exit;
+			$dynamic_css = $this->cta_templates[$template_slug]['css-template'];
+			
+			$dynamic_css = $CallsToAction->replace_template_variables( $selected_cta , $dynamic_css , $vid );
+			$css_id_preface = "#wp_cta_" . $cta_id . "_variation_" . $vid;
+			
+			$dynamic_css = $CallsToAction->parse_css_template($dynamic_css , $css_id_preface);
+			
+			$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $cta_id , $vid );
 
+			if (!stristr($custom_css,'<style')){
+				$custom_css = strip_tags($custom_css);
+			}
 
+			/* Print Cusom CSS */
+			echo '<style type="text/css" id="wp_cta_css_custom_'.$cta_id.'_'.$vid.'" class="wp_cta_css_'.$cta_id.' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
+
+			$custom_js = get_post_meta( $cta_id , 'wp-cta-custom-js'.$suffix, true);
+			if (!stristr($custom_css,'<script') && $custom_css)	{
+				echo '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
+				'.$custom_js.' });</script>';
+			} else if ($custom_js) {
+				echo $custom_js;
+			}
+		}
+		
+
+		/* get supporting widget settings */
+		$selected_cta['margin-top'] = $instance['cta_margin_top'];
+		$selected_cta['margin-bottom'] = $instance['cta_margin_bottom'];
+		$cta_template = $CallsToAction->build_cta_content( $selected_cta );
+
+		$cta_template = do_shortcode($cta_template);
+		
+		echo $cta_template;
+		
+		$this->load_variation();
+		//add_action('wp_footer', array($this,'load_variation'));
 	}
 
 	/**
@@ -225,17 +195,10 @@ class wp_cta_placement_widget extends WP_Widget
 	 /** @see WP_Widget::update */
     function update($new_instance, $old_instance) {
         $instance = $old_instance;
-        $instance['no_a_b'] = $new_instance['no_a_b'] ? 1 : 0;
-        $instance['cta_default_width'] = $new_instance['cta_default_width'] ? $new_instance['cta_default_width'] : "";
-        $instance['cta_default_height'] = $new_instance['cta_default_height'] ? $new_instance['cta_default_height'] : "";
         $instance['cta_margin_top'] = $new_instance['cta_margin_top'] ? $new_instance['cta_margin_top'] : "";
         $instance['cta_margin_bottom'] = $new_instance['cta_margin_bottom'] ? $new_instance['cta_margin_bottom'] : "";
+		$instance['cta_ids'] = $new_instance['cta_ids'] ? $new_instance['cta_ids'] : "";
 
-                $args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
-                $cta_post_type = get_posts($args);
-                foreach ($cta_post_type as $cta) {
-                    $instance['cta_ids_' . $cta->ID] = $new_instance['cta_ids_' . $cta->ID] ? 1 : 0;
-                }
         return $instance;
     }
 
@@ -245,43 +208,52 @@ class wp_cta_placement_widget extends WP_Widget
 	 * when creating your form elements. This handles the confusing stuff.
 	 */
     function form($instance) {
-            $default_instance = array('no_a_b' => '');
-            $args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
-            $cta_post_type = get_posts($args);
-            foreach ($cta_post_type as $cta) {
-                $cta_id = 'cta_ids_' . $cta->ID;
-                $default_instance[$cta_id] = 0;
-            }
-            $instance = wp_parse_args($instance, $default_instance);
-           //print_r($instance);
-           	$width = "";
-            if ( isset( $instance[ 'cta_default_width' ] ) ) {
+
+		$args = array('post_type' => 'wp-call-to-action', 'numberposts' => -1);
+		$cta_post_type = get_posts($args);
+
+		if ( !isset($instance['cta_ids']) || !is_array($instance['cta_ids']) ) {
+			$instance['cta_ids'] = array();
+		}
+
+		$width = "";
+		if ( isset( $instance[ 'cta_default_width' ] ) ) {
 			$width = $instance[ 'cta_default_width' ];
-			}
-			$height = "";
-			 if ( isset( $instance[ 'cta_default_height' ] ) ) {
+		}
+
+		$height = "";
+		if ( isset( $instance[ 'cta_default_height' ] ) ) {
 			$height = $instance[ 'cta_default_height' ];
-			}
-			$margin_top = "";
-			 if ( isset( $instance[ 'cta_margin_top' ] ) ) {
+		}
+
+		$margin_top = "";
+		if ( isset( $instance[ 'cta_margin_top' ] ) ) {
 			$margin_top = $instance[ 'cta_margin_top' ];
-			}
-			$margin_bottom = "";
-			 if ( isset( $instance[ 'cta_margin_bottom' ] ) ) {
+		}
+
+		$margin_bottom = "";
+		if ( isset( $instance[ 'cta_margin_bottom' ] ) ) {
 			$margin_bottom = $instance[ 'cta_margin_bottom' ];
-			}
-            ?>
+		}
+
+
+		?>
 
             <div class='cta-widget-p'><strong>Select Calls to Action(s):</strong><br />
             	<small>If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget</small>
             <div class='cta-widget-select-options'>
             <?php
             foreach ($cta_post_type as $cta) {
-                setup_postdata($cta);
-                $this_id = $cta->ID;
+
+			   $this_id = $cta->ID;
+
 				$this_link = get_permalink( $this_id );
 				$this_link = preg_replace('/\?.*/', '', $this_link); ?>
-                <input class="checkbox" type="checkbox" <?php checked($instance['cta_ids_' . $cta->ID], '1'); ?> value="<?php _e($cta->ID); ?>" name="<?php echo $this->get_field_name('cta_ids_' . $cta->ID); ?>" id="<?php echo $this->get_field_id('cta_ids_' . $cta->ID); ?>" /> <label for="<?php echo $this->get_field_id('cta_ids_' . $cta->ID); ?>"><?php _e($cta->post_title); ?><a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a></label>
+
+                <input class="checkbox" type="checkbox" <?php checked(in_array( $cta->ID , $instance['cta_ids']  ), true ); ?> value="<?php _e($cta->ID); ?>" name="<?php echo $this->get_field_name('cta_ids'); ?>[]" />
+				<label for=""><?php _e($cta->post_title); ?>
+					<a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
+				</label>
                 <br />
                 <?php
             }
@@ -296,89 +268,19 @@ class wp_cta_placement_widget extends WP_Widget
         	<input class="cta-text" type="text" value="<?php echo $margin_top; ?>" id="<?php echo $this->get_field_id('cta_margin_top'); ?>" name="<?php echo $this->get_field_name('cta_margin_top'); ?>" />px</div>
         	<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_margin_bottom'); ?>">Margin Bottom</label>
         	<input class="cta-text" type="text" value="<?php echo $margin_bottom; ?>" id="<?php echo $this->get_field_id('cta_margin_bottom'); ?>" name="<?php echo $this->get_field_name('cta_margin_bottom'); ?>" />px</div>
-        	<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_default_width'); ?>">Set Default Width</label>
-        	<input class="cta-text" type="text" value="<?php echo $width; ?>" id="<?php echo $this->get_field_id('cta_default_width'); ?>" name="<?php echo $this->get_field_name('cta_default_width'); ?>" />px</div>
-        	<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_default_height'); ?>">Set Default height</label>
-        	<input class="cta-text" type="text" value="<?php echo $height; ?>" id="<?php echo $this->get_field_id('cta_default_height'); ?>" name="<?php echo $this->get_field_name('cta_default_height'); ?>" />px</div>
-        	<input class="checkbox" type="checkbox" <?php checked($instance['no_a_b'], '1'); ?> id="<?php echo $this->get_field_id('no_a_b'); ?>" name="<?php echo $this->get_field_name('no_a_b'); ?>" /> <label for="<?php echo $this->get_field_id('no_a_b'); ?>"><strong>Turn off iframes</strong> <small>This is disable A/B testing (only works with images). Not recommended</small></label>
         </div>
 
         <?php
     }
+
+	function load_variation()
+	{
+		?>
+		<script>
+		jQuery(document).ready(function($) {
+			wp_cta_load_variation(<?php echo $this->cta_id; ?>);
+		});
+		</script>
+		<?php
+	}
 }
-//=============================================
-// Display call to action via WP_Query
-//=============================================
-    function wp_cta_no_frame_display($cta_ids = null){
-
-        $cta_array = array();
-        $args = array('post_type' => 'wp-call-to-action');
-
-                if($cta_ids != null && trim($cta_ids) != ""){
-                    $args = wp_parse_args( array('post__in' => explode(',', $cta_ids)), $args );
-                }
-
-                $queryObject = new WP_Query($args);
-                // The Loop...
-                if ($queryObject->have_posts()) {
-                        while ($queryObject->have_posts()) {
-                                $queryObject->the_post();
-                                array_push($cta_array,
-                                        array(
-                                            get_the_ID(),
-                                            get_the_title(),
-                                            wpautop(get_the_content())
-                                        ));
-                        }
-
-                    //display results
-                    $rand_key = array_rand($cta_array,1);
-                    $cta_id = $cta_array[$rand_key][0];
-                    $hs_title = $cta_array[$rand_key][1];
-                    $cta_content = $cta_array[$rand_key][2];
-
-
-                    $lead_cpt_id = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : false;
-    				$lead_email = (isset($_COOKIE['wp_lead_email'])) ? $_COOKIE['wp_lead_email'] : false;
-    				$lead_unique_key = (isset($_COOKIE['wp_lead_uid'])) ? $_COOKIE['wp_lead_uid'] : false;
-
-		    		if ($lead_cpt_id) {
-		                $lead_id = $lead_cpt_id;
-		                $type = 'wplid';
-		            }
-		            elseif ($lead_email) {
-		                $lead_id = $lead_email;
-		              	$type = 'wplemail';
-		            }
-		            elseif ($lead_unique_key) {
-		                $lead_id = $lead_unique_key;
-		                $type = 'wpluid';
-		            } else {
-		            	$lead_id = null;
-		            	$type = null;
-		            }
-
-                    $siteurl = get_page_link();
-
-                    $symbol = (preg_match('/\?/', $siteurl)) ? '&' : '?';
-                    $cta_content = str_replace('"', '\'', $cta_content);
-                    $cta_content = str_replace('href=\'http', 'href=\'' . $siteurl . $symbol . 'wp_cta_redirect_' . $cta_id . '=http', $cta_content);
-
-                    /* $str = '<a title="Hudson Test" href="href=" http:="" inboundsoon.wpengine.com?wp_cta_redirect_2112="http://inboundsoon.wpengine.com/go/hudson-test-2/"><img class="alignright size-full wp-image-1711" alt="7-strat" src="http://inboundsoon.wpengine.com/wp-content/uploads/2013/06/7-strat.png" width="270" height="318"></a>';
-                   	$cta_content= preg_replace('/(http[s]?:[^\s]*)/i','$0&wp-cta-v=0&wpl_id='.$lead_id.'&l_type='.$type.'',$cta_content); */
-					//$cta_content= preg_replace('/(http[s]?:[^\s]*)/i','$0&wp-cta-v=0&wpl_id='.$lead_id.'&l_type='.$type.'',$cta_content);
-
-                    $content = "";
-
-                   //http://inboundsoon.wpengine.com/go/hudson-test-2/?wp_cta_redirect_2112=http://inboundsoon.wpengine.com/go/hudson-test-2/&wp-cta-v=0&wpl_id=2078&l_type=wplid
-                   $content = "<div class='wp-cta-container'>";
-                    $content .= $cta_content;
-                	$content .= "</div>";
-
-        } else {
-            $content = "";
-        }
-                wp_reset_postdata();
-
-        return $content;
-    }

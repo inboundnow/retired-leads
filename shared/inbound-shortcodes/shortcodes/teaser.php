@@ -9,32 +9,32 @@
 		'no_preview' => true,
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'style' => array(
-				'name' => __('Style', INBOUND_LABEL),
-				'desc' => __('Select the style.', INBOUND_LABEL),
+				'name' => __('Style', 'leads'),
+				'desc' => __('Select the style.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'' => __('Default', INBOUND_LABEL),
-					'nested' => __('Nested', INBOUND_LABEL),
-					'centered' => __('Centered', INBOUND_LABEL)
+					'' => __('Default', 'leads'),
+					'nested' => __('Nested', 'leads'),
+					'centered' => __('Centered', 'leads')
 				),
 				'std' => ''
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the number of column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the number of column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '3'
 			)
@@ -42,88 +42,88 @@
 		'child' => array(
 			'options' => array(
 				'title' => array(
-					'name' => __('Title', INBOUND_LABEL),
-					'desc' => __('Enter the title.', INBOUND_LABEL),
+					'name' => __('Title', 'leads'),
+					'desc' => __('Enter the title.', 'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'subtitle' => array(
-					'name' => __('Sub Title', INBOUND_LABEL),
-					'desc' => __('Enter the sub title.', INBOUND_LABEL),
+					'name' => __('Sub Title', 'leads'),
+					'desc' => __('Enter the sub title.', 'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'icon' => array(
-					'name' => __('Icon', INBOUND_LABEL),
-					'desc' => __('Select an icon.', INBOUND_LABEL),
+					'name' => __('Icon', 'leads'),
+					'desc' => __('Select an icon.', 'leads'),
 					'type' => 'select',
 					'options' => $fontawesome,
 					'std' => ''
 				),
 				'image' => array(
-					'name' => __('Image URL', INBOUND_LABEL),
-					'desc' => __('Enter your image url, it will override the icon above', INBOUND_LABEL),
+					'name' => __('Image URL', 'leads'),
+					'desc' => __('Enter your image url, it will override the icon above', 'leads'),
 					'type' => 'text',
 					'std' => '',
 					'class' => ''
 				),
 				'link' => array(
-					'name' => __('Link', INBOUND_LABEL),
-					'desc' => __('The title link destination URL.', INBOUND_LABEL),
+					'name' => __('Link', 'leads'),
+					'desc' => __('The title link destination URL.', 'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Teaser Content', INBOUND_LABEL),
-					'desc' => __('Enter the content.', INBOUND_LABEL),
+					'name' => __('Teaser Content', 'leads'),
+					'desc' => __('Enter the content.', 'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[block title="{{title}}" subtitle="{{subtitle}}" icon="{{icon}}" link="{{link}}" ]{{content}}[/block]',
-			'clone' => __('Add More Block',  INBOUND_LABEL )
+			'clone' => __('Add More Block',  'leads' )
 		),
 		'shortcode' => '[teaser heading="{{heading}}" style="{{style}}" column="{{column}}"]{{child}}[/teaser]',
-		'popup_title' => __('Insert Teaser Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Teaser Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['teaser'] = array(
-		'name' => __('Teaser', INBOUND_LABEL),
+		'name' => __('Teaser', 'leads'),
 		'size' => 'one_full',
 		'options' => array(
 			'heading' => array(
-				'name' => __('Heading', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Heading', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'style' => array(
-				'name' => __('Style', INBOUND_LABEL),
-				'desc' => __('Select the style.', INBOUND_LABEL),
+				'name' => __('Style', 'leads'),
+				'desc' => __('Select the style.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'' => __('Default', INBOUND_LABEL),
-					'nested' => __('Nested', INBOUND_LABEL),
-					'centered' => __('Centered', INBOUND_LABEL)
+					'' => __('Default', 'leads'),
+					'nested' => __('Nested', 'leads'),
+					'centered' => __('Centered', 'leads')
 				),
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'column' => array(
-				'name' => __('Column', INBOUND_LABEL),
-				'desc' => __('Select the column.', INBOUND_LABEL),
+				'name' => __('Column', 'leads'),
+				'desc' => __('Select the column.', 'leads'),
 				'type' => 'select',
 				'options' => array(
-					'1' => __('1 Column', INBOUND_LABEL),
-					'2' => __('2 Columns', INBOUND_LABEL),
-					'3' => __('3 Columns', INBOUND_LABEL),
-					'4' => __('4 Columns', INBOUND_LABEL),
-					'5' => __('5 Columns', INBOUND_LABEL)
+					'1' => __('1 Column', 'leads'),
+					'2' => __('2 Columns', 'leads'),
+					'3' => __('3 Columns', 'leads'),
+					'4' => __('4 Columns', 'leads'),
+					'5' => __('5 Columns', 'leads')
 				),
 				'std' => '3',
 				'class' => '',
@@ -132,8 +132,8 @@
 		),
 		'child' => array(
 			'icon' => array(
-				'name' => __('Icon', INBOUND_LABEL),
-				'desc' => __('Select an icon.', INBOUND_LABEL),
+				'name' => __('Icon', 'leads'),
+				'desc' => __('Select an icon.', 'leads'),
 				'type' => 'select',
 				'options' => $fontawesome,
 				'std' => 'none',
@@ -141,37 +141,37 @@
 				'is_content' => 0
 			),
 			'image' => array(
-				'name' => __('Image URL', INBOUND_LABEL),
-				'desc' => __('Enter your image url, it will override the icon above', INBOUND_LABEL),
+				'name' => __('Image URL', 'leads'),
+				'desc' => __('Enter your image url, it will override the icon above', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'title' => array(
-				'name' => __('Title', INBOUND_LABEL),
-				'desc' => __('Enter the heading text.', INBOUND_LABEL),
+				'name' => __('Title', 'leads'),
+				'desc' => __('Enter the heading text.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'subtitle' => array(
-				'name' => __('Sub Title', INBOUND_LABEL),
-				'desc' => __('Enter the sub title.', INBOUND_LABEL),
+				'name' => __('Sub Title', 'leads'),
+				'desc' => __('Enter the sub title.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'link' => array(
-				'name' => __('Link', INBOUND_LABEL),
-				'desc' => __('The title link destination URL.', INBOUND_LABEL),
+				'name' => __('Link', 'leads'),
+				'desc' => __('The title link destination URL.', 'leads'),
 				'type' => 'text',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Content', INBOUND_LABEL),
-				'desc' => __('Enter the content.', INBOUND_LABEL),
+				'name' => __('Content', 'leads'),
+				'desc' => __('Enter the content.', 'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

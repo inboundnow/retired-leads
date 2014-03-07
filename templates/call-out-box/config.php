@@ -5,11 +5,12 @@
 * @package  WordPress Calls to Action
 * @author 	InboundNow
 */
+
 do_action('wp_cta_global_config'); // The wp_cta_global_config function is for global code added by 3rd party extensions
 
 //gets template directory name to use as identifier - do not edit - include in all template files
-$key = wp_cta_get_parent_directory(dirname(__FILE__));
-
+$key = basename(dirname(__FILE__));
+$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
@@ -18,12 +19,12 @@ array(
 	'label' => "Call Out Box", // Nice Name
 	'category' => 'Box', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'This is a simple box template' // template description
+	'description'  => 'This is a simple box template', // template description
+	'path' => $this_path //path to template folder
 );
 
 
-
-// Define Meta Options for template
+/* Define Meta Options for template */
 $wp_cta_data[$key]['settings'] =
 array(
     array(
@@ -53,9 +54,17 @@ array(
     array(
         'label' => 'Background Color',
         'description' => "Changes background color",
-        'id'  => 'content-color',
+        'id'  => 'content-background-color',
         'type'  => 'colorpicker',
         'default'  => '222222',
+        'context'  => 'normal'
+        ),
+    array(
+        'label' => 'Message Text',
+        'description' => "Message Text",
+        'id'  => 'content-text',
+        'type'  => 'wysiwyg',
+        'default'  => 'Insert Content Here.',
         'context'  => 'normal'
         ),
      array(
@@ -93,5 +102,18 @@ array(
         'id'  => 'submit-button-text',
         'type'  => 'text',
         'default'  => 'Click here'
-        )
+        ),
+     array(
+         'label' => 'Show Button?',
+         'description' => "You can toggle off the main CTA button if you are using a form in this CTA",
+         'id'  => 'show-button',
+         'type'  => 'dropdown',
+         'default'  => 'true',
+         'options' => array('true'=>'Show Button', 'false'=>'Hide Button', ),
+         'context'  => 'normal'
+         ),
     );
+
+
+/* define dynamic template markup */
+$wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');

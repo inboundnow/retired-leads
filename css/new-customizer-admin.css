@@ -1,4 +1,4 @@
-#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, .inbound-shortcode-trigger, div.updated  {
+#wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback  {
 	display: none !important;
 }
 html.wp-toolbar {
@@ -6,6 +6,21 @@ html.wp-toolbar {
 }
 .auto-fold #adminmenuback, .auto-fold #adminmenuwrap, .auto-fold #adminmenu, .auto-fold #adminmenu li.menu-top {
 	width: 0px !important;
+}
+.wp-cta-success-message,.button-primary.new-save-wp-cta {
+
+display: block;
+
+text-align: center;
+margin-top: 10px;
+margin-left: 0px !important; }
+
+.inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
+position: inherit;
+/* bottom: -21px; */
+display: block;
+width: 75%;
+margin-top: 0px;
 }
 .auto-fold #wpcontent, .auto-fold #wpfooter {
 margin-left: 10px !important;
@@ -15,8 +30,11 @@ padding-bottom: 90px !important;
 width: 100% !important;
 }
 #wpbody-content {
-padding-bottom: 60px !important;
+padding-bottom: 80px !important;
 
+}
+#wpbody {
+padding-top: 0px !important;
 }
 @media screen and (max-width: 600px) {
 .version-3-8 #wpbody {

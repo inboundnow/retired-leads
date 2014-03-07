@@ -9,123 +9,123 @@
 		'no_preview' => true,
 		'options' => array(
 			'name' => array(
-				'name' => __('Profile Name', INBOUND_LABEL),
-				'desc' => __('Enter the name.', INBOUND_LABEL),
+				'name' => __('Profile Name', 'leads'),
+				'desc' => __('Enter the name.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'meta' => array(
-				'name' => __('Profile Meta', INBOUND_LABEL),
-				'desc' => __('Enter the profile meta. e.g job position etc.', INBOUND_LABEL),
+				'name' => __('Profile Meta', 'leads'),
+				'desc' => __('Enter the profile meta. e.g job position etc.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'image' => array(
-				'name' => __('Profile Image', INBOUND_LABEL),
-				'desc' => __('Paste your profile image URL here.', INBOUND_LABEL),
+				'name' => __('Profile Image', 'leads'),
+				'desc' => __('Paste your profile image URL here.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'link' => array(
-				'name' => __('Profile Link', INBOUND_LABEL),
-				'desc' => __('Paste your profile link URL here.', INBOUND_LABEL),
+				'name' => __('Profile Link', 'leads'),
+				'desc' => __('Paste your profile link URL here.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'facebook' => array(
-				'name' => __('Profile Facebook', INBOUND_LABEL),
-				'desc' => __('Paste your facebook URL here.', INBOUND_LABEL),
+				'name' => __('Profile Facebook', 'leads'),
+				'desc' => __('Paste your facebook URL here.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'twitter' => array(
-				'name' => __('Profile Twitter', INBOUND_LABEL),
-				'desc' => __('Paste your twitter URL here.', INBOUND_LABEL),
+				'name' => __('Profile Twitter', 'leads'),
+				'desc' => __('Paste your twitter URL here.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'email' => array(
-				'name' => __('Profile Email Address', INBOUND_LABEL),
-				'desc' => __('Paste your email address here.', INBOUND_LABEL),
+				'name' => __('Profile Email Address', 'leads'),
+				'desc' => __('Paste your email address here.', 'leads'),
 				'type' => 'text',
 				'std' => ''
 			),
 			'content' => array(
-				'name' => __('Profile Description',  INBOUND_LABEL),
-				'desc' => __('Enter the profile description text.',  INBOUND_LABEL),
+				'name' => __('Profile Description',  'leads'),
+				'desc' => __('Enter the profile description text.',  'leads'),
 				'type' => 'textarea',
 				'std' => ''
 			)
 		),
 		'shortcode' => '[profile name="{{name}}" meta="{{meta}}" image="{{image}}"]{{content}}[/profile]',
-		'popup_title' => __('Insert Profile Shortcode', INBOUND_LABEL)
+		'popup_title' => __('Insert Profile Shortcode', 'leads')
 	);
 
 /* 	Page builder module config
  * 	----------------------------------------------------- */
 	$freshbuilder_modules['profile'] = array(
-		'name' => __('Profile', INBOUND_LABEL),
+		'name' => __('Profile', 'leads'),
 		'size' => 'one_fourth',
 		'options' => array(
 			'name' => array(
-				'name' => __('Profile Name', INBOUND_LABEL),
-				'desc' => __('Enter the name.', INBOUND_LABEL),
+				'name' => __('Profile Name', 'leads'),
+				'desc' => __('Enter the name.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'meta' => array(
-				'name' => __('Profile Meta', INBOUND_LABEL),
-				'desc' => __('Enter the profile meta. e.g job position etc.', INBOUND_LABEL),
+				'name' => __('Profile Meta', 'leads'),
+				'desc' => __('Enter the profile meta. e.g job position etc.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'image' => array(
-				'name' => __('Profile Image', INBOUND_LABEL),
-				'desc' => __('Paste your profile image URL here.', INBOUND_LABEL),
+				'name' => __('Profile Image', 'leads'),
+				'desc' => __('Paste your profile image URL here.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'link' => array(
-				'name' => __('Profile Link', INBOUND_LABEL),
-				'desc' => __('Paste your profile URL here.', INBOUND_LABEL),
+				'name' => __('Profile Link', 'leads'),
+				'desc' => __('Paste your profile URL here.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'facebook' => array(
-				'name' => __('Profile Facebook', INBOUND_LABEL),
-				'desc' => __('Paste your facebook URL here.', INBOUND_LABEL),
+				'name' => __('Profile Facebook', 'leads'),
+				'desc' => __('Paste your facebook URL here.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'twitter' => array(
-				'name' => __('Profile Twitter', INBOUND_LABEL),
-				'desc' => __('Paste your twitter URL here.', INBOUND_LABEL),
+				'name' => __('Profile Twitter', 'leads'),
+				'desc' => __('Paste your twitter URL here.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'email' => array(
-				'name' => __('Profile Email Address', INBOUND_LABEL),
-				'desc' => __('Paste your email address here.', INBOUND_LABEL),
+				'name' => __('Profile Email Address', 'leads'),
+				'desc' => __('Paste your email address here.', 'leads'),
 				'type' => 'text',
 				'std' => '',
 				'class' => '',
 				'is_content' => 0
 			),
 			'content' => array(
-				'name' => __('Profile Description', INBOUND_LABEL),
-				'desc' => __('Enter the profile description text.',  INBOUND_LABEL),
+				'name' => __('Profile Description', 'leads'),
+				'desc' => __('Enter the profile description text.',  'leads'),
 				'type' => 'textarea',
 				'std' => '',
 				'class' => '',

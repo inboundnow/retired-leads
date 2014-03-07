@@ -2,14 +2,16 @@
 
 add_action('wp_footer', 'wpcta_click_callback');
 
-function wpcta_click_callback() {
+function wpcta_click_callback()
+{
 	global $post;
 	if (!isset($post))
 		return;
 	$id = $post->ID;
 	if(get_post_type( $id ) == 'wp-call-to-action'){
 	$variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : 0;
-		// Footer script for link rewrites ?>
+
+	// Footer script for link rewrites ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 		var lead_cpt_id = jQuery.cookie("wp_lead_id");
@@ -52,7 +54,8 @@ function wpcta_click_callback() {
 
 // Register CTA Clicks
 add_action('init', 'wp_cta_click_track_redirect', 11); // Click Tracking init
-function wp_cta_click_track_redirect() {
+function wp_cta_click_track_redirect()
+{
 	global $wpdb;
 	if ($qs = $_SERVER['REQUEST_URI']) {
 		parse_str($qs, $output);
@@ -118,7 +121,8 @@ function wp_cta_click_track_redirect() {
 	}
 }
 
-function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation){
+function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation)
+{
 	// If leads_triggered meta exists do this
 	$event_trigger_log = get_post_meta($event_id,'leads_triggered',true);
 	$wordpress_date_time = $timezone_format = _x('Y-m-d G:i:s T', 'timezone date format');
@@ -165,8 +169,8 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation){
 }
 
 // Store Event Trigger to Lead profile
-function wp_cta_store_click_data_to_lead($event_id, $lead_ID, $event_type) {
-
+function wp_cta_store_click_data_to_lead($event_id, $lead_ID, $event_type)
+{
 	$wordpress_date_time = $timezone_format = _x('Y-m-d G:i:s T', 'timezone date format');
 	$wordpress_date_time =  date_i18n($timezone_format);
 

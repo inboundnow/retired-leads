@@ -293,6 +293,7 @@
 		                    }
 		                    $textarea.val(decodeURIComponent(vals[1].replace(/\+/g, ' ')));
 		                   });
+					jQuery('body').trigger("inbound_forms_data_ready"); // Trigger custom hook
 
 		            }
 		    },
@@ -468,6 +469,7 @@
 				           if (!state.id) return state.text; // optgroup
 				           return "<i class='fa-" + state.id.toLowerCase() + " inbound-icon-padding'></i>" + state.text + '';
 				       }
+				   jQuery("body").on("inbound_forms_data_ready", function() {
 				       jQuery("#inbound_shortcode_icon").select2({
 				       	placeholder: "Select an icon for the button",
 				       	allowClear: true,
@@ -475,6 +477,7 @@
 				           formatSelection: format,
 				           escapeMarkup: function(m) { return m; }
 				       });
+				  	});
 			}
 			if (shortcode_name === 'insert_styled_list_shortcode'){
 
@@ -484,6 +487,34 @@
 				             //jQuery("#inbound_shortcode_icon").select2("open");
 				        }, 500);
 			}
+			if ( shortcode_name === "insert_inbound_form_shortcode" ) {
+				jQuery("#inbound_shortcode_lists").select2({
+						placeholder: "Select one or more lists",
+
+				});
+
+
+				jQuery("body").on("inbound_forms_data_ready", function() {
+					  setTimeout(function() {
+					     var fill_list_vals = jQuery("#inbound_shortcode_lists_hidden").val().split(",");
+					     jQuery("#inbound_shortcode_lists").val(fill_list_vals).select2();
+					  }, 200);
+				 });
+
+				jQuery("body").on('change', '#inbound_shortcode_lists', function () {
+					var list_ids = jQuery("#inbound_shortcode_lists").select2("data");
+					var list_ids_array = new Array();
+					jQuery.each(list_ids, function(key,valueObj){
+					    var the_id = valueObj['id'];
+					    list_ids_array.push(the_id);
+					});
+
+					var final_list_ids = list_ids_array.join();
+					console.log(final_list_ids);
+					jQuery("#inbound_shortcode_lists_hidden").val(final_list_ids);
+				});
+			}
+
 			if (shortcode_name === 'insert_call_to_action'){
 
 
@@ -825,11 +856,7 @@
 							output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 							}
 							// set correct ID for insert
-							if(cookies){
-							 var insert_to = jQuery.cookie('inbound_shortcode_editor_name');
-							} else {
-							 var insert_to = 'content';
-							}
+							 var insert_to = jQuery.cookie('inbound_shortcode_editor_name') || 'content';
 
 							 window.tinyMCE.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
 							//window.tinyMCE.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
@@ -886,52 +913,29 @@
 			InboundShortcodes.insert_shortcode();
 		});
 		// Shortcode editor insert fix
-		jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton', function () {
+		jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton, .mceOpen.mce_InboundShortcodesButton', function () {
 
 		        var editor_name = jQuery(this).attr('id');
 		        if (typeof (editor_name) != "undefined" && editor_name != null && editor_name != "") {
 		        	editor_name = editor_name.replace('_InboundShortcodesButton_action','');
+		        	editor_name = editor_name.replace('_InboundShortcodesButton_open', '');
 		        } else {
 		        	return false;
 		        }
 
 		        console.log(editor_name);
-		        if(cookies){
-		         jQuery.cookie('inbound_shortcode_editor_name', editor_name);
-		        }
-		        //jQuery.cookie('media_init', 1);
-		       // tb_show('', 'media-upload.php?type=image&type=image&amp;TB_iframe=true');
-		        return false;
+
+		        jQuery.cookie('inbound_shortcode_editor_name', editor_name);
 		    }
 		 );
 		if (InboundShortcodes.getUrlVar("reload") === 'true') {
 
 			jQuery("#post-body-content").hide();
 			var window_url = window.location.href.replace('&reload=true', "");
+			var window_url = window_url.replace('wp-admin//', 'wp-admin/');
 			jQuery("#post-body").before('<h2>Please Refresh this Page to Edit your Form<h2><a href="'+window_url+'">Click to Refresh</a>');
 
 			window.history.replaceState({}, document.title, window_url);
 		}
-		if(cookies){
-			var clicked = jQuery.cookie("inbound_shortcode_trigger");
-		} else {
-			var clicked = "true";
-		}
-		if (clicked != "true") {
-
-			var alert = "<div class='updated inbound-shortcode-trigger'>Looks like you haven't clicked the <img style='vertical-align: bottom;' src='" + inbound_load.image_dir + "shortcodes-blue.png'> button <span style='background:yellow'>(highlighted in yellow)</span> in the content editor below. There are some awesome shortcodes for you to use! Check it out! <span style='float:right; color:red;' class='inbound-dismiss-shortcode'>Dismiss this</span></div>";
-			jQuery(".wrap h2").first().after(alert);
-			setTimeout(function() {
-			jQuery(".mce_InboundShortcodesButton").css("background-color", "yellow");
-			}, 2000);
-
-		}
-
-		jQuery("body").on('click', '.inbound-dismiss-shortcode', function () {
-			if(cookies){
-			jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
-			}
-			jQuery('.updated').hide();
-		});
 
 	});

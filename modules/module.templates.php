@@ -1,38 +1,33 @@
 <?php
-if (isset($_GET['page'])&&($_GET['page']=='wp_cta_templates_upload'||$_GET['page']=='wp_cta_templates_update'||$_GET['page']=='wp_cta_templates_search'))
+
+if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_GET['page']) && $_GET['page']=='wp_cta_templates_update'|| isset($_GET['page']) && $_GET['page']=='wp_cta_templates_search') 
 {
 	add_action('admin_enqueue_scripts','wp_cta_templates_admin_enqueue');
-	function wp_cta_templates_admin_enqueue()
-	{
+	function wp_cta_templates_admin_enqueue() {
 		wp_enqueue_script('wp-cta-js-templates-upload', WP_CTA_URLPATH . 'js/admin/admin.templates-upload.js');
 	}
 
 	include_once(WP_CTA_PATH.'modules/module.templates-upload.php');
-}
-else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
-{
+
+} else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates') {
 
 	add_action('admin_enqueue_scripts','wp_cta_templates_admin_enqueue');
-	function wp_cta_templates_admin_enqueue()
-	{
+	function wp_cta_templates_admin_enqueue() {
 		wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'css/admin-templates.css');
 		wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'js/admin/admin.templates.js');
-
-	}
+ 	}
 
 
 	if( ! class_exists( 'WP_List_Table' ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 	}
 
-	class WP_CTA_MANAGE_TEMPLATES extends WP_List_Table
-	{
+	class WP_CTA_MANAGE_TEMPLATES extends WP_List_Table {
 		private $template_data;
 		private $singular;
 		private $plural;
 
-		function __construct()
-		{
+		function __construct() {
 			$wp_cta_data = wp_cta_get_extension_data();
 
 			foreach ($wp_cta_data as $key=>$data)
@@ -41,16 +36,16 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 
 				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
 					continue;
-					
+
 				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox')
 					continue;
-				
+
 				if (in_array($key,$array_core_templates))
 					continue;
-				
+
 				//if (stristr($data['category'],'Theme Integrated'))
 					//continue;
-				
+
 				//echo "<br>";
 				if (isset($_POST['s'])&&!empty($_POST['s']))
 				{
@@ -58,7 +53,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 					{
 						continue;
 					}
-				}		
+				}
 
 				if (isset($data['thumbnail']))
 					$thumbnail = $data['thumbnail'];
@@ -72,9 +67,9 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 				( array_key_exists('info',$data) ) ? $this_data['name'] = $data['info']['label'] :  $this_data['name'] = $data['label'];
 				( array_key_exists('info',$data) ) ? $this_data['category'] = $data['info']['category'] :  $this_data['category'] = $data['category'];
 				( array_key_exists('info',$data) ) ? $this_data['description'] = $data['info']['description'] :  $this_data['description'] = $data['description'];
-				
+
 				$this_data['thumbnail']  = $thumbnail;
-				
+
 				if (isset($data['version'])&&!empty($data['info']['version']))
 				{
 					$this_data['version']  = $data['info']['version'];
@@ -83,10 +78,10 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 				{
 					$this_data['version'] = "1.0.1";
 				}
-				
+
 				$final_data[] = $this_data;
 			}
-			
+
 			//print_r($this_data);exit;
 			$this->template_data = $final_data;
 			//$this->_args = array();
@@ -147,8 +142,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 			return ( $order === 'asc' ) ? $result : -$result;
 		}
 
-		function prepare_items()
-		{
+		function prepare_items() {
 			$columns  = $this->get_columns();
 
 			$hidden = array('ID');
@@ -179,8 +173,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 			$this->items = $this->found_data;
 		}
 
-		function column_default( $item, $column_name )
-		{
+		function column_default( $item, $column_name ) {
 			//echo $item;exit;
 			switch( $column_name )
 			{
@@ -205,21 +198,18 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 			}
 		}
 
-		function admin_header()
-		{
+		function admin_header() {
 			$page = ( isset($_GET['page'] ) ) ? esc_attr( $_GET['page'] ) : false;
 
 			if( 'wp_cta_manage_templates' != $page )
 			return;
 		}
 
-		function no_items()
-		{
+		function no_items() {
 			_e( 'No premium templates installed. Templates included in the Call to Action core plugin will not be listed here.' );
 		}
 
-		function get_bulk_actions()
-		{
+		function get_bulk_actions() {
 			$actions = array(
 
 				'upgrade'    => 'Upgrade',
@@ -234,14 +224,10 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 
 
 
-
-
-	function wp_cta_manage_templates()
-	{
+	function wp_cta_manage_templates() {
 		wp_cta_manage_templates_actions_check();
 		$title = __('Manage Templates');
 		echo '<div class="wrap">';
-
 		screen_icon();
 		?>
 
@@ -301,8 +287,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 
 
 
-	function wp_cta_templates_upgrade_template($slug)
-	{
+	function wp_cta_templates_upgrade_template($slug) {
 		global $wp_cta_data;
 		$data = $wp_cta_data[$slug];
 
@@ -369,33 +354,25 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 
 
 
-	function wp_cta_templates_check_for_update($item)
-	{
+	function wp_cta_templates_check_for_update($item) {
 		$version = $item['version'];
 		$api_response = wp_cta_template_api_request( $item );
 		//print_r($api_response);
-		if( false !== $api_response )
-		{
-			if( version_compare( $version, $api_response['new_version'], '<' ) )
-			{
+		if( false !== $api_response ) {
+			if( version_compare( $version, $api_response['new_version'], '<' ) ) {
 				$template_page = WP_CTA_STORE_URL."/downloads/".$item['ID']."/";
 				$html = '<div class="update-message">'.$item['version'].' &nbsp;&nbsp; <font class="update-available">Version '.$api_response['new_version'].' available.</font><br> <a title="'.$item['name'].'" class="thickbox" href="'.$template_page.'" target="_blank">View template details</a> ';
 				$html .= 'or <a href="?post_type=wp-call-to-action&page=wp_cta_manage_templates&action=upgrade&template%5B%5D='.$item['ID'].'">update now</a>.</div>';
 				return $html;
-			}
-			else
-			{
+			} else {
 				return $item['version'];
 			}
-		}
-		else
-		{
+		} else {
 			return $item['version'];
 		}
 	}
 
-	function  wp_cta_template_api_request(  $item )
-	{
+	function  wp_cta_template_api_request( $item ) {
 		$api_params = array(
 			'edd_action' 	=> 'get_version',
 			'license' 		=> '',
@@ -416,8 +393,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 		endif;
 	}
 
-	function wp_cta_templates_delete_dir($dir,$slug)
-	{
+	function wp_cta_templates_delete_dir($dir,$slug) {
 		global $wp_cta_data;
 		$data = $wp_cta_data[$slug];
 
@@ -441,8 +417,7 @@ else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates')
 add_action('admin_menu', 'wp_cta_templates_add_menu');
 
 
-function wp_cta_templates_add_menu()
-{
+function wp_cta_templates_add_menu() {
 	if (current_user_can('manage_options'))
 	{
 		global $_registered_pages;

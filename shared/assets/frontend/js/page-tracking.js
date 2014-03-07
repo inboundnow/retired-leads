@@ -267,55 +267,6 @@ function add_page_timeout(date, minutes) {
  Date.prototype.format = function (mask, utc) {
   return dateFormat(this, mask, utc);
  };
-// Query String for utm params
-/* Query String Stuff
-
-var inbound_urlParams = {};
-
-    (function () {
-        var e,
-            d = function (s) { return decodeURIComponent(s).replace(/\+/g, " "); },
-            q = window.location.search.substring(1),
-            r = /([^&=]+)=?([^&]*)/g;
-
-        while (e = r.exec(q)) {
-            if (e[1].indexOf("[") == "-1")
-                inbound_urlParams[d(e[1])] = d(e[2]);
-            else {
-                var b1 = e[1].indexOf("["),
-                    aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
-                    pN = d(e[1].slice(0, b1));
-
-                if (typeof inbound_urlParams[pN] != "object")
-                    inbound_urlParams[d(pN)] = {},
-                    inbound_urlParams[d(pN)].length = 0;
-
-                if (aN)
-                    inbound_urlParams[d(pN)][d(aN)] = d(e[2]);
-                else
-                    Array.prototype.push.call(inbound_urlParams[d(pN)], d(e[2]));
-
-            }
-        }
-    })();
-
-    if (JSON) {
-      result = JSON.stringify(inbound_urlParams, null, 4);
-
-      for (var k in inbound_urlParams) {
-            if (typeof inbound_urlParams[k] == "object") {
-              for (var k2 in inbound_urlParams[k])
-                jQuery.cookie(k2, inbound_urlParams[k][k2], { expires: 365 });
-                console.log(k2);
-                console.log(inbound_urlParams[k][k2]);
-            } else {
-                jQuery.cookie(k, inbound_urlParams[k], { expires: 365 }); }
-                console.log(k);
-                console.log(inbound_urlParams[k]);
-            }
-
-    }
-*/
 
 /* Set Lead UID */
 if(jQuery.cookie("wp_lead_uid") === null) {
