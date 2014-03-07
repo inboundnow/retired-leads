@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.0.1
+Version: 2.0.0
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -11,7 +11,7 @@ Domain Path: shared/languages/cta/
 */
 
 // DEFINE CONSTANTS AND GLOBAL VARIABLES
-define('WP_CTA_CURRENT_VERSION', '2.0.1' );
+define('WP_CTA_CURRENT_VERSION', '2.0.0' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -64,19 +64,19 @@ switch (is_admin()) :
 		             Sounds good! Hide This Message
 		             </a>
 		             	<h1>Welcome to WordPress Calls to Action Version 2.0</h1>
+		             	<p>Please visit and re-save your current call to action templates. There were a number of necessary changes to the plugin to make it much much better!</p>
 		                 <p><b style="font-size:18px; font-weight:bold;margin-bottom:5px;">Whats new?</b><br>
-		                    <ul style="list-style: square;
-		padding-left: 20px;
-		margin-top: -10px;">
-		                    <li>A new & improved call to action templating engine</li>
-		                    <li>Faster CTA load times</li>
-		                    <li>Better A/B Testing functionality</li>
-		                    <li>Mobile responsive Call to action templates</li>
-		                    <li>All around code improvements</li>
+
+		                    <ul style="list-style: square; padding-left: 20px;margin-top: -10px;">
+			                    <li>Faster Call to Action load times</li>
+			                    <li>Better A/B Testing functionality</li>
+			                    <li>Mobile responsive Call to action templates</li>
+			                    <li>A new & improved call to action templating engine</li>
+			                    <li>All around code improvements</li>
 		                    </ul>
 						<b style="font-size:18px; font-weight:bold;margin-bottom:5px;margin-top:20px; display:block;">Whats different?</b>
 						We had to back out popups and slidein functionality for the initial release. Also, the like to download CTA is no longer in the plugin.<br><br>
-		                <span style="color:red;">Important:</span> We are no longer supporting versions lower than 2.0. You can revert to the older version of the CTA plugin by downloading the files here: http://wordpress.org/plugins/cta/developers/ under "Other Versions"
+		                <span style="color:red;">Important:</span> We are no longer supporting versions lower than 2.0.0. You can revert to the older version of the CTA plugin by downloading the files here: http://wordpress.org/plugins/cta/developers/ under "Other Versions"
 		                 </p>
 		             </div>';
 		    }
