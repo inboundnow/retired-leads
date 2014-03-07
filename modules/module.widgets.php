@@ -4,23 +4,23 @@ add_action( 'widgets_init', 'wp_cta_load_widgets' );
 
 function wp_cta_load_widgets() {
 
-	register_widget( 'wp_cta_dynamic_widget' );
-	register_widget( 'wp_cta_placement_widget' );
+	register_widget( 'CTADynamicWidget' );
+	register_widget( 'CTAStaticWidget' );
 }
 
-class wp_cta_dynamic_widget extends WP_Widget
+class CTADynamicWidget extends WP_Widget
 {
 
-	function wp_cta_dynamic_widget() {
+	function CTADynamicWidget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_dynamic_widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_CTADynamicWidget', 'description' => __('Use this widget to accept Calls to Action placements.', 'wp_cta_sidebar_widget') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTADynamicWidget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_dynamic_widget', __('Call to Action Placement Holder', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_CTADynamicWidget', __('Call to Action Placement Holder', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
 	}
 
 	/**
@@ -63,20 +63,20 @@ class wp_cta_dynamic_widget extends WP_Widget
 }
 
 
-class wp_cta_placement_widget extends WP_Widget
+class CTAStaticWidget extends WP_Widget
 {
 	private $cta_templates;
 
-	function wp_cta_placement_widget() {
+	function CTAStaticWidget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_placement_widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_CTAStaticWidget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'wp_cta_sidebar_widget') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_placement_widget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTAStaticWidget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_placement_widget', __('Call to Action Static Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_CTAStaticWidget', __('Call to Action Static Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
 	}
 
 	/**
