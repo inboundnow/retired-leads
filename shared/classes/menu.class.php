@@ -164,7 +164,7 @@ if (!class_exists('InboundMenu')) {
 			$menu_items['inbound-leads-list'] = array(
 				'parent' => $leads_key,
 				'title'  => __( 'View Lead Lists', 'leads' ),
-				'href'   => admin_url( 'edit.php?post_type=list' ),
+				'href'   => admin_url( 'edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead' ),
 				'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'leads' ) )
 			);
 

@@ -7,11 +7,12 @@ function wpleads_admin_enqueuescripts($hook)
 
 	$post_type = isset($post) ? get_post_type( $post ) : null;
 
-	$screen = get_current_screen(); 
+	$screen = get_current_screen();
 
 	/*  /edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead page */
 	if ( $screen->id === 'edit-wplead_list_category') {
 		wp_enqueue_script('wpleads-list-page', WPL_URL.'/js/wpl.list-page.js', array('jquery'));
+		wp_enqueue_style('wpleads-list-page-css', WPL_URL.'/css/wpl.list-page.css');
 		return;
 	}
 
