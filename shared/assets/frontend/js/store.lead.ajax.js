@@ -428,7 +428,7 @@ jQuery(document).ready(function($) {
 	}
 	//console.log(inbound_data);
 
-/* Core Inbound Search Tracking Script */
+	/* Core Inbound Search Tracking Script */
 	jQuery("body").on('submit', '.wpl-search-box', function (e) {
 		var inbound_search_data = jQuery.totalStorage('inbound_search') || {},
 		$this_form = $(this),

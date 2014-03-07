@@ -42,9 +42,9 @@ if (!class_exists('InboundMenu')) {
 				'href'  => "",
 				'meta'  => array( 'class' => 'inbound-nav-marketing', 'title' => 'Inbound Marketing Admin' )
 			) );
-			
+
 			//print_r($primary_menu_items);exit;
-			
+
 			/** Add Primary Menu Items */
 			foreach ( $primary_menu_items as $id => $menu_item )
 			{
@@ -69,9 +69,9 @@ if (!class_exists('InboundMenu')) {
 				/** Add menu items */
 				$wp_admin_bar->add_node( $menu_item );
 			}
-			
+
 			//var_dump($wp_admin_bar);exit;
-			
+
 			/* Add Secondary Menu Item Group */
 			$wp_admin_bar->add_group( array(
 				'parent' => self::$inboundnow_menu_key,
@@ -316,7 +316,7 @@ if (!class_exists('InboundMenu')) {
 				  'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
 				  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'leads' ) )
 			);
-			
+
 			/* 1.1.x Get Forms and List */
 			$forms = get_posts(array('post_type'=>'inbound-forms','post_status'=>'published'));
 			foreach ($forms as $form)
@@ -390,14 +390,14 @@ if (!class_exists('InboundMenu')) {
 		function load_settings( $menu_items )
 		{
 			$settings_key = 'inbound-settings';
-			
+
 			/* 1 - Global Settings */
 			$menu_items[ $settings_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
 				'title'  => __( 'Global Settings', 'leads' ),
 				'href'   => "",
 				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Settings', 'leads' ) )
-			);			
+			);
 
 			/* 1.1 - Call to Action Settings */
 			if (self::$load_callstoaction) {
@@ -433,7 +433,7 @@ if (!class_exists('InboundMenu')) {
 		function load_analytics( $menu_items )
 		{
 			$analytics_key = 'inbound-analytics';
-			
+
 			/* 1 - Analytics */
 			$menu_items[ $analytics_key ] = array(
 			  'parent' => self::$inboundnow_menu_key,
@@ -448,7 +448,7 @@ if (!class_exists('InboundMenu')) {
 		function load_seo( $menu_items )
 		{
 			$seo_key = 'inbound-seo';
-			
+
 			if (function_exists( 'is_plugin_active' ) && is_plugin_active('wordpress-seo/wp-seo.php')) {
 				$menu_items[ $seo_key ] = array(
 					'parent' => self::$inboundnow_menu_key,
@@ -457,14 +457,14 @@ if (!class_exists('InboundMenu')) {
 					'meta'   => array( 'target' => '', 'title' => __( 'Manage SEO Settings', 'leads' ) )
 				);
 			}
-			
+
 			return $menu_items;
 		}
 
-		function load_support( $secondary_menu_items ) 
+		function load_support( $secondary_menu_items )
 		{
 			$support_key = 'inbound-support';
-			
+
 			/* 1 - Support Form */
 			$secondary_menu_items[ $support_key ] = array(
 				'parent' => self::$inboundnow_menu_secondary_group_key,
@@ -593,6 +593,6 @@ if (!class_exists('InboundMenu')) {
 			return $secondary_menu_items;
 		}
 	}
-	
+
 	$InboundMenu = new InboundMenu();
 }
