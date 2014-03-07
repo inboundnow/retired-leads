@@ -42,6 +42,22 @@ function wpleads_get_global_settings() {
 			'options' => array('1'=>'On','0'=>'Off')
 		),
 		array(
+			'id'  => 'search-tracking',
+			'label' => __('Search Query Tracking' , 'leads' ),
+			'description' => __("<p>WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
+		array(
+			'id'  => 'comment-tracking',
+			'label' => __('Comment Tracking' , 'leads' ),
+			'description' => __("<p>WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
+		array(
 			'id'  => 'enable-dashboard',
 			'label' => __('Show Lead/List Data in Dashboard' , 'leads' ),
 			'description' => __("<p>Turn this on to show graphical and list data about lead collection in WP Dashboard.</p>" , 'leads' ),

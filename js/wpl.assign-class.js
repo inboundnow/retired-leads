@@ -48,7 +48,7 @@ function inbound_process_all_forms(){
 			} */
 		   // console.log(atr + ": " + attributes[atr]);
 		   if (typeof (attributes[atr]) != "undefined" && attributes[atr] != null && attributes[atr] != "") {
-				if (attributes[atr].toLowerCase().indexOf(match)>-1) {
+				if (attributes[atr].toLowerCase().indexOf(match)>-1 && inbound_ajax.comment_tracking === 'on') {
 					form.addClass('wpl-track-me').addClass('wpl-comment-form');
 				}
 				// add fallback to ajaxed forms
@@ -56,7 +56,7 @@ function inbound_process_all_forms(){
 					form.addClass('wpl-ajax-fallback');
 				}
 
-				if (attributes[atr].toLowerCase().indexOf('search')>-1) {
+				if (attributes[atr].toLowerCase().indexOf('search')>-1 && inbound_ajax.search_tracking === 'on') {
 					form.addClass('wpl-search-box');
 				}
 			}
