@@ -35,30 +35,30 @@ switch (is_admin()) :
 		include_once('modules/module.activate.php');
 		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.nav-menus.php');
-		include_once('modules/module.wp_list_table-leads.php');		
+		include_once('modules/module.wp_list_table-leads.php');
 		include_once('modules/module.metaboxes.wp-lead.php');
-		include_once('modules/module.metaboxes.list.php');		
-		include_once('modules/module.metaboxes.automation.php');		
+		include_once('modules/module.metaboxes.list.php');
+		include_once('modules/module.metaboxes.automation.php');
 		include_once('modules/module.post-type.wp-lead.php');
 		include_once('modules/module.post-type.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
-		include_once('modules/module.post-type.automation.php');		
-		include_once('modules/module.lead-management.php');		
-		include_once('modules/module.form-integrations.php');		
+		//include_once('modules/module.post-type.automation.php');
+		include_once('modules/module.lead-management.php');
+		include_once('modules/module.form-integrations.php');
 		include_once('modules/module.global-settings.php');
 		include_once('modules/module.dashboard.php');
 		include_once('modules/module.tracking.php');
-		include_once('modules/module.enqueue-admin.php');		
+		include_once('modules/module.enqueue-admin.php');
 		include_once('modules/module.form-integrations.php');
 		BREAK;
 
 	case false :
-		/* load global */		
+		/* load global */
 		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.post-type.wp-lead.php');
-		include_once('modules/module.post-type.list.php');		
+		include_once('modules/module.post-type.list.php');
 		include_once('modules/module.form-integrations.php');
-		
+
 		/* load frontend */
 		include_once('modules/module.enqueue-frontend.php');
 		include_once('modules/module.tracking.php');
