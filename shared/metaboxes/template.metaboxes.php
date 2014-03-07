@@ -19,9 +19,8 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 	// Begin the field table and loop
 	echo '<div class="form-table" id="inbound-meta">';
 
-	//print_r($custom_fields);exit;
 	$current_var = wp_cta_ab_testing_get_current_variation_id();
-	
+
 	foreach ($custom_fields as $field) 
 	{
 		$field_id = $key . "-" .$field['id'];
