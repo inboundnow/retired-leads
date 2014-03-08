@@ -256,7 +256,7 @@ float: right;
 }
 
 /* Split Testing Splash */
-.wp_cta_tooltip, .wp_cta_tooltip_templates {background: url('/wp-content/plugins/calls-to-action/css/images/question-light.png');
+.wp_cta_tooltip, .wp_cta_tooltip_templates {background: url('/wp-content/plugins/cta/css/images/question-light.png');
 width: 15px;
 height: 15px;
 display: inline-block;

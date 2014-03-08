@@ -15,7 +15,7 @@ function wp_cta_generate_meta()
 	/* Template Select Metabox */
 	add_meta_box(
 		'wp_cta_metabox_select_template', // $id
-		__( 'Template Options', 'wpcta_custom_meta' ),
+		__( 'Template Options', 'cta' ),
 		'wp_cta_display_meta_box_select_template', // $callback
 		'wp-call-to-action', // $page
 		'normal', // $context
@@ -39,7 +39,7 @@ function wp_cta_generate_meta()
 			$id = strtolower(str_replace(' ','-',$key));
 			add_meta_box(
 				"wp_cta_{$id}_custom_meta_box", // $id
-				__( "<small>$template_name Options:</small>", "wp_cta_{$key}_custom_meta" ),
+				"<small>$template_name ".___('Options:' , 'cta' ). "</small>",
 				'wp_cta_show_template_options_metabox', // $callback
 				'wp-call-to-action', // post-type
 				'normal', // $context
@@ -64,7 +64,7 @@ function wp_cta_generate_meta()
 			//echo $key."<br>";
 			add_meta_box(
 				"wp_cta_{$id}_custom_meta_box", // $id
-				__( "$name", "wp_cta" ),
+				"$name",
 				'wp_cta_show_metabox', // $callback
 				'wp-call-to-action', // post-type
 				$position , // $context
@@ -78,7 +78,7 @@ function wp_cta_generate_meta()
 	/* Advanced Call to Action Options */
 	 add_meta_box(
         'wp_cta_tracking_metabox', // $id
-        'Advanced Call to Action Options', // $title
+        __( 'Advanced Call to Action Options' , 'cta' ), // $title
         'wp_cta_show_advanced_settings_metabox', // $callback
         'wp-call-to-action', // $page
         'normal', // $context
@@ -87,7 +87,7 @@ function wp_cta_generate_meta()
 	/* Custom CSS */
 	add_meta_box(
 		'wp_cta_3_custom_css',
-		'Custom CSS',
+		__( 'Custom CSS' , 'cta' ),
 		'wp_cta_custom_css_input',
 		'wp-call-to-action',
 		'normal',
@@ -96,7 +96,7 @@ function wp_cta_generate_meta()
 	/* Custom JS */
 	add_meta_box(
 		'wp_cta_3_custom_js',
-		'Custom JS',
+		__( 'Custom JS' , 'cta' ),
 		'wp_cta_custom_js_input',
 		'wp-call-to-action',
 		'normal',
@@ -108,7 +108,7 @@ function wp_cta_show_metabox($post,$key)
 {
 	$CTAExtensions = CTALoadExtensions();
 	$extension_data = $CTAExtensions->definitions;
-	
+
 	$key = $key['args']['key'];
 
 	$wp_cta_custom_fields = $extension_data[$key]['settings'];
@@ -133,7 +133,7 @@ function wp_cta_display_meta_box_select_template() {
 	echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 	?>
 
-	<div id="wp_cta_template_change"><h2><a class="button" id="wp-cta-change-template-button">Choose Another Template</a></div>
+	<div id="wp_cta_template_change"><h2><a class="button" id="wp-cta-change-template-button"><?php _e( 'Choose Another Template' , 'cta' ); ?></a></div>
 	<input type='hidden' id='wp_cta_select_template' name='<?php echo $name; ?>' value='<?php echo $template; ?>'>
 	<div id="template-display-options"></div>
 
@@ -168,7 +168,7 @@ function wp_cta_show_advanced_settings_metabox() {
     wp_nonce_field('save-custom-wp-cta-boxes','custom_wp_cta_metaboxes_nonce');
     // Begin the field table and loop
     echo '<div class="form-table">';
-    echo '<div class="cta-description-box"><span class="calc button-secondary">Calculate height/width</span></div>';
+    echo '<div class="cta-description-box"><span class="calc button-secondary">'. __( 'Calculate height/width' , 'cta' ) .'</span></div>';
 
 
 	foreach ($extension_data['wp-cta']['settings'] as $key=>$field)
@@ -182,7 +182,7 @@ function wp_cta_show_advanced_settings_metabox() {
 			wp_cta_render_setting($field);
 		}
 	}
-	
+
 	do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
 
    echo '</div>'; // end table
@@ -350,7 +350,7 @@ function wp_cta_wp_call_to_action_header_area()
 
     echo '<span id="cta_shortcode_form" style="display:none; font-size: 13px;margin-left: 15px;">
          Shortcode: <input type="text" style="width: 130px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'"]\'>
-        <div class="wp_cta_tooltip" style="margin-left: 0px;" title="You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the wordpress editor on any given page"></div></span>';
+        <div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the wordpress editor on any given page' , 'cta' ) .'"></div></span>';
 
 
 
@@ -360,7 +360,7 @@ function wp_cta_wp_call_to_action_header_area()
 
    	// Set frontend editor params
     if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
-    echo('<input type="hidden" name="frontend" id="frontend-on" value="true" />');
+		echo('<input type="hidden" name="frontend" id="frontend-on" value="true" />');
 	}
 
 }
@@ -371,7 +371,7 @@ function wp_cta_display_notes_input($id , $variation_notes)
 	//echo $id;
 	$id = apply_filters('wp_cta_display_notes_input_id',$id);
 
-	echo "<span id='add-wp-cta-notes'>Notes:</span><input placeholder='Add Notes to your variation. Example: This version is testing a green submit button' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
+	echo "<span id='add-wp-cta-notes'>". __( 'Notes:' , 'cta' ) ."</span><input placeholder='". __( 'Add Notes to your variation. Example: This version is testing a green submit button' , 'cta' ) ."' type='text' class='wp-cta-notes' name='{$id}' id='{$id}' value='{$variation_notes}' size='30'>";
 }
 
 
@@ -400,7 +400,7 @@ add_filter( 'enter_title_here', 'wp_cta_change_enter_title_text', 10, 2 );
 function wp_cta_change_enter_title_text( $text, $post ) {
 	if ($post->post_type=='wp-call-to-action')
 	{
-        return 'Enter Call to Action Description';
+        return __( 'Enter Call to Action Description' , 'cta' );
 	}
 	else
 	{
@@ -435,7 +435,7 @@ function wp_cta_display_meta_box_select_template_container() {
 
 	echo "<div class='wp-cta-template-selector-container' style='{$toggle}'>";
 	echo "<div class='wp-cta-selection-heading'>";
-	echo "<h1>Select Your Call to Action Template!</h1>";
+	echo "<h1>". __( 'Select Your Call to Action Template!' , 'cta' ) ."</h1>";
 	echo '<a class="button-secondary" style="display:none;" id="wp-cta-cancel-selection">Cancel Template Change</a>';
 	echo "</div>";
 		echo '<ul id="template-filter" >';
@@ -502,7 +502,7 @@ font-size: 14px; padding-top: 10px;"><?php echo $data['info']['label']; ?></div>
 	echo '</div>';
 	echo "<div class='clear'></div>";
 	echo "</div>";
-	echo "<div style='display:none;' class='currently_selected'>This is Currently Selected</a></div>";
+	echo "<div style='display:none;' class='currently_selected'>". __( 'This is Currently Selected' , 'cta' ) ."</a></div>";
 }
 
 
@@ -510,7 +510,7 @@ font-size: 14px; padding-top: 10px;"><?php echo $data['info']['label']; ?></div>
 function wp_cta_custom_css_input() {
 	global $post;
 
-	echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
+	echo __( '<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>' , 'cta' );
 	echo '<input type="hidden" name="wp-cta-custom-css-noncename" id="wp_cta_custom_css_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 
 	$custom_css_meta_key = apply_filters('wp_cta_custom_css_meta_key','wp-cta-custom-css');

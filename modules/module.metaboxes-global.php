@@ -23,7 +23,7 @@ function cta_placements_content_add_meta_box()
 		$priority = ($value === 'landing-page') ? 'core' : 'high';
 		if (!in_array($value,$exclude))
 		{
-			add_meta_box( 'wp-cta-inert-to-post', 'Insert Call to Action Template into Content', 'cta_placements_content_meta_box' , $value, 'normal', $priority );
+			add_meta_box( 'wp-cta-inert-to-post', __( 'Insert Call to Action Template into Content' , 'cta' ) , 'cta_placements_content_meta_box' , $value, 'normal', $priority );
 		}
 	}
 }
@@ -33,11 +33,7 @@ function cta_placements_content_meta_box()
 {
 	global $post;
 	global $table_prefix;
-	
 
-	//print_r($wp_cta_post_template_ids);
-
-   // $content_placements_post_status = get_post_meta($post->ID, 'id here');
 	wp_cta_display_metabox(); // renders checkboxes
 	wp_cta_display_controller();
 }
@@ -66,7 +62,7 @@ function wp_cta_display_metabox() {
 			return state.text + "<a class='thickbox cta-select-preview-link' href='" + href + "'>(view)</a>";
 		}
 		jQuery("#cta_template_selection").select2({
-			placeholder: "Select one or more calls to action to rotate through",
+			placeholder: " <?php _e( 'Select one or more calls to action to rotate through' , 'cta' ); ?>",
 			allowClear: true,
 			formatResult: format,
 			formatSelection: format,
@@ -131,7 +127,7 @@ function wp_cta_display_metabox() {
 			<div class="wp-cta-option-row">
 				<div class='cta-options-label'>
 					<label for=keyword>
-					Call to Action Template
+					<?php _e( 'Call to Action Template' , 'cta' ); ?>
 					</label>
 				</div>
 				<div class='cta-options-row'>
@@ -155,7 +151,7 @@ function wp_cta_display_metabox() {
 					echo '<option', $selected, ' value="'.$this_id.'" rel="work?" >'.$title.'</option>';
 
 				} ?>
-				</select><br /><span class="description">Click the above select box to select call to action templates to insert</span>
+				</select><br /><span class="description"><?php _e( 'Click the above select box to select call to action templates to insert' , 'cta' ); ?></span>
 				</div>
 			</div>
 		</div>

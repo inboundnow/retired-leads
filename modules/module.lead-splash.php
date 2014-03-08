@@ -20,25 +20,25 @@ $data['lead_custom_fields'] = $wplead_data;
 
 <div id='lead-details-container'>
 <div id="wp-leads-splash-header">
-<h3 class='wp-cta-lead-splash-h3'>Lead Details: </h3>
+<h3 class='wp-cta-lead-splash-h3'><?php _e( 'Lead Details:' , 'cta' ); ?></h3>
 <?php // Conditional check for wp leads add on ?>
 <a href="/wp-admin/post.php?post=<?php echo $lead_id . "&action=edit";?>" class="wpwp-cta-green-button wpwp-cta-right" target="_blank">View/Edit Lead</a>
 </div>
 <div id="wp-leads-splash-name">
-<div class="wp-lead-label">Name:</div> <?php echo $wplead_data['wpleads_first_name'][0]; ?> <?php echo $wplead_data['wpleads_last_name'][0]; ?> 
+<div class="wp-lead-label"><?php _e( 'Name:' , 'cta' ); ?></div> <?php echo $wplead_data['wpleads_first_name'][0]; ?> <?php echo $wplead_data['wpleads_last_name'][0]; ?> 
 </div>
 			
 <div id="wp-leads-splash-email">
-<div class="wp-lead-label">Email Address:</div> <?php echo $wplead_data['wpleads_email_address'][0]; ?>
+<div class="wp-lead-label"><?php _e( 'Email Address:' , 'cta' ); ?></div> <?php echo $wplead_data['wpleads_email_address'][0]; ?>
 </div>
 <div id="wp-leads-splash-ip">
-<div class="wp-lead-label">IP Address: </div> <?php echo $wplead_data['wpleads_ip_address'][0]; ?>
+<div class="wp-lead-label"><?php _e( 'IP Address:' , 'cta' ); ?> </div> <?php echo $wplead_data['wpleads_ip_address'][0]; ?>
 </div>
 <div id="wp-leads-splash-city">
-<div class="wp-lead-label">City: </div> <?php echo $city; ?>
+<div class="wp-lead-label"><?php _e( 'City:' , 'cta' ); ?> </div> <?php echo $city; ?>
 </div>
 <div id="wp-leads-splash-state">
-<div class="wp-lead-label">State: </div> <?php echo $region; ?>
+<div class="wp-lead-label"><?php _e( 'State:' , 'cta' ); ?> </div> <?php echo $region; ?>
 </div>
 
 <div id="wp-leads-extra-data">
