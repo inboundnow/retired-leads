@@ -28,14 +28,14 @@ if (is_admin())
 			array(
 				'id'  => 'lp_global_settings_main_header',
 				'type'  => 'header',
-				'default'  => '<h4>CTA Core Settings</h4>',
-				'description' => "<a id='clear-cta-cookies' class='button'>Clear & Reset all Call to Action Cookies</a><div class='wp_cta_tooltip tool_radio' title='This will reset all CTA cookies to make popups work again etc. For testing purposes.'></div>",
+				'default'  => __( '<h4>CTA Core Settings</h4>' , 'cta' ),
+				'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies' , 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.' , 'cta' ) ."'></div>",
 				'options' => null
 			),			
 			array(
 				'id'  => 'global-css',
-				'label' => 'Global CSS overrides.',
-				'description' => "This will place custom CSS across all Call to Actions",
+				'label' => __( 'Global CSS overrides.' , 'cta' ),
+				'description' => __( 'This will place custom CSS across all Call to Actions' , 'cta' ),
 				'type'  => 'textarea',
 				'default'  => '',
 				'options' => null
@@ -44,12 +44,12 @@ if (is_admin())
 
 		/* Setup License Keys Tab */
 		$tab_slug = 'wp-cta-license-keys';
-		$wp_cta_global_settings[$tab_slug]['label'] = 'License Keys';
+		$wp_cta_global_settings[$tab_slug]['label'] = __( 'License Keys' , 'cta' );
 
 
 		/* Setup Extensions Tab */
 		$tab_slug = 'wp-cta-extensions';
-		$wp_cta_global_settings[$tab_slug]['label'] = 'Extensions';
+		$wp_cta_global_settings[$tab_slug]['label'] = __( 'Extensions' , 'cta' );
 
 		$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
@@ -140,12 +140,12 @@ if (is_admin())
 			<a  id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
 			<?php
 		}
-		echo "</h2><div class='wp-cta-settings-tab-sidebar'><div class='wp-cta-sidebar-settings'><h2 style='font-size:17px;'>Like the Plugin? Leave us a review</h2><center><a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/cta?rate=5#postform' target='_blank'>Leave a Review</a></center><small>Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong></small></div><div class='wp-cta-sidebar-settings'><h2>Help keep the plugin up to date, awesome & free!</h2><form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
+		echo "</h2><div class='wp-cta-settings-tab-sidebar'><div class='wp-cta-sidebar-settings'><h2 style='font-size:17px;'>". __( 'Like the Plugin? Leave us a review' , 'cta' ) ."</h2><center><a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/cta?rate=5#postform' target='_blank'>". __( 'Leave a Review' , 'cta' ) ."</a></center><small>". __( 'Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong>' , 'cta' )."</small></div><div class='wp-cta-sidebar-settings'><h2>". __( 'Help keep the plugin up to date, awesome & free!' , 'cta' ) ."</h2><form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
 			<input type='hidden' name='cmd' value='_s-xclick'>
 			<input type='hidden' name='hosted_button_id' value='GKQ2BR3RKB3YQ'>
 			<input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'>
 			<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'></form>
-			<small>Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong></small></div><div class='wp-cta-sidebar-settings'><h2 style='font-size:18px;'>Follow Updates on Facebook</h2><iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'></iframe></div></div>";
+			<small>". __( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>' , 'cta' ) >"</small></div><div class='wp-cta-sidebar-settings'><h2 style='font-size:18px;'>Follow Updates on Facebook</h2><iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'></iframe></div></div>";
 		echo "<form action='edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' method='POST'>
 		<input type='hidden' name='nature' value='wp-cta-global-settings-save'>
 		<input type='hidden' name='open-tab' id='id-open-tab' value='{$active_tab}'>";
@@ -185,11 +185,11 @@ if (is_admin())
 		</div>
 		</div>-->
 		<div class="clear" id="php-sql-wp-cta-version">
-		 <h3>Installation Status</h3>
+		 <h3><?php _e( 'Installation Status' , 'cta' ); ?></h3>
               <table class="form-table" id="wp-cta-wordpress-site-status">
 
                 <tr valign="top">
-                   <th scope="row"><label>PHP Version</label></th>
+                   <th scope="row"><label><?php _e( 'PHP Version' , 'cta' ); ?></label></th>
                     <td class="installation_item_cell">
                         <strong><?php echo phpversion(); ?></strong>
                     </td>
@@ -203,7 +203,7 @@ if (is_admin())
                             else{
                                 ?>
                                 <img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-                                <span class="installation_item_message"><?php _e("Gravity Forms requires PHP 5 or above.", "gravityforms"); ?></span>
+                                <span class="installation_item_message"><?php _e( "Gravity Forms requires PHP 5 or above." , "cta"); ?></span>
                                 <?php
                             }
                         ?>
@@ -224,7 +224,7 @@ if (is_admin())
                             else{
                                 ?>
                                 <img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-                                <span class="installation_item_message"><?php _e("Gravity Forms requires MySQL 5 or above.", "gravityforms"); ?></span>
+                                <span class="installation_item_message"><?php _e( "Gravity Forms requires MySQL 5 or above." , "cta"); ?></span>
                                 <?php
                             }
                         ?>
@@ -245,14 +245,14 @@ if (is_admin())
                             else{
                                 ?>
                                 <img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-                                <span class="installation_item_message">landing pages requires version X or higher</span>
+                                <span class="installation_item_message"><?php _e( 'landing pages requires version X or higher' , 'cta' ) ?></span>
                                 <?php
                             }
                         ?>
                     </td>
                 </tr>
                  <tr valign="top">
-                   <th scope="row"><label>WordPress CTA Version</label></th>
+                   <th scope="row"><label><?php _e( 'WordPress CTA Version' , 'cta' ); ?></label></th>
                     <td class="installation_item_cell">
                         <strong>Version <?php echo WP_CTA_CURRENT_VERSION;?></strong>
                     </td>

@@ -183,8 +183,8 @@ class CTALoadExtensions
 		$wp_cta_data[$parent_key]['settings'][] = array(
 					'data_type'  => 'metabox',
 					'id'  => 'selected-template',
-					'label' => 'Select Template',
-					'description' => "This option provides a placeholder for the selected template data.",
+					'label' => __( 'Select Template' , 'cta' ),
+					'description' => __( 'This option provides a placeholder for the selected template data.' , 'cta' ),
 					'type'  => 'radio', // this is not honored. Template selection setting is handled uniquely by core.
 					'default'  => 'blank-template',
 					'options' => null // this is not honored. Template selection setting is handled uniquely by core.
@@ -205,7 +205,7 @@ class CTALoadExtensions
 		$wp_cta_data[$parent_key]['settings']['advanced-core-options-header'] =   array(
 			'datatype' => 'setting',
 			'region' => 'advanced',
-			'description'  => '<h3>CTA Settings</h3>',
+			'description'  => __( '<h3>CTA Settings</h3>' , 'cta' ),
 			'id'    => 'advanced-core-options-header',
 			'type'  => 'html-block'
 		);
@@ -213,12 +213,12 @@ class CTALoadExtensions
 		$wp_cta_data[$parent_key]['settings']['link-open-option'] = array(
 				'data_type'  => 'metabox',
 				'region' => 'advanced',
-				'label' => 'Open Links',
-				'description' => "How do you want links on the call to action to work?",
+				'label' => __( 'Open Links' , 'cta' ),
+				'description' => __( 'How do you want links on the call to action to work?' , 'cta' ),
 				'id'  => 'link-open-option', // called in template's index.php file with lp_get_value($post, $key, 'checkbox-id-here');
 				'type'  => 'dropdown',
 				'default'  => 'this_window',
-				'options' => array('this_window' => 'Open Links in Same Window (default)','new_tab'=>'Open Links in New Tab'),
+				'options' => array('this_window' => __('Open Links in Same Window (default)' , 'cta' ) ,'new_tab'=> __( 'Open Links in New Tab' , 'cta' )),
 				'context'  => 'normal'
 				);
 
@@ -239,8 +239,8 @@ class CTALoadExtensions
 			}
 
 			$width =  array(
-				'label' => 'CTA Width',
-				'description' => "Enter the Width of the CTA in pixels. Example: 100% or 300px",
+				'label' => __( 'CTA Width' , 'cta' ),
+				'description' => __( 'Enter the Width of the CTA in pixels. Example: 100% or 300px' , 'cta' ) ,
 				'id'  => 'wp_cta_width',
 				'type'  => 'text',
 				'default'  => '100%',
@@ -250,8 +250,8 @@ class CTALoadExtensions
 				);
 
 			$height = array(
-				'label' => 'CTA Height',
-				'description' => "Enter the Height of the CTA in pixels. Example: auto or 300px",
+				'label' => __( 'CTA Height' , 'cta' ),
+				'description' => __( 'Enter the Height of the CTA in pixels. Example: auto or 300px' , 'cta' ),
 				'id'  => 'wp_cta_height',
 				'type'  => 'text',
 				'default'  => 'auto',
@@ -277,16 +277,16 @@ class CTALoadExtensions
 			array(
 				'data_type' => 'setting',
 				'region' => 'cta-placement-controls',
-				'label' => 'Placement on Page',
-				'description' => "Where would you like to insert the CTA on this page?",
+				'label' => __( 'Placement on Page' , 'cta' ),
+				'description' => __( 'Where would you like to insert the CTA on this page?' , 'cta' ),
 				'id'  => 'cta_content_placement',
 				'type'  => 'dropdown',
 				'default'  => 'off',
 				'options' => array(
-									'below' => 'Below Content',
-									'middle' => 'Middle of Content',
-									'above'=>'Above Content',
-									'widget_1' => 'Use Dynamic Sidebar Widget'
+									'below' => __( 'Below Content' , 'cta' ),
+									'middle' => __( 'Middle of Content' , 'cta' ),
+									'above'=> __( 'Above Content' , 'cta' ),
+									'widget_1' => __( 'Use Dynamic Sidebar Widget' , 'cta' )
 								  ),
 				'context'  => 'normal',
 				'class' => 'cta-per-page-option'
@@ -294,8 +294,8 @@ class CTALoadExtensions
 			array(
 				'data_type' => 'setting',
 				'region' => 'cta-placement-controls',
-				'label' => 'Sidebar Message',
-				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>This option will place the selected CTA templates into the dynamic sidebar widget on this page. Make sure you have added the dynamic Call to Action widget to the sidebar of this page for this option to work.</p><p>To add the dynamic sidebar widget to this page, go into appearance > widgets and add the widget to the sidebar of your choice</p></div>",
+				'label' => __( 'Sidebar Message' , 'cta' ),
+				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>". __( 'This option will place the selected CTA templates into the dynamic sidebar widget on this page. Make sure you have added the dynamic Call to Action widget to the sidebar of this page for this option to work.</p><p>To add the dynamic sidebar widget to this page, go into appearance > widgets and add the widget to the sidebar of your choice' , 'cta' ) ."</p></div>",
 				'id'  => 'sidebar_message',
 				'type'  => 'html-block',
 				'default'  => '',
@@ -306,8 +306,8 @@ class CTALoadExtensions
 			array(
 				'data_type' => 'setting',
 				'region' => 'cta-placement-controls',
-				'label' => 'Below Message',
-				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the bottom of the page/post.</p></div>",
+				'label' => __( 'Below Message' , 'cta' ),
+				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>". __( 'Your Call to Action will be inserted into the bottom of the page/post.' , 'cta' ) ."</p></div>",
 				'id'  => 'below_message',
 				'type'  => 'html-block',
 				'default'  => '',
@@ -318,8 +318,8 @@ class CTALoadExtensions
 			array(
 				'data_type' => 'setting',
 				'region' => 'cta-placement-controls',
-				'label' => 'Above Message',
-				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the top of the page/post.</p></div>",
+				'label' => __( 'Above Message' , 'cta' ),
+				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>". __( 'Your Call to Action will be inserted into the top of the page/post.' , 'cta' ) ."</p></div>",
 				'id'  => 'above_message',
 				'type'  => 'html-block',
 				'default'  => '',
@@ -330,8 +330,8 @@ class CTALoadExtensions
 			array(
 				'data_type' => 'setting',
 				'region' => 'cta-placement-controls',
-				'label' => 'Middle Message',
-				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>Your Call to Action will be inserted into the middle of the page/post's content.</p></div>",
+				'label' => __( 'Middle Message' , 'cta' ),
+				'description' => "<div style='margin-top:10px; margin-left:10px;'><p>". __( 'Your Call to Action will be inserted into the middle of the page/post\'s content.' , 'cta' ) ."</p></div>",
 				'id'  => 'above_message',
 				'type'  => 'html-block',
 				'default'  => '',

@@ -4,23 +4,23 @@ add_action( 'widgets_init', 'wp_cta_load_widgets' );
 
 function wp_cta_load_widgets() {
 
-	register_widget( 'wp_cta_dynamic_widget' );
-	register_widget( 'wp_cta_placement_widget' );
+	register_widget( 'CTADynamicWidget' );
+	register_widget( 'CTAStaticWidget' );
 }
 
-class wp_cta_dynamic_widget extends WP_Widget
+class CTADynamicWidget extends WP_Widget
 {
 
-	function wp_cta_dynamic_widget() {
+	function CTADynamicWidget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_dynamic_widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_CTADynamicWidget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTADynamicWidget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_dynamic_widget', __('Call to Action Placement Holder', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_CTADynamicWidget', __('Call to Action Placement Holder', 'cta'), $widget_ops, $control_ops );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class wp_cta_dynamic_widget extends WP_Widget
 
 		<!-- Widget Title: Text Input -->
 		<p>
-			This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.
+			<?php _e('This call to action area is dynamic. It will be completely empty unless you have toggled on a call to action on the individual pages settings and selected the "sidebar" option.' , 'cta' ); ?>
 		</p>
 
 	<?php
@@ -63,20 +63,20 @@ class wp_cta_dynamic_widget extends WP_Widget
 }
 
 
-class wp_cta_placement_widget extends WP_Widget
+class CTAStaticWidget extends WP_Widget
 {
 	private $cta_templates;
 
-	function wp_cta_placement_widget() {
+	function CTAStaticWidget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'class_wp_cta_placement_widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'wp_cta_sidebar_widget') );
+		$widget_ops = array( 'classname' => 'class_CTAStaticWidget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_placement_widget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTAStaticWidget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_wp_cta_placement_widget', __('Call to Action Static Widget', 'wp_cta_sidebar_widget'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_CTAStaticWidget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
 	}
 
 	/**
@@ -90,13 +90,13 @@ class wp_cta_placement_widget extends WP_Widget
 		if (!isset($instance['cta_ids'])) {
 			return;
 		}
-		
+
 		/* get enviroment object id if available */
 		$obj_id = $wp_query->get_queried_object_id();
-		
+
 		$CTALoadExtensions = CTALoadExtensions();
-		$this->cta_templates = $CTALoadExtensions->template_definitions;	
-			
+		$this->cta_templates = $CTALoadExtensions->template_definitions;
+
 		$CallsToAction = CallsToAction();
 
 		$selected_ctas = $instance['cta_ids'];
@@ -106,8 +106,8 @@ class wp_cta_placement_widget extends WP_Widget
 		$rand_key = array_rand($selected_ctas, 1);
 		$cta_id = $selected_ctas[$rand_key];
 		$this->cta_id = $cta_id;
-		
-		$selected_cta =  $CallsToAction->prepare_cta_dataset( $cta_id );		
+
+		$selected_cta =  $CallsToAction->prepare_cta_dataset( $cta_id );
 
 		/* Import Correct CSS & JS from Assets folder and Enqueue */
 		$loaded = array();
@@ -151,12 +151,12 @@ class wp_cta_placement_widget extends WP_Widget
 			//echo $template_slug;
 			//print_r($this->cta_templates);exit;
 			$dynamic_css = $this->cta_templates[$template_slug]['css-template'];
-			
+
 			$dynamic_css = $CallsToAction->replace_template_variables( $selected_cta , $dynamic_css , $vid );
 			$css_id_preface = "#wp_cta_" . $cta_id . "_variation_" . $vid;
-			
+
 			$dynamic_css = $CallsToAction->parse_css_template($dynamic_css , $css_id_preface);
-			
+
 			$css_styleblock_class = apply_filters( 'wp_cta_styleblock_class' , '' , $cta_id , $vid );
 
 			if (!stristr($custom_css,'<style')){
@@ -174,7 +174,7 @@ class wp_cta_placement_widget extends WP_Widget
 				echo $custom_js;
 			}
 		}
-		
+
 
 		/* get supporting widget settings */
 		$selected_cta['margin-top'] = $instance['cta_margin_top'];
@@ -182,9 +182,9 @@ class wp_cta_placement_widget extends WP_Widget
 		$cta_template = $CallsToAction->build_cta_content( $selected_cta );
 
 		$cta_template = do_shortcode($cta_template);
-		
+
 		echo $cta_template;
-		
+
 		$this->load_variation();
 		//add_action('wp_footer', array($this,'load_variation'));
 	}
@@ -239,8 +239,8 @@ class wp_cta_placement_widget extends WP_Widget
 
 		?>
 
-            <div class='cta-widget-p'><strong>Select Calls to Action(s):</strong><br />
-            	<small>If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget</small>
+            <div class='cta-widget-p'><strong><?php _e( 'Select Calls to Action(s):' , 'cta' ); ?></strong><br />
+            	<small><?php _e('If multiple calls to action are checked, they will randomly rotate. Only 1 CTA is displayed per widget' , 'cta' ); ?></small>
             <div class='cta-widget-select-options'>
             <?php
             foreach ($cta_post_type as $cta) {
@@ -262,7 +262,7 @@ class wp_cta_placement_widget extends WP_Widget
         </div>
 
        	<hr>
-       	<h4 class='cta-advanced-section'>Advanced Options</h4>
+       	<h4 class='cta-advanced-section'><?php _e( 'Advanced Options' , 'cta' ); ?></h4>
         <div class="advanced-cta-widget-options">
         	<div class='cta-widget'><label for="<?php echo $this->get_field_id('cta_margin_top'); ?>">Margin Top</label>
         	<input class="cta-text" type="text" value="<?php echo $margin_top; ?>" id="<?php echo $this->get_field_id('cta_margin_top'); ?>" name="<?php echo $this->get_field_name('cta_margin_top'); ?>" />px</div>

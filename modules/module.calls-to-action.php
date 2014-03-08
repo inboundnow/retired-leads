@@ -205,11 +205,11 @@ class CallsToAction {
 			foreach ($cta_obj[$cta_id]['variations'] as $vid)
 			{
 				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
-				
+
 				if ( !isset($meta['wp-cta-selected-template'.$suffix][0]) ) {
 					continue;
 				}
-				
+
 				$template_slug = $meta['wp-cta-selected-template'.$suffix][0];
 				$cta_obj[$cta_id]['templates'][$vid]['slug'] = $template_slug;
 				$cta_obj[$cta_id]['meta'][$vid]['wp-cta-selected-template-'.$vid] = $template_slug;
@@ -359,6 +359,10 @@ class CallsToAction {
 			if (is_array($assets)) {
 				foreach ($assets as $type => $file)
 				{
+					if (!is_array($file)) {
+						continue;
+					}					
+					
 					switch ($type)
 					{
 						case 'js':
@@ -607,11 +611,14 @@ class CallsToAction {
 					$clean_val = str_replace(array("{%php", "%}"), "", $phpcode);
 					$return_val = eval($clean_val);
 					//echo $return_val;
-					if($debug_output) {
-					echo "<br>PHP : " . $clean_val . "<br>";
-					echo "PHP evaled: " . "<br>";
-					echo "<br>Replacement " . $test . "<br>";
+
+					if($debug_output)
+					{
+						echo "<br>PHP : " . $clean_val . "<br>";
+						echo "PHP evaled: " . "<br>";
+						echo "<br>Replacement " . $test . "<br>";
 					}
+
 					//$replace_pat = '/'.$value[0].'/';
 					//$pat = '/'.preg_quote($value[0]) .'/';
 					//$template = preg_replace($pat, $test, $template);

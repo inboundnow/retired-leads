@@ -5,7 +5,7 @@ function wp_cta_ab_display_stats_metabox() {
 
 		add_meta_box(
 		'wp_cta_ab_display_stats_metabox',
-		__( 'A/B Testing', 'bab' ),
+		__( 'A/B Testing', 'cta' ),
 		'wp_cta_ab_stats_metabox',
 		'wp-call-to-action' ,
 		'side',
@@ -112,7 +112,7 @@ function wp_cta_ab_stats_metabox() {
 								if( $variation_status_class =='variation-off' )
 								{
 								?>
-									<span class='is-paused'>(Paused)</span>
+									<span class='is-paused'><?php _e( '(Paused)' , 'cta' ); ?></span>
 								<?php
 								}
 
@@ -131,23 +131,23 @@ function wp_cta_ab_stats_metabox() {
 							<div class='bab-stat-stats' colspan='2'>
 								<div class='bab-stat-container-impressions bab-number-box'>
 									<span class='bab-stat-span-impressions'><?php echo $impressions; ?></span>
-									<span class="bab-stat-id">Views</span>
+									<span class="bab-stat-id"><?php _e('Views' , 'cta' ); ?></span>
 								</div>
 								<div class='bab-stat-container-conversions bab-number-box'>
 									<span class='bab-stat-span-conversions'><?php echo $conversions; ?></span>
-									<span class="bab-stat-id">Conversions</span></span>
+									<span class="bab-stat-id"><?php _e('Conversions' , 'cta' ); ?></span></span>
 								</div>
 								<div class='bab-stat-container-conversion_rate bab-number-box'>
 									<span class='bab-stat-span-conversion_rate'><?php echo $conversion_rate; ?></span>
-									<span class="bab-stat-id bab-rate">Conversion Rate</span>
+									<span class="bab-stat-id bab-rate"><?php _e('Conversion Rate' , 'cta' ); ?></span>
 								</div>
 								<div class='bab-stat-control-container'>
-									<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'>Pause</a></span> <span class='bab-stat-seperator pause-sep'>|</span>
-									<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=play-variation'>Play</a></span> <span class='bab-stat-seperator play-sep'>|</span>
-									<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>'>Edit</a></span> <span class='bab-stat-seperator'>|</span>
-									<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&wp_cta_iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'>Preview</a></span> <span class='bab-stat-seperator'>|</span>
-									<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'>Clone</a></span> <span class='bab-stat-seperator'>|</span>
-									<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'>Delete</a></span>
+									<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause' , 'cta' ); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
+									<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play' , 'cta' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
+									<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>'><?php _e('Edit' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+									<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&wp_cta_iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+									<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'><?php _e('Clone' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+									<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&wp-cta-variation-id=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete' , 'cta' ); ?></a></span>
 								</div>
 							</div>
 						</div>
@@ -263,7 +263,7 @@ function wp_cta_ab_testing_add_tabs()
 		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '?wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '?wp-cta-variation-id=0';
 		$post_link = get_permalink($post->ID);
 		$post_link = preg_replace('/\?.*/', '', $post_link);
-		echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary new-save-wp-cta-frontend' href='$post_link$edit_link&cta-template-customize=on'>Launch Visual Editor</a>";
+		echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary new-save-wp-cta-frontend' href='$post_link$edit_link&cta-template-customize=on'>". __( 'Launch Visual Editor' ,'cta' ) ."</a>";
 		echo '</h2>';
 	}
 }
