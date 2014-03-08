@@ -49,6 +49,9 @@
 	line-height: 36px;
 	margin-bottom: 10px;
 }
+#cta_container a {
+	text-decoration: none;
+}
 .cta_content input[type=text], .cta_content input[type=url], .cta_content input[type=email], .cta_content input[type=tel], .cta_content input[type=number], .cta_content input[type=password] {
 	width:90%;
 }

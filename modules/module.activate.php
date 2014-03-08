@@ -5,33 +5,34 @@
  */
 
 register_activation_hook( WP_CTA_FILE , 'wp_call_to_action_activate');
-function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.6', $leads = '1.2.1')
+function wp_call_to_action_activate($wp = '3.6', $php = '5.3', $lp = '1.3.6', $leads = '1.2.1')
 {
 	global $wp_version;
-	if ( version_compare( PHP_VERSION, $php, '<' ) ) 
+	if ( version_compare( phpversion(), $php, '<' ) )
 	{
 	    $flag = 'PHP';
+	    $php_version = phpversion();
 	    $version = 'PHP' == $flag ? $php : $wp;
-		wp_die(__( '<p>The <strong>WordPress Calls to Action</strong> plugin requires'.$flag.'  version '.$php.' or greater.</p>' , 'cta' ) , 'Plugin Activation Error' ,  array( 'response'=>200, 'back_link'=>TRUE ) );
+		wp_die(__( '<p>The <strong>WordPress Calls to Action</strong> plugin requires '.$flag.'  version '.$php.' or greater.</p>Your server is running version '. $php_version . '. Please Contact your hosting provider to update your PHP version.<br><br>PHP 5.3 came out in December of 2010.' , 'cta' ) , 'Plugin Activation Error' ,  array( 'response'=>200, 'back_link'=>TRUE ) );
 		deactivate_plugins( basename( WP_CTA_FILE ) );
-	} 
-	elseif ( version_compare( $wp_version, $wp, '<' ) ) 
+	}
+	elseif ( version_compare( $wp_version, $wp, '<' ) )
 	{
 	    $flag = 'WordPress';
 	    wp_die( __( '<p>The <strong>WordPress Calls to Action</strong> plugin requires'.$flag.'  version '.$wp.' or greater.</p>' , 'cta' ) ,'Plugin Activation Error',  array( 'response'=>200, 'back_link'=>TRUE ) );
 	    deactivate_plugins( basename( WP_CTA_FILE ) );
-	} 
+	}
 	elseif (defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION, $lp, '<' ))
 	{
 		$flag = 'Landing Pages';
 		wp_die( __('<p>The <strong>WordPress Calls to Action</strong> plugin requires '.$flag.'  version '.$lp.' or greater. <br><br>Please Update WordPress Landing Page Plugin to update Calls to action</p>' , 'cta' ) ,'Plugin Activation Error',  array( 'response'=>200, 'back_link'=>TRUE ) );
-	} 
+	}
 	elseif (defined('LEADS_CURRENT_VERSION') && version_compare( LEADS_CURRENT_VERSION, $leads, '<' ))
 	{
 		$flag = 'Leads';
 		wp_die( __('<p>The <strong>WordPress Calls to Action</strong> plugin requires '.$flag.'  version '.$leads.' or greater. <br><br>Please Update WordPress Leads Plugin to update Calls to action</p>' , 'cta' ) ,'Plugin Activation Error',  array( 'response'=>200, 'back_link'=>TRUE ) );
-	} 
-	else 
+	}
+	else
 	{
 		// Activate Plugin
 		add_option( 'wp_cta_global_css', '', '', 'no' );
