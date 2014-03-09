@@ -288,38 +288,7 @@ function wpleads_display_global_settings_js() {
 	}
 
 	?>
-	<script type='text/javascript'>
-		jQuery(document).ready(function()
-		{
-			jQuery('#<?php echo $default_id; ?>').css('display','block');
-			 setTimeout(function() {
-				var getoption = document.URL.split('&option=')[1];
-				var showoption = "#" + getoption;
-				jQuery(showoption).click();
-			}, 100);
 
-			<?php
-			foreach ($wpleads_global_settings as $key => $array)
-			{
-			?>
-				jQuery('.wpl-nav-tab').live('click', function() {
-
-					var this_id = this.id.replace('tabs-','');
-					//alert(this_id);
-					jQuery('.wpl-tab-display').css('display','none');
-					jQuery('#'+this_id).css('display','block');
-					jQuery('.wpl-nav-tab').removeClass('nav-tab-special-active');
-					jQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
-					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');
-					jQuery('#id-open-tab').val(this_id);
-
-
-				});
-			<?php
-			}
-			?>
-		});
-	</script>
 	<?php
 }
 

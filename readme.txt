@@ -17,7 +17,18 @@ Track website visitor activity, capture and manage incoming leads, and send coll
 
 Wordpress leads gives you powerful visitor tracking where Google Analytics leaves off ( aka tie website activity directly to a specific individual) It allows you to track every activity that a visitor takes on your site, before converting on a web form.
 
-Learn where your leads are coming from geographically, what pages they viewed on your site, what site they were referred from, what social media profiles they have, demographic data, past/current job histories, topical interests, and much more.
+= Gather Valuable Intelligence on your Leads: =
+
+* Learn where your leads are coming from geographically
+* What pages they viewed on your site
+* See past comments they have made on your blog
+* Know what they have searched for on your site
+* Learn where referral traffic is coming from
+* See social media profiles and sites they own
+* Gather demographic data
+* See past/current job histories
+* Learn their topical interests
+* and much more.
 
 This powerful lead data can help you sell smarter and more efficiently.
 

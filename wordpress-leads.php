@@ -42,7 +42,7 @@ switch (is_admin()) :
 		include_once('modules/module.post-type.wp-lead.php');
 		include_once('modules/module.post-type.list.php');
 		include_once('modules/module.post-type.landing-pages.php');
-		//include_once('modules/module.post-type.automation.php');
+		include_once('modules/module.post-type.automation.php');
 		include_once('modules/module.lead-management.php');
 		include_once('modules/module.form-integrations.php');
 		include_once('modules/module.global-settings.php');
