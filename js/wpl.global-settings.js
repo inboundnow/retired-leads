@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 
   // Set setting Tab
   setTimeout(function() {
-     // jQuery("#" + byName).click();
+      jQuery("#" + byName).click();
   }, 300);
 
     /* Update Setting URL */

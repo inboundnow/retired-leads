@@ -263,7 +263,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 					break;
 					case 'html':
 						echo $field['value'];
-						echo '<br /><div class="lp_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
+						echo '<div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
 					break;
 
 				} //end switch
