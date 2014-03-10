@@ -42,6 +42,22 @@ function wpleads_get_global_settings() {
 			'options' => array('1'=>'On','0'=>'Off')
 		),
 		array(
+			'id'  => 'search-tracking',
+			'label' => __('Search Query Tracking' , 'leads' ),
+			'description' => __("<p>WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
+		array(
+			'id'  => 'comment-tracking',
+			'label' => __('Comment Tracking' , 'leads' ),
+			'description' => __("<p>WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
+		array(
 			'id'  => 'enable-dashboard',
 			'label' => __('Show Lead/List Data in Dashboard' , 'leads' ),
 			'description' => __("<p>Turn this on to show graphical and list data about lead collection in WP Dashboard.</p>" , 'leads' ),
@@ -247,7 +263,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 					break;
 					case 'html':
 						echo $field['value'];
-						echo '<br /><div class="lp_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
+						echo '<div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
 					break;
 
 				} //end switch
@@ -272,38 +288,7 @@ function wpleads_display_global_settings_js() {
 	}
 
 	?>
-	<script type='text/javascript'>
-		jQuery(document).ready(function()
-		{
-			jQuery('#<?php echo $default_id; ?>').css('display','block');
-			 setTimeout(function() {
-				var getoption = document.URL.split('&option=')[1];
-				var showoption = "#" + getoption;
-				jQuery(showoption).click();
-			}, 100);
 
-			<?php
-			foreach ($wpleads_global_settings as $key => $array)
-			{
-			?>
-				jQuery('.wpl-nav-tab').live('click', function() {
-
-					var this_id = this.id.replace('tabs-','');
-					//alert(this_id);
-					jQuery('.wpl-tab-display').css('display','none');
-					jQuery('#'+this_id).css('display','block');
-					jQuery('.wpl-nav-tab').removeClass('nav-tab-special-active');
-					jQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
-					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');
-					jQuery('#id-open-tab').val(this_id);
-
-
-				});
-			<?php
-			}
-			?>
-		});
-	</script>
 	<?php
 }
 

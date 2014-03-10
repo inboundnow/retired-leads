@@ -937,26 +937,5 @@
 
 			window.history.replaceState({}, document.title, window_url);
 		}
-		if(cookies){
-			var clicked = jQuery.cookie("inbound_shortcode_trigger");
-		} else {
-			var clicked = "true";
-		}
-		if (clicked != "true") {
-
-			var alert = "<div class='updated inbound-shortcode-trigger'>Looks like you haven't clicked the <img style='vertical-align: bottom;' src='" + inbound_load.image_dir + "shortcodes-blue.png'> button <span style='background:yellow'>(highlighted in yellow)</span> in the content editor below. There are some awesome shortcodes for you to use! Check it out! <span style='float:right; color:red;' class='inbound-dismiss-shortcode'>Dismiss this</span></div>";
-			jQuery(".wrap h2").first().after(alert);
-			setTimeout(function() {
-			jQuery(".mce_InboundShortcodesButton").css("background-color", "yellow");
-			}, 2000);
-
-		}
-
-		jQuery("body").on('click', '.inbound-dismiss-shortcode', function () {
-			if(cookies){
-			jQuery.cookie("inbound_shortcode_trigger", true, { path: '/', expires: 365 });
-			}
-			jQuery('.updated').hide();
-		});
 
 	});

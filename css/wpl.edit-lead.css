@@ -11,7 +11,7 @@
 .lead-comment-div p {
 	margin-top: 0px;
 }
-.lead-timeline-img img {
+.lead-timeline-img img, .updated.inbound-shortcode-trigger {
 	display: none !important;
 }
 .lead-timeline-img:before {
