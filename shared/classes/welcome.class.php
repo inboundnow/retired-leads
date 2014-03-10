@@ -128,40 +128,37 @@ class Inbound_Now_Welcome {
 		$rec_end = "";
 		//$test = get_transient('_inboundnow_zapier_activation_redirect', true, 30 );
 
-
+		$current_view = $_GET['page'];
 		if (function_exists( 'is_plugin_active' ) && is_plugin_active('inbound-now-pro/inbound-now-pro.php')) {
-			echo 'Pro on';
-			//echo $plugin_slug .'/'. $plugin_slug . '.php';
-			//echo WP_PLUGIN_DIR . '/' . $plugin_slug . '/welcome/';
+			//echo 'Pro on';
 			$dir = INBOUND_NOW_PATH . '/components/'. $plugin_slug . '/welcome/';
-	    	$path = INBOUND_NOW_PATH . '/components/'. $plugin_slug . '/welcome/index.php';
-	    	$file =  INBOUND_NOW_URL . '/components/'. $plugin_slug . '/welcome/index.php';
-	    	// If /welcome directory exists
-			if(file_exists($dir)) {
-				//$contents = file_get_contents($file);
-				$results = scandir($dir);
-				//print_r($results);
-				foreach ($results as $name) {
-					if($name != '.' && $name != '..') {
-						//echo $name;
-					}
-				}
-			}
+
 		} else if (function_exists( 'is_plugin_active' ) && is_plugin_active($plugin_slug .'/'. $plugin_slug . '.php')) {
-			echo 'Pro off';
-			$dir = $plugin_slug;
+			//echo 'Pro off';
 			$dir = WP_PLUGIN_DIR . '/' . $plugin_slug . '/welcome/';
-			if(file_exists($dir)) {
-				//$contents = file_get_contents($file);
-				$results = scandir($dir);
-				//print_r($results);
-				foreach ($results as $name) {
-					if($name != '.' && $name != '..') {
-						echo $name;
-					}
+		}
+
+		if(file_exists($dir)) {
+			//$contents = file_get_contents($file);
+			$results = scandir($dir);
+			//print_r($results);
+			$contents = '';
+			$nav_items = '<h2 class="nav-tab-wrapper" style="margin-left: -40px; padding-left: 40px;">';
+			foreach ($results as $name) {
+				if($name != '.' && $name != '..' && $name != 'index.php') {
+					$clean_tab_name = ucwords(str_replace(array('.php', '-', "_"), " ", $name));
+					$active = ($current_view === $name) ? 'nav-tab-active' : '';
+					$nav_items .= '<a class="nav-tab '.$active.'" id="tab-'.$name.'">';
+					$nav_items .= __( $clean_tab_name, 'inbound-now');
+					$nav_items .= '</a>';
+					$contents .= '<div id="content-'.$name.'">';
+					$contents .= file_get_contents($dir . $name);
+					$contents .= '</div>';
 				}
 			}
+			$nav_items .= '<h2>';
 		}
+
 		?>
 
 		<div class="wrap about-wrap" id="inbound-plugins">
@@ -169,19 +166,10 @@ class Inbound_Now_Welcome {
 			<div class="about-text" id="in-sub-head"><?php printf( __( 'Thank you for updating to the latest version! '.$plugin_name.' %s is help you customize your site!', 'inbound-now'), $display_version ); ?></div>
 			<div class="edd-badge"><?php printf( __( 'Version %s', 'inbound-now'), $display_version ); ?></div>
 
-			<?php self::render_nav_menu();?>
-			<div class="row">
-			<div class='grid two-third'>
+			<?php echo $nav_items; ?>
 			<div id="inbound-welcome-wrapper">
-			loop through stuff
+			<?php echo $contents; ?>
 			</div>
-			</div>
-			<div class='grid one-third'>
-			<h4>Quick Links</h4>
-			Sidebar items
-			</div>
-			</div> <!-- end row -->
-
 		</div>
 		<?php
 	}
