@@ -20,12 +20,11 @@ define('WPL_STORE_URL', 'http://www.inboundnow.com' );
 $uploads = wp_upload_dir();
 define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
 define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
+if(!defined('INBOUND_NOW_LEADS_PATH')) { define('INBOUND_NOW_LEADS_PATH', WP_PLUGIN_DIR . '/leads'); }
 
 if (is_admin()){
 	if(!isset($_SESSION)){@session_start();}
 }
-
-
 
 /* load core files */
 switch (is_admin()) :
@@ -87,6 +86,7 @@ function inbound_load_shared_leads()
 	include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
 	include_once('shared/classes/debug.class.php');  // Inbound Debug & Scripts Class
 	include_once('shared/classes/compatibility.class.php');  // Inbound Compatibility Class
+
 	include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 	include_once('shared/extend/inboundnow.extend.php');
 	include_once('shared/extend/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
