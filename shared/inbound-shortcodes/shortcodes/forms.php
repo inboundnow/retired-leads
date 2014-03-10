@@ -8,6 +8,7 @@
 		// if lead transient doesn't exist use defaults
 		$lead_mapping_fields = array(
 		'null' => 'No Mapping',
+		"wpleads_full_name" => "Full Name",
 		"wpleads_first_name" => "First Name",
 		"wpleads_last_name" => "Last Name",
 		"wpleads_email_address" => "Email",
