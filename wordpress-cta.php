@@ -64,7 +64,7 @@ switch (is_admin()) :
 		             Sounds good! Hide This Message
 		             </a>
 		             	<h1>Welcome to WordPress Calls to Action Version 2.0</h1>
-		             	<p>Please visit and re-save your current call to action templates. There were a number of necessary changes to the plugin to make it much much better!</p>
+		             	<p>Please visit and re-save your current call to action templates. There were a number of necessary changes to the plugin to make it much much better!<br><br> New to the plugin? <a href="http://docs.inboundnow.com/guide/how-to-place-calls-to-action/">Learn how to use it here.</a></p>
 		                 <p><b style="font-size:18px; font-weight:bold;margin-bottom:5px;">Whats new?</b><br>
 
 		                    <ul style="list-style: square; padding-left: 20px;margin-top: -10px;">

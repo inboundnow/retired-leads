@@ -5,17 +5,18 @@
  */
 
 register_activation_hook( WP_CTA_FILE , 'wp_call_to_action_activate');
-function wp_call_to_action_activate($wp = '3.6', $php = '5.2.4', $lp = '1.3.6', $leads = '1.2.1')
+function wp_call_to_action_activate($wp = '3.6', $php = '5.3', $lp = '1.3.6', $leads = '1.2.1')
 {
 	global $wp_version;
-	if ( version_compare( PHP_VERSION, $php, '<' ) ) 
+	if ( version_compare( phpversion(), $php, '<' ) )
 	{
 	    $flag = 'PHP';
+	    $php_version = phpversion();
 	    $version = 'PHP' == $flag ? $php : $wp;
 		wp_die( sprintf( __( '<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  version %s or greater.</p>' , 'cta' ) , $flag , $php) , 'Plugin Activation Error' ,  array( 'response'=>200, 'back_link'=>TRUE ) );
 		deactivate_plugins( basename( WP_CTA_FILE ) );
-	} 
-	elseif ( version_compare( $wp_version, $wp, '<' ) ) 
+	}
+	elseif ( version_compare( $wp_version, $wp, '<' ) )
 	{
 	    $flag = 'WordPress';
 	    wp_die( sprintf( __( '<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  version %s or greater.</p>' , 'cta' ) , $flag , $php) , 'Plugin Activation Error' ,  array( 'response'=>200, 'back_link'=>TRUE ) );
