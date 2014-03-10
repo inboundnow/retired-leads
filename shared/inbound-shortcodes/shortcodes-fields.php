@@ -13,11 +13,6 @@
  * 	----------------------------------------------------- */
 require_once( ABSPATH .'wp-load.php' );
 
-<<<<<<< HEAD
-require_once( ABSPATH .'wp-load.php' );
-=======
->>>>>>> 1882208f2545e6bfaba751b2397848959c2e078c
-
 /* 	The Class
  * 	----------------------------------------------------- */
 class InboundShortcodesFields {
