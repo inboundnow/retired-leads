@@ -17,10 +17,10 @@ class CTADynamicWidget extends WP_Widget
 		$widget_ops = array( 'classname' => 'class_CTADynamicWidget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTADynamicWidget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_CTADynamicWidget', __('Call to Action Placement Holder', 'cta'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_wp_cta_dynamic_widget', __('Call to Action Placement Holder', 'cta'), $widget_ops, $control_ops );
 	}
 
 	/**
@@ -73,10 +73,10 @@ class CTAStaticWidget extends WP_Widget
 		$widget_ops = array( 'classname' => 'class_CTAStaticWidget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta') );
 
 		/* Widget control settings. */
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_CTAStaticWidget' );
+		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_static_widget' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'id_CTAStaticWidget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
+		$this->WP_Widget( 'id_wp_cta_static_widget', __('Call to Action Static Widget', 'cta'), $widget_ops, $control_ops );
 	}
 
 	/**
