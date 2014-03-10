@@ -146,12 +146,14 @@ class Inbound_Now_Welcome {
 			$nav_items = '<h2 class="nav-tab-wrapper" style="margin-left: -40px; padding-left: 40px;">';
 			foreach ($results as $name) {
 				if($name != '.' && $name != '..' && $name != 'index.php') {
-					$clean_tab_name = ucwords(str_replace(array('.php', '-', "_"), " ", $name));
+					$clean_name = trim(substr($name, 2));
+					$clean_id_name = trim(ucwords(str_replace(array('.php', "_"), "-", $clean_name)));
+					$clean_tab_name = trim(ucwords(str_replace(array('.php', '-', "_"), " ", $clean_name)));
 					$active = ($current_view === $name) ? 'nav-tab-active' : '';
-					$nav_items .= '<a class="nav-tab '.$active.'" id="tab-'.$name.'">';
+					$nav_items .= '<a class="nav-tab '.$active.'" id="tab-'.$clean_id_name.'">';
 					$nav_items .= __( $clean_tab_name, 'inbound-now');
 					$nav_items .= '</a>';
-					$contents .= '<div id="content-'.$name.'">';
+					$contents .= '<div id="content-'.$clean_id_name.'">';
 					$contents .= file_get_contents($dir . $name);
 					$contents .= '</div>';
 				}
