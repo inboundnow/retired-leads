@@ -67,15 +67,23 @@ class InboundShortcodes {
   static function loads($hook) {
     global $post;
     $final_path = self::set_file_path();
-    if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' )
-	{
-
+    if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
+      /* dequeue third party scripts */
+      global $wp_scripts;
+      if ( !empty( $wp_scripts->queue ) ) {
+            $store = $wp_scripts->queue; // store the scripts
+            foreach ( $wp_scripts->queue as $handle ) {
+                wp_dequeue_script( $handle );
+            }
+      }
+    wp_enqueue_script('jquery' );
+    wp_enqueue_script('jquery-cookie', $final_path. 'shared/assets/global/js/jquery.cookie.js', array( 'jquery' ));
+    wp_enqueue_script('jquery-total-storage', $final_path. 'shared/assets/global/js/jquery.total-storage.min.js', array( 'jquery' ));
 		wp_enqueue_style('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/css/shortcodes.css');
 		wp_enqueue_script('jquery-ui-sortable' );
 		wp_enqueue_script('inbound-shortcodes-plugins', $final_path.'shared/inbound-shortcodes/js/shortcodes-plugins.js');
 
-		if (isset($post) && post_type_supports( $post->post_type, 'editor') || isset($post) && 'wp-call-to-action' === $post->post_type )
-		{
+		if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
 			wp_enqueue_script('inbound-shortcodes', $final_path.'shared/inbound-shortcodes/js/shortcodes.js');
 			$form_id = (isset($_GET['post'])) ? $_GET['post'] : '';
 			wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
@@ -84,7 +92,7 @@ class InboundShortcodes {
 		}
 
 		// Forms CPT only
-		if (  ( isset($post) && 'inbound-forms' === $post->post_type ) || ( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms' ) ) {
+		if ((isset($post)&&'inbound-forms'=== $post->post_type)||( isset($_GET['post_type']) && $_GET['post_type']==='inbound-forms')) {
 			 wp_enqueue_style('inbound-forms-css', $final_path.'shared/inbound-shortcodes/css/form-cpt.css');
 			 wp_enqueue_script('inbound-forms-cpt-js', $final_path.'shared/inbound-shortcodes/js/form-cpt.js');
 			 wp_localize_script( 'inbound-forms-cpt-js', 'inbound_forms', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce'), 'form_cpt' => 'on' ) );
@@ -106,13 +114,16 @@ class InboundShortcodes {
 
 		wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => $final_path.'shared/inbound-shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
 
-		if (isset($post)&&$post->post_type=='inbound-forms')
-		{
+		if (isset($post)&&$post->post_type=='inbound-forms') {
 		  require_once( 'shortcodes-fields.php' );
 		  add_action( 'admin_footer',  array(__CLASS__, 'inbound_forms_header_area'));
 		}
 
-		  //add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
+    /* Requeue third party scripts */
+    foreach ( $store as $handle ) {
+        wp_enqueue_script( $handle );
+    }
+		//add_action('admin_head', array( __CLASS__, 'shortcodes_admin_head' ));
     }
   }
 
