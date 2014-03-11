@@ -2,9 +2,10 @@
 
 /* 	Include wp-load
  * 	----------------------------------------------------- */
+/* 	Include wp-load
+ * 	----------------------------------------------------- */
 $path_to_file = explode( 'wp-content', __FILE__ );
 $path_to_wp = $path_to_file[0];
-
 require_once( $path_to_wp . '/wp-load.php' );
 
 /* 	The Class
