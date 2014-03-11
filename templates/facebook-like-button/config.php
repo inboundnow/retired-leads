@@ -8,7 +8,8 @@ do_action('wp_cta_global_config'); // The wp_cta_global_config function is for g
 
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = basename(dirname(__FILE__));
-$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+$this_path = WP_CTA_PATH.'templates/'.$key.'/';
+$url_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 
 $wp_cta_data[$key]['info'] =
@@ -19,7 +20,8 @@ array(
     'category' => 'social', // Template Category
     'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
     'description'  => 'Get more facebook likes', // template description
-	'path' => $this_path //path to template folder
+	'path' => $this_path, //path to template folder
+	'urlpath' => $url_path //path to template folder
 );
 
 
