@@ -419,7 +419,7 @@ class CallsToAction {
 		$final_token_array = array();
 		$global_val_array = array();
 		foreach ($selected_cta['meta'][$vid] as $key=>$value) {
-			if (strlen($key)> 60) {
+			if (strlen($key)> 90) {
 				continue;
 			}
 
