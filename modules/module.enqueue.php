@@ -74,28 +74,26 @@ function wp_cta_fontend_enqueue_scripts($hook)
 
 }
 
-if (is_admin())
-{
+if (is_admin()) {
 	add_action('admin_enqueue_scripts','wp_cta_admin_enqueue');
 
-	function wp_cta_admin_enqueue($hook)
-	{
+	function wp_cta_admin_enqueue($hook) {
 		global $post;
 		$CTAExtensions = CTALoadExtensions();
-
 		$screen = get_current_screen();
 
+		global $wp_scripts; /* dequeue third party scripts */
+		if ( !empty( $wp_scripts->queue ) ) {
+		      $store = $wp_scripts->queue; // store the scripts
+		      foreach ( $wp_scripts->queue as $handle ) {
+		          wp_dequeue_script( $handle );
+		      }
+		}
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'css/admin-style.css');
 
 			// Frontend Editor
 		if ((isset($_GET['page']) == 'wp-cta-frontend-editor')) {
 
-		}
-
-		// load global metabox scripts on all post type edit screens
-		if ( $hook == 'post-new.php' || $hook == 'post.php') {
-		wp_enqueue_script('selectjs', WP_CTA_URLPATH . '/shared/js/select2.min.js');
-		wp_enqueue_style('selectjs', WP_CTA_URLPATH . '/shared/css/select2.css');
 		}
 
 		//easyXDM - for store rendering
@@ -106,8 +104,7 @@ if (is_admin())
 		}
 
 		// Admin enqueue - Landing Page CPT only
-		if ( isset($post) && 'wp-call-to-action' == $post->post_type || ( isset($_GET['post_type']) && $_GET['post_type']=='wp-call-to-action' ) )
-			{
+	if (isset($post)&&'wp-call-to-action'==$post->post_type||(isset($_GET['post_type'])&&$_GET['post_type']=='wp-call-to-action' )){
 				wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
 				wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'js/libraries/jpicker/jpicker-1.1.6.min.js');
 				wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
@@ -121,7 +118,7 @@ if (is_admin())
 				wp_localize_script( 'wp-cta-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'wp_call_to_action_clear_nonce' => wp_create_nonce('wp-call-to-action-clear-nonce') ) );
 
 			// Add New and Edit Screens
-			if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+			if ($hook == 'post-new.php' || $hook == 'post.php') {
 				//echo wp_create_nonce('wp-cta-nonce');exit;
 
 				add_filter( 'wp_default_editor', 'wp_cta_ab_testing_force_default_editor' );/* force visual editor to open in text mode */
@@ -138,15 +135,13 @@ if (is_admin())
 				$params = array('selected_template'=>$template, 'templates'=>$template_data);
 				wp_localize_script('wp-cta-js-metaboxes', 'data', $params);
 
-
 				// Conditional TINYMCE for landing pages
 				wp_dequeue_script('jquery-tinymce');
 				wp_enqueue_script('jquery-tinymce', WP_CTA_URLPATH . 'js/libraries/tiny_mce/jquery.tinymce.js');
-
 			}
 
 			// Edit Screen
-			if ( $hook == 'post.php' ) {
+			if ($hook == 'post.php') {
 				wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . 'css/admin-post-edit.css');
 				if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
 					//show_admin_bar( false ); // doesnt work
@@ -172,15 +167,13 @@ if (is_admin())
 			}
 
 			// Add New Screen
-			if ( $hook == 'post-new.php'  )
-			{
-				wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'js/admin/admin.post-new.js', array('jquery'), '1.0', true );
-				wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'css/admin-post-new.css');
+			if ( $hook == 'post-new.php'){
+			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'js/admin/admin.post-new.js', array('jquery'), '1.0', true );
+			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'css/admin-post-new.css');
 			}
 
 			// List Screen
-			if ( $screen->id == 'edit-wp-call-to-action' )
-			{
+			if ( $screen->id == 'edit-wp-call-to-action') {
 				wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
 				wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'css/admin-wp-call-to-action-list.css');
 				wp_enqueue_script('jqueryui');
@@ -189,16 +182,17 @@ if (is_admin())
 			}
 
 		}
+		/* Requeue third party scripts */
+		foreach ( $store as $handle ) {
+		    wp_enqueue_script( $handle );
+		}
 	}
 
 	// The loadtiny is specifically to load thing in the module.customizer-display.php iframe (not really working for whatever reason)
-	if (isset($_GET['page'])&&$_GET['page']=='wp-cta-frontend-editor')
-	{
+	if (isset($_GET['page'])&&$_GET['page']=='wp-cta-frontend-editor') {
 		add_action('init','wp_cta_customizer_enqueue');
 		add_action('wp_enqueue_scripts', 'wp_cta_customizer_enqueue');
-		function wp_cta_customizer_enqueue($hook)
-		{
-
+		function wp_cta_customizer_enqueue($hook) {
 			wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
 			wp_dequeue_script('jquery-cookie');
 			wp_enqueue_script('jquery-cookie', WP_CTA_URLPATH . 'js/jquery.cookie.js');
@@ -210,7 +204,6 @@ if (is_admin())
 
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
 			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ) );
-
 			wp_enqueue_script('wp-cta-frontend-editor-js', WP_CTA_URLPATH . 'js/customizer.save.js');
 
 			//jpicker - color picker

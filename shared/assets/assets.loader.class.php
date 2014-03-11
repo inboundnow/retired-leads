@@ -30,8 +30,6 @@ class Inbound_Asset_Loader {
 	 */
 	static function register_scripts_and_styles() {
 		/* Frontent and Backend Files */
-		self::load_file('jquery-cookie', 'global/js/jquery.cookie.js', array( 'jquery' ));
-		self::load_file('jquery-total-storage', 'global/js/jquery.total-storage.min.js', array( 'jquery' ));
 
 		if(is_user_logged_in()){
 		  self::load_file('inbound-admin', 'admin/css/global-inbound-admin.css');
@@ -39,7 +37,8 @@ class Inbound_Asset_Loader {
 
 		/* Conditionals for admin or frontend */
 		if(is_admin()) {
-
+			self::load_file('jquery-cookie', 'global/js/jquery.cookie.js', array( 'jquery' ));
+			self::load_file('jquery-total-storage', 'global/js/jquery.total-storage.min.js', array( 'jquery' ));
 			$inbound_now_screens = InboundCompatibility::return_inbound_now_screens(); // list of inbound now screens
 			$screen = get_current_screen();
 
@@ -52,10 +51,23 @@ class Inbound_Asset_Loader {
 
 	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
+			global $wp_scripts;
 
-	  		self::load_file('funnel-tracking', 'frontend/js/page-tracking.js', array(), 'wplft', self::localize_lead_data());
+			if ( !empty( $wp_scripts->queue ) ) {
+			      $store = $wp_scripts->queue; // store the scripts
+			      foreach ( $wp_scripts->queue as $handle ) {
+			          wp_dequeue_script( $handle );
+			      }
+			}
+			self::load_file('jquery-cookie', 'global/js/jquery.cookie.js', array( 'jquery' ));
+			self::load_file('jquery-total-storage', 'global/js/jquery.total-storage.min.js', array( 'jquery' ));
+	  		self::load_file('funnel-tracking', 'frontend/js/page-tracking.js', array( 'jquery','jquery-cookie'), 'wplft', self::localize_lead_data());
 	  		// TODO: Merge Localize of wplft into inbound_ajax
 	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie'), 'inbound_ajax', self::localize_lead_data());
+
+	  		foreach ( $store as $handle ) {
+	  		    wp_enqueue_script( $handle );
+	  		}
 	  		/* Target Specific post type with
 	  		if ( is_singular( 'landing-page' ) ) {
 

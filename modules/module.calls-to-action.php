@@ -335,20 +335,13 @@ class CallsToAction {
 
 		/* load form pre-population script */
 		if (!wp_script_is('form-population','enqueue'))	{
-			wp_register_script('form-population', WP_CTA_URLPATH . 'js/jquery.form-population.js', array( 'jquery', 'jquery-cookie'	));
-			wp_enqueue_script('form-population');
-		}
-
-		/* load lead tracking scripts */
-		if (!wp_script_is('store-lead-ajax','enqueue')) {
-			wp_enqueue_script( 'store-lead-ajax', WP_CTA_URLPATH .'shared/tracking/js/store.lead.ajax.js', array( 'jquery','jquery-cookie'), '1', true);
-			wp_localize_script( 'store-lead-ajax' , 'inbound_ajax', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type));
+		wp_register_script('form-population', WP_CTA_URLPATH . 'js/jquery.form-population.js', array( 'jquery', 'jquery-cookie'	));
+		wp_enqueue_script('form-population');
 		}
 
 		/* Import CSS & JS from Assets folder and Enqueue */
 		$loaded = array();
-		foreach (self::$instance->selected_cta['templates'] as $template)
-		{
+		foreach (self::$instance->selected_cta['templates'] as $template) {
 			if ( in_array( $template['slug'] , $loaded) ) {
 				continue;
 			}
@@ -357,14 +350,12 @@ class CallsToAction {
 			$assets = self::$instance->get_assets($template);
 			$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
 			if (is_array($assets)) {
-				foreach ($assets as $type => $file)
-				{
+				foreach ($assets as $type => $file) {
 					if (!is_array($file)) {
 						continue;
-					}					
-					
-					switch ($type)
-					{
+					}
+
+					switch ($type) {
 						case 'js':
 							foreach ($file as $js)
 							{
@@ -384,16 +375,14 @@ class CallsToAction {
 		}
 	}
 
-	public function reveal_loaded_ctas()
-	{
+	public function reveal_loaded_ctas() {
 		/* determin variation */
 		wp_enqueue_script('cta-reveal-variation', WP_CTA_URLPATH.'js/cta-reveal-variation.js', array('jquery') , true );
 		wp_localize_script( 'cta-reveal-variation', 'cta_reveal', array( 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
 
 	}
 
-	public function replace_template_variables( $selected_cta , $template , $vid )
-	{
+	public function replace_template_variables( $selected_cta , $template , $vid ) {
 		$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
 		/* Preg match parsing - Keep here */
@@ -429,9 +418,8 @@ class CallsToAction {
 		$token_array = array();
 		$final_token_array = array();
 		$global_val_array = array();
-		foreach ($selected_cta['meta'][$vid] as $key=>$value)
-		{
-			if (strlen($key)> 90) {
+		foreach ($selected_cta['meta'][$vid] as $key=>$value) {
+			if (strlen($key)> 60) {
 				continue;
 			}
 
@@ -679,8 +667,7 @@ class CallsToAction {
 	}
 
 
-	public function load_custom_js_css( $selected_cta = null)
-	{
+	public function load_custom_js_css($selected_cta = null) {
 		global $post;
 
 		($selected_cta) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
@@ -689,8 +676,7 @@ class CallsToAction {
 			return;
 		}
 
-		foreach ($selected_cta['meta'] as $vid=>$cta)
-		{
+		foreach ($selected_cta['meta'] as $vid=>$cta) {
 			($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 			/* account for preview mode */
