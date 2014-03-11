@@ -339,12 +339,6 @@ class CallsToAction {
 			wp_enqueue_script('form-population');
 		}
 
-		/* load lead tracking scripts */
-		if (!wp_script_is('store-lead-ajax','enqueue')) {
-			wp_enqueue_script( 'store-lead-ajax', WP_CTA_URLPATH .'shared/tracking/js/store.lead.ajax.js', array( 'jquery','jquery-cookie'), '1', true);
-			wp_localize_script( 'store-lead-ajax' , 'inbound_ajax', array( 'admin_url' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type));
-		}
-
 		/* Import CSS & JS from Assets folder and Enqueue */
 		$loaded = array();
 		foreach (self::$instance->selected_cta['templates'] as $template)
@@ -361,8 +355,8 @@ class CallsToAction {
 				{
 					if (!is_array($file)) {
 						continue;
-					}					
-					
+					}
+
 					switch ($type)
 					{
 						case 'js':

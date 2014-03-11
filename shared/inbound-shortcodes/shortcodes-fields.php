@@ -1,13 +1,4 @@
 <?php
-/**
- *	FreshThemes Shortcodes Field Class
- * 	---------------------------------------------------------------------------
- *	@author 	: Rifki A.G
- *	@version	: 1.3
- *	@copyright	: Copyright (c) 2013, FreshThemes
- *		          http://www.freshthemes.net
- *		          http://www.rifki.net
- *	--------------------------------------------------------------------------- */
 
 /* 	Include wp-load
  * 	----------------------------------------------------- */

@@ -39,7 +39,7 @@ function wp_cta_generate_meta()
 			$id = strtolower(str_replace(' ','-',$key));
 			add_meta_box(
 				"wp_cta_{$id}_custom_meta_box", // $id
-				"<small>$template_name ".___('Options:' , 'cta' ). "</small>",
+				"<small>$template_name ".__('Options:' , 'cta' ). "</small>",
 				'wp_cta_show_template_options_metabox', // $callback
 				'wp-call-to-action', // post-type
 				'normal', // $context
