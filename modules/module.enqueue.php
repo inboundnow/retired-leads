@@ -21,9 +21,6 @@ function wp_cta_fontend_enqueue_scripts($hook)
 	// Load Script on All Frontend Pages
 	wp_enqueue_script('jquery');
 
-	wp_register_script('form-population', WP_CTA_URLPATH . 'shared/assets/frontend/js/form-population.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
-	wp_enqueue_script('form-population');
-
 	/* Global Lead Data */
 	$lead_cpt_id = (isset($_COOKIE['wp_lead_id'])) ? $_COOKIE['wp_lead_id'] : false;
     $lead_email = (isset($_COOKIE['wp_lead_email'])) ? $_COOKIE['wp_lead_email'] : false;

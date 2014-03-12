@@ -506,14 +506,16 @@ font-size: 14px; padding-top: 10px;"><?php echo $data['info']['label']; ?></div>
 }
 
 
+
 /* Custom CSS */
 function wp_cta_custom_css_input() {
 	global $post;
 
-	echo __( '<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>' , 'cta' );
+	echo "<em>Custom CSS may be required to customize this call to action. Insert Your CSS Below. Format: #element-id { display:none !important; }</em>";
 	echo '<input type="hidden" name="wp-cta-custom-css-noncename" id="wp_cta_custom_css_noncename" value="'.wp_create_nonce(basename(__FILE__)).'" />';
 
 	$custom_css_meta_key = apply_filters('wp_cta_custom_css_meta_key','wp-cta-custom-css');
+	
 	$custom_css = get_post_meta($post->ID,$custom_css_meta_key,true);
 
 	$line_count = substr_count( $custom_css , "\n" );
@@ -525,20 +527,31 @@ function wp_cta_custom_css_input() {
 add_action('save_post', 'wp_call_to_actions_save_custom_css');
 function wp_call_to_actions_save_custom_css($post_id) {
 	global $post;
-	if (!isset($post)||!isset($_POST['wp-cta-custom-css']))
+	
+	if (!isset($post)) {
 		return;
+	}
 
-	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
+	if ($post->post_type=='revision') {
+		return;
+	}
 
+	if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) ||(isset($_POST['post_type'])&&$_POST['post_type']=='revision')) {
+		return;
+	}
 
+	if ($post->post_type!='wp-call-to-action') {
+		return;
+	}
+	
+	
 	$custom_css_meta_key = apply_filters('wp_cta_custom_css_meta_key','wp-cta-custom-css');
-
+	
 	$wp_cta_custom_css = $_POST[$custom_css_meta_key];
-	update_post_meta($post_id, 'wp-cta-custom-css', $wp_cta_custom_css);
+	update_post_meta($post_id, $custom_css_meta_key , $wp_cta_custom_css);
 }
 
 /* Custom JS */
-
 function wp_cta_custom_js_input() {
 	global $post;
 	echo "<em></em>";
@@ -557,19 +570,30 @@ add_action('save_post', 'wp_call_to_actions_save_custom_js');
 function wp_call_to_actions_save_custom_js($post_id) {
 	global $post;
 
-	if (!isset($post)||!isset($_POST['wp-cta-custom-js']))
+	if (!isset($post)) {
 		return;
-
-	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-		return $post_id;
 	}
+
+	if ($post->post_type=='revision') {
+		return;
+	}
+
+	if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) ||(isset($_POST['post_type'])&&$_POST['post_type']=='revision')) {
+		return;
+	}
+
+	if ($post->post_type!='wp-call-to-action') {
+		return;
+	}
+	
 
 	$custom_js_meta_key = apply_filters('wp_cta_custom_js_meta_key','wp-cta-custom-js');
 
 	$wp_cta_custom_js = $_POST[$custom_js_meta_key];
 
-	update_post_meta($post_id, 'wp-cta-custom-js', $wp_cta_custom_js);
+	update_post_meta($post_id, $custom_js_meta_key , $wp_cta_custom_js);
 }
+
 
 
 
