@@ -222,12 +222,18 @@ class InboundForms {
 
 					$checkbox = $matches[3][$i]['checkbox'];
 					$checkbox_fields = explode(",", $checkbox);
+					$checkbox_array = (count($checkbox_fields) > 1) ? '[]' : ''; // set checkbox array or not array
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
+					$checkboxes = '';
 					foreach ($checkbox_fields as $key => $value) {
-						$checkbox_val_trimmed =  trim($value);
+						$checkbox_val_trimmed = trim($value);
+
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'">'.$checkbox_val_trimmed.'<br>';
+						$values = "val='".$checkbox_fields[$key]."'";
+						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" '.$values.'>'.$checkbox_val_trimmed.'<br>';
 					}
+					$checkboxes = preg_replace("/vaxlue/", 'value', $checkboxes);
+					$form .= $checkboxes;
 				}
 				else if ($type === 'html-block')
 				{
