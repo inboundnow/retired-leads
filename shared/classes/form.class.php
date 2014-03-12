@@ -222,7 +222,7 @@ class InboundForms {
 
 					$checkbox = $matches[3][$i]['checkbox'];
 					$checkbox_fields = explode(",", $checkbox);
-					$checkbox_array = (count($checkbox_fields) > 1) ? '' : ''; // set checkbox array or not array
+					$checkbox_array = (count($checkbox_fields) > 1) ? '[]' : ''; // set checkbox array or not array
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 					$checkboxes = '';
 					foreach ($checkbox_fields as $key => $value) {
@@ -426,9 +426,13 @@ class InboundForms {
 				$multi_send = true;
 			}
 		}
+		/*
+		print_r($form_meta_data); exit;
+		/**/
 
-		/* print_r($form_meta_data); exit; */
-		/* print_r($form_data); exit; */
+		/*
+		print_r($form_data); exit;
+		/**/
 
 		 $form_email = false;
 		 foreach ($form_data as $key => $value) {
@@ -522,7 +526,7 @@ class InboundForms {
              </td>
      </tr>';
 // working!
-     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
+     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl', 'Inbound Form Lists' );
 
      $main_count = 0;
      $url_request = "";
@@ -814,7 +818,7 @@ class InboundForms {
 			foreach ( $_POST as $field => $value ) {
 
 				if(is_array($value)) {
-					$value = implode(',',$value);
+					$value = implode(', ',$value);
 					$form_post_data[$field] = strip_tags( $value );
 				} else {
 					if ( get_magic_quotes_gpc() ) {
