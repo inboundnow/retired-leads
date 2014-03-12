@@ -321,10 +321,21 @@ function grab_all_form_input_vals(this_form){
 		input_type = $input.attr('type'),
 		input_val = $input.val();
 		if (input_type === 'checkbox') {
-			input_val = $input.attr("checked");
+			input_checked = $input.attr("checked");
 			console.log(input_val);
+			console.log(input_checked);
+			console.log(post_values[this.name]);
+			if (input_checked === "checked"){
+			if (typeof (post_values[this.name]) != "undefined") {
+				post_values[this.name] = post_values[this.name] + "," + input_val;
+				console.log(post_values[this.name]);
+			} else {
+				post_values[this.name] = input_val;
+			}
+
+			}
 		}
-		if (jQuery.inArray(this.name, inbound_exclude) === -1){
+		if (jQuery.inArray(this.name, inbound_exclude) === -1 && input_type != 'checkbox'){
 		   post_values[this.name] = input_val;
 		}
 		if (this.value.indexOf('@')>-1&&!email){

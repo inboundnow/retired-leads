@@ -222,17 +222,15 @@ class InboundForms {
 
 					$checkbox = $matches[3][$i]['checkbox'];
 					$checkbox_fields = explode(",", $checkbox);
-					$checkbox_array = (count($checkbox_fields) > 1) ? '[]' : ''; // set checkbox array or not array
+					$checkbox_array = (count($checkbox_fields) > 1) ? '' : ''; // set checkbox array or not array
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 					$checkboxes = '';
 					foreach ($checkbox_fields as $key => $value) {
 						$checkbox_val_trimmed = trim($value);
-
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$values = "value='".$checkbox_fields[$key]."'";
-						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" '.$values.'>'.$checkbox_val_trimmed.'<br>';
+						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" value="'.$checkbox_val_trimmed.'">'.$checkbox_val_trimmed.'<br>';
 					}
-					$checkboxes = preg_replace("/vaxlue/", 'value', $checkboxes);
+
 					$form .= $checkboxes;
 				}
 				else if ($type === 'html-block')
@@ -814,28 +812,35 @@ class InboundForms {
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
-                if ( get_magic_quotes_gpc() ) {
-                    $value = stripslashes( $value );
-                }
-                $field = strtolower($field);
 
-                if (preg_match( '/Email|e-mail|email/i', $value)) {
-                $field = "email";
-                }
+				if(is_array($value)) {
+					$value = implode(',',$value);
+					$form_post_data[$field] = strip_tags( $value );
+				} else {
+					if ( get_magic_quotes_gpc() ) {
+					    $value = stripslashes( $value );
+					}
+					$field = strtolower($field);
 
-                if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
-                $field = "first-name";
-                }
+					if (preg_match( '/Email|e-mail|email/i', $value)) {
+					$field = "email";
+					}
 
-                if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
-                $field = "last-name";
-                }
+					if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
+					$field = "first-name";
+					}
 
-                if (preg_match( '/Phone|phone number|telephone/i', $value)) {
-                $field = "phone";
-                }
+					if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
+					$field = "last-name";
+					}
 
-                $form_post_data[$field] = strip_tags( $value );
+					if (preg_match( '/Phone|phone number|telephone/i', $value)) {
+					$field = "phone";
+					}
+
+					$form_post_data[$field] = strip_tags( $value );
+				}
+
 
             }
             $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
