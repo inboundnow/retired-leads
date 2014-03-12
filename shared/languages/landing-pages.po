@@ -1842,7 +1842,7 @@ msgstr ""
 #: shared/inbound-shortcodes/shortcodes/teaser.php:30
 #: shared/inbound-shortcodes/shortcodes/testimonial.php:19
 #: shared/inbound-shortcodes/shortcodes/testimonial.php:75
-msgid "Select the number of column."
+msgid "Select the number of column(s)."
 msgstr ""
 
 #: shared/inbound-shortcodes/shortcodes/landing-page-list.php:24
