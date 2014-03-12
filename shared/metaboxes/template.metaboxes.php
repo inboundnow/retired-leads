@@ -19,20 +19,22 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 	// Begin the field table and loop
 	echo '<div class="form-table" id="inbound-meta">';
 
+	//print_r($custom_fields);exit;
 	$current_var = wp_cta_ab_testing_get_current_variation_id();
-
-	foreach ($custom_fields as $field) {
+	
+	foreach ($custom_fields as $field) 
+	{
 		$field_id = $key . "-" .$field['id'];
 		$label_class = $field['id'] . "-label";
 		$type_class = " inbound-" . $field['type'];
 		$type_class_row = " inbound-" . $field['type'] . "-row";
 		$type_class_option = " inbound-" . $field['type'] . "-option";
-		$option_class = (isset($field['class'])) ? $field['class'] : '';
+		$option_class = (isset($field['class'])) ? $field['class'] : ''; 
 
 		$meta = get_post_meta($post->ID, $field_id, true);
 
 		//print_r($field);
-		if ((!isset($meta)&&isset($field['default'])&&!is_numeric($meta))||isset($meta)&&empty($meta)&&isset($field['default'])&&!is_numeric($meta))
+		if (!metadata_exists('post',$post->ID,$field_id))
 		{
 			$meta = $field['default'];
 		}
@@ -155,9 +157,9 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 					case 'image-select':
 						echo '<select name="'.$field_id.'" id="'.$field_id.'" class="image-picker">';
 						foreach ($field['options'] as $value=>$label) {
-							echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'" data-img-src="'.$extension_data[$key]['info']['path'].'assets/img/'.$value.'.'.$field['image_type'].'" >'.$label.'</option>';
+							echo '<option', $meta == $value ? ' selected="selected"' : '', ' value="'.$value.'" data-img-src="'.$extension_data[$key]['info']['urlpath'].'assets/img/'.$value.'.'.$field['image_type'].'" >'.$label.'</option>';
 						}
-						echo '</select><div class="wp-cta-image-container" style="display:inline;"></div><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+						echo '</select><div class="wp-cta-image-container" style="display:inline;min-height:200px;margin-top:10px;"></div><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 					break;
 
 

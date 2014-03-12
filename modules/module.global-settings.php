@@ -76,7 +76,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'extra-lead-data',
 			'label' => __('Full Contact API Key' , 'leads' ),
-			'description' => __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: <a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>here</a></p>" , 'leads' ),
+			'description' => sprintf( __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: %s here %s </p>" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null

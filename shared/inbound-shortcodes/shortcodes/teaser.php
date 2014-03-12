@@ -27,7 +27,7 @@
 			),
 			'column' => array(
 				'name' => __('Column', 'leads'),
-				'desc' => __('Select the number of column.', 'leads'),
+				'desc' => __('Select the number of column(s).', 'leads'),
 				'type' => 'select',
 				'options' => array(
 					'1' => __('1 Column', 'leads'),
