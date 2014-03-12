@@ -180,6 +180,66 @@ if (!function_exists('wp_leads_get_page_final_id')) {
 	}
 }
 
+/* PHP 5.2 json encode fallback */
+if (!function_exists('json_encode_fallback')) {
+  function json_encode_fallback($a=false)
+  {
+    if (is_null($a)) return 'null';
+    if ($a === false) return 'false';
+    if ($a === true) return 'true';
+    if (is_scalar($a))
+    {
+      if (is_float($a))
+      {
+        // Always use "." for floats.
+        return floatval(str_replace(",", ".", strval($a)));
+      }
+
+      if (is_string($a))
+      {
+        static $jsonReplaces = array(array("\\", "/", "\n", "\t", "\r", "\b", "\f", '"'), array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
+        return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $a) . '"';
+      }
+      else
+        return $a;
+    }
+    $isList = true;
+    for ($i = 0, reset($a); $i < count($a); $i++, next($a))
+    {
+      if (key($a) !== $i)
+      {
+        $isList = false;
+        break;
+      }
+    }
+    $result = array();
+    if ($isList)
+    {
+      foreach ($a as $v) $result[] = json_encode($v);
+      return '[' . join(',', $result) . ']';
+    }
+    else
+    {
+      foreach ($a as $k => $v) $result[] = json_encode($k).':'.json_encode($v);
+      return '{' . join(',', $result) . '}';
+    }
+  }
+}
+/* Usage of JSON fallback
+
+	$output = array('inbound_shortcode'=> $shortcode,
+          'field_count'=>$field_count,
+          'form_settings_data' => $form_settings_data,
+          'field_values'=>$inbound_form_values);
+
+	if ( version_compare( phpversion(), '5.3', '<' ) ) {
+	echo json_encode_fallback($output);
+	} else {
+	echo json_encode($output,JSON_FORCE_OBJECT);
+	}
+
+*/
+
 /* Potentially Legacy is this being used anywhere?
 if (!function_exists('wpl_url_to_postid_final')) {
 function wpl_url_to_postid_final($url) {
