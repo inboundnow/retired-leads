@@ -229,7 +229,7 @@ class InboundForms {
 						$checkbox_val_trimmed = trim($value);
 
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$values = "val='".$checkbox_fields[$key]."'";
+						$values = "value='".$checkbox_fields[$key]."'";
 						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" '.$values.'>'.$checkbox_val_trimmed.'<br>';
 					}
 					$checkboxes = preg_replace("/vaxlue/", 'value', $checkboxes);
