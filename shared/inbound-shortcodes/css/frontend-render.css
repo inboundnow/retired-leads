@@ -89,6 +89,12 @@ max-width: 98%;
 width: 88%;
 }
 
+.inbound-field input[type="checkbox"],.inbound-field input[type="radio"] {
+display: inline-block;
+width: auto;
+margin: 10px;
+}
+
 #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=text], #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=url], #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=email], #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=tel], #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=number], #inbound-form-wrapper .inbound-horizontal.label-inbound-label-inline input[type=password] {
 width: 130px;
 }

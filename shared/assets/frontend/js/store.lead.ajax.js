@@ -235,7 +235,7 @@ function run_field_map_function(el, lookingfor) {
 
 function return_mapped_values(this_form) {
 	// Map form fields
-	jQuery(this_form).find('input[type=text],input[type=email],textarea,select').each(function() {
+	jQuery(this_form).find('input,textarea,select').each(function() {
 		console.log('run');
 		var this_input = jQuery(this);
 		var this_input_val = this_input.val();
@@ -310,22 +310,29 @@ function inbound_form_type(this_form) {
 function grab_all_form_input_vals(this_form){
 	var post_values = post_values || {},
 	inbound_exclude = inbound_exclude || [],
-	form_inputs = this_form.find('input[type=text],input[type=hidden],textarea,select');
+	form_inputs = this_form.find('input,textarea,select');
 	inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id', 'inbound_form_lists');
 	var form_type = inbound_form_type(this_form),
 	inbound_data = inbound_data || {},
 	email = inbound_data['email'] || false;
 
 	form_inputs.each(function() {
+		var $input = jQuery(this),
+		input_type = $input.attr('type'),
+		input_val = $input.val();
+		if (input_type === 'checkbox') {
+			input_val = $input.attr("checked");
+			console.log(input_val);
+		}
 		if (jQuery.inArray(this.name, inbound_exclude) === -1){
-		   post_values[this.name] = jQuery(this).val();
+		   post_values[this.name] = input_val;
 		}
 		if (this.value.indexOf('@')>-1&&!email){
-			email = jQuery(this).val();
+			email = input_val;
 			inbound_data['email'] = email;
 		}
 		if (form_type === 'search') {
-			inbound_data['search_keyword'] = jQuery(this).val().replace('"', "'");
+			inbound_data['search_keyword'] = input_val.replace('"', "'");
 		}
 	});
 	var all_form_fields = JSON.stringify(post_values);

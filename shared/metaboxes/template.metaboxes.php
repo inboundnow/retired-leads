@@ -11,7 +11,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 			$extension_data = $CTAExtensions->definitions;
 			break;
 	}
-	
+
 
 	// Use nonce for verification
 	echo "<input type='hidden' name='{$prefix}_{$key}_custom_fields_nonce' value='".wp_create_nonce(''.$prefix_dash.'-nonce')."' />";
@@ -21,8 +21,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 
 	$current_var = wp_cta_ab_testing_get_current_variation_id();
 
-	foreach ($custom_fields as $field) 
-	{
+	foreach ($custom_fields as $field) {
 		$field_id = $key . "-" .$field['id'];
 		$label_class = $field['id'] . "-label";
 		$type_class = " inbound-" . $field['type'];
@@ -37,7 +36,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 		{
 			$meta = $field['default'];
 		}
-		
+
         // Remove prefixes on global => true template options
         if (isset($field['global']) && $field['global'] === true) {
 			$field_id = $field['id'];

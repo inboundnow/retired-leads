@@ -241,7 +241,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 							$i++;
 						}
 						echo "</table>";
-						echo '<br><div class="wpl_tooltip tool_checkbox" title="'. $field['description'] .'"></div><p class="description">'. $field['description'] .'</p>';
+						echo '<div class="wpl_tooltip tool_checkbox" title="'. $field['description'] .'"></div><p class="description">'. $field['description'] .'</p>';
 					break;
 					// radio
 					case 'radio':
