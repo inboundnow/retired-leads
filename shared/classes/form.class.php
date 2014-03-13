@@ -199,9 +199,9 @@ class InboundForms {
 					$dropdown_fields = explode(",", $dropdown);
 					$form .= '<select name="'. $field_name .'" id="">';
 					foreach ($dropdown_fields as $key => $value) {
-					  $drop_val_trimmed =  trim($value);
-					  $dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
-					  $form .= '<option value="'. $dropdown_val .'">'. $value .'</option>';
+					  //$drop_val_trimmed =  trim($value);
+					  //$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
+					  $form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
 					}
 					$form .= '</select>';
 				}
@@ -225,16 +225,12 @@ class InboundForms {
 
 					$checkbox = $matches[3][$i]['checkbox'];
 					$checkbox_fields = explode(",", $checkbox);
-					$checkbox_array = (count($checkbox_fields) > 1) ? '[]' : ''; // set checkbox array or not array
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
-					$checkboxes = '';
 					foreach ($checkbox_fields as $key => $value) {
-						$checkbox_val_trimmed = trim($value);
+						$checkbox_val_trimmed =  trim($value);
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" value="'.$checkbox_val_trimmed.'">'.$checkbox_val_trimmed.'<br>';
+						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'">'.$checkbox_val_trimmed.'<br>';
 					}
-
-					$form .= $checkboxes;
 				}
 				else if ($type === 'html-block')
 				{
@@ -441,7 +437,7 @@ class InboundForms {
 		}
 
 		if (isset($form_meta_data['inbound_notify_email'])){
-			$email_to = $form_meta_data['inbound_notify_email'];
+			$email_to = $form_meta_data['inbound_notify_email'][0];
 			$email_addresses = explode(",", $email_to[0]);
 			if(is_array($email_addresses) && count($email_addresses) > 1) {
 				$multi_send = true;
@@ -449,13 +445,9 @@ class InboundForms {
 			
 			$email_subject = $form_meta_data['inbound_notify_email_subject'];
 		}
-		/*
-		print_r($form_meta_data); exit;
-		/**/
 
-		/*
-		print_r($form_data); exit;
-		/**/
+		/* print_r($form_meta_data); exit; */
+		/* print_r($form_data); exit; */
 
 		 $form_email = false;
 		 foreach ($form_data as $key => $value) {
@@ -484,6 +476,7 @@ class InboundForms {
 			// DO PHP LEAD SAVE HERE
 			//
 			$to = $email_to; // admin email or email from shortcode
+
 			$admin_url = get_bloginfo( 'url' ) . "/wp-admin";
 			$redirect_message = (isset($form_data['inbound_redirect']) && $form_data['inbound_redirect'] != "") ? "They were redirected to " . $form_data['inbound_redirect'] : '';
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
@@ -555,7 +548,7 @@ class InboundForms {
              </td>
      </tr>';
 // working!
-     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl', 'Inbound Form Lists' );
+     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
 
      $main_count = 0;
      $url_request = "";
@@ -845,35 +838,28 @@ class InboundForms {
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
+                if ( get_magic_quotes_gpc() ) {
+                    $value = stripslashes( $value );
+                }
+                $field = strtolower($field);
 
-				if(is_array($value)) {
-					$value = implode(', ',$value);
-					$form_post_data[$field] = strip_tags( $value );
-				} else {
-					if ( get_magic_quotes_gpc() ) {
-					    $value = stripslashes( $value );
-					}
-					$field = strtolower($field);
+                if (preg_match( '/Email|e-mail|email/i', $value)) {
+                $field = "email";
+                }
 
-					if (preg_match( '/Email|e-mail|email/i', $value)) {
-					$field = "email";
-					}
+                if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
+                $field = "first-name";
+                }
 
-					if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
-					$field = "first-name";
-					}
+                if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
+                $field = "last-name";
+                }
 
-					if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
-					$field = "last-name";
-					}
+                if (preg_match( '/Phone|phone number|telephone/i', $value)) {
+                $field = "phone";
+                }
 
-					if (preg_match( '/Phone|phone number|telephone/i', $value)) {
-					$field = "phone";
-					}
-
-					$form_post_data[$field] = strip_tags( $value );
-				}
-
+                $form_post_data[$field] = strip_tags( $value );
 
             }
             $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
