@@ -18,6 +18,7 @@ class InboundForms {
         add_action('wp_footer', array(__CLASS__, 'print_script'));
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
         add_action( 'init',  array(__CLASS__, 'do_actions'));
+		add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
     }
 
     // Create Longer shortcode for [inbound_form]
@@ -34,6 +35,7 @@ class InboundForms {
 		  'name' => '',
 		  'layout' => '',
 		  'notify' => $email,
+		  'notify_subject' => '{{site-name}} {{form-name}} - New Lead Conversion',
 		  'labels' => '',
 		  'font_size' => '', // set default from CSS
 		  'width' => '',
@@ -46,8 +48,9 @@ class InboundForms {
 		  'submit_bg_color' => ''
 		), $atts));
 
-		if ( !$id && isset($_GET['post']) )
+		if ( !$id && isset($_GET['post']) ) {
 			$id = $_GET['post'];
+		}
 
 
 		$form_name = $name;
@@ -282,6 +285,7 @@ class InboundForms {
 			return $form;
 		}
 	}
+	
 	// Create shorter shortcode for [inbound_forms]
 	static function inbound_short_form_create( $atts, $content = null )
 	{
@@ -320,7 +324,7 @@ class InboundForms {
 		}
 		if ($id === 'none'){
 			$shortcode = "";
-		}
+		} 
 
 		return do_shortcode( $shortcode );
 	}
@@ -392,6 +396,23 @@ class InboundForms {
             </style>";
     }
 
+	public static function replace_tokens( $content , $form_data = null , $form_meta_data = null ) {
+
+		/* replace core tokens */
+		$content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
+		//$content = str_replace('{{form-name}}', $form_data['inbound_form_name']		, $content);
+		
+		foreach ($form_data as $key => $value) {
+			$token_key = str_replace('_','-', $key);
+			$token_key = str_replace('inbound-','', $token_key);
+
+			$content = str_replace( '{{'.trim($token_key).'}}' , $value , $content );
+		}
+		
+		return $content;
+	}
+	
+	
 	static function send_mail($form_data, $form_meta_data)
 	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
@@ -412,15 +433,17 @@ class InboundForms {
 		$multi_send = false;
 
 		if (isset($form_meta_data['inbound_email_send_notification'][0])){
-		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
+			$notification_status = $form_meta_data['inbound_email_send_notification'][0];
 		}
 
 		if (isset($form_meta_data['inbound_notify_email'])){
-		$email_to = $form_meta_data['inbound_notify_email'];
-		$email_addresses = explode(",", $email_to[0]);
+			$email_to = $form_meta_data['inbound_notify_email'];
+			$email_addresses = explode(",", $email_to[0]);
 			if(is_array($email_addresses) && count($email_addresses) > 1) {
 				$multi_send = true;
 			}
+			
+			$email_subject = $form_meta_data['inbound_notify_email_subject'];
 		}
 
 		/* print_r($form_meta_data); exit; */
@@ -449,6 +472,7 @@ class InboundForms {
 		/* Might be better email send need to test and look at html edd emails */
 		if ( $form_email && $email_to )
 		{
+
 			// DO PHP LEAD SAVE HERE
 			//
 			$to = $email_to; // admin email or email from shortcode
@@ -456,8 +480,13 @@ class InboundForms {
 			$redirect_message = (isset($form_data['inbound_redirect']) && $form_data['inbound_redirect'] != "") ? "They were redirected to " . $form_data['inbound_redirect'] : '';
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 			$data_time = date('F jS, Y \a\t g:ia', $time);
+
+
 			// get the website's name and puts it in front of the subject
-			$email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'] . " - New Lead Conversion";
+			$email_subject = (isset($form_meta_data['inbound_notify_email_subject'][0])) ? $form_meta_data['inbound_notify_email_subject'][0] : '{{site-name}} - {{form-name}} - New Lead Conversion';
+
+			$email_subject = apply_filters( 'inbound_replace_email_tokens' , $email_subject , $form_data , $form_meta_data);
+
 			// get the message from the form and add the IP address of the user below it
 		$email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
