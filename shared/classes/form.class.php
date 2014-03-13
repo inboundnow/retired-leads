@@ -745,11 +745,11 @@ class InboundForms {
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
 			if($multi_send) {
 				foreach ($email_addresses as $key => $recipient) {
-				wp_mail( $recipient, $email_subject, $email_message, $headers );
+				wp_mail( $recipient, stripslashes($email_subject), $email_message, $headers );
 				}
 			} else {
 
-				wp_mail( $to, $email_subject, $email_message, $headers );
+				wp_mail( $to, stripslashes($email_subject), $email_message, $headers );
 			}
 
 			// and set the result text to the shortcode attribute named 'success'
@@ -785,7 +785,7 @@ class InboundForms {
 			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $form_email, $confirm_subject, $confirm_email_message, $headers );
+			wp_mail( $form_email, $confirm_subject , $confirm_email_message, $headers );
 
 			//echo $notification_status . $form_email . $my_postid . 'hi'; exit;
 			//echo $content. $form_data['email'];
