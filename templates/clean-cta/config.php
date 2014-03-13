@@ -72,8 +72,9 @@ array(
          'label' => 'Sub Header Text',
          'description' => "Sub Header Text",
          'id'  => 'sub-header-text',
-         'type'  => 'text',
-         'default'  => 'Awesome Subheadline Text Goes here',
+         'type'  => 'wysiwyg',
+         'default'  => '<h3>Awesome Subheadline Text Goes here</h3>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae mauris arcu, eu pretium nisi. Praesent fringilla ornare ullamcorper. Pellentesque diam orci, sodales in blandit ut, placerat quis felis. Vestibulum at sem massa, in tempus nisi. Vivamus ut fermentum odio. Etiam porttitor faucibus volutpat. Vivamus vitae mi ligula, non hendrerit urna. Suspendisse potenti. Quisque eget massa a massa semper mollis.',
          'context'  => 'normal'
          ),
      array(
