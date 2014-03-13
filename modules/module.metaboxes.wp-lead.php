@@ -1126,7 +1126,7 @@ function wpleads_render_setting($fields)
 			case strstr($field['type'],'textarea'):
 				$parts = explode('-',$field['type']);
 				(isset($parts[1])) ? $rows= $parts[1] : $rows = '10';
-				echo '<textarea name="'.$id.'" id="'.$id.'" rows='.$rows.'" style="width:99%" >'.$field['value'].'</textarea>';
+				echo '<textarea name="'.$id.'" id="'.$id.'" rows='.$rows.'" style="" >'.$field['value'].'</textarea>';
 				break;
 			case strstr($field['type'],'text'):
 				$parts = explode('-',$field['type']);
