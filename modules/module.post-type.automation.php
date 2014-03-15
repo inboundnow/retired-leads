@@ -1,6 +1,6 @@
 <?php
 
-if ( !defined('Inbound_Automation_Post_Type') ) {
+if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 	class Inbound_Automation_Post_Type {
 
