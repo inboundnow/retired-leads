@@ -147,12 +147,9 @@ function wpleads_add_extension_license_key_header($wpleads_global_settings)
 function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 	/* Check if active tab */
-	if ($key==$active_tab)
-	{
+	if ($key==$active_tab) {
 		$display = 'block';
-	}
-	else
-	{
+	} else {
 		$display = 'none';
 	}
 
@@ -162,8 +159,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 	/* Begin the field table and loop */
 	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'">';
 
-	foreach ($custom_fields as $field)
-	{
+	foreach ($custom_fields as $field) {
 		/* get value of this field if it exists for this post */
 		(isset($field['default'])) ? $default = $field['default'] : $default = null;
 
@@ -178,7 +174,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 		echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300;">';
 		if ($field['type']=='header'){
 			echo $field['default'];
-		}else{
+		} else {
 			echo "<div class='inbound-setting-label'>".$field['label']."</div>";
 		}
 		echo '</th><td>';
@@ -334,8 +330,7 @@ function wpleads_display_global_settings() {
 
 }
 
-function wpleads_save_global_settings()
-{
+function wpleads_save_global_settings() {
 	//echo "here";exit;
 	$wpleads_global_settings = wpleads_get_global_settings();
 

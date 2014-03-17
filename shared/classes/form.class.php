@@ -739,7 +739,7 @@ class InboundForms {
 
 		}
 		// Send Confirmation Email to Form Converter
-		if ($notification_status == 'on' && isset($form_email)) {
+		if ($notification_status === 'on' && $form_email) {
 
 			$my_postid = $form_meta_data['post_id']; //This is page id or post id
 			$content_post = get_post($my_postid);

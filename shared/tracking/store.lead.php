@@ -18,8 +18,7 @@ function inbound_store_lead_search($args = array()) {
 	$email = (isset($_POST['email'] )) ? $_POST['email'] : null; // mapped data
 	$date = (isset($_POST['date'] )) ? $_POST['date'] : null; // mapped data
 
-	if ( ( isset( $email ) && !empty( $email ) && strstr( $email ,'@') ))
-	{
+	if ( ( isset( $email ) && !empty( $email ) && strstr( $email ,'@') )) {
 		$query = $wpdb->prepare(
 			'SELECT ID FROM ' . $wpdb->posts . '
 			WHERE post_title = %s
