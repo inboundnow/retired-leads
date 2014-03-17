@@ -984,7 +984,7 @@ class CallsToAction {
 
 		self::$instance->load_shortcode_variation_js($id);
 
-		return $cta_template;
+		return do_shortcode($cta_template);
 	}
 
 	function load_shortcode_variation_js( $cta_id )
