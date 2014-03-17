@@ -89,8 +89,7 @@ margin-bottom: 5px;
 #postexcerpt p {
 	display: none;
 }
-.metabox-holder .postbox-container .empty-container
-{
+.metabox-holder .postbox-container .empty-container {
 	border: none;
 }
 
@@ -103,21 +102,21 @@ margin-bottom: 5px;
 font-size: 14px;
 font-weight: 300;
 color: greytext; text-decoration: none;
-//text-shadow: 0 1px 2px black;
+
 }
 
 /*hudson*/
 .wp_cta_template_wrapper ul li .template {
 font-size: 14px;
-//font-weight: bold;
+
 color: #222222; text-decoration: none;
-//text-shadow: 0 1px 2px black;
+
 }
 
 #wp-cta-main-headline-wrap {margin-top: 5px;}
 
 .wp_cta_template_wrapper ul li:hover {
-//height: 43px;
+
 -webkit-box-shadow: 0 0px 2px black inset;
 
 }

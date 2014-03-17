@@ -50,7 +50,7 @@
   color: {{header-text-color|color}};
   text-shadow: 1px 1px 0px rgba(150, 150, 150, 0.59);
 }
-.cover p#clean-sub-head-text {
+.cover #clean-sub-head-text, #clean-sub-head-text h1,#clean-sub-head-text h2,#clean-sub-head-text h3,#clean-sub-head-text h4,#clean-sub-head-text h5,#clean-sub-head-text h6 {
   color: {{sub-header-text-color|color}};
 }
 .clean-button {
@@ -81,7 +81,10 @@
   color: #{{bottom-text-color}};
 }
 #clean-sub-head-text {
-  padding: 0px 10px 0px 10px;
+  text-align: center;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 #cta-button {
@@ -94,7 +97,7 @@
 
     <h1>{{ header-text }}</h1>
 
-    <p id="clean-sub-head-text">{{sub-header-text}}</p>
+    <div id="clean-sub-head-text">{{sub-header-text}}</div>
   </div>
   <div class="button-list">
     <a href="{{link_url}}" id="cta-button" class="clean-button" href="#">{{submit-button-text}}</a>
