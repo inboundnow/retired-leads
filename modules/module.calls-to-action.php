@@ -650,6 +650,7 @@ class CallsToAction {
 					//$return_val = eval($clean_val);
 					//echo $return_val;
 					if($debug_output) {
+					echo "<br>Template:".$template_slug."<br>";
 					echo "<br>Conditional : " . $clean_val . "<br>";
 					echo "PHP evaled: " . "<br>";
 					echo "<br>Replacement " . $test . "<br>";

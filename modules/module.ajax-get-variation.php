@@ -62,7 +62,7 @@ Class wpConfigConnection {
     function __construct($type=1,$filePath='./wp-config.php'){
         $this->filePath=$filePath;
         $this->getFile();
-        $this->serverBasedCondition();
+        //$this->serverBasedCondition();
         /**
          * eval the WP contants into PHP
          */
