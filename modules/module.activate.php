@@ -22,22 +22,17 @@ function wpleads_activate() {
 	}
 
 
-	if (count($blogids)>1)
-	{
+	if (count($blogids)>1) {
 		$count = count($blogids);
-	}
-	else
-	{
+	} else {
 		$count=1;
 	}
 
-	for ($i=0;$i<$count;$i++)
-	{
-		if ($multisite==1)
-		{
+	for ($i=0;$i<$count;$i++) {
+
+		if ($multisite==1) {
 			 switch_to_blog($blogids[$i]);
 		}
-
 		/* legacy support */
 		$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'";
 		$result = mysql_query($sql);
@@ -51,8 +46,6 @@ function wpleads_activate() {
 		/* add cronjob for lead rule processing */
 		$cronjob_schedule = get_option('wpl-main-lead_automation_cronjob_period','hourly');
 		wp_schedule_event(current_time( 'timestamp' ), $cronjob_schedule, 'wpleads_lead_automation_daily' );
-
-
 	}
 
 }

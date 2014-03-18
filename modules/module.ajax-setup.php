@@ -4,8 +4,7 @@
 add_action('wp_ajax_automation_run_automation_on_all_leads', 'wpleads_lead_automation_build_queue');
 add_action('wp_ajax_nopriv_automation_run_automation_on_all_leads', 'wpleads_lead_automation_build_queue');
 
-function wpleads_lead_automation_build_queue()
-{
+function wpleads_lead_automation_build_queue() {
 	global $wpdb;
 
 	$automation_id = $_POST['automation_id'];
@@ -49,8 +48,7 @@ function wpleads_lead_automation_build_queue()
 add_action('wp_ajax_wpl_track_user', 'wpl_track_user_callback');
 add_action('wp_ajax_nopriv_wpl_track_user', 'wpl_track_user_callback');
 
-function wpl_track_user_callback()
-{
+function wpl_track_user_callback() {
 	global $wpdb;
 
 	(isset(	$_POST['wp_lead_id'] )) ? $lead_id = $_POST['wp_lead_id'] : $lead_id = '';
@@ -73,17 +71,16 @@ add_action('wp_ajax_wpl_check_lists', 'wpl_check_lists_callback');
 add_action('wp_ajax_nopriv_wpl_check_lists', 'wpl_check_lists_callback');
 function wpl_check_lists_callback() {
 	$wp_lead_id = $_POST['wp_lead_id'];
-	if (isset( $_POST['wp_lead_id'])&&!empty( $_POST['wp_lead_id']))
-	{
+	if (isset( $_POST['wp_lead_id'])&&!empty( $_POST['wp_lead_id'])) {
 		wp_leads_set_current_lists($wp_lead_id);
 	}
 }
 
 
-/* delete from list - lead management */ 
+/* delete from list - lead management */
 add_action('wp_ajax_leads_delete_from_list', 'leads_delete_from_list');
 add_action('wp_ajax_nopriv_leads_delete_from_list', 'leads_delete_from_list');
-function leads_delete_from_list(){
+function leads_delete_from_list() {
 	//check_ajax_referer('leads_ajax_load_more_leads');
 
 	$lead_id = (isset($_POST['lead_id'])) ? $_POST['lead_id'] : '';
@@ -96,7 +93,7 @@ function leads_delete_from_list(){
 	$current_terms_count = count($terms);
 	//print_r($current_terms);
 	$all_remove_terms = '';
-	foreach ($current_terms as $term ) {
+	foreach ($current_terms as $term) {
 		$add = $term->term_id;
 		$all_remove_terms .= $add . ' ,';
 	}
@@ -105,7 +102,7 @@ function leads_delete_from_list(){
 	$final = array_filter($final, 'strlen');
 
 	//$cats = wp_get_post_categories($id);
-	if (in_array($list_id, $final) ) {
+	if (in_array($list_id, $final)) {
 		$new = array_flip ( $final );
 		unset($new[$list_id]);
 		$save = array_flip ( $new );
@@ -115,11 +112,11 @@ function leads_delete_from_list(){
 
 }
 
-/* load more leads - lead management */ 
+/* load more leads - lead management */
 add_action('wp_ajax_leads_ajax_load_more_leads', 'leads_ajax_load_more_leads');           // for logged in user
 add_action('wp_ajax_nopriv_leads_ajax_load_more_leads', 'leads_ajax_load_more_leads');
 
-function leads_ajax_load_more_leads(){
+function leads_ajax_load_more_leads() {
 	//check_ajax_referer('leads_ajax_load_more_leads');
 
 	$order = (isset($_POST['order'])) ? $_POST['order'] : 'DESC';
@@ -138,8 +135,7 @@ function leads_ajax_load_more_leads(){
     // fix the bullshit
 
     // magic fix http://wordpress.stackexchange.com/questions/96584/how-do-i-filter-posts-by-taxomony-using-ajax
-   if ( $cat != 'all')
-   {
+   if ( $cat != 'all') {
    		/* OLD Tax setup
   		//$args['term'] = $cat;
     	/*$args['tax_query'] = array(
@@ -171,13 +167,13 @@ function leads_ajax_load_more_leads(){
 		    );
 
 		}
-		
+
 	    $args['tax_query'] = $tax_query;
     }
     //echo json_encode($args,JSON_FORCE_OBJECT);
     //wp_die();
     $term_id = $cat;
-	/*  
+	/*
 	$args = array(
    'post_type' => 'wp-lead',
    'term' => 54,
