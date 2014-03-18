@@ -282,7 +282,7 @@ current_page = current_page_parts[0];
 var parts = location.hostname.split('.');
 var subdomain = parts.shift();
 var upperleveldomain = parts.join('.');
-var data_block = jQuery.parseJSON(jQuery.cookie('user_data_json'));
+
 var date = new Date(wplft.track_time);
 var datetime = wplft.track_time;
 var the_time_out = add_page_timeout(date, .1);
@@ -392,15 +392,7 @@ jQuery.totalStorage('page_views', pageviewObj);
 // console.log(JSON.stringify(pageviewObj)) // output the pages viewed
 /* End local storage */
 
-/* Start Legacy Cookie Storage */
-if (typeof data_block =='object' && data_block) {
-  var count = countProperties(data_block);
-  data_block.items.push({ id : count+1,  current_page: current_page, timestamp: datetime, referrer: referrer});
-  jQuery.cookie('user_data_json', JSON.stringify(data_block),  { expires: 1, path: '/' });
-} else {
-  data_block = {items: [{id: '1', current_page: current_page,timestamp: datetime, referrer: referrer, original_referrer: referrer},]};
-  jQuery.cookie('user_data_json', JSON.stringify(data_block), { expires: 1, path: '/' });
-}
+
 /* run on ready */
 jQuery(document).ready(function($) {
 
