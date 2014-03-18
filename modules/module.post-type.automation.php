@@ -11,22 +11,22 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		private function load_hooks() {
 			/* Register Automation Post Type */
 			add_action( 'init' , array( __CLASS__ , 'register_post_type' ), 11);
-			
+
 			/* Load Admin Only Hooks */
 			if (is_admin()) {
-			
+
 				/* Register Columns */
 				add_filter( 'manage_automation_posts_columns' , array( __CLASS__ , 'register_columns') );
-				
+
 				/* Prepare Column Data */
 				add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
-			
+
 				/* Define Sortable Columns */
 				//add_filter( 'manage_edit-automation_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
 			}
 		}
 
-		public function register_post_type() {
+		public static function register_post_type() {
 
 			$labels = array(
 				'name' => __('Automation', 'leads'),
@@ -59,10 +59,10 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			register_post_type( 'automation' , $args );
 
 		}
-		
+
 		/* Register Columns */
-		public function register_columns( $cols ) {
-		
+		public static function register_columns( $cols ) {
+
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
 				"title" => __( 'Automation' , 'leads' ),
@@ -73,10 +73,10 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 			return $cols;
 		}
-		
+
 		/* Prepare Column Data */
-		public function prepare_column_data( $column , $post_id ) {
-			
+		public static function prepare_column_data( $column , $post_id ) {
+
 			global $post;
 
 			if ($post->post_type !='automation'){
@@ -101,7 +101,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 
 			do_action('automation_custom_columns',$column, $post_id);
 		}
-		
+
 		/* Define Sortable Columns */
 		public function define_sortable_columns($columns) {
 
@@ -110,7 +110,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 			return $columns;
 		}
 	}
-	
+
 	/* Load Automation Post Type Pre Init */
 	$Inbound_Automation_Post_Type = new Inbound_Automation_Post_Type();
 }
