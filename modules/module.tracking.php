@@ -78,31 +78,26 @@ function wp_leads_update_page_view_obj( $lead_id, $page_id ) {
 	//echo $page_id; // for debug
 
 	// If page_view meta exists do this
-	if ($page_view_data)
-	{
+	if ($page_view_data) {
 		$current_count = 0; // default
 		$timeout = 30;  // 30 Timeout analytics tracking for same page timestamps
 		$page_view_data = json_decode($page_view_data,true);
 
 		// increment view count on page
-		if(isset($page_view_data[$page_id]))
-		{
+		if(isset($page_view_data[$page_id])) {
 			$current_count = count($page_view_data[$page_id]);
 			$last_view = $page_view_data[$page_id][$current_count];
 			$timeout = abs(strtotime($last_view) - strtotime($wordpress_date_time));
 		}
 
 		// If page hasn't been viewed in past 30 seconds. Log it
-		if ($timeout >= 30)
-		{
+		if ($timeout >= 30) {
 			$page_view_data[$page_id][$current_count + 1] = $wordpress_date_time;
 			$page_view_data = json_encode($page_view_data);
 			update_post_meta( $lead_id, 'page_views', $page_view_data );
 		}
 
-	}
-	else
-	{
+	} else {
 		// Create page_view meta if it doesn't exist
 		$page_view_data = array();
 		$page_view_data[$page_id][0] = $wordpress_date_time;
@@ -115,11 +110,9 @@ function wp_leads_update_page_view_obj( $lead_id, $page_id ) {
  * wpleads_check_url_for_queries disects keyword params from referring url
  * @param  string $referrer
  */
-function wpleads_check_url_for_queries($referrer)
-{
+function wpleads_check_url_for_queries($referrer) {
 	//now check if google
-	if (strstr($referrer,'q='))
-	{
+	if (strstr($referrer,'q=')) {
 		//get keywords
 		preg_match('/q=(.*?)(&|\z)/', $referrer,$matches);
 		$keywords = $matches[1];

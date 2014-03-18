@@ -12,8 +12,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 	private $plural;
 
 
-	function __construct()
-	{
+	function __construct() {
 		global $post;
 
 		$final_data = array();
@@ -71,8 +70,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 		//
 	}
 
-	function get_columns()
-	{
+	function get_columns() {
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />',
 			'lls_lead_name' => __( 'Lead Name' , 'leads' ),
@@ -83,15 +81,13 @@ class LLS_WPL_LISTING extends WP_List_Table
 		return $columns;
 	}
 
-	function column_cb($item)
-	{
+	function column_cb($item) {
 		return sprintf(
 			'<input type="checkbox" name="rule[]" value="%s" />', $item['ID']
 		);
 	}
 
-	function get_sortable_columns()
-	{
+	function get_sortable_columns() {
 		$sortable_columns = array(
 			'lls_lead_name'  => array('lls_lead_name',false),
 			'lls_lead_email' => array('lls_lead_email',false),
@@ -102,8 +98,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 		return $sortable_columns;
 	}
 
-	function usort_reorder( $a, $b )
-	{
+	function usort_reorder( $a, $b ) {
 		// If no sort, default to title
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'lls_lead_name';
 		// If no order, default to asc
@@ -116,8 +111,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
 
-	function prepare_items()
-	{
+	function prepare_items() {
 
 		$columns  = $this->get_columns();
 
@@ -125,8 +119,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-		if(isset($this->leads_data)&&is_array($this->leads_data))
-		{
+		if(isset($this->leads_data)&&is_array($this->leads_data)) {
 			usort( $this->leads_data, array( &$this, 'usort_reorder' ) );
 		}
 
@@ -135,8 +128,7 @@ class LLS_WPL_LISTING extends WP_List_Table
 
 		$total_items = count( $this->leads_data );
 
-		if (isset($this->leads_data)&&is_array($this->leads_data))
-		{
+		if (isset($this->leads_data)&&is_array($this->leads_data)) {
 			$this->found_data = array_slice( $this->leads_data,( ( $current_page-1 )* $per_page ), $per_page );
 		}
 
@@ -148,11 +140,9 @@ class LLS_WPL_LISTING extends WP_List_Table
 		(isset($this->found_data)) ? $this->items = $this->found_data : $this->items = null;
 	}
 
-	function column_default( $item, $column_name )
-	{
+	function column_default( $item, $column_name ) {
 		//echo $item;exit;
-		switch( $column_name )
-		{
+		switch( $column_name ) {
 			case 'lls_lead_name':
 				echo '<span class="lls_col_lead_name">'.$item[ $column_name ].'</span>';
 				return;
@@ -176,28 +166,21 @@ class LLS_WPL_LISTING extends WP_List_Table
 		}
 	}
 
-	function admin_header()
-	{
+	function admin_header() {
 
 	}
 
-	function no_items()
-	{
+	function no_items() {
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		_e( 'no leads in list' );
 		echo "<br>";
 	}
 
-
-
-
 }
 
 add_action('lls_lead_actions', 'lls_add_lead_actions');
-function lls_add_lead_actions($id)
-{
+function lls_add_lead_actions($id) {
 	global $post;
-
 	?>
 	<div class='lead_row_actions' id='row-actions-<?php echo $id; ?>'>
 		<span id='row-action-delete-<?php echo $id; ?>' class='row-action-item'><a href='post.php?post=<?php echo $post->ID; ?>&action=edit&&delete_rule=<?php echo $id; ?>'>[delete]</a></span>

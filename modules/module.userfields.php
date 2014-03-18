@@ -122,8 +122,7 @@ function wp_leads_set_lead_fields() {
 		$lead_fields = wp_leads_get_lead_fields();
 		$clean_array = array();
 		$clean_array[''] = 'No Mapping'; // default empty
-		foreach ($lead_fields as $key=>$field)
-		{
+		foreach ($lead_fields as $key=>$field) {
 				$label = $field['label'];
 				$key = $field['key'];
 				$clean_array[$key] = $label;

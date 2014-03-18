@@ -630,13 +630,11 @@ function wpleads_bulk_action() {
 add_action('admin_notices', 'wpleads_bulk_admin_notices');
 function wpleads_bulk_admin_notices() {
 	global $post_type, $pagenow;
-	if($pagenow == 'edit.php' && $post_type == 'wp-lead' &&  isset($_REQUEST['exported']) && (int) $_REQUEST['exported'])
-	{
+	if($pagenow == 'edit.php' && $post_type == 'wp-lead' && isset($_REQUEST['exported']) && (int) $_REQUEST['exported']) {
 		$message = sprintf( _n( 'Lead exported.', '%s lead exported.', $_REQUEST['exported'] ), number_format_i18n( $_REQUEST['exported'] ) );
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
-	if($pagenow == 'edit.php' && $post_type == 'wp-lead' &&  isset($_REQUEST['added']) && (int) $_REQUEST['added'])
-	{
+	if($pagenow == 'edit.php' && $post_type == 'wp-lead' &&  isset($_REQUEST['added']) && (int) $_REQUEST['added']) {
 		$message = sprintf( _n( 'Lead Added.', '%s leads added to list.', $_REQUEST['added'] ), number_format_i18n( $_REQUEST['added'] ) );
 		echo "<div class=\"updated\"><p>{$message}</p></div>";
 	}
