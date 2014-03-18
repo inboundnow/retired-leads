@@ -6,7 +6,7 @@ Description: Track website visitor activity, manage incoming leads, and send col
 Author: Inbound Now
 Version: 1.3.5
 Author URI: http://www.inboundnow.com/
-Text Domain: landing-pages
+Text Domain: leads
 Domain Path: shared/languages/leads/
 */
 
