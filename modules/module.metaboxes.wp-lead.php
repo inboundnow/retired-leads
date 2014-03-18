@@ -343,16 +343,19 @@ function wp_leads_header_area() {
 
 add_action( 'save_post', 'wp_leads_save_header_area' );
 function wp_leads_save_header_area( $post_id ) {
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
+    }
 
-    if ( ! current_user_can( 'edit_post', $post_id ) )
+    if (!current_user_can('edit_post', $post_id)) {
         return;
+    }
 
     $key = 'wp_lead_status';
 
-    if ( isset ( $_POST[ $key ] ) )
+    if (isset($_POST[$key])) {
         return update_post_meta( $post_id, $key, $_POST[ $key ] );
+    }
 
     delete_post_meta( $post_id, $key );
 }
@@ -393,21 +396,16 @@ function wp_leads_grab_extra_data() {
 
             $status_code = $response['response']['code']; // Check for API limit
 
-            if ($status_code === 200)
-			{
+            if ($status_code === 200) {
                 // if api still good. parse return values
                 $person_obj = json_decode($response['body'], true);
                 $image = (isset($person_obj['photos'][0]['url'])) ?$person_obj['photos'][0]['url'] : "";
                 update_post_meta($post->ID, 'lead_main_image', $image );
                 update_post_meta($post->ID, 'social_data', $person_obj );
 
-            }
-			elseif ($status_code === 404)
-			{
+            } elseif ($status_code === 404) {
                 $person_obj = array(); // return empty on failure
-            }
-			else
-			{
+            } else {
                 $person_obj = array(); // return empty on failure
             }
 
@@ -442,15 +440,11 @@ function wp_lead_display_extra_data($values, $type) {
 	//echo $fullname;
 
 	// Get All Photos associated with the person
-	if($type === 'photo' && isset($photos) && is_array($photos))
-	{
-
-		foreach($photos as $photo)
-		{
+	if($type === 'photo' && isset($photos) && is_array($photos)) {
+		foreach($photos as $photo) {
 			//print_r($photo);
 			echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
 		}
-
 	}
 
 	// Get All Websites associated with the person
@@ -467,8 +461,7 @@ function wp_lead_display_extra_data($values, $type) {
 	elseif ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
 			echo "<div id='lead-social-profiles'><h4>". _e( 'Social Media Profiles' , 'leads' ) ."</h4>";
 			//print_r($social_profiles);
-			foreach($social_profiles as $profiles)
-			{
+			foreach($social_profiles as $profiles) {
 				$network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
 				$username = (isset($profiles['username'])) ? $profiles['username'] : "";
 				($network == 'Twitter' ) ? $echo_val = "@" . $username : $echo_val = "";
@@ -480,8 +473,7 @@ function wp_lead_display_extra_data($values, $type) {
 	elseif ($type === 'work' && isset($organizations) && is_array($organizations)) {
 		echo "<div id='lead-work-history'>";
 
-		foreach($organizations as $org)
-		{
+		foreach($organizations as $org) {
 			$title = (isset($org['title'])) ? $org['title'] : "";
 			$org_name = (isset($org['name'])) ? $org['name'] : "";
 			(isset($org['name'])) ? $at_org = "<span class='primary-work-org'>" . $org['name'] . "</span>" : $at_org = ""; // get primary org
@@ -505,8 +497,7 @@ function wp_lead_display_extra_data($values, $type) {
 	// Get All Topics associated with the person
 	elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
 		echo "<div id='lead-topics'><h4>". _e( 'Interests' , 'leads' ) ."</h4>";
-		foreach($interested_in as $topic)
-		{
+		foreach($interested_in as $topic) {
 			echo "<span class='lead-topic-tag'>". $topic['value'] . "</span>";
 		}
 		echo "</div>";
@@ -547,8 +538,7 @@ function wpleads_display_metabox_main() {
 
 	//define open tab
 	$active_tab = 'wpleads_lead_tab_main';
-	if (isset($_REQUEST['open-tab']))
-	{
+	if (isset($_REQUEST['open-tab'])) {
 		$active_tab = $_REQUEST['open-tab'];
 	}
 
@@ -557,8 +547,7 @@ function wpleads_display_metabox_main() {
 	wpl_manage_lead_js($tabs);
 
 	$wpleads_user_fields = wp_leads_get_lead_fields();
-	foreach ($wpleads_user_fields as $key=>$field)
-	{
+	foreach ($wpleads_user_fields as $key=>$field) {
 			$wpleads_user_fields[$key]['value'] = get_post_meta( $post->ID , $wpleads_user_fields[$key]['key'] ,true );
 			if ( !$wpleads_user_fields[$key]['value'] && isset($wpleads_user_fields[$key]['default']) )
 				$wpleads_user_fields[$key]['value'] = $wpleads_user_fields[$key]['default'];
@@ -572,10 +561,8 @@ function wpleads_display_metabox_main() {
 		<div class="meta-box-sortables ui-sortable">
 		<h2 id="lp-st-tabs" class="nav-tab-wrapper">
 			<?php
-			foreach ($tabs as $key=>$array)
-			{
-				?>
-				<a  id='tabs-<?php echo $array['id']; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $array['id'] ? '-active' : '-inactive'; ?>"><?php echo $array['label']; ?></a>
+			foreach ($tabs as $key=>$array) { ?>
+				<a id='tabs-<?php echo $array['id']; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $array['id'] ? '-active' : '-inactive'; ?>"><?php echo $array['label']; ?></a>
 				<?php
 			}
 			?>
