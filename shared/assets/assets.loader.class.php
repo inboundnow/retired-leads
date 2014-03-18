@@ -64,8 +64,10 @@ class Inbound_Asset_Loader {
 	  		// TODO: Merge Localize of wplft into inbound_ajax
 	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'inbound_ajax', self::localize_lead_data());
 
-	  		foreach ( $store as $handle ) {
-	  		    wp_enqueue_script( $handle );
+	  		if (is_array($store)) {
+		  		foreach ( $store as $handle ) {
+		  		    wp_enqueue_script( $handle );
+		  		}
 	  		}
 	  		/* Target Specific post type with
 	  		if ( is_singular( 'landing-page' ) ) {

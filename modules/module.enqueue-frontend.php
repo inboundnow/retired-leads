@@ -1,15 +1,13 @@
 <?php
 
 add_action('wp_enqueue_scripts', 'wpleads_enqueuescripts_header');
-function wpleads_enqueuescripts_header()
-{
+function wpleads_enqueuescripts_header() {
 	global $post;
 
 	$post_type = isset($post) ? get_post_type( $post ) : null;
 
 	// Load Tracking Scripts
-	if($post_type != "wp-call-to-action")
-	{
+	if($post_type != "wp-call-to-action") {
 		wp_enqueue_script('jquery');
 
 		/* shared global js moved to /shared/assets/js */

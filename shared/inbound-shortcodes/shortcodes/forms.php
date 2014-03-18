@@ -90,7 +90,7 @@
 				'class' => 'main-form-settings',
 			),
 			'notify_subject' => array(
-				'name' => __('Subject Line<span class="small-required-text">*</span>', 'leads'),
+				'name' => __('Admin Email Subject Line<span class="small-required-text">*</span>', 'leads'),
 				'desc' => __('Customize the subject line of email notifications arriving from this form. default: {{site-name}} {{form-name}} - New Lead Conversion', 'leads'),
 				'type' => 'text',
 				'std' => "{{site-name}} {{form-name}} - New Lead Conversion",
