@@ -170,8 +170,22 @@ if (is_admin())
 		global $pagenow;
 		$qv = &$query->query_vars;
 		if( $pagenow=='edit.php' && isset($qv['wplead_list_category']) && is_numeric($qv['wplead_list_category']) ) {
+			if($qv['wplead_list_category'] != 0){
 			$term = get_term_by('id',$qv['wplead_list_category'],'wplead_list_category');
 			$qv['wplead_list_category'] = $term->slug;
+			}
+		}
+	}
+
+	add_filter('parse_query','lead_tag_id_to_taxonomy_term_in_query');
+	function lead_tag_id_to_taxonomy_term_in_query($query) {
+		global $pagenow;
+		$qv = &$query->query_vars;
+		if( $pagenow=='edit.php' && isset($qv['lead-tags']) && is_numeric($qv['lead-tags']) ) {
+			if($qv['lead-tags'] != 0){
+			$term = get_term_by('id',$qv['lead-tags'],'lead-tags');
+			$qv['lead-tags'] = $term->slug;
+			}
 		}
 	}
 
@@ -337,8 +351,7 @@ if (is_admin())
 	}
 
 	add_filter( 'post_row_actions', 'wpleads_remove_row_actions', 10, 2 );
-	function wpleads_remove_row_actions( $actions, $post )
-	{
+	function wpleads_remove_row_actions( $actions, $post ) {
 		if( $post->post_type == 'wp-lead' && isset($actions['edit']) )
 		{
 			$actions['edit'] = str_replace('Edit','View',$actions['edit']);
