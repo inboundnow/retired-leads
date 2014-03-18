@@ -4,12 +4,10 @@ include_once('module.userfields.php');
 
 /* REMOVE DEFAULT METABOXES */
 add_filter('default_hidden_meta_boxes', 'wplead_hide_metaboxes', 10, 2);
-function wplead_hide_metaboxes($hidden, $screen)
-{
+function wplead_hide_metaboxes($hidden, $screen) {
 
 	global $post;
-	if ( isset($post) && $post->post_type == 'wp-lead' )
-	{
+	if ( isset($post) && $post->post_type == 'wp-lead' ) {
 		//print_r($hidden);exit;
 		$hidden = array(
 			'postexcerpt',
@@ -33,8 +31,7 @@ function wplead_hide_metaboxes($hidden, $screen)
 add_filter( 'user_can_richedit', 'wplead_disable_for_cpt' );
 function wplead_disable_for_cpt( $default ) {
     global $post;
-    if ( isset ($post) && $post->post_type == 'wp-lead' )
-	{
+    if ( isset ($post) && $post->post_type == 'wp-lead' ) {
       // echo 1; exit;
 	   return false;
 	}
@@ -43,8 +40,7 @@ function wplead_disable_for_cpt( $default ) {
 
 
 
-function wp_leads_get_search_keywords($url = '')
-{
+function wp_leads_get_search_keywords($url = '') {
 	// Get the referrer
 	//$referrer = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
 
@@ -151,16 +147,12 @@ function wplead_quick_stats_metabox() {
     $main_count = 0;
     $page_view_count = 0;
 
-	if (is_array($page_view_array))
-	{
-		foreach($page_view_array as $key=>$val)
-		{
+	if (is_array($page_view_array)) {
+		foreach($page_view_array as $key=>$val) {
 			$page_view_count += count($page_view_array[$key]);
 		}
 		update_post_meta($post->ID,'wpleads_page_view_count', $page_view_count);
-	}
-	else
-	{
+	} else {
 		$page_view_count = get_post_meta($post->ID,'wpleads_page_view_count', true);
 	}
 
@@ -177,8 +169,7 @@ function wplead_quick_stats_metabox() {
 			</div>
 
 		<?php
-		if (!empty($the_date))
-		{
+		if (!empty($the_date)) {
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 			$wordpress_date_time = date("Y-m-d G:i:s", $time);
 
@@ -239,15 +230,11 @@ function wplead_ip_address_metabox() {
 	global $post;
 
 	$ip_address = get_post_meta( $post->ID , 'wpleads_ip_address', true );
-
 	$geo_result = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
 	$geo_result_body = $geo_result['body'];
-
 	$geo_array = unserialize($geo_result_body);
-
 	$city = get_post_meta($post->ID, 'wpleads_city', true);
 	$state = get_post_meta($post->ID, 'wpleads_region_name', true);
-
 	$latitude = $geo_array['geoplugin_latitude'];
 	$longitude = $geo_array['geoplugin_longitude'];
 
@@ -258,8 +245,7 @@ function wplead_ip_address_metabox() {
 				<div id='lead-geo-data-area'>
 
 				<?php
-				if (is_array($geo_array))
-				{
+				if (is_array($geo_array)) {
 					unset($geo_array['geoplugin_status']);
 					unset($geo_array['geoplugin_credit']);
 					unset($geo_array['geoplugin_request']);
@@ -291,18 +277,15 @@ function wplead_ip_address_metabox() {
 						echo "</tr>";
 					} */
 				}
-				if (($latitude != 0) && ($longitude != 0))
-				{
+				if (($latitude != 0) && ($longitude != 0)) {
 					echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , 'leads').'</a>';
 					echo '<div id="lead-google-map">
 							<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
 							</div>';
-				}
-				else
-				{
+				} else {
 					echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 				}
-		?>
+				?>
 				</div>
 			</div>
 		</div>

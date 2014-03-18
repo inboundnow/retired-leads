@@ -1,8 +1,7 @@
 <?php
 /* enqueue admin scripts */
 add_action('admin_enqueue_scripts', 'wpleads_admin_enqueuescripts');
-function wpleads_admin_enqueuescripts($hook)
-{
+function wpleads_admin_enqueuescripts($hook) {
 	global $post;
 
 	$post_type = isset($post) ? get_post_type( $post ) : null;
@@ -21,8 +20,7 @@ function wpleads_admin_enqueuescripts($hook)
 	}
 	wp_enqueue_style('wpleads-global-backend-css', WPL_URL.'/css/wpl.global-backend.css');
 
-	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead'))
-	{
+	if ((isset($_GET['post_type'])&&$_GET['post_type']=='wp-lead')||(isset($post->post_type)&&$post->post_type=='wp-lead')) {
 		if ( $hook == 'post.php' ) {
 			wp_enqueue_script('wpleads-edit', WPL_URL.'/js/wpl.admin.edit.js', array('jquery'));
 			wp_enqueue_script('tinysort', WPL_URL.'/js/jquery.tinysort.js', array('jquery'));
@@ -63,27 +61,23 @@ function wpleads_admin_enqueuescripts($hook)
 
 	}
 
-	if ((isset($_GET['post_type'])&&$_GET['post_type']=='list')||(isset($post->post_type)&&$post->post_type=='list'))
-	{
+	if ((isset($_GET['post_type'])&&$_GET['post_type']=='list')||(isset($post->post_type)&&$post->post_type=='list')) {
 		wp_enqueue_style('wpleads-list-css', WPL_URL.'/css/wpl.leads-list.css');
 		wp_enqueue_script('lls-edit-list-cpt', WPL_URL . '/js/wpl.admin.cpt.list.js');
 	}
 
 	/* do enqueues for global settings */
-	if (isset($_GET['page'])&&$_GET['page']=='wpleads_global_settings')
-	{
+	if (isset($_GET['page'])&&$_GET['page']=='wpleads_global_settings') {
 		wp_enqueue_style('wpl_manage_lead_css', WPL_URL . '/css/wpl.admin-global-settings.css');
 	}
 
 
 	/* do enqueue for post type rule */
-	if ((isset($post)&&$post->post_type=='automation')||(isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='automation'))
-	{
+	if ((isset($post)&&$post->post_type=='automation')||(isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='automation')) {
 		wp_enqueue_script('jquery-qtip', WPL_URL . '/js/jquery-qtip/jquery.qtip.min.js');
 		wp_enqueue_script('rules-load-qtip', WPL_URL . '/js/jquery-qtip/load.qtip.js');
 
-		if (isset($post))
-		{
+		if (isset($post)) {
 			wp_enqueue_script('automation-js', WPL_URL . '/js/admin.rules-management.js');
 			wp_localize_script( 'automation-js' , 'automation_rule', array( 'automation_id' => $post->ID , 'admin_url' => admin_url('admin-ajax.php')));
 

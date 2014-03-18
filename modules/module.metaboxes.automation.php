@@ -1,8 +1,7 @@
 <?php
 
 /* Define core rules */
-function wpleads_lead_automation_get_fields()
-{
+function wpleads_lead_automation_get_fields() {
 	/* New structure */
 	$automation_fields['automation_if'] =
 	array('label' => __( 'IF condition' , 'leads' ) ,
