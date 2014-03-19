@@ -19,14 +19,14 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				add_filter( 'manage_automation_posts_columns' , array( __CLASS__ , 'register_columns') );
 
 				/* Prepare Column Data */
-				add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
+				//add_action( "manage_posts_custom_column", array( __CLASS__ , 'prepare_column_data' ) , 10, 2 );
 
 				/* Define Sortable Columns */
 				//add_filter( 'manage_edit-automation_sortable_columns', array( __CLASS__ , 'define_sortable_columns' ) );
 			}
 		}
 
-		static function register_post_type() {
+		public static function register_post_type() {
 
 			$labels = array(
 				'name' => __('Automation', 'leads'),
@@ -61,7 +61,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		}
 
 		/* Register Columns */
-		static function register_columns( $cols ) {
+		public static function register_columns( $cols ) {
 
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
@@ -75,7 +75,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		}
 
 		/* Prepare Column Data */
-		static function prepare_column_data( $column , $post_id ) {
+		public static function prepare_column_data( $column , $post_id ) {
 
 			global $post;
 
@@ -103,7 +103,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 		}
 
 		/* Define Sortable Columns */
-		static function define_sortable_columns($columns) {
+		public static function define_sortable_columns($columns) {
 
 			$columns = apply_filters('',$columns);
 
