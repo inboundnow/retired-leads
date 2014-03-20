@@ -53,7 +53,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				'capability_type' => 'post',
 				'hierarchical' => false,
 				'menu_position' => null,
-				'supports' => array('title' , 'custom-fields' )
+				'supports' => array('title' )
 			);
 
 			register_post_type( 'automation' , $args );

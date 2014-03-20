@@ -331,9 +331,14 @@ function wpleads_save_global_settings() {
 			//echo $field['id'].":".$_POST['main-landing-page-auto-format-forms']."<br>";
 			$field['id'] = $key.'-'.$field['id'];
 
-			if (array_key_exists('option_name',$field) && $field['option_name'] )
+			if (array_key_exists('option_name',$field) && $field['option_name'] ) {
 				$field['id'] = $field['option_name'];
-
+			}
+			
+			if ( !isset($_POST[$field['id']]) ) {
+				continue;
+			}
+			
 			$field['old_value'] = get_option($field['id']);
 			$field['new_value'] = $_POST[$field['id']];
 
