@@ -7,28 +7,27 @@ jQuery(document).ready(function($) {
 	  return false;
 	}
 
+	/* Add Impressions to loaded varations*/
+	jQuery.ajax({
+		type: 'POST',
+		url: cta_reveal.admin_url,
+		data: {
+			action: 'wp_cta_record_impressions',
+			ctas: item
+		},
+		success: function(user_id){
+				console.log('CTA Impressions Recorded');
+			   },
+		error: function(MLHttpRequest, textStatus, errorThrown){
+
+			}
+
+	});
+		
 	jQuery.each( loaded_ctas,  function(cta_id,vid) {
 		var vid = loaded_ctas[cta_id];
 		console.log('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();
-
-		/* fire impression counter for loaded varation*/
-		jQuery.ajax({
-			type: 'POST',
-			url: cta_reveal.admin_url,
-			data: {
-				action: 'wp_cta_record_impression',
-				cta_id: cta_id,
-				variation_id: vid
-			},
-			success: function(user_id){
-					console.log('CTA Page View Fired');
-				   },
-			error: function(MLHttpRequest, textStatus, errorThrown){
-
-				}
-
-		});
 
 		/* add tracking classes to links and forms */
 		var wp_cta_id = '<input type="hidden" name="wp_cta_id" value="' + cta_id + '">';
