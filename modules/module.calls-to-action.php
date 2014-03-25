@@ -39,7 +39,7 @@ class CallsToAction {
 
 	public static function instance()
 	{
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CallsToAction ) )
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CallsToAction )  )
 		{
 			self::$instance = new CallsToAction;
 
@@ -190,7 +190,15 @@ class CallsToAction {
 
 			$cta_obj[$cta_id]['id'] = $cta_id;
 			$cta_obj[$cta_id]['url'] = $url;
-			$cta_obj[$cta_id]['variations'] = explode( ',', get_post_meta( $cta_id, 'cta_ab_variations', true ) );
+			
+			/* Try to pull live varations meta - fallback on legacy meta */ 
+			if ( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) ) {
+				
+				$cta_obj[$cta_id]['variations'] = json_decode( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) );
+			
+			} else {
+				$cta_obj[$cta_id]['variations'] = explode( ',', get_post_meta( $cta_id, 'cta_ab_variations', true ) );
+			}
 
 			$meta = get_post_meta(  $cta_id ); // move to ext
 
@@ -240,7 +248,7 @@ class CallsToAction {
 					}
 				}
 			}
-
+			//print_r($cta_obj);exit;
 			/* make remaining meta pretty */
 			foreach ($meta as $k=>$value)
 			{
@@ -319,9 +327,12 @@ class CallsToAction {
 
 	public function enqueue_cta_js_css()
 	{
+		/* Get Variation Selection Nature */
+		self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery');
+
 		/* Setup determin variation gloabl function */
 		wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
-		wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
+		wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
 
 
 		if (!self::$instance->selected_cta) {
@@ -418,7 +429,9 @@ class CallsToAction {
 		$token_array = array();
 		$final_token_array = array();
 		$global_val_array = array();
+		
 		foreach ($selected_cta['meta'][$vid] as $key=>$value) {
+			
 			if (strlen($key)> 90) {
 				continue;
 			}
@@ -650,6 +663,7 @@ class CallsToAction {
 					//$return_val = eval($clean_val);
 					//echo $return_val;
 					if($debug_output) {
+					echo "<br>Template:".$template_slug."<br>";
 					echo "<br>Conditional : " . $clean_val . "<br>";
 					echo "PHP evaled: " . "<br>";
 					echo "<br>Replacement " . $test . "<br>";
@@ -983,16 +997,15 @@ class CallsToAction {
 
 		self::$instance->load_shortcode_variation_js($id);
 
-		return $cta_template;
+		return do_shortcode($cta_template);
 	}
 
 	function load_shortcode_variation_js( $cta_id )
-	{
+	{		
 		?>
 		<script>
 		jQuery(document).ready(function($) {
-			//alert(<?php echo $cta_id; ?>)
-			wp_cta_load_variation(<?php echo $cta_id; ?>)
+			wp_cta_load_variation( '<?php echo $cta_id; ?>' , '<?php echo self::$instance->disable_ajax; ?>'  )
 		});
 		</script>
 		<?php
@@ -1087,55 +1100,55 @@ class CallsToAction {
 		if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
 		 ?>
 		<style type="text/css">
-	body {
-		background-color: #eee !important;
-		background-image: linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
-		background-size: 60px 60px !important;
-		background-position: 0 0, 30px 30px !important;
-		padding-top: 25px;
-	}
-	.slider {
-	    width: 510px;
-	    text-align: center;
-	}
+		body {
+			background-color: #eee !important;
+			background-image: linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)), linear-gradient(45deg, rgb(213, 213, 213) 25%, transparent 25%, transparent 75%, rgb(213, 213, 213) 75%, rgb(213, 213, 213)) !important;
+			background-size: 60px 60px !important;
+			background-position: 0 0, 30px 30px !important;
+			padding-top: 25px;
+		}
+		.slider {
+			width: 510px;
+			text-align: center;
+		}
 
-	.custom-input {
-	    -webkit-appearance: none;
-	    vertical-align: middle;
-	    width: 500px;
-	    height: 5px;
-	    border-radius: 25px;
-	    border: 5px solid #868686;
+		.custom-input {
+			-webkit-appearance: none;
+			vertical-align: middle;
+			width: 500px;
+			height: 5px;
+			border-radius: 25px;
+			border: 5px solid #868686;
 
-	}
+		}
 
-	.custom-input::-webkit-slider-thumb,
-	.custom-input::slider-thumb {
-	    -webkit-appearance: none;
-	    border-radius: 20px;
-	    width: 20px;
-	    height: 20px;
-	    border: 5px solid #868686;
-	    cursor: pointer;
-	    background: #797979;
+		.custom-input::-webkit-slider-thumb,
+		.custom-input::slider-thumb {
+			-webkit-appearance: none;
+			border-radius: 20px;
+			width: 20px;
+			height: 20px;
+			border: 5px solid #868686;
+			cursor: pointer;
+			background: #797979;
 
 
-	}
-	input.custom-input:focus, textarea.custom-input:focus {
-	border: 5px solid #868686;
-	outline: none;
-	}
-	.custom-input:active::-webkit-slider-thumb,
-	.custom-input:active::slider-thumb {
-	    border-width: 5px;
-	}
+		}
+		input.custom-input:focus, textarea.custom-input:focus {
+		border: 5px solid #868686;
+		outline: none;
+		}
+		.custom-input:active::-webkit-slider-thumb,
+		.custom-input:active::slider-thumb {
+			border-width: 5px;
+		}
 
-	.result {
-	    margin: 30px 0 0;
-	}
-	.slider-text {
-		font-size: 20px;
-	}
+		.result {
+			margin: 30px 0 0;
+		}
+		.slider-text {
+			font-size: 20px;
+		}
 		</style>
 		<div style="position:fixed; bottom:14px; right: 30%;">
 			<span class='slider-text'>Change Container Size: <span class="result"></span></span>

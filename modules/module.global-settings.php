@@ -26,11 +26,19 @@ if (is_admin())
 		$wp_cta_global_settings[$tab_slug]['settings'] =
 		array(
 			array(
-				'id'  => 'lp_global_settings_main_header',
+				'id'  => 'cta-global-settings-main-header',
 				'type'  => 'header',
 				'default'  => __( '<h4>CTA Core Settings</h4>' , 'cta' ),
 				'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies' , 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.' , 'cta' ) ."'></div>",
 				'options' => null
+			),			
+			array(
+				'id'  => 'disable-ajax-variation-discovery',
+				'label' => __( 'Disable Split Testing.' , 'cta' ),
+				'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.' , 'cta' ),
+				'type'  => 'radio',
+				'default'  => '0',
+				'options' => array( 0 => 'Off' , 1 => 'On' )
 			),			
 			array(
 				'id'  => 'global-css',

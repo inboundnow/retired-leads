@@ -649,6 +649,23 @@ function wp_cta_save_meta($post_id) {
 			}
 
 		}
+		
+		/* Save Live Variations into Meta Pair */
+		$variations = get_post_meta($post_id , 'cta_ab_variations', true);
+		$variations = explode( ',' , $variations );
+		$live_variations = array();
+		
+		foreach ($variations as $key=>$vid) {
+
+			$status = wp_cta_ab_get_wp_cta_active_status( $post , $vid );
+
+			if ( $status > 0 || !is_numeric( $status ) ) {
+				$live_variations[] = $vid; 
+			}
+		}
+
+		update_post_meta( $post_id , 'wp_cta_live_variations' , json_encode($live_variations) );
+		
 	}
 }
 
