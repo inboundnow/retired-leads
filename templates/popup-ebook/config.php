@@ -73,6 +73,14 @@ array(
        'default'  => '',
        'context'  => 'normal'
        ),
+    array(
+       'label' => 'Form Content',
+       'description' => "Insert form here",
+       'id'  => 'form_content',
+       'type'  => 'wysiwyg',
+       'default'  => '',
+       'context'  => 'normal'
+       ),
      array(
         'label' => 'Content Text Color',
         'description' => "Use this setting to change the content text color",
@@ -81,7 +89,7 @@ array(
         'default'  => '000000',
         'context'  => 'normal'
         ),
-     array(
+     /*array(
         'label' => 'Submit Button Color',
         'description' => "Use this setting to change the template's submit button color.",
         'id'  => 'submit-button-color',
@@ -122,7 +130,7 @@ array(
         'id'  => 'turn-off-editor',
         'type'  => 'custom-css',
         'default'  => '.calc.button-secondary {display:none !important;}'
-        ),
+        ),*/
     );
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
