@@ -93,7 +93,7 @@ final class WordPress_Leads {
 			require_once('modules/module.wp_list_table-leads.php');
 			require_once('modules/module.metaboxes.wp-lead.php');
 			require_once('modules/module.metaboxes.list.php');
-			require_once('modules/module.metaboxes.automation.php');
+			//require_once('modules/module.metaboxes.automation.php');
 			require_once('modules/module.post-type.wp-lead.php');
 			require_once('modules/module.post-type.list.php');
 			require_once('modules/module.post-type.landing-pages.php');
