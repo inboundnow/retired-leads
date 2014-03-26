@@ -446,6 +446,3 @@ if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || refe
 }
 
 });
-
-
-/* End Legacy Cookie Storage */
