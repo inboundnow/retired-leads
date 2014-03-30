@@ -9,7 +9,7 @@ Requires at least: 3.8
 Tested up to: 3.8
 Stable Tag: 1.3.5
 
-Track website visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
+Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
 == Description ==
 
