@@ -8,7 +8,8 @@ do_action('wp_cta_global_config'); // The wp_cta_global_config function is for g
 
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = basename(dirname(__FILE__));
-$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+$this_path = WP_CTA_PATH.'templates/'.$key.'/';
+$url_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
@@ -17,7 +18,9 @@ array(
 	'label' => "Tweet to Download", // Nice Name
 	'category' => 'social', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'Entice site visitors to tweet out a link of your choice for a peice of downloadable content' // template description
+	'description'  => 'Entice site visitors to tweet out a link of your choice for a peice of downloadable content', // template description
+	'path' => $this_path, //path to template folder
+	'urlpath' => $url_path //urlpath to template folder
 );
 
 
