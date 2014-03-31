@@ -127,7 +127,7 @@ final class WordPress_Leads {
 	/* Loads the plugin language files */
 	public function load_textdomain() {
 			// Set filter for plugin's languages directory
-			$inbound_now_lang_dir = dirname( plugin_basename( INBOUND_NOW_FILE ) ) . '/languages/';
+			$inbound_now_lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
 			$inbound_now_lang_dir = apply_filters( 'inbound_now_languages_directory', $inbound_now_lang_dir );
 
 			// Traditional WordPress plugin locale filter
