@@ -79,7 +79,13 @@ h1 {color:#{{headline-text-color}}; }
 .button:hover {background: {{submit-button-color|brightness(90)}}; border-bottom: 3px solid #{{submit-button-color}}; }
 
 .button {color: {{submit-button-text-color}}; }
+#inbound-form-wrapper {
+  max-width: 100%;
+}
+#inbound-form-wrapper form {
+  text-align: center;
 
+}
 h1#main-headline {
   color: #{{content-text-color}};
   margin-top: 0px;
@@ -101,8 +107,7 @@ h1#main-headline {
     <div class="divider_line"></div>
 
     <div id="inbound-form-wrapper">
-      form here
-
+     {{form_content}}
     </div>
 
 </div>
