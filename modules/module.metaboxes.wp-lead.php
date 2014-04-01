@@ -86,6 +86,11 @@ function wp_leads_get_search_keywords($url = '') {
 add_action('add_meta_boxes', 'wplead_display_quick_stat_metabox');
 function wplead_display_quick_stat_metabox() {
 	global $post;
+	
+	if ( !isset($post) ) {
+		return;
+	}
+	
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name',true );
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	add_meta_box(
@@ -510,6 +515,10 @@ add_action('add_meta_boxes', 'wplead_add_metabox_main');
 function wplead_add_metabox_main() {
 	global $post;
 
+	if ( !isset($post) ) { 
+		return;
+	}
+	
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name',true );
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 

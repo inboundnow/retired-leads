@@ -6,8 +6,10 @@ add_action('add_meta_boxes', 'wpleads_add_metabox_leads_list');
 function wpleads_add_metabox_leads_list() {
 	global $post;
 	
-	if ($post->post_status!='publish')
+	if ( !isset($post) || $post->post_status!='publish') {
 		return;
+	}
+	
 	$id = $post->ID;
 	$title = get_the_title($id);	
 	add_meta_box(
