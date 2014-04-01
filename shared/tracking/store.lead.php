@@ -89,7 +89,7 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data['page_views'] = (isset($_POST['page_views'])) ?  $_POST['page_views'] : false;
 	$lead_data['form_input_values'] = (isset($_POST['form_input_values'])) ? $_POST['form_input_values'] : false; // raw post data
 	$lead_data['Mapped_Data'] = (isset($_POST['Mapped_Data'] )) ? $_POST['Mapped_Data'] : false; // mapped data
-	$mapped_data = json_decode(stripslashes($lead_data['Mapped_Data']), true ); // mapped data array
+	($lead_data['Mapped_Data']) ? $mapped_data = json_decode(stripslashes($lead_data['Mapped_Data']), true ) : $mapped_data = array(); // mapped data array
 	$lead_data['page_view_count'] = (array_key_exists('page_view_count', $mapped_data)) ? $mapped_data['page_view_count'] : 0;
 	$lead_data['source'] = (array_key_exists('source', $mapped_data)) ? $mapped_data['source'] : 'NA';
 	$lead_data['page_id'] = (array_key_exists('page_id', $mapped_data)) ? $mapped_data['page_id'] : '0';
@@ -100,6 +100,7 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data['wp_lead_uid'] = (array_key_exists('wp_lead_uid', $mapped_data)) ? $mapped_data['wp_lead_uid'] : false;
 	$lead_data['lead_lists'] = (array_key_exists('leads_list', $mapped_data)) ? explode(",", $mapped_data['leads_list']) : false;
 	$lead_data['ip_address'] = (array_key_exists('ip_address', $mapped_data)) ? $mapped_data['ip_address'] : false;
+
 
 	/* POST Vars */
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;
@@ -239,7 +240,7 @@ function inbound_store_lead( $args = array() ) {
 		if ($lead_data['ip_address']) {
 			update_post_meta( $lead_id, 'wpleads_ip_address', $lead_data['ip_address'] );
 			if ($lead_data['ip_address'] != "127.0.0.1"){ // exclude localhost
-			$geo_array = unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
+			$geo_array = @unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
 			(isset($geo_array['geoplugin_areaCode'])) ? update_post_meta( $lead_id, 'wpleads_areaCode', $geo_array['geoplugin_areaCode'] ) : null;
 			(isset($geo_array['geoplugin_city'])) ? update_post_meta( $lead_id, 'wpleads_city', $geo_array['geoplugin_city'] ) : null;
 			(isset($geo_array['geoplugin_regionName'])) ? update_post_meta( $lead_id, 'wpleads_region_name', $geo_array['geoplugin_regionName'] ) : null;
