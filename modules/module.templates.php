@@ -28,11 +28,13 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 		private $plural;
 
 		function __construct() {
-			$wp_cta_data = wp_cta_get_extension_data();
-
+			$CTALoadExtensions = CTALoadExtensions();
+			$wp_cta_data = $CTALoadExtensions->template_definitions;
+			$final_data = array();
+			
 			foreach ($wp_cta_data as $key=>$data)
 			{
-				$array_core_templates = array('blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
+				$array_core_templates = array('auto-focus' , 'breathing' , 'clean-cta' , 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
 
 				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
 					continue;
@@ -47,20 +49,21 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 					//continue;
 
 				//echo "<br>";
-				if (isset($_POST['s'])&&!empty($_POST['s']))
-				{
-					if (!stristr($data['info']['label'],$_POST['s']))
-					{
+				if (isset($_POST['s'])&&!empty($_POST['s'])) {
+					if (!stristr($data['info']['label'],$_POST['s'])) {
 						continue;
 					}
 				}
 
-				if (isset($data['thumbnail']))
+				if (isset($data['thumbnail'])) {
 					$thumbnail = $data['thumbnail'];
-				else if ($key=='default')
+				} else if ($key=='default') {
 					$thumbnail =  get_bloginfo('template_directory')."/screenshot.png";
-				else
+				} else {
 					$thumbnail = WP_CTA_UPLOADS_URLPATH.$key."/thumbnail.png";
+				}
+				
+				echo $thumbnail;
 
 				$this_data['ID']  = $key;
 				$this_data['template']  = $key;
