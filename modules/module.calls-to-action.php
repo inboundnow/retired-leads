@@ -1094,6 +1094,7 @@ class CallsToAction {
 		//echo $cta_template;exit;
 		echo do_shortcode($cta_template);
 		echo "</div>";
+		echo "<style>#wp_cta_".$_GET['post_id']."_variation_".$_GET['wp-cta-variation-id']." { display:block; } </style>";
 		//do_action('wp_footer');
 		wp_print_footer_scripts();
 
