@@ -56,7 +56,7 @@ final class WordPress_Leads {
 	/* Setup plugin constants */
 	private function setup_constants() {
 		define('WPL_CURRENT_VERSION', '1.3.6' );
-		define('WPL_URL', WP_PLUGIN_URL."/".dirname( plugin_basename( __FILE__ ) ) );
+		define('WPL_URL',  plugins_url( ' ', __FILE__ ) );
 		define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 		define('WPL_CORE', plugin_basename( __FILE__ ) );
 		define('WPL_SLUG', plugin_basename( __FILE__ ) );
