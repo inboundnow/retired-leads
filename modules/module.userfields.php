@@ -84,10 +84,47 @@ function wp_leads_get_lead_fields(){
 	        'key'  => 'wpleads_zip',
 	        'priority' => 180,
 	        'type'  => 'text'
-	        ),
+	        ),	
+
 	    array(
 	        'label' => __( 'Country' , 'leads' ) ,
 	        'key'  => 'wpleads_country_code',
+	        'priority' => 195,
+	        'type'  => 'text'
+	        ),			
+	    array(
+	        'label' => __( 'Shipping Address' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_address_line_1',
+	        'priority' => 120,
+	        'type'  => 'text'
+	        ),
+	    array(
+	        'label' => __( 'Shipping Address Continued' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_address_line_2',
+	        'priority' => 135,
+	        'type'  => 'text'
+	        ),
+			array(
+	        'label' => __( 'Shipping City' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_city',
+	        'priority' => 150,
+	        'type'  => 'text'
+	        ),
+	    array(
+	        'label' => __( 'State/Region' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_region_name',
+	        'priority' => 165,
+	        'type'  => 'text'
+	        ),
+	    array(
+	        'label' => __( 'Zip-code' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_zip',
+	        'priority' => 180,
+	        'type'  => 'text'
+	        ),
+	    array(
+	        'label' => __( 'Country' , 'leads' ) ,
+	        'key'  => 'wpleads_shipping_country_code',
 	        'priority' => 195,
 	        'type'  => 'text'
 	        ),
