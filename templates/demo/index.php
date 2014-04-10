@@ -39,20 +39,28 @@ font-size: 12px;
         <h2>Calling Normal Template Tokens</h2>
         <!-- Text Field Label: Text field Description. Defined in config.php on line 44 -->
         Text Box content: <strong>{{text_box_id}}</strong><br>
+        
         <!-- Textarea Label: Text field Description. Defined in config.php on line 50 -->
         Textarea content: <strong>{{textarea_id}}</strong><br>
+        
         <!-- Template body color: Text field Description. Defined in config.php on line 56 -->
         Color Picker Hex: <strong>{{color_picker_id}}</strong><br>
+        
         <!--  Radio Label: Text field Description. Defined in config.php on line 62 -->
         Radio Value: <strong>{{radio_id_here}}</strong><br>
+        
        <!-- Example Checkbox Label: Text field Description. Defined in config.php on line 70 -->
         Checkbox Value: <strong>{{checkbox_id_here}}</strong><br>
+        
         <!--  Dropdown Label: Text field Description. Defined in config.php on line 78 -->
         Dropdown Value: <strong>{{dropdown_id_here}}</strong><br>
+        
         <!--  Date Picker Label: Text field Description. Defined in config.php on line 85 -->
         Date Picker Value: <strong>{{date_picker}}</strong><br>
+        
         <!--  Main Content Box 2: Text field Description. Defined in config.php on line 91 -->
         WYSIWYG editor content: <strong>{{wysiwyg_id}}</strong><br>
+        
         <!--  File/Image Upload Label: Text field Description. Defined in config.php on line 97 -->
         Media upload path: <strong>{{media_id}}</strong><br>
       </div>

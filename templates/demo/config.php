@@ -11,7 +11,9 @@ do_action('wp_cta_global_config'); // The wp_cta_global_config function is for g
 //gets template directory name to use as identifier - do not edit - include in all template files
 
 $key = basename(dirname(__FILE__));
-$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+$this_path = WP_CTA_PATH.'templates/'.$key.'/';
+$url_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+
 /// Information START - define template information
 /**
  * $wp_cta_data[$key]['info']
@@ -45,7 +47,9 @@ array(
 	'label' => "Demo Template", // Nice Name
 	'category' => 'Box', // Template Category
 	'demo' => 'http://demo.inboundnow.com/go/demo-template-preview/', // Demo Link
-	'description'  => 'The Demo theme is here to help developers and designs implment thier own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates. The template files inside of /cta/templates/demo will show you exactly how to build your own templates' // template description
+	'description'  => 'The Demo theme is here to help developers and designs implment thier own designs into the landing page plugin. Study this template to learn about Landing Page Plugin\'s templating system and to assist in building new templates. The template files inside of /cta/templates/demo will show you exactly how to build your own templates', // template description
+	'path' => $this_path, //path to template folder
+	'urlpath' => $url_path //urlpath to template folder
 );
 
 /**

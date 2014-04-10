@@ -9,7 +9,8 @@ do_action('wp_cta_global_config'); // The wp_cta_global_config function is for g
 
 //gets template directory name to use as identifier - do not edit - include in all template files
 $key = basename(dirname(__FILE__));
-$this_path = WP_CTA_URLPATH.'templates/'.$key.'/';
+$this_path = WP_CTA_PATH.'templates/'.$key.'/';
+$url_path = WP_CTA_URLPATH.'templates/'.$key.'/';
 
 $wp_cta_data[$key]['info'] =
 array(
@@ -19,7 +20,8 @@ array(
 	'category' => 'Popup, Wide', // Template Category
 	'demo' => '', // Demo Link
 	'description'  => 'This is a cta that works great as a popup but can also be placed anywhere on your site', // template description
-	'path' => $this_path //path to template folder
+	'path' => $this_path, //path to template folder
+	'urlpath' => $url_path //urlpath to template folder
 );
 
 // Define Meta Options for template
