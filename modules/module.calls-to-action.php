@@ -190,12 +190,12 @@ class CallsToAction {
 
 			$cta_obj[$cta_id]['id'] = $cta_id;
 			$cta_obj[$cta_id]['url'] = $url;
-			
-			/* Try to pull live varations meta - fallback on legacy meta */ 
+
+			/* Try to pull live varations meta - fallback on legacy meta */
 			if ( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) ) {
-				
+
 				$cta_obj[$cta_id]['variations'] = json_decode( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) );
-			
+
 			} else {
 				$cta_obj[$cta_id]['variations'] = explode( ',', get_post_meta( $cta_id, 'cta_ab_variations', true ) );
 			}
@@ -429,9 +429,9 @@ class CallsToAction {
 		$token_array = array();
 		$final_token_array = array();
 		$global_val_array = array();
-		
+
 		foreach ($selected_cta['meta'][$vid] as $key=>$value) {
-			
+
 			if (strlen($key)> 90) {
 				continue;
 			}
@@ -681,13 +681,13 @@ class CallsToAction {
 	}
 
 	/*
-	* Prints / Returns Custom JS & CSS Related to Call to Action 
+	* Prints / Returns Custom JS & CSS Related to Call to Action
 	*/
 	public function load_custom_js_css( $selected_cta = null , $return = false ) {
-		
+
 		global $post;
 		$inline_content = "";
-		
+
 		($selected_cta) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
 
 		if (!isset($selected_cta)){
@@ -769,12 +769,12 @@ class CallsToAction {
 				$inline_content .= $custom_js;
 			}
 		}
-		
+
 		if ( $return ) {
 			return $inline_content;
 		} else {
 			echo $inline_content;
-		{
+		}
 	}
 
 	public static function parse_css_template( $dynamic_css , $css_id_preface )
@@ -1002,7 +1002,7 @@ class CallsToAction {
 		}
 
 		$custom_css_js = self::load_custom_js_css( $selected_cta , true );
-		
+
 		$cta_template = self::$instance->build_cta_content( $selected_cta );
 
 		self::$instance->load_shortcode_variation_js($id);
@@ -1011,7 +1011,7 @@ class CallsToAction {
 	}
 
 	function load_shortcode_variation_js( $cta_id )
-	{		
+	{
 		?>
 		<script>
 		jQuery(document).ready(function($) {
