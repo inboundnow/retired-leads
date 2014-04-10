@@ -86,11 +86,6 @@ function wp_leads_get_search_keywords($url = '') {
 add_action('add_meta_boxes', 'wplead_display_quick_stat_metabox');
 function wplead_display_quick_stat_metabox() {
 	global $post;
-	
-	if ( !isset($post) ) {
-		return;
-	}
-	
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name',true );
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 	add_meta_box(
@@ -515,10 +510,6 @@ add_action('add_meta_boxes', 'wplead_add_metabox_main');
 function wplead_add_metabox_main() {
 	global $post;
 
-	if ( !isset($post) ) { 
-		return;
-	}
-	
 	$first_name = get_post_meta( $post->ID , 'wpleads_first_name',true );
 	$last_name = get_post_meta( $post->ID , 'wpleads_last_name', true );
 
@@ -619,14 +610,20 @@ function wpleads_display_metabox_main() {
 						wp_lead_display_extra_data($social_values, 'social'); // Display extra social
 					?>
 				</div>
-
+				<?php
+				/* Display WP USer edit link */
+				if ( $wp_user_id = get_post_meta( $post->ID , 'wpleads_wordpress_user_id' , true ) ) {
+					$edit_user_link = get_edit_user_link( $wp_user_id );
+					echo '<a  target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
+				}
+				?>
 			</div>
 			<style type="text/css">.icon32-posts-wp-lead {background-image: url("<?php echo $gravatar2;?>") !important;}</style>
 			<div id="leads-right-col">
 			<?php
 			//print_r($wpleads_user_fields);exit;
 			do_action('wpleads_before_main_fields'); // Custom Action for additional info above Lead list
-
+			
 			wpleads_render_setting($wpleads_user_fields);
 
 			wp_lead_display_extra_data($social_values, 'website'); // Display websites
@@ -646,6 +643,8 @@ function wpleads_display_metabox_main() {
 
 			//wp_lead_display_extra_data($values, 'photo'); // Display extra photos
 			echo "<div id='wpl-after-main-fields'>";
+
+			
 			do_action('wpleads_after_main_fields'); // Custom Action for additional info above Lead list
 			echo "</div>";
 

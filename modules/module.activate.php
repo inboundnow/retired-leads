@@ -43,9 +43,6 @@ function wpleads_activate() {
 		$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_raw_post_data' where meta_key = 'wpl-lead-raw-post-data'";
 		$result = mysql_query($sql);
 
-		/* add cronjob for lead rule processing */
-		$cronjob_schedule = get_option('wpl-main-lead_automation_cronjob_period','hourly');
-		wp_schedule_event(current_time( 'timestamp' ), $cronjob_schedule, 'wpleads_lead_automation_daily' );
 	}
 
 }
@@ -54,6 +51,7 @@ register_deactivation_hook( WPL_FILE , 'wpleads_deactivate');
 // toggle main lead stuff off
 function wpleads_deactivate() {
 	delete_option( 'Leads_Activated');
+	wp_clear_scheduled_hook( 'wpleads_lead_automation_daily' );
 }
 
 ?>
