@@ -112,6 +112,7 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data['wpleads_company_name'] = (isset($_POST['company_name'] )) ? $_POST['company_name'] : "";
 	$lead_data['wpleads_mobile_phone'] = (isset($_POST['phone'])) ? $_POST['phone'] : "";
 	$lead_data['wpleads_address_line_1'] = (isset($_POST['address'])) ? $_POST['address'] : "";
+	$lead_data['wpleads_address_line_2'] = (isset($_POST['address_2'])) ? $_POST['address_2'] : "";
 	$lead_data['wpleads_city'] = (isset($_POST['city'])) ? $_POST['city'] : "";
 	$lead_data['wpleads_region_name'] = (isset($_POST['region'])) ? $_POST['region'] : "";
 	$lead_data['wpleads_zip'] = (isset($_POST['zip'])) ? $_POST['zip'] : "";
@@ -460,20 +461,20 @@ if (!function_exists('inbound_update_common_meta'))
 		if (!empty($lead_data['wpleads_address_line_1'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_address_line_1', $lead_data['wpleads_address_line_1'] );
 		}
+		if (!empty($lead_data['wpleads_address_line_2'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_address_line_2', $lead_data['wpleads_address_line_2'] );
+		}
 		if (!empty($lead_data['wpleads_city'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_city', $lead_data['wpleads_city'] );
 		}
-		if (!empty($lead_data['wpleads_region'])) {
-			update_post_meta( $lead_data['lead_id'], 'wpleads_region', $lead_data['wpleads_region'] );
+		if (!empty($lead_data['wpleads_region_name'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_region_name', $lead_data['wpleads_region_name'] );
 		}
 		if (!empty($lead_data['wpleads_zip'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_zip', $lead_data['wpleads_zip'] );
 		}
 		if (!empty($lead_data['wpleads_country'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_country', $lead_data['wpleads_country'] );
-		}
-		if (!empty($lead_data['wpleads_address_line_2'])) {
-			update_post_meta( $lead_data['lead_id'], 'wpleads_address_line_2', $lead_data['wpleads_address_line_2'] );
 		}
 		if (!empty($lead_data['wpleads_shipping_address_line_1'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_shipping_address_line_1', $lead_data['wpleads_shipping_address_line_1'] );

@@ -95,49 +95,49 @@ function wp_leads_get_lead_fields(){
 	    array(
 	        'label' => __( 'Shipping Address' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_address_line_1',
-	        'priority' => 120,
+	        'priority' => 200,
 	        'type'  => 'text'
 	        ),
 	    array(
 	        'label' => __( 'Shipping Address Continued' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_address_line_2',
-	        'priority' => 135,
+	        'priority' => 201,
 	        'type'  => 'text'
 	        ),
 			array(
 	        'label' => __( 'Shipping City' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_city',
-	        'priority' => 150,
+	        'priority' => 202,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => __( 'State/Region' , 'leads' ) ,
+	        'label' => __( 'Shipping State/Region' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_region_name',
-	        'priority' => 165,
+	        'priority' => 203,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => __( 'Zip-code' , 'leads' ) ,
+	        'label' => __( 'Shipping Zip-code' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_zip',
-	        'priority' => 180,
+	        'priority' => 204,
 	        'type'  => 'text'
 	        ),
 	    array(
-	        'label' => __( 'Country' , 'leads' ) ,
+	        'label' => __( 'Shipping Country' , 'leads' ) ,
 	        'key'  => 'wpleads_shipping_country_code',
-	        'priority' => 195,
+	        'priority' => 205,
 	        'type'  => 'text'
 	        ),
 	    array(
 	        'label' => __( 'Related Websites' , 'leads' ) ,
 	        'key'  => 'wpleads_websites',
-	        'priority' => 215,
+	        'priority' => 220,
 	        'type'  => 'links'
 	        ),
 	    array(
 	        'label' => __( 'Notes' , 'leads' ) ,
 	        'key'  => 'wpleads_notes',
-	        'priority' => 230,
+	        'priority' => 225,
 	        'type'  => 'textarea'
 	        ),
 
