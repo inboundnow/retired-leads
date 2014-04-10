@@ -328,7 +328,7 @@ class CallsToAction {
 	public function enqueue_cta_js_css()
 	{
 		/* Get Variation Selection Nature */
-		self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery');
+		self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 
 		/* Setup determin variation gloabl function */
 		wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );

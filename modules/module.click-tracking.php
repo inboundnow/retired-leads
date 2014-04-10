@@ -125,7 +125,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation)
 {
 	// If leads_triggered meta exists do this
 	$event_trigger_log = get_post_meta($event_id,'leads_triggered',true);
-	$wordpress_date_time = $timezone_format = _x('Y-m-d G:i:s T', 'timezone date format');
+	$timezone_format = 'Y-m-d G:i:s T';
 	$wordpress_date_time =  date_i18n($timezone_format);
 	$conversion_count = get_post_meta($event_id,'wp-cta-ab-variation-conversions-'.$cta_variation ,true);
 	$conversion_count++;
@@ -171,7 +171,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation)
 // Store Event Trigger to Lead profile
 function wp_cta_store_click_data_to_lead($event_id, $lead_ID, $event_type)
 {
-	$wordpress_date_time = $timezone_format = _x('Y-m-d G:i:s T', 'timezone date format');
+	$timezone_format = 'Y-m-d G:i:s T';
 	$wordpress_date_time =  date_i18n($timezone_format);
 
 	if ( $lead_ID ) {
