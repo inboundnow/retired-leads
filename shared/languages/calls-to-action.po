@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Calls to Action\n"
-"POT-Creation-Date: 2014-03-07 19:49-0600\n"
-"PO-Revision-Date: 2014-03-07 19:49-0600\n"
+"POT-Creation-Date: 2014-04-10 14:38-0600\n"
+"PO-Revision-Date: 2014-04-10 14:38-0600\n"
 "Last-Translator: \n"
 "Language-Team: Inbound Now <hudson@inboundnow.com>\n"
 "Language: en_US\n"
@@ -118,14 +118,18 @@ msgstr ""
 msgid "Z"
 msgstr ""
 
-#: ../../modules/module.activate.php:15 ../../modules/module.activate.php:21
+#: ../../modules/module.activate.php:16
+msgid "<p>The <strong>WordPress Calls to Action</strong> plugin requires"
+msgstr ""
+
+#: ../../modules/module.activate.php:22
 #, php-format
 msgid ""
 "<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
 "version %s or greater.</p>"
 msgstr ""
 
-#: ../../modules/module.activate.php:27
+#: ../../modules/module.activate.php:28
 #, php-format
 msgid ""
 "<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
@@ -133,7 +137,7 @@ msgid ""
 "to update Calls to action</p>"
 msgstr ""
 
-#: ../../modules/module.activate.php:32
+#: ../../modules/module.activate.php:33
 #, php-format
 msgid ""
 "<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
@@ -154,7 +158,7 @@ msgid "Templates"
 msgstr ""
 
 #: ../../modules/module.admin-menus.php:15
-#: ../../modules/module.templates.php:229
+#: ../../modules/module.templates.php:232
 #: ../../shared/classes/menu.class.php:354
 #: ../../shared/classes/menu.class.php:356
 msgid "Manage Templates"
@@ -173,11 +177,6 @@ msgstr ""
 
 #: ../../modules/module.admin-menus.php:22
 msgid "Editor"
-msgstr ""
-
-#: ../../modules/module.click-tracking.php:128
-#: ../../modules/module.click-tracking.php:174
-msgid "Y-m-d G:i:s T"
 msgstr ""
 
 #: ../../modules/module.clone.php:1
@@ -240,66 +239,76 @@ msgid ""
 msgstr ""
 
 #: ../../modules/module.global-settings.php:37
-msgid "Global CSS overrides."
+msgid "Disable Split Testing."
 msgstr ""
 
 #: ../../modules/module.global-settings.php:38
+msgid ""
+"Enabling this setting may improve server performance at the loss of split "
+"testing. Only version A will be displayed for every CTA."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:45
+msgid "Global CSS overrides."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:46
 msgid "This will place custom CSS across all Call to Actions"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:47
+#: ../../modules/module.global-settings.php:55
 msgid "License Keys"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:52
+#: ../../modules/module.global-settings.php:60
 msgid "Extensions"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:143
+#: ../../modules/module.global-settings.php:151
 msgid "Like the Plugin? Leave us a review"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:143
+#: ../../modules/module.global-settings.php:151
 msgid "Leave a Review"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:143
+#: ../../modules/module.global-settings.php:151
 msgid ""
 "Reviews help constantly improve the plugin & keep us motivated! "
 "<strong>Thank you for your support!</strong>"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:143
+#: ../../modules/module.global-settings.php:151
 msgid "Help keep the plugin up to date, awesome & free!"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:148
+#: ../../modules/module.global-settings.php:156
 msgid ""
 "Spare some change? Buy us a coffee/beer.<strong> We appreciate your "
 "continued support.</strong>"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:188
+#: ../../modules/module.global-settings.php:196
 msgid "Installation Status"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:192
+#: ../../modules/module.global-settings.php:200
 msgid "PHP Version"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:206
+#: ../../modules/module.global-settings.php:214
 msgid "Gravity Forms requires PHP 5 or above."
 msgstr ""
 
-#: ../../modules/module.global-settings.php:227
+#: ../../modules/module.global-settings.php:235
 msgid "Gravity Forms requires MySQL 5 or above."
 msgstr ""
 
-#: ../../modules/module.global-settings.php:248
+#: ../../modules/module.global-settings.php:256
 msgid "landing pages requires version X or higher"
 msgstr ""
 
-#: ../../modules/module.global-settings.php:255
+#: ../../modules/module.global-settings.php:263
 msgid "WordPress CTA Version"
 msgstr ""
 
@@ -507,24 +516,28 @@ msgstr ""
 msgid "Launch Visual Editor"
 msgstr ""
 
-#: ../../modules/module.metaboxes-global.php:26
+#: ../../modules/module.metaboxes-global.php:27
 msgid "Insert Call to Action Template into Content"
 msgstr ""
 
-#: ../../modules/module.metaboxes-global.php:65
+#: ../../modules/module.metaboxes-global.php:66
 msgid "Select one or more calls to action to rotate through"
 msgstr ""
 
-#: ../../modules/module.metaboxes-global.php:130
+#: ../../modules/module.metaboxes-global.php:131
 msgid "Call to Action Template"
 msgstr ""
 
-#: ../../modules/module.metaboxes-global.php:154
+#: ../../modules/module.metaboxes-global.php:155
 msgid "Click the above select box to select call to action templates to insert"
 msgstr ""
 
 #: ../../modules/module.metaboxes-wp-call-to-action.php:18
 msgid "Template Options"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:42
+msgid "Options:"
 msgstr ""
 
 #: ../../modules/module.metaboxes-wp-call-to-action.php:81
@@ -576,19 +589,13 @@ msgstr ""
 msgid "This is Currently Selected"
 msgstr ""
 
-#: ../../modules/module.metaboxes-wp-call-to-action.php:513
-msgid ""
-"<em>Custom CSS may be required to customize this call to action. Insert Your "
-"CSS Below. Format: #element-id { display:none !important; }</em>"
-msgstr ""
-
 #: ../../modules/module.post-type.php:1
 msgid "Call to Action"
 msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:340
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:341
 msgid "Add New"
 msgstr ""
 
@@ -615,13 +622,13 @@ msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:346
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:347
 msgid "Nothing found"
 msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:347
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:348
 msgid "Nothing found in Trash"
 msgstr ""
 
@@ -686,7 +693,7 @@ msgstr ""
 msgid "Template uploaded successfully!"
 msgstr ""
 
-#: ../../modules/module.templates.php:209
+#: ../../modules/module.templates.php:212
 msgid ""
 "No premium templates installed. Templates included in the Call to Action "
 "core plugin will not be listed here."
@@ -835,7 +842,7 @@ msgid "Manage Landing Page Settings"
 msgstr ""
 
 #: ../../shared/classes/menu.class.php:335
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:341
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:342
 msgid "Create New Form"
 msgstr ""
 
@@ -946,6 +953,24 @@ msgstr ""
 
 #: ../../shared/classes/menu.class.php:590
 msgid "Click here to remove broken javascript to fix issues"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:75
+#: ../../shared/classes/welcome.class.php:76
+msgid "Welcome to"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:167
+msgid "Welcome to "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:168
+msgid "Thank you for updating to the latest version! "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:169
+#, php-format
+msgid "Version %s"
 msgstr ""
 
 #: ../../shared/extend/inboundnow.global-settings.php:30
@@ -1089,18 +1114,18 @@ msgstr ""
 msgid "No lead tags found."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:676
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:698
+#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:687
+#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:709
 #: ../../shared/inbound-shortcodes/popup.php:27
 #: ../../shared/inbound-shortcodes/popup.php:50
 msgid "Insert Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:685
+#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:696
 msgid "Form Preview"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:688
+#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:699
 #: ../../shared/inbound-shortcodes/popup.php:39
 msgid "Shortcode has no preview"
 msgstr ""
@@ -1205,12 +1230,12 @@ msgid "Color of button"
 msgstr ""
 
 #: ../../shared/inbound-shortcodes/shortcodes/button.php:70
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:178
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:179
 msgid "Button Text Color"
 msgstr ""
 
 #: ../../shared/inbound-shortcodes/shortcodes/button.php:71
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:179
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:180
 msgid "Color of text"
 msgstr ""
 
@@ -1227,7 +1252,7 @@ msgstr ""
 #: ../../shared/inbound-shortcodes/shortcodes/button.php:77
 #: ../../shared/inbound-shortcodes/shortcodes/callout.php:51
 #: ../../shared/inbound-shortcodes/shortcodes/callout.php:118
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:153
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:154
 #: ../../shared/inbound-shortcodes/shortcodes/tabs.php:28
 #: ../../shared/inbound-shortcodes/shortcodes/tabs.php:73
 #: ../../shared/inbound-shortcodes/shortcodes/teaser.php:58
@@ -1236,7 +1261,7 @@ msgid "Select an icon."
 msgstr ""
 
 #: ../../shared/inbound-shortcodes/shortcodes/button.php:84
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:192
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:193
 msgid "Custom Width"
 msgstr ""
 
@@ -1500,263 +1525,263 @@ msgstr ""
 msgid "Margin Bottom"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:41
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:42
 msgid "Choose Starting Template"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:42
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:43
 msgid "Start Building Your Form from premade templates"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:49
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:50
 #: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:26
 msgid "Form Name<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:50
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:51
 #: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:27
 msgid "This is not shown to visitors"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:67
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:68
 msgid "Redirect URL<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:68
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:69
 msgid "Where do you want to send people after they fill out the form?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:84
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:85
 msgid "Notify on Form Completions<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:85
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:86
 msgid ""
 "Who should get admin notifications on this form?<br>For multiple "
 "notifications separate email addresses with commas"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:92
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:93
 msgid "Add to List(s)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:93
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:94
 msgid "Add the converting lead to 1 or more lead lists"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:100
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:101
 msgid "Hidden List Values"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:101
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:102
 msgid "Hidden list values"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:107
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:114
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:108
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:115
 #: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:19
 msgid "Name Name Name"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:108
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:109
 msgid ""
 "<span class=\"switch-to-form-insert button\">Cancel Form Creation & Insert "
 "Existing Form</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:115
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:116
 msgid "Layout Options"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:121
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:122
 msgid "Form Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:122
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:168
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:123
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:169
 msgid "Choose Your Form Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:132
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:133
 msgid "Label Alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:133
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:134
 msgid "Choose Label Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:145
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:146
 msgid "Form Font Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:146
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:147
 msgid "Size of Label Font. This also determines default submit button size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:152
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:153
 msgid "Submit Button Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:160
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:161
 msgid "Submit Button Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:161
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:162
 msgid ""
 "Enter the text you want to show on the submit button. (or a link to a custom "
 "submit button image)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:167
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:168
 msgid "Submit Color Options"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:185
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:186
 msgid "Button BG Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:186
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:187
 msgid "Background Color of Submit button"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:193
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:194
 msgid "Enter in pixel width or % width. Example: 400 <u>or</u> 100%"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:202
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:203
 msgid "Field Label"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:209
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:210
 msgid "Field Type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:210
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:211
 msgid "Select an form field type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:232
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:233
 msgid "Dropdown choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:233
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:234
 msgid "Enter Your Dropdown Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:240
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:241
 msgid "Radio Choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:241
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:242
 msgid "Enter Your Radio Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:248
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:249
 msgid "Checkbox choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:249
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:250
 msgid "Enter Your Checkbox Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:256
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:257
 msgid "HTML Block"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:257
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:258
 msgid "This is a raw HTML block in the form. Insert text/HTML"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:263
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:264
 msgid "Default Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:264
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:265
 msgid "Enter the Default Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:271
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:272
 msgid "Divider Text (optional)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:272
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:273
 msgid "This is the text in the divider"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:278
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:300
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:279
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:301
 msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:279
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:280
 msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:285
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:286
 msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:286
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:287
 msgid "Check to make field required"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:293
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:294
 msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:294
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:295
 msgid "Put field placeholder text here. Only works for normal text inputs"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:301
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:302
 msgid "Put field description here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:308
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:309
 msgid "Dynamic Field Filling"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:309
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:310
 msgid "Enter Your Dynamic URL parameter"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:317
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:318
 msgid "Map Field To"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:318
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:319
 msgid "Map this field to Leads Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:326
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:327
 msgid "Add Another Field"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:329
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:330
 msgid "Insert Inbound Form Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:338
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:339
 msgid "Inbound Forms"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:339
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:340
 msgid "Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:342
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:343
 msgid "Edit Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:343
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:344
 msgid "New Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:344
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:345
 msgid "View Lists"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:345
+#: ../../shared/inbound-shortcodes/shortcodes/forms.php:346
 msgid "Search Lists"
 msgstr ""
 
@@ -1958,7 +1983,7 @@ msgstr ""
 #: ../../shared/inbound-shortcodes/shortcodes/teaser.php:30
 #: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:19
 #: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:75
-msgid "Select the number of column."
+msgid "Select the number of column(s)."
 msgstr ""
 
 #: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:24
