@@ -285,7 +285,7 @@ class InboundForms {
 			return $form;
 		}
 	}
-	
+
 	// Create shorter shortcode for [inbound_forms]
 	static function inbound_short_form_create( $atts, $content = null )
 	{
@@ -324,7 +324,7 @@ class InboundForms {
 		}
 		if ($id === 'none'){
 			$shortcode = "";
-		} 
+		}
 
 		return do_shortcode( $shortcode );
 	}
@@ -401,18 +401,18 @@ class InboundForms {
 		/* replace core tokens */
 		$content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
 		//$content = str_replace('{{form-name}}', $form_data['inbound_form_name']		, $content);
-		
+
 		foreach ($form_data as $key => $value) {
 			$token_key = str_replace('_','-', $key);
 			$token_key = str_replace('inbound-','', $token_key);
 
 			$content = str_replace( '{{'.trim($token_key).'}}' , $value , $content );
 		}
-		
+
 		return $content;
 	}
-	
-	
+
+
 	static function send_mail($form_data, $form_meta_data)
 	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
@@ -442,8 +442,8 @@ class InboundForms {
 			if(is_array($email_addresses) && count($email_addresses) > 1) {
 				$multi_send = true;
 			}
-			
-			$email_subject = $form_meta_data['inbound_notify_email_subject'];
+
+			$email_subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] : 'Thank You';
 		}
 
 		/* print_r($form_meta_data); exit; */

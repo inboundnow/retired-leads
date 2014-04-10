@@ -291,7 +291,14 @@ function wpleads_display_global_settings() {
 		<a  id='tabs-<?php echo $key; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php _e( $data['label'] , 'leads' ); ?></a>
 		<?php
 	}
-	echo '</h2>';
+	echo "</h2><div class='lp-settings-tab-sidebar'>";
+
+	echo "<div class='lp-sidebar-settings'><h2 style='font-size:16px;'>Like the Plugin? Leave us a review</h2><center><a class='review-button' href='http://wordpress.org/support/view/plugin-reviews/leads?rate=5#postform' target='_blank'>Leave a Quick Review</a></center><small>Reviews help constantly improve the plugin & keep us motivated! <strong>Thank you for your support!</strong></small></div><div class='lp-sidebar-settings'><h2>Help keep the plugin up to date, awesome & free!</h2><form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
+		<input type='hidden' name='cmd' value='_s-xclick'>
+		<input type='hidden' name='hosted_button_id' value='GKQ2BR3RKB3YQ'>
+		<input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'>
+		<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'></form>
+		<small>Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong></small></div><div class='lp-sidebar-settings'><h2 style='font-size:18px;'>Follow Updates on Facebook</h2><iframe src='//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Finboundnow&amp;width=234&amp;height=65&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;appId=364256913591848' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:234px; height:65px;' allowTransparency='true'></iframe></div></div>";
 	echo "<form action='edit.php?post_type=wp-lead&page=wpleads_global_settings' method='POST'>";
 	echo "<input type='hidden' name='nature' value='wpl-global-settings-save'>";
 	echo "<input type='hidden' name='open-tab' id='id-open-tab' value='{$active_tab}'>";
@@ -334,11 +341,11 @@ function wpleads_save_global_settings() {
 			if (array_key_exists('option_name',$field) && $field['option_name'] ) {
 				$field['id'] = $field['option_name'];
 			}
-			
+
 			if ( !isset($_POST[$field['id']]) ) {
 				continue;
 			}
-			
+
 			$field['old_value'] = get_option($field['id']);
 			$field['new_value'] = $_POST[$field['id']];
 
