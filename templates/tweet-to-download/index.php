@@ -77,6 +77,7 @@ a.downloadButton.active{
           },function(){
           $("#placeholder-span").hide();
           // When the user closes the pop-up window:
+          $('.prevent-default').removeClass('prevent-default');
           var the_link = jQuery("#the_link").attr('href');
           var link_target = jQuery("#the_link").hasClass('external-new-tab');
           if (link_target === true){

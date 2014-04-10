@@ -1012,6 +1012,9 @@ class CallsToAction {
 
 	function load_shortcode_variation_js( $cta_id )
 	{		
+		if ( !isset(self::$instance->disable_ajax) ) {
+			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
+		} 
 		?>
 		<script>
 		jQuery(document).ready(function($) {
