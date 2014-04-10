@@ -680,10 +680,14 @@ class CallsToAction {
 		return $template;
 	}
 
-
-	public function load_custom_js_css($selected_cta = null) {
+	/*
+	* Prints / Returns Custom JS & CSS Related to Call to Action 
+	*/
+	public function load_custom_js_css( $selected_cta = null , $return = false ) {
+		
 		global $post;
-
+		$inline_content = "";
+		
 		($selected_cta) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
 
 		if (!isset($selected_cta)){
@@ -748,23 +752,29 @@ class CallsToAction {
 			$has_style = WP_CTA_PATH.'templates/'.$slug.'/style.css';
 			$has_style_url = WP_CTA_URLPATH.'templates/'.$slug.'/style.css';
 			if(file_exists($has_style)) {
-				echo '<link rel="stylesheet" href="'.$has_style_url.'">';
+				$inline_content .= '<link rel="stylesheet" href="'.$has_style_url.'">';
 			}
 
 			/* Print Cusom CSS */
-			echo '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
+			$inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
 
 			$custom_js = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-js'.$suffix, true);
 			if (!stristr($custom_css,'<script'))
 			{
-				echo '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
+				$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
 				'.$custom_js.' });</script>';
 			}
 			else
 			{
-				echo $custom_js;
+				$inline_content .= $custom_js;
 			}
 		}
+		
+		if ( $return ) {
+			return $inline_content;
+		} else {
+			echo $inline_content;
+		{
 	}
 
 	public static function parse_css_template( $dynamic_css , $css_id_preface )
@@ -991,13 +1001,13 @@ class CallsToAction {
 			return "";
 		}
 
-		self::load_custom_js_css( $selected_cta );
-
+		$custom_css_js = self::load_custom_js_css( $selected_cta , true );
+		
 		$cta_template = self::$instance->build_cta_content( $selected_cta );
 
 		self::$instance->load_shortcode_variation_js($id);
 
-		return do_shortcode($cta_template);
+		return  $custom_css_js . do_shortcode($cta_template);
 	}
 
 	function load_shortcode_variation_js( $cta_id )
