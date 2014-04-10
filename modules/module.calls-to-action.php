@@ -683,7 +683,7 @@ class CallsToAction {
 	/*
 	* Prints / Returns Custom JS & CSS Related to Call to Action 
 	*/
-	public function load_custom_js_css( $selected_cta = null , $return = false ) {
+	public static function load_custom_js_css( $selected_cta = null , $return = false ) {
 		
 		global $post;
 		$inline_content = "";
@@ -774,7 +774,7 @@ class CallsToAction {
 			return $inline_content;
 		} else {
 			echo $inline_content;
-		{
+		}
 	}
 
 	public static function parse_css_template( $dynamic_css , $css_id_preface )
