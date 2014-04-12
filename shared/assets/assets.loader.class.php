@@ -128,12 +128,12 @@ class Inbound_Asset_Loader {
 		$custom_map_values = array();
 		$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
 		// Get correct post ID
-		if (is_home()){
-			global $wp_query;
-			$current_page_id = $wp_query->get_queried_object_id();
-			$post_id = $current_page_id;
-			$id_check = ($post_id != null) ? true : false;
-		}
+		
+		global $wp_query;
+		$current_page_id = $wp_query->get_queried_object_id();
+		$post_id = $current_page_id;
+		$id_check = ($post_id != null) ? true : false;
+		
 		if (!is_archive() && !$id_check){
 		   $post_id = (isset($post)) ? $post->ID : false;
 		   $id_check = ($post_id != null) ? true : false;
