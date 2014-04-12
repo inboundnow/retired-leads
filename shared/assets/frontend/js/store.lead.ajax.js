@@ -489,6 +489,7 @@ jQuery(document).ready(function($) {
 				url: inbound_ajax.admin_url,
 				timeout: 10000,
 				data: data,
+				dataType: 'html',
 				success: function(user_id){
 						$this_form.trigger("inbound_search_form_complete"); // Trigger custom hook
 						$this_form.addClass('search-processed');

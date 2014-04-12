@@ -392,14 +392,12 @@ function inbound_store_lead( $args = array() ) {
 		do_action('lp_store_lead_post', $lead_data );
 
 		if (!$args) {
-
+		
 			echo $lead_id;
 			die();
 
 		} else {
-
-		return $lead_id;
-
+			return $lead_id;
 		}
 	}
 }
