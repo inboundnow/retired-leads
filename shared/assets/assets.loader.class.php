@@ -167,7 +167,7 @@ class Inbound_Asset_Loader {
 		$lead_data_array['lead_email'] = ($lead_email) ? $lead_email : null;
 		$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
+		$wordpress_date_time = date("Y/m/d G:i:s", $time);
 
 		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking, 'search_tracking' => $search_tracking, 'comment_tracking' => $comment_tracking, 'custom_mapping' => $custom_map_values);
 
