@@ -582,6 +582,7 @@
 					var form_name = jQuery("#inbound_shortcode_form_name").val();
 					var form_values = jQuery("#inbound-shortcodes-form").serialize();
 					var notify_email = jQuery("#inbound_shortcode_notify").val();
+					var notify_email_subject = jQuery("#inbound_shortcode_notify_subject").val();
 					var field_count = jQuery('.child-clone-row').length;
 					var redirect_value = jQuery('#inbound_shortcode_redirect').val();
 
@@ -627,6 +628,7 @@
 			                field_count: field_count,
 			                form_values: form_values,
 			                notify_email: notify_email,
+			                notify_email_subject: notify_email_subject,
 			                send_email: send_email,
 			                send_subject: send_email_subject,
 			               	form_settings: form_settings,

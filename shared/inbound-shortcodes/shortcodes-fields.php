@@ -59,6 +59,7 @@ class InboundShortcodesFields {
 				$this->no_preview = true;
 			}
 			$count = 0;
+			if(is_array($this->options)) {
 			foreach( $this->options as $key => $option ) {
 				$first = $key;
 
@@ -179,6 +180,7 @@ class InboundShortcodesFields {
 				}
 				$count++;
 			}
+		   }
 
 			if( isset( $fields[$this->popup]['child'] ) ) {
 

@@ -64,8 +64,10 @@ class Inbound_Asset_Loader {
 	  		// TODO: Merge Localize of wplft into inbound_ajax
 	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'inbound_ajax', self::localize_lead_data());
 
-	  		foreach ( $store as $handle ) {
-	  		    wp_enqueue_script( $handle );
+	  		if (is_array($store)) {
+		  		foreach ( $store as $handle ) {
+		  		    wp_enqueue_script( $handle );
+		  		}
 	  		}
 	  		/* Target Specific post type with
 	  		if ( is_singular( 'landing-page' ) ) {
@@ -126,12 +128,12 @@ class Inbound_Asset_Loader {
 		$custom_map_values = array();
 		$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
 		// Get correct post ID
-		if (is_home()){
-			global $wp_query;
-			$current_page_id = $wp_query->get_queried_object_id();
-			$post_id = $current_page_id;
-			$id_check = ($post_id != null) ? true : false;
-		}
+		
+		global $wp_query;
+		$current_page_id = $wp_query->get_queried_object_id();
+		$post_id = $current_page_id;
+		$id_check = ($post_id != null) ? true : false;
+		
 		if (!is_archive() && !$id_check){
 		   $post_id = (isset($post)) ? $post->ID : false;
 		   $id_check = ($post_id != null) ? true : false;
@@ -165,7 +167,7 @@ class Inbound_Asset_Loader {
 		$lead_data_array['lead_email'] = ($lead_email) ? $lead_email : null;
 		$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
+		$wordpress_date_time = date("Y/m/d G:i:s", $time);
 
 		$inbound_localized_data = array( 'post_id' => $post_id, 'ip_address' => $ip_address, 'wp_lead_data' => $lead_data_array, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time, 'post_type' => $post_type, 'page_tracking' => $page_tracking, 'search_tracking' => $search_tracking, 'comment_tracking' => $comment_tracking, 'custom_mapping' => $custom_map_values);
 

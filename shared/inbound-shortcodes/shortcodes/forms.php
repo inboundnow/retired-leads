@@ -89,6 +89,14 @@
 				'std' => '',
 				'class' => 'main-form-settings',
 			),
+			'notify_subject' => array(
+				'name' => __('Admin Email Subject Line<span class="small-required-text">*</span>', 'leads'),
+				'desc' => __('Customize the subject line of email notifications arriving from this form. default: {{site-name}} {{form-name}} - New Lead Conversion', 'leads'),
+				'type' => 'text',
+				'std' => "{{site-name}} {{form-name}} - New Lead Conversion",
+				'palceholder' => '{{site-name}} {{form-name}} - New Lead Conversion',
+				'class' => 'main-form-settings',
+			),
 			'lists' => array(
 				'name' => __('Add to List(s)', 'leads'),
 				'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
@@ -326,7 +334,7 @@
 			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
 			'clone' => __('Add Another Field',  'leads' )
 		),
-		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
+		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
 		'popup_title' => __('Insert Inbound Form Shortcode',  'leads')
 	);
 
@@ -541,6 +549,7 @@ if (!function_exists('inbound_form_save')) {
 	    $post_type = (isset( $_POST['post_type'] )) ? $_POST['post_type'] : "";
 	    $redirect_value = (isset( $_POST['redirect_value'] )) ? $_POST['redirect_value'] : "";
 	    $notify_email = (isset( $_POST['notify_email'] )) ? $_POST['notify_email'] : "";
+	    $notify_email_subject = (isset( $_POST['notify_email_subject'] )) ? $_POST['notify_email_subject'] : "";
 	    $email_contents = (isset( $_POST['email_contents'] )) ? $_POST['email_contents'] : "";
 	    $send_email = (isset( $_POST['send_email'] )) ? $_POST['send_email'] : "off";
 	    $send_subject = (isset( $_POST['send_subject'] )) ? $_POST['send_subject'] : "off";
@@ -563,6 +572,7 @@ if (!function_exists('inbound_form_save')) {
 	    	  update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	    	  update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	    	  update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	    	  update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
 	    	  update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 
@@ -597,6 +607,7 @@ if (!function_exists('inbound_form_save')) {
 	            	update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            	update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	            	update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	            	update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	            	update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
 	            	update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	            }
@@ -619,6 +630,7 @@ if (!function_exists('inbound_form_save')) {
 	            update_post_meta( $post_ID, 'inbound_form_field_count', $field_count );
 	            update_post_meta( $post_ID, 'inbound_redirect_value', $redirect_value );
 	            update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
+	            update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	            update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
 	            update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	        }
