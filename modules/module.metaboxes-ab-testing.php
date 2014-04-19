@@ -252,13 +252,17 @@ function wp_cta_ab_testing_add_tabs()
 		}
 
 		if (!isset($_GET['new-variation'])) {
+			
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit&new-variation=1" class="wp-cta-nav-tab nav-tab nav-tab-special-inactive nav-tab-add-new-variation" id="tabs-add-variation">Add New Variation</a>';
+		
 		} else {
+		
 			$variation_count = count($array_variations);
-			if (isset($_GET['wp-cta-variation-id'])) {
-			$letter = wp_cta_ab_key_to_letter($_GET['wp-cta-variation-id']);
+			$vid = (isset($_GET['new_meta_key'])) ?  $_GET['new_meta_key'] : $_GET['wp-cta-variation-id'];
+			
+			$letter = wp_cta_ab_key_to_letter($vid);
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
-			}
+			
 		}
 		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '?wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '?wp-cta-variation-id=0';
 		$post_link = get_permalink($post->ID);

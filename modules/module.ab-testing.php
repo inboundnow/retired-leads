@@ -271,7 +271,7 @@ if (is_admin())
 	{
 		if (isset($_REQUEST['new-variation'])&&!isset($_REQUEST['clone']))
 		{
-			return $settings;
+			//return $settings;
 		}
 
 		$current_variation_id = wp_cta_ab_testing_get_current_variation_id();
@@ -516,12 +516,19 @@ function wp_cta_ab_key_to_letter($key) {
 function wp_cta_ab_testing_get_current_variation_id()
 {
 
+
+		
 	if (!isset($_SESSION['wp_cta_ab_test_open_variation'])&&!isset($_GET['wp-cta-variation-id']))
 	{
 		$current_variation_id = 0;
 	}
 
 
+	/* check if variation clone is initiated */
+	if (isset($_GET['new_meta_key'])){
+		$current_variation_id = $_GET['new_meta_key'];
+	}
+	
 	if (isset($_GET['wp-cta-variation-id']))
 	{
 		$_SESSION['wp_cta_ab_test_open_variation'] = $_GET['wp-cta-variation-id'];
