@@ -18,6 +18,7 @@ function cta_placements_content_add_meta_box()
 	$exclude[] = 'tracking-event';
 	$exclude[] = 'inbound-forms';
 	$exclude[] = 'email-template';
+	$exclude[] = 'inbound-log';
 	// add filter
 
 	foreach ($post_types as $value ) {
