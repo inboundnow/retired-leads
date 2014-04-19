@@ -64,7 +64,10 @@ jQuery(document).ready(function($) {
 			var originalurl = jQuery(this).attr("href");
 			if (originalurl  && originalurl.substr(0,1)!='#')
 			{
-
+				if ( jQuerry(this).hasClass('do-not-track') ) {
+					return;
+				}
+				
 				var cta_variation_string = "&wp-cta-v=" + vid;
 
 				var newurl =  cta_reveal.home_url + "?wp_cta_redirect_" + cta_id + "=" + originalurl + cta_variation_string + string;
