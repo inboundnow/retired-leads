@@ -39,6 +39,9 @@ a.downloadButton.active{
 #inbound-share-model {
   text-align: center;
 }
+#tweetLink {
+	cursor:pointer;
+}
 </style>
 
 <div id="wp-cta-content" style="width:{{width}}height:{{width}}; margin: auto;">
@@ -55,34 +58,34 @@ a.downloadButton.active{
    <script type="text/javascript">
         jQuery(document).ready(function($) {
 
-                jQuery("#feedburnerform").removeClass('wpl-track-me');
-                jQuery(".downloadButton").removeAttr('href');
-                jQuery(".downloadButton").addClass('prevent-default');
-                setTimeout(function() {
-                   jQuery("#feedburnerform").removeClass('wpl-track-me');
-                   jQuery(".downloadButton").removeAttr('href');
-                   jQuery(".downloadButton").addClass('prevent-default');
-                    }, 1000);
+			jQuery(".downloadButton").removeAttr('href');
+			jQuery(".downloadButton").addClass('prevent-default');
+			
+			setTimeout(function() {
+			   jQuery(".downloadButton").removeAttr('href');
+			   jQuery(".downloadButton").addClass('prevent-default');
+			}, 1000);
 
-          jQuery("body").on('click', '.prevent-default', function (event) {
-              event.preventDefault();
-              console.log('clicked');
-              });
+			jQuery("body").on('click', '.prevent-default', function (event) {
+				event.preventDefault();
+				console.log('Pre-Tweet Click!');
+            });
+			
       // Using our tweetAction plugin. For a complete list with supported
       // parameters, refer to http://dev.twitter.com/pages/intents#tweet-intent
 
-      $('#tweetLink').tweetAction({
+      jQuery('#tweetLink').tweetAction({
           screen_name: '{{twittername}}'
       },function(){
-        $("#placeholder-span").hide();
-                  $('.prevent-default').removeClass('prevent-default');
+        jQuery("#placeholder-span").hide();
+                  jQuery('.prevent-default').removeClass('prevent-default');
                   // When the user closes the pop-up window:
                   var the_link = jQuery("#the_link").attr('href');
                   var link_target = jQuery("#the_link").hasClass('external-new-tab');
                   if (link_target === true){
-                    $('a.downloadButton').addClass('external-new-tab');
+                    jQuery('a.downloadButton').addClass('external-new-tab');
                   }
-                  $('a.downloadButton')
+                  jQuery('a.downloadButton')
                           .show()
                           .attr('href', the_link)
                           .attr('title', 'Thanks! Click to Download');

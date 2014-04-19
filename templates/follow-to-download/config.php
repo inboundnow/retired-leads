@@ -57,7 +57,7 @@ array(
         'description' => "Twitter username. example @DavidWells",
         'id'  => 'twittername',
         'type'  => 'text',
-        'default'  => 'DavidWells',
+        'default'  => 'InboundNow',
         'context'  => 'normal'
         ),
      array(
