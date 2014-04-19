@@ -18,8 +18,7 @@ function inbound_store_lead_search($args = array()) {
 	$email = (isset($_POST['email'] )) ? $_POST['email'] : null; // mapped data
 	$date = (isset($_POST['date'] )) ? $_POST['date'] : null; // mapped data
 
-	if ( ( isset( $email ) && !empty( $email ) && strstr( $email ,'@') ))
-	{
+	if ( ( isset( $email ) && !empty( $email ) && strstr( $email ,'@') )) {
 		$query = $wpdb->prepare(
 			'SELECT ID FROM ' . $wpdb->posts . '
 			WHERE post_title = %s
@@ -90,32 +89,40 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data['page_views'] = (isset($_POST['page_views'])) ?  $_POST['page_views'] : false;
 	$lead_data['form_input_values'] = (isset($_POST['form_input_values'])) ? $_POST['form_input_values'] : false; // raw post data
 	$lead_data['Mapped_Data'] = (isset($_POST['Mapped_Data'] )) ? $_POST['Mapped_Data'] : false; // mapped data
-	$mapped_data = json_decode(stripslashes($lead_data['Mapped_Data']), true ); // mapped data array
+	($lead_data['Mapped_Data']) ? $mapped_data = json_decode(stripslashes($lead_data['Mapped_Data']), true ) : $mapped_data = array(); // mapped data array
 	$lead_data['page_view_count'] = (array_key_exists('page_view_count', $mapped_data)) ? $mapped_data['page_view_count'] : 0;
 	$lead_data['source'] = (array_key_exists('source', $mapped_data)) ? $mapped_data['source'] : 'NA';
 	$lead_data['page_id'] = (array_key_exists('page_id', $mapped_data)) ? $mapped_data['page_id'] : '0';
-	$lead_data['lp_id'] = (array_key_exists('page_id', $mapped_data)) ? $mapped_data['page_id'] : '0'; //legacy for landing pages
 	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
-	$lead_data['lp_variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0'; //legacy for landing pages
 	$lead_data['post_type'] = (array_key_exists('post_type', $mapped_data)) ? $mapped_data['post_type'] : 'na';
 	$lead_data['wp_lead_uid'] = (array_key_exists('wp_lead_uid', $mapped_data)) ? $mapped_data['wp_lead_uid'] : false;
 	$lead_data['lead_lists'] = (array_key_exists('leads_list', $mapped_data)) ? explode(",", $mapped_data['leads_list']) : false;
 	$lead_data['ip_address'] = (array_key_exists('ip_address', $mapped_data)) ? $mapped_data['ip_address'] : false;
 
+
 	/* POST Vars */
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;
 	$search_data = json_decode(stripslashes($raw_search_data), true ); // mapped data array
 	$lead_data['search_data'] = $search_data;
-	$lead_data['email'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
+	
 	$lead_data['wpleads_full_name'] = (isset($_POST['full_name'])) ?  $_POST['full_name'] : "";
 	$lead_data['wpleads_first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : "";
-	$lead_data['first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : "";
+
 	$lead_data['wpleads_last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : "";
-	$lead_data['last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : "";
 	$lead_data['wpleads_company_name'] = (isset($_POST['company_name'] )) ? $_POST['company_name'] : "";
 	$lead_data['wpleads_mobile_phone'] = (isset($_POST['phone'])) ? $_POST['phone'] : "";
 	$lead_data['wpleads_address_line_1'] = (isset($_POST['address'])) ? $_POST['address'] : "";
+	$lead_data['wpleads_address_line_2'] = (isset($_POST['address_2'])) ? $_POST['address_2'] : "";
+	$lead_data['wpleads_city'] = (isset($_POST['city'])) ? $_POST['city'] : "";
+	$lead_data['wpleads_region_name'] = (isset($_POST['region'])) ? $_POST['region'] : "";
+	$lead_data['wpleads_zip'] = (isset($_POST['zip'])) ? $_POST['zip'] : "";
 
+	/* Legacy - Phasing Out *
+	$lead_data['first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : "";
+	$lead_data['last_name'] = (isset($_POST['last_name'])) ? $_POST['last_name'] : "";
+	$lead_data['email'] = (isset($_POST['emailTo'])) ? $_POST['emailTo'] : false;
+	$lead_data['lp_variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0'; //legacy for landing pages
+	*/
 
 	/* NEW MAPPING Loop In Progress */
 	/*
@@ -240,7 +247,7 @@ function inbound_store_lead( $args = array() ) {
 		if ($lead_data['ip_address']) {
 			update_post_meta( $lead_id, 'wpleads_ip_address', $lead_data['ip_address'] );
 			if ($lead_data['ip_address'] != "127.0.0.1"){ // exclude localhost
-			$geo_array = unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
+			$geo_array = @unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
 			(isset($geo_array['geoplugin_areaCode'])) ? update_post_meta( $lead_id, 'wpleads_areaCode', $geo_array['geoplugin_areaCode'] ) : null;
 			(isset($geo_array['geoplugin_city'])) ? update_post_meta( $lead_id, 'wpleads_city', $geo_array['geoplugin_city'] ) : null;
 			(isset($geo_array['geoplugin_regionName'])) ? update_post_meta( $lead_id, 'wpleads_region_name', $geo_array['geoplugin_regionName'] ) : null;
@@ -255,26 +262,7 @@ function inbound_store_lead( $args = array() ) {
 		}
 
 		/* Store Conversion Data to Lead */
-		$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
-		$conversion_data = json_decode($conversion_data,true);
-		$variation = $lead_data['variation'];
-		if (is_array($conversion_data)) {
-			$c_count = count($conversion_data) + 1;
-			$conversion_data[$c_count]['id'] = $lead_data['page_id'];
-			$conversion_data[$c_count]['variation'] = $variation;
-			$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
-		} else {
-			$c_count = 1;
-			$conversion_data[$c_count]['id'] = $lead_data['page_id'];
-			$conversion_data[$c_count]['variation'] = $variation;
-			$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
-			$conversion_data[$c_count]['first_time'] = 1;
-
-		}
-		$lead_data['conversion_data'] = json_encode($conversion_data);
-		update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
-		update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
-
+		inbound_add_conversion_to_lead( $lead_id , $lead_data );
 
 		/* Store Lead Referral Source Data */
 		$referral_data = get_post_meta( $lead_id, 'wpleads_referral_data', TRUE );
@@ -404,24 +392,55 @@ function inbound_store_lead( $args = array() ) {
 		do_action('lp_store_lead_post', $lead_data );
 
 		if (!$args) {
-
+		
 			echo $lead_id;
 			die();
 
 		} else {
-
-		return $lead_id;
-
+			return $lead_id;
 		}
 	}
 }
 }
 
+if (!function_exists('inbound_add_conversion_to_lead')) {
+	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
+	
+		
+		if ( $lead_data['page_id'] ) {
+			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
+			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
+			$conversion_data = json_decode($conversion_data,true);
+			$variation = $lead_data['variation'];
+			
+			if ( is_array($conversion_data)) {
+				$c_count = count($conversion_data) + 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+			} else {
+				$c_count = 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+				$conversion_data[$c_count]['first_time'] = 1;
+
+			}
+			
+			$lead_data['conversion_data'] = json_encode($conversion_data);
+			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
+			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
+		
+		}
+	}
+}
 
 if (!function_exists('inbound_update_common_meta'))
 {
 	function inbound_update_common_meta($lead_data)
 	{
+
 		if (!empty($lead_data['user_ID'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_wordpress_user_id', $lead_data['user_ID'] );
 		}
@@ -439,6 +458,27 @@ if (!function_exists('inbound_update_common_meta'))
 		}
 		if (!empty($lead_data['wpleads_address_line_1'])) {
 			update_post_meta( $lead_data['lead_id'], 'wpleads_address_line_1', $lead_data['wpleads_address_line_1'] );
+		}
+		if (!empty($lead_data['wpleads_address_line_2'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_address_line_2', $lead_data['wpleads_address_line_2'] );
+		}
+		if (!empty($lead_data['wpleads_city'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_city', $lead_data['wpleads_city'] );
+		}
+		if (!empty($lead_data['wpleads_region_name'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_region_name', $lead_data['wpleads_region_name'] );
+		}
+		if (!empty($lead_data['wpleads_zip'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_zip', $lead_data['wpleads_zip'] );
+		}
+		if (!empty($lead_data['wpleads_country'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_country', $lead_data['wpleads_country'] );
+		}
+		if (!empty($lead_data['wpleads_shipping_address_line_1'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_shipping_address_line_1', $lead_data['wpleads_shipping_address_line_1'] );
+		}
+		if (!empty($lead_data['wpleads_shipping_address_line_2'])) {
+			update_post_meta( $lead_data['lead_id'], 'wpleads_shipping_address_line_2', $lead_data['wpleads_shipping_address_line_2'] );
 		}
 		if (!empty($lead_data['wp_lead_uid'])) {
 			update_post_meta( $lead_data['lead_id'], 'wp_leads_uid', $lead_data['wp_lead_uid'] );

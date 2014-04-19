@@ -252,7 +252,9 @@ float: left;
 	font-style:italic;
 	clear:both;
 }
-
+#inbound-shortcodes-form-table tbody.parent-inbound_shortcode_notify_subject tr.form-row td.label {
+	line-height: 16px;
+}
 /* Sortable
  * ---------------------------------------- */
 #inbound-shortcodes-form-table .has-child #form-child-add{

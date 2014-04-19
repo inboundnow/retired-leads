@@ -445,7 +445,7 @@ jQuery(document).ready(function($) {
 		}
 	}
 	//console.log(inbound_data);
-
+	if ( jQuery('.wpl-search-box').length ) {
 	/* Core Inbound Search Tracking Script */
 	jQuery("body").on('submit', '.wpl-search-box', function (e) {
 		var inbound_search_data = jQuery.totalStorage('inbound_search') || {},
@@ -489,6 +489,7 @@ jQuery(document).ready(function($) {
 				url: inbound_ajax.admin_url,
 				timeout: 10000,
 				data: data,
+				dataType: 'html',
 				success: function(user_id){
 						$this_form.trigger("inbound_search_form_complete"); // Trigger custom hook
 						$this_form.addClass('search-processed');
@@ -519,7 +520,11 @@ jQuery(document).ready(function($) {
 
 
 	});
-/* Core Inbound Form Tracking Script */
+	}
+	
+	
+	/* Core Inbound Form Tracking Script */
+	if ( jQuery('.wpl-track-me').length ) {
 	jQuery("body").on('submit', '.wpl-track-me', function (e) {
 		var inbound_data = inbound_data || {},
 		this_form = jQuery(this),
@@ -604,7 +609,10 @@ jQuery(document).ready(function($) {
 		});
 
 	});
+	}
 
+	/* Core Inbound Link Tracking */
+	if ( jQuery('.wpl-track-me').length ) {
 	jQuery("body").on('click', '.wpl-track-me-link', function (e) {
 
 		this_form = jQuery(this);
@@ -709,34 +717,35 @@ jQuery(document).ready(function($) {
 				}
 		});
 
-});
-
-// gform_confirmation_loaded
-/*  Fallback for lead storage if ajax fails */
-var failed_conversion = jQuery.cookie("failed_conversion");
-var fallback_obj = jQuery.totalStorage('failed_conversion');
-
-if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
-	if (typeof fallback_obj == 'object' && fallback_obj) {
-
-			jQuery.ajax({
-				type: 'POST',
-				url: inbound_ajax.admin_url,
-				data: fallback_obj,
-				success: function(user_id){
-					console.log('Fallback fired');
-					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
-					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
-					jQuery.removeCookie("failed_conversion"); // remove failed cookie
-					jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data
-				},
-				error: function(MLHttpRequest, textStatus, errorThrown){
-						//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
-						//die();
-				}
-
-			});
+	});
 	}
-}
+
+	// gform_confirmation_loaded
+	/*  Fallback for lead storage if ajax fails */
+	var failed_conversion = jQuery.cookie("failed_conversion");
+	var fallback_obj = jQuery.totalStorage('failed_conversion');
+
+	if (typeof (failed_conversion) != "undefined" && failed_conversion == 'true' ) {
+		if (typeof fallback_obj == 'object' && fallback_obj) {
+
+				jQuery.ajax({
+					type: 'POST',
+					url: inbound_ajax.admin_url,
+					data: fallback_obj,
+					success: function(user_id){
+						console.log('Fallback fired');
+						jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
+						jQuery.totalStorage.deleteItem('tracking_events'); // remove events
+						jQuery.removeCookie("failed_conversion"); // remove failed cookie
+						jQuery.totalStorage.deleteItem('failed_conversion'); // remove failed data
+					},
+					error: function(MLHttpRequest, textStatus, errorThrown){
+							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
+							//die();
+					}
+
+				});
+		}
+	}
 
 });

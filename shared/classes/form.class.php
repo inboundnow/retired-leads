@@ -18,6 +18,7 @@ class InboundForms {
         add_action('wp_footer', array(__CLASS__, 'print_script'));
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
         add_action( 'init',  array(__CLASS__, 'do_actions'));
+		add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
     }
 
     // Create Longer shortcode for [inbound_form]
@@ -34,6 +35,7 @@ class InboundForms {
 		  'name' => '',
 		  'layout' => '',
 		  'notify' => $email,
+		  'notify_subject' => '{{site-name}} {{form-name}} - New Lead Conversion',
 		  'labels' => '',
 		  'font_size' => '', // set default from CSS
 		  'width' => '',
@@ -46,8 +48,9 @@ class InboundForms {
 		  'submit_bg_color' => ''
 		), $atts));
 
-		if ( !$id && isset($_GET['post']) )
+		if ( !$id && isset($_GET['post']) ) {
 			$id = $_GET['post'];
+		}
 
 
 		$form_name = $name;
@@ -196,9 +199,9 @@ class InboundForms {
 					$dropdown_fields = explode(",", $dropdown);
 					$form .= '<select name="'. $field_name .'" id="">';
 					foreach ($dropdown_fields as $key => $value) {
-					  $drop_val_trimmed =  trim($value);
-					  $dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
-					  $form .= '<option value="'. $dropdown_val .'">'. $value .'</option>';
+					  //$drop_val_trimmed =  trim($value);
+					  //$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
+					  $form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
 					}
 					$form .= '</select>';
 				}
@@ -222,16 +225,12 @@ class InboundForms {
 
 					$checkbox = $matches[3][$i]['checkbox'];
 					$checkbox_fields = explode(",", $checkbox);
-					$checkbox_array = (count($checkbox_fields) > 1) ? '[]' : ''; // set checkbox array or not array
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
-					$checkboxes = '';
 					foreach ($checkbox_fields as $key => $value) {
-						$checkbox_val_trimmed = trim($value);
+						$checkbox_val_trimmed =  trim($value);
 						$checkbox_val =  strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$checkboxes .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .$checkbox_array.'" id="'.$formatted_label.'" value="'.$checkbox_val_trimmed.'">'.$checkbox_val_trimmed.'<br>';
+						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'">'.$checkbox_val_trimmed.'<br>';
 					}
-
-					$form .= $checkboxes;
 				}
 				else if ($type === 'html-block')
 				{
@@ -286,6 +285,7 @@ class InboundForms {
 			return $form;
 		}
 	}
+
 	// Create shorter shortcode for [inbound_forms]
 	static function inbound_short_form_create( $atts, $content = null )
 	{
@@ -396,6 +396,23 @@ class InboundForms {
             </style>";
     }
 
+	public static function replace_tokens( $content , $form_data = null , $form_meta_data = null ) {
+
+		/* replace core tokens */
+		$content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
+		//$content = str_replace('{{form-name}}', $form_data['inbound_form_name']		, $content);
+
+		foreach ($form_data as $key => $value) {
+			$token_key = str_replace('_','-', $key);
+			$token_key = str_replace('inbound-','', $token_key);
+
+			$content = str_replace( '{{'.trim($token_key).'}}' , $value , $content );
+		}
+
+		return $content;
+	}
+
+
 	static function send_mail($form_data, $form_meta_data)
 	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
@@ -416,23 +433,21 @@ class InboundForms {
 		$multi_send = false;
 
 		if (isset($form_meta_data['inbound_email_send_notification'][0])){
-		$notification_status = $form_meta_data['inbound_email_send_notification'][0];
+			$notification_status = $form_meta_data['inbound_email_send_notification'][0];
 		}
 
 		if (isset($form_meta_data['inbound_notify_email'])){
-		$email_to = $form_meta_data['inbound_notify_email'];
-		$email_addresses = explode(",", $email_to[0]);
+			$email_to = $form_meta_data['inbound_notify_email'][0];
+			$email_addresses = explode(",", $email_to[0]);
 			if(is_array($email_addresses) && count($email_addresses) > 1) {
 				$multi_send = true;
 			}
-		}
-		/*
-		print_r($form_meta_data); exit;
-		/**/
 
-		/*
-		print_r($form_data); exit;
-		/**/
+			$email_subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] : 'Thank You';
+		}
+
+		/* print_r($form_meta_data); exit; */
+		/* print_r($form_data); exit; */
 
 		 $form_email = false;
 		 foreach ($form_data as $key => $value) {
@@ -457,15 +472,22 @@ class InboundForms {
 		/* Might be better email send need to test and look at html edd emails */
 		if ( $form_email && $email_to )
 		{
+
 			// DO PHP LEAD SAVE HERE
 			//
 			$to = $email_to; // admin email or email from shortcode
+
 			$admin_url = get_bloginfo( 'url' ) . "/wp-admin";
 			$redirect_message = (isset($form_data['inbound_redirect']) && $form_data['inbound_redirect'] != "") ? "They were redirected to " . $form_data['inbound_redirect'] : '';
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 			$data_time = date('F jS, Y \a\t g:ia', $time);
+
+
 			// get the website's name and puts it in front of the subject
-			$email_subject = "[" . get_bloginfo( 'name' ) . "] " . $form_data['inbound_form_name'] . " - New Lead Conversion";
+			$email_subject = (isset($form_meta_data['inbound_notify_email_subject'][0])) ? $form_meta_data['inbound_notify_email_subject'][0] : '{{site-name}} - {{form-name}} - New Lead Conversion';
+
+			$email_subject = apply_filters( 'inbound_replace_email_tokens' , $email_subject , $form_data , $form_meta_data);
+
 			// get the message from the form and add the IP address of the user below it
 		$email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -526,7 +548,7 @@ class InboundForms {
              </td>
      </tr>';
 // working!
-     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl', 'Inbound Form Lists' );
+     $exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
 
      $main_count = 0;
      $url_request = "";
@@ -723,11 +745,11 @@ class InboundForms {
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
 			if($multi_send) {
 				foreach ($email_addresses as $key => $recipient) {
-				wp_mail( $recipient, $email_subject, $email_message, $headers );
+				wp_mail( $recipient, stripslashes($email_subject), $email_message, $headers );
 				}
 			} else {
 
-				wp_mail( $to, $email_subject, $email_message, $headers );
+				wp_mail( $to, stripslashes($email_subject), $email_message, $headers );
 			}
 
 			// and set the result text to the shortcode attribute named 'success'
@@ -739,7 +761,7 @@ class InboundForms {
 
 		}
 		// Send Confirmation Email to Form Converter
-		if ($notification_status == 'on' && isset($form_email)) {
+		if ($notification_status === 'on' && $form_email) {
 
 			$my_postid = $form_meta_data['post_id']; //This is page id or post id
 			$content_post = get_post($my_postid);
@@ -763,7 +785,7 @@ class InboundForms {
 			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
 			$headers .= 'Content-type: text/html';
 			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $form_email, $confirm_subject, $confirm_email_message, $headers );
+			wp_mail( $form_email, $confirm_subject , $confirm_email_message, $headers );
 
 			//echo $notification_status . $form_email . $my_postid . 'hi'; exit;
 			//echo $content. $form_data['email'];
@@ -816,35 +838,28 @@ class InboundForms {
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
+                if ( get_magic_quotes_gpc() ) {
+                    $value = stripslashes( $value );
+                }
+                $field = strtolower($field);
 
-				if(is_array($value)) {
-					$value = implode(', ',$value);
-					$form_post_data[$field] = strip_tags( $value );
-				} else {
-					if ( get_magic_quotes_gpc() ) {
-					    $value = stripslashes( $value );
-					}
-					$field = strtolower($field);
+                if (preg_match( '/Email|e-mail|email/i', $value)) {
+                $field = "email";
+                }
 
-					if (preg_match( '/Email|e-mail|email/i', $value)) {
-					$field = "email";
-					}
+                if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
+                $field = "first-name";
+                }
 
-					if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
-					$field = "first-name";
-					}
+                if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
+                $field = "last-name";
+                }
 
-					if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
-					$field = "last-name";
-					}
+                if (preg_match( '/Phone|phone number|telephone/i', $value)) {
+                $field = "phone";
+                }
 
-					if (preg_match( '/Phone|phone number|telephone/i', $value)) {
-					$field = "phone";
-					}
-
-					$form_post_data[$field] = strip_tags( $value );
-				}
-
+                $form_post_data[$field] = strip_tags( $value );
 
             }
             $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
