@@ -702,7 +702,7 @@ class CallsToAction {
 
 		foreach ($selected_cta['variations'] as $vid) {
 			
-			$meta = $selected_cta['variations'][$vid];
+			$meta = $selected_cta['meta'][$vid];
 			
 			($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
@@ -757,7 +757,7 @@ class CallsToAction {
 			}
 
 			/* If style.css exists in root cta directory, insert here */
-			$slug = $selected_cta['templates'][0]['slug'];
+			$slug = $selected_cta['templates'][$vid]['slug'];
 			$has_style = WP_CTA_PATH.'templates/'.$slug.'/style.css';
 			$has_style_url = WP_CTA_URLPATH.'templates/'.$slug.'/style.css';
 			if(file_exists($has_style)) {
@@ -877,7 +877,7 @@ class CallsToAction {
 		}
 
 		/* Reveal Variation if Preview */
-		(self::$instance->is_preview) ? $display = 'block' : $display = 'none';
+		(self::$instance->is_preview) ? $display = 'none' : $display = 'none';
 
 		/* Pepare Container Margins if Available */
 		(isset($selected_cta['margin_top'])) ? $margin_top : $margin_top = '0px';
@@ -1046,43 +1046,10 @@ class CallsToAction {
 
 		self::$instance->setup_cta( true );
 
+		$cta_id = self::$instance->obj->ID;
+		
 		if (!isset(self::$instance->selected_cta)) {
 			return;
-		}
-
-		/* For some reason previews are not enqueing CSS so let's add them manually */
-		$loaded = array();
-		foreach (self::$instance->selected_cta['templates'] as $template)
-		{
-			if ( in_array( $template['slug'] , $loaded) ) {
-				continue;
-			}
-
-			$loaded[] = $template['slug'];
-			$assets = self::$instance->get_assets($template);
-
-			$localized_template_id = str_replace( '-' , '_' , $template['slug'] );
-			if(is_array($assets)) {
-				foreach ($assets as $type => $file)
-				{
-					switch ($type)
-					{
-						case 'js':
-							foreach ($file as $js)
-							{
-								wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
-								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type) );
-							}
-							break;
-						case 'css':
-							foreach ($file as $css)
-							{
-								wp_enqueue_style( md5($css) , $css );
-							}
-							break;
-					}
-				}
-			}
 		}
 
 		echo '<html style="margin-top:0px !important;">';
@@ -1096,31 +1063,18 @@ class CallsToAction {
 		wp_print_styles();
 
 		echo '</head>';
-		echo '<body style="background-color:#fff">';
-		$post_id = self::$instance->obj->ID;
-		$w = get_post_meta( $post_id, 'wp_cta_width', true );
-		$h = get_post_meta( $post_id, 'wp_cta_height', true );
-		if (isset($_GET['wp-cta-variation-id'])) {
-
-			$vid = $_GET['wp-cta-variation-id'];
-			if ($vid === "0"){
-				$w = get_post_meta( $post_id, 'wp_cta_width', true );
-				$h = get_post_meta( $post_id, 'wp_cta_height', true );
-			} else {
-				$w = get_post_meta( $post_id, 'wp_cta_width-'.$vid, true );
-				$h = get_post_meta( $post_id, 'wp_cta_height-'.$vid, true );
-			}
-
+		echo '<body style="background-color:#fff;margin-top:100px;">';
+		echo '<div id="cta-preview-container" style="margin:auto;">';
+		if ( isset($_GET['post_id']) ) {
+			echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
+		} else {
+			echo do_shortcode('[cta id="'.$cta_id.'"]');
 		}
-
-		echo '<div id="cta-preview-container" style="width:'.$w.'; height:'.$h.'; margin:auto;">';
-		/* build ad content */
-		$cta_template = self::build_cta_content(self::$instance->selected_cta);
-		//echo $cta_template;exit;
-		echo do_shortcode($cta_template);
+		
 		echo "</div>";
-		echo "<style>#wp_cta_".$_GET['post_id']."_variation_".$_GET['wp-cta-variation-id']." { display:block; } </style>";
-		//do_action('wp_footer');
+		
+		
+		do_action('wp_footer');
 		wp_print_footer_scripts();
 
 		if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
