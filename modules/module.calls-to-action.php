@@ -175,7 +175,7 @@ class CallsToAction {
 		self::$instance->selected_cta = self::$instance->prepare_cta_dataset();	/* builds a list of ct */
 	}
 
-	public static function prepare_cta_dataset( $cta_id = null )
+	public static function prepare_cta_dataset( $cta_id = null  , $variation_id = null)
 	{
 		if ($cta_id) {
 			$cta_display_list  = array(0=>$cta_id);
@@ -191,12 +191,18 @@ class CallsToAction {
 			$cta_obj[$cta_id]['id'] = $cta_id;
 			$cta_obj[$cta_id]['url'] = $url;
 			
-			/* Try to pull live varations meta - fallback on legacy meta */ 
-			if ( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) ) {
+			/* If variation is predefined load */
+			if ( isset($variation_id) ) {			
+				$cta_obj[$cta_id]['variations'] = array( $variation_id );				
+			} 
+			/* Else Check Meta Key for Live Variations  */
+			else if ( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) ) {
 				
 				$cta_obj[$cta_id]['variations'] = json_decode( get_post_meta( $cta_id, 'wp_cta_live_variations', true ) );
 			
-			} else {
+			} 
+			/* Else Check Legacy Meta Key for Variations */
+			else {
 				$cta_obj[$cta_id]['variations'] = explode( ',', get_post_meta( $cta_id, 'cta_ab_variations', true ) );
 			}
 
@@ -694,7 +700,10 @@ class CallsToAction {
 			return;
 		}
 
-		foreach ($selected_cta['meta'] as $vid=>$cta) {
+		foreach ($selected_cta['variations'] as $vid) {
+			
+			$meta = $selected_cta['variations'][$vid];
+			
 			($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 			/* account for preview mode */
@@ -875,10 +884,11 @@ class CallsToAction {
 		(isset($selected_cta['margin_bottom'])) ? $margin_botom : $margin_bottom = '0px';
 
 		/* discover the shortest variation height */
-		foreach ($selected_cta['meta'] as $vid=>$cta)
+		foreach ($selected_cta['variations'] as $vid)
 		{
-			if (  isset($cta['wp_cta_height-'.$vid]) && is_int( $cta['wp_cta_height-'.$vid]) ) {
-				$heights[] = $cta['wp_cta_height-'.$vid];
+			$meta = $selected_cta['meta'][$vid];
+			if (  isset($meta['wp_cta_height-'.$vid]) && is_int( $meta['wp_cta_height-'.$vid]) ) {
+				$heights[] = $meta['wp_cta_height-'.$vid];
 			}
 		}
 
@@ -898,14 +908,15 @@ class CallsToAction {
 
 
 		/* build cta content */
-		foreach ($selected_cta['meta'] as $vid=>$cta)
+		foreach ($selected_cta['variations'] as $vid)
 		{
+			$meta =  $selected_cta['meta'][$vid];
 			if (isset($_GET['wp-cta-variation-id']) && $vid!=$_GET['wp-cta-variation-id']) {
 				continue;
 			}
 
-			(isset($cta['wp_cta_width-'.$vid])) ? $w = $cta['wp_cta_width-'.$vid] : $w = 'auto';
-			(isset($cta['wp_cta_height-'.$vid])) ? $h = $cta['wp_cta_height-'.$vid] : $h = 'auto';
+			(isset($meta['wp_cta_width-'.$vid])) ? $w = $meta['wp_cta_width-'.$vid] : $w = 'auto';
+			(isset($meta['wp_cta_height-'.$vid])) ? $h = $meta['wp_cta_height-'.$vid] : $h = 'auto';
 
 			$width = self::$instance->cta_get_correct_dimensions($w, 'width');
 			$height = self::$instance->cta_get_correct_dimensions($h, 'height');
@@ -992,25 +1003,26 @@ class CallsToAction {
 	function process_shortcode_cta( $atts )
 	{
 		extract(shortcode_atts(array(
-			'id' => ''
+			'id' => '',
+			'vid' => null
 		), $atts));
 
-		$selected_cta  = self::$instance->prepare_cta_dataset( $id );
+		$selected_cta  = self::$instance->prepare_cta_dataset( $id , $vid );
 
 		if ( !$selected_cta ) {
 			return "";
 		}
 
 		$custom_css_js = self::load_custom_js_css( $selected_cta , true );
-		
+		//echo $custom_css_js;exit;
 		$cta_template = self::$instance->build_cta_content( $selected_cta );
-
-		self::$instance->load_shortcode_variation_js($id);
+	
+		self::$instance->load_shortcode_variation_js( $id , $vid );
 
 		return  $custom_css_js . do_shortcode($cta_template);
 	}
 
-	function load_shortcode_variation_js( $cta_id )
+	function load_shortcode_variation_js( $cta_id , $variation_id = null )
 	{		
 		if ( !isset(self::$instance->disable_ajax) ) {
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
@@ -1018,7 +1030,7 @@ class CallsToAction {
 		?>
 		<script>
 		jQuery(document).ready(function($) {
-			wp_cta_load_variation( '<?php echo $cta_id; ?>' , '<?php echo self::$instance->disable_ajax; ?>'  )
+			wp_cta_load_variation( '<?php echo $cta_id; ?>' , '<?php echo $variation_id; ?>' ,  '<?php echo self::$instance->disable_ajax; ?>'  )
 		});
 		</script>
 		<?php
@@ -1214,101 +1226,7 @@ class CallsToAction {
 }
 
 
-function wp_cta_discover_important_wrappers($content)
-{
-	$wrapper_class = "";
-
-	if (strstr($content,'gform_wrapper')) {
-		$wrapper_class = 'gform_wrapper';
-	}
-
-	return $wrapper_class;
-}
-
-
-function wp_cta_get_value($post, $key, $id)
-{
-	if (isset($post))
-	{
-		$return = get_post_meta($post->ID, $key.'-'.$id , true);
-		$return = apply_filters('wp_cta_get_value',$return,$post,$key,$id);
-
-		return $return;
-	}
-}
-
 function wp_cta_check_active()
 {
 	return 1;
-}
-
-
-function wp_cta_remote_connect($url)
-{
-	$method1 = ini_get('allow_url_fopen') ? "Enabled" : "Disabled";
-	if ($method1 == 'Disabled')
-	{
-		//do curl
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "$url");
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
-		curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
-		curl_setopt ($ch, CURLOPT_TIMEOUT, 60);
-		$string = curl_exec($ch);
-	}
-	else
-	{
-		$string = file_get_contents($url);
-	}
-
-	return $string;
-}
-
-//***********FUNCTION THAT WILL FIND POST ID FROM URL FOR CUSTOM POST TYPES******************/
-function wp_cta_url_to_postid($url)
-{
-	global $wpdb;
-
-	//first check if URL is homepage
-	$wordpress_url = get_bloginfo('url');
-	if (substr($wordpress_url, -1, -1)!='/')
-	{
-		$wordpress_url = $wordpress_url."/";
-	}
-
-	if (str_replace('/','',$url)==str_replace('/','',$wordpress_url))
-	{
-		return get_option('page_on_front');
-	}
-
-	$parsed = parse_url($url);
-	$url = $parsed['path'];
-
-	$parts = explode('/',$url);
-
-	$count = count($parts);
-	$count = $count -1;
-
-	if (empty($parts[$count]))
-	{
-		$i = $count-1;
-		$slug = $parts[$i];
-	}
-	else
-	{
-		$slug = $parts[$count];
-	}
-
-	$my_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '$slug' AND post_type='wp-call-to-action'");
-
-	if ($my_id)
-	{
-		return $my_id;
-	}
-	else
-	{
-		return 0;
-	}
 }

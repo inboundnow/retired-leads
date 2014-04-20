@@ -280,7 +280,7 @@ class CTAStaticWidget extends WP_Widget
 		?>
 		<script>
 		jQuery(document).ready(function($) {
-			wp_cta_load_variation('<?php echo $this->cta_id; ?>' , '<?php echo $disable_ajax; ?>' );
+			wp_cta_load_variation('<?php echo $this->cta_id; ?>' , null , '<?php echo $disable_ajax; ?>' );
 		});
 		</script>
 		<?php
