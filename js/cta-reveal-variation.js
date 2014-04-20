@@ -1,19 +1,16 @@
-jQuery(document).ready(function($) {
 
-	var item = localStorage.getItem('wp_cta_loaded');
-	if (item){
-		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
-	} else {
-	  return false;
-	}
-
+/* Record Impressions For Each Variation in CTA Object 
+* @param JSON ctas : a json string of {'cta':'vid'}
+*/
+function wp_cta_record_impressions( ctas ) {
+	
 	/* Add Impressions to loaded varations*/
 	jQuery.ajax({
 		type: 'POST',
 		url: cta_reveal.admin_url,
 		data: {
 			action: 'wp_cta_record_impressions',
-			ctas: item
+			ctas: ctas
 		},
 		success: function(user_id){
 				console.log('CTA Impressions Recorded');
@@ -23,9 +20,16 @@ jQuery(document).ready(function($) {
 			}
 
 	});
+	
+}
+
+/* Adds Tracking Classes to Links and Forms to CTAs 
+* @param OBJECT ctas : object containing {'cta','vid'}
+*/
+function wp_cta_add_tracking_classes( ctas ) {
+	jQuery.each( ctas,  function(cta_id,vid) {
+		var vid = ctas[cta_id];
 		
-	jQuery.each( loaded_ctas,  function(cta_id,vid) {
-		var vid = loaded_ctas[cta_id];
 		console.log('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();
 
@@ -64,7 +68,7 @@ jQuery(document).ready(function($) {
 			var originalurl = jQuery(this).attr("href");
 			if (originalurl  && originalurl.substr(0,1)!='#')
 			{
-				if ( jQuerry(this).hasClass('do-not-track') ) {
+				if ( jQuery(this).hasClass('do-not-track') ) {
 					return;
 				}
 				
@@ -76,4 +80,22 @@ jQuery(document).ready(function($) {
 		});
 
 	});
+}
+
+
+jQuery(document).ready(function($) {
+
+	var ctas = localStorage.getItem('wp_cta_loaded');
+	if (ctas){
+		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
+	} else {
+	  return false;
+	}
+
+	/* Record Impressions */
+	wp_cta_record_impressions( ctas );
+	
+	/* Add Tracking Classes */
+	wp_cta_add_tracking_classes( loaded_ctas );
+	
 });
