@@ -181,7 +181,8 @@ $extra_content = "<p>This is dummy text and not part of the shortcode. This is d
 
 				<?php }
 			?>
-
+			<h3>Due to wordpress 3.9 wonkiness if the insert shortcode button is not working, copy and paste the shortcode manually</h3>
+			<?php echo "<textarea style='width:100%; height:50px;'>". $shortcode ."</textarea><br><br>"; ?>
 
 			<?php
 

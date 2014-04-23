@@ -80,6 +80,9 @@ var IA_PageViews = (function (InboundAnalytics) {
     StorePageView: function() {
           var timeout = InboundAnalytics.PageTracking.CheckTimeOut();
           var pageviewObj = jQuery.totalStorage('page_views');
+          if(pageviewObj === null) {
+            pageviewObj = {};
+          }
           var current_page_id = wplft.post_id;
           var datetime = wplft.track_time;
 
@@ -99,8 +102,11 @@ var IA_PageViews = (function (InboundAnalytics) {
           }
     },
     CheckTimeOut: function() {
-        var PageViews = jQuery.totalStorage('page_views'),
-        page_id = wplft.post_id,
+        var PageViews = jQuery.totalStorage('page_views');
+        if(PageViews === null) {
+          PageViews = {};
+        }
+        var page_id = wplft.post_id,
         pageviewTimeout = true, /* Default */
         page_seen = PageViews[page_id];
         if(typeof(page_seen) != "undefined" && page_seen !== null) {
