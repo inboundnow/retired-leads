@@ -1,24 +1,24 @@
 <?php
 
 
-function wpleads_count_associated_lead_items($post_id){
-	global $wpdb;
+function wpleads_count_associated_lead_items( $list_id ){
 
-	$list = get_post($post_id);
-	$list_slug = $list->post_name;
+	$query = new WP_Query( array( 
+			'post_type' => 'wp-lead',
+			'tax_query' => array (
+				'relation' => 'AND',
+				array (
+					'taxonomy' => 'wplead_list_category' ,
+					'field' => 'id' ,
+					'terms' => array(  $list_id )
+				)
+			),
+			'posts_per_page' => -1 			
+	) );
+	
+	$count = $query->post_count;
 
-
-	$args = array(
-		'post_type' => 'wp-lead',
-		'post_status' => 'published',
-		'wplead_list_category' => $list_slug,
-		'numberposts' => -1
-	);
-
-	$num = count( get_posts( $args ) );
-
-
-	return sprintf( __( '%d leads' , 'leads' ) , $num );
+	return sprintf( __( '%d leads' , 'leads' ) , $count );
 }
 
 
@@ -46,9 +46,7 @@ function wpleads_add_list_to_wplead_list_category_taxonomy($post_id, $list_title
 
 function wpleads_add_lead_to_list( $list_id, $lead_id ) {
 
-	$wplead_cat_id = get_post_meta($list_id,'wplead_list_category_id', true);
-
-	wp_set_post_terms( $lead_id, intval($wplead_cat_id), 'wplead_list_category', true);
+	wp_set_post_terms( $lead_id, intval($list_id), 'wplead_list_category', true);
 
 	//build meta pair for list ids lead belongs to
 	$wpleads_list_ids = get_post_meta($lead_id, 'wpleads_list_ids', true);
@@ -107,17 +105,8 @@ function wpleads_add_lead_to_list( $list_id, $lead_id ) {
 }
 
 function wpleads_remove_lead_from_list( $list_id, $lead_id ) {
-	$categories = wp_get_post_terms( $lead_id, 'wplead_list_category', array( 'fields'=>'ids' ) );
 
-	$list_category_id = get_post_meta($list_id,'wplead_list_category_id', true);
-
-	$pos = array_search( $list_category_id, $categories );
-
-	if( false !== $pos ) {
-		unset( $categories[$pos] );
-	}
-
-	wp_set_post_terms ($lead_id, $categories, 'wplead_list_category');
+	wp_remove_object_terms ($lead_id, $list_id, 'wplead_list_category' );
 
 	//build meta pair for list ids lead belongs to
 	$wpleads_list_ids = get_post_meta($lead_id, 'wpleads_list_ids' , true);

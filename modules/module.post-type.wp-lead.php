@@ -255,22 +255,25 @@ function wp_leads_lead_email_filter( $query ) {
 	add_action('admin_init', 'wp_lead_redirect_with_email');
 	function wp_lead_redirect_with_email() {
 		global $wpdb;
-			if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
+		if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
+		
 			$lead_id = 	$_GET['lead-email-redirect'];
 			$query = $wpdb->prepare(
-					'SELECT ID FROM ' . $wpdb->posts . '
-					WHERE post_title = %s
-					AND post_type = \'wp-lead\'',
-					$lead_id
-					);
-					$wpdb->query( $query );
-					if ( $wpdb->num_rows ) {
-						$lead_ID = $wpdb->get_var( $query );
-						$url = admin_url();
-						$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
-						wp_redirect( $redirect, 301 ); exit;
-					}
+				'SELECT ID FROM ' . $wpdb->posts . '
+				WHERE post_title = %s
+				AND post_type = \'wp-lead\'',
+				$lead_id
+			);
+			
+			$wpdb->query( $query );
+			
+			if ( $wpdb->num_rows ) {
+				$lead_ID = $wpdb->get_var( $query );
+				$url = admin_url();
+				$redirect = $url . 'post.php?post='. $lead_ID . '&action=edit';
+				wp_redirect( $redirect, 301 ); exit;
 			}
+		}
 	}
 
 
@@ -278,24 +281,25 @@ function wp_leads_lead_email_filter( $query ) {
 	function wpl_admin_posts_filter_restrict_manage_posts()
 	{
 		global $wpdb;
-		 $screen = get_current_screen();
-		 $screen_id = $screen->id;
+		$screen = get_current_screen();
+		$screen_id = $screen->id;
 		if ( $screen_id=='edit-wp-lead') {
-				$post_type = 'wp-lead';
-				$query = "
-					SELECT DISTINCT($wpdb->postmeta.meta_key)
-					FROM $wpdb->posts
-					LEFT JOIN $wpdb->postmeta
-					ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-					WHERE $wpdb->posts.post_type = 'wp-lead'
-					AND $wpdb->postmeta.meta_key != ''
-					AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
-					AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
-				";
-				$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
-				$fields = $wpdb->get_col($wpdb->prepare($query, $post_type));
-				//print_r($fields);
-				// $fields = $wpdb->get_results($sql, ARRAY_N);
+		
+			
+			$query = "
+				SELECT DISTINCT($wpdb->postmeta.meta_key)
+				FROM $wpdb->posts
+				LEFT JOIN $wpdb->postmeta
+				ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+				WHERE $wpdb->posts.post_type = '%s'
+				AND $wpdb->postmeta.meta_key != ''
+				AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
+				AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
+			";
+			
+			$fields = $wpdb->get_col($wpdb->prepare($query, 'wp-lead'));
+			//print_r($fields);
+			// $fields = $wpdb->get_results($sql, ARRAY_N);
 			?>
 				<select name="wp_leads_filter_field" id="lead-meta-filter">
 				<option value="" class='lead-meta-empty'><?php _e('Filter By Custom Fields', 'baapf'); ?></option>
@@ -431,12 +435,12 @@ function wpleads_bulk_admin_footer() {
   if($post_type == 'wp-lead') {
 
 
-	$lists = get_posts('post_type=list&posts_per_page=-1');
+	$lists = wpleads_get_lead_lists_as_array();
 
 	$html = "<select id='wordpress_list_select' name='action_wordpress_list_id'>";
-	foreach ( $lists as $list  )
+	foreach ( $lists as $id => $label  )
 	{
-		$html .= "<option value='".$list->ID."'>".$list->post_title."</option>";
+		$html .= "<option value='".$id."'>".$label."</option>";
 	}
 	$html .="</select>";
 
