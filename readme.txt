@@ -82,6 +82,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 == Changelog ==
 = 1.3.7 =
 * Temporary fix for shortcodes disappearing from wordpress 3.8 to 3.9
+* Performance improvements on analytics and lead tracking
 
 = 1.3.6 =
 * Misc bug fixes
