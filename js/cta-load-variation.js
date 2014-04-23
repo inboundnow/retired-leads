@@ -8,7 +8,8 @@ function wp_cta_load_variation( cta_id , vid , disable_ajax )
 	}
 
 	/* if variation is pre-defined then immediately load variation*/
-	if ( typeof vid != 'undefined' && vid != null ) {
+	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {
+		alert(vid);
 		/* reveal variation */
 		console.log('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();

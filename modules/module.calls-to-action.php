@@ -1014,7 +1014,7 @@ class CallsToAction {
 		}
 
 		$custom_css_js = self::load_custom_js_css( $selected_cta , true );
-		//echo $custom_css_js;exit;
+
 		$cta_template = self::$instance->build_cta_content( $selected_cta );
 	
 		self::$instance->load_shortcode_variation_js( $id , $vid );
