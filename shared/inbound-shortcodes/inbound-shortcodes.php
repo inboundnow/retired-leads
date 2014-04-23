@@ -48,7 +48,7 @@ class InboundShortcodes {
   static function set_file_path(){
     if (function_exists('is_plugin_active')) {
       if (is_plugin_active('leads/wordpress-leads.php')) {
-        $final_path = WPL_URL . "/";
+        $final_path = WPL_URL;
       } else if (is_plugin_active('landing-pages/landing-pages.php')) {
         $final_path = LANDINGPAGES_URLPATH;
       } else if (is_plugin_active('cta/wordpress-cta.php')) {

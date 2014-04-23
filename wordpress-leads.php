@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.3.6
+Version: 1.3.7
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
 Domain Path: shared/languages/leads/
@@ -44,18 +44,18 @@ final class WordPress_Leads {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'leads' ), '1.7' );
 	}
 
 	/* Disable unserializing of the class */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'leads' ), '1.7' );
 	}
 
 	/* Setup plugin constants */
 	private function setup_constants() {
-		define('WPL_CURRENT_VERSION', '1.3.6' );
+		define('WPL_CURRENT_VERSION', '1.3.7' );
 		define('WPL_URL',  plugins_url( '/', __FILE__ ) );
 		define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 		define('WPL_CORE', plugin_basename( __FILE__ ) );

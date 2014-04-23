@@ -21,6 +21,7 @@ var indexOf = function(needle) {
 
     return indexOf.call(this, needle);
 };
+
 var active_plugins = inbound_load.inbound_plugins,
     cta_check = 'cta',
     cta_status = indexOf.call(active_plugins, cta_check),
@@ -38,8 +39,22 @@ if (lp_status > -1) {
 if (cta_status > -1) {
 	console.log("cta on");
 }
+
+
+jQuery(".launch-marketing-sc").on('click', function () {
+	var test = jQuery("#choose-inbound-shortcode").clone();
+
+	window.tb_remove();
+	var shortcode = jQuery(this).attr('data-launch-sc');
+
+	setTimeout(function() {
+	 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+	        }, 500);
+
+});
+/* Broken from 3.9 forward
 var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
-	tinymce.create('tinymce.plugins.InboundShortcodes', {
+	tinyMCE.create('tinymce.plugins.InboundShortcodes', {
 
 		init: function(ed, url) {
 			ed.addCommand('InboundShortcodesPopup', function(a, params) {
@@ -104,7 +119,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 						a.addWithPopup( b, myArray[i], myArray[i] );
 					}
 					*/
-
+					/*
 					//a.addWithPopup( b, 'Insert Button Shortcode',  'button' );
 					//a.addWithPopup( b, 'Alert', 'alert' );
 					//a.addWithPopup( b, 'Call Out', 'callout' );
@@ -181,5 +196,5 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 	});
 
 	tinymce.PluginManager.add('InboundShortcodes', tinymce.plugins.InboundShortcodes);
-
+*/
 })();

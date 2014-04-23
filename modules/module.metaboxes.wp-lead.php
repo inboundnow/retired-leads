@@ -623,7 +623,7 @@ function wpleads_display_metabox_main() {
 			<?php
 			//print_r($wpleads_user_fields);exit;
 			do_action('wpleads_before_main_fields'); // Custom Action for additional info above Lead list
-			
+
 			wpleads_render_setting($wpleads_user_fields);
 
 			wp_lead_display_extra_data($social_values, 'website'); // Display websites
@@ -644,7 +644,7 @@ function wpleads_display_metabox_main() {
 			//wp_lead_display_extra_data($values, 'photo'); // Display extra photos
 			echo "<div id='wpl-after-main-fields'>";
 
-			
+
 			do_action('wpleads_after_main_fields'); // Custom Action for additional info above Lead list
 			echo "</div>";
 
@@ -663,6 +663,7 @@ function wpleads_display_metabox_main() {
 			   			$wpleads_search_data = json_decode($wpleads_search_data, true);
 		    			if (is_array($wpleads_search_data)){
 		    				$search_count = count($wpleads_search_data);
+
 		    			} else {
 		    				$search_count = 0;
 		    			}
@@ -693,7 +694,7 @@ function wpleads_display_metabox_main() {
 								     	   'count' => $comment_count ),
 								     array('id'=>'lead-searches',
 								     	   'label'=> __( 'Searches' , 'leads' ),
-								     	   'count' => $conversion_count )
+								     	   'count' => $search_count )
 								     );
 
 					$nav_items = apply_filters('wpl_lead_activity_tabs',$nav_items); ?>

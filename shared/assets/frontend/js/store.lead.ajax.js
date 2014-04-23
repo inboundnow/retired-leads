@@ -41,6 +41,16 @@ function eraseCookie(name) {
     createCookie(name,"",-1);
 }
 
+/* Count number of session visits */
+function countProperties(obj) {
+    var count = 0;
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            ++count;
+    }
+    return count;
+}
+
 function lead_store_url_params(){
 	var urlParams = {};
 
@@ -354,6 +364,7 @@ function inbound_form_submit(this_form, e) {
 	/* Define Variables */
 	var inbound_data = inbound_data || {};
 	// Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
+	var pageviewObj = jQuery.totalStorage('page_views');
 	inbound_data['page_view_count'] = countProperties(pageviewObj);
 	inbound_data['leads_list'] = jQuery(this_form).find('#inbound_form_lists').val();
 	inbound_data['source'] = jQuery.cookie("wp_lead_referral_site") || "NA";
@@ -521,8 +532,8 @@ jQuery(document).ready(function($) {
 
 	});
 	}
-	
-	
+
+
 	/* Core Inbound Form Tracking Script */
 	if ( jQuery('.wpl-track-me').length ) {
 	jQuery("body").on('submit', '.wpl-track-me', function (e) {

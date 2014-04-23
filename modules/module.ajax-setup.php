@@ -11,11 +11,11 @@ function wpleads_lead_automation_build_queue() {
 	$automation_queue = get_option( 'automation_queue');
 	$automation_queue = json_decode( $automation_queue , true);
 
-	if ( !is_array($automation_queue) )
+	if ( !is_array($automation_queue) ) {
 		$automation_queue = array();
+	}
 
-	if ( !in_array( $automation_id , $automation_queue ) )
-	{
+	if ( !in_array( $automation_id , $automation_queue ) ) {
 		/* get all lead ids */
 		$sql = "SELECT distinct(ID) FROM {$wpdb->prefix}posts WHERE post_status='publish'  AND post_type = 'wp-lead' ";
 		$result = mysql_query($sql);

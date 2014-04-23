@@ -32,7 +32,55 @@
    background: rgba(241,241,241, 1) !important;
 
 }
-
+.lp-settings-tab-sidebar {
+float: right;
+width: 26%;
+}
+.lp-sidebar-settings {
+background: #fff;
+border: 1px solid #EBEBEA;
+-webkit-box-shadow: inset 1px 1px 1px #f9f9f9;
+-moz-box-shadow: inset 1px 1px 1px #f9f9f9;
+box-shadow: inset 1px 1px 1px #f9f9f9;
+padding: 15px 15px 15px;
+margin-bottom: 20px;
+margin-right: 20px;
+}
+.lp-sidebar-settings h2 {
+font-size: 21px;
+line-height: 24px;
+margin: 0px 0px 5px;
+text-shadow: 1px 1px 1px #fff;
+}
+.lp-sidebar-settings .review-button {
+background: #94BA65;
+border: 1px solid rgba(0,0,0,0.15);
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+-webkit-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+-moz-box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+box-shadow: 0px 2px 3px rgba(0,0,0,0.15), inset 1px 1px 1px rgba(255,255,255,0.2);
+color: #fff;
+cursor: pointer;
+display: inline-block;
+font-family: inherit;
+font-size: 22px;
+font-weight: bold;
+text-decoration: none;
+padding: 8px 15px;
+margin-top: 5px;
+margin-bottom: 5px;
+text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
+}
+.lp-sidebar-settings small {
+display: block;
+margin-top: 5px;
+}
+.lp-sidebar-settings input[type="image"] {
+margin: auto;
+margin-left: 90px;
+}
 .wpl-tab-display textarea {
     width:480px;
 }
