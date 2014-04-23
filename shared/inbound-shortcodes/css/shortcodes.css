@@ -380,11 +380,28 @@ width: 20px;
 margin-bottom: -4px;
 display: inline-block;
 }
+.short-list-inbound ul, .short-list-inbound, .short-list-inbound ul li, .inbound-short-list {
+	position: relative;
+}
+.inbound-short-list {
+	margin-top:0px; padding-top:0px; cursor:pointer;
+}
+.launch-marketing-sc {
+	padding-left: 31px;
+	position: relative;
+}
+span.new-sc-icons {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 22px;
+	height: 22px;
+}
 /* tinmyce icons */
-.wp_themeSkin .mceIcon.mce_editor-icon-forms {
+.mceIcon.mce_editor-icon-forms {
 	background: url(../images/inbound_form_ico.png) 3px no-repeat;
 }
-.wp_themeSkin .mceIcon.mce_editor-icon-call-to-action {
+.mceIcon.mce_editor-icon-call-to-action {
 	background: url(../images/inbound_cta_insert_ico.png) 5px no-repeat;
 }
 
@@ -397,7 +414,7 @@ padding-right: 10px;}
 font-size: 15px;
 padding-right: 10px;
 }
-.wp_themeSkin .mceIcon.mce_editor-icon-lists:before {
+.mceIcon.mce_editor-icon-lists:before {
 	font-family: FontAwesome;
 	font-size: 18px;
 	position: absolute;
@@ -406,7 +423,7 @@ padding-right: 10px;
 	content: "\f0ca";
 }
 
-.wp_themeSkin .mceIcon.mce_editor-icon-quick-forms:before {
+.mceIcon.mce_editor-icon-quick-forms:before {
 	font-family: FontAwesome;
 	font-size: 18px;
 	position: absolute;
@@ -414,7 +431,7 @@ padding-right: 10px;
 	left: 4px;
 	content: "\f067";
 }
-.wp_themeSkin .mceIcon.mce_editor-icon-button:before {
+.mceIcon.mce_editor-icon-button:before {
 	font-family: FontAwesome;
 	font-size: 18px;
 	position: absolute;
@@ -423,7 +440,7 @@ padding-right: 10px;
 	content: "\f140";
 	color: rgb(13, 141, 13);
 }
-.wp_themeSkin .mceIcon.mce_editor-icon-columns:before {
+.mceIcon.mce_editor-icon-columns:before {
 	font-family: FontAwesome;
 	font-size: 18px;
 	position: absolute;
@@ -432,7 +449,7 @@ padding-right: 10px;
 	content: "\f0db";
 
 }
-.wp_themeSkin .mceIcon.mce_editor-icon-social-share:before {
+.mceIcon.mce_editor-icon-social-share:before {
 	font-family: FontAwesome;
 	font-size: 18px;
 	position: absolute;

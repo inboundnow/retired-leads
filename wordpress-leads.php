@@ -44,13 +44,13 @@ final class WordPress_Leads {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'leads' ), '1.6' );
 	}
 
 	/* Disable unserializing of the class */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'edd' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'leads' ), '1.6' );
 	}
 
 	/* Setup plugin constants */
