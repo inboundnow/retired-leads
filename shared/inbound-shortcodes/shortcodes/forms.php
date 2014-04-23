@@ -521,7 +521,7 @@ add_action('edit_post', 'inbound_form_delete_transient', 10, 2);
 add_action('wp_insert_post', 'inbound_form_delete_transient', 10, 2);
 if (!function_exists('inbound_form_delete_transient')) {
 	// Refresh transient
-	function inbound_form_delete_transient($post_id, $post){
+	function inbound_form_delete_transient($post_id){
 	    //determine post type
 	    if(get_post_type( $post_id ) == 'inbound-forms'){
 	        //run your code
