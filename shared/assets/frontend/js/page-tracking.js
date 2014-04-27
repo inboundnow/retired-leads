@@ -58,7 +58,7 @@ var InboundAnalytics = (function () {
  })();
 
 
-var IA_PageViews = (function (InboundAnalytics) {
+var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
 
     InboundAnalytics.PageTracking = {
 
@@ -89,9 +89,11 @@ var IA_PageViews = (function (InboundAnalytics) {
 
               if(typeof(page_seen) != "undefined" && page_seen !== null) {
                   pageviewObj[current_page_id].push(datetime);
+                  InboundAnalytics.Events.pageRevisit();
               } else {
                   pageviewObj[current_page_id] = [];
                   pageviewObj[current_page_id].push(datetime);
+                  InboundAnalytics.Events.pageFirstView();
               }
 
               jQuery.totalStorage('page_views', pageviewObj);
@@ -187,7 +189,7 @@ var IA_PageViews = (function (InboundAnalytics) {
  * @param  Object InboundAnalytics - Main JS object
  * @return Object - include util functions
  */
-var IA_Utils = (function (InboundAnalytics) {
+var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
     InboundAnalytics.Utils =  {
       // Create cookie
@@ -265,19 +267,19 @@ var IA_Utils = (function (InboundAnalytics) {
 })(InboundAnalytics || {});
 
 
-/*
-window.addEventListener("inbound_analytics_triggered", fireOnPageViewTrigger, false);
-function fireOnPageViewTrigger(){
-    alert("page view was triggered");
-}
-*/
 
 /**
  * Event functions
  * @param  Object InboundAnalytics - Main JS object
- * @return Object - include util functions
+ * @return Object - include event triggers
  */
-var IA_Events = (function (InboundAnalytics) {
+ /* example:
+ window.addEventListener("inbound_analytics_triggered", fireOnPageViewTrigger, false);
+ function fireOnPageViewTrigger(){
+     alert("page view was triggered");
+ }
+ */
+var InboundAnalyticsEvents = (function (InboundAnalytics) {
 
     InboundAnalytics.Events =  {
       // Create cookie
@@ -308,6 +310,16 @@ var IA_Events = (function (InboundAnalytics) {
           });
           window.dispatchEvent(error);
           console.log('Page Save Error');
+      },
+      pageFirstView: function() {
+          var page_first_view = new CustomEvent("inbound_analytics_page_first_view");
+          window.dispatchEvent(page_first_view);
+          console.log('First Ever Page View of this Page');
+      },
+      pageRevisit: function() {
+          var page_revisit = new CustomEvent("inbound_analytics_page_revisit");
+          window.dispatchEvent(page_revisit);
+          console.log('Page Revisit');
       },
 
   };
