@@ -24,7 +24,7 @@
 
 var InboundAnalytics = (function () {
 
-   var debugMode = false;
+   var debugMode = true;
 
    var _privateMethod = function () {
       console.log('Run private');
@@ -32,12 +32,11 @@ var InboundAnalytics = (function () {
 
 
    var App = {
-     SetUID:  function () {
-      /* Set Lead UID */
-      if(InboundAnalytics.Utils.readCookie("wp_lead_uid") === null) {
-         var wp_lead_uid =  InboundAnalytics.Utils.CreateUID(35);
-         InboundAnalytics.Utils.createCookie("wp_lead_uid", wp_lead_uid );
-      }
+     init: function () {
+          InboundAnalytics.PageTracking.StorePageView();
+          InboundAnalytics.Events.loadEvents();
+          InboundAnalytics.Utils.SetUID();
+          InboundAnalytics.Events.analyticsLoaded();
      },
      /* Debugger Function toggled by var debugMode */
      debug: function(msg,callback){
@@ -62,23 +61,20 @@ var InboundAnalytics = (function () {
 var IA_PageViews = (function (InboundAnalytics) {
 
     InboundAnalytics.PageTracking = {
-    init: function () {
-          InboundAnalytics.PageTracking.StorePageView();
-    },
+
     getPageViews: function () {
-      var local_store = InboundAnalytics.Utils.checkLocalStorage();
+        var local_store = InboundAnalytics.Utils.checkLocalStorage();
         if(local_store){
           var page_views = localStorage.getItem("page_views"),
           local_object = JSON.parse(page_views);
           if (typeof local_object =='object' && local_object) {
-            InboundAnalytics.PageTracking.StorePageView();
-
+            this.StorePageView();
           }
           return local_object;
         }
     },
     StorePageView: function() {
-          var timeout = InboundAnalytics.PageTracking.CheckTimeOut();
+          var timeout = this.CheckTimeOut();
           var pageviewObj = jQuery.totalStorage('page_views');
           if(pageviewObj === null) {
             pageviewObj = {};
@@ -104,7 +100,7 @@ var IA_PageViews = (function (InboundAnalytics) {
     CheckTimeOut: function() {
         var PageViews = jQuery.totalStorage('page_views');
         if(PageViews === null) {
-          PageViews = {};
+        var PageViews = {};
         }
         var page_id = wplft.post_id,
         pageviewTimeout = true, /* Default */
@@ -137,8 +133,9 @@ var IA_PageViews = (function (InboundAnalytics) {
               var status = '30 sec timeout not done: ' + time_left + " seconds left";
             } else {
               var status = 'Timeout Happened. Page view fired';
-              InboundAnalytics.PageTracking.firePageView();
+              this.firePageView();
               pageviewTimeout = true;
+              InboundAnalytics.Events.analyticsTriggered();
             }
 
             InboundAnalytics.debug('',function(){
@@ -151,12 +148,12 @@ var IA_PageViews = (function (InboundAnalytics) {
     },
     firePageView: function() {
       var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
-      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid')
+      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
+
       if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
 
-        InboundAnalytics.debug('',function(){
-             console.log('Run page view ajax');
-        });
+        InboundAnalytics.debug('Run page view ajax');
+
         jQuery.ajax({
               type: 'POST',
               url: wplft.admin_url,
@@ -169,11 +166,11 @@ var IA_PageViews = (function (InboundAnalytics) {
                 json: '0'
               },
               success: function(user_id){
-                console.log('Page View Saved');
+                InboundAnalytics.Events.analyticsSaved();
               },
               error: function(MLHttpRequest, textStatus, errorThrown){
-                  //alert(MLHttpRequest+' '+errorThrown+' '+textStatus);
-                  //die();
+                  console.log(MLHttpRequest+' '+errorThrown+' '+textStatus);
+                  InboundAnalytics.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
               }
           });
       }
@@ -250,7 +247,16 @@ var IA_Utils = (function (InboundAnalytics) {
               str += chars[Math.floor(Math.random() * chars.length)];
           }
           return str;
-      }
+      },
+      SetUID:  function () {
+       /* Set Lead UID */
+
+       if(this.readCookie("wp_lead_uid") === null) {
+          var wp_lead_uid =  this.CreateUID(35);
+          this.createCookie("wp_lead_uid", wp_lead_uid );
+          InboundAnalytics.debug('Set UID');
+       }
+      },
 
   };
 
@@ -259,16 +265,67 @@ var IA_Utils = (function (InboundAnalytics) {
 })(InboundAnalytics || {});
 
 
+/*
+window.addEventListener("inbound_analytics_triggered", fireOnPageViewTrigger, false);
+function fireOnPageViewTrigger(){
+    alert("page view was triggered");
+}
+*/
 
-InboundAnalytics.PageTracking.init();
+/**
+ * Event functions
+ * @param  Object InboundAnalytics - Main JS object
+ * @return Object - include util functions
+ */
+var IA_Events = (function (InboundAnalytics) {
+
+    InboundAnalytics.Events =  {
+      // Create cookie
+      loadEvents: function() {
+          this.analyticsLoaded();
+          this.analyticsTriggered();
+      },
+      analyticsLoaded: function() {
+          var loaded = new CustomEvent("inbound_analytics_loaded");
+          window.dispatchEvent(loaded);
+      },
+      analyticsTriggered: function() {
+          var triggered = new CustomEvent("inbound_analytics_triggered");
+          window.dispatchEvent(triggered);
+      },
+      analyticsSaved: function() {
+          var page_view_saved = new CustomEvent("inbound_analytics_saved");
+          window.dispatchEvent(page_view_saved);
+          console.log('Page View Saved');
+      },
+      analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
+          var error = new CustomEvent("inbound_analytics_error", {
+            detail: {
+              MLHttpRequest: MLHttpRequest,
+              textStatus: textStatus,
+              errorThrown: errorThrown
+            }
+          });
+          window.dispatchEvent(error);
+          console.log('Page Save Error');
+      },
+
+  };
+
+  return InboundAnalytics;
+
+})(InboundAnalytics || {});
+
+
+InboundAnalytics.init(); // run analytics
 
 
 /* run on ready */
 jQuery(document).ready(function($) {
 
   //record non conversion status
-  var wp_lead_uid = jQuery.cookie("wp_lead_uid");
-  var wp_lead_id = jQuery.cookie("wp_lead_id");
+  var wp_lead_uid = InboundAnalytics.Utils.readCookie("wp_lead_uid");
+  var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
   //var data_block = jQuery.parseJSON(trackObj);
   var json = 0;
   var page_id = inbound_ajax.page_id;
@@ -277,7 +334,7 @@ jQuery(document).ready(function($) {
 // Page view trigging moved to /shared/tracking/page-tracking.js
 
 // Check for Lead lists
-var expired = jQuery.cookie("lead_session_list_check"); // check for session
+var expired = InboundAnalytics.Utils.readCookie("lead_session_list_check"); // check for session
 if (expired != "true") {
   //var data_to_lookup = global-localized-vars;
   if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
@@ -307,9 +364,9 @@ var e_date = new Date(); // Current date/time
 var e_minutes = 30; // 30 minute timeout to reset sessions
 e_date.setTime(e_date.getTime() + (e_minutes * 60 * 1000)); // Calc 30 minutes from now
 jQuery.cookie("lead_session_expire", false, {expires: e_date, path: '/' }); // Set cookie on page loads
-var expire_time = jQuery.cookie("lead_session_expire"); //
+var expire_time = InboundAnalytics.Utils.readCookie("lead_session_expire"); //
 //console.log(expire_time);
-var referrer_cookie = jQuery.cookie("wp_lead_referral_site");
+var referrer_cookie = InboundAnalytics.Utils.readCookie("wp_lead_referral_site");
 if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
   var referrer = document.referrer || "NA";
   jQuery.cookie("wp_lead_referral_site", referrer, {expires: e_date, path: '/' }); // Set referral cookie
