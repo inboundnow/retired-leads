@@ -35,7 +35,7 @@ var InboundAnalytics = (function () {
      init: function () {
           InboundAnalytics.PageTracking.StorePageView();
           InboundAnalytics.Events.loadEvents();
-          InboundAnalytics.Utils.SetUID();
+          InboundAnalytics.Utils.init();
           InboundAnalytics.Events.analyticsLoaded();
      },
      /* Debugger Function toggled by var debugMode */
@@ -192,13 +192,22 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
 var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
     InboundAnalytics.Utils =  {
+      init: function() {
+          this.setUrlParams();
+          this.SetUID();
+          this.SetSessionTimeout();
+          this.getReferer();
+      },
       // Create cookie
-      createCookie: function(name, value, days) {
+      createCookie: function(name, value, days, custom_time) {
           var expires = "";
           if (days) {
               var date = new Date();
               date.setTime(date.getTime()+(days*24*60*60*1000));
               expires = "; expires="+date.toGMTString();
+          }
+          if(custom_time){
+             expires = "; expires="+days.toGMTString();
           }
           document.cookie = name+"="+value+expires+"; path=/";
       },
@@ -221,6 +230,76 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       eraseCookie: function(name) {
           createCookie(name,"",-1);
       },
+      getAllCookies: function(){
+              var cookies = {};
+              if (document.cookie && document.cookie != '') {
+                  var split = document.cookie.split(';');
+                  for (var i = 0; i < split.length; i++) {
+                      var name_value = split[i].split("=");
+                      name_value[0] = name_value[0].replace(/^ /, '');
+                      cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+                  }
+              }
+              jQuery.totalStorage('inbound_cookies', cookies); // store cookie data
+              return cookies;
+      },
+      /* Grab URL params and save */
+      setUrlParams: function() {
+          var urlParams = {},
+          local_store = InboundAnalytics.Utils.checkLocalStorage();
+
+            (function () {
+              var e,
+                d = function (s) { return decodeURIComponent(s).replace(/\+/g, " "); },
+                q = window.location.search.substring(1),
+                r = /([^&=]+)=?([^&]*)/g;
+
+              while (e = r.exec(q)) {
+                if (e[1].indexOf("[") == "-1")
+                  urlParams[d(e[1])] = d(e[2]);
+                else {
+                  var b1 = e[1].indexOf("["),
+                    aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
+                    pN = d(e[1].slice(0, b1));
+
+                  if (typeof urlParams[pN] != "object")
+                    urlParams[d(pN)] = {},
+                    urlParams[d(pN)].length = 0;
+
+                  if (aN)
+                    urlParams[d(pN)][d(aN)] = d(e[2]);
+                  else
+                    Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
+
+                }
+              }
+            })();
+
+            if (JSON) {
+                for (var k in urlParams) {
+                  if (typeof urlParams[k] == "object") {
+                    for (var k2 in urlParams[k])
+                    this.createCookie(k2, urlParams[k][k2], 30);
+                  } else {
+                    this.createCookie(k, urlParams[k], 30);
+                  }
+                 }
+            }
+
+            if(local_store){
+              var pastParams =  jQuery.totalStorage('inbound_url_params');
+              var params = this.mergeObjs(pastParams, urlParams);
+              jQuery.totalStorage('inbound_url_params', params); // store cookie data
+            }
+      },
+      getUrlParams: function(){
+          var local_store = this.checkLocalStorage(),
+          get_params = {};
+          if(local_store){
+            var get_params =  jQuery.totalStorage('inbound_url_params');
+          }
+          return get_params;
+      },
       // Check local storage
       checkLocalStorage: function() {
         if ('localStorage' in window) {
@@ -238,6 +317,29 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             }
         }
         return supported;
+      },
+      /* Set Expiration Date of Session Logging */
+      SetSessionTimeout: function(){
+          var session_check = this.readCookie("lead_session_expire");
+          console.log(session_check);
+          if(session_check !== 'true'){
+            InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
+          } else {
+            InboundAnalytics.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
+          }
+          var d = new Date();
+          d.setTime(d.getTime() + 30*60*1000);
+          this.createCookie("lead_session_expire", true, d, true); // Set cookie on page loads
+      },
+      getReferer: function(){
+        //console.log(expire_time);
+        var d = new Date();
+        d.setTime(d.getTime() + 30*60*1000);
+        var referrer_cookie = InboundAnalytics.Utils.readCookie("wp_lead_referral_site");
+        if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
+          var referrer = document.referrer || "NA";
+          this.createCookie("wp_lead_referral_site", referrer, d, true); // Set cookie on page loads
+        }
       },
       CreateUID: function(length) {
           var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split(''),
@@ -259,6 +361,12 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           InboundAnalytics.debug('Set UID');
        }
       },
+      mergeObjs:  function(obj1,obj2){
+            var obj3 = {};
+            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+            return obj3;
+      },
 
   };
 
@@ -274,9 +382,15 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
  * @return Object - include event triggers
  */
  /* example:
+ // trigger custom function on page view trigger
  window.addEventListener("inbound_analytics_triggered", fireOnPageViewTrigger, false);
  function fireOnPageViewTrigger(){
      alert("page view was triggered");
+ }
+ // trigger custom function on page first seen
+ window.addEventListener("inbound_analytics_page_first_view", page_first_seen_function, false);
+ function page_first_seen_function(){
+     alert("This is the first time you have seen this page");
  }
  */
 var InboundAnalyticsEvents = (function (InboundAnalytics) {
@@ -285,7 +399,6 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
       // Create cookie
       loadEvents: function() {
           this.analyticsLoaded();
-          this.analyticsTriggered();
       },
       analyticsLoaded: function() {
           var loaded = new CustomEvent("inbound_analytics_loaded");
@@ -320,6 +433,16 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           var page_revisit = new CustomEvent("inbound_analytics_page_revisit");
           window.dispatchEvent(page_revisit);
           console.log('Page Revisit');
+      },
+      sessionStart: function() {
+          var session_start = new CustomEvent("inbound_analytics_session_start");
+          window.dispatchEvent(session_start);
+          console.log('Session Start');
+      },
+      sessionActive: function() {
+          var session_active = new CustomEvent("inbound_analytics_session_active");
+          window.dispatchEvent(session_active);
+          console.log('Session Active');
       },
 
   };
@@ -371,17 +494,6 @@ if (expired != "true") {
   }
 /* end list check */
 
-/* Set Expiration Date of Session Logging */
-var e_date = new Date(); // Current date/time
-var e_minutes = 30; // 30 minute timeout to reset sessions
-e_date.setTime(e_date.getTime() + (e_minutes * 60 * 1000)); // Calc 30 minutes from now
-jQuery.cookie("lead_session_expire", false, {expires: e_date, path: '/' }); // Set cookie on page loads
 var expire_time = InboundAnalytics.Utils.readCookie("lead_session_expire"); //
-//console.log(expire_time);
-var referrer_cookie = InboundAnalytics.Utils.readCookie("wp_lead_referral_site");
-if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
-  var referrer = document.referrer || "NA";
-  jQuery.cookie("wp_lead_referral_site", referrer, {expires: e_date, path: '/' }); // Set referral cookie
-}
 
 });
