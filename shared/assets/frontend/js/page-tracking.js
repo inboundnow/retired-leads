@@ -36,7 +36,6 @@ var InboundAnalytics = (function () {
           InboundAnalytics.PageTracking.StorePageView();
           InboundAnalytics.Events.loadEvents();
           InboundAnalytics.Utils.init();
-          InboundAnalytics.Events.analyticsLoaded();
      },
      /* Debugger Function toggled by var debugMode */
      debug: function(msg,callback){
@@ -89,12 +88,19 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
 
               if(typeof(page_seen) != "undefined" && page_seen !== null) {
                   pageviewObj[current_page_id].push(datetime);
-                  InboundAnalytics.Events.pageRevisit();
+                  /* Page Revisit Trigger */
+                  var page_seen_count = pageviewObj[current_page_id].length;
+                  InboundAnalytics.Events.pageRevisit(page_seen_count);
+
               } else {
                   pageviewObj[current_page_id] = [];
                   pageviewObj[current_page_id].push(datetime);
-                  InboundAnalytics.Events.pageFirstView();
+                  /* Page First Seen Trigger */
+                  var page_seen_count = 1;
+                  InboundAnalytics.Events.pageFirstView(page_seen_count);
               }
+
+
 
               jQuery.totalStorage('page_views', pageviewObj);
           }
@@ -361,6 +367,15 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           InboundAnalytics.debug('Set UID');
        }
       },
+      /* Count number of session visits */
+      countProperties: function (obj) {
+          var count = 0;
+          for(var prop in obj) {
+              if(obj.hasOwnProperty(prop))
+                  ++count;
+          }
+          return count;
+      },
       mergeObjs:  function(obj1,obj2){
             var obj3 = {};
             for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
@@ -387,12 +402,35 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
  function fireOnPageViewTrigger(){
      alert("page view was triggered");
  }
+ // trigger custom function on analytics loaded JQuery version
+ jQuery(document).on('inbound_analytics_loaded', function (event, data) {
+   console.log("XXxxxX inbound_analytics_loaded");
+ });
  // trigger custom function on page first seen
  window.addEventListener("inbound_analytics_page_first_view", page_first_seen_function, false);
  function page_first_seen_function(){
      alert("This is the first time you have seen this page");
  }
- */
+// trigger custom function on page already seen
+
+window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
+function page_seen_function(e){
+    var view_count = e.detail.count;
+    console.log("This page has been seen " + e.detail.count + " times");
+    if(view_count > 10){
+    console.log("Page has been viewed more than 10 times");
+    }
+}
+// trigger custom function on page already seen via jQuery
+jQuery(document).on('inbound_analytics_page_revisit', function (event, data) {
+  console.log("inbound_analytics_page_revisit action triggered");
+  //console.log(data);
+  if(data.count > 10){
+  console.log("Page has been viewed more than 10 times");
+  }
+});
+*/
+
 var InboundAnalyticsEvents = (function (InboundAnalytics) {
 
     InboundAnalytics.Events =  {
@@ -400,9 +438,27 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
       loadEvents: function() {
           this.analyticsLoaded();
       },
+      triggerJQueryEvent: function(eventName, data){
+        if (window.jQuery) {
+            var data = data || {};
+            jQuery(document).trigger(eventName, data);
+           /* var something = (function() {
+                var executed = false;
+                return function () {
+                    if (!executed) {
+                        executed = true;
+                        console.log(eventName + " RAN");
+
+                    }
+                };
+            })();*/
+        }
+      },
       analyticsLoaded: function() {
-          var loaded = new CustomEvent("inbound_analytics_loaded");
+          var eventName = "inbound_analytics_loaded";
+          var loaded = new CustomEvent(eventName);
           window.dispatchEvent(loaded);
+          this.triggerJQueryEvent(eventName);
       },
       analyticsTriggered: function() {
           var triggered = new CustomEvent("inbound_analytics_triggered");
@@ -424,14 +480,33 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           window.dispatchEvent(error);
           console.log('Page Save Error');
       },
-      pageFirstView: function() {
-          var page_first_view = new CustomEvent("inbound_analytics_page_first_view");
+      pageFirstView: function(page_seen_count) {
+          var page_first_view = new CustomEvent("inbound_analytics_page_first_view", {
+              detail: {
+                count: 1,
+                time: new Date(),
+              },
+              bubbles: true,
+              cancelable: true
+            }
+          );
           window.dispatchEvent(page_first_view);
+
           console.log('First Ever Page View of this Page');
       },
-      pageRevisit: function() {
-          var page_revisit = new CustomEvent("inbound_analytics_page_revisit");
+      pageRevisit: function(page_seen_count) {
+          var eventName = "inbound_analytics_page_revisit";
+          var data = { count: page_seen_count,
+                       time: new Date()
+                     };
+          var page_revisit = new CustomEvent(eventName, {
+              detail: data,
+              bubbles: true,
+              cancelable: true
+            }
+          );
           window.dispatchEvent(page_revisit);
+          this.triggerJQueryEvent(eventName, data);
           console.log('Page Revisit');
       },
       sessionStart: function() {
@@ -452,11 +527,19 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
 })(InboundAnalytics || {});
 
 
+
+
 InboundAnalytics.init(); // run analytics
 
 
 /* run on ready */
 jQuery(document).ready(function($) {
+
+
+
+  jQuery(document).on('inbound_analytics_loaded', function () {
+    console.log("XXXXX inbound_analytics_loaded");
+  });
 
   //record non conversion status
   var wp_lead_uid = InboundAnalytics.Utils.readCookie("wp_lead_uid");
