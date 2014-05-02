@@ -1,0 +1,2654 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Calls to Action\n"
+"POT-Creation-Date: 2014-04-10 14:38-0600\n"
+"PO-Revision-Date: 2014-04-10 14:38-0600\n"
+"Last-Translator: \n"
+"Language-Team: Inbound Now <hudson@inboundnow.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ./../..\n"
+
+#: ../../modules/module.ab-testing.php:482
+msgid "A"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:483
+msgid "B"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:484
+msgid "C"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:485
+msgid "D"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:486
+msgid "E"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:487
+msgid "F"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:488
+msgid "G"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:489
+msgid "H"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:490
+msgid "I"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:491
+msgid "J"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:492
+msgid "K"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:493
+msgid "L"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:494
+msgid "M"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:495
+msgid "N"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:496
+msgid "O"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:497
+msgid "P"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:498
+msgid "Q"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:499
+msgid "R"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:500
+msgid "S"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:501
+msgid "T"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:502
+msgid "U"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:503
+msgid "V"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:504
+msgid "W"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:505
+msgid "X"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:506
+msgid "Y"
+msgstr ""
+
+#: ../../modules/module.ab-testing.php:507
+msgid "Z"
+msgstr ""
+
+#: ../../modules/module.activate.php:16
+msgid "<p>The <strong>WordPress Calls to Action</strong> plugin requires"
+msgstr ""
+
+#: ../../modules/module.activate.php:22
+#, php-format
+msgid ""
+"<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
+"version %s or greater.</p>"
+msgstr ""
+
+#: ../../modules/module.activate.php:28
+#, php-format
+msgid ""
+"<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
+"version %s or greater. <br><br>Please Update WordPress Landing Page Plugin "
+"to update Calls to action</p>"
+msgstr ""
+
+#: ../../modules/module.activate.php:33
+#, php-format
+msgid ""
+"<p>The <strong>WordPress Calls to Action</strong> plugin requires %s  "
+"version %s or greater. <br><br>Please Update WordPress Leads Plugin to "
+"update Calls to action</p>"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:13
+msgid "Forms"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:13
+msgid "Create Forms"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:15
+msgid "Templates"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:15
+#: ../../modules/module.templates.php:232
+#: ../../shared/classes/menu.class.php:354
+#: ../../shared/classes/menu.class.php:356
+msgid "Manage Templates"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:19
+#: ../../shared/classes/menu.class.php:229
+#: ../../shared/classes/menu.class.php:285
+msgid "Settings"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:19
+#: ../../shared/classes/menu.class.php:397
+msgid "Global Settings"
+msgstr ""
+
+#: ../../modules/module.admin-menus.php:22
+msgid "Editor"
+msgstr ""
+
+#: ../../modules/module.clone.php:1
+msgid "Clone this item"
+msgstr ""
+
+#: ../../modules/module.clone.php:1
+#: ../../modules/module.metaboxes-ab-testing.php:149
+msgid "Clone"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "No A/B Tests running for this page"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "Variations:"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "Reload Preview"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "View fullsize"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "Shrink View"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "anchor"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "Main "
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "The Main Content Area"
+msgstr ""
+
+#: ../../modules/module.customizer.php:1
+msgid "Head into the landing page and click on frontend editor button!"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:31
+msgid "<h4>CTA Core Settings</h4>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:32
+msgid "Clear & Reset all Call to Action Cookies"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:32
+msgid ""
+"This will reset all CTA cookies to make popups work again etc. For testing "
+"purposes."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:37
+msgid "Disable Split Testing."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:38
+msgid ""
+"Enabling this setting may improve server performance at the loss of split "
+"testing. Only version A will be displayed for every CTA."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:45
+msgid "Global CSS overrides."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:46
+msgid "This will place custom CSS across all Call to Actions"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:55
+msgid "License Keys"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:60
+msgid "Extensions"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:151
+msgid "Like the Plugin? Leave us a review"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:151
+msgid "Leave a Review"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:151
+msgid ""
+"Reviews help constantly improve the plugin & keep us motivated! "
+"<strong>Thank you for your support!</strong>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:151
+msgid "Help keep the plugin up to date, awesome & free!"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:156
+msgid ""
+"Spare some change? Buy us a coffee/beer.<strong> We appreciate your "
+"continued support.</strong>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:196
+msgid "Installation Status"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:200
+msgid "PHP Version"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:214
+msgid "Gravity Forms requires PHP 5 or above."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:235
+msgid "Gravity Forms requires MySQL 5 or above."
+msgstr ""
+
+#: ../../modules/module.global-settings.php:256
+msgid "landing pages requires version X or higher"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:263
+msgid "WordPress CTA Version"
+msgstr ""
+
+#: ../../modules/module.install.php:16
+msgid "A/B Testing Call To Action Example"
+msgstr ""
+
+#: ../../modules/module.install.php:28
+msgid "Snappy Headline"
+msgstr ""
+
+#: ../../modules/module.install.php:29
+msgid "Awesome Subheadline Text Goes here"
+msgstr ""
+
+#: ../../modules/module.install.php:34
+msgid "Download Now"
+msgstr ""
+
+#: ../../modules/module.install.php:41
+msgid "Great Offer"
+msgstr ""
+
+#: ../../modules/module.install.php:42
+msgid "Amazing Deals Await!<br> Click below to find<br> amazing deals"
+msgstr ""
+
+#: ../../modules/module.install.php:47
+msgid "Learn More"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:23
+msgid "Lead Details:"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:28
+msgid "Name:"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:32
+msgid "Email Address:"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:35
+msgid "IP Address:"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:38
+msgid "City:"
+msgstr ""
+
+#: ../../modules/module.lead-splash.php:41
+msgid "State:"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:186
+msgid "Select Template"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:187
+msgid "This option provides a placeholder for the selected template data."
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:208
+msgid "<h3>CTA Settings</h3>"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:216
+msgid "Open Links"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:217
+msgid "How do you want links on the call to action to work?"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:221
+msgid "Open Links in Same Window (default)"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:221
+msgid "Open Links in New Tab"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:242
+msgid "CTA Width"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:243
+#, php-format
+msgid "Enter the Width of the CTA in pixels. Example: 100% or 300px"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:253
+msgid "CTA Height"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:254
+msgid "Enter the Height of the CTA in pixels. Example: auto or 300px"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:280
+msgid "Placement on Page"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:281
+msgid "Where would you like to insert the CTA on this page?"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:286
+msgid "Below Content"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:287
+msgid "Middle of Content"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:288
+msgid "Above Content"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:289
+msgid "Use Dynamic Sidebar Widget"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:297
+msgid "Sidebar Message"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:298
+msgid ""
+"This option will place the selected CTA templates into the dynamic sidebar "
+"widget on this page. Make sure you have added the dynamic Call to Action "
+"widget to the sidebar of this page for this option to work.</p><p>To add the "
+"dynamic sidebar widget to this page, go into appearance > widgets and add "
+"the widget to the sidebar of your choice"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:309
+msgid "Below Message"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:310
+msgid "Your Call to Action will be inserted into the bottom of the page/post."
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:321
+msgid "Above Message"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:322
+msgid "Your Call to Action will be inserted into the top of the page/post."
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:333
+msgid "Middle Message"
+msgstr ""
+
+#: ../../modules/module.load-extensions.php:334
+msgid ""
+"Your Call to Action will be inserted into the middle of the page/post's "
+"content."
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:8
+msgid "A/B Testing"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:115
+msgid "(Paused)"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:134
+msgid "Views"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:138
+msgid "Conversions"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:142
+msgid "Conversion Rate"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:145
+msgid "Pause"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:146
+msgid "Play"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:147
+msgid "Edit"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:148
+msgid "Preview"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:150
+msgid "Delete"
+msgstr ""
+
+#: ../../modules/module.metaboxes-ab-testing.php:266
+msgid "Launch Visual Editor"
+msgstr ""
+
+#: ../../modules/module.metaboxes-global.php:27
+msgid "Insert Call to Action Template into Content"
+msgstr ""
+
+#: ../../modules/module.metaboxes-global.php:66
+msgid "Select one or more calls to action to rotate through"
+msgstr ""
+
+#: ../../modules/module.metaboxes-global.php:131
+msgid "Call to Action Template"
+msgstr ""
+
+#: ../../modules/module.metaboxes-global.php:155
+msgid "Click the above select box to select call to action templates to insert"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:18
+msgid "Template Options"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:42
+msgid "Options:"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:81
+msgid "Advanced Call to Action Options"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:90
+msgid "Custom CSS"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:99
+msgid "Custom JS"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:136
+msgid "Choose Another Template"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:171
+msgid "Calculate height/width"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:353
+msgid ""
+"You can copy and paste this shortcode into any page or post to render this "
+"call to action. You can also insert CTAs from the wordpress editor on any "
+"given page"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:374
+msgid "Notes:"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:374
+msgid ""
+"Add Notes to your variation. Example: This version is testing a green submit "
+"button"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:403
+msgid "Enter Call to Action Description"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:438
+msgid "Select Your Call to Action Template!"
+msgstr ""
+
+#: ../../modules/module.metaboxes-wp-call-to-action.php:505
+msgid "This is Currently Selected"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+#: ../../shared/functions/global.leads.cpt.php:17
+#: ../../shared/shortcodes/shortcodes/forms.php:341
+msgid "Add New"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+#: ../../shared/classes/menu.class.php:212
+msgid "Add New Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "Edit Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "New Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "View Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "Search Call to Action"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+#: ../../shared/functions/global.leads.cpt.php:23
+#: ../../shared/shortcodes/shortcodes/forms.php:347
+msgid "Nothing found"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+#: ../../shared/functions/global.leads.cpt.php:24
+#: ../../shared/shortcodes/shortcodes/forms.php:348
+msgid "Nothing found in Trash"
+msgstr ""
+
+#: ../../modules/module.post-type.php:1
+msgid "CTA's Clicked"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:14
+msgid "Install Templates"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:17
+#: ../../modules/module.templates-upload.php:46
+msgid "Search"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:18
+#: ../../modules/module.templates-upload.php:47
+msgid "Upload"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:22
+msgid "Install Landing Pages template by uploading them here in .zip format"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:24
+msgid ""
+"Warning: Do not upload landing page extensions here or you will break the "
+"plugin! <br>Extensions are uploaded in the WordPress plugins section."
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:29
+msgid "Template zip file"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:31
+msgid "Install Now"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:43
+#: ../../modules/module.templates-upload.php:54
+msgid "Search Templates"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:51
+msgid "Search the Inboundnow marketplace for free and premium templates."
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:92
+#: ../../modules/module.templates-upload.php:122
+msgid "There was a problem. Please try again!"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:115
+msgid ""
+"WARNING! This zip file does not seem to be a template file! If you are "
+"trying to install a Landing Page extension please use the Plugin's upload "
+"section! Please press the back button and try again!"
+msgstr ""
+
+#: ../../modules/module.templates-upload.php:127
+msgid "Template uploaded successfully!"
+msgstr ""
+
+#: ../../modules/module.templates.php:212
+msgid ""
+"No premium templates installed. Templates included in the Call to Action "
+"core plugin will not be listed here."
+msgstr ""
+
+#: ../../modules/module.widgets.php:17
+msgid "Use this widget to accept Calls to Action placements."
+msgstr ""
+
+#: ../../modules/module.widgets.php:23
+msgid "Call to Action Placement Holder"
+msgstr ""
+
+#: ../../modules/module.widgets.php:58
+msgid ""
+"This call to action area is dynamic. It will be completely empty unless you "
+"have toggled on a call to action on the individual pages settings and "
+"selected the \"sidebar\" option."
+msgstr ""
+
+#: ../../modules/module.widgets.php:73
+msgid "Use this widget to manually display Calls to Action in sidebars."
+msgstr ""
+
+#: ../../modules/module.widgets.php:79
+msgid "Call to Action Static Widget"
+msgstr ""
+
+#: ../../modules/module.widgets.php:242
+msgid "Select Calls to Action(s):"
+msgstr ""
+
+#: ../../modules/module.widgets.php:243
+msgid ""
+"If multiple calls to action are checked, they will randomly rotate. Only 1 "
+"CTA is displayed per widget"
+msgstr ""
+
+#: ../../modules/module.widgets.php:265
+msgid "Advanced Options"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:24
+msgid "GO"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:41
+msgid " Marketing"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:137
+#: ../../shared/functions/global.leads.cpt.php:15
+msgid "Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:139
+#: ../../shared/classes/menu.class.php:307
+#: ../../shared/classes/menu.class.php:309
+msgid "Manage Forms"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:143
+msgid "Search All Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:152
+#: ../../shared/functions/global.leads.cpt.php:22
+msgid "Search Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:158
+msgid "View All Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:160
+#: ../../shared/classes/menu.class.php:315
+#: ../../shared/classes/menu.class.php:317
+msgid "View All Forms"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:166
+#: ../../shared/classes/menu.class.php:168
+msgid "View Lead Lists"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:174
+msgid "Create New Lead"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:176
+msgid "Add new lead"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:196
+msgid "Call to Actions"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:198
+#: ../../shared/classes/menu.class.php:206
+#: ../../shared/classes/menu.class.php:254
+#: ../../shared/classes/menu.class.php:262
+msgid "View All Landing Pages"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:204
+msgid "View Calls to Action List"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:214
+#: ../../shared/classes/menu.class.php:337
+msgid "Add new call to action"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:220
+#: ../../shared/classes/menu.class.php:276
+msgid "Categories"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:222
+#: ../../shared/classes/menu.class.php:278
+msgid "Landing Page Categories"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:231
+msgid "Manage Call to Action Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:252
+msgid "Landing Pages"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:260
+msgid "View Landing Pages List"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:268
+msgid "Add New Landing Page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:270
+msgid "Add new Landing Page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:287
+msgid "Manage Landing Page Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:335
+#: ../../shared/shortcodes/shortcodes/forms.php:342
+msgid "Create New Form"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:362
+#: ../../shared/classes/menu.class.php:364
+msgid "Download More Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:371
+#: ../../shared/classes/menu.class.php:373
+msgid "Landing Page Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:381
+#: ../../shared/classes/menu.class.php:383
+msgid "Call to Action Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:399
+msgid "Manage Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:406
+#: ../../shared/classes/menu.class.php:408
+msgid "Call to Action Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:415
+#: ../../shared/classes/menu.class.php:417
+msgid "Landing Page Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:424
+#: ../../shared/classes/menu.class.php:426
+msgid "Lead Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:440
+#: ../../shared/classes/menu.class.php:442
+msgid "Analytics (coming soon)"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:455
+msgid "SEO by Yoast"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:457
+msgid "Manage SEO Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:471
+#: ../../shared/classes/menu.class.php:473
+msgid "Support Forum"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:479
+#: ../../shared/classes/menu.class.php:481
+msgid "Documentation"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:485
+#: ../../shared/classes/menu.class.php:494
+msgid "Search Docs"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:507
+#: ../../shared/classes/menu.class.php:509
+msgid "Inbound Now Plugin HQ"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:515
+#: ../../shared/classes/menu.class.php:517
+msgid "GitHub Repository Developer Center"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:523
+#: ../../shared/classes/menu.class.php:525
+msgid "Official Blog"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:531
+#: ../../shared/classes/menu.class.php:533
+msgid "My Account"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:539
+#: ../../shared/classes/menu.class.php:541
+msgid "Purchase History"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:554
+msgid ""
+"<span style=\"color:#fff;font-size: 13px;margin-top: -1px;display: inline-"
+"block;\">Debug Tools</span>"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:580
+msgid "Check for Javascript Errors"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:582
+msgid "Click here to check javascript errors on this page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:588
+msgid "Remove Javascript Errors"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:590
+msgid "Click here to remove broken javascript to fix issues"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:75
+#: ../../shared/classes/welcome.class.php:76
+msgid "Welcome to"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:167
+msgid "Welcome to "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:168
+msgid "Thank you for updating to the latest version! "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:169
+#, php-format
+msgid "Version %s"
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:30
+#: ../../shared/extend/inboundnow.global-settings.php:39
+msgid ""
+"Head to http://www.inboundnow.com/ to retrieve your extension-ready license "
+"key."
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:32
+msgid "InboundNow Master Key"
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:38
+msgid "InboundNow Master License Key"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:16
+msgid "Lead"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:18
+msgid "Add New Lead"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:19
+msgid "Edit Lead"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:20
+msgid "New Leads"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:21
+msgid "View Leads"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:47
+#: ../../shared/functions/global.leads.cpt.php:62
+msgid "Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:48
+msgid "Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:49
+msgid "Search Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:50
+msgid "Popular Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:51
+msgid "All Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:54
+msgid "Edit Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:55
+msgid "Update Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:56
+msgid "Add New Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:57
+msgid "New Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:58
+msgid "Separate Lead Lists with commas"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:59
+msgid "Add or remove Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:60
+msgid "Choose from the most used lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:61
+msgid "No Lead Lists found."
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:81
+#: ../../shared/functions/global.leads.cpt.php:96
+msgid "Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:82
+msgid "Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:83
+msgid "Search Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:84
+msgid "Popular Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:85
+msgid "All Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:88
+msgid "Edit Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:89
+msgid "Update Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:90
+msgid "Add New Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:91
+msgid "New Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:92
+msgid "Separate Lead Tags with commas"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:93
+msgid "Add or remove Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:94
+msgid "Choose from the most used lead tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:95
+msgid "No lead tags found."
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:687
+#: ../../shared/shortcodes/inbound-shortcodes.php:709
+#: ../../shared/shortcodes/popup.php:27
+#: ../../shared/shortcodes/popup.php:50
+msgid "Insert Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:696
+msgid "Form Preview"
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:699
+#: ../../shared/shortcodes/popup.php:39
+msgid "Shortcode has no preview"
+msgstr ""
+
+#: ../../shared/shortcodes/popup.php:36
+msgid "Shortcode Preview"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:12
+msgid "Color Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:19
+#: ../../shared/shortcodes/shortcodes/teaser.php:106
+msgid "Select the style."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:46
+#: ../../shared/shortcodes/shortcodes/teaser.php:22
+#: ../../shared/shortcodes/shortcodes/teaser.php:109
+msgid "Default"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:47
+msgid "Blue"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:48
+msgid "Green"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:49
+msgid "Red"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:50
+msgid "Yellow"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:25
+msgid "Message"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:26
+msgid "Your message here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:32
+msgid "Insert Alert Message Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:25
+msgid "Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:26
+#: ../../shared/shortcodes/shortcodes/callout.php:45
+#: ../../shared/shortcodes/shortcodes/callout.php:111
+#: ../../shared/shortcodes/shortcodes/pricing.php:52
+#: ../../shared/shortcodes/shortcodes/pricing.php:132
+msgid "Enter the button text label."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:31
+msgid "Button Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:32
+msgid "Enter the destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:19
+msgid "Font Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:38
+msgid "Size of Button Font. This also determines default button size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:64
+#: ../../shared/shortcodes/shortcodes/callout.php:24
+#: ../../shared/shortcodes/shortcodes/callout.php:88
+msgid "Button Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:65
+msgid "Color of button"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:70
+#: ../../shared/shortcodes/shortcodes/forms.php:179
+msgid "Button Text Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:71
+#: ../../shared/shortcodes/shortcodes/forms.php:180
+msgid "Color of text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:76
+#: ../../shared/shortcodes/shortcodes/icon.php:11
+#: ../../shared/shortcodes/shortcodes/list-icon.php:14
+#: ../../shared/shortcodes/shortcodes/tabs.php:27
+#: ../../shared/shortcodes/shortcodes/tabs.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:57
+#: ../../shared/shortcodes/shortcodes/teaser.php:135
+msgid "Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:77
+#: ../../shared/shortcodes/shortcodes/callout.php:51
+#: ../../shared/shortcodes/shortcodes/callout.php:118
+#: ../../shared/shortcodes/shortcodes/forms.php:154
+#: ../../shared/shortcodes/shortcodes/tabs.php:28
+#: ../../shared/shortcodes/shortcodes/tabs.php:73
+#: ../../shared/shortcodes/shortcodes/teaser.php:58
+#: ../../shared/shortcodes/shortcodes/teaser.php:136
+msgid "Select an icon."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:84
+#: ../../shared/shortcodes/shortcodes/forms.php:193
+msgid "Custom Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:85
+msgid "Enter in pixel width or % width. Example: 200 <u>or</u> 100%"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:91
+msgid "Open Link in New Tab?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:92
+msgid "Do you want to open links in this window or a new one?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:105
+msgid "Insert Button Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:11
+msgid "Insert cta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:12
+msgid "Choose CTA"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:20
+msgid "Insert Call to Action"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:12
+#: ../../shared/shortcodes/shortcodes/callout.php:74
+#: ../../shared/shortcodes/shortcodes/intro.php:12
+#: ../../shared/shortcodes/shortcodes/intro.php:46
+#: ../../shared/shortcodes/shortcodes/tabs.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:45
+#: ../../shared/shortcodes/shortcodes/teaser.php:152
+msgid "Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:13
+#: ../../shared/shortcodes/shortcodes/callout.php:75
+#: ../../shared/shortcodes/shortcodes/intro.php:13
+#: ../../shared/shortcodes/shortcodes/intro.php:47
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:15
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:49
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:13
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:69
+#: ../../shared/shortcodes/shortcodes/teaser.php:98
+#: ../../shared/shortcodes/shortcodes/teaser.php:153
+#: ../../shared/shortcodes/shortcodes/testimonial.php:13
+#: ../../shared/shortcodes/shortcodes/testimonial.php:67
+msgid "Enter the heading text."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:18
+#: ../../shared/shortcodes/shortcodes/callout.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:51
+#: ../../shared/shortcodes/shortcodes/teaser.php:159
+msgid "Sub Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:19
+#: ../../shared/shortcodes/shortcodes/callout.php:82
+#: ../../shared/shortcodes/shortcodes/teaser.php:52
+#: ../../shared/shortcodes/shortcodes/teaser.php:160
+msgid "Enter the sub title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:25
+#: ../../shared/shortcodes/shortcodes/callout.php:89
+msgid "Select the button color."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:44
+#: ../../shared/shortcodes/shortcodes/callout.php:110
+msgid "Button Text Label"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:50
+#: ../../shared/shortcodes/shortcodes/callout.php:117
+msgid "Button Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:57
+#: ../../shared/shortcodes/shortcodes/callout.php:126
+#: ../../shared/shortcodes/shortcodes/teaser.php:71
+#: ../../shared/shortcodes/shortcodes/teaser.php:166
+msgid "Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:58
+#: ../../shared/shortcodes/shortcodes/callout.php:127
+#: ../../shared/shortcodes/shortcodes/pricing.php:58
+#: ../../shared/shortcodes/shortcodes/pricing.php:140
+msgid "Enter the button link destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:64
+msgid "Insert Call Out Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:70
+msgid "Call Out"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:12
+msgid "Gutter Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:13
+msgid "A space between the columns."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:22
+msgid "Column Set"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:23
+msgid "Select the set."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:42
+msgid "Insert Column Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:48
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:20
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:56
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:18
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:76
+#: ../../shared/shortcodes/shortcodes/pricing.php:12
+#: ../../shared/shortcodes/shortcodes/pricing.php:83
+#: ../../shared/shortcodes/shortcodes/teaser.php:29
+#: ../../shared/shortcodes/shortcodes/teaser.php:118
+#: ../../shared/shortcodes/shortcodes/testimonial.php:18
+#: ../../shared/shortcodes/shortcodes/testimonial.php:74
+msgid "Column"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:52
+msgid "Column Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:53
+msgid "Enter the column content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:12
+#: ../../shared/shortcodes/shortcodes/content-box.php:42
+msgid "Box Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:13
+#: ../../shared/shortcodes/shortcodes/content-box.php:43
+msgid "Select the color."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:25
+#: ../../shared/shortcodes/shortcodes/content-box.php:57
+#: ../../shared/shortcodes/shortcodes/intro.php:29
+#: ../../shared/shortcodes/shortcodes/intro.php:66
+#: ../../shared/shortcodes/shortcodes/tabs.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:173
+msgid "Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:26
+#: ../../shared/shortcodes/shortcodes/teaser.php:78
+#: ../../shared/shortcodes/shortcodes/teaser.php:174
+msgid "Enter the content."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:32
+msgid "Insert Content Box Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:38
+msgid "Content Box"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:58
+#: ../../shared/shortcodes/shortcodes/intro.php:30
+#: ../../shared/shortcodes/shortcodes/intro.php:67
+msgid "Enter the content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:12
+#: ../../shared/shortcodes/shortcodes/divider.php:54
+msgid "Border Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:16
+#: ../../shared/shortcodes/shortcodes/divider.php:57
+msgid "No Border"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:17
+#: ../../shared/shortcodes/shortcodes/divider.php:58
+msgid "Dashed"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:18
+#: ../../shared/shortcodes/shortcodes/divider.php:59
+msgid "Dotted"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:19
+#: ../../shared/shortcodes/shortcodes/divider.php:60
+msgid "Double"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:20
+#: ../../shared/shortcodes/shortcodes/divider.php:61
+msgid "Solid"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:25
+#: ../../shared/shortcodes/shortcodes/divider.php:68
+msgid "Border Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:26
+#: ../../shared/shortcodes/shortcodes/divider.php:69
+msgid "Enter a hex color code."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:31
+msgid "Top Margin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:32
+#: ../../shared/shortcodes/shortcodes/divider.php:77
+msgid "Enter the top margin value."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:25
+msgid "Bottom Margin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:38
+#: ../../shared/shortcodes/shortcodes/divider.php:85
+msgid "Enter the bottom margin value."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:44
+msgid "Insert Divider Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:50
+msgid "Divider"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:76
+msgid "Margin Top"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:84
+msgid "Margin Bottom"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:42
+msgid "Choose Starting Template"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:43
+msgid "Start Building Your Form from premade templates"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:50
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:26
+msgid "Form Name<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:51
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:27
+msgid "This is not shown to visitors"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:68
+msgid "Redirect URL<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:69
+msgid "Where do you want to send people after they fill out the form?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:85
+msgid "Notify on Form Completions<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:86
+msgid ""
+"Who should get admin notifications on this form?<br>For multiple "
+"notifications separate email addresses with commas"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:93
+msgid "Add to List(s)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:94
+msgid "Add the converting lead to 1 or more lead lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:101
+msgid "Hidden List Values"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:102
+msgid "Hidden list values"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:108
+#: ../../shared/shortcodes/shortcodes/forms.php:115
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:19
+msgid "Name Name Name"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:109
+msgid ""
+"<span class=\"switch-to-form-insert button\">Cancel Form Creation & Insert "
+"Existing Form</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:116
+msgid "Layout Options"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:122
+msgid "Form Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:123
+#: ../../shared/shortcodes/shortcodes/forms.php:169
+msgid "Choose Your Form Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:133
+msgid "Label Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:134
+msgid "Choose Label Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:146
+msgid "Form Font Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:147
+msgid "Size of Label Font. This also determines default submit button size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:153
+msgid "Submit Button Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:161
+msgid "Submit Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:162
+msgid ""
+"Enter the text you want to show on the submit button. (or a link to a custom "
+"submit button image)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:168
+msgid "Submit Color Options"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:186
+msgid "Button BG Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:187
+msgid "Background Color of Submit button"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:194
+msgid "Enter in pixel width or % width. Example: 400 <u>or</u> 100%"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:203
+msgid "Field Label"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:210
+msgid "Field Type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:211
+msgid "Select an form field type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:233
+msgid "Dropdown choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:234
+msgid "Enter Your Dropdown Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:241
+msgid "Radio Choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:242
+msgid "Enter Your Radio Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:249
+msgid "Checkbox choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:250
+msgid "Enter Your Checkbox Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:257
+msgid "HTML Block"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:258
+msgid "This is a raw HTML block in the form. Insert text/HTML"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:264
+msgid "Default Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:265
+msgid "Enter the Default Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:272
+msgid "Divider Text (optional)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:273
+msgid "This is the text in the divider"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:279
+#: ../../shared/shortcodes/shortcodes/forms.php:301
+msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:280
+msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:286
+msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:287
+msgid "Check to make field required"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:294
+msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:295
+msgid "Put field placeholder text here. Only works for normal text inputs"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:302
+msgid "Put field description here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:309
+msgid "Dynamic Field Filling"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:310
+msgid "Enter Your Dynamic URL parameter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:318
+msgid "Map Field To"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:319
+msgid "Map this field to Leads Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:327
+msgid "Add Another Field"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:330
+msgid "Insert Inbound Form Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:339
+msgid "Inbound Forms"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:340
+msgid "Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:343
+msgid "Edit Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:344
+msgid "New Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:345
+msgid "View Lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:346
+msgid "Search Lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:12
+msgid "Map Type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:13
+msgid "Select a map type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:19
+msgid "Map Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:25
+msgid "Map Height"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:31
+msgid "Address"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:32
+msgid ""
+"Enter your address here. ex: \"New York\" or \"New York, USA\" If you want a "
+"accurate position please fill the Latitude and Longitude fields"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:37
+msgid "Latitude"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:38
+msgid "Latitude is specified in degrees within the range [-90, 90]"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:43
+msgid "Longitude"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:44
+msgid "Longitude is specified in degrees within the range [-180, 180]"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:49
+msgid "Zoom"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:50
+msgid "Set the zoom level, numeric value from 1 to 19"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:55
+msgid "Pan Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:56
+msgid "Enable pan control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:62
+msgid "Zoom Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:63
+msgid "Enable zoom control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:69
+msgid "Map Type Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:70
+msgid "Enable map type control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:76
+msgid "Popup Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:77
+msgid "A descriptive text for the Google Map marker popup, ex: \"My Office\""
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:83
+msgid "Insert Google Map Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:12
+#: ../../shared/shortcodes/shortcodes/list-icon.php:15
+msgid "Select the icon."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:18
+msgid "Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:19
+msgid "Select the icon size."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:22
+msgid "Normal Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:23
+msgid "Large Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:24
+msgid "2x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:25
+msgid "3x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:26
+msgid "4x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:31
+#: ../../shared/shortcodes/shortcodes/teaser.php:18
+#: ../../shared/shortcodes/shortcodes/teaser.php:105
+msgid "Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:32
+msgid "Select the icon style."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:35
+msgid "Normal"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:36
+msgid "Muted"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:37
+msgid "Border"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:38
+msgid "Spin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:44
+msgid "Insert Icon Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:18
+#: ../../shared/shortcodes/shortcodes/intro.php:53
+msgid "Text Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:19
+msgid "Enter text alignment."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:22
+#: ../../shared/shortcodes/shortcodes/intro.php:57
+msgid "Align Center"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:23
+#: ../../shared/shortcodes/shortcodes/intro.php:58
+msgid "Align Left"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:24
+#: ../../shared/shortcodes/shortcodes/intro.php:59
+msgid "Align Right"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:36
+msgid "Insert Intro Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:42
+msgid "Intro"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:54
+msgid "The text alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:14
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:12
+#: ../../shared/shortcodes/shortcodes/testimonial.php:12
+msgid "Heading Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:21
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:57
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:19
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:77
+#: ../../shared/shortcodes/shortcodes/teaser.php:30
+#: ../../shared/shortcodes/shortcodes/testimonial.php:19
+#: ../../shared/shortcodes/shortcodes/testimonial.php:75
+msgid "Select the number of column(s)."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:24
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:60
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:23
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:81
+#: ../../shared/shortcodes/shortcodes/pricing.php:16
+#: ../../shared/shortcodes/shortcodes/pricing.php:87
+#: ../../shared/shortcodes/shortcodes/teaser.php:34
+#: ../../shared/shortcodes/shortcodes/teaser.php:123
+#: ../../shared/shortcodes/shortcodes/testimonial.php:23
+#: ../../shared/shortcodes/shortcodes/testimonial.php:79
+msgid "2 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:25
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:61
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:24
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:82
+#: ../../shared/shortcodes/shortcodes/pricing.php:17
+#: ../../shared/shortcodes/shortcodes/pricing.php:88
+#: ../../shared/shortcodes/shortcodes/teaser.php:35
+#: ../../shared/shortcodes/shortcodes/teaser.php:124
+#: ../../shared/shortcodes/shortcodes/testimonial.php:24
+#: ../../shared/shortcodes/shortcodes/testimonial.php:80
+msgid "3 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:26
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:62
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:25
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:83
+#: ../../shared/shortcodes/shortcodes/pricing.php:18
+#: ../../shared/shortcodes/shortcodes/pricing.php:89
+#: ../../shared/shortcodes/shortcodes/teaser.php:36
+#: ../../shared/shortcodes/shortcodes/teaser.php:125
+#: ../../shared/shortcodes/shortcodes/testimonial.php:25
+#: ../../shared/shortcodes/shortcodes/testimonial.php:81
+msgid "4 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:31
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:69
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:31
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:91
+msgid "Post Number"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:32
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:70
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:92
+msgid "Enter the number of post to show."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:58
+msgid "Insert Landing Page List Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:44
+msgid "Portfolio"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:48
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:68
+#: ../../shared/shortcodes/shortcodes/social-share.php:82
+#: ../../shared/shortcodes/shortcodes/tabs.php:12
+#: ../../shared/shortcodes/shortcodes/tabs.php:54
+#: ../../shared/shortcodes/shortcodes/teaser.php:12
+#: ../../shared/shortcodes/shortcodes/teaser.php:97
+#: ../../shared/shortcodes/shortcodes/testimonial.php:66
+msgid "Heading"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:117
+msgid "View Project"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:22
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:80
+#: ../../shared/shortcodes/shortcodes/teaser.php:33
+#: ../../shared/shortcodes/shortcodes/teaser.php:122
+#: ../../shared/shortcodes/shortcodes/testimonial.php:22
+#: ../../shared/shortcodes/shortcodes/testimonial.php:78
+msgid "1 Column"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:26
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:84
+#: ../../shared/shortcodes/shortcodes/pricing.php:19
+#: ../../shared/shortcodes/shortcodes/pricing.php:90
+#: ../../shared/shortcodes/shortcodes/teaser.php:37
+#: ../../shared/shortcodes/shortcodes/teaser.php:126
+#: ../../shared/shortcodes/shortcodes/testimonial.php:26
+#: ../../shared/shortcodes/shortcodes/testimonial.php:82
+msgid "5 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:32
+msgid "Enter the number of post to show. (enter -1 for all posts)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:37
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:99
+msgid "Category"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:100
+msgid "Optional you can sort by a category."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:44
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:108
+msgid "Excerpt Lenght"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:45
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:109
+msgid "The post excerpt word lenght."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:50
+msgid "Show Featured Thumbnails"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:51
+msgid "Uncheck to hide featured thumbnails"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:64
+msgid "Entries"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:12
+msgid "Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:13
+msgid "Add the pharagraph alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:23
+msgid "Paragraph Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:24
+msgid "Add the pharagraph text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:30
+msgid "Insert Lead Paragraph Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:21
+msgid "List Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:22
+#: ../../shared/shortcodes/shortcodes/pricing.php:64
+#: ../../shared/shortcodes/shortcodes/pricing.php:148
+#: ../../shared/shortcodes/shortcodes/tabs.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:47
+#: ../../shared/shortcodes/shortcodes/testimonial.php:108
+msgid "Put the content here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:28
+msgid "Add More List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:31
+msgid "Insert List Icons Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:12
+msgid "List Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:13
+msgid "Select an icon for the List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:20
+msgid "Size of List Font"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:26
+msgid "space between list items"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:31
+msgid "Icon Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:32
+msgid "Color of Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:37
+msgid "Text Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:38
+msgid "Color of Text in List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:43
+#: ../../shared/shortcodes/shortcodes/lists.php:44
+msgid "Number of Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:59
+msgid "Insert Styled List Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:13
+#: ../../shared/shortcodes/shortcodes/pricing.php:84
+#: ../../shared/shortcodes/shortcodes/teaser.php:119
+msgid "Select the column."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:27
+#: ../../shared/shortcodes/shortcodes/pricing.php:99
+msgid "Featured Plan"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:28
+#: ../../shared/shortcodes/shortcodes/pricing.php:100
+msgid "Check to set this plan as featured"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:33
+#: ../../shared/shortcodes/shortcodes/pricing.php:107
+msgid "Plan Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:34
+#: ../../shared/shortcodes/shortcodes/pricing.php:108
+msgid "Enter the plan title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:39
+#: ../../shared/shortcodes/shortcodes/pricing.php:115
+msgid "Plan Price"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:40
+#: ../../shared/shortcodes/shortcodes/pricing.php:116
+msgid "Enter the plan price."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:45
+#: ../../shared/shortcodes/shortcodes/pricing.php:123
+msgid "Plan Term"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:46
+#: ../../shared/shortcodes/shortcodes/pricing.php:124
+msgid "Enter the plan term. e.g : \"per month\", \"per year\" etc."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:51
+#: ../../shared/shortcodes/shortcodes/pricing.php:131
+msgid "Plan Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:57
+#: ../../shared/shortcodes/shortcodes/pricing.php:139
+msgid "Plan Button Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:63
+#: ../../shared/shortcodes/shortcodes/pricing.php:147
+msgid "Plan Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:70
+#: ../../shared/shortcodes/shortcodes/testimonial.php:53
+msgid "Add More Testimony"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:73
+msgid "Insert Pricing Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:79
+msgid "Pricing Table"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:12
+#: ../../shared/shortcodes/shortcodes/profile.php:71
+msgid "Profile Name"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:13
+#: ../../shared/shortcodes/shortcodes/profile.php:72
+msgid "Enter the name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:18
+#: ../../shared/shortcodes/shortcodes/profile.php:79
+msgid "Profile Meta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:19
+#: ../../shared/shortcodes/shortcodes/profile.php:80
+msgid "Enter the profile meta. e.g job position etc."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:24
+#: ../../shared/shortcodes/shortcodes/profile.php:87
+msgid "Profile Image"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:25
+#: ../../shared/shortcodes/shortcodes/profile.php:88
+msgid "Paste your profile image URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:30
+#: ../../shared/shortcodes/shortcodes/profile.php:95
+msgid "Profile Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:31
+msgid "Paste your profile link URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:36
+#: ../../shared/shortcodes/shortcodes/profile.php:103
+msgid "Profile Facebook"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:37
+#: ../../shared/shortcodes/shortcodes/profile.php:104
+msgid "Paste your facebook URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:42
+#: ../../shared/shortcodes/shortcodes/profile.php:111
+msgid "Profile Twitter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:43
+#: ../../shared/shortcodes/shortcodes/profile.php:112
+msgid "Paste your twitter URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:48
+#: ../../shared/shortcodes/shortcodes/profile.php:119
+msgid "Profile Email Address"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:49
+#: ../../shared/shortcodes/shortcodes/profile.php:120
+msgid "Paste your email address here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:54
+#: ../../shared/shortcodes/shortcodes/profile.php:127
+msgid "Profile Description"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:55
+#: ../../shared/shortcodes/shortcodes/profile.php:128
+msgid "Enter the profile description text."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:61
+msgid "Insert Profile Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:67
+msgid "Profile"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:96
+msgid "Paste your profile URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:11
+msgid "Insert Saved Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:12
+msgid "Insert a Saved Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:20
+msgid "<span class=\"switch-to-form-builder button\">Build a New Form</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:35
+msgid "Quick Insert Inbound Form Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:14
+msgid "Style of Icons"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:26
+msgid "Align Icons"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:27
+msgid "Alignment Settings"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:37
+#: ../../shared/shortcodes/shortcodes/social.php:12
+msgid "Facebook"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:38
+msgid "Show facebook share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:43
+#: ../../shared/shortcodes/shortcodes/social.php:18
+msgid "Twitter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:44
+msgid "Show twitter share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:49
+#: ../../shared/shortcodes/shortcodes/social.php:24
+msgid "Google+"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:50
+msgid "Show google plus share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:55
+#: ../../shared/shortcodes/shortcodes/social.php:30
+msgid "Linkedin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:56
+msgid "Show linkedin share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:61
+#: ../../shared/shortcodes/shortcodes/social.php:48
+msgid "Pinterest"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:62
+msgid "Show pinterest share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:68
+msgid "Custom Share Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:69
+msgid "Optional setting. Enter your custom share text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:75
+msgid "Custom Share URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:76
+msgid "Optional setting. Enter your custom share link URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:83
+msgid "Optional setting."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:89
+msgid "Heading Align"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:90
+msgid "Heading Alignment Settings"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:101
+msgid "Insert Social Share Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:13
+msgid "Enter your facebook profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:19
+msgid "Enter your twitter profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:25
+msgid "Enter your google plus profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:31
+msgid "Enter your linkedin profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:36
+msgid "Github"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:37
+msgid "Enter your github profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:42
+msgid "Instagram"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:43
+msgid "Enter your instagram profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:49
+msgid "Enter your pinterest profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:54
+msgid "RSS"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:55
+msgid "Enter your RSS feeds URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:61
+msgid "Insert Social Link Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:13
+#: ../../shared/shortcodes/shortcodes/tabs.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:13
+msgid "Enter the heading text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:21
+msgid "Tab Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:22
+msgid "Enter the tab title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:34
+msgid "Tab Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:41
+msgid "Add More Tab"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:44
+msgid "Insert Tabs Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:50
+msgid "Tabs"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:65
+msgid "Enter the tab title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:82
+msgid "Enter the tab content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:23
+#: ../../shared/shortcodes/shortcodes/teaser.php:110
+msgid "Nested"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:24
+#: ../../shared/shortcodes/shortcodes/teaser.php:111
+msgid "Centered"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:46
+msgid "Enter the title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:144
+msgid "Image URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:65
+#: ../../shared/shortcodes/shortcodes/teaser.php:145
+msgid "Enter your image url, it will override the icon above"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:167
+msgid "The title link destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:77
+msgid "Teaser Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:84
+msgid "Add More Block"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:87
+msgid "Insert Teaser Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:93
+msgid "Teaser"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:34
+#: ../../shared/shortcodes/shortcodes/testimonial.php:91
+msgid "Testimony Author"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:92
+msgid "Enter the testimony author name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:40
+#: ../../shared/shortcodes/shortcodes/testimonial.php:99
+msgid "Testimony Author Meta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:41
+#: ../../shared/shortcodes/shortcodes/testimonial.php:100
+msgid "The author job, company or website name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:46
+msgid "Testimony Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:56
+msgid "Insert Testimonial Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:62
+#: ../../shared/shortcodes/shortcodes/testimonial.php:124
+msgid "Testimonial"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:107
+msgid "Testimony Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:12
+msgid "Video URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:13
+msgid ""
+"Paste the video URL here, click <a href=\"http://codex.wordpress.org/"
+"Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F\" target=\"_blank\">here</"
+"a> to see all available video hosts."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:19
+msgid "Insert Video Shortcode"
+msgstr ""

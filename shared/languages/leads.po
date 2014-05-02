@@ -1,0 +1,3890 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WordPress Leads\n"
+"POT-Creation-Date: 2014-04-10 14:39-0600\n"
+"PO-Revision-Date: 2014-04-10 14:44-0600\n"
+"Last-Translator: Hudson\n"
+"Language-Team: InboundNow <hudson@inboundnow.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ./../..\n"
+
+#: ../../wordpress-leads.php:47 ../../wordpress-leads.php:53
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: ../../modules/module.ajax-setup.php:251
+#: ../../modules/module.lead-management.php:591
+msgid "Y/m/d"
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:57
+msgid "Once every two minutes"
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:159
+msgid "Processing Begin: "
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:212
+msgid "Rule Name: "
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:223
+#, php-format
+msgid "Skipping Rule: Rule %d ( %s ) is set to inactive! <br>"
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:236
+#, php-format
+msgid "Skipping Rule: Rule %d ( %s )  already completed for lead %d! <br>"
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:281
+msgid " exist in target rule category.<br>"
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:342
+#: ../../modules/module.cron.lead-rules.php:359
+msgid "Failed to meet required conditions: Rule "
+msgstr ""
+
+#: ../../modules/module.cron.lead-rules.php:490
+msgid "Message: Lead matched this rule & all actions completed!<br>"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+msgid "Lists"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+msgid "Today"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+msgid "This Month"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+msgid "Since Last Month"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+#: ../../shared/classes/menu.class.php:137
+msgid "Leads"
+msgstr ""
+
+#: ../../modules/module.dashboard.php:1
+msgid "All Time"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:14
+msgid "IDs or Classes of forms to track"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:15
+msgid ""
+"<p>Enter in a value found in a HTML form's id or class attribute to track it "
+"as a conversion as comma separated values</p><p><strong>Example ID format:</"
+"strong> #Form_ID, #Form-ID-2<br>Example Class format:</strong> .Form_class, ."
+"form-class-2</p><p>Gravity Forms, Contact Form 7, and Ninja Forms are "
+"automatically tracked (no need to add their IDs in here).</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:22
+msgid "IDs of forms <u>NOT</u> to track"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:23
+msgid ""
+"<p>Enter in a value found in a HTML form's id attribute to turn off tracking."
+"</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:30
+msgid "Form prepopulation"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:31
+msgid ""
+"<p>WordPress Leads records submitted field data for leads and will attempt "
+"to prepopulate forms with the last inputted data. Disabling this will turn "
+"this feature off.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:38
+msgid "Page View Tracking"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:39
+msgid ""
+"<p>WordPress Leads automatically tracks page views of converted leads. This "
+"is extremely valuable lead intelligence and will help with your sales "
+"followups. However with great power comes great resposibility, this extra "
+"tracking can cause problems on high high traffic sites. You can turn off "
+"tracking if you see any issues.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:46
+msgid "Search Query Tracking"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:47
+msgid ""
+"<p>WordPress Leads records searches made by leads and appends them to their "
+"lead record. Disabling this will turn this feature off.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:54
+msgid "Comment Tracking"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:55
+msgid ""
+"<p>WordPress Leads records comments made by leads and appends them to their "
+"lead record. Disabling this will turn this feature off.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:62
+msgid "Show Lead/List Data in Dashboard"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:63
+msgid ""
+"<p>Turn this on to show graphical and list data about lead collection in WP "
+"Dashboard.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:70
+msgid "Disable Default WordPress Dashboard Widgets"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:71
+msgid "<p>This turns off some default widgets on the wordpress dashboard.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:78
+msgid "Full Contact API Key"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:79
+#, php-format
+msgid ""
+"<p>Enter your Full contact API key. If you don't have one. Grab a free one "
+"here: %s here %s </p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:86
+msgid "Turn on compability mode"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:87
+msgid ""
+"<p>This option turns on compability mode for the inbound now plugins. This "
+"is typically used if you are experiencing bugs caused by third party plugin "
+"conflicts.</p>"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:104
+msgid "License Keys"
+msgstr ""
+
+#: ../../modules/module.global-settings.php:108
+msgid "Extensions"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:114
+msgid "All Leads in Database"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:236
+#, php-format
+msgid "%d  leads permanently deleted"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:258
+msgid "Lead Management - Bulk Update Leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:261
+msgid ""
+"To get started, select the lead criteria below to see all matching leads."
+msgstr ""
+
+#: ../../modules/module.lead-management.php:276
+msgid "Select Lead List(s):"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:288
+msgid "Match:"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:291
+msgid "(ONLY) Leads that are in <u>ALL</u> of the selected lists"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:292
+msgid "(ANY) Leads in at least 1 of the selected Lists"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:299
+msgid "Sort by:"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:325
+msgid "Keyword:"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:326
+#, php-format
+msgid "Use % for wildcards."
+msgstr ""
+
+#: ../../modules/module.lead-management.php:345
+#: ../../shared/functions/global.leads.cpt.php:22
+msgid "Search Leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:458
+msgid "Previous"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:471
+msgid "Next"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:493
+msgid ""
+"No posts matched that criteria, sorry! Try again with something different."
+msgstr ""
+
+#: ../../modules/module.lead-management.php:508
+msgid "Total"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:522
+msgid "any category"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:523
+msgid "any tag"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:524
+msgid "containing the string"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:533
+msgid "Grabbing Matching Leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:540
+msgid "Date"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:541
+#: ../../modules/module.userfields.php:23
+msgid "Email"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:542
+msgid "Current Lists"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:543
+msgid "Current Tags"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:544
+msgid "View"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:545
+msgid "ID"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:588
+msgid "Unpublished"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:616
+msgid "What do you want to do with the selected leads?"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:628
+msgid "Add to"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:629
+msgid "Remove from"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:634
+msgid "Separate multiple tags with commas. "
+msgstr ""
+
+#: ../../modules/module.lead-management.php:635
+#: ../../modules/module.lead-management.php:643
+msgid "Replace"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:636
+#: ../../modules/module.lead-management.php:644
+msgid "Add"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:637
+#: ../../modules/module.lead-management.php:645
+msgid "Remove"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:651
+#: ../../modules/module.lead-management.php:682
+msgid "Permanently Delete Selected Leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:678
+msgid "Choose action to apply to selected leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:680
+msgid "Add or Remove Selected Leads from Lists"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:681
+msgid "Add or Remove Tags to Selected Leads"
+msgstr ""
+
+#: ../../modules/module.lead-management.php:837
+msgid "User does not have admin level permissions."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:7
+msgid "IF condition"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:14
+msgid ""
+"This condition allows us to set the primary criteria for lead sorting or "
+"points awarding."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:16
+#: ../../modules/module.metaboxes.automation.php:36
+msgid "Visitor views any page"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:17
+#: ../../modules/module.metaboxes.automation.php:37
+msgid "Visitor views category specific page"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:18
+#: ../../modules/module.metaboxes.automation.php:38
+msgid "Visitor converts on any page"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:19
+#: ../../modules/module.metaboxes.automation.php:39
+msgid "Visitor converts on category specific page"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:21
+#: ../../modules/module.metaboxes.automation.php:41
+msgid "Total number of successful rule matches is at least"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:27
+msgid "# Action Requirments"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:34
+msgid ""
+"This condition sets the standard that the IF statement above must achieve "
+"before a rule is executed."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:46
+msgid "Category Condition"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:53
+msgid ""
+"When an IF statment requires category specific reader behavior this dropdown "
+"helps us target our category of interest."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:58
+msgid "Rule Limitation"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:66
+msgid ""
+"To protect rule actions from firing multiple times on the same user turn "
+"this setting to on."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:67
+msgid "Only run rule on lead once."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:71
+#: ../../shared/shortcodes/shortcodes/forms.php:101
+msgid "Add to List(s)"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:78
+msgid ""
+"When all rule conditions are met by a lead then sort the lead into these "
+"lead lists."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:83
+msgid "Remove from List(s)"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:90
+msgid ""
+"When all rule conditions are met by a lead then remove the lead out of these "
+"lead lists."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:95
+msgid "Adjust Lead Score"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:102
+msgid ""
+"When all rule conditions are met by a lead then award the user this many "
+"points. You may use - symbols before an interger for point removal."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:129
+msgid "Automation Rule Overview"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:138
+msgid "Rule Tools"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:156
+msgid "Condition 1"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:209
+msgid "Activate Rule"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:213
+msgid "Match all conditions."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:214
+msgid "Match any conditions."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:216
+msgid "Add New Condtion"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:230
+#, php-format
+msgid "Condition %d"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:238
+msgid "Remove Condition"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:260
+#: ../../modules/module.wp_list_table-leads.php:79
+msgid "Actions"
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:291
+msgid "Processing..."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:308
+msgid "Run rule on all leads."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:317
+#, php-format
+msgid ""
+"Estimated Time Remaining: %d minutes. Reload page to recalulate time "
+"remaining."
+msgstr ""
+
+#: ../../modules/module.metaboxes.automation.php:319
+msgid "Force Processing"
+msgstr ""
+
+#: ../../modules/module.metaboxes.list.php:17
+#, php-format
+msgid "Leads in %s list"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:64
+msgid "Empty Keywords, User is probably logged into "
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:93
+msgid "Lead Stats"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:111
+msgid "Years"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:111
+msgid "Year"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:113
+msgid "Months"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:113
+msgid "Month"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:115
+msgid "Days"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:115
+msgid "Day"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:117
+msgid "Hours"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:117
+msgid "Hour"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:119
+msgid "Minutes"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:119
+msgid "Minute"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:121
+msgid "Seconds"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:121
+msgid "Second"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:165
+msgid "Total Page Views "
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:168
+msgid "# of Conversions "
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:192
+msgid "Time Since Last Conversion"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:222
+msgid "Last Conversion Activity Location"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:257
+msgid "City:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:259
+msgid "State:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:262
+msgid "Area Code:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:265
+msgid "Country:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:268
+msgid "IP Address:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:281
+msgid "View Map:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:286
+msgid "No Geo data collected"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:326
+msgid "Lead Status:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:328
+msgid "Read/Viewed"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:329
+msgid "New Lead"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:330
+msgid "Contacted"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:331
+msgid "Active"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:332
+msgid "Disqualified/Lost"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:333
+msgid "Customer"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:334
+msgid "Archive"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:452
+msgid "Websites"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:462
+msgid "Social Media Profiles"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:485
+msgid "View past work"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:489
+msgid "Demographics"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:499
+msgid "Interests"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:518
+msgid "Lead Overview"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:572
+msgid "Show Hidden/Empty Fields"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:617
+msgid "Edit User Profile"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:637
+msgid "Tag cloud of content consumed"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:686
+msgid "Conversions"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:689
+#: ../../modules/module.metaboxes.wp-lead.php:878
+msgid "Page Views"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:692
+msgid "Comments"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:695
+msgid "Searches"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:704
+#: ../../modules/module.metaboxes.wp-lead.php:1009
+msgid "All"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:719
+msgid "Most Recent"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:720
+msgid "Oldest"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:726
+msgid "Landing Page Conversions"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:766
+msgid "view visit path"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:775
+msgid "No conversions found!"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:816
+msgid "View and respond to the comment"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:995
+msgid "No Page View History Found"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1010
+msgid "Form Data"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1011
+msgid "Page Data"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1012
+msgid "Event Data"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1025
+msgid "Form Inputs with Values"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1033
+msgid "Input name:"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1060
+msgid "Raw Form Data Array"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1069
+msgid "No raw data found!"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1121
+msgid "Add New Link"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1121
+msgid "add link"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1204
+msgid "Country..."
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1205
+msgid "Afghanistan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1206
+msgid "Albania"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1207
+msgid "Algeria"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1208
+msgid "American Samoa"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1209
+msgid "Andorra"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1210
+msgid "Angola"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1211
+msgid "Anguilla"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1212
+msgid "Antigua &amp; Barbuda"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1213
+msgid "Argentina"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1214
+msgid "Armenia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1215
+msgid "Aruba"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1216
+msgid "Australia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1217
+msgid "Austria"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1218
+msgid "Azerbaijan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1219
+msgid "Bahamas"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1220
+msgid "Bahrain"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1221
+msgid "Bangladesh"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1222
+msgid "Barbados"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1223
+msgid "Belarus"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1224
+msgid "Belgium"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1225
+msgid "Belize"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1226
+msgid "Benin"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1227
+msgid "Bermuda"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1228
+msgid "Bhutan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1229
+msgid "Bolivia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1230
+msgid "Bonaire"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1231
+msgid "Bosnia &amp; Herzegovina"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1232
+msgid "Botswana"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1233
+msgid "Brazil"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1234
+msgid "British Indian Ocean Ter"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1235
+msgid "Brunei"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1236
+msgid "Bulgaria"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1237
+msgid "Burkina Faso"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1238
+msgid "Burundi"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1239
+msgid "Cambodia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1240
+msgid "Cameroon"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1241
+msgid "Canada"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1242
+msgid "Canary Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1243
+msgid "Cape Verde"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1244
+msgid "Cayman Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1245
+msgid "Central African Republic"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1246
+msgid "Chad"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1247
+msgid "Channel Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1248
+msgid "Chile"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1249
+msgid "China"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1250
+msgid "Christmas Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1251
+msgid "Cocos Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1252
+msgid "Colombia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1253
+msgid "Comoros"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1254
+msgid "Congo"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1255
+msgid "Cook Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1256
+msgid "Costa Rica"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1257
+msgid "Cote D'Ivoire"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1258
+msgid "Croatia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1259
+msgid "Cuba"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1260
+msgid "Curacao"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1261
+msgid "Cyprus"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1262
+msgid "Czech Republic"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1263
+msgid "Denmark"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1264
+msgid "Djibouti"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1265
+msgid "Dominica"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1266
+msgid "Dominican Republic"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1267
+msgid "East Timor"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1268
+msgid "Ecuador"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1269
+msgid "Egypt"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1270
+msgid "El Salvador"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1271
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1272
+msgid "Eritrea"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1273
+msgid "Estonia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1274
+msgid "Ethiopia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1275
+msgid "Falkland Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1276
+msgid "Faroe Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1277
+msgid "Fiji"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1278
+msgid "Finland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1279
+msgid "France"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1280
+msgid "French Guiana"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1281
+msgid "French Polynesia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1282
+msgid "French Southern Ter"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1283
+msgid "Gabon"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1284
+msgid "Gambia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1285
+msgid "Georgia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1286
+msgid "Germany"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1287
+msgid "Ghana"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1288
+msgid "Gibraltar"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1289
+msgid "Great Britain"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1290
+msgid "Greece"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1291
+msgid "Greenland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1292
+msgid "Grenada"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1293
+msgid "Guadeloupe"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1294
+msgid "Guam"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1295
+msgid "Guatemala"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1296
+msgid "Guinea"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1297
+msgid "Guyana"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1298
+msgid "Haiti"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1299
+msgid "Hawaii"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1300
+msgid "Honduras"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1301
+msgid "Hong Kong"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1302
+msgid "Hungary"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1303
+msgid "Iceland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1304
+msgid "India"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1305
+msgid "Indonesia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1306
+msgid "Iran"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1307
+msgid "Iraq"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1308
+msgid "Ireland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1309
+msgid "Isle of Man"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1310
+msgid "Israel"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1311
+msgid "Italy"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1312
+msgid "Jamaica"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1313
+msgid "Japan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1314
+msgid "Jordan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1315
+msgid "Kazakhstan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1316
+msgid "Kenya"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1317
+msgid "Kiribati"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1318
+msgid "Korea North"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1319
+msgid "Korea South"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1320
+msgid "Kuwait"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1321
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1322
+msgid "Laos"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1323
+msgid "Latvia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1324
+msgid "Lebanon"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1325
+msgid "Lesotho"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1326
+msgid "Liberia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1327
+msgid "Libya"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1328
+msgid "Liechtenstein"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1329
+msgid "Lithuania"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1330
+msgid "Luxembourg"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1331
+msgid "Macau"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1332
+msgid "Macedonia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1333
+msgid "Madagascar"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1334
+msgid "Malaysia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1335
+msgid "Malawi"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1336
+msgid "Maldives"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1337
+msgid "Mali"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1338
+msgid "Malta"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1339
+msgid "Marshall Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1340
+msgid "Martinique"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1341
+msgid "Mauritania"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1342
+msgid "Mauritius"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1343
+msgid "Mayotte"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1344
+msgid "Mexico"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1345
+msgid "Midway Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1346
+msgid "Moldova"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1347
+msgid "Monaco"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1348
+msgid "Mongolia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1349
+msgid "Montserrat"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1350
+msgid "Morocco"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1351
+msgid "Mozambique"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1352
+msgid "Myanmar"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1353
+msgid "Nambia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1354
+msgid "Nauru"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1355
+msgid "Nepal"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1356
+msgid "Netherland Antilles"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1357
+msgid "Netherlands (Holland, Europe)"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1358
+msgid "Nevis"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1359
+msgid "New Caledonia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1360
+msgid "New Zealand"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1361
+msgid "Nicaragua"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1362
+msgid "Niger"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1363
+msgid "Nigeria"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1364
+msgid "Niue"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1365
+msgid "Norfolk Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1366
+msgid "Norway"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1367
+msgid "Oman"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1368
+msgid "Pakistan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1369
+msgid "Palau Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1370
+msgid "Palestine"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1371
+msgid "Panama"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1372
+msgid "Papua New Guinea"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1373
+msgid "Paraguay"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1374
+msgid "Peru"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1375
+msgid "Philippines"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1376
+msgid "Pitcairn Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1377
+msgid "Poland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1378
+msgid "Portugal"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1379
+msgid "Puerto Rico"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1380
+msgid "Qatar"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1381
+msgid "Republic of Montenegro"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1382
+msgid "Republic of Serbia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1383
+msgid "Reunion"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1384
+msgid "Romania"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1385
+msgid "Russia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1386
+msgid "Rwanda"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1387
+msgid "St Barthelemy"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1388
+msgid "St Eustatius"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1389
+msgid "St Helena"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1390
+msgid "St Kitts-Nevis"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1391
+msgid "St Lucia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1392
+msgid "St Maarten"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1393
+msgid "St Pierre &amp; Miquelon"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1394
+msgid "St Vincent &amp; Grenadines"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1395
+msgid "Saipan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1396
+msgid "Samoa"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1397
+msgid "Samoa American"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1398
+msgid "San Marino"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1399
+msgid "Sao Tome &amp; Principe"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1400
+msgid "Saudi Arabia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1401
+msgid "Senegal"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1402
+msgid "Seychelles"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1403
+msgid "Sierra Leone"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1404
+msgid "Singapore"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1405
+msgid "Slovakia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1406
+msgid "Slovenia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1407
+msgid "Solomon Islands"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1408
+msgid "Somalia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1409
+msgid "South Africa"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1410
+msgid "Spain"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1411
+msgid "Sri Lanka"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1412
+msgid "Sudan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1413
+msgid "Suriname"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1414
+msgid "Swaziland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1415
+msgid "Sweden"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1416
+msgid "Switzerland"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1417
+msgid "Syria"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1418
+msgid "Tahiti"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1419
+msgid "Taiwan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1420
+msgid "Tajikistan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1421
+msgid "Tanzania"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1422
+msgid "Thailand"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1423
+msgid "Togo"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1424
+msgid "Tokelau"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1425
+msgid "Tonga"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1426
+msgid "Trinidad &amp; Tobago"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1427
+msgid "Tunisia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1428
+msgid "Turkey"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1429
+msgid "Turkmenistan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1430
+msgid "Turks &amp; Caicos Is"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1431
+msgid "Tuvalu"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1432
+msgid "Uganda"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1433
+msgid "Ukraine"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1434
+msgid "United Arab Emirates"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1435
+msgid "United Kingdom"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1436
+msgid "United States of America"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1437
+msgid "Uruguay"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1438
+msgid "Uzbekistan"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1439
+msgid "Vanuatu"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1440
+msgid "Vatican City State"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1441
+msgid "Venezuela"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1442
+msgid "Vietnam"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1443
+msgid "Virgin Islands (Brit)"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1444
+msgid "Virgin Islands (USA)"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1445
+msgid "Wake Island"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1446
+msgid "Wallis &amp; Futana Is"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1447
+msgid "Yemen"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1448
+msgid "Zaire"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1449
+msgid "Zambia"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1450
+msgid "Zimbabwe"
+msgstr ""
+
+#: ../../modules/module.metaboxes.wp-lead.php:1658
+msgid ""
+"Visitor Path Sessions - <span class=\"session-desc\">(Sessions expire after "
+"1 hour of inactivity)</span> <span class=\"minimize-paths button\">Shrink "
+"Session View</span>"
+msgstr ""
+
+#: ../../modules/module.nav-menus.php:8
+msgid "Lead Management"
+msgstr ""
+
+#: ../../modules/module.nav-menus.php:12
+msgid "Forms"
+msgstr ""
+
+#: ../../modules/module.nav-menus.php:12
+msgid "Create Forms"
+msgstr ""
+
+#: ../../modules/module.nav-menus.php:14
+#: ../../shared/classes/menu.class.php:229
+#: ../../shared/classes/menu.class.php:285
+msgid "Settings"
+msgstr ""
+
+#: ../../modules/module.nav-menus.php:14
+#: ../../shared/classes/menu.class.php:397
+msgid "Global Settings"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:32
+#: ../../modules/module.post-type.automation.php:68
+msgid "Automation"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:33
+msgid "Automation Rule"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:34
+msgid "Add New Automation Rule"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:35
+msgid "Create New Automation Rule"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:36
+msgid "Edit Automation Rule"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:37
+msgid "New Automation Rules"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:38
+msgid "View Automation Rules"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:39
+msgid "Search Automation Rules"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:40
+#: ../../shared/functions/global.leads.cpt.php:23
+#: ../../shared/shortcodes/shortcodes/forms.php:355
+msgid "Nothing found"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:41
+#: ../../shared/functions/global.leads.cpt.php:24
+#: ../../shared/shortcodes/shortcodes/forms.php:356
+msgid "Nothing found in Trash"
+msgstr ""
+
+#: ../../modules/module.post-type.automation.php:69
+msgid "Automation Status"
+msgstr ""
+
+#: ../../modules/module.post-type.landing-pages.php:13
+msgid "Recent Conversions:"
+msgstr ""
+
+#: ../../modules/module.post-type.landing-pages.php:17
+msgid "Location"
+msgstr ""
+
+#: ../../modules/module.post-type.landing-pages.php:18
+msgid "Datetime"
+msgstr ""
+
+#: ../../modules/module.post-type.landing-pages.php:19
+msgid "First-time?"
+msgstr ""
+
+#: ../../modules/module.post-type.landing-pages.php:43
+msgid "yes"
+msgstr ""
+
+#: ../../modules/module.post-type.list.php:21
+#, php-format
+msgid "%d leads"
+msgstr ""
+
+#: ../../modules/module.post-type.wp-lead.php:301
+msgid "Filter By Custom Fields"
+msgstr ""
+
+#: ../../modules/module.post-type.wp-lead.php:331
+msgid "Value:"
+msgstr ""
+
+#: ../../modules/module.post-type.wp-lead.php:448
+#: ../../modules/module.post-type.wp-lead.php:449
+msgid "Add to Contact List"
+msgstr ""
+
+#: ../../modules/module.post-type.wp-lead.php:451
+#: ../../modules/module.post-type.wp-lead.php:452
+msgid "Export CSV"
+msgstr ""
+
+#: ../../modules/module.post-type.wp-lead.php:454
+#: ../../modules/module.post-type.wp-lead.php:455
+msgid "Export XML"
+msgstr ""
+
+#: ../../modules/module.userfields.php:11
+msgid "First Name"
+msgstr ""
+
+#: ../../modules/module.userfields.php:17
+msgid "Last Name"
+msgstr ""
+
+#: ../../modules/module.userfields.php:29
+msgid "Website"
+msgstr ""
+
+#: ../../modules/module.userfields.php:35
+msgid "Job Title"
+msgstr ""
+
+#: ../../modules/module.userfields.php:41
+msgid "Company Name"
+msgstr ""
+
+#: ../../modules/module.userfields.php:47
+msgid "Mobile Phone"
+msgstr ""
+
+#: ../../modules/module.userfields.php:53
+msgid "Work Phone"
+msgstr ""
+
+#: ../../modules/module.userfields.php:59
+#: ../../shared/shortcodes/shortcodes/gmap.php:31
+msgid "Address"
+msgstr ""
+
+#: ../../modules/module.userfields.php:65
+msgid "Address Continued"
+msgstr ""
+
+#: ../../modules/module.userfields.php:71
+msgid "City"
+msgstr ""
+
+#: ../../modules/module.userfields.php:77
+msgid "State/Region"
+msgstr ""
+
+#: ../../modules/module.userfields.php:83
+msgid "Zip-code"
+msgstr ""
+
+#: ../../modules/module.userfields.php:90
+msgid "Country"
+msgstr ""
+
+#: ../../modules/module.userfields.php:96
+msgid "Shipping Address"
+msgstr ""
+
+#: ../../modules/module.userfields.php:102
+msgid "Shipping Address Continued"
+msgstr ""
+
+#: ../../modules/module.userfields.php:108
+msgid "Shipping City"
+msgstr ""
+
+#: ../../modules/module.userfields.php:114
+msgid "Shipping State/Region"
+msgstr ""
+
+#: ../../modules/module.userfields.php:120
+msgid "Shipping Zip-code"
+msgstr ""
+
+#: ../../modules/module.userfields.php:126
+msgid "Shipping Country"
+msgstr ""
+
+#: ../../modules/module.userfields.php:132
+msgid "Related Websites"
+msgstr ""
+
+#: ../../modules/module.userfields.php:138
+msgid "Notes"
+msgstr ""
+
+#: ../../modules/module.wp_list_table-leads.php:76
+msgid "Lead Name"
+msgstr ""
+
+#: ../../modules/module.wp_list_table-leads.php:77
+msgid "Lead Email"
+msgstr ""
+
+#: ../../modules/module.wp_list_table-leads.php:78
+msgid "Lead Points"
+msgstr ""
+
+#: ../../modules/module.wp_list_table-leads.php:175
+msgid "no leads in list"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:24
+msgid "GO"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:41
+msgid " Marketing"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:143
+msgid "Search All Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:158
+msgid "View All Leads"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:160
+#: ../../shared/classes/menu.class.php:315
+#: ../../shared/classes/menu.class.php:317
+msgid "View All Forms"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:166
+#: ../../shared/classes/menu.class.php:168
+msgid "View Lead Lists"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:174
+msgid "Create New Lead"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:176
+msgid "Add new lead"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:196
+msgid "Call to Actions"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:198
+#: ../../shared/classes/menu.class.php:206
+#: ../../shared/classes/menu.class.php:254
+#: ../../shared/classes/menu.class.php:262
+msgid "View All Landing Pages"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:204
+msgid "View Calls to Action List"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:212
+msgid "Add New Call to Action"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:214
+#: ../../shared/classes/menu.class.php:337
+msgid "Add new call to action"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:220
+#: ../../shared/classes/menu.class.php:276
+msgid "Categories"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:222
+#: ../../shared/classes/menu.class.php:278
+msgid "Landing Page Categories"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:231
+msgid "Manage Call to Action Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:252
+msgid "Landing Pages"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:260
+msgid "View Landing Pages List"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:268
+msgid "Add New Landing Page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:270
+msgid "Add new Landing Page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:287
+msgid "Manage Landing Page Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:307
+msgid "Manage Forms"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:335
+#: ../../shared/shortcodes/shortcodes/forms.php:350
+msgid "Create New Form"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:354
+msgid "Manage Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:362
+#: ../../shared/classes/menu.class.php:364
+msgid "Download More Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:371
+#: ../../shared/classes/menu.class.php:373
+msgid "Landing Page Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:381
+#: ../../shared/classes/menu.class.php:383
+msgid "Call to Action Templates"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:406
+#: ../../shared/classes/menu.class.php:408
+msgid "Call to Action Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:415
+#: ../../shared/classes/menu.class.php:417
+msgid "Landing Page Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:424
+#: ../../shared/classes/menu.class.php:426
+msgid "Lead Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:440
+#: ../../shared/classes/menu.class.php:442
+msgid "Analytics (coming soon)"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:455
+msgid "SEO by Yoast"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:457
+msgid "Manage SEO Settings"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:471
+#: ../../shared/classes/menu.class.php:473
+msgid "Support Forum"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:479
+#: ../../shared/classes/menu.class.php:481
+msgid "Documentation"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:485
+msgid "Search Docs"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:507
+#: ../../shared/classes/menu.class.php:509
+msgid "Inbound Now Plugin HQ"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:515
+#: ../../shared/classes/menu.class.php:517
+msgid "GitHub Repository Developer Center"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:523
+#: ../../shared/classes/menu.class.php:525
+msgid "Official Blog"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:531
+#: ../../shared/classes/menu.class.php:533
+msgid "My Account"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:539
+#: ../../shared/classes/menu.class.php:541
+msgid "Purchase History"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:554
+msgid ""
+"<span style=\"color:#fff;font-size: 13px;margin-top: -1px;display: inline-"
+"block;\">Debug Tools</span>"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:580
+msgid "Check for Javascript Errors"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:582
+msgid "Click here to check javascript errors on this page"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:588
+msgid "Remove Javascript Errors"
+msgstr ""
+
+#: ../../shared/classes/menu.class.php:590
+msgid "Click here to remove broken javascript to fix issues"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:75
+#: ../../shared/classes/welcome.class.php:76
+msgid "Welcome to"
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:167
+msgid "Welcome to "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:168
+msgid "Thank you for updating to the latest version! "
+msgstr ""
+
+#: ../../shared/classes/welcome.class.php:169
+#, php-format
+msgid "Version %s"
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:30
+#: ../../shared/extend/inboundnow.global-settings.php:39
+msgid ""
+"Head to http://www.inboundnow.com/ to retrieve your extension-ready license "
+"key."
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:32
+msgid "InboundNow Master Key"
+msgstr ""
+
+#: ../../shared/extend/inboundnow.global-settings.php:38
+msgid "InboundNow Master License Key"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:18
+msgid "Add New Lead"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:19
+msgid "Edit Lead"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:20
+msgid "New Leads"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:21
+msgid "View Leads"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:49
+msgid "Search Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:50
+msgid "Popular Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:51
+msgid "All Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:54
+msgid "Edit Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:55
+msgid "Update Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:56
+msgid "Add New Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:57
+msgid "New Lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:58
+msgid "Separate Lead Lists with commas"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:59
+msgid "Add or remove Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:60
+msgid "Choose from the most used lead List"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:61
+msgid "No Lead Lists found."
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:62
+msgid "Lead Lists"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:83
+msgid "Search Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:84
+msgid "Popular Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:85
+msgid "All Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:88
+msgid "Edit Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:89
+msgid "Update Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:90
+msgid "Add New Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:91
+msgid "New Lead Tag"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:92
+msgid "Separate Lead Tags with commas"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:93
+msgid "Add or remove Lead Tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:94
+msgid "Choose from the most used lead tags"
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:95
+msgid "No lead tags found."
+msgstr ""
+
+#: ../../shared/functions/global.leads.cpt.php:96
+msgid "Lead Tags"
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:687
+#: ../../shared/shortcodes/inbound-shortcodes.php:709
+#: ../../shared/shortcodes/popup.php:27
+#: ../../shared/shortcodes/popup.php:50
+msgid "Insert Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:696
+msgid "Form Preview"
+msgstr ""
+
+#: ../../shared/shortcodes/inbound-shortcodes.php:699
+#: ../../shared/shortcodes/popup.php:39
+msgid "Shortcode has no preview"
+msgstr ""
+
+#: ../../shared/shortcodes/popup.php:36
+msgid "Shortcode Preview"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:12
+msgid "Color Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:19
+#: ../../shared/shortcodes/shortcodes/teaser.php:106
+msgid "Select the style."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:46
+#: ../../shared/shortcodes/shortcodes/teaser.php:22
+#: ../../shared/shortcodes/shortcodes/teaser.php:109
+msgid "Default"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:47
+msgid "Blue"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:48
+msgid "Green"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:49
+msgid "Red"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:50
+msgid "Yellow"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:25
+msgid "Message"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:26
+msgid "Your message here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/alert.php:32
+msgid "Insert Alert Message Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:25
+msgid "Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:26
+#: ../../shared/shortcodes/shortcodes/callout.php:45
+#: ../../shared/shortcodes/shortcodes/callout.php:111
+#: ../../shared/shortcodes/shortcodes/pricing.php:52
+#: ../../shared/shortcodes/shortcodes/pricing.php:132
+msgid "Enter the button text label."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:31
+msgid "Button Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:32
+msgid "Enter the destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:19
+msgid "Font Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:38
+msgid "Size of Button Font. This also determines default button size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:64
+#: ../../shared/shortcodes/shortcodes/callout.php:24
+#: ../../shared/shortcodes/shortcodes/callout.php:88
+msgid "Button Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:65
+msgid "Color of button"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:70
+#: ../../shared/shortcodes/shortcodes/forms.php:187
+msgid "Button Text Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:71
+#: ../../shared/shortcodes/shortcodes/forms.php:188
+msgid "Color of text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:76
+#: ../../shared/shortcodes/shortcodes/icon.php:11
+#: ../../shared/shortcodes/shortcodes/list-icon.php:14
+#: ../../shared/shortcodes/shortcodes/tabs.php:27
+#: ../../shared/shortcodes/shortcodes/tabs.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:57
+#: ../../shared/shortcodes/shortcodes/teaser.php:135
+msgid "Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:77
+#: ../../shared/shortcodes/shortcodes/callout.php:51
+#: ../../shared/shortcodes/shortcodes/callout.php:118
+#: ../../shared/shortcodes/shortcodes/forms.php:162
+#: ../../shared/shortcodes/shortcodes/tabs.php:28
+#: ../../shared/shortcodes/shortcodes/tabs.php:73
+#: ../../shared/shortcodes/shortcodes/teaser.php:58
+#: ../../shared/shortcodes/shortcodes/teaser.php:136
+msgid "Select an icon."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:84
+#: ../../shared/shortcodes/shortcodes/forms.php:201
+msgid "Custom Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:85
+msgid "Enter in pixel width or % width. Example: 200 <u>or</u> 100%"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:91
+msgid "Open Link in New Tab?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:92
+msgid "Do you want to open links in this window or a new one?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/button.php:105
+msgid "Insert Button Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:11
+msgid "Insert cta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:12
+msgid "Choose CTA"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:20
+msgid "Insert Call to Action"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:12
+#: ../../shared/shortcodes/shortcodes/callout.php:74
+#: ../../shared/shortcodes/shortcodes/intro.php:12
+#: ../../shared/shortcodes/shortcodes/intro.php:46
+#: ../../shared/shortcodes/shortcodes/tabs.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:45
+#: ../../shared/shortcodes/shortcodes/teaser.php:152
+msgid "Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:13
+#: ../../shared/shortcodes/shortcodes/callout.php:75
+#: ../../shared/shortcodes/shortcodes/intro.php:13
+#: ../../shared/shortcodes/shortcodes/intro.php:47
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:15
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:49
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:13
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:69
+#: ../../shared/shortcodes/shortcodes/teaser.php:98
+#: ../../shared/shortcodes/shortcodes/teaser.php:153
+#: ../../shared/shortcodes/shortcodes/testimonial.php:13
+#: ../../shared/shortcodes/shortcodes/testimonial.php:67
+msgid "Enter the heading text."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:18
+#: ../../shared/shortcodes/shortcodes/callout.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:51
+#: ../../shared/shortcodes/shortcodes/teaser.php:159
+msgid "Sub Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:19
+#: ../../shared/shortcodes/shortcodes/callout.php:82
+#: ../../shared/shortcodes/shortcodes/teaser.php:52
+#: ../../shared/shortcodes/shortcodes/teaser.php:160
+msgid "Enter the sub title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:25
+#: ../../shared/shortcodes/shortcodes/callout.php:89
+msgid "Select the button color."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:44
+#: ../../shared/shortcodes/shortcodes/callout.php:110
+msgid "Button Text Label"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:50
+#: ../../shared/shortcodes/shortcodes/callout.php:117
+msgid "Button Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:57
+#: ../../shared/shortcodes/shortcodes/callout.php:126
+#: ../../shared/shortcodes/shortcodes/teaser.php:71
+#: ../../shared/shortcodes/shortcodes/teaser.php:166
+msgid "Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:58
+#: ../../shared/shortcodes/shortcodes/callout.php:127
+#: ../../shared/shortcodes/shortcodes/pricing.php:58
+#: ../../shared/shortcodes/shortcodes/pricing.php:140
+msgid "Enter the button link destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:64
+msgid "Insert Call Out Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/callout.php:70
+msgid "Call Out"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:12
+msgid "Gutter Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:13
+msgid "A space between the columns."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:22
+msgid "Column Set"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:23
+msgid "Select the set."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:42
+msgid "Insert Column Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:48
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:20
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:56
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:18
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:76
+#: ../../shared/shortcodes/shortcodes/pricing.php:12
+#: ../../shared/shortcodes/shortcodes/pricing.php:83
+#: ../../shared/shortcodes/shortcodes/teaser.php:29
+#: ../../shared/shortcodes/shortcodes/teaser.php:118
+#: ../../shared/shortcodes/shortcodes/testimonial.php:18
+#: ../../shared/shortcodes/shortcodes/testimonial.php:74
+msgid "Column"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:52
+msgid "Column Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/column.php:53
+msgid "Enter the column content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:12
+#: ../../shared/shortcodes/shortcodes/content-box.php:42
+msgid "Box Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:13
+#: ../../shared/shortcodes/shortcodes/content-box.php:43
+msgid "Select the color."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:25
+#: ../../shared/shortcodes/shortcodes/content-box.php:57
+#: ../../shared/shortcodes/shortcodes/intro.php:29
+#: ../../shared/shortcodes/shortcodes/intro.php:66
+#: ../../shared/shortcodes/shortcodes/tabs.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:173
+msgid "Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:26
+#: ../../shared/shortcodes/shortcodes/teaser.php:78
+#: ../../shared/shortcodes/shortcodes/teaser.php:174
+msgid "Enter the content."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:32
+msgid "Insert Content Box Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:38
+msgid "Content Box"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/content-box.php:58
+#: ../../shared/shortcodes/shortcodes/intro.php:30
+#: ../../shared/shortcodes/shortcodes/intro.php:67
+msgid "Enter the content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:12
+#: ../../shared/shortcodes/shortcodes/divider.php:54
+msgid "Border Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:16
+#: ../../shared/shortcodes/shortcodes/divider.php:57
+msgid "No Border"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:17
+#: ../../shared/shortcodes/shortcodes/divider.php:58
+msgid "Dashed"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:18
+#: ../../shared/shortcodes/shortcodes/divider.php:59
+msgid "Dotted"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:19
+#: ../../shared/shortcodes/shortcodes/divider.php:60
+msgid "Double"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:20
+#: ../../shared/shortcodes/shortcodes/divider.php:61
+msgid "Solid"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:25
+#: ../../shared/shortcodes/shortcodes/divider.php:68
+msgid "Border Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:26
+#: ../../shared/shortcodes/shortcodes/divider.php:69
+msgid "Enter a hex color code."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:31
+msgid "Top Margin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:32
+#: ../../shared/shortcodes/shortcodes/divider.php:77
+msgid "Enter the top margin value."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:25
+msgid "Bottom Margin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:38
+#: ../../shared/shortcodes/shortcodes/divider.php:85
+msgid "Enter the bottom margin value."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:44
+msgid "Insert Divider Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:50
+msgid "Divider"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:76
+msgid "Margin Top"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/divider.php:84
+msgid "Margin Bottom"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:42
+msgid "Choose Starting Template"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:43
+msgid "Start Building Your Form from premade templates"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:50
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:26
+msgid "Form Name<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:51
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:27
+msgid "This is not shown to visitors"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:68
+msgid "Redirect URL<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:69
+msgid "Where do you want to send people after they fill out the form?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:85
+msgid "Notify on Form Completions<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:86
+msgid ""
+"Who should get admin notifications on this form?<br>For multiple "
+"notifications separate email addresses with commas"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:93
+msgid "Admin Email Subject Line<span class=\"small-required-text\">*</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:94
+msgid ""
+"Customize the subject line of email notifications arriving from this form. "
+"default: {{site-name}} {{form-name}} - New Lead Conversion"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:102
+msgid "Add the converting lead to 1 or more lead lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:109
+msgid "Hidden List Values"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:110
+msgid "Hidden list values"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:116
+#: ../../shared/shortcodes/shortcodes/forms.php:123
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:19
+msgid "Name Name Name"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:117
+msgid ""
+"<span class=\"switch-to-form-insert button\">Cancel Form Creation & Insert "
+"Existing Form</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:124
+msgid "Layout Options"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:130
+msgid "Form Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:131
+#: ../../shared/shortcodes/shortcodes/forms.php:177
+msgid "Choose Your Form Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:141
+msgid "Label Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:142
+msgid "Choose Label Layout"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:154
+msgid "Form Font Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:155
+msgid "Size of Label Font. This also determines default submit button size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:161
+msgid "Submit Button Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:169
+msgid "Submit Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:170
+msgid ""
+"Enter the text you want to show on the submit button. (or a link to a custom "
+"submit button image)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:176
+msgid "Submit Color Options"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:194
+msgid "Button BG Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:195
+msgid "Background Color of Submit button"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:202
+msgid "Enter in pixel width or % width. Example: 400 <u>or</u> 100%"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:211
+msgid "Field Label"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:218
+msgid "Field Type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:219
+msgid "Select an form field type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:241
+msgid "Dropdown choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:242
+msgid "Enter Your Dropdown Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:249
+msgid "Radio Choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:250
+msgid "Enter Your Radio Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:257
+msgid "Checkbox choices"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:258
+msgid "Enter Your Checkbox Options. Separate by commas."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:265
+msgid "HTML Block"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:266
+msgid "This is a raw HTML block in the form. Insert text/HTML"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:272
+msgid "Default Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:273
+msgid "Enter the Default Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:280
+msgid "Divider Text (optional)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:281
+msgid "This is the text in the divider"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:287
+#: ../../shared/shortcodes/shortcodes/forms.php:309
+msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:288
+msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:294
+msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:295
+msgid "Check to make field required"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:302
+msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:303
+msgid "Put field placeholder text here. Only works for normal text inputs"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:310
+msgid "Put field description here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:317
+msgid "Dynamic Field Filling"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:318
+msgid "Enter Your Dynamic URL parameter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:326
+msgid "Map Field To"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:327
+msgid "Map this field to Leads Value"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:335
+msgid "Add Another Field"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:338
+msgid "Insert Inbound Form Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:351
+msgid "Edit Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:352
+msgid "New Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:353
+msgid "View Lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/forms.php:354
+msgid "Search Lists"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:12
+msgid "Map Type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:13
+msgid "Select a map type"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:19
+msgid "Map Width"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:25
+msgid "Map Height"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:32
+msgid ""
+"Enter your address here. ex: \"New York\" or \"New York, USA\" If you want a "
+"accurate position please fill the Latitude and Longitude fields"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:37
+msgid "Latitude"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:38
+msgid "Latitude is specified in degrees within the range [-90, 90]"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:43
+msgid "Longitude"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:44
+msgid "Longitude is specified in degrees within the range [-180, 180]"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:49
+msgid "Zoom"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:50
+msgid "Set the zoom level, numeric value from 1 to 19"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:55
+msgid "Pan Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:56
+msgid "Enable pan control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:62
+msgid "Zoom Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:63
+msgid "Enable zoom control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:69
+msgid "Map Type Control"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:70
+msgid "Enable map type control?"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:76
+msgid "Popup Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:77
+msgid "A descriptive text for the Google Map marker popup, ex: \"My Office\""
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/gmap.php:83
+msgid "Insert Google Map Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:12
+#: ../../shared/shortcodes/shortcodes/list-icon.php:15
+msgid "Select the icon."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:18
+msgid "Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:19
+msgid "Select the icon size."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:22
+msgid "Normal Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:23
+msgid "Large Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:24
+msgid "2x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:25
+msgid "3x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:26
+msgid "4x Size"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:31
+#: ../../shared/shortcodes/shortcodes/teaser.php:18
+#: ../../shared/shortcodes/shortcodes/teaser.php:105
+msgid "Style"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:32
+msgid "Select the icon style."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:35
+msgid "Normal"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:36
+msgid "Muted"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:37
+msgid "Border"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:38
+msgid "Spin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/icon.php:44
+msgid "Insert Icon Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:18
+#: ../../shared/shortcodes/shortcodes/intro.php:53
+msgid "Text Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:19
+msgid "Enter text alignment."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:22
+#: ../../shared/shortcodes/shortcodes/intro.php:57
+msgid "Align Center"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:23
+#: ../../shared/shortcodes/shortcodes/intro.php:58
+msgid "Align Left"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:24
+#: ../../shared/shortcodes/shortcodes/intro.php:59
+msgid "Align Right"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:36
+msgid "Insert Intro Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:42
+msgid "Intro"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/intro.php:54
+msgid "The text alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:14
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:12
+#: ../../shared/shortcodes/shortcodes/testimonial.php:12
+msgid "Heading Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:21
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:57
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:19
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:77
+#: ../../shared/shortcodes/shortcodes/teaser.php:30
+#: ../../shared/shortcodes/shortcodes/testimonial.php:19
+#: ../../shared/shortcodes/shortcodes/testimonial.php:75
+msgid "Select the number of column(s)."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:24
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:60
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:23
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:81
+#: ../../shared/shortcodes/shortcodes/pricing.php:16
+#: ../../shared/shortcodes/shortcodes/pricing.php:87
+#: ../../shared/shortcodes/shortcodes/teaser.php:34
+#: ../../shared/shortcodes/shortcodes/teaser.php:123
+#: ../../shared/shortcodes/shortcodes/testimonial.php:23
+#: ../../shared/shortcodes/shortcodes/testimonial.php:79
+msgid "2 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:25
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:61
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:24
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:82
+#: ../../shared/shortcodes/shortcodes/pricing.php:17
+#: ../../shared/shortcodes/shortcodes/pricing.php:88
+#: ../../shared/shortcodes/shortcodes/teaser.php:35
+#: ../../shared/shortcodes/shortcodes/teaser.php:124
+#: ../../shared/shortcodes/shortcodes/testimonial.php:24
+#: ../../shared/shortcodes/shortcodes/testimonial.php:80
+msgid "3 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:26
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:62
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:25
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:83
+#: ../../shared/shortcodes/shortcodes/pricing.php:18
+#: ../../shared/shortcodes/shortcodes/pricing.php:89
+#: ../../shared/shortcodes/shortcodes/teaser.php:36
+#: ../../shared/shortcodes/shortcodes/teaser.php:125
+#: ../../shared/shortcodes/shortcodes/testimonial.php:25
+#: ../../shared/shortcodes/shortcodes/testimonial.php:81
+msgid "4 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:31
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:69
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:31
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:91
+msgid "Post Number"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:32
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:70
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:92
+msgid "Enter the number of post to show."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:58
+msgid "Insert Landing Page List Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:44
+msgid "Portfolio"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:48
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:68
+#: ../../shared/shortcodes/shortcodes/social-share.php:82
+#: ../../shared/shortcodes/shortcodes/tabs.php:12
+#: ../../shared/shortcodes/shortcodes/tabs.php:54
+#: ../../shared/shortcodes/shortcodes/teaser.php:12
+#: ../../shared/shortcodes/shortcodes/teaser.php:97
+#: ../../shared/shortcodes/shortcodes/testimonial.php:66
+msgid "Heading"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:117
+msgid "View Project"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:22
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:80
+#: ../../shared/shortcodes/shortcodes/teaser.php:33
+#: ../../shared/shortcodes/shortcodes/teaser.php:122
+#: ../../shared/shortcodes/shortcodes/testimonial.php:22
+#: ../../shared/shortcodes/shortcodes/testimonial.php:78
+msgid "1 Column"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:26
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:84
+#: ../../shared/shortcodes/shortcodes/pricing.php:19
+#: ../../shared/shortcodes/shortcodes/pricing.php:90
+#: ../../shared/shortcodes/shortcodes/teaser.php:37
+#: ../../shared/shortcodes/shortcodes/teaser.php:126
+#: ../../shared/shortcodes/shortcodes/testimonial.php:26
+#: ../../shared/shortcodes/shortcodes/testimonial.php:82
+msgid "5 Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:32
+msgid "Enter the number of post to show. (enter -1 for all posts)"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:37
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:99
+msgid "Category"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:100
+msgid "Optional you can sort by a category."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:44
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:108
+msgid "Excerpt Lenght"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:45
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:109
+msgid "The post excerpt word lenght."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:50
+msgid "Show Featured Thumbnails"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:51
+msgid "Uncheck to hide featured thumbnails"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:64
+msgid "Entries"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:12
+msgid "Alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:13
+msgid "Add the pharagraph alignment"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:23
+msgid "Paragraph Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:24
+msgid "Add the pharagraph text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/leadp.php:30
+msgid "Insert Lead Paragraph Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:21
+msgid "List Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:22
+#: ../../shared/shortcodes/shortcodes/pricing.php:64
+#: ../../shared/shortcodes/shortcodes/pricing.php:148
+#: ../../shared/shortcodes/shortcodes/tabs.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:47
+#: ../../shared/shortcodes/shortcodes/testimonial.php:108
+msgid "Put the content here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:28
+msgid "Add More List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/list-icon.php:31
+msgid "Insert List Icons Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:12
+msgid "List Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:13
+msgid "Select an icon for the List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:20
+msgid "Size of List Font"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:26
+msgid "space between list items"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:31
+msgid "Icon Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:32
+msgid "Color of Icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:37
+msgid "Text Color"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:38
+msgid "Color of Text in List"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:43
+#: ../../shared/shortcodes/shortcodes/lists.php:44
+msgid "Number of Columns"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/lists.php:59
+msgid "Insert Styled List Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:13
+#: ../../shared/shortcodes/shortcodes/pricing.php:84
+#: ../../shared/shortcodes/shortcodes/teaser.php:119
+msgid "Select the column."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:27
+#: ../../shared/shortcodes/shortcodes/pricing.php:99
+msgid "Featured Plan"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:28
+#: ../../shared/shortcodes/shortcodes/pricing.php:100
+msgid "Check to set this plan as featured"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:33
+#: ../../shared/shortcodes/shortcodes/pricing.php:107
+msgid "Plan Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:34
+#: ../../shared/shortcodes/shortcodes/pricing.php:108
+msgid "Enter the plan title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:39
+#: ../../shared/shortcodes/shortcodes/pricing.php:115
+msgid "Plan Price"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:40
+#: ../../shared/shortcodes/shortcodes/pricing.php:116
+msgid "Enter the plan price."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:45
+#: ../../shared/shortcodes/shortcodes/pricing.php:123
+msgid "Plan Term"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:46
+#: ../../shared/shortcodes/shortcodes/pricing.php:124
+msgid "Enter the plan term. e.g : \"per month\", \"per year\" etc."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:51
+#: ../../shared/shortcodes/shortcodes/pricing.php:131
+msgid "Plan Button Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:57
+#: ../../shared/shortcodes/shortcodes/pricing.php:139
+msgid "Plan Button Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:63
+#: ../../shared/shortcodes/shortcodes/pricing.php:147
+msgid "Plan Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:70
+#: ../../shared/shortcodes/shortcodes/testimonial.php:53
+msgid "Add More Testimony"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:73
+msgid "Insert Pricing Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/pricing.php:79
+msgid "Pricing Table"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:12
+#: ../../shared/shortcodes/shortcodes/profile.php:71
+msgid "Profile Name"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:13
+#: ../../shared/shortcodes/shortcodes/profile.php:72
+msgid "Enter the name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:18
+#: ../../shared/shortcodes/shortcodes/profile.php:79
+msgid "Profile Meta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:19
+#: ../../shared/shortcodes/shortcodes/profile.php:80
+msgid "Enter the profile meta. e.g job position etc."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:24
+#: ../../shared/shortcodes/shortcodes/profile.php:87
+msgid "Profile Image"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:25
+#: ../../shared/shortcodes/shortcodes/profile.php:88
+msgid "Paste your profile image URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:30
+#: ../../shared/shortcodes/shortcodes/profile.php:95
+msgid "Profile Link"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:31
+msgid "Paste your profile link URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:36
+#: ../../shared/shortcodes/shortcodes/profile.php:103
+msgid "Profile Facebook"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:37
+#: ../../shared/shortcodes/shortcodes/profile.php:104
+msgid "Paste your facebook URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:42
+#: ../../shared/shortcodes/shortcodes/profile.php:111
+msgid "Profile Twitter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:43
+#: ../../shared/shortcodes/shortcodes/profile.php:112
+msgid "Paste your twitter URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:48
+#: ../../shared/shortcodes/shortcodes/profile.php:119
+msgid "Profile Email Address"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:49
+#: ../../shared/shortcodes/shortcodes/profile.php:120
+msgid "Paste your email address here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:54
+#: ../../shared/shortcodes/shortcodes/profile.php:127
+msgid "Profile Description"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:55
+#: ../../shared/shortcodes/shortcodes/profile.php:128
+msgid "Enter the profile description text."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:61
+msgid "Insert Profile Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:67
+msgid "Profile"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/profile.php:96
+msgid "Paste your profile URL here."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:11
+msgid "Insert Saved Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:12
+msgid "Insert a Saved Form"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:20
+msgid "<span class=\"switch-to-form-builder button\">Build a New Form</span>"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:35
+msgid "Quick Insert Inbound Form Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:14
+msgid "Style of Icons"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:26
+msgid "Align Icons"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:27
+msgid "Alignment Settings"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:37
+#: ../../shared/shortcodes/shortcodes/social.php:12
+msgid "Facebook"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:38
+msgid "Show facebook share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:43
+#: ../../shared/shortcodes/shortcodes/social.php:18
+msgid "Twitter"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:44
+msgid "Show twitter share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:49
+#: ../../shared/shortcodes/shortcodes/social.php:24
+msgid "Google+"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:50
+msgid "Show google plus share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:55
+#: ../../shared/shortcodes/shortcodes/social.php:30
+msgid "Linkedin"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:56
+msgid "Show linkedin share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:61
+#: ../../shared/shortcodes/shortcodes/social.php:48
+msgid "Pinterest"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:62
+msgid "Show pinterest share icon"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:68
+msgid "Custom Share Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:69
+msgid "Optional setting. Enter your custom share text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:75
+msgid "Custom Share URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:76
+msgid "Optional setting. Enter your custom share link URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:83
+msgid "Optional setting."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:89
+msgid "Heading Align"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:90
+msgid "Heading Alignment Settings"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social-share.php:101
+msgid "Insert Social Share Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:13
+msgid "Enter your facebook profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:19
+msgid "Enter your twitter profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:25
+msgid "Enter your google plus profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:31
+msgid "Enter your linkedin profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:36
+msgid "Github"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:37
+msgid "Enter your github profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:42
+msgid "Instagram"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:43
+msgid "Enter your instagram profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:49
+msgid "Enter your pinterest profile URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:54
+msgid "RSS"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:55
+msgid "Enter your RSS feeds URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/social.php:61
+msgid "Insert Social Link Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:13
+#: ../../shared/shortcodes/shortcodes/tabs.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:13
+msgid "Enter the heading text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:21
+msgid "Tab Title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:22
+msgid "Enter the tab title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:34
+msgid "Tab Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:41
+msgid "Add More Tab"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:44
+msgid "Insert Tabs Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:50
+msgid "Tabs"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:65
+msgid "Enter the tab title"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/tabs.php:82
+msgid "Enter the tab content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:23
+#: ../../shared/shortcodes/shortcodes/teaser.php:110
+msgid "Nested"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:24
+#: ../../shared/shortcodes/shortcodes/teaser.php:111
+msgid "Centered"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:46
+msgid "Enter the title."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:144
+msgid "Image URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:65
+#: ../../shared/shortcodes/shortcodes/teaser.php:145
+msgid "Enter your image url, it will override the icon above"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:167
+msgid "The title link destination URL."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:77
+msgid "Teaser Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:84
+msgid "Add More Block"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:87
+msgid "Insert Teaser Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/teaser.php:93
+msgid "Teaser"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:34
+#: ../../shared/shortcodes/shortcodes/testimonial.php:91
+msgid "Testimony Author"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:92
+msgid "Enter the testimony author name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:40
+#: ../../shared/shortcodes/shortcodes/testimonial.php:99
+msgid "Testimony Author Meta"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:41
+#: ../../shared/shortcodes/shortcodes/testimonial.php:100
+msgid "The author job, company or website name."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:46
+msgid "Testimony Content"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:56
+msgid "Insert Testimonial Shortcode"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:62
+#: ../../shared/shortcodes/shortcodes/testimonial.php:124
+msgid "Testimonial"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/testimonial.php:107
+msgid "Testimony Text"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:12
+msgid "Video URL"
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:13
+msgid ""
+"Paste the video URL here, click <a href=\"http://codex.wordpress.org/"
+"Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F\" target=\"_blank\">here</"
+"a> to see all available video hosts."
+msgstr ""
+
+#: ../../shared/shortcodes/shortcodes/video.php:19
+msgid "Insert Video Shortcode"
+msgstr ""
