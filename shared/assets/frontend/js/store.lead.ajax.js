@@ -51,68 +51,12 @@ function countProperties(obj) {
     return count;
 }
 
-function lead_store_url_params(){
-	var urlParams = {};
-
-	(function () {
-		var e,
-			d = function (s) { return decodeURIComponent(s).replace(/\+/g, " "); },
-			q = window.location.search.substring(1),
-			r = /([^&=]+)=?([^&]*)/g;
-
-		while (e = r.exec(q)) {
-			if (e[1].indexOf("[") == "-1")
-				urlParams[d(e[1])] = d(e[2]);
-			else {
-				var b1 = e[1].indexOf("["),
-					aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
-					pN = d(e[1].slice(0, b1));
-
-				if (typeof urlParams[pN] != "object")
-					urlParams[d(pN)] = {},
-					urlParams[d(pN)].length = 0;
-
-				if (aN)
-					urlParams[d(pN)][d(aN)] = d(e[2]);
-				else
-					Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
-
-			}
-		}
-	})();
-
-	if (JSON) {
-		  for (var k in urlParams) {
-				if (typeof urlParams[k] == "object") {
-				  for (var k2 in urlParams[k])
-					createCookie(k2, urlParams[k][k2], 30);
-				} else {
-					createCookie(k, urlParams[k], 30);
-				}
-		   }
-	}
-}
 
 function get_inbound_form_value(el) {
   var value = el.value;
   return value;
 }
 
-function lead_get_cookies_array() {
-
-    var cookies = {};
-
-    if (document.cookie && document.cookie != '') {
-        var split = document.cookie.split(';');
-        for (var i = 0; i < split.length; i++) {
-            var name_value = split[i].split("=");
-            name_value[0] = name_value[0].replace(/^ /, '');
-            cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
-        }
-    }
-    jQuery.totalStorage('inbound_cookies', cookies); // store cookie data
-    return cookies;
-}
 
 // Build Form Object
 function inbound_map_fields(el, value, Obj) {
@@ -442,9 +386,8 @@ function inbound_form_submit(this_form, e) {
 }
 
 jQuery(document).ready(function($) {
-	lead_store_url_params(); // store get params as cookies on page load
-	var cookies = lead_get_cookies_array(); // Get ze cookies
 
+	var cookies = InboundAnalytics.Utils.getAllCookies();
 	var inbound_store = jQuery.totalStorage('inbound_cookies');
 	// loop through cookies and assign to inbound_data object
 	if (typeof inbound_store =='object' && inbound_store) {
