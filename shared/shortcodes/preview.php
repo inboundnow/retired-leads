@@ -16,7 +16,7 @@ if (defined('ABSPATH')) {
 
 $broekn = "divider_options=%22%3Ca%20href=%22http://glocal.dev/wp-admin/edit.php?post_type=inbound-forms%22%3ELeads%3C/a%3E%22";
 
-$test = "http://glocal.dev/wp-content/plugins/leads/shared/inbound-shortcodes/preview.php?post=1544&sc=[inbound_form%20id=%221544%22%20name=%22New%20Icon%20Form%22%20redirect=%22http://fontawesome.io/%22%20notify=%22ccc%22%20layout=%22vertical%22%20font_size=%2216%22%20%20labels=%22top%22%20icon=%22check-circle-o%22%20submit=%22Submit%22%20width=%22%22]
+$test = "http://glocal.dev/wp-content/plugins/leads/shared/shortcodes/preview.php?post=1544&sc=[inbound_form%20id=%221544%22%20name=%22New%20Icon%20Form%22%20redirect=%22http://fontawesome.io/%22%20notify=%22ccc%22%20layout=%22vertical%22%20font_size=%2216%22%20%20labels=%22top%22%20icon=%22check-circle-o%22%20submit=%22Submit%22%20width=%22%22]
 
 [inbound_field%20label=%22First%20Name%22%20type=%22divider%22%20description=%22%22%20required=%220%22%20dropdown=%22%22%20radio=%22%22%20%20checkbox=%22%22%20placeholder=%22%22%20html=%22%22%20dynamic=%22%22%20map_to=%22%22%20
 
@@ -63,7 +63,7 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Pr
 	<!DOCTYPE HTML>
 	<html lang="en">
 	<head>
-	<link rel="stylesheet" type="text/css" href="../inbound-shortcodes/css/frontend-render.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="../shortcodes/css/frontend-render.css" media="all" />
 
 <?php // FIX THESE AND ROLL SHARE TRACKING INTO SHARED
 		wp_enqueue_script( 'jquery' );

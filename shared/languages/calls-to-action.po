@@ -595,7 +595,7 @@ msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:341
+#: ../../shared/shortcodes/shortcodes/forms.php:341
 msgid "Add New"
 msgstr ""
 
@@ -622,13 +622,13 @@ msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:347
+#: ../../shared/shortcodes/shortcodes/forms.php:347
 msgid "Nothing found"
 msgstr ""
 
 #: ../../modules/module.post-type.php:1
 #: ../../shared/functions/global.leads.cpt.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:348
+#: ../../shared/shortcodes/shortcodes/forms.php:348
 msgid "Nothing found in Trash"
 msgstr ""
 
@@ -842,7 +842,7 @@ msgid "Manage Landing Page Settings"
 msgstr ""
 
 #: ../../shared/classes/menu.class.php:335
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:342
+#: ../../shared/shortcodes/shortcodes/forms.php:342
 msgid "Create New Form"
 msgstr ""
 
@@ -1114,1541 +1114,1541 @@ msgstr ""
 msgid "No lead tags found."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:687
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:709
-#: ../../shared/inbound-shortcodes/popup.php:27
-#: ../../shared/inbound-shortcodes/popup.php:50
+#: ../../shared/shortcodes/inbound-shortcodes.php:687
+#: ../../shared/shortcodes/inbound-shortcodes.php:709
+#: ../../shared/shortcodes/popup.php:27
+#: ../../shared/shortcodes/popup.php:50
 msgid "Insert Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:696
+#: ../../shared/shortcodes/inbound-shortcodes.php:696
 msgid "Form Preview"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/inbound-shortcodes.php:699
-#: ../../shared/inbound-shortcodes/popup.php:39
+#: ../../shared/shortcodes/inbound-shortcodes.php:699
+#: ../../shared/shortcodes/popup.php:39
 msgid "Shortcode has no preview"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/popup.php:36
+#: ../../shared/shortcodes/popup.php:36
 msgid "Shortcode Preview"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:12
+#: ../../shared/shortcodes/shortcodes/alert.php:12
 msgid "Color Style"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:55
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:106
+#: ../../shared/shortcodes/shortcodes/alert.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:13
+#: ../../shared/shortcodes/shortcodes/divider.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:19
+#: ../../shared/shortcodes/shortcodes/teaser.php:106
 msgid "Select the style."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:16
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:16
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:46
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:22
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:109
+#: ../../shared/shortcodes/shortcodes/alert.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:16
+#: ../../shared/shortcodes/shortcodes/content-box.php:46
+#: ../../shared/shortcodes/shortcodes/teaser.php:22
+#: ../../shared/shortcodes/shortcodes/teaser.php:109
 msgid "Default"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:47
+#: ../../shared/shortcodes/shortcodes/alert.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:17
+#: ../../shared/shortcodes/shortcodes/content-box.php:47
 msgid "Blue"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:48
+#: ../../shared/shortcodes/shortcodes/alert.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:18
+#: ../../shared/shortcodes/shortcodes/content-box.php:48
 msgid "Green"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:49
+#: ../../shared/shortcodes/shortcodes/alert.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:19
+#: ../../shared/shortcodes/shortcodes/content-box.php:49
 msgid "Red"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:20
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:20
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:50
+#: ../../shared/shortcodes/shortcodes/alert.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:20
+#: ../../shared/shortcodes/shortcodes/content-box.php:50
 msgid "Yellow"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:25
+#: ../../shared/shortcodes/shortcodes/alert.php:25
 msgid "Message"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:26
+#: ../../shared/shortcodes/shortcodes/alert.php:26
 msgid "Your message here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/alert.php:32
+#: ../../shared/shortcodes/shortcodes/alert.php:32
 msgid "Insert Alert Message Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:25
+#: ../../shared/shortcodes/shortcodes/button.php:25
 msgid "Button Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:45
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:111
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:52
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:132
+#: ../../shared/shortcodes/shortcodes/button.php:26
+#: ../../shared/shortcodes/shortcodes/callout.php:45
+#: ../../shared/shortcodes/shortcodes/callout.php:111
+#: ../../shared/shortcodes/shortcodes/pricing.php:52
+#: ../../shared/shortcodes/shortcodes/pricing.php:132
 msgid "Enter the button text label."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:31
+#: ../../shared/shortcodes/shortcodes/button.php:31
 msgid "Button Link"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:32
+#: ../../shared/shortcodes/shortcodes/button.php:32
 msgid "Enter the destination URL."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:19
+#: ../../shared/shortcodes/shortcodes/button.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:19
 msgid "Font Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:38
+#: ../../shared/shortcodes/shortcodes/button.php:38
 msgid "Size of Button Font. This also determines default button size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:64
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:88
+#: ../../shared/shortcodes/shortcodes/button.php:64
+#: ../../shared/shortcodes/shortcodes/callout.php:24
+#: ../../shared/shortcodes/shortcodes/callout.php:88
 msgid "Button Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:65
+#: ../../shared/shortcodes/shortcodes/button.php:65
 msgid "Color of button"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:70
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:179
+#: ../../shared/shortcodes/shortcodes/button.php:70
+#: ../../shared/shortcodes/shortcodes/forms.php:179
 msgid "Button Text Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:71
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:180
+#: ../../shared/shortcodes/shortcodes/button.php:71
+#: ../../shared/shortcodes/shortcodes/forms.php:180
 msgid "Color of text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:76
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:11
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:14
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:27
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:72
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:57
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:135
+#: ../../shared/shortcodes/shortcodes/button.php:76
+#: ../../shared/shortcodes/shortcodes/icon.php:11
+#: ../../shared/shortcodes/shortcodes/list-icon.php:14
+#: ../../shared/shortcodes/shortcodes/tabs.php:27
+#: ../../shared/shortcodes/shortcodes/tabs.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:57
+#: ../../shared/shortcodes/shortcodes/teaser.php:135
 msgid "Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:77
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:51
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:118
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:154
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:28
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:73
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:58
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:136
+#: ../../shared/shortcodes/shortcodes/button.php:77
+#: ../../shared/shortcodes/shortcodes/callout.php:51
+#: ../../shared/shortcodes/shortcodes/callout.php:118
+#: ../../shared/shortcodes/shortcodes/forms.php:154
+#: ../../shared/shortcodes/shortcodes/tabs.php:28
+#: ../../shared/shortcodes/shortcodes/tabs.php:73
+#: ../../shared/shortcodes/shortcodes/teaser.php:58
+#: ../../shared/shortcodes/shortcodes/teaser.php:136
 msgid "Select an icon."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:84
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:193
+#: ../../shared/shortcodes/shortcodes/button.php:84
+#: ../../shared/shortcodes/shortcodes/forms.php:193
 msgid "Custom Width"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:85
+#: ../../shared/shortcodes/shortcodes/button.php:85
 msgid "Enter in pixel width or % width. Example: 200 <u>or</u> 100%"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:91
+#: ../../shared/shortcodes/shortcodes/button.php:91
 msgid "Open Link in New Tab?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:92
+#: ../../shared/shortcodes/shortcodes/button.php:92
 msgid "Do you want to open links in this window or a new one?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/button.php:105
+#: ../../shared/shortcodes/shortcodes/button.php:105
 msgid "Insert Button Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/call-to-action.php:11
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:11
 msgid "Insert cta"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/call-to-action.php:12
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:12
 msgid "Choose CTA"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/call-to-action.php:20
+#: ../../shared/shortcodes/shortcodes/call-to-action.php:20
 msgid "Insert Call to Action"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:74
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:46
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:64
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:45
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:152
+#: ../../shared/shortcodes/shortcodes/callout.php:12
+#: ../../shared/shortcodes/shortcodes/callout.php:74
+#: ../../shared/shortcodes/shortcodes/intro.php:12
+#: ../../shared/shortcodes/shortcodes/intro.php:46
+#: ../../shared/shortcodes/shortcodes/tabs.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:45
+#: ../../shared/shortcodes/shortcodes/teaser.php:152
 msgid "Title"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:75
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:47
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:15
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:49
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:69
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:98
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:153
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:67
+#: ../../shared/shortcodes/shortcodes/callout.php:13
+#: ../../shared/shortcodes/shortcodes/callout.php:75
+#: ../../shared/shortcodes/shortcodes/intro.php:13
+#: ../../shared/shortcodes/shortcodes/intro.php:47
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:15
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:49
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:13
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:69
+#: ../../shared/shortcodes/shortcodes/teaser.php:98
+#: ../../shared/shortcodes/shortcodes/teaser.php:153
+#: ../../shared/shortcodes/shortcodes/testimonial.php:13
+#: ../../shared/shortcodes/shortcodes/testimonial.php:67
 msgid "Enter the heading text."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:81
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:51
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:159
+#: ../../shared/shortcodes/shortcodes/callout.php:18
+#: ../../shared/shortcodes/shortcodes/callout.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:51
+#: ../../shared/shortcodes/shortcodes/teaser.php:159
 msgid "Sub Title"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:82
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:52
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:160
+#: ../../shared/shortcodes/shortcodes/callout.php:19
+#: ../../shared/shortcodes/shortcodes/callout.php:82
+#: ../../shared/shortcodes/shortcodes/teaser.php:52
+#: ../../shared/shortcodes/shortcodes/teaser.php:160
 msgid "Enter the sub title."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:89
+#: ../../shared/shortcodes/shortcodes/callout.php:25
+#: ../../shared/shortcodes/shortcodes/callout.php:89
 msgid "Select the button color."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:44
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:110
+#: ../../shared/shortcodes/shortcodes/callout.php:44
+#: ../../shared/shortcodes/shortcodes/callout.php:110
 msgid "Button Text Label"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:50
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:117
+#: ../../shared/shortcodes/shortcodes/callout.php:50
+#: ../../shared/shortcodes/shortcodes/callout.php:117
 msgid "Button Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:57
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:126
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:71
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:166
+#: ../../shared/shortcodes/shortcodes/callout.php:57
+#: ../../shared/shortcodes/shortcodes/callout.php:126
+#: ../../shared/shortcodes/shortcodes/teaser.php:71
+#: ../../shared/shortcodes/shortcodes/teaser.php:166
 msgid "Link"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:58
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:127
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:58
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:140
+#: ../../shared/shortcodes/shortcodes/callout.php:58
+#: ../../shared/shortcodes/shortcodes/callout.php:127
+#: ../../shared/shortcodes/shortcodes/pricing.php:58
+#: ../../shared/shortcodes/shortcodes/pricing.php:140
 msgid "Enter the button link destination URL."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:64
+#: ../../shared/shortcodes/shortcodes/callout.php:64
 msgid "Insert Call Out Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/callout.php:70
+#: ../../shared/shortcodes/shortcodes/callout.php:70
 msgid "Call Out"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:12
+#: ../../shared/shortcodes/shortcodes/column.php:12
 msgid "Gutter Width"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:13
+#: ../../shared/shortcodes/shortcodes/column.php:13
 msgid "A space between the columns."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:22
+#: ../../shared/shortcodes/shortcodes/column.php:22
 msgid "Column Set"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:23
+#: ../../shared/shortcodes/shortcodes/column.php:23
 msgid "Select the set."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:42
+#: ../../shared/shortcodes/shortcodes/column.php:42
 msgid "Insert Column Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:48
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:20
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:56
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:76
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:83
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:29
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:118
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:74
+#: ../../shared/shortcodes/shortcodes/column.php:48
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:20
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:56
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:18
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:76
+#: ../../shared/shortcodes/shortcodes/pricing.php:12
+#: ../../shared/shortcodes/shortcodes/pricing.php:83
+#: ../../shared/shortcodes/shortcodes/teaser.php:29
+#: ../../shared/shortcodes/shortcodes/teaser.php:118
+#: ../../shared/shortcodes/shortcodes/testimonial.php:18
+#: ../../shared/shortcodes/shortcodes/testimonial.php:74
 msgid "Column"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:52
+#: ../../shared/shortcodes/shortcodes/column.php:52
 msgid "Column Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/column.php:53
+#: ../../shared/shortcodes/shortcodes/column.php:53
 msgid "Enter the column content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:42
+#: ../../shared/shortcodes/shortcodes/content-box.php:12
+#: ../../shared/shortcodes/shortcodes/content-box.php:42
 msgid "Box Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:43
+#: ../../shared/shortcodes/shortcodes/content-box.php:13
+#: ../../shared/shortcodes/shortcodes/content-box.php:43
 msgid "Select the color."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:57
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:29
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:66
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:81
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:173
+#: ../../shared/shortcodes/shortcodes/content-box.php:25
+#: ../../shared/shortcodes/shortcodes/content-box.php:57
+#: ../../shared/shortcodes/shortcodes/intro.php:29
+#: ../../shared/shortcodes/shortcodes/intro.php:66
+#: ../../shared/shortcodes/shortcodes/tabs.php:81
+#: ../../shared/shortcodes/shortcodes/teaser.php:173
 msgid "Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:78
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:174
+#: ../../shared/shortcodes/shortcodes/content-box.php:26
+#: ../../shared/shortcodes/shortcodes/teaser.php:78
+#: ../../shared/shortcodes/shortcodes/teaser.php:174
 msgid "Enter the content."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:32
+#: ../../shared/shortcodes/shortcodes/content-box.php:32
 msgid "Insert Content Box Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:38
+#: ../../shared/shortcodes/shortcodes/content-box.php:38
 msgid "Content Box"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/content-box.php:58
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:30
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:67
+#: ../../shared/shortcodes/shortcodes/content-box.php:58
+#: ../../shared/shortcodes/shortcodes/intro.php:30
+#: ../../shared/shortcodes/shortcodes/intro.php:67
 msgid "Enter the content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:54
+#: ../../shared/shortcodes/shortcodes/divider.php:12
+#: ../../shared/shortcodes/shortcodes/divider.php:54
 msgid "Border Style"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:16
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:57
+#: ../../shared/shortcodes/shortcodes/divider.php:16
+#: ../../shared/shortcodes/shortcodes/divider.php:57
 msgid "No Border"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:58
+#: ../../shared/shortcodes/shortcodes/divider.php:17
+#: ../../shared/shortcodes/shortcodes/divider.php:58
 msgid "Dashed"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:59
+#: ../../shared/shortcodes/shortcodes/divider.php:18
+#: ../../shared/shortcodes/shortcodes/divider.php:59
 msgid "Dotted"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:60
+#: ../../shared/shortcodes/shortcodes/divider.php:19
+#: ../../shared/shortcodes/shortcodes/divider.php:60
 msgid "Double"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:20
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:61
+#: ../../shared/shortcodes/shortcodes/divider.php:20
+#: ../../shared/shortcodes/shortcodes/divider.php:61
 msgid "Solid"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:68
+#: ../../shared/shortcodes/shortcodes/divider.php:25
+#: ../../shared/shortcodes/shortcodes/divider.php:68
 msgid "Border Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:69
+#: ../../shared/shortcodes/shortcodes/divider.php:26
+#: ../../shared/shortcodes/shortcodes/divider.php:69
 msgid "Enter a hex color code."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:31
+#: ../../shared/shortcodes/shortcodes/divider.php:31
 msgid "Top Margin"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:32
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:77
+#: ../../shared/shortcodes/shortcodes/divider.php:32
+#: ../../shared/shortcodes/shortcodes/divider.php:77
 msgid "Enter the top margin value."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:25
+#: ../../shared/shortcodes/shortcodes/divider.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:25
 msgid "Bottom Margin"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:38
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:85
+#: ../../shared/shortcodes/shortcodes/divider.php:38
+#: ../../shared/shortcodes/shortcodes/divider.php:85
 msgid "Enter the bottom margin value."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:44
+#: ../../shared/shortcodes/shortcodes/divider.php:44
 msgid "Insert Divider Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:50
+#: ../../shared/shortcodes/shortcodes/divider.php:50
 msgid "Divider"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:76
+#: ../../shared/shortcodes/shortcodes/divider.php:76
 msgid "Margin Top"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/divider.php:84
+#: ../../shared/shortcodes/shortcodes/divider.php:84
 msgid "Margin Bottom"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:42
+#: ../../shared/shortcodes/shortcodes/forms.php:42
 msgid "Choose Starting Template"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:43
+#: ../../shared/shortcodes/shortcodes/forms.php:43
 msgid "Start Building Your Form from premade templates"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:50
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:26
+#: ../../shared/shortcodes/shortcodes/forms.php:50
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:26
 msgid "Form Name<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:51
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:27
+#: ../../shared/shortcodes/shortcodes/forms.php:51
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:27
 msgid "This is not shown to visitors"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:68
+#: ../../shared/shortcodes/shortcodes/forms.php:68
 msgid "Redirect URL<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:69
+#: ../../shared/shortcodes/shortcodes/forms.php:69
 msgid "Where do you want to send people after they fill out the form?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:85
+#: ../../shared/shortcodes/shortcodes/forms.php:85
 msgid "Notify on Form Completions<span class=\"small-required-text\">*</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:86
+#: ../../shared/shortcodes/shortcodes/forms.php:86
 msgid ""
 "Who should get admin notifications on this form?<br>For multiple "
 "notifications separate email addresses with commas"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:93
+#: ../../shared/shortcodes/shortcodes/forms.php:93
 msgid "Add to List(s)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:94
+#: ../../shared/shortcodes/shortcodes/forms.php:94
 msgid "Add the converting lead to 1 or more lead lists"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:101
+#: ../../shared/shortcodes/shortcodes/forms.php:101
 msgid "Hidden List Values"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:102
+#: ../../shared/shortcodes/shortcodes/forms.php:102
 msgid "Hidden list values"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:108
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:115
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:19
+#: ../../shared/shortcodes/shortcodes/forms.php:108
+#: ../../shared/shortcodes/shortcodes/forms.php:115
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:19
 msgid "Name Name Name"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:109
+#: ../../shared/shortcodes/shortcodes/forms.php:109
 msgid ""
 "<span class=\"switch-to-form-insert button\">Cancel Form Creation & Insert "
 "Existing Form</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:116
+#: ../../shared/shortcodes/shortcodes/forms.php:116
 msgid "Layout Options"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:122
+#: ../../shared/shortcodes/shortcodes/forms.php:122
 msgid "Form Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:123
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:169
+#: ../../shared/shortcodes/shortcodes/forms.php:123
+#: ../../shared/shortcodes/shortcodes/forms.php:169
 msgid "Choose Your Form Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:133
+#: ../../shared/shortcodes/shortcodes/forms.php:133
 msgid "Label Alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:134
+#: ../../shared/shortcodes/shortcodes/forms.php:134
 msgid "Choose Label Layout"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:146
+#: ../../shared/shortcodes/shortcodes/forms.php:146
 msgid "Form Font Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:147
+#: ../../shared/shortcodes/shortcodes/forms.php:147
 msgid "Size of Label Font. This also determines default submit button size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:153
+#: ../../shared/shortcodes/shortcodes/forms.php:153
 msgid "Submit Button Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:161
+#: ../../shared/shortcodes/shortcodes/forms.php:161
 msgid "Submit Button Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:162
+#: ../../shared/shortcodes/shortcodes/forms.php:162
 msgid ""
 "Enter the text you want to show on the submit button. (or a link to a custom "
 "submit button image)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:168
+#: ../../shared/shortcodes/shortcodes/forms.php:168
 msgid "Submit Color Options"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:186
+#: ../../shared/shortcodes/shortcodes/forms.php:186
 msgid "Button BG Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:187
+#: ../../shared/shortcodes/shortcodes/forms.php:187
 msgid "Background Color of Submit button"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:194
+#: ../../shared/shortcodes/shortcodes/forms.php:194
 msgid "Enter in pixel width or % width. Example: 400 <u>or</u> 100%"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:203
+#: ../../shared/shortcodes/shortcodes/forms.php:203
 msgid "Field Label"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:210
+#: ../../shared/shortcodes/shortcodes/forms.php:210
 msgid "Field Type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:211
+#: ../../shared/shortcodes/shortcodes/forms.php:211
 msgid "Select an form field type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:233
+#: ../../shared/shortcodes/shortcodes/forms.php:233
 msgid "Dropdown choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:234
+#: ../../shared/shortcodes/shortcodes/forms.php:234
 msgid "Enter Your Dropdown Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:241
+#: ../../shared/shortcodes/shortcodes/forms.php:241
 msgid "Radio Choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:242
+#: ../../shared/shortcodes/shortcodes/forms.php:242
 msgid "Enter Your Radio Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:249
+#: ../../shared/shortcodes/shortcodes/forms.php:249
 msgid "Checkbox choices"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:250
+#: ../../shared/shortcodes/shortcodes/forms.php:250
 msgid "Enter Your Checkbox Options. Separate by commas."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:257
+#: ../../shared/shortcodes/shortcodes/forms.php:257
 msgid "HTML Block"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:258
+#: ../../shared/shortcodes/shortcodes/forms.php:258
 msgid "This is a raw HTML block in the form. Insert text/HTML"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:264
+#: ../../shared/shortcodes/shortcodes/forms.php:264
 msgid "Default Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:265
+#: ../../shared/shortcodes/shortcodes/forms.php:265
 msgid "Enter the Default Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:272
+#: ../../shared/shortcodes/shortcodes/forms.php:272
 msgid "Divider Text (optional)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:273
+#: ../../shared/shortcodes/shortcodes/forms.php:273
 msgid "This is the text in the divider"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:279
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:301
+#: ../../shared/shortcodes/shortcodes/forms.php:279
+#: ../../shared/shortcodes/shortcodes/forms.php:301
 msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:280
+#: ../../shared/shortcodes/shortcodes/forms.php:280
 msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:286
+#: ../../shared/shortcodes/shortcodes/forms.php:286
 msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:287
+#: ../../shared/shortcodes/shortcodes/forms.php:287
 msgid "Check to make field required"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:294
+#: ../../shared/shortcodes/shortcodes/forms.php:294
 msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:295
+#: ../../shared/shortcodes/shortcodes/forms.php:295
 msgid "Put field placeholder text here. Only works for normal text inputs"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:302
+#: ../../shared/shortcodes/shortcodes/forms.php:302
 msgid "Put field description here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:309
+#: ../../shared/shortcodes/shortcodes/forms.php:309
 msgid "Dynamic Field Filling"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:310
+#: ../../shared/shortcodes/shortcodes/forms.php:310
 msgid "Enter Your Dynamic URL parameter"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:318
+#: ../../shared/shortcodes/shortcodes/forms.php:318
 msgid "Map Field To"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:319
+#: ../../shared/shortcodes/shortcodes/forms.php:319
 msgid "Map this field to Leads Value"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:327
+#: ../../shared/shortcodes/shortcodes/forms.php:327
 msgid "Add Another Field"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:330
+#: ../../shared/shortcodes/shortcodes/forms.php:330
 msgid "Insert Inbound Form Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:339
+#: ../../shared/shortcodes/shortcodes/forms.php:339
 msgid "Inbound Forms"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:340
+#: ../../shared/shortcodes/shortcodes/forms.php:340
 msgid "Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:343
+#: ../../shared/shortcodes/shortcodes/forms.php:343
 msgid "Edit Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:344
+#: ../../shared/shortcodes/shortcodes/forms.php:344
 msgid "New Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:345
+#: ../../shared/shortcodes/shortcodes/forms.php:345
 msgid "View Lists"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/forms.php:346
+#: ../../shared/shortcodes/shortcodes/forms.php:346
 msgid "Search Lists"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:12
+#: ../../shared/shortcodes/shortcodes/gmap.php:12
 msgid "Map Type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:13
+#: ../../shared/shortcodes/shortcodes/gmap.php:13
 msgid "Select a map type"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:19
+#: ../../shared/shortcodes/shortcodes/gmap.php:19
 msgid "Map Width"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:25
+#: ../../shared/shortcodes/shortcodes/gmap.php:25
 msgid "Map Height"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:31
+#: ../../shared/shortcodes/shortcodes/gmap.php:31
 msgid "Address"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:32
+#: ../../shared/shortcodes/shortcodes/gmap.php:32
 msgid ""
 "Enter your address here. ex: \"New York\" or \"New York, USA\" If you want a "
 "accurate position please fill the Latitude and Longitude fields"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:37
+#: ../../shared/shortcodes/shortcodes/gmap.php:37
 msgid "Latitude"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:38
+#: ../../shared/shortcodes/shortcodes/gmap.php:38
 msgid "Latitude is specified in degrees within the range [-90, 90]"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:43
+#: ../../shared/shortcodes/shortcodes/gmap.php:43
 msgid "Longitude"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:44
+#: ../../shared/shortcodes/shortcodes/gmap.php:44
 msgid "Longitude is specified in degrees within the range [-180, 180]"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:49
+#: ../../shared/shortcodes/shortcodes/gmap.php:49
 msgid "Zoom"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:50
+#: ../../shared/shortcodes/shortcodes/gmap.php:50
 msgid "Set the zoom level, numeric value from 1 to 19"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:55
+#: ../../shared/shortcodes/shortcodes/gmap.php:55
 msgid "Pan Control"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:56
+#: ../../shared/shortcodes/shortcodes/gmap.php:56
 msgid "Enable pan control?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:62
+#: ../../shared/shortcodes/shortcodes/gmap.php:62
 msgid "Zoom Control"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:63
+#: ../../shared/shortcodes/shortcodes/gmap.php:63
 msgid "Enable zoom control?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:69
+#: ../../shared/shortcodes/shortcodes/gmap.php:69
 msgid "Map Type Control"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:70
+#: ../../shared/shortcodes/shortcodes/gmap.php:70
 msgid "Enable map type control?"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:76
+#: ../../shared/shortcodes/shortcodes/gmap.php:76
 msgid "Popup Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:77
+#: ../../shared/shortcodes/shortcodes/gmap.php:77
 msgid "A descriptive text for the Google Map marker popup, ex: \"My Office\""
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/gmap.php:83
+#: ../../shared/shortcodes/shortcodes/gmap.php:83
 msgid "Insert Google Map Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:15
+#: ../../shared/shortcodes/shortcodes/icon.php:12
+#: ../../shared/shortcodes/shortcodes/list-icon.php:15
 msgid "Select the icon."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:18
+#: ../../shared/shortcodes/shortcodes/icon.php:18
 msgid "Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:19
+#: ../../shared/shortcodes/shortcodes/icon.php:19
 msgid "Select the icon size."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:22
+#: ../../shared/shortcodes/shortcodes/icon.php:22
 msgid "Normal Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:23
+#: ../../shared/shortcodes/shortcodes/icon.php:23
 msgid "Large Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:24
+#: ../../shared/shortcodes/shortcodes/icon.php:24
 msgid "2x Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:25
+#: ../../shared/shortcodes/shortcodes/icon.php:25
 msgid "3x Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:26
+#: ../../shared/shortcodes/shortcodes/icon.php:26
 msgid "4x Size"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:31
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:105
+#: ../../shared/shortcodes/shortcodes/icon.php:31
+#: ../../shared/shortcodes/shortcodes/teaser.php:18
+#: ../../shared/shortcodes/shortcodes/teaser.php:105
 msgid "Style"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:32
+#: ../../shared/shortcodes/shortcodes/icon.php:32
 msgid "Select the icon style."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:35
+#: ../../shared/shortcodes/shortcodes/icon.php:35
 msgid "Normal"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:36
+#: ../../shared/shortcodes/shortcodes/icon.php:36
 msgid "Muted"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:37
+#: ../../shared/shortcodes/shortcodes/icon.php:37
 msgid "Border"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:38
+#: ../../shared/shortcodes/shortcodes/icon.php:38
 msgid "Spin"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/icon.php:44
+#: ../../shared/shortcodes/shortcodes/icon.php:44
 msgid "Insert Icon Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:53
+#: ../../shared/shortcodes/shortcodes/intro.php:18
+#: ../../shared/shortcodes/shortcodes/intro.php:53
 msgid "Text Alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:19
+#: ../../shared/shortcodes/shortcodes/intro.php:19
 msgid "Enter text alignment."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:22
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:57
+#: ../../shared/shortcodes/shortcodes/intro.php:22
+#: ../../shared/shortcodes/shortcodes/intro.php:57
 msgid "Align Center"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:58
+#: ../../shared/shortcodes/shortcodes/intro.php:23
+#: ../../shared/shortcodes/shortcodes/intro.php:58
 msgid "Align Left"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:59
+#: ../../shared/shortcodes/shortcodes/intro.php:24
+#: ../../shared/shortcodes/shortcodes/intro.php:59
 msgid "Align Right"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:36
+#: ../../shared/shortcodes/shortcodes/intro.php:36
 msgid "Insert Intro Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:42
+#: ../../shared/shortcodes/shortcodes/intro.php:42
 msgid "Intro"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/intro.php:54
+#: ../../shared/shortcodes/shortcodes/intro.php:54
 msgid "The text alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:14
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:12
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:14
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:12
+#: ../../shared/shortcodes/shortcodes/testimonial.php:12
 msgid "Heading Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:21
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:57
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:77
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:30
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:75
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:21
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:57
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:19
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:77
+#: ../../shared/shortcodes/shortcodes/teaser.php:30
+#: ../../shared/shortcodes/shortcodes/testimonial.php:19
+#: ../../shared/shortcodes/shortcodes/testimonial.php:75
 msgid "Select the number of column(s)."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:60
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:81
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:16
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:87
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:34
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:123
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:79
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:24
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:60
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:23
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:81
+#: ../../shared/shortcodes/shortcodes/pricing.php:16
+#: ../../shared/shortcodes/shortcodes/pricing.php:87
+#: ../../shared/shortcodes/shortcodes/teaser.php:34
+#: ../../shared/shortcodes/shortcodes/teaser.php:123
+#: ../../shared/shortcodes/shortcodes/testimonial.php:23
+#: ../../shared/shortcodes/shortcodes/testimonial.php:79
 msgid "2 Columns"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:61
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:82
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:17
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:88
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:35
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:124
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:80
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:25
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:61
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:24
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:82
+#: ../../shared/shortcodes/shortcodes/pricing.php:17
+#: ../../shared/shortcodes/shortcodes/pricing.php:88
+#: ../../shared/shortcodes/shortcodes/teaser.php:35
+#: ../../shared/shortcodes/shortcodes/teaser.php:124
+#: ../../shared/shortcodes/shortcodes/testimonial.php:24
+#: ../../shared/shortcodes/shortcodes/testimonial.php:80
 msgid "3 Columns"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:62
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:83
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:89
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:36
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:125
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:81
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:26
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:62
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:25
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:83
+#: ../../shared/shortcodes/shortcodes/pricing.php:18
+#: ../../shared/shortcodes/shortcodes/pricing.php:89
+#: ../../shared/shortcodes/shortcodes/teaser.php:36
+#: ../../shared/shortcodes/shortcodes/teaser.php:125
+#: ../../shared/shortcodes/shortcodes/testimonial.php:25
+#: ../../shared/shortcodes/shortcodes/testimonial.php:81
 msgid "4 Columns"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:31
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:69
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:31
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:91
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:31
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:69
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:31
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:91
 msgid "Post Number"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:32
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:70
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:92
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:32
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:70
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:92
 msgid "Enter the number of post to show."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:38
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:58
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:58
 msgid "Insert Landing Page List Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:44
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:44
 msgid "Portfolio"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:48
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:68
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:82
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:54
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:97
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:66
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:48
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:68
+#: ../../shared/shortcodes/shortcodes/social-share.php:82
+#: ../../shared/shortcodes/shortcodes/tabs.php:12
+#: ../../shared/shortcodes/shortcodes/tabs.php:54
+#: ../../shared/shortcodes/shortcodes/teaser.php:12
+#: ../../shared/shortcodes/shortcodes/teaser.php:97
+#: ../../shared/shortcodes/shortcodes/testimonial.php:66
 msgid "Heading"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing-page-list.php:117
+#: ../../shared/shortcodes/shortcodes/landing-page-list.php:117
 msgid "View Project"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:22
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:80
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:33
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:122
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:22
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:78
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:22
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:80
+#: ../../shared/shortcodes/shortcodes/teaser.php:33
+#: ../../shared/shortcodes/shortcodes/teaser.php:122
+#: ../../shared/shortcodes/shortcodes/testimonial.php:22
+#: ../../shared/shortcodes/shortcodes/testimonial.php:78
 msgid "1 Column"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:84
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:90
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:126
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:26
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:82
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:26
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:84
+#: ../../shared/shortcodes/shortcodes/pricing.php:19
+#: ../../shared/shortcodes/shortcodes/pricing.php:90
+#: ../../shared/shortcodes/shortcodes/teaser.php:37
+#: ../../shared/shortcodes/shortcodes/teaser.php:126
+#: ../../shared/shortcodes/shortcodes/testimonial.php:26
+#: ../../shared/shortcodes/shortcodes/testimonial.php:82
 msgid "5 Columns"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:32
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:32
 msgid "Enter the number of post to show. (enter -1 for all posts)"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:99
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:37
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:99
 msgid "Category"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:38
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:100
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:38
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:100
 msgid "Optional you can sort by a category."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:44
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:108
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:44
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:108
 msgid "Excerpt Lenght"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:45
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:109
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:45
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:109
 msgid "The post excerpt word lenght."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:50
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:50
 msgid "Show Featured Thumbnails"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:51
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:51
 msgid "Uncheck to hide featured thumbnails"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/landing_pages.php:64
+#: ../../shared/shortcodes/shortcodes/landing_pages.php:64
 msgid "Entries"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/leadp.php:12
+#: ../../shared/shortcodes/shortcodes/leadp.php:12
 msgid "Alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/leadp.php:13
+#: ../../shared/shortcodes/shortcodes/leadp.php:13
 msgid "Add the pharagraph alignment"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/leadp.php:23
+#: ../../shared/shortcodes/shortcodes/leadp.php:23
 msgid "Paragraph Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/leadp.php:24
+#: ../../shared/shortcodes/shortcodes/leadp.php:24
 msgid "Add the pharagraph text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/leadp.php:30
+#: ../../shared/shortcodes/shortcodes/leadp.php:30
 msgid "Insert Lead Paragraph Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:21
+#: ../../shared/shortcodes/shortcodes/list-icon.php:21
 msgid "List Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:22
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:64
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:148
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:35
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:47
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:108
+#: ../../shared/shortcodes/shortcodes/list-icon.php:22
+#: ../../shared/shortcodes/shortcodes/pricing.php:64
+#: ../../shared/shortcodes/shortcodes/pricing.php:148
+#: ../../shared/shortcodes/shortcodes/tabs.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:47
+#: ../../shared/shortcodes/shortcodes/testimonial.php:108
 msgid "Put the content here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:28
+#: ../../shared/shortcodes/shortcodes/list-icon.php:28
 msgid "Add More List"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/list-icon.php:31
+#: ../../shared/shortcodes/shortcodes/list-icon.php:31
 msgid "Insert List Icons Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:12
+#: ../../shared/shortcodes/shortcodes/lists.php:12
 msgid "List Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:13
+#: ../../shared/shortcodes/shortcodes/lists.php:13
 msgid "Select an icon for the List"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:20
+#: ../../shared/shortcodes/shortcodes/lists.php:20
 msgid "Size of List Font"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:26
+#: ../../shared/shortcodes/shortcodes/lists.php:26
 msgid "space between list items"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:31
+#: ../../shared/shortcodes/shortcodes/lists.php:31
 msgid "Icon Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:32
+#: ../../shared/shortcodes/shortcodes/lists.php:32
 msgid "Color of Icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:37
+#: ../../shared/shortcodes/shortcodes/lists.php:37
 msgid "Text Color"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:38
+#: ../../shared/shortcodes/shortcodes/lists.php:38
 msgid "Color of Text in List"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:43
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:44
+#: ../../shared/shortcodes/shortcodes/lists.php:43
+#: ../../shared/shortcodes/shortcodes/lists.php:44
 msgid "Number of Columns"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/lists.php:59
+#: ../../shared/shortcodes/shortcodes/lists.php:59
 msgid "Insert Styled List Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:84
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:119
+#: ../../shared/shortcodes/shortcodes/pricing.php:13
+#: ../../shared/shortcodes/shortcodes/pricing.php:84
+#: ../../shared/shortcodes/shortcodes/teaser.php:119
 msgid "Select the column."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:27
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:99
+#: ../../shared/shortcodes/shortcodes/pricing.php:27
+#: ../../shared/shortcodes/shortcodes/pricing.php:99
 msgid "Featured Plan"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:28
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:100
+#: ../../shared/shortcodes/shortcodes/pricing.php:28
+#: ../../shared/shortcodes/shortcodes/pricing.php:100
 msgid "Check to set this plan as featured"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:33
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:107
+#: ../../shared/shortcodes/shortcodes/pricing.php:33
+#: ../../shared/shortcodes/shortcodes/pricing.php:107
 msgid "Plan Title"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:34
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:108
+#: ../../shared/shortcodes/shortcodes/pricing.php:34
+#: ../../shared/shortcodes/shortcodes/pricing.php:108
 msgid "Enter the plan title."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:39
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:115
+#: ../../shared/shortcodes/shortcodes/pricing.php:39
+#: ../../shared/shortcodes/shortcodes/pricing.php:115
 msgid "Plan Price"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:40
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:116
+#: ../../shared/shortcodes/shortcodes/pricing.php:40
+#: ../../shared/shortcodes/shortcodes/pricing.php:116
 msgid "Enter the plan price."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:45
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:123
+#: ../../shared/shortcodes/shortcodes/pricing.php:45
+#: ../../shared/shortcodes/shortcodes/pricing.php:123
 msgid "Plan Term"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:46
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:124
+#: ../../shared/shortcodes/shortcodes/pricing.php:46
+#: ../../shared/shortcodes/shortcodes/pricing.php:124
 msgid "Enter the plan term. e.g : \"per month\", \"per year\" etc."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:51
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:131
+#: ../../shared/shortcodes/shortcodes/pricing.php:51
+#: ../../shared/shortcodes/shortcodes/pricing.php:131
 msgid "Plan Button Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:57
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:139
+#: ../../shared/shortcodes/shortcodes/pricing.php:57
+#: ../../shared/shortcodes/shortcodes/pricing.php:139
 msgid "Plan Button Link"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:63
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:147
+#: ../../shared/shortcodes/shortcodes/pricing.php:63
+#: ../../shared/shortcodes/shortcodes/pricing.php:147
 msgid "Plan Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:70
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:53
+#: ../../shared/shortcodes/shortcodes/pricing.php:70
+#: ../../shared/shortcodes/shortcodes/testimonial.php:53
 msgid "Add More Testimony"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:73
+#: ../../shared/shortcodes/shortcodes/pricing.php:73
 msgid "Insert Pricing Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/pricing.php:79
+#: ../../shared/shortcodes/shortcodes/pricing.php:79
 msgid "Pricing Table"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:12
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:71
+#: ../../shared/shortcodes/shortcodes/profile.php:12
+#: ../../shared/shortcodes/shortcodes/profile.php:71
 msgid "Profile Name"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:72
+#: ../../shared/shortcodes/shortcodes/profile.php:13
+#: ../../shared/shortcodes/shortcodes/profile.php:72
 msgid "Enter the name."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:18
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:79
+#: ../../shared/shortcodes/shortcodes/profile.php:18
+#: ../../shared/shortcodes/shortcodes/profile.php:79
 msgid "Profile Meta"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:19
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:80
+#: ../../shared/shortcodes/shortcodes/profile.php:19
+#: ../../shared/shortcodes/shortcodes/profile.php:80
 msgid "Enter the profile meta. e.g job position etc."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:87
+#: ../../shared/shortcodes/shortcodes/profile.php:24
+#: ../../shared/shortcodes/shortcodes/profile.php:87
 msgid "Profile Image"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:25
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:88
+#: ../../shared/shortcodes/shortcodes/profile.php:25
+#: ../../shared/shortcodes/shortcodes/profile.php:88
 msgid "Paste your profile image URL here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:30
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:95
+#: ../../shared/shortcodes/shortcodes/profile.php:30
+#: ../../shared/shortcodes/shortcodes/profile.php:95
 msgid "Profile Link"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:31
+#: ../../shared/shortcodes/shortcodes/profile.php:31
 msgid "Paste your profile link URL here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:36
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:103
+#: ../../shared/shortcodes/shortcodes/profile.php:36
+#: ../../shared/shortcodes/shortcodes/profile.php:103
 msgid "Profile Facebook"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:104
+#: ../../shared/shortcodes/shortcodes/profile.php:37
+#: ../../shared/shortcodes/shortcodes/profile.php:104
 msgid "Paste your facebook URL here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:42
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:111
+#: ../../shared/shortcodes/shortcodes/profile.php:42
+#: ../../shared/shortcodes/shortcodes/profile.php:111
 msgid "Profile Twitter"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:43
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:112
+#: ../../shared/shortcodes/shortcodes/profile.php:43
+#: ../../shared/shortcodes/shortcodes/profile.php:112
 msgid "Paste your twitter URL here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:48
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:119
+#: ../../shared/shortcodes/shortcodes/profile.php:48
+#: ../../shared/shortcodes/shortcodes/profile.php:119
 msgid "Profile Email Address"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:49
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:120
+#: ../../shared/shortcodes/shortcodes/profile.php:49
+#: ../../shared/shortcodes/shortcodes/profile.php:120
 msgid "Paste your email address here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:54
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:127
+#: ../../shared/shortcodes/shortcodes/profile.php:54
+#: ../../shared/shortcodes/shortcodes/profile.php:127
 msgid "Profile Description"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:55
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:128
+#: ../../shared/shortcodes/shortcodes/profile.php:55
+#: ../../shared/shortcodes/shortcodes/profile.php:128
 msgid "Enter the profile description text."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:61
+#: ../../shared/shortcodes/shortcodes/profile.php:61
 msgid "Insert Profile Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:67
+#: ../../shared/shortcodes/shortcodes/profile.php:67
 msgid "Profile"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/profile.php:96
+#: ../../shared/shortcodes/shortcodes/profile.php:96
 msgid "Paste your profile URL here."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:11
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:11
 msgid "Insert Saved Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:12
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:12
 msgid "Insert a Saved Form"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:20
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:20
 msgid "<span class=\"switch-to-form-builder button\">Build a New Form</span>"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/quick-forms.php:35
+#: ../../shared/shortcodes/shortcodes/quick-forms.php:35
 msgid "Quick Insert Inbound Form Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:14
+#: ../../shared/shortcodes/shortcodes/social-share.php:14
 msgid "Style of Icons"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:26
+#: ../../shared/shortcodes/shortcodes/social-share.php:26
 msgid "Align Icons"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:27
+#: ../../shared/shortcodes/shortcodes/social-share.php:27
 msgid "Alignment Settings"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:37
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:12
+#: ../../shared/shortcodes/shortcodes/social-share.php:37
+#: ../../shared/shortcodes/shortcodes/social.php:12
 msgid "Facebook"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:38
+#: ../../shared/shortcodes/shortcodes/social-share.php:38
 msgid "Show facebook share icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:43
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:18
+#: ../../shared/shortcodes/shortcodes/social-share.php:43
+#: ../../shared/shortcodes/shortcodes/social.php:18
 msgid "Twitter"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:44
+#: ../../shared/shortcodes/shortcodes/social-share.php:44
 msgid "Show twitter share icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:49
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:24
+#: ../../shared/shortcodes/shortcodes/social-share.php:49
+#: ../../shared/shortcodes/shortcodes/social.php:24
 msgid "Google+"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:50
+#: ../../shared/shortcodes/shortcodes/social-share.php:50
 msgid "Show google plus share icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:55
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:30
+#: ../../shared/shortcodes/shortcodes/social-share.php:55
+#: ../../shared/shortcodes/shortcodes/social.php:30
 msgid "Linkedin"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:56
+#: ../../shared/shortcodes/shortcodes/social-share.php:56
 msgid "Show linkedin share icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:61
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:48
+#: ../../shared/shortcodes/shortcodes/social-share.php:61
+#: ../../shared/shortcodes/shortcodes/social.php:48
 msgid "Pinterest"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:62
+#: ../../shared/shortcodes/shortcodes/social-share.php:62
 msgid "Show pinterest share icon"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:68
+#: ../../shared/shortcodes/shortcodes/social-share.php:68
 msgid "Custom Share Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:69
+#: ../../shared/shortcodes/shortcodes/social-share.php:69
 msgid "Optional setting. Enter your custom share text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:75
+#: ../../shared/shortcodes/shortcodes/social-share.php:75
 msgid "Custom Share URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:76
+#: ../../shared/shortcodes/shortcodes/social-share.php:76
 msgid "Optional setting. Enter your custom share link URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:83
+#: ../../shared/shortcodes/shortcodes/social-share.php:83
 msgid "Optional setting."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:89
+#: ../../shared/shortcodes/shortcodes/social-share.php:89
 msgid "Heading Align"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:90
+#: ../../shared/shortcodes/shortcodes/social-share.php:90
 msgid "Heading Alignment Settings"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social-share.php:101
+#: ../../shared/shortcodes/shortcodes/social-share.php:101
 msgid "Insert Social Share Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:13
+#: ../../shared/shortcodes/shortcodes/social.php:13
 msgid "Enter your facebook profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:19
+#: ../../shared/shortcodes/shortcodes/social.php:19
 msgid "Enter your twitter profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:25
+#: ../../shared/shortcodes/shortcodes/social.php:25
 msgid "Enter your google plus profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:31
+#: ../../shared/shortcodes/shortcodes/social.php:31
 msgid "Enter your linkedin profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:36
+#: ../../shared/shortcodes/shortcodes/social.php:36
 msgid "Github"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:37
+#: ../../shared/shortcodes/shortcodes/social.php:37
 msgid "Enter your github profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:42
+#: ../../shared/shortcodes/shortcodes/social.php:42
 msgid "Instagram"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:43
+#: ../../shared/shortcodes/shortcodes/social.php:43
 msgid "Enter your instagram profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:49
+#: ../../shared/shortcodes/shortcodes/social.php:49
 msgid "Enter your pinterest profile URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:54
+#: ../../shared/shortcodes/shortcodes/social.php:54
 msgid "RSS"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:55
+#: ../../shared/shortcodes/shortcodes/social.php:55
 msgid "Enter your RSS feeds URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/social.php:61
+#: ../../shared/shortcodes/shortcodes/social.php:61
 msgid "Insert Social Link Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:13
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:55
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:13
+#: ../../shared/shortcodes/shortcodes/tabs.php:13
+#: ../../shared/shortcodes/shortcodes/tabs.php:55
+#: ../../shared/shortcodes/shortcodes/teaser.php:13
 msgid "Enter the heading text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:21
+#: ../../shared/shortcodes/shortcodes/tabs.php:21
 msgid "Tab Title"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:22
+#: ../../shared/shortcodes/shortcodes/tabs.php:22
 msgid "Enter the tab title."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:34
+#: ../../shared/shortcodes/shortcodes/tabs.php:34
 msgid "Tab Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:41
+#: ../../shared/shortcodes/shortcodes/tabs.php:41
 msgid "Add More Tab"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:44
+#: ../../shared/shortcodes/shortcodes/tabs.php:44
 msgid "Insert Tabs Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:50
+#: ../../shared/shortcodes/shortcodes/tabs.php:50
 msgid "Tabs"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:65
+#: ../../shared/shortcodes/shortcodes/tabs.php:65
 msgid "Enter the tab title"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/tabs.php:82
+#: ../../shared/shortcodes/shortcodes/tabs.php:82
 msgid "Enter the tab content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:23
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:110
+#: ../../shared/shortcodes/shortcodes/teaser.php:23
+#: ../../shared/shortcodes/shortcodes/teaser.php:110
 msgid "Nested"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:24
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:111
+#: ../../shared/shortcodes/shortcodes/teaser.php:24
+#: ../../shared/shortcodes/shortcodes/teaser.php:111
 msgid "Centered"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:46
+#: ../../shared/shortcodes/shortcodes/teaser.php:46
 msgid "Enter the title."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:64
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:144
+#: ../../shared/shortcodes/shortcodes/teaser.php:64
+#: ../../shared/shortcodes/shortcodes/teaser.php:144
 msgid "Image URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:65
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:145
+#: ../../shared/shortcodes/shortcodes/teaser.php:65
+#: ../../shared/shortcodes/shortcodes/teaser.php:145
 msgid "Enter your image url, it will override the icon above"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:72
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:167
+#: ../../shared/shortcodes/shortcodes/teaser.php:72
+#: ../../shared/shortcodes/shortcodes/teaser.php:167
 msgid "The title link destination URL."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:77
+#: ../../shared/shortcodes/shortcodes/teaser.php:77
 msgid "Teaser Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:84
+#: ../../shared/shortcodes/shortcodes/teaser.php:84
 msgid "Add More Block"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:87
+#: ../../shared/shortcodes/shortcodes/teaser.php:87
 msgid "Insert Teaser Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/teaser.php:93
+#: ../../shared/shortcodes/shortcodes/teaser.php:93
 msgid "Teaser"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:34
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:91
+#: ../../shared/shortcodes/shortcodes/testimonial.php:34
+#: ../../shared/shortcodes/shortcodes/testimonial.php:91
 msgid "Testimony Author"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:35
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:92
+#: ../../shared/shortcodes/shortcodes/testimonial.php:35
+#: ../../shared/shortcodes/shortcodes/testimonial.php:92
 msgid "Enter the testimony author name."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:40
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:99
+#: ../../shared/shortcodes/shortcodes/testimonial.php:40
+#: ../../shared/shortcodes/shortcodes/testimonial.php:99
 msgid "Testimony Author Meta"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:41
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:100
+#: ../../shared/shortcodes/shortcodes/testimonial.php:41
+#: ../../shared/shortcodes/shortcodes/testimonial.php:100
 msgid "The author job, company or website name."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:46
+#: ../../shared/shortcodes/shortcodes/testimonial.php:46
 msgid "Testimony Content"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:56
+#: ../../shared/shortcodes/shortcodes/testimonial.php:56
 msgid "Insert Testimonial Shortcode"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:62
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:124
+#: ../../shared/shortcodes/shortcodes/testimonial.php:62
+#: ../../shared/shortcodes/shortcodes/testimonial.php:124
 msgid "Testimonial"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/testimonial.php:107
+#: ../../shared/shortcodes/shortcodes/testimonial.php:107
 msgid "Testimony Text"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/video.php:12
+#: ../../shared/shortcodes/shortcodes/video.php:12
 msgid "Video URL"
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/video.php:13
+#: ../../shared/shortcodes/shortcodes/video.php:13
 msgid ""
 "Paste the video URL here, click <a href=\"http://codex.wordpress.org/"
 "Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F\" target=\"_blank\">here</"
 "a> to see all available video hosts."
 msgstr ""
 
-#: ../../shared/inbound-shortcodes/shortcodes/video.php:19
+#: ../../shared/shortcodes/shortcodes/video.php:19
 msgid "Insert Video Shortcode"
 msgstr ""

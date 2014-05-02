@@ -589,6 +589,7 @@
 						if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
 							var post_type = 'inbound-forms';
 							var send_email = jQuery("#inbound_email_send_notification").val();
+							var send_email_template = jQuery("#inbound_email_send_notification_template").val();
 							var send_email_subject = jQuery("#inbound_confirmation_subject").val();
 							var email_contents = jQuery("#content_ifr").contents().find('body').html(); // email responder
 						} else {
@@ -630,6 +631,7 @@
 				                notify_email: notify_email,
 				                notify_email_subject: notify_email_subject,
 				                send_email: send_email,
+				                send_email_template: send_email_template,
 				                send_subject: send_email_subject,
 				               	form_settings: form_settings,
 				                post_id: post_id,
