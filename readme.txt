@@ -65,6 +65,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.0.5 =
+* Bug Fix - Remove JS Alert
+
 = 2.0.4 =
 * Temporary fix for shortcodes disappearing from wordpress 3.8 to 3.9
 * Performance improvements on analytics and lead tracking
