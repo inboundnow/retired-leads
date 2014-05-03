@@ -28,6 +28,7 @@ class Inbound_Load_Shared {
 		include_once('shared/classes/class.post-type.email-template.php');  // Inbound Post Type email-templates
 		include_once('shared/classes/class.metaboxes.email-template.php');  // Inbound Metaboxes for Post Type email-templates
 		include_once('shared/classes/class.shortcodes.email-template.php');  // Inbound Shortcodes for Post Type email-templates
+		include_once('shared/classes/class.wordpress-core.email.php');  // Inbound Shortcodes for Post Type email-templates
 
 		include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 		include_once('shared/extend/inboundnow.extend.php');

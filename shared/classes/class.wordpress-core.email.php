@@ -9,14 +9,18 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 
 	class Inbound_WP_Core_Email_Templates {
 
-		public function __construct() {
+		public function __construct( $toggle = true ) {
 
+			if (!$toggle) {
+				return false;
+			}
+			
 			self::load_hooks();
 			
 		}
 		
 		public static function load_hooks() {
-		
+			
 			/* New User Notifications */
 			add_action( 'wp_new_user_notification' , array( __CLASS__ , 'new_user_notification' ) , 2 , 2 );	
 			
@@ -252,13 +256,15 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 	}
 
 	/* Load Class */
-	$Inbound_WP_Core_Email_Templates = new Inbound_WP_Core_Email_Templates();
+	$Inbound_WP_Core_Email_Templates = new Inbound_WP_Core_Email_Templates(get_option('inbound_email_replace_core_template' , '1' ));
 
-	
-	/* Overwrite Core Pluggable Functions With Our Own */
+
+	/* Overwrite Core Pluggable Functions With Our Own If Template Replacement is Enabled */
 	if (!function_exists('wp_new_user_notification')) {
-		function wp_new_user_notification( $user_id , $plaintext_pass ) {			
-			do_action( 'wp_new_user_notification' , $user_id , $plaintext_pass);
+		if ($globals['inbound_replace_core_wp_email_templates']) {
+			function wp_new_user_notification( $user_id , $plaintext_pass ) {			
+				do_action( 'wp_new_user_notification' , $user_id , $plaintext_pass);
+			}
 		}
 	}	
 

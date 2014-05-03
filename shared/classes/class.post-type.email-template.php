@@ -70,7 +70,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'show_ui' => true,
 				'query_var' => true,
 				'menu_icon' => INBOUND_MARKETING_AUTOMATION_URLPATH . '/images/email.png',
-				'show_in_menu'  => true,
+				'show_in_menu'  => 'edit.php?post_type=wp-lead',
 				'capability_type' => 'post',
 				'hierarchical' => false,
 				'menu_position' => null,
