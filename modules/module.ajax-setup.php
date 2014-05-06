@@ -76,6 +76,28 @@ function wpl_check_lists_callback() {
 	}
 }
 
+/* Grab all lead data and return to localstorage*/
+add_action('wp_ajax_inbound_get_all_lead_data', 'inbound_get_all_lead_data');
+add_action('wp_ajax_nopriv_inbound_get_all_lead_data', 'inbound_get_all_lead_data');
+function inbound_get_all_lead_data() {
+	$wp_lead_id = $_POST['wp_lead_id'];
+	if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
+		global $wpdb;
+		$data   =   array();
+		$wpdb->query("
+		  SELECT `meta_key`, `meta_value`
+			FROM $wpdb->postmeta
+			WHERE `post_id` = ".mysql_real_escape_string($wp_lead_id)."
+		");
+
+		foreach($wpdb->last_result as $k => $v) {
+			$data[$v->meta_key] =   $v->meta_value;
+		};
+
+		echo json_encode($data,JSON_FORCE_OBJECT);
+		wp_die();
+	}
+}
 
 /* delete from list - lead management */
 add_action('wp_ajax_leads_delete_from_list', 'leads_delete_from_list');
