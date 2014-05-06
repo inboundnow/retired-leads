@@ -89,6 +89,15 @@ function wpleads_get_global_settings() {
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
 		),
+		array(
+			'id'  => 'inbound_email_replace_core_template',
+			'option_name'  => 'inbound_email_replace_core_template',
+			'label' => __('Replace WorPress Email Templates with Inbound Now Email Templates' , 'leads' ),
+			'description' => __("<p>This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
 		/*array(
 			'id'  => 'lead_automation_cronjob_period',
 			'label' => __('How often do you want to process marketing automation rules?' , 'leads' ),

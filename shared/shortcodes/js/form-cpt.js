@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 
     jQuery("body").on('click', '#view-email-response', function () {
         jQuery('#inbound-shortcodes-popup, #form-leads-list, #title').hide();
-        jQuery('#postdivrich, #inbound-email-response').show();
+        jQuery('#inbound-email-response').show();
     });
 
     jQuery("body").on('click', '#view-leads-list', function () {

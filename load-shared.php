@@ -19,13 +19,18 @@ class Inbound_Load_Shared {
 		define('INBOUDNOW_SHARED','loaded');
 
 		include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
-		include_once('shared/classes/form.class.php');  // Mirrored forms
-		include_once('shared/classes/menu.class.php');  // Inbound Marketing Menu
-		include_once('shared/classes/feedback.class.php');  // Inbound Feedback Form
-		include_once('shared/classes/debug.class.php');  // Inbound Debug & Scripts Class
-		include_once('shared/classes/compatibility.class.php');  // Inbound Compatibility Class
+		include_once('shared/classes/class.form.php');  // Mirrored forms
+		include_once('shared/classes/class.menu.php');  // Inbound Marketing Menu
+		include_once('shared/classes/class.feedback.php');  // Inbound Feedback Form
+		include_once('shared/classes/class.debug.php');  // Inbound Debug & Scripts Class
+		include_once('shared/classes/class.compatibility.php');  // Inbound Compatibility Class
+		include_once('shared/classes/class.templating-engine.php');  // {{token}} Replacement Engine
+		include_once('shared/classes/class.post-type.email-template.php');  // Inbound Post Type email-templates
+		include_once('shared/classes/class.metaboxes.email-template.php');  // Inbound Metaboxes for Post Type email-templates
+		include_once('shared/classes/class.shortcodes.email-template.php');  // Inbound Shortcodes for Post Type email-templates
+		include_once('shared/classes/class.wordpress-core.email.php');  // Inbound Shortcodes for Post Type email-templates
 
-		include_once('shared/inbound-shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
+		include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 		include_once('shared/extend/inboundnow.extend.php');
 		include_once('shared/extend/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
 		include_once('shared/extend/inboundnow.extension-updating.php'); // Legacy -Inboundnow Package Updating

@@ -590,7 +590,7 @@ if (!class_exists('InboundMenu')) {
 			  'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'leads' ) )
 			);
 
-			return $secondary_menu_items;
+			return apply_filters('inbound_menu_debug' , $secondary_menu_items , $debug_key );
 		}
 	}
 

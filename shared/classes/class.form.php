@@ -1,9 +1,7 @@
 <?php
-
 /**
  * Creates Inbound Form Shortcode
  */
-
 
 if (!class_exists('InboundForms')) {
 class InboundForms {
@@ -12,6 +10,7 @@ class InboundForms {
     // Hooks and Filters
     //=============================================
     static function init()  {
+		
         add_shortcode('inbound_form', array(__CLASS__, 'inbound_forms_create'));
         add_shortcode('inbound_forms', array(__CLASS__, 'inbound_short_form_create'));
         add_action('init', array(__CLASS__, 'register_script'));
@@ -19,9 +18,10 @@ class InboundForms {
         add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
         add_action( 'init',  array(__CLASS__, 'do_actions'));
 		add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
+		
     }
 
-    // Create Longer shortcode for [inbound_form]
+    /* Create Longer shortcode for [inbound_form] */
     static function inbound_forms_create( $atts, $content = null )
 	{
 		global $post;
@@ -286,7 +286,7 @@ class InboundForms {
 		}
 	}
 
-	// Create shorter shortcode for [inbound_forms]
+	/* Create shorter shortcode for [inbound_forms] */
 	static function inbound_short_form_create( $atts, $content = null )
 	{
 		extract(shortcode_atts(array(
@@ -329,7 +329,7 @@ class InboundForms {
 		return do_shortcode( $shortcode );
 	}
 
-    // setup enqueue scripts
+    /* Enqueue JS & CSS */
     static function register_script()
 	{
 		wp_enqueue_style( 'inbound-shortcodes' );
@@ -412,7 +412,7 @@ class InboundForms {
 		return $content;
 	}
 
-
+	/* Legacy Lead Notification Email Method */
 	static function send_mail($form_data, $form_meta_data)
 	{
 		add_filter( 'wp_mail_content_type', 'set_html_content_type' );
@@ -420,14 +420,6 @@ class InboundForms {
 			return 'text/html';
 		}
 
-		//if(isset($_POST['inbound_notify']) && $_POST['inbound_notify'] != "") {
-		//	$email_to = base64_decode($_POST['inbound_notify']);
-		//}
-
-		/* this is where we will pull the admin email from the form meta data */
-
-		//$form_settings = json_decode($form_meta_data['form_settings'] , true);
-		// defaults
 		$notification_status = "off";
 		$email_to = false;
 		$multi_send = false;
@@ -688,45 +680,7 @@ class InboundForms {
   </tr>
 </tbody></table>
 </body>';
-		/* $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-			  <html>
-				<head>
-				  <meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
-				</head>
-				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
-				  <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
-					<tr>';
-			$email_message .= "<div style='padding-top: 10px; padding-left: 15px; font-size: 20px; padding-bottom: 10px; background-color:#E0E0E0; border:solid 1px #CECDCA;'>New Conversion on <strong>" . $form_data['inbound_form_name'] ."</strong></div>\n";
-			$exclude_array = array('Inbound Redirect', 'Inbound Submitted', 'Inbound Notify', 'Inbound Parent Page', 'Send', 'Inbound Furl' );
-
-			$main_count = 0;
-			$url_request = "";
-
-			foreach ($form_data as $key => $value)
-			{
-				//array_push($action_categories, $ctaw_cat->category_nicename);
-				$urlparam = ($main_count < 1 ) ?  "?" : "&";
-				$url_request .= $urlparam . $key . "=" . urlencode($value);
-				$name = str_replace(array('-','_'),' ', $key);
-				$name = ucwords($name);
-				if ( $name === "Inbound Current Page Url" ) {
-				  $name = "Converted on Page";
-				}
-				$field_data = ($form_data[$key] != "") ? $form_data[$key] : "<span style='color:#949494; font-size: 10px;'>(Field left blank)</span>";
-
-
-				if(!in_array($name, $exclude_array)) {
-				$email_message .= "<div style='border:solid 1px #EBEBEA; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><strong style='min-width: 120px;display: inline-block;'>".$name . ": </strong>" . $field_data ."</div>\n";
-				}
-				$main_count++;
-			}
-
-			$email_message .= "<div style='border:solid 1px #EBEBEA; background-color:#fff; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px;'><h1><a style='color: #00F;font-size: 20px;' href='".$admin_url."/edit.php?post_type=wp-lead&lead-email-redirect=".$form_email."' target='_blank'>View this Lead</a></h1></div>\n";
-			$email_message .= '</tr>
-						  </table>
-						</body>
-					  </html>';
-*/
+		
 			if (isset($form_data['first-name']) && isset($form_data['last-name']))
 			{
                 $from_name = $form_data['first-name'] . " ". $form_data['last-name'];
@@ -760,38 +714,10 @@ class InboundForms {
 
 
 		}
-		// Send Confirmation Email to Form Converter
-		if ($notification_status === 'on' && $form_email) {
-
-			$my_postid = $form_meta_data['post_id']; //This is page id or post id
-			$content_post = get_post($my_postid);
-			$content = $content_post->post_content;
-			$confirm_subject = get_post_meta( $my_postid, 'inbound_confirmation_subject', TRUE );
-			$content = apply_filters('the_content', $content);
-			$content = str_replace(']]>', ']]&gt;', $content);
-			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-			  <html>
-				<head>
-				  <meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
-				</head>
-				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
-				  <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
-					<tr>';
-			$confirm_email_message .= $content;
-			$confirm_email_message .= '</tr>
-						  </table>
-						</body>
-					  </html>';
-			$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
-			$headers .= 'Content-type: text/html';
-			// send the e-mail with the shortcode attribute named 'email' and the POSTed data
-			wp_mail( $form_email, $confirm_subject , $confirm_email_message, $headers );
-
-			//echo $notification_status . $form_email . $my_postid . 'hi'; exit;
-			//echo $content. $form_data['email'];
-		}
+		
 	}
 
+	/* Perform Actions After a Form Submit */
     static function do_actions(){
 
 		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
@@ -838,48 +764,239 @@ class InboundForms {
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
+			
                 if ( get_magic_quotes_gpc() ) {
                     $value = stripslashes( $value );
                 }
+				
                 $field = strtolower($field);
 
                 if (preg_match( '/Email|e-mail|email/i', $value)) {
-                $field = "email";
+					$field = "email";
                 }
 
                 if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
-                $field = "first-name";
+					$field = "first-name";
                 }
 
                 if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
-                $field = "last-name";
+					$field = "last-name";
                 }
 
                 if (preg_match( '/Phone|phone number|telephone/i', $value)) {
-                $field = "phone";
+					$field = "phone";
                 }
 
                 $form_post_data[$field] = strip_tags( $value );
-
             }
+			
             $form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
-			//perform notification actions
-			self::send_mail($form_post_data , $form_meta_data);
-
+			self::send_conversion_admin_notification($form_post_data , $form_meta_data);
+			self::send_conversion_lead_notification($form_post_data , $form_meta_data);
+			
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
 
 			/* redirect now */
 			if ($redirect != "") {
-			wp_redirect( $redirect );
-			exit();
+				wp_redirect( $redirect );
+				exit();
 			}
-
 
         }
 
     }
-  }
 
+	/* Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List */
+	public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
+
+		if ( $template = self::get_new_lead_email_template()) {
+			
+			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+			function set_html_content_type() {
+				return 'text/html';
+			}
+			
+			/* Rebuild Form Meta Data to Load Single Values  */
+			foreach( $form_meta_data as $key => $value ) {
+				$form_meta_data[$key] = $value[0];
+			}
+			
+			/* Get Email We Should Send Notifications To */
+			$email_to = $form_meta_data['inbound_notify_email'];
+	
+			/* Check for Multiple Email Addresses */
+			$addresses = explode(",", $email_to);			
+			if(is_array($addresses) && count($addresses) > 1) {
+				$to_address = $addresses;
+			} else {
+				$to_address[] = $email_to;
+			}
+
+			/* Look for Custom Subject Line ,  Fall Back on Default */
+			$subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] :  $template['subject'];
+			
+			/* Discover From Email Address */
+			foreach ($form_post_data as $key => $value) {
+				if (preg_match('/email|e-mail/i', $key)) {
+					$from_email = $form_post_data[$key];
+				}
+			}
+			
+			/* Prepare Additional Data For Token Engine */
+			$form_post_data['redirect_message'] = (isset($form_post_data['inbound_redirect']) && $form_post_data['inbound_redirect'] != "") ? "They were redirected to " . $form_post_data['inbound_redirect'] : '';
+			
+			/* Discover From Name */
+			$from_name = get_option( 'blogname' , '' );
+			$Inbound_Templating_Engine = Inbound_Templating_Engine();			
+			$subject = $Inbound_Templating_Engine->replace_tokens( $subject , array( $form_post_data , $form_meta_data )  );
+			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array( $form_post_data , $form_meta_data )  );
+			
+			
+			$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";			
+			$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
+			
+			foreach ($to_address as $key => $recipient) {
+				$result = wp_mail( $recipient , $subject , $body , $headers );
+			}
+			
+		} else {
+		
+			/* Run Legacy Code */
+			self::send_mail($form_post_data , $form_meta_data);
+			
+		}
+
+	}
+	
+	/* Sends An Email to Lead After Conversion */
+	public static function send_conversion_lead_notification( $form_post_data , $form_meta_data ) {
+
+		
+		/* If Notifications Are Off Then Exit */
+		if ( !isset($form_meta_data['inbound_email_send_notification'][0]) || $form_meta_data['inbound_email_send_notification'][0] != 'on' ){
+			return;
+		}
+		
+		/* Get Lead Email Address */
+		$lead_email = false;
+		foreach ($form_post_data as $key => $value) {
+		 	if (preg_match('/email|e-mail/i', $key)) {
+		 		$lead_email = $form_post_data[$key];
+		 	}
+		}
+		
+		/* Redundancy */
+		if (!$lead_email) {
+			if (isset($form_post_data['email'])) {
+				$lead_email = $form_post_data['email'];
+			} else if (isset($form_post_data['e-mail'])) {
+				$lead_email = $form_post_data['e-mail'];
+			} else if (isset($form_post_data['wpleads_email_address'])) {
+				$lead_email = $form_post_data['wpleads_email_address'];
+			} else {
+				$lead_email = 'null map email field';
+			}
+		}
+		
+		if ( !$lead_email ) {
+			return;
+		}
+	
+
+		$Inbound_Templating_Engine = Inbound_Templating_Engine();
+		$form_id = $form_meta_data['post_id']; //This is page id or post id
+		$template_id = $form_meta_data['inbound_email_send_notification_template'][0];	
+		
+		/* Rebuild Form Meta Data to Load Single Values  */
+		foreach( $form_meta_data as $key => $value ) {
+			$form_meta_data[$key] = $value[0];
+		}
+	
+		/* If Email Template Selected Use That */
+		if ( $template_id && $template_id != 'custom' ) {
+
+			$template_array = self::get_email_template( $template_id );			
+			$confirm_subject = $template_array['subject'];
+			$confirm_email_message = $template_array['body'];
+			
+		} 
+		/* Else Use Custom Template */ 
+		else {
+			
+			$template = get_post($form_id);
+			$content = $template->post_content;
+			$confirm_subject = get_post_meta( $form_id, 'inbound_confirmation_subject', TRUE );		
+			$content = apply_filters('the_content', $content);
+			$content = str_replace(']]>', ']]&gt;', $content);
+			
+			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			  <html>
+				<head>
+				  <meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
+				</head>
+				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
+				  <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
+					<tr>';
+			$confirm_email_message .= $content;
+			$confirm_email_message .= '</tr>
+						  </table>
+						</body>
+					  </html>';
+		}
+
+		
+		
+		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject , array( $form_post_data , $form_meta_data )  );
+		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data , $form_meta_data )  );
+			
+
+		$from_name = get_option( 'blogname' , '' );
+		$from_email = get_option( 'admin_email' );
+		
+		$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
+		$headers .= 'Content-type: text/html';
+
+		wp_mail( $lead_email, $confirm_subject , $confirm_email_message, $headers );
+
+	}
+
+	/* Get Email Template for New Lead Notification */
+	public static function get_new_lead_email_template( ) {
+
+		$email_template = array();
+
+		$templates = get_posts(array(
+			'post_type' => 'email-template',
+			'posts_per_page' => 1,
+			'meta_key' => '_inbound_template_id',
+			'meta_value' => 'inbound-new-lead-notification'
+		));
+
+		foreach ( $templates as $template ) {
+			$email_template['ID'] = $template->ID;
+			$email_template['subject'] = get_post_meta( $template->ID , 'inbound_email_subject_template' , true );
+			$email_template['body'] = get_post_meta( $template->ID , 'inbound_email_body_template' , true );
+		}
+
+		return $email_template;
+	}
+	
+	/* Get Email Template by ID */
+	public static function get_email_template( $ID ) {
+
+		$email_template = array();
+
+		$template = get_post($ID);
+
+		$email_template['ID'] = $template->ID;
+		$email_template['subject'] = get_post_meta( $template->ID , 'inbound_email_subject_template' , true );
+		$email_template['body'] = get_post_meta( $template->ID , 'inbound_email_body_template' , true );
+
+		return $email_template;
+	}
+
+	
+  }
 }
 
 InboundForms::init();

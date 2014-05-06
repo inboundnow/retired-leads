@@ -552,6 +552,7 @@ if (!function_exists('inbound_form_save')) {
 	    $notify_email_subject = (isset( $_POST['notify_email_subject'] )) ? $_POST['notify_email_subject'] : "";
 	    $email_contents = (isset( $_POST['email_contents'] )) ? $_POST['email_contents'] : "";
 	    $send_email = (isset( $_POST['send_email'] )) ? $_POST['send_email'] : "off";
+	    $send_email_template = (isset( $_POST['send_email_template'] )) ? $_POST['send_email_template'] : "custom";
 	    $send_subject = (isset( $_POST['send_subject'] )) ? $_POST['send_subject'] : "off";
 
 	    if ($post_type === 'inbound-forms'){
@@ -574,6 +575,7 @@ if (!function_exists('inbound_form_save')) {
 	    	  update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 	    	  update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	    	  update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	    	  update_post_meta( $post_ID, 'inbound_email_send_notification_template', $send_email_template );
 	    	  update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 
 	    	  $output =  array('post_id'=> $post_ID,
@@ -583,7 +585,8 @@ if (!function_exists('inbound_form_save')) {
 	    	  		echo json_encode($output,JSON_FORCE_OBJECT);
 	    	  		wp_die();
 	    } else {
-	    // If from popup run this
+		
+			// If from popup run this
 	        $query = $wpdb->prepare(
 	            'SELECT ID FROM ' . $wpdb->posts . '
 	            WHERE post_title = %s
@@ -591,6 +594,7 @@ if (!function_exists('inbound_form_save')) {
 	            $form_name
 	        );
 	        $wpdb->query( $query );
+			
 	        // If form exists
 	        if ( $wpdb->num_rows ) {
 	            $post_ID = $wpdb->get_var( $query );
@@ -609,10 +613,12 @@ if (!function_exists('inbound_form_save')) {
 	            	update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 	            	update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	            	update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	            	update_post_meta( $post_ID, 'inbound_email_send_notification_template', $send_email_template );
 	            	update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	            }
 
 	        } else {
+			
 	            // If form doesn't exist create it
 	            $post = array(
 	                'post_title'        => $form_name,
@@ -632,6 +638,7 @@ if (!function_exists('inbound_form_save')) {
 	            update_post_meta( $post_ID, 'inbound_notify_email', $notify_email );
 	            update_post_meta( $post_ID, 'inbound_notify_email_subject', $notify_email_subject );
 	            update_post_meta( $post_ID, 'inbound_email_send_notification', $send_email );
+	            update_post_meta( $post_ID, 'inbound_email_send_notification_template', $send_email_template );
 	            update_post_meta( $post_ID, 'inbound_confirmation_subject', $send_subject );
 	        }
 	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
