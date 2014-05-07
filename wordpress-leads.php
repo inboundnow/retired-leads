@@ -86,7 +86,9 @@ final class WordPress_Leads {
 			require_once('modules/module.form-integrations.php');
 			
 			require_once('classes/class.post-type.email-template.php');
-			require_once('classes/class.wordpress-core-email.php');
+			require_once('classes/class.metaboxes.email-template.php');
+			require_once('classes/class.shortcodes.email-template.php');
+			require_once('classes/class.wordpress-core.email.php');
 
 		} else {
 			/* Frontend Includes */
@@ -97,6 +99,8 @@ final class WordPress_Leads {
 			require_once('modules/module.post-type.list.php');
 			require_once('modules/module.form-integrations.php');
 			require_once('classes/class.post-type.email-template.php');
+			require_once('classes/class.metaboxes.email-template.php');
+			require_once('classes/class.shortcodes.email-template.php');
 			require_once('classes/class.wordpress-core.email.php');
 			/* load frontend */
 			require_once('modules/module.enqueue-frontend.php');

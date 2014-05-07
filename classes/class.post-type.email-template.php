@@ -292,50 +292,50 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 			/* Create Default Template for Lead Conversion Notifications */
 			self::create_template( array(
 				'id' => 'token-test',
-				'title' => __( 'Token Testing' , 'ma') ,
-				'subject' => __( 'Token Testing Template - {{site-name}}', 'ma' ) ,
+				'title' => __( 'Token Testing' , 'leads') ,
+				'subject' => __( 'Token Testing Template - {{site-name}}', 'leads' ) ,
 				'body' => $inbound_email_templates['token-test'],
-				'description' => __( 'Designed for testing & debugging tokens.' , 'ma' ) ,
+				'description' => __( 'Designed for testing & debugging tokens.' , 'leads' ) ,
 				'email_template_category' => 'inbound-core'
 			));
 			
 			/* Create Default Template for Lead Conversion Notifications */
 			self::create_template( array(
 				'id' => 'inbound-new-lead-notification',
-				'title' => __( 'New Lead Notification' , 'ma') ,
-				'subject' => __( '{{site-name}} - {{form-name}} - New Lead Conversion', 'ma' ) ,
+				'title' => __( 'New Lead Notification' , 'leads') ,
+				'subject' => __( '{{site-name}} - {{form-name}} - New Lead Conversion', 'leads' ) ,
 				'body' => $inbound_email_templates['inbound-new-lead-notification'],
-				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , 'ma' ) ,
+				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , 'leads' ) ,
 				'email_template_category' => 'inbound-core'
 			));
 
 			/* New User Account Notification - Create WP Core Template for New User Notifications */
 			self::create_template( array(
 				'id' => 'wp-new-user-notification',
-				'title' => __( 'New User Signup Notification' , 'ma' ),
-				'subject' => __( 'Your New Account - {{site-name}}' , 'ma' ),
+				'title' => __( 'New User Signup Notification' , 'leads' ),
+				'subject' => __( 'Your New Account - {{site-name}}' , 'leads' ),
 				'body' => $inbound_email_templates['wp-new-user-notification'],
-				'description' => __( 'WordPress core template for notifying  new users of their  created accounts.' , 'ma' ),
+				'description' => __( 'WordPress core template for notifying  new users of their  created accounts.' , 'leads' ),
 				'email_template_category' => 'wordpress-core'
 			));
 			
 			/* New Comment Notifications - Create WP Core Template for Post Author Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-post-author',
-				'title' => __( 'New Comment Notification' , 'ma' ),
-				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , 'ma' ),
+				'title' => __( 'New Comment Notification' , 'leads' ),
+				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , 'leads' ),
 				'body' => $inbound_email_templates['wp-notify-post-author'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments.' , 'ma' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments.' , 'leads' ),
 				'email_template_category' => 'wordpress-core'
 			));
 			
 			/* Comment Moderation Notifications - Create WP Core Template for Comment Moderation Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-moderator',
-				'title' => __( 'New Comment Moderation' , 'ma' ),
-				'subject' => __( 'Please Moderate a New Comment - {{wp-post-title}} - {{site-name}}' , 'ma' ),
+				'title' => __( 'New Comment Moderation' , 'leads' ),
+				'subject' => __( 'Moderate Comment - {{wp-post-title}} - {{site-name}}' , 'leads' ),
 				'body' => $inbound_email_templates['wp-notify-moderator'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , 'ma' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , 'leads' ),
 				'email_template_category' => 'wordpress-core'
 			));
 		
