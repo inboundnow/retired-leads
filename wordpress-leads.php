@@ -15,14 +15,13 @@ if ( ! class_exists( 'WordPress_Leads' ) ) {
 final class WordPress_Leads {
 
 	private static $instance;
-	//public $api;
-    //public $session;
+
 
 	/**
-		 * Main WordPress_Leads Instance
-		 *
-		 * Insures that only one instance of WordPress_Leads exists in memory at any one
-		 * time. Also prevents needing to define globals all over the place.
+	 * Main WordPress_Leads Instance
+	 *
+	 * Insures that only one instance of WordPress_Leads exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
 	*/
 	public static function instance() {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WordPress_Leads ) ) {
@@ -30,9 +29,6 @@ final class WordPress_Leads {
 				self::$instance->setup_constants();
 				self::$instance->includes();
 				self::$instance->load_textdomain();
-				// self::$instance->roles   = new EDD_Roles();
-				// self::$instance->fees    = new EDD_Fees();
-				// self::$instance->api     = new EDD_API();
 			}
 			return self::$instance;
 		}
@@ -62,42 +58,26 @@ final class WordPress_Leads {
 		define('WPL_SLUG', plugin_basename( __FILE__ ) );
 		define('WPL_FILE',  __FILE__ );
 		define('WPL_STORE_URL', 'http://www.inboundnow.com' );
-		$uploads = wp_upload_dir();
-		define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
-		define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
+		define('WPL_UPLOADS_PATH', wp_upload_dir().'/leads/' );
+		define('WPL_UPLOADS_URLPATH', wp_upload_dir().'/leads/' );
 	}
 
 	/* Include required files */
 	private function includes() {
 		global $inboundnow_options;
 
-		/* load loop for files
-		if (is_array($inbound_load_files && !empty($inbound_load_files))) {
-			foreach ($inbound_load_files as $key => $value) {
-				include_once('components/'.$value.'/'.$value.'.php'); // include each toggled on
-			}
-		}*/
-
-		//require_once INBOUND_NOW_PATH . 'includes/admin/settings/register-settings.php';
-		//$edd_options = edd_get_settings();
-
-		/* Global Includes */
-		//require_once INBOUND_NOW_PATH . 'includes/actions.php';
-
 		if ( is_admin() ) {
 			/* Admin Includes */
-			//require_once INBOUND_NOW_PATH . '/classes/admin/define_settings.php';
 			require_once('modules/module.activate.php');
 			require_once('modules/module.ajax-setup.php');
 			require_once('modules/module.nav-menus.php');
 			require_once('modules/module.wp_list_table-leads.php');
 			require_once('modules/module.metaboxes.wp-lead.php');
 			require_once('modules/module.metaboxes.list.php');
-			//require_once('modules/module.metaboxes.automation.php');
 			require_once('modules/module.post-type.wp-lead.php');
+			require_once('classes/class.post-type.email-template.php');
 			require_once('modules/module.post-type.list.php');
 			require_once('modules/module.post-type.landing-pages.php');
-			//require_once('modules/module.post-type.automation.php');
 			require_once('modules/module.lead-management.php');
 			require_once('modules/module.form-integrations.php');
 			require_once('modules/module.global-settings.php');
@@ -113,6 +93,7 @@ final class WordPress_Leads {
 			require_once('modules/module.ajax-setup.php');
 			require_once('modules/module.post-type.wp-lead.php');
 			require_once('modules/module.post-type.list.php');
+			require_once('classes/class.post-type.email-template.php');
 			require_once('modules/module.form-integrations.php');
 
 			/* load frontend */
@@ -153,14 +134,17 @@ final class WordPress_Leads {
 
 }
 
-require_once('load-shared.php'); // Load shared files
-
+/* Load Leads  */
 function Run_WordPress_Leads() {
 	return WordPress_Leads::instance();
 }
-
-// Get Inbound Now Leads Running
 Run_WordPress_Leads();
+
+/* Load Shared Files */
+require_once('load-shared.php'); // Load shared files
+
+
+
 
 // Legacy function
 function wpleads_check_active() {

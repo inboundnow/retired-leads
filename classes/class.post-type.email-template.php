@@ -18,7 +18,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 			if (is_admin()) {
 			
 				/* Register Activation */
-				register_activation_hook( INBOUND_MARKETING_AUTOMATION_FILE , array( __CLASS__ , 'register_activation') );
+				register_activation_hook( WPL_FILE , array( __CLASS__ , 'register_activation') );
 				
 				/* Register Columns */
 				add_filter( 'manage_email-template_posts_columns' , array( __CLASS__ , 'register_columns') );
@@ -69,7 +69,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'publicly_queryable' => true,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUND_MARKETING_AUTOMATION_URLPATH . '/images/email.png',
+				'menu_icon' => WPL_URL . '/images/email.png',
 				'show_in_menu'  => 'edit.php?post_type=wp-lead',
 				'capability_type' => 'post',
 				'hierarchical' => false,
@@ -269,11 +269,11 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 		public static function register_activation() {
 			
 			/* Load Email Templates Into $inbound_email_templates */			
-			include_once( INBOUND_MARKETING_AUTOMATION_PATH . 'includes/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
-			include_once( INBOUND_MARKETING_AUTOMATION_PATH . 'includes/email-templates/wp-new-user-notification/wp-new-user-notification.php');
-			include_once( INBOUND_MARKETING_AUTOMATION_PATH . 'includes/email-templates/wp-notify-post-author/wp-notify-post-author.php');
-			include_once( INBOUND_MARKETING_AUTOMATION_PATH . 'includes/email-templates/wp-notify-moderator/wp-notify-moderator.php');
-			include_once( INBOUND_MARKETING_AUTOMATION_PATH . 'includes/email-templates/token-test/token-test.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-post-author/wp-notify-post-author.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-moderator/wp-notify-moderator.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/token-test/token-test.php');
 
 			
 			self::register_post_type();
