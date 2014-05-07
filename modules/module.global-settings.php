@@ -336,14 +336,13 @@ function wpleads_save_global_settings() {
 	}
 
 	foreach ($wpleads_global_settings as $key=>$array) {
-		$wpleads_options = $wpleads_global_settings[$key]['settings'];
 
-		if (!$wpleads_options) {
+		if (!isset($wpleads_global_settings[$key]['settings']) || !$wpleads_global_settings[$key]['settings'] ) {
 			continue;
 		}
 
 		/* loop through fields and save the data */
-		foreach ($wpleads_options as $field) {
+		foreach ($wpleads_global_settings[$key]['settings'] as $field) {
 			//echo $field['id'].":".$_POST['main-landing-page-auto-format-forms']."<br>";
 			$field['id'] = $key.'-'.$field['id'];
 
