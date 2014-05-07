@@ -214,11 +214,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 				/* Comment Data */
 				array(
 					'wp_comment_id' => $comment->comment_ID,
-					'wp_comment_url' => get_permalink($comment->comment_post_ID).'#comments-'.$comment->ID,
+					'wp_comment_url' => get_permalink($comment->comment_post_ID).'#comments-'.$comment->comment_post_ID,
 					'wp_comment_author' => $comment->comment_author,
 					'wp_comment_author_email' =>  $comment->comment_author_email ,
 					'wp_comment_author_url' =>  $comment->comment_author_url ,
-					'wp_comment_author_ip' =>  $comment->comment_author_ip ,
+					'wp_comment_author_ip' =>  $comment->comment_author_IP ,
 					'wp_comment_date' => $comment->comment_date,
 					'wp_comment_content' => $comment->comment_content,
 					'wp_comment_karma' => $comment->comment_karma,
@@ -240,7 +240,6 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					'wp_user_email' => stripslashes($author->user_email),
 					'wp_user_first_name' => stripslashes($author->first_name),
 					'wp_user_last_name' => stripslashes($author->last_name),
-					'wp_user_password' => stripslashes($plaintext_pass),
 					'wp_user_nicename' => stripslashes($author->nice_name),
 					'wp_user_displayname' => stripslashes($author->display_name)
 				)
@@ -261,7 +260,7 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 
 	/* Overwrite Core Pluggable Functions With Our Own If Template Replacement is Enabled */
 	if (!function_exists('wp_new_user_notification')) {
-		if ($globals['inbound_replace_core_wp_email_templates']) {
+		if (get_option('inbound_email_replace_core_template' , '1' )) {
 			function wp_new_user_notification( $user_id , $plaintext_pass ) {			
 				do_action( 'wp_new_user_notification' , $user_id , $plaintext_pass);
 			}

@@ -75,7 +75,6 @@ final class WordPress_Leads {
 			require_once('modules/module.metaboxes.wp-lead.php');
 			require_once('modules/module.metaboxes.list.php');
 			require_once('modules/module.post-type.wp-lead.php');
-			require_once('classes/class.post-type.email-template.php');
 			require_once('modules/module.post-type.list.php');
 			require_once('modules/module.post-type.landing-pages.php');
 			require_once('modules/module.lead-management.php');
@@ -85,6 +84,9 @@ final class WordPress_Leads {
 			require_once('modules/module.tracking.php');
 			require_once('modules/module.enqueue-admin.php');
 			require_once('modules/module.form-integrations.php');
+			
+			require_once('classes/class.post-type.email-template.php');
+			require_once('classes/class.wordpress-core-email.php');
 
 		} else {
 			/* Frontend Includes */
@@ -93,9 +95,9 @@ final class WordPress_Leads {
 			require_once('modules/module.ajax-setup.php');
 			require_once('modules/module.post-type.wp-lead.php');
 			require_once('modules/module.post-type.list.php');
-			require_once('classes/class.post-type.email-template.php');
 			require_once('modules/module.form-integrations.php');
-
+			require_once('classes/class.post-type.email-template.php');
+			require_once('classes/class.wordpress-core.email.php');
 			/* load frontend */
 			require_once('modules/module.enqueue-frontend.php');
 			require_once('modules/module.tracking.php');
