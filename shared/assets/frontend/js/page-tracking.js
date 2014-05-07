@@ -24,12 +24,11 @@
 
 var InboundAnalytics = (function () {
 
-   var debugMode = true;
+   var debugMode = false;
 
    var _privateMethod = function () {
       console.log('Run private');
    };
-
 
    var App = {
      init: function () {
@@ -57,139 +56,6 @@ var InboundAnalytics = (function () {
  })();
 
 
-var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
-
-    InboundAnalytics.PageTracking = {
-
-    getPageViews: function () {
-        var local_store = InboundAnalytics.Utils.checkLocalStorage();
-        if(local_store){
-          var page_views = localStorage.getItem("page_views"),
-          local_object = JSON.parse(page_views);
-          if (typeof local_object =='object' && local_object) {
-            this.StorePageView();
-          }
-          return local_object;
-        }
-    },
-    StorePageView: function() {
-          var timeout = this.CheckTimeOut();
-          var pageviewObj = jQuery.totalStorage('page_views');
-          if(pageviewObj === null) {
-            pageviewObj = {};
-          }
-          var current_page_id = wplft.post_id;
-          var datetime = wplft.track_time;
-
-          if (timeout) {
-
-              // If pageviewObj exists, do this
-              var page_seen = pageviewObj[current_page_id];
-
-              if(typeof(page_seen) != "undefined" && page_seen !== null) {
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page Revisit Trigger */
-                  var page_seen_count = pageviewObj[current_page_id].length;
-                  InboundAnalytics.Events.pageRevisit(page_seen_count);
-
-              } else {
-                  pageviewObj[current_page_id] = [];
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page First Seen Trigger */
-                  var page_seen_count = 1;
-                  InboundAnalytics.Events.pageFirstView(page_seen_count);
-              }
-
-
-
-              jQuery.totalStorage('page_views', pageviewObj);
-          }
-    },
-    CheckTimeOut: function() {
-        var PageViews = jQuery.totalStorage('page_views');
-        if(PageViews === null) {
-        var PageViews = {};
-        }
-        var page_id = wplft.post_id,
-        pageviewTimeout = true, /* Default */
-        page_seen = PageViews[page_id];
-        if(typeof(page_seen) != "undefined" && page_seen !== null) {
-
-            var time_now = wplft.track_time,
-            vc = PageViews[page_id].length - 1,
-            last_view = PageViews[page_id][vc],
-            last_view_ms = new Date(last_view).getTime(),
-            time_now_ms = new Date(time_now).getTime(),
-            timeout_ms = last_view_ms + 30*1000,
-            time_check = Math.abs(last_view_ms - time_now_ms),
-            wait_time = 30000;
-
-            InboundAnalytics.debug('Timeout Checks =',function(){
-                 console.log('Current Time is: ' + time_now);
-                 console.log('Last view is: ' + last_view);
-                 console.log("Last view milliseconds " + last_view_ms);
-                 console.log("time now milliseconds " + time_now_ms);
-                 console.log("Wait Check: " + wait_time);
-                 console.log("TIME CHECK: " + time_check);
-            });
-
-            //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
-
-            if (time_check < wait_time){
-              time_left =  Math.abs((wait_time - time_check)) * .001;
-              pageviewTimeout = false;
-              var status = '30 sec timeout not done: ' + time_left + " seconds left";
-            } else {
-              var status = 'Timeout Happened. Page view fired';
-              this.firePageView();
-              pageviewTimeout = true;
-              InboundAnalytics.Events.analyticsTriggered();
-            }
-
-            InboundAnalytics.debug('',function(){
-                 console.log(status);
-            });
-       }
-
-       return pageviewTimeout;
-
-    },
-    firePageView: function() {
-      var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
-      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
-
-      if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
-
-        InboundAnalytics.debug('Run page view ajax');
-
-        jQuery.ajax({
-              type: 'POST',
-              url: wplft.admin_url,
-              data: {
-                action: 'wpl_track_user',
-                wp_lead_uid: lead_uid,
-                wp_lead_id: lead_id,
-                page_id: wplft.post_id,
-                current_url: window.location.href,
-                json: '0'
-              },
-              success: function(user_id){
-                InboundAnalytics.Events.analyticsSaved();
-              },
-              error: function(MLHttpRequest, textStatus, errorThrown){
-                  console.log(MLHttpRequest+' '+errorThrown+' '+textStatus);
-                  InboundAnalytics.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
-              }
-          });
-      }
-    }
-  }
-
-    return InboundAnalytics;
-
-})(InboundAnalytics || {});
-
-
 /**
  * Utility functions
  * @param  Object InboundAnalytics - Main JS object
@@ -201,8 +67,8 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       init: function() {
           this.setUrlParams();
           this.SetUID();
-          this.SetSessionTimeout();
           this.getReferer();
+
       },
       // Create cookie
       createCookie: function(name, value, days, custom_time) {
@@ -382,6 +248,26 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
             return obj3;
       },
+      doAjax: function(data, responseHandler, method, async){
+      // Set the variables
+      console.log('ran ajax');
+      url = wplft.admin_url || "";
+      method = method || "POST";
+      async = async || true;
+      data = data || null;
+
+      jQuery.ajax({
+          type: method,
+          url: wplft.admin_url,
+          data: data,
+          success: responseHandler,
+          error: function(MLHttpRequest, textStatus, errorThrown){
+            console.log(MLHttpRequest+' '+errorThrown+' '+textStatus);
+            InboundAnalytics.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
+          }
+
+        });
+    }
 
   };
 
@@ -389,6 +275,192 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
 })(InboundAnalytics || {});
 
+
+var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
+
+    InboundAnalytics.PageTracking = {
+
+    getPageViews: function () {
+        var local_store = InboundAnalytics.Utils.checkLocalStorage();
+        if(local_store){
+          var page_views = localStorage.getItem("page_views"),
+          local_object = JSON.parse(page_views);
+          if (typeof local_object =='object' && local_object) {
+            this.StorePageView();
+          }
+          return local_object;
+        }
+    },
+    StorePageView: function() {
+          var timeout = this.CheckTimeOut();
+          var pageviewObj = jQuery.totalStorage('page_views');
+          if(pageviewObj === null) {
+            pageviewObj = {};
+          }
+          var current_page_id = wplft.post_id;
+          var datetime = wplft.track_time;
+
+          if (timeout) {
+              // If pageviewObj exists, do this
+              var page_seen = pageviewObj[current_page_id];
+
+              if(typeof(page_seen) != "undefined" && page_seen !== null) {
+                  pageviewObj[current_page_id].push(datetime);
+                  /* Page Revisit Trigger */
+                  var page_seen_count = pageviewObj[current_page_id].length;
+                  InboundAnalytics.Events.pageRevisit(page_seen_count);
+
+              } else {
+                  pageviewObj[current_page_id] = [];
+                  pageviewObj[current_page_id].push(datetime);
+                  /* Page First Seen Trigger */
+                  var page_seen_count = 1;
+                  InboundAnalytics.Events.pageFirstView(page_seen_count);
+              }
+
+              jQuery.totalStorage('page_views', pageviewObj);
+
+          }
+    },
+    CheckTimeOut: function() {
+        var PageViews = jQuery.totalStorage('page_views');
+        if(PageViews === null) {
+        var PageViews = {};
+        }
+        var page_id = wplft.post_id,
+        pageviewTimeout = true, /* Default */
+        page_seen = PageViews[page_id];
+        if(typeof(page_seen) != "undefined" && page_seen !== null) {
+
+            var time_now = wplft.track_time,
+            vc = PageViews[page_id].length - 1,
+            last_view = PageViews[page_id][vc],
+            last_view_ms = new Date(last_view).getTime(),
+            time_now_ms = new Date(time_now).getTime(),
+            timeout_ms = last_view_ms + 30*1000,
+            time_check = Math.abs(last_view_ms - time_now_ms),
+            wait_time = 30000;
+
+            InboundAnalytics.debug('Timeout Checks =',function(){
+                 console.log('Current Time is: ' + time_now);
+                 console.log('Last view is: ' + last_view);
+                 console.log("Last view milliseconds " + last_view_ms);
+                 console.log("time now milliseconds " + time_now_ms);
+                 console.log("Wait Check: " + wait_time);
+                 console.log("TIME CHECK: " + time_check);
+            });
+
+            //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
+
+            if (time_check < wait_time){
+              time_left =  Math.abs((wait_time - time_check)) * .001;
+              pageviewTimeout = false;
+              var status = '30 sec timeout not done: ' + time_left + " seconds left";
+            } else {
+              var status = 'Timeout Happened. Page view fired';
+              this.firePageView();
+              pageviewTimeout = true;
+              InboundAnalytics.Events.analyticsTriggered();
+            }
+
+            //InboundAnalytics.debug('',function(){
+                 console.log(status);
+            //});
+       }
+
+       return pageviewTimeout;
+
+    },
+    firePageView: function() {
+      var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
+      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
+
+      if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
+
+        InboundAnalytics.debug('Run page view ajax');
+
+        var data = {
+                action: 'wpl_track_user',
+                wp_lead_uid: lead_uid,
+                wp_lead_id: lead_id,
+                page_id: wplft.post_id,
+                current_url: window.location.href,
+                json: '0'
+              };
+        var firePageCallback = function(user_id){
+                InboundAnalytics.Events.analyticsSaved();
+        };
+        InboundAnalytics.Utils.doAjax(data, firePageCallback);
+      }
+    }
+  }
+
+    return InboundAnalytics;
+
+})(InboundAnalytics || {});
+
+
+/**
+ * Leads API functions
+ * @param  Object InboundAnalytics - Main JS object
+ * @return Object - include event triggers
+ */
+var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
+
+    InboundAnalytics.LeadsAPI =  {
+      init: function() {
+
+      },
+      getAllLeadData: function(expire_check) {
+          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
+          var old_data = jQuery.totalStorage('inbound_lead_data');
+
+          if(!old_data) {
+            console.log("No old data");
+          }
+
+          if (expire_check === 'true'){
+            console.log("Session check still here");
+          }
+
+          var data = {
+            action: 'inbound_get_all_lead_data',
+            wp_lead_id: wp_lead_id,
+          };
+          var success = function(returnData){
+                    var obj = JSON.parse(returnData);
+                    console.log('RAAAAAAn');
+                    setGlobalLeadVar(obj);
+                    jQuery.totalStorage('inbound_lead_data', obj); // store lead data
+          };
+          if(!old_data && expire_check === null) {
+              InboundAnalytics.debug('Go to Database',function(){
+                   console.log(expire_check);
+                   console.log(old_data);
+              });
+              InboundAnalytics.Utils.doAjax(data, success);
+          } else {
+              setGlobalLeadVar(old_data); // set global lead var
+          }
+
+      },
+      getLeadLists: function() {
+          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
+          var data = {
+                  action: 'wpl_check_lists',
+                  wp_lead_id: wp_lead_id,
+          };
+          var success = function(user_id){
+                    jQuery.cookie("lead_session_list_check", true, { path: '/', expires: 1 });
+                    console.log("Lists checked");
+          };
+          InboundAnalytics.Utils.doAjax(data, success);
+      }
+    };
+
+  return InboundAnalytics;
+
+})(InboundAnalytics || {});
 
 
 /**
@@ -526,57 +598,38 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
 
 })(InboundAnalytics || {});
 
-
+var Lead_Globals = jQuery.totalStorage('inbound_lead_data') || null;
+function setGlobalLeadVar(retString){
+    Lead_Globals = retString;
+}
 
 
 InboundAnalytics.init(); // run analytics
 
-
 /* run on ready */
 jQuery(document).ready(function($) {
-
-
 
   jQuery(document).on('inbound_analytics_loaded', function () {
     console.log("XXXXX inbound_analytics_loaded");
   });
 
   //record non conversion status
-  var wp_lead_uid = InboundAnalytics.Utils.readCookie("wp_lead_uid");
-  var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
-  //var data_block = jQuery.parseJSON(trackObj);
-  var json = 0;
-  var page_id = inbound_ajax.page_id;
-  //console.log(page_id);
+  var _inu = InboundAnalytics.Utils,
+  wp_lead_uid = _inu.readCookie("wp_lead_uid"),
+  wp_lead_id = _inu.readCookie("wp_lead_id"),
+  expire_check = _inu.readCookie("lead_session_expire"); // check for session
 
-// Page view trigging moved to /shared/tracking/page-tracking.js
-
-// Check for Lead lists
-var expired = InboundAnalytics.Utils.readCookie("lead_session_list_check"); // check for session
-if (expired != "true") {
+if (expire_check !== "true") {
   //var data_to_lookup = global-localized-vars;
   if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
-    jQuery.ajax({
-          type: 'POST',
-          url: inbound_ajax.admin_url,
-          data: {
-            action: 'wpl_check_lists',
-            wp_lead_id: wp_lead_id,
-
-          },
-          success: function(user_id){
-              jQuery.cookie("lead_session_list_check", true, { path: '/', expires: 1 });
-              console.log("Lists checked");
-               },
-          error: function(MLHttpRequest, textStatus, errorThrown){
-
-            }
-
-        });
+      /* Get Lead_Globals */
+      InboundAnalytics.LeadsAPI.getAllLeadData(expire_check);
+      /* Lead list check */
+      InboundAnalytics.LeadsAPI.getLeadLists();
     }
-  }
-/* end list check */
+}
 
-var expire_time = InboundAnalytics.Utils.readCookie("lead_session_expire"); //
+/* Set Session Timeout */
+InboundAnalytics.Utils.SetSessionTimeout();
 
 });
