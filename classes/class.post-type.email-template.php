@@ -64,17 +64,18 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 			);
 
 			$args = array(
-				'labels' => $labels,
-				'public' => true,
-				'publicly_queryable' => true,
-				'show_ui' => true,
-				'query_var' => true,
-				'menu_icon' => WPL_URL . '/images/email.png',
-				'show_in_menu'  => 'edit.php?post_type=wp-lead',
-				'capability_type' => 'post',
-				'hierarchical' => false,
-				'menu_position' => null,
-				'supports' => array('title' , 'custom-fields' )
+				'labels' 				=> $labels,
+				'public'				=> true,
+				'publicly_queryable' 	=> true,
+				'show_ui' 				=> true,
+				'query_var' 			=> true,
+				'menu_icon' 			=> WPL_URL . '/images/email.png',
+				'show_in_menu'  		=> 'edit.php?post_type=wp-lead',
+				'capability_type' 		=> 'post',
+				'hierarchical' 			=> false,
+				'menu_position' 		=> null,
+				'show_in_nav_menus'		=> false,
+				'supports'				=> array('title' , 'custom-fields' )
 			);
 
 			register_post_type( 'email-template' , $args );
@@ -85,11 +86,12 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 		public static function register_category_taxonomy() {
 			$args = array(
 				'hierarchical' => true,
-				'label' => __( 'Categories' , 'leads'),
-				'singular_label' => __( 'Email Template Category' , 'leads'),
-				'show_ui' => true,
-				'query_var' => true,
-				"rewrite" => true
+				'label' 				=> __( 'Categories' , 'leads'),
+				'singular_label' 		=> __( 'Email Template Category' , 'leads'),
+				'show_ui' 				=> true,
+				'query_var'				=> true,
+				"rewrite" 				=> true,
+				'show_in_nav_menus'		=> false,
     		);
 
 			register_taxonomy('email_template_category', array('email-template'), $args);
