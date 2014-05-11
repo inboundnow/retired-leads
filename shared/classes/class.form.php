@@ -851,8 +851,10 @@ class InboundForms {
 			$subject = $Inbound_Templating_Engine->replace_tokens( $subject , array( $form_post_data , $form_meta_data )  );
 			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array( $form_post_data , $form_meta_data )  );
 			
+			
 			$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";			
-
+			$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
+			
 			foreach ($to_address as $key => $recipient) {
 				$result = wp_mail( $recipient , $subject , $body , $headers );
 			}

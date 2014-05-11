@@ -119,9 +119,11 @@ class InboundShortcodesFields {
 					case 'select' :
 						$output  = $row_start;
 						$output .= '<select name="'. $key .'" id="'.$key.'" class="inbound-shortcodes-input select inbound-shortcodes-select">';
-						foreach( $option['options'] as $val => $opt ) {
-							$selected = ($std == $val) ? ' selected="selected"' : '';
-							$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+						if ( isset( $option['options'] ) ) {
+							foreach( $option['options'] as $val => $opt ) {
+								$selected = ($std == $val) ? ' selected="selected"' : '';
+								$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
+							}
 						}
 						$output .= '</select>';
 						$output .= $row_end;

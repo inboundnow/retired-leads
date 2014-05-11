@@ -792,6 +792,7 @@ class InboundShortcodes {
 			
 			function inbound_forms_select_email_template() {
 				var selected = jQuery('#inbound_email_send_notification_template').val();
+				
 				if ( selected != 'custom') {
 					jQuery('#postdivrich').hide();
 					jQuery('#inbound_confirmation_subject').hide();
@@ -810,11 +811,8 @@ class InboundShortcodes {
 					  jQuery('#inbound-shortcodes-form input:visible').first().focus();
 				}, 500);
 				
-				/* Toggle Hide/Show Default */
-				inbound_forms_select_email_template();
-				
 				/* Hide Options Based on Selected Template */
-				jQuery('body').on('change' , jQuery('#inbound_email_send_notification_template') , function() {
+				jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
 					inbound_forms_select_email_template();
 				});
 			  
