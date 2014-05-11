@@ -55,6 +55,7 @@ console.log(link_varaition);
 		// console.log(new_reload);
 		jQuery(parent.document).find(".wp-cta-load-overlay").fadeOut('slow');
 		var iframe_w = jQuery('.cta-width').val();
+
 		var iframe_h = jQuery('.cta-height').val();
 		if (typeof (iframe_h) === "undefined" || iframe_h === null || iframe_h === "") {
 		    var iframe_height = "100%";
@@ -63,8 +64,9 @@ console.log(link_varaition);
 			var iframe_width = jQuery('.cta-width').val() + "px";
 			var iframe_height = jQuery('.cta-height').val() + "px";
 		}
+
 		console.log("RUNNNNNNNNNN");
-		jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_width).css('height', iframe_height);
+		jQuery(parent.document).find("#wp-cta-live-preview").css('width', iframe_w).css('height', iframe_h);
 		jQuery(parent.document).find("#wp-cta-live-preview").contents().find("html,body").css('background', 'transparent');
 	}
 
