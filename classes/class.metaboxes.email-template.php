@@ -52,7 +52,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			/* Template Select Metabox */
 			add_meta_box(
 				'inbound_email_templates_metabox_select_template', // $id
-				__( 'Template Options', 'ma' ),
+				__( 'Template Options', 'leads' ),
 				array( __CLASS__ , 'display_markup' ), // $callback
 				self::$post_type , 
 				'normal', 
@@ -62,7 +62,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			/* Core Tokens */
 			add_meta_box(
 				'inbound_email_templates_metabox_core_tokens', // $id
-				__( 'Core Tokens', 'ma' ),
+				__( 'Core Tokens', 'leads' ),
 				array( __CLASS__ , 'display_core_tokens' ), // $callback
 				self::$post_type , 
 				'side', 
@@ -72,7 +72,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			/* Lead Tokens */
 			add_meta_box(
 				'inbound_email_templates_metabox_lead_tokens', // $id
-				__( 'Form Submission Tokens', 'ma' ),
+				__( 'Form Submission Tokens', 'leads' ),
 				array( __CLASS__ , 'display_form_submission_tokens' ), // $callback
 				self::$post_type , 
 				'side', 
@@ -82,7 +82,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			/* User Tokens */
 			add_meta_box(
 				'inbound_email_templates_metabox_user_tokens', // $id
-				__( 'User Tokens', 'ma' ),
+				__( 'User Tokens', 'leads' ),
 				array( __CLASS__ , 'display_user_tokens' ), // $callback
 				self::$post_type , 
 				'side', 
@@ -92,7 +92,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			/* Comment Tokens */
 			add_meta_box(
 				'inbound_email_templates_metabox_comment_tokens', // $id
-				__( 'Comment Tokens', 'ma' ),
+				__( 'Comment Tokens', 'leads' ),
 				array( __CLASS__ , 'display_comment_tokens' ), // $callback
 				self::$post_type , 
 				'side', 
@@ -236,7 +236,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 		public static function change_title_text( $text, $post ) {
 			if ($post->post_type==self::$post_type) {
-				return __( 'Email Template Name' , 'ma' );
+				return __( 'Email Template Name' , 'leads' );
 			} else {
 				return $text;
 			}

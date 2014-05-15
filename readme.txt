@@ -8,6 +8,7 @@ Tags: leads, lead capture, lead tracking, lead collection, lead management, crm,
 Requires at least: 3.8
 Tested up to: 3.8
 Stable Tag: 1.3.8
+Follow us on Twitter: @gitleads, @inboundnow
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 

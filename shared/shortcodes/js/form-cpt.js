@@ -11,30 +11,28 @@ jQuery(document).ready(function($) {
    		var this_val = jQuery(this).val();
    		jQuery("#inbound_shortcode_form_name").val(this_val);
     });
+    var build_form = ' <span id="view-form-builder" class="button view-form-builder">Build Form</span>';
     var view_leads_list = '<span id="view-leads-list" class="button view-leads-list">View Conversions</span>';
     var view_email_response = '<span id="view-email-response" class="button">Set Email Response</span>';
-    jQuery('.add-new-h2').after(view_leads_list);
+    jQuery('.add-new-h2').after(build_form);
+    jQuery('#view-form-builder').after(view_leads_list);
     jQuery('#view-leads-list').after(view_email_response);
 
+    jQuery("body").on('click', '#view-form-builder', function () {
+        jQuery("#form-leads-list").hide();
+        jQuery("#inbound-shortcodes-popup").show();
+		 jQuery('#form-leads-list, #title, #inbound-email-response,#postdivrich').hide();
+    });
+	
     jQuery("body").on('click', '#view-email-response', function () {
-        jQuery('#inbound-shortcodes-popup, #form-leads-list, #title').hide();
+        jQuery('#inbound-shortcodes-popup, #form-leads-list, #title, #inbound-email-response').hide();
         jQuery('#inbound-email-response').show();
+		jQuery('#postdivrich').show();
     });
 
     jQuery("body").on('click', '#view-leads-list', function () {
-        jQuery(this).text('Switch Back to Form Editor');
-        jQuery(this).removeClass('view-leads-list');
-        jQuery("#inbound-shortcodes-popup, #postdivrich, #inbound-email-response").hide();
+        jQuery("#inbound-shortcodes-popup, #postdivrich, #form-leads-list, #inbound-email-response").hide();
         jQuery("#form-leads-list, #title").show();
-        jQuery(this).addClass('view-form-builder');
-    });
-
-    jQuery("body").on('click', '.view-form-builder', function () {
-        jQuery(this).removeClass('view-form-builder').addClass('view-leads-list');
-        jQuery(this).text('View Conversions');
-
-        jQuery("#form-leads-list").hide();
-        jQuery("#inbound-shortcodes-popup").show();
     });
 
     jQuery("body").on('change keyup', '#inbound_shortcode_form_name', function () {
