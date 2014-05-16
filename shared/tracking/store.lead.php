@@ -174,7 +174,7 @@ function inbound_store_lead( $args = array() ) {
 			$lead_id = $lead_data['lead_id'];
 			inbound_update_common_meta($lead_data);
 
-			do_action('wpleads_existing_lead_insert', $lead_data ); // action hook on existing leads only
+			do_action('wpleads_existing_lead_update', $lead_data ); // action hook on existing leads only
 
 		}
 		else
