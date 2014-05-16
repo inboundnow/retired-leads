@@ -58,8 +58,9 @@ final class WordPress_Leads {
 		define('WPL_SLUG', plugin_basename( __FILE__ ) );
 		define('WPL_FILE',  __FILE__ );
 		define('WPL_STORE_URL', 'http://www.inboundnow.com' );
-		define('WPL_UPLOADS_PATH', wp_upload_dir().'/leads/' );
-		define('WPL_UPLOADS_URLPATH', wp_upload_dir().'/leads/' );
+		$uploads = wp_upload_dir();
+		define('WPL_UPLOADS_PATH', $uploads['basedir'].'/leads/' );
+		define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
 	}
 
 	/* Include required files */
