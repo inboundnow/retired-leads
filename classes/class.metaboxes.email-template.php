@@ -59,6 +59,18 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 				'high'
 			); 
 			
+			/* Restore Default Template */
+			if ( has_term('inbound-core','email_template_category' , $post) || has_term('wordpress-core','email_template_category' , $post) ) {
+				add_meta_box(
+					'inbound_email_templates_metabox_restore_template', // $id
+					__( 'Restore Template', 'leads' ),
+					array( __CLASS__ , 'display_restore_template' ), // $callback
+					self::$post_type , 
+					'side', 
+					'low'
+				); 
+			}
+			
 			/* Core Tokens */
 			add_meta_box(
 				'inbound_email_templates_metabox_core_tokens', // $id
@@ -116,17 +128,51 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			if ( has_term('inbound-core','email_template_category' , $post) || has_term('wordpress-core','email_template_category' , $post) ) {
 				echo '<i>'. $description .'</i>';
 			} else {			
-				echo '<textarea name="inbound_email_description"  id="inbound_email_description" rows="1" cols="30" style="width:100%;">'.$description.'</textarea>';			
+				echo '<textarea name="inbound_email_description" id="inbound_email_description" rows="1" cols="30" style="width:100%;">'.$description.'</textarea>';			
 			}
 			
 			echo '<h2>Subject-Line Template:</h2>';
-			echo '<input type="text" name="inbound_email_subject_template"  style="width:100%;" value="'. str_replace( '"', '\"', $subject ) .'">';		
+			echo '<input type="text" name="inbound_email_subject_template" style="width:100%;" value="'. str_replace( '"', '\"', $subject ) .'">';		
 			
 			echo '<h2>Email Body Template:</h2>';
-			echo '<textarea name="inbound_email_body_template"  id="inbound_email_body_template" rows="'.$line_count.'" cols="30" style="width:100%;">'.$body.'</textarea>';			
+			echo '<textarea name="inbound_email_body_template"	id="inbound_email_body_template" rows="'.$line_count.'" cols="30" style="width:100%;">'.$body.'</textarea>';			
 			
 		}
 
+		public static function display_restore_template() {
+			global $Inbound_Email_Templates_Post_Type, $post;
+			
+			/* Load template files */
+			$inbound_email_templates = $Inbound_Email_Templates_Post_Type->load_template_files();
+			
+			/* Get this template id */
+			$template_id = get_post_meta( $post->ID , '_inbound_template_id', true );
+			
+			?>
+			<div class='inbound_email_templates_restore_template' style='text-align:center;'>			
+				<span class="button" id='inbound_restore_template' style='width:100%;'>Restore Default Template</span>
+			</div>
+			<div id='<?php echo $template_id; ?>' style='display:none'><?php echo htmlentities($inbound_email_templates[ $template_id ]); ?></div>
+			<script>
+				jQuery(document).ready(function($) {
+					jQuery("#inbound_restore_template").click( function(e)
+					{
+						e.preventDefault();
+						if (confirm('<?php _e('Are you sure you want to restore the original template?' , 'leads' ); ?>')) {
+							var html = jQuery('#<?php echo $template_id; ?>').html();
+							var html_decoded = $('<textarea />').html(html).text();							
+							jQuery('#inbound_email_body_template').val(html_decoded);
+							alert('<?php _e( 'Template restored!' , 'leads' ); ?>');
+						};
+					});
+				});
+			</script>
+			<?php
+		}
+		
+		/*
+		* Display list of available core tokens 
+		*/
 		public static function display_core_tokens() {
 			
 			?>
@@ -189,6 +235,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 				<span class='user_token' title='The author name of Comment' style='cursor:pointer;'>{{wp-comment-author}}</span><br>
 				<span class='user_token' title='The author url of Comment' style='cursor:pointer;'>{{wp-comment-author-url}}</span><br>
 				<span class='user_token' title='The author ip of Comment' style='cursor:pointer;'>{{wp-comment-author-ip}}</span><br>
+				<span class='user_token' title='The author ip of Comment' style='cursor:pointer;'>{{wp-comment-gravitar-url}}</span><br>
 				<span class='user_token' title='The content of Comment' style='cursor:pointer;'>{{wp-comment-content}}</span><br>
 				<span class='user_token' title='The date of Comment' style='cursor:pointer;'>{{wp-comment-date}}</span><br>
 				<span class='user_token' title='The karma of Comment' style='cursor:pointer;'>{{wp-comment-karma}}</span><br>
