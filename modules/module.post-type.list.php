@@ -102,6 +102,7 @@ function wpleads_add_lead_to_list( $list_id, $lead_id ) {
 		$wpleads_list_ids = update_post_meta($lead_id , 'wpleads_list_ids', $wpleads_list_ids);
 	}
 
+	do_action('post_add_lead_to_lead_list' , $lead_id , $list_id );
 }
 
 function wpleads_remove_lead_from_list( $list_id, $lead_id ) {
