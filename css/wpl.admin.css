@@ -539,7 +539,7 @@ text-align: center;
 	position: absolute;
 	right: 19px;
 	font-size: 17px;
-	bottom: 0px;
+	top: 2px;
 	font-weight: bold;
 }
 .session-item-holder .lp-page-view-item .marker:before {
