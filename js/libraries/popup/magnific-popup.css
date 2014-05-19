@@ -394,3 +394,22 @@ img.mfp-img {
   top: 0;
   right: 0;
   padding-top: 0; }
+/* Custom CSS */
+#cta-no-show, #the-popup-id, #cta-popup-id {
+  display: none !important;
+}
+#wordpress-cta {
+  text-align: center;
+}
+.white-popup-block {
+background: transparent;
+padding: 0px 0px;
+text-align: left;
+max-width: 750px;
+margin: 40px auto;
+position: relative;
+}
+
+.mfp-close {
+color:red !important;
+}

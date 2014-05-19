@@ -43,7 +43,7 @@ array(
          'description' => "Header Image",
          'id'  => 'header-image',
          'type'  => 'media',
-         'default'  => $this_path . '/bg.jpg',
+         'default'  => $url_path . 'bg.jpg',
          'context'  => 'normal'
          ),
    array(
