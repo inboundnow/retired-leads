@@ -612,7 +612,8 @@ function wpleads_display_metabox_main() {
 				</div>
 				<?php
 				/* Display WP USer edit link */
-				if ( $wp_user_id = get_post_meta( $post->ID , 'wpleads_wordpress_user_id' , true ) ) {
+				$wp_user_id = get_post_meta( $post->ID , 'wpleads_wordpress_user_id' , true );
+				if ( isset($wp_user_id) && ($wp_user_id != 1) ) {
 					$edit_user_link = get_edit_user_link( $wp_user_id );
 					echo '<a  target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
 				}

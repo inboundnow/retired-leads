@@ -14,6 +14,9 @@
 .lead-timeline-img img, .updated.inbound-shortcode-trigger {
 	display: none !important;
 }
+.add-new-h2:nth-of-type(2) {
+	display: none;
+}
 .lead-timeline-img:before {
 	display: inline-block;
 	font-family: FontAwesome;

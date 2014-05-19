@@ -23,12 +23,15 @@
 	    display: inline-block;
 	    font-size: 12px;
 	    line-height: 16px;
-	    margin: 0 6px -1px 0;
+
 	    padding: 4px 14px 6px;
 	    text-decoration: none;
 	    text-shadow: 0 1px 0 #FFFFFF;
 		cursor:pointer;
 	    background: rgba(241,241,241, 1) !important;
+}
+a:active, a:focus {
+outline: none;
 }
 #lp-st-tabs .nav-tab-special-active {
 	background: #fff !important;
@@ -262,7 +265,7 @@ h2 .nav-tab {
 	font-weight: 200;
 	font-size: 20px;
 	line-height: 24px;
-	margin-bottom: -2px;
+	margin-bottom: -1px;
 }
 
 .view-this-lead-session {
@@ -536,7 +539,7 @@ text-align: center;
 	position: absolute;
 	right: 19px;
 	font-size: 17px;
-	bottom: 0px;
+	top: 2px;
 	font-weight: bold;
 }
 .session-item-holder .lp-page-view-item .marker:before {

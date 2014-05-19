@@ -190,18 +190,30 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
         }
         return supported;
       },
+      /* Add days to datetime */
+      addDays: function(myDate,days) {
+        return new Date(myDate.getTime() + days*24*60*60*1000);
+      },
       /* Set Expiration Date of Session Logging */
       SetSessionTimeout: function(){
           var session_check = this.readCookie("lead_session_expire");
           console.log(session_check);
-          if(session_check !== 'true'){
+          if(session_check === null){
             InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
           } else {
             InboundAnalytics.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
           }
           var d = new Date();
           d.setTime(d.getTime() + 30*60*1000);
+
           this.createCookie("lead_session_expire", true, d, true); // Set cookie on page loads
+          var lead_data_expiration = this.readCookie("lead_data_expiration");
+          if (lead_data_expiration === null){
+            /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
+            var ex = this.addDays(d, 3);
+            this.createCookie("lead_data_expiration", ex, ex, true);
+          }
+
       },
       getReferer: function(){
         //console.log(expire_time);
@@ -250,11 +262,12 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       },
       doAjax: function(data, responseHandler, method, async){
       // Set the variables
-      console.log('ran ajax');
-      url = wplft.admin_url || "";
-      method = method || "POST";
-      async = async || true;
-      data = data || null;
+      var url = wplft.admin_url || "",
+      method = method || "POST",
+      async = async || true,
+      data = data || null,
+      action = data.action;
+      console.log('ran ajax ' + action);
 
       jQuery.ajax({
           type: method,
@@ -366,6 +379,9 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
             //InboundAnalytics.debug('',function(){
                  console.log(status);
             //});
+       } else {
+          /* Page never seen before */
+          this.firePageView();
        }
 
        return pageviewTimeout;
@@ -412,27 +428,27 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
 
       },
       getAllLeadData: function(expire_check) {
-          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
-          var old_data = jQuery.totalStorage('inbound_lead_data');
+          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id"),
+          old_data = jQuery.totalStorage('inbound_lead_data'),
+          data = {
+            action: 'inbound_get_all_lead_data',
+            wp_lead_id: wp_lead_id,
+          },
+          success = function(returnData){
+                    var obj = JSON.parse(returnData);
+                    console.log('RAAAAAAn');
+                    setGlobalLeadVar(obj);
+                    jQuery.totalStorage('inbound_lead_data', obj); // store lead data
+          };
 
           if(!old_data) {
             console.log("No old data");
           }
 
           if (expire_check === 'true'){
-            console.log("Session check still here");
+            console.log("Session has not expired");
           }
 
-          var data = {
-            action: 'inbound_get_all_lead_data',
-            wp_lead_id: wp_lead_id,
-          };
-          var success = function(returnData){
-                    var obj = JSON.parse(returnData);
-                    console.log('RAAAAAAn');
-                    setGlobalLeadVar(obj);
-                    jQuery.totalStorage('inbound_lead_data', obj); // store lead data
-          };
           if(!old_data && expire_check === null) {
               InboundAnalytics.debug('Go to Database',function(){
                    console.log(expire_check);
@@ -440,7 +456,12 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
               });
               InboundAnalytics.Utils.doAjax(data, success);
           } else {
-              setGlobalLeadVar(old_data); // set global lead var
+              setGlobalLeadVar(old_data); // set global lead var with localstorage data
+              var lead_data_expiration = InboundAnalytics.Utils.readCookie("lead_data_expiration");
+              if (lead_data_expiration === null) {
+                InboundAnalytics.Utils.doAjax(data, success);
+                console.log('localized data old. Pull new from DB');
+              }
           }
 
       },
@@ -474,10 +495,12 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
  function fireOnPageViewTrigger(){
      alert("page view was triggered");
  }
+
  // trigger custom function on analytics loaded JQuery version
  jQuery(document).on('inbound_analytics_loaded', function (event, data) {
    console.log("XXxxxX inbound_analytics_loaded");
  });
+
  // trigger custom function on page first seen
  window.addEventListener("inbound_analytics_page_first_view", page_first_seen_function, false);
  function page_first_seen_function(){
@@ -614,12 +637,13 @@ jQuery(document).ready(function($) {
   });
 
   //record non conversion status
-  var _inu = InboundAnalytics.Utils,
-  wp_lead_uid = _inu.readCookie("wp_lead_uid"),
-  wp_lead_id = _inu.readCookie("wp_lead_id"),
-  expire_check = _inu.readCookie("lead_session_expire"); // check for session
+  var in_u = InboundAnalytics.Utils,
+  wp_lead_uid = in_u.readCookie("wp_lead_uid"),
+  wp_lead_id = in_u.readCookie("wp_lead_id"),
+  expire_check = in_u.readCookie("lead_session_expire"); // check for session
 
-if (expire_check !== "true") {
+if (expire_check === null) {
+  console.log('rannnnnnn');
   //var data_to_lookup = global-localized-vars;
   if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
       /* Get Lead_Globals */
