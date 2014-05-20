@@ -23,10 +23,6 @@ define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates
 define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' );
 
 
-if (is_admin()){
-	if(!isset($_SESSION)){@session_start();}
-}
-
 /* load core files */
 switch (is_admin()) :
 	case true :
