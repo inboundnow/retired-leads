@@ -89,7 +89,7 @@ class Inbound_Email_Template_Shortcodes {
 		extract( shortcode_atts( array(
 	      'email' => 'default@gravitar.com',
 	      'size' => '60',
-		  'default' => ''
+		  'default' => 'mm'
 		), $atts ) );
 		
 		return "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;		
