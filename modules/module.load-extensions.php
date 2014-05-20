@@ -20,10 +20,10 @@ class CTALoadExtensions
 			self::$instance = new CTALoadExtensions;
 
 			/* if frontend load transient data - this data will update on every wp-admin call so you can use an admin call as a cache clear */
-			if ( !is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX &&  isset($_POST['action']) && $_POST['action'] != 'wp_cta_get_template_meta' )  ) 
-			{				
+			if ( !is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX &&  isset($_POST['action']) && $_POST['action'] != 'wp_cta_get_template_meta' )  )
+			{
 				self::$instance->template_definitions = get_transient('wp_cta_template_definitions');
-				
+
 				if ( self::$instance->template_definitions ) {
 					return self::$instance;
 				}
@@ -286,7 +286,8 @@ class CTALoadExtensions
 									'below' => __( 'Below Content' , 'cta' ),
 									'middle' => __( 'Middle of Content' , 'cta' ),
 									'above'=> __( 'Above Content' , 'cta' ),
-									'widget_1' => __( 'Use Dynamic Sidebar Widget' , 'cta' )
+									'widget_1' => __( 'Use Dynamic Sidebar Widget' , 'cta' ),
+									'popup' => __( 'Popup' , 'cta' )
 								  ),
 				'context'  => 'normal',
 				'class' => 'cta-per-page-option'
