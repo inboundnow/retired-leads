@@ -33,7 +33,9 @@ switch (is_admin()) :
 		/* loads admin files */
 		//include_once('functions/functions.global.php'); // old
 		include_once('modules/module.activate.php');
-		include_once('modules/module.post-type.php');
+		include_once('classes/class.post-type.wp-call-to-action.php');
+		include_once('classes/class.extension.wp-lead.php');
+		include_once('classes/class.extension.wordpress-seo.php');
 		include_once('modules/module.admin-menus.php');
 		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.enqueue.php');
@@ -97,7 +99,9 @@ switch (is_admin()) :
 		/* load front-end files */
 		// include_once('functions/functions.global.php'); // old
 		include_once('modules/module.load-extensions.php');
-		include_once('modules/module.post-type.php');
+		include_once('classes/class.post-type.wp-call-to-action.php');
+		include_once('classes/class.extension.wp-lead.php');
+		include_once('classes/class.extension.wordpress-seo.php');
 		include_once('modules/module.enqueue.php');
 		include_once('modules/module.track.php');
 		include_once('modules/module.click-tracking.php');
