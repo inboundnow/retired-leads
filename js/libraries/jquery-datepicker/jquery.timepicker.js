@@ -45,7 +45,6 @@ requires jQuery 1.7+
 			{
 				var self = $(this);
 
-alert('hi');
 				// convert dropdowns to text input
 				if (self[0].tagName == 'SELECT') {
 					var attrs = { 'type': 'text', 'value': self.val() };
