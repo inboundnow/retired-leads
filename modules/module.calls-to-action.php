@@ -474,85 +474,85 @@ class CallsToAction {
 				//echo "TOKEN:" . $token_match . "<br>";
 				//$pos = strrpos($token_match, "|");
 				if (preg_match('/\|/', $token_match)) {
-					 //echo "False match:" . $key . " <br>";
-					 $false_match_item = $template_slug.'-' . $key . '-'.$vid;
-					 $false_match[] = $false_match_item;
-					 if ($show_debug_token) {
-					 	echo "<br><span style='color:red'>Token MATCH ON:</span> " . $token_match . "<br>";
-					 }
+					//echo "False match:" . $key . " <br>";
+					$false_match_item = $template_slug.'-' . $key . '-'.$vid;
+					$false_match[] = $false_match_item;
+					if ($show_debug_token) {
+						echo "<br><span style='color:red'>Token MATCH ON:</span> " . $token_match . "<br>";
+					}
 
-					 $clean_key = str_replace(array("{", "}"), "", $token_match);
+					$clean_key = str_replace(array("{", "}"), "", $token_match);
 
-					 $separate_token = explode('|', $clean_key); // split at pipe
-
-
-					 $correct_key = $separate_token[0];
-					 $full = $template_slug.'-' . $correct_key . '-'.$vid;
-					 // Set Correct Value
-					 $value = $selected_cta['meta'][$vid][$full]; // reset value to correct key;
-					 $key = $clean_key; // set correct key
-					 $global_val_array[$correct_key] = $value;
-					 //echo $key;
-
-					 // Merge and fix missing vars
-					 $final_token_array[$value] = $token_matchs[0];
-					 $token_array = array_merge($token_array, $token_matchs[0]);
+					$separate_token = explode('|', $clean_key); // split at pipe
 
 
-					 /* Run Special Parse Functions Here */
-					 $run_function = $separate_token[1];
-					 $function_name = explode("(", $run_function);
+					$correct_key = $separate_token[0];
+					$full = $template_slug.'-' . $correct_key . '-'.$vid;
+					// Set Correct Value
+					$value = $selected_cta['meta'][$vid][$full]; // reset value to correct key;
+					$key = $clean_key; // set correct key
+					$global_val_array[$correct_key] = $value;
+					//echo $key;
 
-					 	preg_match('#\((.*?)\)#', $run_function, $fun_match);
-					 	if (is_array($fun_match)){
+					// Merge and fix missing vars
+					$final_token_array[$value] = $token_matchs[0];
+					$token_array = array_merge($token_array, $token_matchs[0]);
 
-					 		$function_args = (isset($fun_match[1])) ? $fun_match[1] : '';
-					 		$function_args_array = explode(',', $function_args);
-					 		$args = $function_args_array;
-					 		if(empty($args[0])) {
-					 			if ($show_debug_token) {
-					 			echo "NO params set default value<br>";
-					 			}
-					 			$args[0] = $value;
-					 		}
-					 	}
 
-					 	if(preg_match("/php:/", $run_function)) {
-					 		if ($show_debug_token) {
-					 		echo "PHP function";
-					 		echo $function_name[0];
-					 		}
-					 		$php_function = str_replace("php:", '', $function_name[0]);
-					 		$raw_php_function = true; // Adds ability to run raw php
-					 	}
+					/* Run Special Parse Functions Here */
+					$run_function = $separate_token[1];
+					$function_name = explode("(", $run_function);
 
-					 $function_args = array();
-					 $function_args[0] = $value;
-					 foreach ($args as $arr_key => $arr_value) {
+						preg_match('#\((.*?)\)#', $run_function, $fun_match);
+						if (is_array($fun_match)){
 
-					 		if ($arr_value === "this"){
-					 			$function_args[$arr_key + 1] = $value;
-					 			if ($show_debug_token) {
-					 			//echo "arg" . $arr_key. ":" . $arr_value;
-					 			}
-					 			 // first value always user input val
-					 		} else {
-					 			$function_args[$arr_key + 1] = $arr_value;
-					 		}
+							$function_args = (isset($fun_match[1])) ? $fun_match[1] : '';
+							$function_args_array = explode(',', $function_args);
+							$args = $function_args_array;
+							if(empty($args[0])) {
+								if ($show_debug_token) {
+								echo "NO params set default value<br>";
+								}
+								$args[0] = $value;
+							}
+						}
 
-					 		if ($show_debug_token) {
-					 		 echo "arg" . $arr_key. ":" . $arr_value . ", ";
-					 		}
+						if(preg_match("/php:/", $run_function)) {
+							if ($show_debug_token) {
+							echo "PHP function";
+							echo $function_name[0];
+							}
+							$php_function = str_replace("php:", '', $function_name[0]);
+							$raw_php_function = true; // Adds ability to run raw php
+						}
 
-					 }
+					$function_args = array();
+					$function_args[0] = $value;
+					foreach ($args as $arr_key => $arr_value) {
 
-					 $function_args = array_unique($function_args); // dedupe values
+							if ($arr_value === "this"){
+								$function_args[$arr_key + 1] = $value;
+								if ($show_debug_token) {
+								//echo "arg" . $arr_key. ":" . $arr_value;
+								}
+								// first value always user input val
+							} else {
+								$function_args[$arr_key + 1] = $arr_value;
+							}
 
-					 if (count($function_args) < 2 ) {
+							if ($show_debug_token) {
+							echo "arg" . $arr_key. ":" . $arr_value . ", ";
+							}
+
+					}
+
+					$function_args = array_unique($function_args); // dedupe values
+
+					if (count($function_args) < 2 ) {
 					$function_args = $function_args[0]; // send single value to function
-					 }
-					 //echo $run_function;
-					 /* Function temp references
+					}
+					//echo $run_function;
+					/* Function temp references
 					replace: {{ "I like %this% and %that%."|replace({'%this%': foo, '%that%': "bar"}) }}
 					*/
 					if ($raw_php_function) {
@@ -561,24 +561,24 @@ class CallsToAction {
 						$template_function = 'inbound_template_' . $function_name[0];
 					}
 
-					 /* If function exists run it */
-					 if (function_exists($template_function)) {
-					 		$value = $template_function($function_args);
-					 		if ($show_debug_token) {
-					 		echo "<br>Running Function: <strong>" .	$template_function . "</strong> with args <strong>";
-					 		print_r($function_args);
-					 		echo "</strong><br>";
-					 		echo "<br>";
-					 		$look_for = "{{" .$key . "}}";
-					 		$reg = preg_quote( "{{" .$key . "}}");
-					 		echo "replace " . $look_for . " with ". $value;
-					 		//$clean = '/'.$look_for.'/';
-					 		//str_ireplace( $look_for , $value , $template);
-					 		//$template = preg_replace($clean, $value, $template);
-					 		//preg_match($clean, $template, $temp_match);
-					 		//print_r($temp_match);
-					 		}
-				 	}
+					/* If function exists run it */
+					if (function_exists($template_function)) {
+							$value = $template_function($function_args);
+							if ($show_debug_token) {
+							echo "<br>Running Function: <strong>" .	$template_function . "</strong> with args <strong>";
+							print_r($function_args);
+							echo "</strong><br>";
+							echo "<br>";
+							$look_for = "{{" .$key . "}}";
+							$reg = preg_quote( "{{" .$key . "}}");
+							echo "replace " . $look_for . " with ". $value;
+							//$clean = '/'.$look_for.'/';
+							//str_ireplace( $look_for , $value , $template);
+							//$template = preg_replace($clean, $value, $template);
+							//preg_match($clean, $template, $temp_match);
+							//print_r($temp_match);
+							}
+					}
 
 				}
 
@@ -836,15 +836,15 @@ class CallsToAction {
 	public static function cta_get_correct_dimensions($input, $css_prop)
 	{
 		if (preg_match("/px/", $input))	{
-			 $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
+			$input = (isset($input)) ? " ".$css_prop.": $input;" : '';
 		} else if (preg_match("/auto/", $input)) {
-			 $input = " ".$css_prop.': '.$input.';';
+			$input = " ".$css_prop.': '.$input.';';
 		} else if (preg_match("/%/", $input)) {
-			 $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
+			$input = (isset($input)) ? " ".$css_prop.": $input;" : '';
 		} else if (preg_match("/em/", $input)) {
-			 $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
+			$input = (isset($input)) ? " ".$css_prop.": $input;" : '';
 		} else {
-			 $input = " ".$css_prop.": $input" . "px;";
+			$input = " ".$css_prop.": $input" . "px;";
  		}
 
 		return $input;
@@ -1019,23 +1019,35 @@ class CallsToAction {
 
 		$cta_template = self::$instance->build_cta_content( $selected_cta );
 
-		self::$instance->load_shortcode_variation_js( $id , $vid );
+		$script = self::$instance->load_shortcode_variation_js( $id , $vid , true );
 
-		return	$custom_css_js . do_shortcode($cta_template);
+		return	$script . $custom_css_js . do_shortcode($cta_template);
 	}
 
-	function load_shortcode_variation_js( $cta_id , $variation_id = null )
+	/*
+	* Returns or Echos Script That Reveals Call to Action Variation
+	* @param cta_id INT 
+	* @param variation_id INT
+	* @param return BOOL 
+	* @return STRING
+	*/
+	function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
 	{
 		if ( !isset(self::$instance->disable_ajax) ) {
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 		}
-		?>
-		<script>
-		jQuery(document).ready(function($) {
-			wp_cta_load_variation( '<?php echo $cta_id; ?>' , '<?php echo $variation_id; ?>' ,	'<?php echo self::$instance->disable_ajax; ?>'	)
-		});
-		</script>
-		<?php
+		
+		$script =  "<script>";
+		$script .= "	jQuery(document).ready(function($) {";
+		$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
+		$script .= "	});";
+		$script .= "</script>";
+		
+		if ($return) { 
+			return $script;
+		} else {
+			echo $script;
+		}
 	}
 
 	function preview_cta() {
@@ -1080,7 +1092,7 @@ class CallsToAction {
 		wp_print_footer_scripts();
 
 		if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
-		 ?>
+		?>
 		<style type="text/css">
 		body {
 			background-color: #eee !important;
@@ -1142,13 +1154,13 @@ class CallsToAction {
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 
-			 $('.custom-input').change(function() {
-			 var barValue = $(this).val(),
-				 result = Math.round(barValue * 10) / 10;
-			 jQuery("#cta-preview-container").width(result + '%');
-			 $('.result').text(result + '%');
-			 });
-		 });
+			$('.custom-input').change(function() {
+			var barValue = $(this).val(),
+				result = Math.round(barValue * 10) / 10;
+			jQuery("#cta-preview-container").width(result + '%');
+			$('.result').text(result + '%');
+			});
+		});
 		</script>
 		<?php }
 		echo '</body>';
