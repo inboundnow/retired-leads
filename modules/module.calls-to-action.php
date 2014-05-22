@@ -312,9 +312,14 @@ class CallsToAction {
 		$post_id = self::$instance->obj_id;
 
 		/* Setup determin variation gloabl function */
+		if ( isset( $_GET['wp-cta-variation-id'] ) ) {
+			self::$instance->selected_cta['id'] = null;
+		}
+			
 		wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
 		wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
-
+	
+		
 		if ( self::$instance->cta_content_placement === 'popup') {
 		$popup_timeout = get_post_meta($post_id, 'wp_cta_popup_timeout', TRUE);
 		$pop_time_final = (!empty($post_id)) ? $popup_timeout * 1000 : 3000;
@@ -747,10 +752,10 @@ class CallsToAction {
 			$custom_css = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-css'.$suffix , true);
 
 
+			/* This is printing CTA CSS Twice on Preview Mode */ 
+			/* We may reserve this function only for custom css and custom js */
 			$dynamic_css = self::$instance->cta_templates[$template_slug]['css-template'];
 			$dynamic_css = self::$instance->replace_template_variables( $selected_cta , $dynamic_css , $vid );
-			//echo $dynamic_css;
-			//$dynamic_css = self::$instance->replace_template_variables( $selected_cta , $dynamic_css , $vid ); // IMPORTANT run twice to fix missing attributes. Regex is missing variables used more than once in replace_template_variables
 
 			$css_id_preface = "#wp_cta_" . $selected_cta['id'] . "_variation_" . $vid;
 
@@ -1108,7 +1113,7 @@ class CallsToAction {
 		echo '</head>';
 		echo '<body style="background-color:#fff;margin-top:100px;">';
 		echo '<div id="cta-preview-container" style="margin:auto;">';
-		if ( isset($_GET['post_id']) ) {
+		if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 			echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
 		} else {
 			echo do_shortcode('[cta id="'.$cta_id.'"]');
