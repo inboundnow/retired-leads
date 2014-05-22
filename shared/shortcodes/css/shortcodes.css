@@ -16,6 +16,9 @@
 .inbound-tab-class-advanced {
 
 }
+.select2-drop.select2-drop-active {
+	z-index: 9999999999999999;
+}
 .inbound-default-form-insert {
 	display: block;
 }
