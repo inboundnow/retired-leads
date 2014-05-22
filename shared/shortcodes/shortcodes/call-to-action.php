@@ -27,6 +27,6 @@
 			),
 
 		),
-		'shortcode' => '[inbound_forms id="{{insert_default}}" name="{{form_name}}" align="{{align}}"]',
+		'shortcode' => '[cta id="{{insert_default}}" name="{{form_name}}" align="{{align}}"]',
 		'popup_title' => __('Insert Call to Action',  'leads')
 	);
