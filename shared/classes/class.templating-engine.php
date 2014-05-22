@@ -55,7 +55,6 @@ class Inbound_Templating_Engine {
 				}			
 			}
 			
-			
 			foreach ($arg as $key => $value ) {
 				
 				/* ignore child elements that are arrays */

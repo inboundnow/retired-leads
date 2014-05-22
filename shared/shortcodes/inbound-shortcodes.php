@@ -39,9 +39,9 @@ class InboundShortcodes {
     add_shortcode('list', array(__CLASS__, 'inbound_shortcode_list'));
     add_shortcode('button', array(__CLASS__, 'inbound_shortcode_button'));
     add_shortcode('social_share',  array(__CLASS__, 'inbound_shortcode_social_links'));
-    add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
-    add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
-    add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',  array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
+    //add_action('admin_notices', array(__CLASS__, 'inbound_shortcode_prompt'));
+   	//add_action('admin_init', array(__CLASS__, 'inbound_shortcode_prompt_ignore'));
+    //add_action( 'wp_ajax_inbound_shortcode_prompt_ajax',  array(__CLASS__, 'inbound_shortcode_prompt_ajax'));
   }
 
   // Set Consistant File Paths for inbound now plugins
@@ -65,12 +65,12 @@ class InboundShortcodes {
 	/*  Loads
 	*  --------------------------------------------------------- */
 	static function loads($hook) {
-	
+
 		global $post;
 		$final_path = self::set_file_path();
-		
+
 		if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
-		
+
 			/* dequeue third party scripts */
 			global $wp_scripts;
 			if ( !empty( $wp_scripts->queue ) ) {
@@ -79,7 +79,7 @@ class InboundShortcodes {
 					wp_dequeue_script( $handle );
 				}
 			}
-			
+
 			wp_enqueue_script('jquery' );
 			wp_enqueue_script('jquery-cookie', $final_path. 'shared/assets/global/js/jquery.cookie.js', array( 'jquery' ));
 			wp_enqueue_script('jquery-total-storage', $final_path. 'shared/assets/global/js/jquery.total-storage.min.js', array( 'jquery' ));
@@ -131,11 +131,11 @@ class InboundShortcodes {
 	}
 
 	static function frontend_loads() {
-	
+
       include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
       $final_path = self::set_file_path();
       wp_enqueue_style('inbound-shortcodes', $final_path.'shared/shortcodes/css/frontend-render.css');
-	  
+
 	}
 
 	// Currently off
@@ -145,7 +145,7 @@ class InboundShortcodes {
 		// Load inline scripts var image_dir = "<?php // echo INBOUND_FORMS; ?>", test = "<?php // _e('Insert Shortcode', 'leads'); ?>";
 		/* ]]> */
 		</script>
-		<?php 
+		<?php
 	}
 
 	/*  TinyMCE
@@ -161,19 +161,19 @@ class InboundShortcodes {
 	}
 
 	static function add_rich_plugins( $plugins ) {
-	
+
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		$final_path = self::set_file_path();
 		$plugins['InboundShortcodes'] = $final_path.'shared/shortcodes/js/tinymce.js';
 		return $plugins;
-		
+
 	}
 
 	static function register_rich_buttons( $buttons ) {
 		array_push( $buttons, "|", 'InboundShortcodesButton' );
 		return $buttons;
 	}
-	
+
 	static function inbound_shortcode_button( $atts, $content = null ) {
 		extract(shortcode_atts(array(
 		  'style'=> 'default',
@@ -251,9 +251,9 @@ class InboundShortcodes {
 
 		return $button;
 	}
- 
+ /*
 	static function inbound_shortcode_prompt($hook) {
-	
+
         global $pagenow, $current_user, $post;
         $user_id = $current_user->ID;
 
@@ -279,11 +279,11 @@ class InboundShortcodes {
             }
           }
 	}
-	
+
 	static function inbound_shortcode_prompt_ajax() {
       $user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : 1;
       add_user_meta($user_id, 'inbound_shortcode_ignore', 'true', true);
-  }
+  } */
 
 	static function inbound_shortcode_social_links( $atts, $content = null ) {
 		$final_path = INBOUND_FORMS;
@@ -482,8 +482,8 @@ class InboundShortcodes {
 		  }</style>';
 		  return $out;
     }
-   
-   
+
+
 	static function inbound_shortcode_list( $atts, $content = null){
 		extract(shortcode_atts(array(
 			'icon' => 'check-circle',
@@ -494,28 +494,28 @@ class InboundShortcodes {
 			'text_color' => "",
 			'columns' => "1",
 		  ), $atts));
-		  
+
 		$final_text_color = "";
 		$alpha_numeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 		$num = substr(str_shuffle($alpha_numeric), 0, 10);
 		$icon = ($icon != "") ? $icon : 'check-circle';
-		
+
 		if ($text_color != "") {
 			$text_color = str_replace("#", "", $text_color);
 			$final_text_color = "color:#" . $text_color . ";";
 		}
-		
+
 		$final_icon_color = "";
 		if ($icon_color != "") {
 			$icon_color = str_replace("#", "", $icon_color);
 			$final_icon_color = "color:#" . $icon_color . ";";
 		}
-		
+
 		$font_size = str_replace("px", "", $font_size);
 		$bottom_margin = str_replace("px", "", $bottom_margin);
 		$icon_size = $font_size + 2;
 		$line_size = $font_size + 2;
-		
+
 		if ($content === "(Insert Your Unordered List Here. Use the List insert button in the editor. Delete this text)") {
 			$content = "<ul>
 			  <li>Sentence number 1</li>
@@ -527,7 +527,7 @@ class InboundShortcodes {
 
 		$list_count = 0;
 		$inputs = preg_match_all('/\<li(.*?)\>/s',$content, $matches);
-		
+
 		if (!empty($matches[0])) {
 			foreach ($matches[0] as $key => $value)
 			{
@@ -589,7 +589,7 @@ class InboundShortcodes {
 		$columns = (isset($columns)) ? $columns : '1';
 		// http://csswizardry.com/demos/multiple-column-lists/
 		$column_css = "";
-		  
+
 		if ($columns === "2"){
 			$column_css = "#inbound-list.class-".$num." ul { clear:both;} #inbound-list.class-".$num." li { width: 50%; float: left; display: inline;}";
 		} else if ($columns === "3") {
@@ -657,8 +657,8 @@ class InboundShortcodes {
 		<div id="form-leads-list">
 			<h2><?php _e( 'Form Conversions' , 'leads' ); ?></h2>
 			<ol id="form-lead-ul">
-				<?php  
-				
+				<?php
+
 				$lead_conversion_list = get_post_meta( $post_id , 'lead_conversion_list', TRUE );
 				if ($lead_conversion_list)
 				{
@@ -670,7 +670,7 @@ class InboundShortcodes {
 
 				} else {
 					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'leads' ) .'</span>';
-				} 
+				}
 				?>
 			</ol>
 		</div>
@@ -692,13 +692,13 @@ class InboundShortcodes {
 						<option value="on" <?php selected( $selected, 'on' ); ?>>On</option>
 						<!-- Action hook here for custom lead status addon -->
 					</select>
-				</div>			
+				</div>
 			</div>
-			
+
 			<?php
-			
+
 			if ($email_templates) {
-				
+
 				?>
 				<div  style='display:block; overflow: auto;'>
 					<div id=''>
@@ -706,15 +706,15 @@ class InboundShortcodes {
 						<select name="inbound_email_send_notification_template" id="inbound_email_send_notification_template">
 							<option value='custom' <?php  selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , 'leads' ); ?></option>
 							<?php
-							
+
 							foreach ($email_templates as $id => $label) {
 								echo '<option value="'.$id.'" '. selected($id , $email_template , false ) .'>'.$label.'</option>';
 							}
 							?>
 						</select>
-					</div>			
+					</div>
 				</div>
-				<table class='widefat tokens'>	
+				<table class='widefat tokens'>
 					<tr><td>
 					<h2>Available Tokens</h2>
 						<span class='core_token' title='Email address of sender' style='cursor:pointer;'>{{admin-email-address}}</span><br>
@@ -737,11 +737,11 @@ class InboundShortcodes {
 				</table>
 				<?php
 			}
-			
+
 			?>
-			
+
 			<input type="text" name="inbound_confirmation_subject" placeholder="Email Subject Line" size="30" value="<?php echo $email_subject;?>" id="inbound_confirmation_subject" autocomplete="off">
-	 
+
 		</div>
 		<div id="inbound-shortcodes-popup">
 			<div id="short_shortcode_form">
@@ -789,7 +789,7 @@ class InboundShortcodes {
 		</div>
 
 		<script type="text/javascript">
-			
+
 			function inbound_forms_select_email_template() {
 				var selected = jQuery('#inbound_email_send_notification_template').val();
 				
@@ -801,9 +801,9 @@ class InboundShortcodes {
 					jQuery('#postdivrich').show();
 					jQuery('#inbound_confirmation_subject').show();
 					jQuery('.tokens').show();
-				}	
+				}
 			}
-		
+
 			jQuery(document).ready(function($) {
 
 				jQuery('.child-clone-row').first().attr('id', 'row-1');
@@ -815,28 +815,28 @@ class InboundShortcodes {
 				jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
 					inbound_forms_select_email_template();
 				});
-			  
+
 			});
 		</script>
 
 		  <?php
 	}
-	
+
 	public static function get_email_templates() {
-			
-		
+
+
 			$templates = get_posts(array(
 									'post_type' => 'email-template',
 									'posts_per_page' => -1
 								));
-										
-			
+
+
 			foreach ( $templates as $template ) {
 				$email_templates[$template->ID] = $template->post_title;
 			}
-			
+
 			$email_templates = ( isset($email_templates) ) ? $email_templates : array();
-			
+
 			return $email_templates;
 
 	}

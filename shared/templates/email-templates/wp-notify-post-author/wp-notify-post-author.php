@@ -12,13 +12,13 @@ $inbound_email_templates['wp-notify-post-author'] = '<!DOCTYPE html PUBLIC "-//W
 </head>
 <body style="margin: 0px; background-color: #FFFFFF; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#FFFFFF" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
 
-<table cellpadding="0" width="600" bgcolor="#FFFFFF" cellspacing="0" border="0" align="center" style="width:100%!important;line-height:100%!important;border-collapse:collapse;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">
+<table cellpadding="0" width="700" bgcolor="#FFFFFF" cellspacing="0" border="0" align="center" style="width:100%!important;line-height:100%!important;border-collapse:collapse;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">
   <tbody><tr>
     <td valign="top" height="20">&nbsp;</td>
   </tr>
   <tr>
     <td valign="top">
-      <table cellpadding="0" bgcolor="#ffffff" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:600px;font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:3px;margin-top:0;margin-right:auto;margin-bottom:0;margin-left:auto">
+      <table cellpadding="0" bgcolor="#ffffff" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:700px;font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:3px;margin-top:0;margin-right:auto;margin-bottom:0;margin-left:auto">
   <tbody><tr>
     <td valign="top">
         <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;width:100%;border-radius:3px 3px 0 0;font-size:1px;line-height:3px;height:3px;border-top-color:#0298e3;border-right-color:#0298e3;border-bottom-color:#0298e3;border-left-color:#0298e3;border-top-style:solid;border-right-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-width:1px;border-right-width:1px;border-bottom-width:1px;border-left-width:1px">
@@ -26,7 +26,7 @@ $inbound_email_templates['wp-notify-post-author'] = '<!DOCTYPE html PUBLIC "-//W
             <td valign="top" style="font-family:Arial,sans-serif;background-color:#5ab8e7;border-top-width:1px;border-top-color:#8ccae9;border-top-style:solid" bgcolor="#5ab8e7">&nbsp;</td>
           </tr>
         </tbody></table>
-      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;width:600px;border-radius:0 0 3px 3px;border-top-color:#8c8c8c;border-right-color:#8c8c8c;border-bottom-color:#8c8c8c;border-left-color:#8c8c8c;border-top-style:solid;border-right-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-width:0;border-right-width:1px;border-bottom-width:1px;border-left-width:1px">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;width:700px;border-radius:0 0 3px 3px;border-top-color:#8c8c8c;border-right-color:#8c8c8c;border-bottom-color:#8c8c8c;border-left-color:#8c8c8c;border-top-style:solid;border-right-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-width:0;border-right-width:1px;border-bottom-width:1px;border-left-width:1px">
         <tbody><tr>
           <td valign="top" style="font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;border-radius:0 0 3px 3px;padding-top:3px;padding-right:30px;padding-bottom:15px;padding-left:30px">
 
@@ -35,17 +35,21 @@ $inbound_email_templates['wp-notify-post-author'] = '<!DOCTYPE html PUBLIC "-//W
 
 			<!-- NEW TABLE -->
 			<table class="heavyTable" style="width: 100%;
-				max-width: 600px;
+				max-width: 700px;
 				border-collapse: collapse;
-				border: 1px solid #cccccc;
 				background: white;
 			   margin-bottom: 20px;">
 			   <tbody>
 			   
-				<tr style="border-bottom: 1px solid #cccccc;">
-					<td width="600" style="border-right: 1px solid #cccccc; padding: 10px; padding-bottom: 5px;">
+				<tr style="">
+					<td style="vertical-align:top;padding-top:10px;">
+						<div style="">
+							<img src="[inbound-gravitar email=\'{{wp-comment-author-email}}\' size=\'60\']" width="60" height="60">
+						</div>
+					</td>
+					<td width="600" style="padding: 10px; padding-bottom: 5px;">						
 						<div style="padding-left:5px; display:inline-block; padding-bottom: 5px; font-size: 16px; color:#555;">
-							<strong>{{wp-comment-author}} '. __( 'says:' , 'ma' ) .'</strong><br>
+							<div style="margin-bottom:8px;"><strong>{{wp-comment-author}} '. __( 'says:' , 'ma' ) .'</strong></div>
 							{{wp-comment-content}} <br><br>
 							
 							<a href="{{wp-comment-url}}">'. __('Click here to reply' , 'ma') .'</a>
@@ -67,7 +71,7 @@ $inbound_email_templates['wp-notify-post-author'] = '<!DOCTYPE html PUBLIC "-//W
 </tbody>
 </table>
 
-	<table cellpadding="0" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:600px;font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;margin-top:0;margin-right:auto;margin-bottom:0;margin-left:auto">
+	<table cellpadding="0" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:700px;font-size:13px;line-height:20px;color:#545454;font-family:Arial,sans-serif;margin-top:0;margin-right:auto;margin-bottom:0;margin-left:auto">
 		<tbody>
 		  <tr>
 			<td valign="top" width="30" style="color:#272727">&nbsp;</td>
@@ -86,7 +90,7 @@ $inbound_email_templates['wp-notify-post-author'] = '<!DOCTYPE html PUBLIC "-//W
 		</tbody>
 	</table>
 
-    <table cellpadding="0" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:600px">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" style="border-collapse:collapse;width:700px">
         <tbody><tr>
           <td valign="top" style="color:#b1b1b1;font-size:11px;line-height:16px;font-family:Arial,sans-serif;text-align:center" align="center">
             <p style="margin-top:1em;margin-right:0;margin-bottom:1em;margin-left:0"></p>
