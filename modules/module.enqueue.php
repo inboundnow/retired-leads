@@ -153,7 +153,7 @@ if (is_admin()) {
 				wp_localize_script( 'jquery-datepicker', 'jquery_datepicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jquery-datepicker/' ));
 				wp_enqueue_style('jquery-timepicker-css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.css');
 				wp_enqueue_style('jquery-datepicker-base.css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');
-				wp_enqueue_style('inbound-metaboxes', WP_CTA_URLPATH . 'shared/metaboxes/inbound-metaboxes.css');
+
 				/*
 				wp_enqueue_script('jquery-intro', WP_CTA_URLPATH . 'js/admin/intro.js', array( 'jquery' ));
 				wp_enqueue_style('intro-css', WP_CTA_URLPATH . 'css/admin-tour.css'); */
