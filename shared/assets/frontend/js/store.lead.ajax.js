@@ -598,6 +598,7 @@ jQuery(document).ready(function($) {
 		e.preventDefault(); // halt normal form
 
 		var tracking_obj = "";
+		var pageviewObj = jQuery.totalStorage('page_views');
 		var page_view_count = countProperties(pageviewObj);
 		//console.log("view count" + page_view_count);
 
