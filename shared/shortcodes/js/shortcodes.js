@@ -919,7 +919,27 @@
 			jQuery('#inbound-shortcodes-popup').livequery( function() {
 				InboundShortcodes.load();
 			});
+			jQuery("body").on('click', '.new-inbound-shortcode', function () {
+				console.log('clciekd');
 
+				setTimeout(function() {
+				jQuery("#TB_ajaxContent .inbound-short-list").hide();
+				var length = jQuery(".inbound-short-list").length;
+				console.log(length);
+				if(length < 2){
+					//
+				}
+				var test = jQuery(".inbound-short-list").clone();
+				//jQuery("#TB_ajaxContent .inbound-short-list").remove();
+				var count = jQuery("#TB_ajaxContent .inbound-short-list").length;
+				console.log(count);
+				if (count > 1){
+					jQuery("#TB_ajaxContent .inbound-short-list:not(:first-child)").remove();
+				}
+				jQuery('.short-list-inbound').append(test);
+				jQuery("#TB_ajaxContent .inbound-short-list").show();
+				}, 100);
+			});
 			jQuery("body").on('click', '.launch-marketing-sc', function () {
 				var test = jQuery("#choose-inbound-shortcode").clone();
 
