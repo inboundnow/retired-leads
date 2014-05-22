@@ -197,7 +197,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       /* Set Expiration Date of Session Logging */
       SetSessionTimeout: function(){
           var session_check = this.readCookie("lead_session_expire");
-          console.log(session_check);
+          //console.log(session_check);
           if(session_check === null){
             InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
           } else {
@@ -267,7 +267,10 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       async = async || true,
       data = data || null,
       action = data.action;
-      console.log('ran ajax ' + action);
+
+      InboundAnalytics.debug('Ajax Processed:',function(){
+           console.log('ran ajax action: ' + action);
+      });
 
       jQuery.ajax({
           type: method,
