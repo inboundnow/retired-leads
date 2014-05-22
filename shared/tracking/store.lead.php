@@ -101,6 +101,9 @@ function inbound_store_lead( $args = array() ) {
 
 
 	/* POST Vars */
+	$lead_data['page_id'] = ( !$lead_data['page_id'] && isset($_POST['page_id'])) ? $_POST['page_id'] : '0';
+	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
+	
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;
 	$search_data = json_decode(stripslashes($raw_search_data), true ); // mapped data array
 	$lead_data['search_data'] = $search_data;
