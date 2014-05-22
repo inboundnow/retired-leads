@@ -11,9 +11,11 @@ class Inbound_Email_Template_Shortcodes {
 
 	public function load_hooks() {
 	
-		/* Shortcode For Lead Conversion Input Table */
+		/* Shortcode for lead conversion data table - used in new lead notification email template */
 		add_shortcode( 'inbound-email-post-params', array( __CLASS__, 'post_params_table' ), 1 );
 		
+		/* Shortcode for generating gravitar from email */
+			add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
 	}
 	
 	/*
@@ -75,6 +77,23 @@ class Inbound_Email_Template_Shortcodes {
 		}
 		
 		return $html;
+	}
+	
+	/*
+	* Used by wp-notify-post-author email template to show comment author gravitar
+	*
+	* 
+	*/
+	public static function generate_gravitar( $atts ) {
+		
+		extract( shortcode_atts( array(
+	      'email' => 'default@gravitar.com',
+	      'size' => '60',
+		  'default' => 'mm'
+		), $atts ) );
+		
+		return "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;		
+		
 	}
 }
 

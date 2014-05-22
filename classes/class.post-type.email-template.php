@@ -261,6 +261,12 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 					)
 				);
 				
+				$_POST = array(
+					'First Name' => 'Example',
+					'Last Name' => 'Lead',
+					'Email Address' => 'example@inboundnow.com',
+				);
+				
 				$body = $Inbound_Templating_Engine->replace_tokens( $body , $args	);
 
 				echo $body;
@@ -270,14 +276,8 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 		
 		public static function register_activation() {
 			
-			/* Load Email Templates Into $inbound_email_templates */			
-			include_once( WPL_PATH . '/shared/templates/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
-			include_once( WPL_PATH . '/shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php');
-			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-post-author/wp-notify-post-author.php');
-			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-moderator/wp-notify-moderator.php');
-			include_once( WPL_PATH . '/shared/templates/email-templates/token-test/token-test.php');
-
-			
+			/* Load Template Files */
+			$inbound_email_templates = self::load_template_files();
 			self::register_post_type();
 			self::register_category_taxonomy();
 			
@@ -374,8 +374,19 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 				}
 			}	 
 		}
+		
+		public static function load_template_files() {
+			/* Load Email Templates Into $inbound_email_templates */			
+			include_once( WPL_PATH . '/shared/templates/email-templates/inbound-new-lead-notification/inbound-new-lead-notification.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-post-author/wp-notify-post-author.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/wp-notify-moderator/wp-notify-moderator.php');
+			include_once( WPL_PATH . '/shared/templates/email-templates/token-test/token-test.php');
+			
+			return $inbound_email_templates;
+		}
 	}
 	
 	/* Load Email Templates Post Type Pre Init */
-	$Inbound_Email_Templates_Post_Type = new Inbound_Email_Templates_Post_Type();
+	$GLOBALS['Inbound_Email_Templates_Post_Type'] = new Inbound_Email_Templates_Post_Type();
 }
