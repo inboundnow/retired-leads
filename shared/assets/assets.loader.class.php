@@ -48,6 +48,8 @@ class Inbound_Asset_Loader {
 				self::load_file('image-picker-js', 'admin/js/image-picker.js');
 				self::load_file('image-picker-css', 'admin/css/image-picker.css');
 			}
+			/* Metabox CSS */
+			self::load_file('inbound-metaboxes', 'admin/css/inbound-metaboxes.css');
 
 	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
@@ -128,12 +130,12 @@ class Inbound_Asset_Loader {
 		$custom_map_values = array();
 		$custom_map_values = apply_filters( 'inboundnow_custom_map_values_filter' , $custom_map_values);
 		// Get correct post ID
-		
+
 		global $wp_query;
 		$current_page_id = $wp_query->get_queried_object_id();
 		$post_id = $current_page_id;
 		$id_check = ($post_id != null) ? true : false;
-		
+
 		if (!is_archive() && !$id_check){
 		   $post_id = (isset($post)) ? $post->ID : false;
 		   $id_check = ($post_id != null) ? true : false;
