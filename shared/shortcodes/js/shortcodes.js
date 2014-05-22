@@ -919,6 +919,18 @@
 			jQuery('#inbound-shortcodes-popup').livequery( function() {
 				InboundShortcodes.load();
 			});
+
+			jQuery("body").on('click', '.launch-marketing-sc', function () {
+				var test = jQuery("#choose-inbound-shortcode").clone();
+
+				window.tb_remove();
+				var shortcode = jQuery(this).attr('data-launch-sc');
+
+				setTimeout(function() {
+				 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+				        }, 500);
+
+			});
 			jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
 				InboundShortcodes.insert_shortcode();
 			});
