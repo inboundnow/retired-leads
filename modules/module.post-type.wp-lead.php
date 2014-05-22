@@ -39,7 +39,8 @@ function wpleads_change_columns( $cols ) {
 		// "company" => "Company", Custom Column
 		'conversion-count' => "Conversion Count",
 		"page-views" => "Total Page Views",
-		"date" => "Date"
+		/*'modified' => "Latest Activity", */
+		"date" => "Created"
 	);
 	return $cols;
 }
@@ -88,6 +89,22 @@ function wpleads_custom_columns( $column, $post_id )
 		  }
 		  echo $first_name;
 		  break;
+	  	/*case 'modified':
+	  		$m_orig		= get_post_field( 'post_modified', $post_id, 'raw' );
+	  		//$test = get_post_meta( $post_id, 'wpleads_last_updated', true);
+	  		$m_stamp	= strtotime( $m_orig );
+	  		$modified	= date('n/j/y @ g:i a', $m_stamp );
+
+	  	       	$modr_id	= get_post_meta( $post_id, '_edit_last', true );
+	  	       	$auth_id	= get_post_field( 'post_author', $post_id, 'raw' );
+	  	       	$user_id	= !empty( $modr_id ) ? $modr_id : $auth_id;
+	  	       	$user_info	= get_userdata( $user_id );
+
+	  	       	echo '<p class="mod-date">';
+	  	       	echo '<em>'.$modified.'</em><br />';
+	  	       	//echo 'by <strong>'.$user_info->display_name.'<strong>';
+	  	       	echo '</p>';
+	  		break;*/
 		case "last-name":
 		  $last_name = get_post_meta( $post_id, 'wpleads_last_name', true);
 		   if (!$last_name) {
@@ -256,7 +273,7 @@ function wp_leads_lead_email_filter( $query ) {
 	function wp_lead_redirect_with_email() {
 		global $wpdb;
 		if (is_admin() && isset($_GET['lead-email-redirect']) && $_GET['lead-email-redirect'] != '') {
-		
+
 			$lead_id = 	$_GET['lead-email-redirect'];
 			$query = $wpdb->prepare(
 				'SELECT ID FROM ' . $wpdb->posts . '
@@ -264,9 +281,9 @@ function wp_leads_lead_email_filter( $query ) {
 				AND post_type = \'wp-lead\'',
 				$lead_id
 			);
-			
+
 			$wpdb->query( $query );
-			
+
 			if ( $wpdb->num_rows ) {
 				$lead_ID = $wpdb->get_var( $query );
 				$url = admin_url();
@@ -284,8 +301,8 @@ function wp_leads_lead_email_filter( $query ) {
 		$screen = get_current_screen();
 		$screen_id = $screen->id;
 		if ( $screen_id=='edit-wp-lead') {
-		
-			
+
+
 			$query = "
 				SELECT DISTINCT($wpdb->postmeta.meta_key)
 				FROM $wpdb->posts
@@ -296,7 +313,7 @@ function wp_leads_lead_email_filter( $query ) {
 				AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
 				AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
 			";
-			
+
 			$fields = $wpdb->get_col($wpdb->prepare($query, 'wp-lead'));
 			//print_r($fields);
 			// $fields = $wpdb->get_results($sql, ARRAY_N);
