@@ -197,7 +197,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       /* Set Expiration Date of Session Logging */
       SetSessionTimeout: function(){
           var session_check = this.readCookie("lead_session_expire");
-          console.log(session_check);
+          //console.log(session_check);
           if(session_check === null){
             InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
           } else {
@@ -267,7 +267,10 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       async = async || true,
       data = data || null,
       action = data.action;
-      console.log('ran ajax ' + action);
+
+      InboundAnalytics.debug('Ajax Processed:',function(){
+           console.log('ran ajax action: ' + action);
+      });
 
       jQuery.ajax({
           type: method,
@@ -485,47 +488,59 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
 
 
 /**
- * Event functions
- * @param  Object InboundAnalytics - Main JS object
- * @return Object - include event triggers
+ * Custom Event Triggers for Leads -
+ * The below functions illustrate how to use custom javascript callbacks to fire events
+ * based on lead data and what they have and have not done on the site.
  */
- /* example:
- // trigger custom function on page view trigger
+/*
+
+// Raw Javascript Version - trigger custom function on page view trigger
+
  window.addEventListener("inbound_analytics_triggered", fireOnPageViewTrigger, false);
  function fireOnPageViewTrigger(){
      alert("page view was triggered");
  }
 
- // trigger custom function on analytics loaded JQuery version
+// jQuery version - trigger custom function on analytics loaded
+
  jQuery(document).on('inbound_analytics_loaded', function (event, data) {
-   console.log("XXxxxX inbound_analytics_loaded");
+   console.log("inbound_analytics_loaded");
  });
 
- // trigger custom function on page first seen
+// Raw Javascript Version - trigger custom function on page first seen
+
  window.addEventListener("inbound_analytics_page_first_view", page_first_seen_function, false);
  function page_first_seen_function(){
      alert("This is the first time you have seen this page");
  }
-// trigger custom function on page already seen
+
+// Raw Javascript Version - trigger custom function on page already seen
 
 window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
 function page_seen_function(e){
     var view_count = e.detail.count;
     console.log("This page has been seen " + e.detail.count + " times");
     if(view_count > 10){
-    console.log("Page has been viewed more than 10 times");
+      console.log("Page has been viewed more than 10 times");
     }
 }
-// trigger custom function on page already seen via jQuery
+
+// jQuery version - trigger custom function on page already seen via jQuery
+
 jQuery(document).on('inbound_analytics_page_revisit', function (event, data) {
   console.log("inbound_analytics_page_revisit action triggered");
   //console.log(data);
   if(data.count > 10){
-  console.log("Page has been viewed more than 10 times");
+    console.log("Page has been viewed more than 10 times");
   }
 });
 */
 
+/**
+ * Event functions
+ * @param  Object InboundAnalytics - Main JS object
+ * @return Object - include event triggers
+ */
 var InboundAnalyticsEvents = (function (InboundAnalytics) {
 
     InboundAnalytics.Events =  {
@@ -626,32 +641,26 @@ function setGlobalLeadVar(retString){
     Lead_Globals = retString;
 }
 
-
 InboundAnalytics.init(); // run analytics
 
 /* run on ready */
 jQuery(document).ready(function($) {
-
-  jQuery(document).on('inbound_analytics_loaded', function () {
-    console.log("XXXXX inbound_analytics_loaded");
-  });
-
   //record non conversion status
   var in_u = InboundAnalytics.Utils,
   wp_lead_uid = in_u.readCookie("wp_lead_uid"),
   wp_lead_id = in_u.readCookie("wp_lead_id"),
   expire_check = in_u.readCookie("lead_session_expire"); // check for session
 
-if (expire_check === null) {
-  console.log('rannnnnnn');
-  //var data_to_lookup = global-localized-vars;
-  if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
-      /* Get Lead_Globals */
-      InboundAnalytics.LeadsAPI.getAllLeadData(expire_check);
-      /* Lead list check */
-      InboundAnalytics.LeadsAPI.getLeadLists();
-    }
-}
+  if (expire_check === null) {
+     console.log('expired vistor. Run Processes');
+    //var data_to_lookup = global-localized-vars;
+    if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
+        /* Get Lead_Globals */
+        InboundAnalytics.LeadsAPI.getAllLeadData(expire_check);
+        /* Lead list check */
+        InboundAnalytics.LeadsAPI.getLeadLists();
+      }
+  }
 
 /* Set Session Timeout */
 InboundAnalytics.Utils.SetSessionTimeout();
