@@ -315,11 +315,11 @@ class CallsToAction {
 		if ( isset( $_GET['wp-cta-variation-id'] ) ) {
 			self::$instance->selected_cta['id'] = null;
 		}
-			
+
 		wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
 		wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
-	
-		
+
+
 		if ( self::$instance->cta_content_placement === 'popup') {
 		$popup_timeout = get_post_meta($post_id, 'wp_cta_popup_timeout', TRUE);
 		$pop_time_final = (!empty($post_id)) ? $popup_timeout * 1000 : 3000;
@@ -752,7 +752,7 @@ class CallsToAction {
 			$custom_css = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-css'.$suffix , true);
 
 
-			/* This is printing CTA CSS Twice on Preview Mode */ 
+			/* This is printing CTA CSS Twice on Preview Mode */
 			/* We may reserve this function only for custom css and custom js */
 			$dynamic_css = self::$instance->cta_templates[$template_slug]['css-template'];
 			$dynamic_css = self::$instance->replace_template_variables( $selected_cta , $dynamic_css , $vid );
@@ -1040,7 +1040,8 @@ class CallsToAction {
 	{
 		extract(shortcode_atts(array(
 			'id' => '',
-			'vid' => null
+			'vid' => null,
+			'align' => 'none'
 		), $atts));
 
 		$selected_cta	= self::$instance->prepare_cta_dataset( $id , $vid );
@@ -1055,14 +1056,22 @@ class CallsToAction {
 
 		$script = self::$instance->load_shortcode_variation_js( $id , $vid , true );
 
+		if ($align === 'right') {
+			return	$script . $custom_css_js . '<div style="float:right;">' . do_shortcode($cta_template) . "</div>";
+		}
+
+		if ($align === 'left') {
+			return	$script . $custom_css_js . '<div style="float:left;">' . do_shortcode($cta_template) . "</div>";
+		}
+
 		return	$script . $custom_css_js . do_shortcode($cta_template);
 	}
 
 	/*
 	* Returns or Echos Script That Reveals Call to Action Variation
-	* @param cta_id INT 
+	* @param cta_id INT
 	* @param variation_id INT
-	* @param return BOOL 
+	* @param return BOOL
 	* @return STRING
 	*/
 	function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
@@ -1070,14 +1079,14 @@ class CallsToAction {
 		if ( !isset(self::$instance->disable_ajax) ) {
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 		}
-		
+
 		$script =  "<script>";
 		$script .= "	jQuery(document).ready(function($) {";
 		$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
 		$script .= "	});";
 		$script .= "</script>";
-		
-		if ($return) { 
+
+		if ($return) {
 			return $script;
 		} else {
 			echo $script;
