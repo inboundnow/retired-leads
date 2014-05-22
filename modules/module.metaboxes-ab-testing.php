@@ -213,12 +213,12 @@ function wp_cta_ab_testing_add_tabs()
 		}
 
 		$variations = get_post_meta($post->ID,'cta_ab_variations', true);
-		if ($variations === "0" && isset($_GET['new_meta_key'])){
+		if ($variations === "0" && isset($_GET['new_meta_key']) && !isset($_GET['clone'])){
 			$variations = $variations . ', 1';
 		}
 		$array_variations = explode(',',$variations);
 		$variations = array_filter($array_variations,'is_numeric');
-		sort($array_variations,SORT_NUMERIC);
+
 
 		$lid = end($array_variations);
 		$new_variation_id = $lid+1;
@@ -233,7 +233,6 @@ function wp_cta_ab_testing_add_tabs()
 		echo '<a href="?post='.$post->ID.'&wp-cta-variation-id=0&action=edit" class="wp-cta-ab-tab nav-tab nav-tab-special-'.$first_class.'" id="tabs-0">A</a>';
 
 		$var_id_marker = 1;
-
 
 		foreach ($array_variations as $i => $vid) {
 
@@ -264,6 +263,7 @@ function wp_cta_ab_testing_add_tabs()
 			echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$new_variation_id.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-active" id="tabs-add-variation">'.$letter.'</a>';
 			
 		}
+		
 		$edit_link = (isset($_GET['wp-cta-variation-id'])) ? '?wp-cta-variation-id='.$_GET['wp-cta-variation-id'].'' : '?wp-cta-variation-id=0';
 		$post_link = get_permalink($post->ID);
 		$post_link = preg_replace('/\?.*/', '', $post_link);
