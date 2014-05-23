@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
 Tested up to: 3.8
-Stable Tag: 1.3.7
+Stable Tag: 1.3.8
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -66,7 +66,7 @@ This is a free plugin that was built to help people collect, store, and manage l
 We built Lead Management as a framework! You can use our extendable framework to bring custom solutions to your application.
 
 [Follow Development on GitHub ](https://github.com/inboundnow/leads "Follow & Contribute to core development on GitHub")
- | 
+ |
 [Follow Development on Twitter ](https://twitter.com/gitleads "See our latest development commits on Twitter")
 
 == Installation ==
@@ -84,6 +84,11 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.3.8 =
+* Added events to lead tracking
+* Bug Fix: Marketing Button
+* Optimized CTA Tracking JS.
+
 = 1.3.7 =
 * Temporary fix for shortcodes disappearing from wordpress 3.8 to 3.9
 * Performance improvements on analytics and lead tracking
