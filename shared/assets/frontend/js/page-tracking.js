@@ -194,6 +194,21 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       addDays: function(myDate,days) {
         return new Date(myDate.getTime() + days*24*60*60*1000);
       },
+      GetDate: function(){
+        var time_now = new Date(),
+        day = time_now.getDate() + 1;
+        year = time_now.getFullYear(),
+        hour = time_now.getHours(),
+        minutes = time_now.getMinutes(),
+        seconds = time_now.getSeconds(),
+        month = time_now.getMonth() + 1;
+        if (month < 10) { month = '0' + month; }
+        InboundAnalytics.debug('Current Date:',function(){
+            console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
+        });
+        var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+        return datetime;
+      },
       /* Set Expiration Date of Session Logging */
       SetSessionTimeout: function(){
           var session_check = this.readCookie("lead_session_expire");
@@ -314,7 +329,7 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
             pageviewObj = {};
           }
           var current_page_id = wplft.post_id;
-          var datetime = wplft.track_time;
+          var datetime = InboundAnalytics.Utils.GetDate();
 
           if (timeout) {
               // If pageviewObj exists, do this
@@ -348,7 +363,7 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
         page_seen = PageViews[page_id];
         if(typeof(page_seen) != "undefined" && page_seen !== null) {
 
-            var time_now = wplft.track_time,
+            var time_now = InboundAnalytics.Utils.GetDate(),
             vc = PageViews[page_id].length - 1,
             last_view = PageViews[page_id][vc],
             last_view_ms = new Date(last_view).getTime(),
