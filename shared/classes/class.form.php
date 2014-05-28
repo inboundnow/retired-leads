@@ -953,7 +953,7 @@ class InboundForms {
 		$from_name = get_option( 'blogname' , '' );
 		$from_email = get_option( 'admin_email' );
 		
-		$headers  = "From: " . $from_name . " <" . $form_email . ">\n";
+		$headers  = "From: " . $from_name . " <" . $from_email . ">\n";
 		$headers .= 'Content-type: text/html';
 
 		wp_mail( $lead_email, $confirm_subject , $confirm_email_message, $headers );
