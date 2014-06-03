@@ -201,10 +201,13 @@ class InboundForms {
 					$dropdown_fields = array();
 					$dropdown = $matches[3][$i]['dropdown'];
 					$dropdown_fields = explode(",", $dropdown);
+
 					$form .= '<select name="'. $field_name .'" id="" class="'.$field_input_class.'">';
+
 					if ($placeholder_use) {
-						echo '<option value="" disabled selected>'.$placeholder_use.'</option>';
+						$form .= '<option value="" disabled selected>'.str_replace( '%3F' , '?' , $placeholder_use).'</option>';
 					}
+					
 					foreach ($dropdown_fields as $key => $value) {
 						//$drop_val_trimmed =	trim($value);
 						//$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
@@ -234,9 +237,10 @@ class InboundForms {
 					$checkbox_fields = explode(",", $checkbox);
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 					foreach ($checkbox_fields as $key => $value) {
-						$checkbox_val_trimmed =	trim($value);
+						$value = html_entity_decode($value);
+						$checkbox_val_trimmed =	strip_tags(trim($value)); 
 						$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'" ">'.$checkbox_val_trimmed.'<br>';
+						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'" ">'.$value.'<br>';
 					}
 				}
 				else if ($type === 'html-block')
