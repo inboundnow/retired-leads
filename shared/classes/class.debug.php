@@ -57,7 +57,7 @@ if (!class_exists('InboundDebugScripts')) {
           if (isset($_GET['post']))
           {
             echo "<pre>";
-            print_r( $data);
+            print_r($data);
             echo "</pre>";
           }
         }
