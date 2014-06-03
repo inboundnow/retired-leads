@@ -49,7 +49,7 @@ $test =  html_entity_decode( trim( $html_test2 ) );
 
 $horiz = "";
 if (preg_match("/horizontal/i", $shortcode)) {
-$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Previews detected. Click to Preview Horizontal shortcode in new tab</h2>";
+$horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Previews detected.<br>Click to Preview Horizontal shortcode in new tab</h2>";
 }
 
 
@@ -145,7 +145,7 @@ display: none;
 }
 <?php if (preg_match("/social_share/i", $shortcode)) {
 echo "body {
-padding: 30px 0px !important;
+padding: 10px 0px !important;
 padding-left: 5px !important;
 }";
 $extra_content = "<p>This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode. This is dummy text and not part of the shortcode.</p>";
@@ -155,7 +155,7 @@ $extra_content = "<p>This is dummy text and not part of the shortcode. This is d
 		<body>
 
 			<div id="close-preview-window"><a href="javascript:window.close()" class="close_window">close window</a></div>
-
+			<?php //echo "Shortcode: <textarea style='width:100%; height:50px;'>". $shortcode ."</textarea><br><br>"; ?>
 			<?php echo $horiz;
 				if ($horiz != ""){ ?>
 					<script type="text/javascript">
@@ -181,8 +181,6 @@ $extra_content = "<p>This is dummy text and not part of the shortcode. This is d
 
 				<?php }
 			?>
-			<h3>Due to wordpress 3.9 wonkiness if the insert shortcode button is not working, copy and paste the shortcode manually</h3>
-			<?php echo "<textarea style='width:100%; height:50px;'>". $shortcode ."</textarea><br><br>"; ?>
 
 			<?php
 
