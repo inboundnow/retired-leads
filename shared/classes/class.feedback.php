@@ -141,7 +141,7 @@ if (!class_exists('InboundFeedback')) {
       } else if (defined( 'WP_CTA_URLPATH' )){
         $final_path = WP_CTA_URLPATH;
       } else {
-        $final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
+        $final_path = preg_replace("/\/shared\/shortcodes\//", "/", INBOUND_FORMS);
       }
       $plugin_name = "Inbound Now Marketing Plugins"; // default
       if (in_array($screen->id, $lp_page_array)) {

@@ -39,7 +39,7 @@ $test =  html_entity_decode( trim( $html_test2 ) );
 	} else if (defined( 'WP_CTA_URLPATH' )){
 		$final_path = WP_CTA_URLPATH;
 	} else {
-		$final_path = preg_replace("/\/shared\/inbound-shortcodes\//", "/", INBOUND_FORMS);
+		$final_path = preg_replace("/\/shared\/shortcodes\//", "/", INBOUND_FORMS);
 	}
 /* HTML MATCHES */
 // $test = 'html="&lt;span%20class="test"&gt;tes&lt;/span&gt;"';
