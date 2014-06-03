@@ -29,8 +29,7 @@ function inbound_store_lead_search($args = array()) {
 		$wpdb->query( $query );
 
 		// Add lookup fallbacks
-		if ( $wpdb->num_rows )
-		{
+		if ( $wpdb->num_rows ) {
 			/* Update Existing Lead */
 			$lead_id = $wpdb->get_var( $query );
 			//update_post_meta($lead_id, 'wpleads_search_data', ""); // Store search object
@@ -49,22 +48,24 @@ function inbound_store_lead_search($args = array()) {
 				$s_count = count($search_data) + 1;
 				$loop_count = 1;
 				foreach ($search as $key => $value) {
-				$search_data[$s_count]['date'] = $search[$loop_count]['date'];
-				$search_data[$s_count]['value'] = $search[$loop_count]['value'];
-				$s_count++; $loop_count++;
+					$search_data[$s_count]['date'] = $search[$loop_count]['date'];
+					$search_data[$s_count]['value'] = $search[$loop_count]['value'];
+					$s_count++; $loop_count++;
 				}
+
 			} else {
-			// Create search obj
+				// Create search obj
 				$s_count = 1;
 				$loop_count = 1;
 				foreach ($search as $key => $value) {
-				$search_data[$s_count]['date'] = $search[$loop_count]['date'];
-				$search_data[$s_count]['value'] = $search[$loop_count]['value'];
-				$s_count++; $loop_count++;
+					$search_data[$s_count]['date'] = $search[$loop_count]['date'];
+					$search_data[$s_count]['value'] = $search[$loop_count]['value'];
+					$s_count++; $loop_count++;
 				}
 			}
-			$search_data = json_encode($search_data);
-			update_post_meta($lead_id, 'wpleads_search_data', $search_data); // Store search object
+
+		$search_data = json_encode($search_data);
+		update_post_meta($lead_id, 'wpleads_search_data', $search_data); // Store search object
 
 		}
 
@@ -79,7 +80,10 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
 
 function inbound_store_lead( $args = array() ) {
 	global $user_ID, $wpdb;
-	// header('HTTP/1.0 404 Not found'); exit; // simulate ajax fail
+	/*
+	// simulate ajax fail
+	header('HTTP/1.0 404 Not found'); exit;
+	/**/
 
 	// Grab form values
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
@@ -103,11 +107,11 @@ function inbound_store_lead( $args = array() ) {
 	/* POST Vars */
 	$lead_data['page_id'] = ( !$lead_data['page_id'] && isset($_POST['page_id'])) ? $_POST['page_id'] : '0';
 	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
-	
+
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;
 	$search_data = json_decode(stripslashes($raw_search_data), true ); // mapped data array
 	$lead_data['search_data'] = $search_data;
-	
+
 	$lead_data['wpleads_full_name'] = (isset($_POST['full_name'])) ?  $_POST['full_name'] : "";
 	$lead_data['wpleads_first_name'] = (isset($_POST['first_name'])) ?  $_POST['first_name'] : "";
 
@@ -170,8 +174,7 @@ function inbound_store_lead( $args = array() ) {
 		$wpdb->query( $query );
 
 		/* Update Lead if Exists else Create New Lead */
-		if ( $wpdb->num_rows )
-		{
+		if ( $wpdb->num_rows ) {
 			/* Update Existing Lead */
 			$lead_data['lead_id'] = $wpdb->get_var( $query );
 			$lead_id = $lead_data['lead_id'];
@@ -179,9 +182,7 @@ function inbound_store_lead( $args = array() ) {
 
 			do_action('wpleads_existing_lead_update', $lead_data ); // action hook on existing leads only
 
-		}
-		else
-		{
+		} else {
 			/* Create New Lead */
 			$post = array(
 				'post_title'		=> $lead_data['wpleads_email_address'],
@@ -265,7 +266,7 @@ function inbound_store_lead( $args = array() ) {
 		}
 
 		/* Store Conversion Data to Lead */
-		inbound_add_conversion_to_lead( $lead_id , $lead_data );
+		inbound_add_conversion_to_lead( $lead_id, $lead_data );
 
 		/* Store Lead Referral Source Data */
 		$referral_data = get_post_meta( $lead_id, 'wpleads_referral_data', TRUE );
@@ -395,7 +396,7 @@ function inbound_store_lead( $args = array() ) {
 		do_action('lp_store_lead_post', $lead_data );
 
 		if (!$args) {
-		
+
 			echo $lead_id;
 			die();
 
@@ -407,16 +408,16 @@ function inbound_store_lead( $args = array() ) {
 }
 
 if (!function_exists('inbound_add_conversion_to_lead')) {
-	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
-	
-		
+	function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
+
+
 		if ( $lead_data['page_id'] ) {
 			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
 			$conversion_data = json_decode($conversion_data,true);
 			$variation = $lead_data['variation'];
-			
+
 			if ( is_array($conversion_data)) {
 				$c_count = count($conversion_data) + 1;
 				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
@@ -430,11 +431,11 @@ if (!function_exists('inbound_add_conversion_to_lead')) {
 				$conversion_data[$c_count]['first_time'] = 1;
 
 			}
-			
+
 			$lead_data['conversion_data'] = json_encode($conversion_data);
 			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
 			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
-		
+
 		}
 	}
 }

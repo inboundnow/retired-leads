@@ -133,8 +133,8 @@ if (is_admin()) {
 				wp_localize_script('wp-cta-js-metaboxes', 'data', $params);
 
 				// Conditional TINYMCE for landing pages
-				wp_dequeue_script('jquery-tinymce');
-				wp_enqueue_script('jquery-tinymce', WP_CTA_URLPATH . 'js/libraries/tiny_mce/jquery.tinymce.js');
+				//wp_dequeue_script('jquery-tinymce');
+				//wp_enqueue_script('jquery-tinymce', WP_CTA_URLPATH . 'js/libraries/tiny_mce/jquery.tinymce.js');
 			}
 
 			// Edit Screen
