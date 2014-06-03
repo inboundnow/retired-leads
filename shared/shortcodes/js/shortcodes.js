@@ -878,6 +878,8 @@
 								/* Fix for editor not recognizing shortcode' */
 								var chtml= jQuery('#' + insert_to + '-html');
 								var ctmce= jQuery('#' + insert_to + '-tmce');
+								// console.log('obj', chtml);
+								// console.log('2nd', ctmce);
 								switchEditors.switchto(chtml[0]); // switch to html
 
 								//tb_remove();
