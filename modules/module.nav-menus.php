@@ -9,7 +9,7 @@ function wpleads_add_menu() {
 
 		//add_submenu_page('edit.php?post_type=wp-lead', 'Lead Rules', 'Lead Rules', 'manage_options', 'lead-rules-redirect',100);
 
-		add_submenu_page('edit.php?post_type=wp-lead',  __( 'Forms' , 'leads' ),  __( 'Create Forms' , 'leads' ) , 'manage_options', 'inbound-forms-redirect',100);
+		add_submenu_page('edit.php?post_type=wp-lead',  __( 'Forms' , 'leads' ),  __( 'Manage Forms' , 'leads' ) , 'manage_options', 'inbound-forms-redirect',100);
 
 		add_submenu_page('edit.php?post_type=wp-lead',  __( 'Settings' , 'leads' ),  __( 'Global Settings' , 'leads' ), 'manage_options', 'wpleads_global_settings','wpleads_display_global_settings');
 	}

@@ -312,6 +312,20 @@
 					'std' => '',
 					'class' => 'advanced',
 				),
+				'field_container_class' => array(
+					'name' => __('Field Container Classes <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('Add additional class ids to the div that contains this field. Separate classes with spaces.',  'leads'),
+					'type' => 'text',
+					'std' => '',
+					'class' => 'advanced',
+				),
+				'field_input_class' => array(
+					'name' => __('Field Input Classes <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('Add additional class ids to this input field. Separate classes with spaces.',  'leads'),
+					'type' => 'text',
+					'std' => '',
+					'class' => 'advanced',
+				),
 
 				'hidden_input_options' => array(
 					'name' => __('Dynamic Field Filling',  'leads'),
@@ -331,7 +345,7 @@
 							'class' => 'advanced exclude',
 				),
 			),
-			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
+			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
 			'clone' => __('Add Another Field',  'leads' )
 		),
 		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
