@@ -28,27 +28,37 @@ function wpleads_after_post_meta_change( $meta_id, $post_id, $meta_key, $meta_va
 // Change the columns for the edit CPT screen
 add_filter( "manage_wp-lead_posts_columns", "wpleads_change_columns" );
 function wpleads_change_columns( $cols ) {
+
 	$cols = array(
 		"cb" => "<input type=\"checkbox\" />",
 		"lead-picture" => "Lead",
 		"first-name" => "First Name",
 		"last-name" => "Last Name",
 		"title" => "Email",
-		"status" => "Status",
+	);
+	if (isset($_GET['wp_leads_filter_field']) && $_GET['wp_leads_filter_field'] != "") {
+		$the_val = $_GET['wp_leads_filter_field'];
+		$nice_names = wpl_nice_field_names();
+		if(array_key_exists($the_val, $nice_names)){
+			$the_val = $nice_names[$the_val];
+		}
+		$cols['custom'] =  $the_val;
+	}
 
+	$cols_merge = array("status" => "Status",
 		// "company" => "Company", Custom Column
 		'conversion-count' => "Conversion Count",
 		"page-views" => "Total Page Views",
 		/*'modified' => "Latest Activity", */
 		"date" => "Created"
 	);
+	$cols = array_merge($cols, $cols_merge);
 	return $cols;
 }
 
 
 add_action( "manage_posts_custom_column", "wpleads_custom_columns", 10, 2 );
-function wpleads_custom_columns( $column, $post_id )
-{
+function wpleads_custom_columns( $column, $post_id ) {
 	global $post;
 
 	if ($post->post_type !='wp-lead'){
@@ -126,6 +136,16 @@ function wpleads_custom_columns( $column, $post_id )
 		  	}
 		  echo $count_conversions;
 		  break;
+	  	case "custom":
+	  	if (isset($_GET['wp_leads_filter_field'])) {
+	  		$the_val = $_GET['wp_leads_filter_field'];
+	  	}
+	    $custom_val = get_post_meta( $post_id, $the_val, true);
+	     if (!$custom_val) {
+	    	$custom_val = 'N/A';
+	    }
+	    echo $custom_val;
+	    break;
 		case "page-views":
 			$page_views = get_post_meta($post_id,'page_views', true);
 		    $page_view_array = json_decode($page_views, true);
@@ -293,10 +313,26 @@ function wp_leads_lead_email_filter( $query ) {
 		}
 	}
 
+	function wpl_nice_field_names() {
+		$nice_names = array(
+			"wpleads_company_name" => "Company Name",
+			"wpleads_city" => "City",
+			"wpleads_areaCode" => "Area Code",
+			"wpleads_country_name" => "Country Name",
+			"wpleads_region_code" => "State Abbreviation",
+			"wpleads_region_name" => "State Name",
+			"wp_lead_status" => "Lead Status",
+			"events_triggered" => "Number of Events Triggered",
+			"lp_page_views_count" => "Page View Count",
+			"wpleads_conversion_count" => "Number of Conversions"
+		);
+
+		$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
+		return $nice_names;
+	}
 
 	add_action( 'restrict_manage_posts', 'wpl_admin_posts_filter_restrict_manage_posts' );
-	function wpl_admin_posts_filter_restrict_manage_posts()
-	{
+	function wpl_admin_posts_filter_restrict_manage_posts() {
 		global $wpdb;
 		$screen = get_current_screen();
 		$screen_id = $screen->id;
@@ -323,22 +359,9 @@ function wp_leads_lead_email_filter( $query ) {
 				<?php
 					$current = isset($_GET['wp_leads_filter_field'])? $_GET['wp_leads_filter_field']:'';
 					$current_v = isset($_GET['wp_leads_filter_field_val'])? $_GET['wp_leads_filter_field_val']:'';
-					$nice_names = array(
-						"wpleads_first_name" => "First Name",
-						"wpleads_last_name" => "Last Name",
-						"wpleads_email_address" => "Email Address",
-						"wpleads_city" => "City",
-						"wpleads_areaCode" => "Area Code",
-						"wpleads_country_name" => "Country Name",
-						"wpleads_region_code" => "State Abbreviation",
-						"wpleads_region_name" => "State Name",
-						"wp_lead_status" => "Lead Status",
-						"events_triggered" => "Number of Events Triggered",
-						"lp_page_views_count" => "Page View Count",
-						"wpleads_conversion_count" => "Number of Conversions"
-					);
 
-					$nice_names = apply_filters('wpleads_sort_by_custom_field_nice_names',$nice_names);
+
+					$nice_names = wpl_nice_field_names();
 
 					foreach ($fields as $field) {
 						//echo $field;
@@ -349,7 +372,7 @@ function wp_leads_lead_email_filter( $query ) {
 
 					}
 				?>
-				</select><span class='lead_meta_val'><?php _e('Value:', 'baapf'); ?></span><input type="TEXT" name="wp_leads_filter_field_val" class="lead_meta_val" value="<?php echo $current_v; ?>" />
+				</select><span class='lead_meta_val'><?php _e('Value:', 'baapf'); ?></span><input type="TEXT" name="wp_leads_filter_field_val" class="lead_meta_val" placeholder="Leave Blank to Search All" value="<?php echo $current_v; ?>" />
 				<?php
 		}
 }
@@ -362,7 +385,10 @@ function wpleads_sortable_columns($columns) {
 	$columns['last-name'] = 'last-name';
 	$columns['status'] = 'status';
 	$columns['company'] = 'company';
-
+	if (isset($_GET['wp_leads_filter_field'])) {
+		$the_val = $_GET['wp_leads_filter_field'];
+		$columns['custom'] = $the_val;
+	}
 	return $columns;
 }
 
