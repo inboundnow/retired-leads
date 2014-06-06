@@ -227,9 +227,7 @@ class InboundForms {
 					}
 					
 					foreach ($dropdown_fields as $key => $value) {
-						//$drop_val_trimmed =	trim($value);
-						//$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
-						$form .= '<option value="'.$key.'">'. $value .'</option>';
+						$form .= '<option value="'.$key.'">'. utf8_encode($value) .'</option>';
 					}
 					$form .= '</select>';
 				}

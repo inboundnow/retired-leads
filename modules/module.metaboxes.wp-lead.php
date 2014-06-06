@@ -1,6 +1,4 @@
 <?php
-/* INCLUDE FILE WHERE MAIN USERFIELDS ARE DEFINED */
-include_once('module.userfields.php');
 
 /* REMOVE DEFAULT METABOXES */
 add_filter('default_hidden_meta_boxes', 'wplead_hide_metaboxes', 10, 2);
@@ -546,7 +544,7 @@ function wpleads_display_metabox_main() {
 	//print jquery for tab switching
 	wpl_manage_lead_js($tabs);
 
-	$wpleads_user_fields = wp_leads_get_lead_fields();
+	$wpleads_user_fields = Leads_Field_Map::get_lead_fields();
 	foreach ($wpleads_user_fields as $key=>$field) {
 			$wpleads_user_fields[$key]['value'] = get_post_meta( $post->ID , $wpleads_user_fields[$key]['key'] ,true );
 			if ( !$wpleads_user_fields[$key]['value'] && isset($wpleads_user_fields[$key]['default']) )
@@ -1512,7 +1510,7 @@ function wpl_tag_cloud() {
 	global $post;
 	$page_views = get_post_meta($post->ID,'page_views', true);
     $page_view_array = json_decode($page_views, true);
-    if($page_views)
+    if($page_views && is_array($page_view_array))
 	{
      	// Collect all viewed page IDs
 		foreach($page_view_array as $key=>$val)
@@ -1608,7 +1606,8 @@ function wpleads_save_user_fields($post_id) {
 
 	if ($post->post_type=='wp-lead')
 	{
-		$wpleads_user_fields = wp_leads_get_lead_fields();
+		$Leads_Field_Map = new Leads_Field_Map();
+		$wpleads_user_fields = $leads_Field_Map->get_lead_fields();
 		foreach ($wpleads_user_fields as $key=>$field)
 		{
 
