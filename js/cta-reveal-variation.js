@@ -1,9 +1,9 @@
 
-/* Record Impressions For Each Variation in CTA Object 
+/* Record Impressions For Each Variation in CTA Object
 * @param JSON ctas : a json string of {'cta':'vid'}
 */
 function wp_cta_record_impressions( ctas ) {
-	
+
 	/* Add Impressions to loaded varations*/
 	jQuery.ajax({
 		type: 'POST',
@@ -13,24 +13,24 @@ function wp_cta_record_impressions( ctas ) {
 			ctas: ctas
 		},
 		success: function(user_id){
-				console.log('CTA Impressions Recorded');
+				//console.log('CTA Impressions Recorded');
 			   },
 		error: function(MLHttpRequest, textStatus, errorThrown){
 
 			}
 
 	});
-	
+
 }
 
-/* Adds Tracking Classes to Links and Forms to CTAs 
+/* Adds Tracking Classes to Links and Forms to CTAs
 * @param OBJECT ctas : object containing {'cta','vid'}
 */
 function wp_cta_add_tracking_classes( ctas ) {
 	jQuery.each( ctas,  function(cta_id,vid) {
 		var vid = ctas[cta_id];
-		
-		console.log('CTA '+cta_id+' loads variation:' + vid);
+
+		//console.log('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();
 
 		/* add tracking classes to links and forms */
@@ -71,7 +71,7 @@ function wp_cta_add_tracking_classes( ctas ) {
 				if ( jQuery(this).hasClass('do-not-track') ) {
 					return;
 				}
-				
+
 				var cta_variation_string = "&wp-cta-v=" + vid;
 
 				var newurl =  cta_reveal.home_url + "?wp_cta_redirect_" + cta_id + "=" + originalurl + cta_variation_string + string;
@@ -94,8 +94,8 @@ jQuery(document).ready(function($) {
 
 	/* Record Impressions */
 	wp_cta_record_impressions( ctas );
-	
+
 	/* Add Tracking Classes */
 	wp_cta_add_tracking_classes( loaded_ctas );
-	
+
 });
