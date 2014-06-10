@@ -733,7 +733,7 @@ class CallsToAction {
 
 		($selected_cta) ? $selected_cta : $selected_cta = self::$instance->selected_cta;
 
-		if (!isset($selected_cta)){
+		if (!isset($selected_cta['id'])){
 			return;
 		}
 
@@ -1120,7 +1120,10 @@ class CallsToAction {
 		wp_print_styles();
 
 		echo '</head>';
-		echo '<body style="background-color:#fff;margin-top:100px;">';
+		
+		(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : ''; 
+		
+		echo '<body style="background-color:#fff;">';
 		echo '<div id="cta-preview-container" style="margin:auto;">';
 		if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 			echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');
