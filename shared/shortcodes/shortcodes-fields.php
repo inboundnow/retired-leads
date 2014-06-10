@@ -137,6 +137,22 @@ class InboundShortcodesFields {
 							$output .= '<option'. $selected .' value="'. $val .'">'. $opt .'</option>';
 						}
 						$output .= '</select>';
+						$output .= '<div class="wp-hidden-children">
+						<h4><a class="hide-if-no-js" href="#list-add" id="list-add-toggle"> + Add New Lead List </a></h4>
+						<div class="list-add wp-hidden-child" id="list-add-wrap"><ul class="child-clone-row-form"><li>
+						<label for="newcategory" class="screen-reader-text">Add New Lead List</label>
+						<input type="text" aria-required="true" placeholder="New List Name" class="inbound-shortcodes-input inbound_shortcode_notify form-required" id="newformlist" name="newformlist" autocorrect="off" autocomplete="off" style="width: 80%;"></li>';
+						$output .= '<li><label for="newlist_parent" class="screen-reader-text"> Parent List: </label><select class="postform" id="newlist_parent" name="newlist_parent"><option value="-1">&mdash; Parent List &mdash;</option>';
+						$args = array('hide_empty' => false); 
+						$terms = get_terms('wplead_list_category', $args);
+						foreach($terms as $term){
+							$term_id=$term->term_id;
+							$term_name =$term->name;
+							$parent_level = ($term->parent == 0 ) ? '' : '-';
+							$output .='<option value="'.$term_id.'" class="level-0">'.$parent_level.$term_name.'</option>';
+						}
+						$output .='</select></li>';	
+						$output .='<li><input type="button" value="Add New Lead List" class="button button-primary" data-wp-lists="add:listchecklist:list-add" id="list-add-submit"></li></ul><span id="list-ajax-response"></span></div></div>';
 						$output .= $row_end;
 						$this->append_output($output);
 						break;
