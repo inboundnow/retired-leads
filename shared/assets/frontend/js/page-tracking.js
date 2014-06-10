@@ -2,7 +2,6 @@
  * Lead Tracking JS
  * http://www.inboundnow.com
  */
-
 var InboundAnalytics = (function () {
 
    var debugMode = false;
@@ -170,6 +169,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           return get_params;
       },
       // Check local storage
+      // provate browsing safari fix https://github.com/marcuswestin/store.js/issues/42#issuecomment-25274685
       checkLocalStorage: function() {
         if ('localStorage' in window) {
             try {
@@ -186,6 +186,19 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             }
         }
         return supported;
+        /* http://spin.atomicobject.com/2013/01/23/ios-private-browsing-localstorage/
+        var hasStorage;
+        hasStorage = function() {
+          var mod, result;
+          try {
+            mod = new Date;
+            localStorage.setItem(mod, mod.toString());
+            result = localStorage.getItem(mod) === mod.toString();
+            localStorage.removeItem(mod);
+            return result;
+          } catch (_error) {}
+        };
+         */
       },
       /* Add days to datetime */
       addDays: function(myDate,days) {
