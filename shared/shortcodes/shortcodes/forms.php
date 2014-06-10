@@ -4,36 +4,13 @@
 *   Forms code found in /shared/classes/form.class.php
 */
 
-	if (empty($lead_mapping_fields)){
-		// if lead transient doesn't exist use defaults
-		$lead_mapping_fields = array(
-		'null' => 'No Mapping',
-		"wpleads_full_name" => "Full Name",
-		"wpleads_first_name" => "First Name",
-		"wpleads_last_name" => "Last Name",
-		"wpleads_email_address" => "Email",
-		"wpleads_website" => "Website",
-		"wpleads_company_name" => "Company Name",
-		"wpleads_mobile_phone" => "Mobile Phone",
-		"wpleads_work_phone" => "Work Phone",
-		"wpleads_address_line_1" => "Address",
-		"wpleads_address_line_2" => "Address Continued",
-		"wpleads_city" => "City",
-		"wpleads_region_name" => 'State/Region',
-		"wpleads_zip" => "Zip-code",
-		"wpleads_country_code" => "Country",
-		"wpleads_websites" => "Related Websites",
-		"wpleads_notes" => "Notes"
-		);
-	}
-
 	if (empty($lead_list_names)){
 		// if lead transient doesn't exist use defaults
 		$lead_list_names = array(
 		'null' => 'No Lists detected',
 		);
 	}
-	//print_r($lead_mapping_fields);
+
 
 	$shortcodes_config['forms'] = array(
 		'no_preview' => false,
@@ -212,27 +189,28 @@
 					'desc' => '',
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => "Enter the Form Field Label. Example: First Name"
+					'placeholder' => __("Enter the Form Field Label. Example: First Name" , "leads" )
 				),
 				'field_type' => array(
 					'name' => __('Field Type', 'leads'),
 					'desc' => __('Select an form field type', 'leads'),
 					'type' => 'select',
 					'options' => array(
-						"text" => "Single Line Text",
-						"textarea" => "Paragraph Text",
-						'dropdown' => "Dropdown Options",
-						"radio" => "Radio Select",
-						"number" => "Number",
-						"checkbox" => "Checkbox",
-						"html-block" => "HTML Block",
-						'divider' => "Divider",
-						"date" => "Date Field",
-						"time" => "Time Field",
-						'hidden' => "Hidden Field",
-						//'file_upload' => "File Upload",
-						//'editor' => "HTML Editor"
-						//"multi-select" => "multi-select"
+						"text" => __("Single Line Text" , "leads"),
+						"textarea" => __("Paragraph Text", "leads"),
+						'dropdown' => __("Dropdown - Custom", "leads"),
+						'dropdown_countries' => __("Dropdown - Countries", "leads"),
+						"radio" => __("Radio Select", "leads"),
+						"number" => __("Number", "leads"),
+						"checkbox" => __("Checkbox", "leads"),
+						"html-block" => __("HTML Block", "leads"),
+						'divider' => __("Divider", "leads"),
+						"date" => __("Date Field", "leads"),
+						"time" => __("Time Field", "leads"),
+						'hidden' => __("Hidden Field", "leads"),
+						//'file_upload' => __("File Upload", "leads"),
+						//'editor' => __("HTML Editor" ,"leads"),
+						//"multi-select" => __("multi-select" ,  "leads")
 						),
 					'std' => ''
 				),
@@ -242,7 +220,7 @@
 					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => 'Choice 1, Choice 2, Choice 3',
+					'placeholder' => __('Choice 1, Choice 2, Choice 3' , 'leads' ),
 					'reveal_on' => 'dropdown' // on select choice show this
 				),
 				'radio_options' => array(
@@ -258,7 +236,7 @@
 					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => 'Choice 1, Choice 2, Choice 3',
+					'placeholder' => __( 'Choice 1, Choice 2, Choice 3', 'leads' ),
 					'reveal_on' => 'checkbox' // on select choice show this
 				),
 				'html_block_options' => array(
@@ -328,7 +306,7 @@
 				),
 
 				'hidden_input_options' => array(
-					'name' => __('Dynamic Field Filling',  'leads'),
+					'name' => __('Dynamic Field Filling <span class="small-optional-text">(optional)</span>',  'leads'),
 					'desc' => __('Enter Your Dynamic URL parameter',  'leads'),
 					'type' => 'text',
 					'std' => '',
@@ -337,7 +315,7 @@
 					//'reveal_on' => 'hidden' // on select choice show this
 				),
 				'map_to' => array(
-							'name' => __('Map Field To', 'leads'),
+							'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
 							'desc' => __('Map this field to Leads Value', 'leads'),
 							'type' => 'select',
 							'options' => $lead_mapping_fields,

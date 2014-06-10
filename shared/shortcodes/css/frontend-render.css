@@ -26,6 +26,9 @@ padding-right: 5px;
 .inbound-label.inbound-label-placeholder.inbound-input-dropdown {
  display: block;
 }
+.inbound-label.inbound-label-placeholder.inbound-input-dropdown_countries {
+ display: block;
+}
 .inbound-horizontal {
     display: inline-block;
 }

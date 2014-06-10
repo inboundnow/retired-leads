@@ -105,7 +105,7 @@ function inbound_store_lead( $args = array() ) {
 
 
 	/* POST Vars */
-	$lead_data['page_id'] = ( !$lead_data['page_id'] && isset($_POST['page_id'])) ? $_POST['page_id'] : '0';
+	$lead_data['page_id'] = ( !$lead_data['page_id'] && isset($_POST['page_id'])) ? $_POST['page_id'] : $lead_data['page_id'] ;
 	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
 
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;
@@ -348,7 +348,7 @@ function inbound_store_lead( $args = array() ) {
 			$a1 = json_decode( $raw_post_data, true );
 			$a2 = json_decode( stripslashes($lead_data['form_input_values']), true );
 			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
-			$lead_mapping_fields = get_transient( 'wp-lead-fields' );
+			$lead_mapping_fields = Leads_Field_Map::build_map_array();
 
 			foreach ($a2 as $key=>$value)
 			{
