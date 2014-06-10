@@ -911,12 +911,12 @@
 				// fix regex for < and > the stripping breaks shortcodes
 				//var html = html.replace(/"/g, "QUOT");
 				//var html = html.replace(/'/g, "QUOT_SINGLE");
-				//var the_html = jQuery('<div/>').text(html).html();
-				//var the_html = the_html.replace(/'/g,'&#039;');
-				//var the_html = the_html.replace(/&lt;/g, "<");
-				//var the_html = the_html.replace(/&gt;/g, ">");
-				//var the_html = the_html.replace(/%3C/g, "<");
-				//var the_html = the_html.replace(/%3E/g, ">");
+				//var html = jQuery('<div/>').text(html).html();
+				//var html = the_html.replace(/'/g,'&#039;');
+				//var html = html.replace(//g, "<");
+				//var html = html.replace(//g, ">");
+				var html = html.replace(/</g, "&lt;");
+				var html = html.replace(/>/g, "&gt;");
 				var html = html.replace(/\?/g, "%3F");
 				var html = html.replace(/\/>/, "%2F%3E");
 				//var html = html.replace(/&/g, "%26");
