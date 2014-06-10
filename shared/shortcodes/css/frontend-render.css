@@ -266,43 +266,43 @@ ul.social-links li a:hover{
 
 /* Divider
  * ----------------------------------------------------- */
-.divider{
+.inbound-divider{
     border-top: 1px solid #EBEBEA;
     height: 1px;
     margin: 0px;
     position: relative;
 }
-.divider.none{
+.inbound-divider.none{
     border:none
 }
-.divider.solid{
+.inbound-divider.solid{
     border-top: 1px solid #EBEBEA;
 }
-.divider.dashed{
+.inbound-divider.dashed{
     border-top: 1px dashed #EBEBEA;
 }
-.divider.dotted{
+.inbound-divider.dotted{
     border-top: 1px dotted #EBEBEA;
 }
-.divider.double{
+.inbound-divider.double{
     border-top: 3px double #EBEBEA;
 }
 
 /* Teaser
  * ----------------------------------------------------- */
-.teaser{
+.inbound-teaser{
     margin-bottom: 20px;
 }
-.teaser .teaser-header{
+.inbound-teaser .inbound-teaser-header{
     margin: 0px 0px 10px 56px;
 }
-.teaser .teaser-title{
+.inbound-teaser .inbound-teaser-title{
     margin: 0px;
 }
-.teaser .teaser-subtitle{
+.inbound-teaser .inbound-teaser-subtitle{
     color: #9C9A96;
 }
-.teaser .teaser-icon{
+.inbound-teaser .inbound-teaser-icon{
     background: #4A4845;
     -webkit-border-radius: 2px;
        -moz-border-radius: 2px;
@@ -316,26 +316,26 @@ ul.social-links li a:hover{
     margin-top: 5px;
     text-align: center;
 }
-.teaser .teaser-image{
+.inbound-teaser .inbound-teaser-image{
     float: left;
     height: 36px;
     width: 36px;
     margin-top: 5px;
 }
-.teaser:hover .teaser-icon{
+.inbound-teaser:hover .inbound-teaser-icon{
     background-color: #c8232b;
 }
 
 /* Nested teaser */
-.teaser.nested .teaser-content{
+.inbound-teaser.nested .inbound-teaser-content{
     margin-left: 56px
 }
 
 /* Centered teaser */
-.teaser.centered{
+.inbound-teaser.centered{
     text-align: center;
 }
-.teaser.centered .teaser-icon{
+.inbound-teaser.centered .inbound-teaser-icon{
     background: none;
     color: #696763;
     float: none;
@@ -345,7 +345,7 @@ ul.social-links li a:hover{
     height: 64px;
     margin: 0px auto 5px auto;
 }
-.teaser.centered .teaser-header{
+.inbound-teaser.centered .inbound-teaser-header{
     margin-left: 0px;
 }
 
