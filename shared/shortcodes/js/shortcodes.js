@@ -604,6 +604,7 @@
 							 email_contents = jQuery('#content').val(); 
 						}
 						
+						
 						var email_exists = InboundShortcodes.get_email();
 						console.log(email_exists);
 						if(email_exists != "" ) {
@@ -1011,5 +1012,40 @@
 
 				window.history.replaceState({}, document.title, window_url);
 			}
+
+		jQuery('#list-add-toggle').click( function() {
+				jQuery('#list-add-wrap').toggleClass( 'wp-hidden-child' );
+				return false;
+			});
+			jQuery('#list-add-submit').click( function() {
+				var list_val = jQuery('#newformlist').val();
+				var list_parent_val = jQuery('#newlist_parent').val();
+				if(list_val == ''){
+					
+					jQuery('#newformlist').focus();
+					
+					return false;
+					
+				} else {
+					jQuery.ajax({
+						type:"POST",
+						url: ajaxurl,
+						data: "list_val=" + list_val +  "&list_parent_val=" + list_parent_val + "&action=inbound_form_add_lead_list",
+						success: function(data) {
+							var returned = jQuery.parseJSON(data);
+							if(returned.status != 'false'){
+								jQuery('#inbound_shortcode_lists').append('<option value="'+ returned.term_id +'">' + returned.name + '</option>');
+								jQuery('#list-ajax-response').html('List Added. Please Select From Above.');
+							} else {
+								
+								alert('Not able to add list at this monent. Please try again');
+							}
+						}
+					});
+					
+				}
+				
+			});
+			
 
 		});
