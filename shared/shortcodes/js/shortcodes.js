@@ -1013,10 +1013,11 @@
 				window.history.replaceState({}, document.title, window_url);
 			}
 
-		jQuery('#list-add-toggle').click( function() {
+			jQuery('#list-add-toggle').click( function() {
 				jQuery('#list-add-wrap').toggleClass( 'wp-hidden-child' );
 				return false;
 			});
+			
 			jQuery('#list-add-submit').click( function() {
 				var list_val = jQuery('#newformlist').val();
 				var list_parent_val = jQuery('#newlist_parent').val();
