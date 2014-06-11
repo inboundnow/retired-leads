@@ -599,6 +599,11 @@
 							var send_email_subject = '';
 							var email_contents = ''; // if post created on other post
 						}
+						
+						if ( typeof email_contents == 'undefined' ) {
+							 email_contents = jQuery('#content').val(); 
+						}
+						
 						var email_exists = InboundShortcodes.get_email();
 						console.log(email_exists);
 						if(email_exists != "" ) {
