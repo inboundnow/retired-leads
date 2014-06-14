@@ -1,6 +1,7 @@
 <?php
 
 add_action('wp_enqueue_scripts', 'wpleads_enqueuescripts_header');
+wp_enqueue_script( 'required-fallback', WPL_URL . '/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
 function wpleads_enqueuescripts_header() {
 	global $post;
 
