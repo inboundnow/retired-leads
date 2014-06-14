@@ -197,8 +197,7 @@ class CTALoadExtensions
 	}
 
 	/* adds default settings to Advanced Settings metabox */
-	function add_default_advanced_settings($wp_cta_data)
-	{
+	function add_default_advanced_settings($wp_cta_data) {
 		/* this is a special key that targets CTA metaboxes */
 		$parent_key = 'wp-cta';
 
@@ -222,16 +221,13 @@ class CTALoadExtensions
 				'context'  => 'normal'
 				);
 
-
-
 		//IMPORT ALL EXTERNAL DATA
 		return $wp_cta_data;
 	}
 
 
 	/* adds_width and height settings to templates */
-	function add_width_and_height_to_templates($wp_cta_data)
-	{
+	function add_width_and_height_to_templates($wp_cta_data){
 		foreach ($wp_cta_data as $key => $data )
 		{
 			if (!isset($data['info']['data_type']) || $data['info']['data_type']!='template'){

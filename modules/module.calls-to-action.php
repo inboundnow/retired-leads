@@ -139,7 +139,7 @@ class CallsToAction {
 
 		}
 
-		do_action('wp_cta_after_global_init' ,	$this );
+		do_action('wp_cta_after_global_init', $this );
 	}
 
 	public function setup_cta( $is_preview = false ) {
@@ -168,6 +168,7 @@ class CallsToAction {
 	}
 
 	public static function prepare_cta_dataset( $cta_id = null, $variation_id = null) {
+
 		if ($cta_id) {
 			$cta_display_list	= array(0=>$cta_id);
 		} else {
@@ -409,15 +410,13 @@ class CallsToAction {
 
 					switch ($type) {
 						case 'js':
-							foreach ($file as $js)
-							{
+							foreach ($file as $js) {
 								wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
 								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type) );
 							}
 							break;
 						case 'css':
-							foreach ($file as $css)
-							{
+							foreach ($file as $css) {
 								wp_enqueue_style( md5($css) , $css );
 							}
 							break;
@@ -438,12 +437,10 @@ class CallsToAction {
 		$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
 		/* Preg match parsing - Keep here */
-			preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
-			//preg_match_all('/{{+(.*?)}}/', $template, $tokens); // check for normal tags
-			//print_r($tokens[0]);
+		preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
+		//preg_match_all('/{{+(.*?)}}/', $template, $tokens); // check for normal tags
+		//print_r($tokens[0]);
 		/* end preg match for advanced template functions */
-
-
 
 
 		(isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
@@ -823,8 +820,7 @@ class CallsToAction {
 		}
 	}
 
-	public static function parse_css_template( $dynamic_css , $css_id_preface )
-	{
+	public static function parse_css_template( $dynamic_css, $css_id_preface ) {
 		$dynamic_css = str_replace('{{' , '[[', $dynamic_css);
 		$dynamic_css = str_replace('}}' , ']]', $dynamic_css);
 
@@ -850,15 +846,12 @@ class CallsToAction {
 		return $oCss->__toString();
 	}
 
-	function load_global_css()
-	{
+	function load_global_css() {
 		global $post;
-
 		if (!isset($post))
 			return;
 
-		if ($post->post_type=='wp-call-to-action')
-		{
+		if ($post->post_type=='wp-call-to-action') {
 			$global_css = get_option( 'wp-cta-main-global-css');
 			if ($global_css != "") {
 				echo "<style id='global-cta-styles' type='text/css'>";
@@ -868,8 +861,7 @@ class CallsToAction {
 		}
 	}
 
-	public static function cta_get_correct_dimensions($input, $css_prop)
-	{
+	public static function cta_get_correct_dimensions($input, $css_prop) {
 		if (preg_match("/px/", $input))	{
 			$input = (isset($input)) ? " ".$css_prop.": $input;" : '';
 		} else if (preg_match("/auto/", $input)) {
@@ -921,8 +913,7 @@ class CallsToAction {
 		(isset($selected_cta['margin_bottom'])) ? $margin_botom : $margin_bottom = '0px';
 
 		/* discover the shortest variation height */
-		foreach ($selected_cta['variations'] as $vid)
-		{
+		foreach ($selected_cta['variations'] as $vid) {
 			$meta = $selected_cta['meta'][$vid];
 			if (	isset($meta['wp_cta_height-'.$vid]) && is_int( $meta['wp_cta_height-'.$vid]) ) {
 				$heights[] = $meta['wp_cta_height-'.$vid];
@@ -1018,8 +1009,7 @@ class CallsToAction {
 		return $content;
 	}
 
-	function add_cta_to_dynamic_content()
-	{
+	function add_cta_to_dynamic_content() {
 		if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off') {
 			return;
 		}
@@ -1031,13 +1021,11 @@ class CallsToAction {
 		}
 	}
 
-	function render_widget()
-	{
+	function render_widget() {
 		echo do_shortcode(self::$instance->cta_template);
 	}
 
-	function process_shortcode_cta( $atts )
-	{
+	function process_shortcode_cta( $atts ) {
 		extract(shortcode_atts(array(
 			'id' => '',
 			'vid' => null,
@@ -1074,8 +1062,8 @@ class CallsToAction {
 	* @param return BOOL
 	* @return STRING
 	*/
-	function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
-	{
+	function load_shortcode_variation_js( $cta_id, $variation_id = null, $return = false ) {
+
 		if ( !isset(self::$instance->disable_ajax) ) {
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 		}
@@ -1120,9 +1108,9 @@ class CallsToAction {
 		wp_print_styles();
 
 		echo '</head>';
-		
-		(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : ''; 
-		
+
+		(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
+
 		echo '<body style="background-color:#fff;">';
 		echo '<div id="cta-preview-container" style="margin:auto;">';
 		if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {

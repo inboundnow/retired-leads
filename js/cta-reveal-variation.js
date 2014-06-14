@@ -2,7 +2,7 @@
 /* Record Impressions For Each Variation in CTA Object
 * @param JSON ctas : a json string of {'cta':'vid'}
 */
-function wp_cta_record_impressions( ctas ) {
+function wp_cta_record_impressions(ctas) {
 
 	/* Add Impressions to loaded varations*/
 	jQuery.ajax({
@@ -26,7 +26,7 @@ function wp_cta_record_impressions( ctas ) {
 /* Adds Tracking Classes to Links and Forms to CTAs
 * @param OBJECT ctas : object containing {'cta','vid'}
 */
-function wp_cta_add_tracking_classes( ctas ) {
+function wp_cta_add_tracking_classes(ctas) {
 	jQuery.each( ctas,  function(cta_id,vid) {
 		var vid = ctas[cta_id];
 
@@ -61,19 +61,18 @@ function wp_cta_add_tracking_classes( ctas ) {
 		}
 
 		var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-		jQuery('#wp_cta_'+cta_id+'_variation_'+vid+' a').each(function ()
-		{
-			jQuery(this).attr("data-event-id",  cta_id ).attr("data-cta-variation", vid );
+		jQuery('#wp_cta_'+cta_id+'_variation_'+vid+' a').each(function(){
 
+			jQuery(this).attr("data-event-id",  cta_id ).attr("data-cta-variation", vid );
 			var originalurl = jQuery(this).attr("href");
-			if (originalurl  && originalurl.substr(0,1)!='#')
-			{
+
+			if (originalurl  && originalurl.substr(0,1)!='#') {
+
 				if ( jQuery(this).hasClass('do-not-track') ) {
 					return;
 				}
 
 				var cta_variation_string = "&wp-cta-v=" + vid;
-
 				var newurl =  cta_reveal.home_url + "?wp_cta_redirect_" + cta_id + "=" + originalurl + cta_variation_string + string;
 				jQuery(this).attr("href", newurl);
 			}
@@ -86,16 +85,16 @@ function wp_cta_add_tracking_classes( ctas ) {
 jQuery(document).ready(function($) {
 
 	var ctas = localStorage.getItem('wp_cta_loaded');
-	if (ctas){
+	if(ctas){
 		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
 	} else {
 	  return false;
 	}
 
 	/* Record Impressions */
-	wp_cta_record_impressions( ctas );
+	wp_cta_record_impressions(ctas);
 
 	/* Add Tracking Classes */
-	wp_cta_add_tracking_classes( loaded_ctas );
+	wp_cta_add_tracking_classes(loaded_ctas);
 
 });
