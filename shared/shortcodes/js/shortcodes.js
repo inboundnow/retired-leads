@@ -980,7 +980,7 @@
 				var shortcode = jQuery(this).attr('data-launch-sc');
 
 				setTimeout(function() {
-				 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+				 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + encodeURIComponent(inbound_load.image_dir));
 				        }, 500);
 
 			});

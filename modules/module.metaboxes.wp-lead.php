@@ -1607,7 +1607,7 @@ function wpleads_save_user_fields($post_id) {
 	if ($post->post_type=='wp-lead')
 	{
 		$Leads_Field_Map = new Leads_Field_Map();
-		$wpleads_user_fields = $leads_Field_Map->get_lead_fields();
+		$wpleads_user_fields = $Leads_Field_Map->get_lead_fields();
 		foreach ($wpleads_user_fields as $key=>$field)
 		{
 
