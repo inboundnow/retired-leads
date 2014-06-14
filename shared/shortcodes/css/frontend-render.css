@@ -441,7 +441,7 @@ ul.inbound-tabs-nav li:last-child{
 }
 
 .inbound-tabs > div{
-    border: 1px solid #EBEBEA;;
+    border: 1px solid #EBEBEA;
     border-top: none;
     padding: 20px;
 }
