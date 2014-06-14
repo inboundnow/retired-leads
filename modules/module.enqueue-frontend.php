@@ -1,7 +1,7 @@
 <?php
 
 add_action('wp_enqueue_scripts', 'wpleads_enqueuescripts_header');
-wp_enqueue_script( 'required-fallback', WPL_URL . '/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
+
 function wpleads_enqueuescripts_header() {
 	global $post;
 
@@ -9,9 +9,12 @@ function wpleads_enqueuescripts_header() {
 
 	// Load Tracking Scripts
 	if($post_type != "wp-call-to-action") {
+		
+		/* load jquery */
 		wp_enqueue_script('jquery');
 
-		/* shared global js moved to /shared/assets/js */
+		/* Enqueue script that will add required field checking to non-supportive browsers */
+		wp_enqueue_script( 'inbound-forms-required-fallback', WPL_URL . '/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
 
 		// Load form pre-population
 		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
@@ -34,5 +37,5 @@ function wpleads_enqueuescripts_header() {
 			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids, 'form_exclude_ids' => $form_exclude_ids ) );
 		}
 
-	}
+	} 
 }
