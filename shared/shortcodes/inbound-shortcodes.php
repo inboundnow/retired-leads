@@ -30,7 +30,7 @@ class InboundShortcodes {
 	/*	Contruct
 	*	--------------------------------------------------------- */
 	static function init() {
-	
+
 		self::$add_script = true;
 		add_action('admin_enqueue_scripts', array( __CLASS__, 'loads' ));
 		add_action('init', array( __CLASS__, 'shortcodes_tinymce' ));
@@ -48,8 +48,8 @@ class InboundShortcodes {
 	public static function shortcodes_include() {
 		require_once( 'shortcodes-includes.php' );
 	}
-	
-	
+
+
 	// Set Consistant File Paths for inbound now plugins
 	static function set_file_path(){
 		if (function_exists('is_plugin_active')) {
@@ -722,22 +722,24 @@ class InboundShortcodes {
 				</div>
 				<table class='widefat tokens'>
 					<tr><td>
-					<h2>Available Tokens</h2>
-						<span class='core_token' title='Email address of sender' style='cursor:pointer;'>{{admin-email-address}}</span><br>
-						<span class='core_token' title='Name of this website' style='cursor:pointer;'>{{site-name}}</span><br>
-						<span class='core_token' title='URL of this website' style='cursor:pointer;'>{{site-url}}</span><br>
-						<span class='core_token' title='Datetime of Sent Email.' style='cursor:pointer;'>{{date-time}}</span><br>
-						<span class='lead_token' title='First & Last name of recipient' style='cursor:pointer;'>{{lead-full-name}}</span><br>
-						<span class='lead_token' title='First name of recipient' style='cursor:pointer;'>{{lead-first-name}}</span><br>
-						<span class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</span><br>
-						<span class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</span><br>
-						<span class='lead_token' title='Email address of recipient' style='cursor:pointer;'>{{lead-email-address}}</span><br>
-						<span class='lead_token' title='Company Name of recipient' style='cursor:pointer;'>{{lead-company-name}}</span><br>
-						<span class='lead_token' title='Address Line 1 of recipient' style='cursor:pointer;'>{{lead-address-line-1}}</span><br>
-						<span class='lead_token' title='Address Line 2 of recipient' style='cursor:pointer;'>{{lead-address-line-2}}</span><br>
-						<span class='lead_token' title='City of recipient' style='cursor:pointer;'>{{lead-city}}</span><br>
-						<span class='lead_token' title='Name of Inbound Now form user converted on' style='cursor:pointer;'>{{form-name}}</span><br>
-						<span class='lead_token' title='Page the visitor singed-up on.' style='cursor:pointer;'>{{source}}</span><br>
+					<h2>Available Dynamic Email Tokens</h2>
+					<ul id="email-token-list">
+						<li class='core_token' title='Email address of sender' style='cursor:pointer;'>{{admin-email-address}}</li>
+						<li class='core_token' title='Name of this website' style='cursor:pointer;'>{{site-name}}</li>
+						<li class='core_token' title='URL of this website' style='cursor:pointer;'>{{site-url}}</li>
+						<li class='core_token' title='Datetime of Sent Email.' style='cursor:pointer;'>{{date-time}}</li>
+						<li class='lead_token' title='First & Last name of recipient' style='cursor:pointer;'>{{lead-full-name}}</li>
+						<li class='lead_token' title='First name of recipient' style='cursor:pointer;'>{{lead-first-name}}</li>
+						<li class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</li>
+
+						<li class='lead_token' title='Email address of recipient' style='cursor:pointer;'>{{lead-email-address}}</li>
+						<li class='lead_token' title='Company Name of recipient' style='cursor:pointer;'>{{lead-company-name}}</li>
+						<li class='lead_token' title='Address Line 1 of recipient' style='cursor:pointer;'>{{lead-address-line-1}}</li>
+						<li class='lead_token' title='Address Line 2 of recipient' style='cursor:pointer;'>{{lead-address-line-2}}</li>
+						<li class='lead_token' title='City of recipient' style='cursor:pointer;'>{{lead-city}}</li>
+						<li class='lead_token' title='Name of Inbound Now form user converted on' style='cursor:pointer;'>{{form-name}}</li>
+						<li class='lead_token' title='Page the visitor singed-up on.' style='cursor:pointer;'>{{source}}</li>
+					</ul>
 					</td>
 					</tr>
 				</table>
@@ -798,7 +800,7 @@ class InboundShortcodes {
 
 			function inbound_forms_select_email_template() {
 				var selected = jQuery('#inbound_email_send_notification_template').val();
-				
+
 				if ( selected != 'custom') {
 					jQuery('#postdivrich').hide();
 					jQuery('#inbound_confirmation_subject').hide();
@@ -816,7 +818,7 @@ class InboundShortcodes {
 				setTimeout(function() {
 						jQuery('#inbound-shortcodes-form input:visible').first().focus();
 				}, 500);
-				
+
 				/* Hide Options Based on Selected Template */
 				jQuery('body').on('change' , '#inbound_email_send_notification_template' , function() {
 					inbound_forms_select_email_template();
