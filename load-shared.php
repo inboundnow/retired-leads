@@ -25,7 +25,8 @@ class Inbound_Load_Shared {
 		include_once('shared/classes/class.debug.php');  // Inbound Debug & Scripts Class
 		include_once('shared/classes/class.compatibility.php');  // Inbound Compatibility Class
 		include_once('shared/classes/class.templating-engine.php');  // {{token}} Replacement Engine
-		require_once('shared/classes/class.shortcodes.email-template.php');
+		require_once('shared/classes/class.shortcodes.email-template.php'); 
+		require_once('shared/classes/class.lead-fields.php');  
 		
 		include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 		include_once('shared/extend/inboundnow.extend.php');
