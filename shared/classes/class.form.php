@@ -365,6 +365,9 @@ class InboundForms {
 	static function register_script()
 	{
 		wp_enqueue_style( 'inbound-shortcodes' );
+		/* Enqueue script that will add required field checking to non-supportive browsers */
+		wp_enqueue_script( 'inbound-forms-required-fallback', WPL_URL . '/shared/classes/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
+
 	}
 
 	// only call enqueue once

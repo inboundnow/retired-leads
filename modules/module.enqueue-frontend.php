@@ -13,9 +13,6 @@ function wpleads_enqueuescripts_header() {
 		/* load jquery */
 		wp_enqueue_script('jquery');
 
-		/* Enqueue script that will add required field checking to non-supportive browsers */
-		wp_enqueue_script( 'inbound-forms-required-fallback', WPL_URL . '/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
-
 		// Load form pre-population
 		$form_prepopulation = get_option( 'wpl-main-form-prepopulation' , 1); // Check lead settings
 		$lp_form_prepopulation = get_option( 'lp-main-landing-page-prepopulate-forms' , 1);
