@@ -217,7 +217,8 @@ function inbound_store_lead( $args = array() ) {
 
 		/* Add Leads to List on creation */
 		if(!empty($lead_data['lead_lists']) && is_array($lead_data['lead_lists'])){
-		add_lead_lists_ajax($lead_id, $lead_data['lead_lists'], 'wplead_list_category');
+			global $Inbound_Leads;
+			$Inbound_Leads->add_lead_to_lists($lead_id, $lead_data['lead_lists'], 'wplead_list_category');
 		}
 
 		/* Store past search history */

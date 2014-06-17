@@ -535,8 +535,9 @@ add_action('load-edit.php', 'wpleads_bulk_action');
 function wpleads_bulk_action() {
 	// ...
 	if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post'])) {
-		//print_r($_REQUEST);
-		// 1. get the action
+		
+		global $Inbound_Leads;
+		
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
 		$action = $wp_list_table->current_action();
 
@@ -642,9 +643,6 @@ function wpleads_bulk_action() {
 
 					$wplead_cat = get_term_by( 'slug', $list_slug ,'wplead_list_category'  );
 					$wplead_cat_id = $wplead_cat->term_id;
-
-					wp_set_post_terms( $post_id, intval($wplead_cat_id), 'wplead_list_category', true);
-					update_post_meta($post_id,'lls_list_sorting-'.$list_id , 1);
 
 					$exported++;
 				}

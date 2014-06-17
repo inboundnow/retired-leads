@@ -711,38 +711,6 @@ $url = get_option('siteurl');
 <?php 
 }
 
-/* Set Leads to list from form tool. Need to consolidate into add_lead_to_list_tax */
-if (!function_exists('add_lead_lists_ajax')) {
-function add_lead_lists_ajax($lead_id, $list_id, $tax = 'wplead_list_category') {
-
-	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
-	$all_term_ids = array();
-	$all_term_slugs = array();
-	
-	foreach ($current_lists as $term ) 
-	{
-		$add = $term->term_id;
-		$slug = $term->slug;
-		$all_term_ids[] = $add;
-		$all_term_slugs[] = $slug;
-	}
-	
-	/* Set terms for lead tags taxomony */
-	$list_array = $list_id;
-	if(is_array($list_array)) 
-	{
-		foreach ($list_array as $key => $value) 
-		{
-			$num = intval($value);
-			if ( !in_array($num, $all_term_ids) ) {
-				$all_term_ids[] = $num;
-				wp_set_object_terms( $lead_id, $all_term_ids, $tax);
-			}
-		}
-	}
-}
-}
-
 function add_lead_to_list_tax($lead_id, $list_id, $tax = 'wplead_list_category') {
 
 	$current_lists = wp_get_post_terms( $lead_id, $tax, 'id' );
@@ -832,7 +800,8 @@ function wp_leads_sync_lead_tag_slug( $term_id, $tt_id, $taxonomy ) {
 
 add_action( 'admin_action_lead_action', 'lead_action_admin_action' );
 function lead_action_admin_action() {
-
+	global $Inbound_Leads;
+	
 	if ( !current_user_can('level_9') ){
 		die ( __('User does not have admin level permissions.') );
 	}
@@ -874,7 +843,7 @@ function lead_action_admin_action() {
 			foreach ( $_GET['ids'] as $id ) 
 			{
 				$fid = intval($id);
-				add_lead_to_list_tax($fid, $cat); // add to list
+				$Inbound_Leads->add_lead_to_list( $fid, $cat ); // add to list
 			}
 			
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=$num$query");
@@ -902,7 +871,7 @@ function lead_action_admin_action() {
 			{
 				$lead_ID = intval($id);
 				$append = empty($_GET['replace_tags']);
-				add_lead_to_list_tax($lead_ID, $tags, 'lead-tags');
+				$Inbound_Leads->add_tag_to_lead( $lead_ID , $tags );
 			}
 			wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=$num$query&on=$pass_ids");
 			die;

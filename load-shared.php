@@ -5,7 +5,7 @@ class Inbound_Load_Shared {
 	static $load_shared;
 
 	static function init() {
-		add_action( 'plugins_loaded', array(__CLASS__, 'inbound_load_shared_files'));
+		add_action( 'plugins_loaded', array(__CLASS__, 'inbound_load_shared_files') , 1 );
 	}
 
 	static function inbound_load_shared_files($atts) {
@@ -20,6 +20,7 @@ class Inbound_Load_Shared {
 
 		include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 		include_once('shared/classes/class.form.php');  // Mirrored forms
+		include_once('shared/classes/class.post-type.wp-lead.php'); 
 		include_once('shared/classes/class.menu.php');  // Inbound Marketing Menu
 		include_once('shared/classes/class.feedback.php');  // Inbound Feedback Form
 		include_once('shared/classes/class.debug.php');  // Inbound Debug & Scripts Class
@@ -36,7 +37,7 @@ class Inbound_Load_Shared {
 		include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 		include_once('shared/functions/global.shared.functions.php'); // Global Shared Utility functions
 		include_once('shared/assets/assets.loader.class.php');  // Load Shared CSS and JS Assets
-		include_once('shared/functions/global.leads.cpt.php'); // Shared Lead functionality
+
 	}
 }
 Inbound_Load_Shared::init();

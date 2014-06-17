@@ -104,6 +104,9 @@ function wp_leads_update_page_view_obj( $lead_id, $page_id ) {
 		$page_view_data = json_encode($page_view_data);
 		update_post_meta( $lead_id, 'page_views', $page_view_data );
 	}
+	
+	/* Run hook that tells WordPress lead data has been updated */
+	do_action('wpleads_existing_lead_update' , array( 'lead_id' => $lead_id ) );
 }
 
 /**
