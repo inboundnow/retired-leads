@@ -725,3 +725,42 @@ if (!function_exists('inbound_form_auto_publish')) {
 	    wp_die();
 	}
 }
+
+if (!function_exists('inbound_form_add_lead_list')) {
+	
+	add_action('wp_ajax_inbound_form_add_lead_list', 'inbound_form_add_lead_list');
+
+	function inbound_form_add_lead_list()
+	{
+		if(isset($_POST['list_val']) && !empty($_POST['list_val'])){
+			
+			$list_title = $_POST['list_val'];
+			
+			$taxonomy = 'wplead_list_category';
+			
+			$list_parent = $_POST['list_parent_val'];
+			
+			$term_array = wp_insert_term( $list_title, $taxonomy, $args = array('parent' => $list_parent) );
+			
+			if($term_array['term_id']){
+			
+				$term_id = $term_array['term_id'];
+				
+				$term = get_term( $term_id, $taxonomy );
+				
+				$name = $term->name;
+				
+				$response_arr = array('status' => true, 'term_id' => $term_id, 'name' => $name); 
+			
+			} else {
+				
+				$response_arr = array('status' => false);
+			}
+			
+			echo json_encode($response_arr);
+		   
+		}
+		
+	 	wp_die();
+	}
+}

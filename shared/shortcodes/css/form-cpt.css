@@ -17,6 +17,14 @@
 #cpt-form-serialize {
 	word-wrap: break-word;
 }
+#email-token-list {
+	width: 100%;
+}
+#email-token-list li {
+	width: 50%;
+	float: left;
+	display: inline;
+}
 .step-item {
 
 width: 29%;}
