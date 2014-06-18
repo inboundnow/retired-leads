@@ -106,7 +106,7 @@ function wp_leads_update_page_view_obj( $lead_id, $page_id ) {
 	}
 	
 	/* Run hook that tells WordPress lead data has been updated */
-	do_action('wpleads_existing_lead_update' , array( 'lead_id' => $lead_id ) );
+	do_action('wplead_page_view' , array( 'lead_id' => $lead_id ) );
 }
 
 /**

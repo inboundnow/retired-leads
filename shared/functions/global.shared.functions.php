@@ -264,3 +264,23 @@ if (!function_exists('wpleads_add_lead_to_list')) {
 		do_action('post_add_lead_to_lead_list' , $lead_id , $list_id );
 	}
 }
+
+/* Legacy Support */
+if (!function_exists('wpleads_get_lead_lists_as_array')) {
+	
+	/* Get Array of Lead Lists from taxonomy */
+	function wpleads_get_lead_lists_as_array() {
+
+		$args = array(
+			'hide_empty' => false,
+		);
+
+		$terms = get_terms('wplead_list_category', $args);
+
+		foreach ( $terms as $term  ) {
+			$array[$term->term_id] = $term->name;
+		}
+
+		return $array;
+	}
+}

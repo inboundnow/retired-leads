@@ -150,7 +150,7 @@
 				'class' => 'main-design-settings',
 			),
 			'submit-colors' => array(
-						'name' => __('Submit Color Options', 'leads'),
+						'name' => __('Submit Button Color Options', 'leads'),
 						'desc' => __('Choose Your Form Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
