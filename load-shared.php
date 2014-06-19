@@ -18,9 +18,8 @@ class Inbound_Load_Shared {
 		/* Define Shared Constant for Load Prevention*/
 		define('INBOUDNOW_SHARED','loaded');
 
-		include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
-		include_once('shared/classes/class.form.php');  // Mirrored forms
-		include_once('shared/classes/class.post-type.wp-lead.php'); 
+		include_once('shared/classes/class.post-type.wp-lead.php'); 	
+		include_once('shared/classes/class.form.php');  // Mirrored forms		
 		include_once('shared/classes/class.menu.php');  // Inbound Marketing Menu
 		include_once('shared/classes/class.feedback.php');  // Inbound Feedback Form
 		include_once('shared/classes/class.debug.php');  // Inbound Debug & Scripts Class
@@ -28,6 +27,7 @@ class Inbound_Load_Shared {
 		include_once('shared/classes/class.templating-engine.php');  // {{token}} Replacement Engine
 		require_once('shared/classes/class.shortcodes.email-template.php'); 
 		require_once('shared/classes/class.lead-fields.php');  
+		include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 		
 		include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 		include_once('shared/extend/inboundnow.extend.php');
