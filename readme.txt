@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
 Tested up to: 3.9
-Stable Tag: 1.3.9
+Stable Tag: 1.4.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -84,6 +84,16 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.4.1 =
+* Bug Fix: Inbound form's email response fix for email body. 
+* Bug Fix: Admin bar marketing button showing for non admin logged in users. 
+* Added: Inbound forms now have a 'Country' dropdown. 
+* Added: These inbound form field elements now accept placeholders and/or html in labels: textarea, dropdown, checkbox. 
+* Added: Wrap Inbound form fields with pre-defined classes. 
+* Added: Create lead lists from within form creation tool
+* Added: Filter form submissions through Akismet
+* Improvement: Refactored serveral modules to be written in Class standard.
+
 = 1.3.9 =
 * Fix to insert marketing shortcode popup
 
