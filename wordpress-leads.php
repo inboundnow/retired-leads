@@ -80,7 +80,7 @@ final class WordPress_Leads {
 			require_once('modules/module.lead-management.php');
 			require_once('modules/module.form-integrations.php');
 			require_once('modules/module.global-settings.php');
-			require_once('modules/module.dashboard.php');
+			require_once('classes/class.dashboard.php');
 			require_once('modules/module.tracking.php');
 			require_once('modules/module.enqueue-admin.php');
 			require_once('modules/module.form-integrations.php');

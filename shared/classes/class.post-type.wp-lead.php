@@ -242,6 +242,11 @@ if ( !class_exists('Inbound_Leads') ) {
 		
 		public static function remove_menus() {
 			global $submenu;
+			
+			if (!current_user_can('activate_plugins') ) {
+				return;
+			}
+			
 			//print_r($submenu);exit;
 			// This needs to be set to the URL for the admin menu section (aka "Menu Page")
 			$menu_page = 'edit.php?post_type=wp-lead';
