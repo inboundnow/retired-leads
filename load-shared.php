@@ -27,6 +27,7 @@ class Inbound_Load_Shared {
 		include_once('shared/classes/class.templating-engine.php');  // {{token}} Replacement Engine
 		require_once('shared/classes/class.shortcodes.email-template.php'); 
 		require_once('shared/classes/class.lead-fields.php');  
+		require_once('shared/classes/class.inbound-forms.akismet.php');  
 		include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 		
 		include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
