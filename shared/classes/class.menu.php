@@ -16,7 +16,7 @@ if (!class_exists('InboundMenu')) {
 		function __construct()
 		{
 			 // Exit if admin bar not there
-			if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
+			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
 			  return;
 			}
 
