@@ -98,6 +98,15 @@ function wpleads_get_global_settings() {
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
 		),
+		array(
+			'id'  => 'inbound_forms_enable_akismet',
+			'option_name'  => 'inbound_forms_enable_akismet',
+			'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
+			'description' => __("<p>Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions.</p>" , 'leads' ),
+			'type'  => 'radio',
+			'default'  => '1',
+			'options' => array('1'=>'On','0'=>'Off')
+		),
 		/*array(
 			'id'  => 'lead_automation_cronjob_period',
 			'label' => __('How often do you want to process marketing automation rules?' , 'leads' ),

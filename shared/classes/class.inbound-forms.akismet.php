@@ -10,7 +10,10 @@ if ( !class_exists('Inbound_Akismet') ) {
 		}
 
 		private function load_hooks() {
-			add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) );
+			/* Load hooks if akismet filtering is enabled */
+			if (get_option('inbound_forms_enable_akismet' , '1' )) {
+				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) );
+			}
 		}
 		
 		public static function check_is_spam( $lead_data ) {
