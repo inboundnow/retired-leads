@@ -636,7 +636,7 @@ if (!function_exists('inbound_form_save')) {
 	        $shortcode = str_replace("[inbound_form", "[inbound_form id=\"" . $post_ID . "\"", $shortcode);
 	        update_post_meta( $post_ID, 'inbound_shortcode', $shortcode );
 
-	    	inbound_form_delete_transient();
+	    	inbound_form_delete_transient( $post_ID );
 
 
 	           	$output =  array('post_id'=> $post_ID,
