@@ -253,7 +253,11 @@ if ( !class_exists('Inbound_Leads') ) {
 		 
 			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
 			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
-		 
+			
+			if ( !$submenu[$menu_page] ) {
+				return;
+			}
+			
 			// This removes the menu option but doesn't disable the taxonomy
 			foreach($submenu[$menu_page] as $index => $submenu_item) {
 				if ($submenu_item[2]==$taxonomy_admin_page) {
