@@ -122,6 +122,7 @@ function inbound_load_shared(){
 
 	/* Define Shared Constant for Load Prevention*/
 	define('INBOUDNOW_SHARED','loaded');
+	require_once('shared/classes/class.lead-fields.php');
 
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 	include_once('shared/classes/class.form.php');  // Mirrored forms
