@@ -67,10 +67,11 @@ Class wpConfigConnection {
          * eval the WP contants into PHP
          */
         foreach ($this->paramA as $p) {
-            $this->evalParam('define(\''.$p.'\'','\');');
-        }
 
-        $this->createConstant('$table_prefix = \'',"';");
+            $this->evalParam('define(\''.$p.'\'','\');');
+		}
+
+        $this->createConstant('$table_prefix=\'',"';");
 
         switch ($type) {
             default:
@@ -136,10 +137,12 @@ Class wpConfigConnection {
     private function getFile() {
         try {
             $this->str = @file_get_contents($this->filePath);
+			
             if ($this->str == false){
                 throw new Exception ('Failed to read file (' . $this->filePath . ') into string.');
             }
 			$this->str = str_replace('"', "'", $this->str);
+			$this->str = str_replace(' ', "", $this->str);
         } catch (Exception $e) {
             exit ('Error on line  ' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage() );
         }
@@ -163,6 +166,7 @@ Class wpConfigConnection {
         $str1=substr($str,strpos($str,$pre));
         $str1=substr($str1,0,strpos($str1,$post) + strlen($post));
 
+		//echo $str;
 		//echo $str1;
 		//echo '<br>';
         eval($str1);
