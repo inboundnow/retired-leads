@@ -10,7 +10,7 @@ class InboundForms {
 	// Hooks and Filters
 	//=============================================
 	static function init()	{
-		
+
 		add_shortcode('inbound_form', array(__CLASS__, 'inbound_forms_create'));
 		add_shortcode('inbound_forms', array(__CLASS__, 'inbound_short_form_create'));
 		add_action('init', array(__CLASS__, 'register_script'));
@@ -18,7 +18,7 @@ class InboundForms {
 		add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
 		add_action( 'init',	array(__CLASS__, 'do_actions'));
 		add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
-		
+
 	}
 
 	/* Create Longer shortcode for [inbound_form] */
@@ -48,7 +48,7 @@ class InboundForms {
 			'submit_text_color' => '',
 			'submit_bg_color' => ''
 		), $atts));
-		
+
 
 		if ( !$id && isset($_GET['post']) ) {
 			$id = $_GET['post'];
@@ -207,7 +207,7 @@ class InboundForms {
 					if ($placeholder_use) {
 						$form .= '<option value="" disabled selected>'.str_replace( '%3F' , '?' , $placeholder_use).'</option>';
 					}
-					
+
 					foreach ($dropdown_fields as $key => $value) {
 						//$drop_val_trimmed =	trim($value);
 						//$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
@@ -217,7 +217,7 @@ class InboundForms {
 				}
 				else if ($type === 'dropdown_countries')
 				{
-					
+
 					$dropdown_fields = self::get_countries_array();
 
 					$form .= '<select name="'. $field_name .'" class="'.$field_input_class.'" '.$req.'>';
@@ -225,7 +225,7 @@ class InboundForms {
 					if ($field_placeholder) {
 						$form .= '<option value="" disabled selected>'.$field_placeholder.'</option>';
 					}
-					
+
 					foreach ($dropdown_fields as $key => $value) {
 						$form .= '<option value="'.$key.'">'. utf8_encode($value) .'</option>';
 					}
@@ -254,9 +254,9 @@ class InboundForms {
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 					foreach ($checkbox_fields as $key => $value) {
 						$value = html_entity_decode($value);
-						$checkbox_val_trimmed =	strip_tags(trim($value)); 
+						$checkbox_val_trimmed =	strip_tags(trim($value));
 						$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-						
+
 
 						$required_id = ( $key == 0 ) ? $req : '';
 
@@ -365,9 +365,6 @@ class InboundForms {
 	static function register_script()
 	{
 		wp_enqueue_style( 'inbound-shortcodes' );
-		/* Enqueue script that will add required field checking to non-supportive browsers */
-		wp_enqueue_script( 'inbound-forms-required-fallback', WPL_URL . '/shared/classes/js/wpl.required-fallback.js', array('jquery'), '1.0.0');
-
 	}
 
 	// only call enqueue once
@@ -386,6 +383,19 @@ class InboundForms {
 
 		echo '<script type="text/javascript">
 			jQuery(document).ready(function($){
+
+			jQuery("form").submit(function(e) {
+				jQuery("form").find("input").each(function(){
+				    if(!jQuery(this).prop("required")){
+				    } else if (!jQuery(this).val()) {
+					alert("Oops! Looks like you have not filled out all of the required fields!");
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					return false;
+				    }
+				});
+			});
+
 			jQuery("#inbound_form_submit br").remove(); // remove br tags
 			function validateEmail(email) {
 
@@ -715,7 +725,7 @@ class InboundForms {
 	</tr>
 </tbody></table>
 </body>';
-		
+
 			if (isset($form_data['first-name']) && isset($form_data['last-name']))
 			{
 				$from_name = $form_data['first-name'] . " ". $form_data['last-name'];
@@ -749,7 +759,7 @@ class InboundForms {
 
 
 		}
-		
+
 	}
 
 	/* Perform Actions After a Form Submit */
@@ -799,11 +809,11 @@ class InboundForms {
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
-			
+
 				if ( get_magic_quotes_gpc() ) {
 					$value = stripslashes( $value );
 				}
-				
+
 				$field = strtolower($field);
 
 				if (preg_match( '/Email|e-mail|email/i', $value)) {
@@ -824,11 +834,11 @@ class InboundForms {
 
 				$form_post_data[$field] = strip_tags( $value );
 			}
-			
+
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 			self::send_conversion_admin_notification($form_post_data , $form_meta_data);
 			self::send_conversion_lead_notification($form_post_data , $form_meta_data);
-			
+
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
 
 			/* redirect now */
@@ -845,22 +855,22 @@ class InboundForms {
 	public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
 
 		if ( $template = self::get_new_lead_email_template()) {
-			
+
 			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 			function set_html_content_type() {
 				return 'text/html';
 			}
-			
+
 			/* Rebuild Form Meta Data to Load Single Values	*/
 			foreach( $form_meta_data as $key => $value ) {
 				$form_meta_data[$key] = $value[0];
 			}
-			
+
 			/* Get Email We Should Send Notifications To */
 			$email_to = $form_meta_data['inbound_notify_email'];
-	
+
 			/* Check for Multiple Email Addresses */
-			$addresses = explode(",", $email_to);			
+			$addresses = explode(",", $email_to);
 			if(is_array($addresses) && count($addresses) > 1) {
 				$to_address = $addresses;
 			} else {
@@ -869,49 +879,49 @@ class InboundForms {
 
 			/* Look for Custom Subject Line ,	Fall Back on Default */
 			$subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] :	$template['subject'];
-			
+
 			/* Discover From Email Address */
 			foreach ($form_post_data as $key => $value) {
 				if (preg_match('/email|e-mail/i', $key)) {
 					$from_email = $form_post_data[$key];
 				}
 			}
-			
+
 			/* Prepare Additional Data For Token Engine */
 			$form_post_data['redirect_message'] = (isset($form_post_data['inbound_redirect']) && $form_post_data['inbound_redirect'] != "") ? "They were redirected to " . $form_post_data['inbound_redirect'] : '';
-			
+
 			/* Discover From Name */
 			$from_name = get_option( 'blogname' , '' );
-			$Inbound_Templating_Engine = Inbound_Templating_Engine();			
+			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 			$subject = $Inbound_Templating_Engine->replace_tokens( $subject , array( $form_post_data , $form_meta_data )	);
 			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array( $form_post_data , $form_meta_data )	);
-			
-			
-			$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";			
+
+
+			$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
 			$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
-			
+
 			foreach ($to_address as $key => $recipient) {
 				$result = wp_mail( $recipient , $subject , utf8_encode($body) , $headers );
 			}
-			
+
 		} else {
-		
+
 			/* Run Legacy Code */
 			self::send_mail($form_post_data , $form_meta_data);
-			
+
 		}
 
 	}
-	
+
 	/* Sends An Email to Lead After Conversion */
 	public static function send_conversion_lead_notification( $form_post_data , $form_meta_data ) {
 
-		
+
 		/* If Notifications Are Off Then Exit */
 		if ( !isset($form_meta_data['inbound_email_send_notification'][0]) || $form_meta_data['inbound_email_send_notification'][0] != 'on' ){
 			return;
 		}
-		
+
 		/* Get Lead Email Address */
 		$lead_email = false;
 		foreach ($form_post_data as $key => $value) {
@@ -919,7 +929,7 @@ class InboundForms {
 				$lead_email = $form_post_data[$key];
 			}
 		}
-		
+
 		/* Redundancy */
 		if (!$lead_email) {
 			if (isset($form_post_data['email'])) {
@@ -932,38 +942,38 @@ class InboundForms {
 				$lead_email = 'null map email field';
 			}
 		}
-		
+
 		if ( !$lead_email ) {
 			return;
 		}
-	
+
 
 		$Inbound_Templating_Engine = Inbound_Templating_Engine();
 		$form_id = $form_meta_data['post_id']; //This is page id or post id
-		$template_id = $form_meta_data['inbound_email_send_notification_template'][0];	
-		
+		$template_id = $form_meta_data['inbound_email_send_notification_template'][0];
+
 		/* Rebuild Form Meta Data to Load Single Values	*/
 		foreach( $form_meta_data as $key => $value ) {
 			$form_meta_data[$key] = $value[0];
 		}
-	
+
 		/* If Email Template Selected Use That */
 		if ( $template_id && $template_id != 'custom' ) {
 
-			$template_array = self::get_email_template( $template_id );			
+			$template_array = self::get_email_template( $template_id );
 			$confirm_subject = $template_array['subject'];
 			$confirm_email_message = $template_array['body'];
-			
-		} 
-		/* Else Use Custom Template */ 
+
+		}
+		/* Else Use Custom Template */
 		else {
-			
+
 			$template = get_post($form_id);
 			$content = $template->post_content;
-			$confirm_subject = get_post_meta( $form_id, 'inbound_confirmation_subject', TRUE );		
+			$confirm_subject = get_post_meta( $form_id, 'inbound_confirmation_subject', TRUE );
 			$content = apply_filters('the_content', $content);
 			$content = str_replace(']]>', ']]&gt;', $content);
-			
+
 			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html>
 				<head>
@@ -979,15 +989,15 @@ class InboundForms {
 						</html>';
 		}
 
-		
-		
+
+
 		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject , array( $form_post_data , $form_meta_data )	);
 		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data , $form_meta_data )	);
-			
+
 
 		$from_name = get_option( 'blogname' , '' );
 		$from_email = get_option( 'admin_email' );
-		
+
 		$headers	= "From: " . $from_name . " <" . $from_email . ">\n";
 		$headers .= 'Content-type: text/html';
 
@@ -1015,7 +1025,7 @@ class InboundForms {
 
 		return $email_template;
 	}
-	
+
 	/* Get Email Template by ID */
 	public static function get_email_template( $ID ) {
 
@@ -1032,258 +1042,258 @@ class InboundForms {
 
 	public static function get_countries_array() {
 		return array (
-			 __( 'AF' , 'leads') => __( 'Afghanistan' , 'leads' ) , 
-			 __( 'AX' , 'leads') => __( 'Aland Islands' , 'leads' ) , 
-			 __( 'AL' , 'leads') => __( 'Albania' , 'leads' ) , 
-			 __( 'DZ' , 'leads') => __( 'Algeria' , 'leads' ) , 
-			 __( 'AS' , 'leads') => __( 'American Samoa' , 'leads' ) , 
-			 __( 'AD' , 'leads') => __( 'Andorra' , 'leads' ) , 
-			 __( 'AO' , 'leads') => __( 'Angola' , 'leads' ) , 
-			 __( 'AI' , 'leads') => __( 'Anguilla' , 'leads' ) , 
-			 __( 'AQ' , 'leads') => __( 'Antarctica' , 'leads' ) , 
-			 __( 'AG' , 'leads') => __( 'Antigua and Barbuda' , 'leads' ) , 
-			 __( 'AR' , 'leads') => __( 'Argentina' , 'leads' ) , 
-			 __( 'AM' , 'leads') => __( 'Armenia' , 'leads' ) , 
-			 __( 'AW' , 'leads') => __( 'Aruba' , 'leads' ) , 
-			 __( 'AU' , 'leads') => __( 'Australia' , 'leads' ) , 
-			 __( 'AT' , 'leads') => __( 'Austria' , 'leads' ) , 
-			 __( 'AZ' , 'leads') => __( 'Azerbaijan' , 'leads' ) , 
-			 __( 'BS' , 'leads') => __( 'Bahamas' , 'leads' ) , 
-			 __( 'BH' , 'leads') => __( 'Bahrain' , 'leads' ) , 
-			 __( 'BD' , 'leads') => __( 'Bangladesh' , 'leads' ) , 
-			 __( 'BB' , 'leads') => __( 'Barbados' , 'leads' ) , 
-			 __( 'BY' , 'leads') => __( 'Belarus' , 'leads' ) , 
-			 __( 'BE' , 'leads') => __( 'Belgium' , 'leads' ) , 
-			 __( 'BZ' , 'leads') => __( 'Belize' , 'leads' ) , 
-			 __( 'BJ' , 'leads') => __( 'Benin' , 'leads' ) , 
-			 __( 'BM' , 'leads') => __( 'Bermuda' , 'leads' ) , 
-			 __( 'BT' , 'leads') => __( 'Bhutan' , 'leads' ) , 
-			 __( 'BO' , 'leads') => __( 'Bolivia' , 'leads' ) , 
-			 __( 'BA' , 'leads') => __( 'Bosnia and Herzegovina' , 'leads' ) , 
-			 __( 'BW' , 'leads') => __( 'Botswana' , 'leads' ) , 
-			 __( 'BV' , 'leads') => __( 'Bouvet Island' , 'leads' ) , 
-			 __( 'BR' , 'leads') => __( 'Brazil' , 'leads' ) , 
-			 __( 'IO' , 'leads') => __( 'British Indian Ocean Territory' , 'leads' ) , 
-			 __( 'BN' , 'leads') => __( 'Brunei Darussalam' , 'leads' ) , 
-			 __( 'BG' , 'leads') => __( 'Bulgaria' , 'leads' ) , 
-			 __( 'BF' , 'leads') => __( 'Burkina Faso' , 'leads' ) , 
-			 __( 'BI' , 'leads') => __( 'Burundi' , 'leads' ) , 
-			 __( 'KH' , 'leads') => __( 'Cambodia' , 'leads' ) , 
-			 __( 'CM' , 'leads') => __( 'Cameroon' , 'leads' ) , 
-			 __( 'CA' , 'leads') => __( 'Canada' , 'leads' ) , 
-			 __( 'CV' , 'leads') => __( 'Cape Verde' , 'leads' ) , 
-			 __( 'BQ' , 'leads') => __( 'Caribbean Netherlands ' , 'leads' ) , 
-			 __( 'KY' , 'leads') => __( 'Cayman Islands' , 'leads' ) , 
-			 __( 'CF' , 'leads') => __( 'Central African Republic' , 'leads' ) , 
-			 __( 'TD' , 'leads') => __( 'Chad' , 'leads' ) , 
-			 __( 'CL' , 'leads') => __( 'Chile' , 'leads' ) , 
-			 __( 'CN' , 'leads') => __( 'China' , 'leads' ) , 
-			 __( 'CX' , 'leads') => __( 'Christmas Island' , 'leads' ) , 
-			 __( 'CC' , 'leads') => __( 'Cocos (Keeling) Islands' , 'leads' ) , 
-			 __( 'CO' , 'leads') => __( 'Colombia' , 'leads' ) , 
-			 __( 'KM' , 'leads') => __( 'Comoros' , 'leads' ) , 
-			 __( 'CG' , 'leads') => __( 'Congo' , 'leads' ) , 
-			 __( 'CD' , 'leads') => __( 'Congo, Democratic Republic of' , 'leads' ) , 
-			 __( 'CK' , 'leads') => __( 'Cook Islands' , 'leads' ) , 
-			 __( 'CR' , 'leads') => __( 'Costa Rica' , 'leads' ) , 
-			 __( 'CI' , 'leads') => __( 'Cote d\'Ivoire' , 'leads' ) , 
-			 __( 'HR' , 'leads') => __( 'Croatia' , 'leads' ) , 
-			 __( 'CU' , 'leads') => __( 'Cuba' , 'leads' ) , 
-			 __( 'CW' , 'leads') => __( 'Curacao' , 'leads' ) , 
-			 __( 'CY' , 'leads') => __( 'Cyprus' , 'leads' ) , 
-			 __( 'CZ' , 'leads') => __( 'Czech Republic' , 'leads' ) , 
-			 __( 'DK' , 'leads') => __( 'Denmark' , 'leads' ) , 
-			 __( 'DJ' , 'leads') => __( 'Djibouti' , 'leads' ) , 
-			 __( 'DM' , 'leads') => __( 'Dominica' , 'leads' ) , 
-			 __( 'DO' , 'leads') => __( 'Dominican Republic' , 'leads' ) , 
-			 __( 'EC' , 'leads') => __( 'Ecuador' , 'leads' ) , 
-			 __( 'EG' , 'leads') => __( 'Egypt' , 'leads' ) , 
-			 __( 'SV' , 'leads') => __( 'El Salvador' , 'leads' ) , 
-			 __( 'GQ' , 'leads') => __( 'Equatorial Guinea' , 'leads' ) , 
-			 __( 'ER' , 'leads') => __( 'Eritrea' , 'leads' ) , 
-			 __( 'EE' , 'leads') => __( 'Estonia' , 'leads' ) , 
-			 __( 'ET' , 'leads') => __( 'Ethiopia' , 'leads' ) , 
-			 __( 'FK' , 'leads') => __( 'Falkland Islands' , 'leads' ) , 
-			 __( 'FO' , 'leads') => __( 'Faroe Islands' , 'leads' ) , 
-			 __( 'FJ' , 'leads') => __( 'Fiji' , 'leads' ) , 
-			 __( 'FI' , 'leads') => __( 'Finland' , 'leads' ) , 
-			 __( 'FR' , 'leads') => __( 'France' , 'leads' ) , 
-			 __( 'GF' , 'leads') => __( 'French Guiana' , 'leads' ) , 
-			 __( 'PF' , 'leads') => __( 'French Polynesia' , 'leads' ) , 
-			 __( 'TF' , 'leads') => __( 'French Southern Territories' , 'leads' ) , 
-			 __( 'GA' , 'leads') => __( 'Gabon' , 'leads' ) , 
-			 __( 'GM' , 'leads') => __( 'Gambia' , 'leads' ) , 
-			 __( 'GE' , 'leads') => __( 'Georgia' , 'leads' ) , 
-			 __( 'DE' , 'leads') => __( 'Germany' , 'leads' ) , 
-			 __( 'GH' , 'leads') => __( 'Ghana' , 'leads' ) , 
-			 __( 'GI' , 'leads') => __( 'Gibraltar' , 'leads' ) , 
-			 __( 'GR' , 'leads') => __( 'Greece' , 'leads' ) , 
-			 __( 'GL' , 'leads') => __( 'Greenland' , 'leads' ) , 
-			 __( 'GD' , 'leads') => __( 'Grenada' , 'leads' ) , 
-			 __( 'GP' , 'leads') => __( 'Guadeloupe' , 'leads' ) , 
-			 __( 'GU' , 'leads') => __( 'Guam' , 'leads' ) , 
-			 __( 'GT' , 'leads') => __( 'Guatemala' , 'leads' ) , 
-			 __( 'GG' , 'leads') => __( 'Guernsey' , 'leads' ) , 
-			 __( 'GN' , 'leads') => __( 'Guinea' , 'leads' ) , 
-			 __( 'GW' , 'leads') => __( 'Guinea-Bissau' , 'leads' ) , 
-			 __( 'GY' , 'leads') => __( 'Guyana' , 'leads' ) , 
-			 __( 'HT' , 'leads') => __( 'Haiti' , 'leads' ) , 
-			 __( 'HM' , 'leads') => __( 'Heard and McDonald Islands' , 'leads' ) , 
-			 __( 'HN' , 'leads') => __( 'Honduras' , 'leads' ) , 
-			 __( 'HK' , 'leads') => __( 'Hong Kong' , 'leads' ) , 
-			 __( 'HU' , 'leads') => __( 'Hungary' , 'leads' ) , 
-			 __( 'IS' , 'leads') => __( 'Iceland' , 'leads' ) , 
-			 __( 'IN' , 'leads') => __( 'India' , 'leads' ) , 
-			 __( 'ID' , 'leads') => __( 'Indonesia' , 'leads' ) , 
-			 __( 'IR' , 'leads') => __( 'Iran' , 'leads' ) , 
-			 __( 'IQ' , 'leads') => __( 'Iraq' , 'leads' ) , 
-			 __( 'IE' , 'leads') => __( 'Ireland' , 'leads' ) , 
-			 __( 'IM' , 'leads') => __( 'Isle of Man' , 'leads' ) , 
-			 __( 'IL' , 'leads') => __( 'Israel' , 'leads' ) , 
-			 __( 'IT' , 'leads') => __( 'Italy' , 'leads' ) , 
-			 __( 'JM' , 'leads') => __( 'Jamaica' , 'leads' ) , 
-			 __( 'JP' , 'leads') => __( 'Japan' , 'leads' ) , 
-			 __( 'JE' , 'leads') => __( 'Jersey' , 'leads' ) , 
-			 __( 'JO' , 'leads') => __( 'Jordan' , 'leads' ) , 
-			 __( 'KZ' , 'leads') => __( 'Kazakhstan' , 'leads' ) , 
-			 __( 'KE' , 'leads') => __( 'Kenya' , 'leads' ) , 
-			 __( 'KI' , 'leads') => __( 'Kiribati' , 'leads' ) , 
-			 __( 'KW' , 'leads') => __( 'Kuwait' , 'leads' ) , 
-			 __( 'KG' , 'leads') => __( 'Kyrgyzstan' , 'leads' ) , 
-			 __( 'LA' , 'leads') => __( 'Lao People\'s Democratic Republic' , 'leads' ) , 
-			 __( 'LV' , 'leads') => __( 'Latvia' , 'leads' ) , 
-			 __( 'LB' , 'leads') => __( 'Lebanon' , 'leads' ) , 
-			 __( 'LS' , 'leads') => __( 'Lesotho' , 'leads' ) , 
-			 __( 'LR' , 'leads') => __( 'Liberia' , 'leads' ) , 
-			 __( 'LY' , 'leads') => __( 'Libya' , 'leads' ) , 
-			 __( 'LI' , 'leads') => __( 'Liechtenstein' , 'leads' ) , 
-			 __( 'LT' , 'leads') => __( 'Lithuania' , 'leads' ) , 
-			 __( 'LU' , 'leads') => __( 'Luxembourg' , 'leads' ) , 
-			 __( 'MO' , 'leads') => __( 'Macau' , 'leads' ) , 
-			 __( 'MK' , 'leads') => __( 'Macedonia' , 'leads' ) , 
-			 __( 'MG' , 'leads') => __( 'Madagascar' , 'leads' ) , 
-			 __( 'MW' , 'leads') => __( 'Malawi' , 'leads' ) , 
-			 __( 'MY' , 'leads') => __( 'Malaysia' , 'leads' ) , 
-			 __( 'MV' , 'leads') => __( 'Maldives' , 'leads' ) , 
-			 __( 'ML' , 'leads') => __( 'Mali' , 'leads' ) , 
-			 __( 'MT' , 'leads') => __( 'Malta' , 'leads' ) , 
-			 __( 'MH' , 'leads') => __( 'Marshall Islands' , 'leads' ) , 
-			 __( 'MQ' , 'leads') => __( 'Martinique' , 'leads' ) , 
-			 __( 'MR' , 'leads') => __( 'Mauritania' , 'leads' ) , 
-			 __( 'MU' , 'leads') => __( 'Mauritius' , 'leads' ) , 
-			 __( 'YT' , 'leads') => __( 'Mayotte' , 'leads' ) , 
-			 __( 'MX' , 'leads') => __( 'Mexico' , 'leads' ) , 
-			 __( 'FM' , 'leads') => __( 'Micronesia, Federated States of' , 'leads' ) , 
-			 __( 'MD' , 'leads') => __( 'Moldova' , 'leads' ) , 
-			 __( 'MC' , 'leads') => __( 'Monaco' , 'leads' ) , 
-			 __( 'MN' , 'leads') => __( 'Mongolia' , 'leads' ) , 
-			 __( 'ME' , 'leads') => __( 'Montenegro' , 'leads' ) , 
-			 __( 'MS' , 'leads') => __( 'Montserrat' , 'leads' ) , 
-			 __( 'MA' , 'leads') => __( 'Morocco' , 'leads' ) , 
-			 __( 'MZ' , 'leads') => __( 'Mozambique' , 'leads' ) , 
-			 __( 'MM' , 'leads') => __( 'Myanmar' , 'leads' ) , 
-			 __( 'NA' , 'leads') => __( 'Namibia' , 'leads' ) , 
-			 __( 'NR' , 'leads') => __( 'Nauru' , 'leads' ) , 
-			 __( 'NP' , 'leads') => __( 'Nepal' , 'leads' ) , 
-			 __( 'NC' , 'leads') => __( 'New Caledonia' , 'leads' ) , 
-			 __( 'NZ' , 'leads') => __( 'New Zealand' , 'leads' ) , 
-			 __( 'NI' , 'leads') => __( 'Nicaragua' , 'leads' ) , 
-			 __( 'NE' , 'leads') => __( 'Niger' , 'leads' ) , 
-			 __( 'NG' , 'leads') => __( 'Nigeria' , 'leads' ) , 
-			 __( 'NU' , 'leads') => __( 'Niue' , 'leads' ) , 
-			 __( 'NF' , 'leads') => __( 'Norfolk Island' , 'leads' ) , 
-			 __( 'KP' , 'leads') => __( 'North Korea' , 'leads' ) , 
-			 __( 'MP' , 'leads') => __( 'Northern Mariana Islands' , 'leads' ) , 
-			 __( 'NO' , 'leads') => __( 'Norway' , 'leads' ) , 
-			 __( 'OM' , 'leads') => __( 'Oman' , 'leads' ) , 
-			 __( 'PK' , 'leads') => __( 'Pakistan' , 'leads' ) , 
-			 __( 'PW' , 'leads') => __( 'Palau' , 'leads' ) , 
-			 __( 'PS' , 'leads') => __( 'Palestinian Territory, Occupied' , 'leads' ) , 
-			 __( 'PA' , 'leads') => __( 'Panama' , 'leads' ) , 
-			 __( 'PG' , 'leads') => __( 'Papua New Guinea' , 'leads' ) , 
-			 __( 'PY' , 'leads') => __( 'Paraguay' , 'leads' ) , 
-			 __( 'PE' , 'leads') => __( 'Peru' , 'leads' ) , 
-			 __( 'PH' , 'leads') => __( 'Philippines' , 'leads' ) , 
-			 __( 'PN' , 'leads') => __( 'Pitcairn' , 'leads' ) , 
-			 __( 'PL' , 'leads') => __( 'Poland' , 'leads' ) , 
-			 __( 'PT' , 'leads') => __( 'Portugal' , 'leads' ) , 
-			 __( 'PR' , 'leads') => __( 'Puerto Rico' , 'leads' ) , 
-			 __( 'QA' , 'leads') => __( 'Qatar' , 'leads' ) , 
-			 __( 'RE' , 'leads') => __( 'Reunion' , 'leads' ) , 
-			 __( 'RO' , 'leads') => __( 'Romania' , 'leads' ) , 
-			 __( 'RU' , 'leads') => __( 'Russian Federation' , 'leads' ) , 
-			 __( 'RW' , 'leads') => __( 'Rwanda' , 'leads' ) , 
-			 __( 'BL' , 'leads') => __( 'Saint Barthelemy' , 'leads' ) , 
-			 __( 'SH' , 'leads') => __( 'Saint Helena' , 'leads' ) , 
-			 __( 'KN' , 'leads') => __( 'Saint Kitts and Nevis' , 'leads' ) , 
-			 __( 'LC' , 'leads') => __( 'Saint Lucia' , 'leads' ) , 
-			 __( 'VC' , 'leads') => __( 'Saint Vincent and the Grenadines' , 'leads' ) , 
-			 __( 'MF' , 'leads') => __( 'Saint-Martin (France)' , 'leads' ) , 
-			 __( 'SX' , 'leads') => __( 'Saint-Martin (Pays-Bas)' , 'leads' ) , 
-			 __( 'WS' , 'leads') => __( 'Samoa' , 'leads' ) , 
-			 __( 'SM' , 'leads') => __( 'San Marino' , 'leads' ) , 
-			 __( 'ST' , 'leads') => __( 'Sao Tome and Principe' , 'leads' ) , 
-			 __( 'SA' , 'leads') => __( 'Saudi Arabia' , 'leads' ) , 
-			 __( 'SN' , 'leads') => __( 'Senegal' , 'leads' ) , 
-			 __( 'RS' , 'leads') => __( 'Serbia' , 'leads' ) , 
-			 __( 'SC' , 'leads') => __( 'Seychelles' , 'leads' ) , 
-			 __( 'SL' , 'leads') => __( 'Sierra Leone' , 'leads' ) , 
-			 __( 'SG' , 'leads') => __( 'Singapore' , 'leads' ) , 
-			 __( 'SK' , 'leads') => __( 'Slovakia (Slovak Republic)' , 'leads' ) , 
-			 __( 'SI' , 'leads') => __( 'Slovenia' , 'leads' ) , 
-			 __( 'SB' , 'leads') => __( 'Solomon Islands' , 'leads' ) , 
-			 __( 'SO' , 'leads') => __( 'Somalia' , 'leads' ) , 
-			 __( 'ZA' , 'leads') => __( 'South Africa' , 'leads' ) , 
-			 __( 'GS' , 'leads') => __( 'South Georgia and the South Sandwich Islands' , 'leads' ) , 
-			 __( 'KR' , 'leads') => __( 'South Korea' , 'leads' ) , 
-			 __( 'SS' , 'leads') => __( 'South Sudan' , 'leads' ) , 
-			 __( 'ES' , 'leads') => __( 'Spain' , 'leads' ) , 
-			 __( 'LK' , 'leads') => __( 'Sri Lanka' , 'leads' ) , 
-			 __( 'PM' , 'leads') => __( 'St. Pierre and Miquelon' , 'leads' ) , 
-			 __( 'SD' , 'leads') => __( 'Sudan' , 'leads' ) , 
-			 __( 'SR' , 'leads') => __( 'Suriname' , 'leads' ) , 
-			 __( 'SJ' , 'leads') => __( 'Svalbard and Jan Mayen Islands' , 'leads' ) , 
-			 __( 'SZ' , 'leads') => __( 'Swaziland' , 'leads' ) , 
-			 __( 'SE' , 'leads') => __( 'Sweden' , 'leads' ) , 
-			 __( 'CH' , 'leads') => __( 'Switzerland' , 'leads' ) , 
-			 __( 'SY' , 'leads') => __( 'Syria' , 'leads' ) , 
-			 __( 'TW' , 'leads') => __( 'Taiwan' , 'leads' ) , 
-			 __( 'TJ' , 'leads') => __( 'Tajikistan' , 'leads' ) , 
-			 __( 'TZ' , 'leads') => __( 'Tanzania' , 'leads' ) , 
-			 __( 'TH' , 'leads') => __( 'Thailand' , 'leads' ) , 
-			 __( 'NL' , 'leads') => __( 'The Netherlands' , 'leads' ) , 
-			 __( 'TL' , 'leads') => __( 'Timor-Leste' , 'leads' ) , 
-			 __( 'TG' , 'leads') => __( 'Togo' , 'leads' ) , 
-			 __( 'TK' , 'leads') => __( 'Tokelau' , 'leads' ) , 
-			 __( 'TO' , 'leads') => __( 'Tonga' , 'leads' ) , 
-			 __( 'TT' , 'leads') => __( 'Trinidad and Tobago' , 'leads' ) , 
-			 __( 'TN' , 'leads') => __( 'Tunisia' , 'leads' ) , 
-			 __( 'TR' , 'leads') => __( 'Turkey' , 'leads' ) , 
-			 __( 'TM' , 'leads') => __( 'Turkmenistan' , 'leads' ) , 
-			 __( 'TC' , 'leads') => __( 'Turks and Caicos Islands' , 'leads' ) , 
-			 __( 'TV' , 'leads') => __( 'Tuvalu' , 'leads' ) , 
-			 __( 'UG' , 'leads') => __( 'Uganda' , 'leads' ) , 
-			 __( 'UA' , 'leads') => __( 'Ukraine' , 'leads' ) , 
-			 __( 'AE' , 'leads') => __( 'United Arab Emirates' , 'leads' ) , 
-			 __( 'GB' , 'leads') => __( 'United Kingdom' , 'leads' ) , 
-			 __( 'US' , 'leads') => __( 'United States' , 'leads' ) , 
-			 __( 'UM' , 'leads') => __( 'United States Minor Outlying Islands' , 'leads' ) , 
-			 __( 'UY' , 'leads') => __( 'Uruguay' , 'leads' ) , 
-			 __( 'UZ' , 'leads') => __( 'Uzbekistan' , 'leads' ) , 
-			 __( 'VU' , 'leads') => __( 'Vanuatu' , 'leads' ) , 
-			 __( 'VA' , 'leads') => __( 'Vatican' , 'leads' ) , 
-			 __( 'VE' , 'leads') => __( 'Venezuela' , 'leads' ) , 
-			 __( 'VN' , 'leads') => __( 'Vietnam' , 'leads' ) , 
-			 __( 'VG' , 'leads') => __( 'Virgin Islands (British)' , 'leads' ) , 
-			 __( 'VI' , 'leads') => __( 'Virgin Islands (U.S.)' , 'leads' ) , 
-			 __( 'WF' , 'leads') => __( 'Wallis and Futuna Islands' , 'leads' ) , 
-			 __( 'EH' , 'leads') => __( 'Western Sahara' , 'leads' ) , 
-			 __( 'YE' , 'leads') => __( 'Yemen' , 'leads' ) , 
-			 __( 'ZM' , 'leads') => __( 'Zambia' , 'leads' ) , 
+			 __( 'AF' , 'leads') => __( 'Afghanistan' , 'leads' ) ,
+			 __( 'AX' , 'leads') => __( 'Aland Islands' , 'leads' ) ,
+			 __( 'AL' , 'leads') => __( 'Albania' , 'leads' ) ,
+			 __( 'DZ' , 'leads') => __( 'Algeria' , 'leads' ) ,
+			 __( 'AS' , 'leads') => __( 'American Samoa' , 'leads' ) ,
+			 __( 'AD' , 'leads') => __( 'Andorra' , 'leads' ) ,
+			 __( 'AO' , 'leads') => __( 'Angola' , 'leads' ) ,
+			 __( 'AI' , 'leads') => __( 'Anguilla' , 'leads' ) ,
+			 __( 'AQ' , 'leads') => __( 'Antarctica' , 'leads' ) ,
+			 __( 'AG' , 'leads') => __( 'Antigua and Barbuda' , 'leads' ) ,
+			 __( 'AR' , 'leads') => __( 'Argentina' , 'leads' ) ,
+			 __( 'AM' , 'leads') => __( 'Armenia' , 'leads' ) ,
+			 __( 'AW' , 'leads') => __( 'Aruba' , 'leads' ) ,
+			 __( 'AU' , 'leads') => __( 'Australia' , 'leads' ) ,
+			 __( 'AT' , 'leads') => __( 'Austria' , 'leads' ) ,
+			 __( 'AZ' , 'leads') => __( 'Azerbaijan' , 'leads' ) ,
+			 __( 'BS' , 'leads') => __( 'Bahamas' , 'leads' ) ,
+			 __( 'BH' , 'leads') => __( 'Bahrain' , 'leads' ) ,
+			 __( 'BD' , 'leads') => __( 'Bangladesh' , 'leads' ) ,
+			 __( 'BB' , 'leads') => __( 'Barbados' , 'leads' ) ,
+			 __( 'BY' , 'leads') => __( 'Belarus' , 'leads' ) ,
+			 __( 'BE' , 'leads') => __( 'Belgium' , 'leads' ) ,
+			 __( 'BZ' , 'leads') => __( 'Belize' , 'leads' ) ,
+			 __( 'BJ' , 'leads') => __( 'Benin' , 'leads' ) ,
+			 __( 'BM' , 'leads') => __( 'Bermuda' , 'leads' ) ,
+			 __( 'BT' , 'leads') => __( 'Bhutan' , 'leads' ) ,
+			 __( 'BO' , 'leads') => __( 'Bolivia' , 'leads' ) ,
+			 __( 'BA' , 'leads') => __( 'Bosnia and Herzegovina' , 'leads' ) ,
+			 __( 'BW' , 'leads') => __( 'Botswana' , 'leads' ) ,
+			 __( 'BV' , 'leads') => __( 'Bouvet Island' , 'leads' ) ,
+			 __( 'BR' , 'leads') => __( 'Brazil' , 'leads' ) ,
+			 __( 'IO' , 'leads') => __( 'British Indian Ocean Territory' , 'leads' ) ,
+			 __( 'BN' , 'leads') => __( 'Brunei Darussalam' , 'leads' ) ,
+			 __( 'BG' , 'leads') => __( 'Bulgaria' , 'leads' ) ,
+			 __( 'BF' , 'leads') => __( 'Burkina Faso' , 'leads' ) ,
+			 __( 'BI' , 'leads') => __( 'Burundi' , 'leads' ) ,
+			 __( 'KH' , 'leads') => __( 'Cambodia' , 'leads' ) ,
+			 __( 'CM' , 'leads') => __( 'Cameroon' , 'leads' ) ,
+			 __( 'CA' , 'leads') => __( 'Canada' , 'leads' ) ,
+			 __( 'CV' , 'leads') => __( 'Cape Verde' , 'leads' ) ,
+			 __( 'BQ' , 'leads') => __( 'Caribbean Netherlands ' , 'leads' ) ,
+			 __( 'KY' , 'leads') => __( 'Cayman Islands' , 'leads' ) ,
+			 __( 'CF' , 'leads') => __( 'Central African Republic' , 'leads' ) ,
+			 __( 'TD' , 'leads') => __( 'Chad' , 'leads' ) ,
+			 __( 'CL' , 'leads') => __( 'Chile' , 'leads' ) ,
+			 __( 'CN' , 'leads') => __( 'China' , 'leads' ) ,
+			 __( 'CX' , 'leads') => __( 'Christmas Island' , 'leads' ) ,
+			 __( 'CC' , 'leads') => __( 'Cocos (Keeling) Islands' , 'leads' ) ,
+			 __( 'CO' , 'leads') => __( 'Colombia' , 'leads' ) ,
+			 __( 'KM' , 'leads') => __( 'Comoros' , 'leads' ) ,
+			 __( 'CG' , 'leads') => __( 'Congo' , 'leads' ) ,
+			 __( 'CD' , 'leads') => __( 'Congo, Democratic Republic of' , 'leads' ) ,
+			 __( 'CK' , 'leads') => __( 'Cook Islands' , 'leads' ) ,
+			 __( 'CR' , 'leads') => __( 'Costa Rica' , 'leads' ) ,
+			 __( 'CI' , 'leads') => __( 'Cote d\'Ivoire' , 'leads' ) ,
+			 __( 'HR' , 'leads') => __( 'Croatia' , 'leads' ) ,
+			 __( 'CU' , 'leads') => __( 'Cuba' , 'leads' ) ,
+			 __( 'CW' , 'leads') => __( 'Curacao' , 'leads' ) ,
+			 __( 'CY' , 'leads') => __( 'Cyprus' , 'leads' ) ,
+			 __( 'CZ' , 'leads') => __( 'Czech Republic' , 'leads' ) ,
+			 __( 'DK' , 'leads') => __( 'Denmark' , 'leads' ) ,
+			 __( 'DJ' , 'leads') => __( 'Djibouti' , 'leads' ) ,
+			 __( 'DM' , 'leads') => __( 'Dominica' , 'leads' ) ,
+			 __( 'DO' , 'leads') => __( 'Dominican Republic' , 'leads' ) ,
+			 __( 'EC' , 'leads') => __( 'Ecuador' , 'leads' ) ,
+			 __( 'EG' , 'leads') => __( 'Egypt' , 'leads' ) ,
+			 __( 'SV' , 'leads') => __( 'El Salvador' , 'leads' ) ,
+			 __( 'GQ' , 'leads') => __( 'Equatorial Guinea' , 'leads' ) ,
+			 __( 'ER' , 'leads') => __( 'Eritrea' , 'leads' ) ,
+			 __( 'EE' , 'leads') => __( 'Estonia' , 'leads' ) ,
+			 __( 'ET' , 'leads') => __( 'Ethiopia' , 'leads' ) ,
+			 __( 'FK' , 'leads') => __( 'Falkland Islands' , 'leads' ) ,
+			 __( 'FO' , 'leads') => __( 'Faroe Islands' , 'leads' ) ,
+			 __( 'FJ' , 'leads') => __( 'Fiji' , 'leads' ) ,
+			 __( 'FI' , 'leads') => __( 'Finland' , 'leads' ) ,
+			 __( 'FR' , 'leads') => __( 'France' , 'leads' ) ,
+			 __( 'GF' , 'leads') => __( 'French Guiana' , 'leads' ) ,
+			 __( 'PF' , 'leads') => __( 'French Polynesia' , 'leads' ) ,
+			 __( 'TF' , 'leads') => __( 'French Southern Territories' , 'leads' ) ,
+			 __( 'GA' , 'leads') => __( 'Gabon' , 'leads' ) ,
+			 __( 'GM' , 'leads') => __( 'Gambia' , 'leads' ) ,
+			 __( 'GE' , 'leads') => __( 'Georgia' , 'leads' ) ,
+			 __( 'DE' , 'leads') => __( 'Germany' , 'leads' ) ,
+			 __( 'GH' , 'leads') => __( 'Ghana' , 'leads' ) ,
+			 __( 'GI' , 'leads') => __( 'Gibraltar' , 'leads' ) ,
+			 __( 'GR' , 'leads') => __( 'Greece' , 'leads' ) ,
+			 __( 'GL' , 'leads') => __( 'Greenland' , 'leads' ) ,
+			 __( 'GD' , 'leads') => __( 'Grenada' , 'leads' ) ,
+			 __( 'GP' , 'leads') => __( 'Guadeloupe' , 'leads' ) ,
+			 __( 'GU' , 'leads') => __( 'Guam' , 'leads' ) ,
+			 __( 'GT' , 'leads') => __( 'Guatemala' , 'leads' ) ,
+			 __( 'GG' , 'leads') => __( 'Guernsey' , 'leads' ) ,
+			 __( 'GN' , 'leads') => __( 'Guinea' , 'leads' ) ,
+			 __( 'GW' , 'leads') => __( 'Guinea-Bissau' , 'leads' ) ,
+			 __( 'GY' , 'leads') => __( 'Guyana' , 'leads' ) ,
+			 __( 'HT' , 'leads') => __( 'Haiti' , 'leads' ) ,
+			 __( 'HM' , 'leads') => __( 'Heard and McDonald Islands' , 'leads' ) ,
+			 __( 'HN' , 'leads') => __( 'Honduras' , 'leads' ) ,
+			 __( 'HK' , 'leads') => __( 'Hong Kong' , 'leads' ) ,
+			 __( 'HU' , 'leads') => __( 'Hungary' , 'leads' ) ,
+			 __( 'IS' , 'leads') => __( 'Iceland' , 'leads' ) ,
+			 __( 'IN' , 'leads') => __( 'India' , 'leads' ) ,
+			 __( 'ID' , 'leads') => __( 'Indonesia' , 'leads' ) ,
+			 __( 'IR' , 'leads') => __( 'Iran' , 'leads' ) ,
+			 __( 'IQ' , 'leads') => __( 'Iraq' , 'leads' ) ,
+			 __( 'IE' , 'leads') => __( 'Ireland' , 'leads' ) ,
+			 __( 'IM' , 'leads') => __( 'Isle of Man' , 'leads' ) ,
+			 __( 'IL' , 'leads') => __( 'Israel' , 'leads' ) ,
+			 __( 'IT' , 'leads') => __( 'Italy' , 'leads' ) ,
+			 __( 'JM' , 'leads') => __( 'Jamaica' , 'leads' ) ,
+			 __( 'JP' , 'leads') => __( 'Japan' , 'leads' ) ,
+			 __( 'JE' , 'leads') => __( 'Jersey' , 'leads' ) ,
+			 __( 'JO' , 'leads') => __( 'Jordan' , 'leads' ) ,
+			 __( 'KZ' , 'leads') => __( 'Kazakhstan' , 'leads' ) ,
+			 __( 'KE' , 'leads') => __( 'Kenya' , 'leads' ) ,
+			 __( 'KI' , 'leads') => __( 'Kiribati' , 'leads' ) ,
+			 __( 'KW' , 'leads') => __( 'Kuwait' , 'leads' ) ,
+			 __( 'KG' , 'leads') => __( 'Kyrgyzstan' , 'leads' ) ,
+			 __( 'LA' , 'leads') => __( 'Lao People\'s Democratic Republic' , 'leads' ) ,
+			 __( 'LV' , 'leads') => __( 'Latvia' , 'leads' ) ,
+			 __( 'LB' , 'leads') => __( 'Lebanon' , 'leads' ) ,
+			 __( 'LS' , 'leads') => __( 'Lesotho' , 'leads' ) ,
+			 __( 'LR' , 'leads') => __( 'Liberia' , 'leads' ) ,
+			 __( 'LY' , 'leads') => __( 'Libya' , 'leads' ) ,
+			 __( 'LI' , 'leads') => __( 'Liechtenstein' , 'leads' ) ,
+			 __( 'LT' , 'leads') => __( 'Lithuania' , 'leads' ) ,
+			 __( 'LU' , 'leads') => __( 'Luxembourg' , 'leads' ) ,
+			 __( 'MO' , 'leads') => __( 'Macau' , 'leads' ) ,
+			 __( 'MK' , 'leads') => __( 'Macedonia' , 'leads' ) ,
+			 __( 'MG' , 'leads') => __( 'Madagascar' , 'leads' ) ,
+			 __( 'MW' , 'leads') => __( 'Malawi' , 'leads' ) ,
+			 __( 'MY' , 'leads') => __( 'Malaysia' , 'leads' ) ,
+			 __( 'MV' , 'leads') => __( 'Maldives' , 'leads' ) ,
+			 __( 'ML' , 'leads') => __( 'Mali' , 'leads' ) ,
+			 __( 'MT' , 'leads') => __( 'Malta' , 'leads' ) ,
+			 __( 'MH' , 'leads') => __( 'Marshall Islands' , 'leads' ) ,
+			 __( 'MQ' , 'leads') => __( 'Martinique' , 'leads' ) ,
+			 __( 'MR' , 'leads') => __( 'Mauritania' , 'leads' ) ,
+			 __( 'MU' , 'leads') => __( 'Mauritius' , 'leads' ) ,
+			 __( 'YT' , 'leads') => __( 'Mayotte' , 'leads' ) ,
+			 __( 'MX' , 'leads') => __( 'Mexico' , 'leads' ) ,
+			 __( 'FM' , 'leads') => __( 'Micronesia, Federated States of' , 'leads' ) ,
+			 __( 'MD' , 'leads') => __( 'Moldova' , 'leads' ) ,
+			 __( 'MC' , 'leads') => __( 'Monaco' , 'leads' ) ,
+			 __( 'MN' , 'leads') => __( 'Mongolia' , 'leads' ) ,
+			 __( 'ME' , 'leads') => __( 'Montenegro' , 'leads' ) ,
+			 __( 'MS' , 'leads') => __( 'Montserrat' , 'leads' ) ,
+			 __( 'MA' , 'leads') => __( 'Morocco' , 'leads' ) ,
+			 __( 'MZ' , 'leads') => __( 'Mozambique' , 'leads' ) ,
+			 __( 'MM' , 'leads') => __( 'Myanmar' , 'leads' ) ,
+			 __( 'NA' , 'leads') => __( 'Namibia' , 'leads' ) ,
+			 __( 'NR' , 'leads') => __( 'Nauru' , 'leads' ) ,
+			 __( 'NP' , 'leads') => __( 'Nepal' , 'leads' ) ,
+			 __( 'NC' , 'leads') => __( 'New Caledonia' , 'leads' ) ,
+			 __( 'NZ' , 'leads') => __( 'New Zealand' , 'leads' ) ,
+			 __( 'NI' , 'leads') => __( 'Nicaragua' , 'leads' ) ,
+			 __( 'NE' , 'leads') => __( 'Niger' , 'leads' ) ,
+			 __( 'NG' , 'leads') => __( 'Nigeria' , 'leads' ) ,
+			 __( 'NU' , 'leads') => __( 'Niue' , 'leads' ) ,
+			 __( 'NF' , 'leads') => __( 'Norfolk Island' , 'leads' ) ,
+			 __( 'KP' , 'leads') => __( 'North Korea' , 'leads' ) ,
+			 __( 'MP' , 'leads') => __( 'Northern Mariana Islands' , 'leads' ) ,
+			 __( 'NO' , 'leads') => __( 'Norway' , 'leads' ) ,
+			 __( 'OM' , 'leads') => __( 'Oman' , 'leads' ) ,
+			 __( 'PK' , 'leads') => __( 'Pakistan' , 'leads' ) ,
+			 __( 'PW' , 'leads') => __( 'Palau' , 'leads' ) ,
+			 __( 'PS' , 'leads') => __( 'Palestinian Territory, Occupied' , 'leads' ) ,
+			 __( 'PA' , 'leads') => __( 'Panama' , 'leads' ) ,
+			 __( 'PG' , 'leads') => __( 'Papua New Guinea' , 'leads' ) ,
+			 __( 'PY' , 'leads') => __( 'Paraguay' , 'leads' ) ,
+			 __( 'PE' , 'leads') => __( 'Peru' , 'leads' ) ,
+			 __( 'PH' , 'leads') => __( 'Philippines' , 'leads' ) ,
+			 __( 'PN' , 'leads') => __( 'Pitcairn' , 'leads' ) ,
+			 __( 'PL' , 'leads') => __( 'Poland' , 'leads' ) ,
+			 __( 'PT' , 'leads') => __( 'Portugal' , 'leads' ) ,
+			 __( 'PR' , 'leads') => __( 'Puerto Rico' , 'leads' ) ,
+			 __( 'QA' , 'leads') => __( 'Qatar' , 'leads' ) ,
+			 __( 'RE' , 'leads') => __( 'Reunion' , 'leads' ) ,
+			 __( 'RO' , 'leads') => __( 'Romania' , 'leads' ) ,
+			 __( 'RU' , 'leads') => __( 'Russian Federation' , 'leads' ) ,
+			 __( 'RW' , 'leads') => __( 'Rwanda' , 'leads' ) ,
+			 __( 'BL' , 'leads') => __( 'Saint Barthelemy' , 'leads' ) ,
+			 __( 'SH' , 'leads') => __( 'Saint Helena' , 'leads' ) ,
+			 __( 'KN' , 'leads') => __( 'Saint Kitts and Nevis' , 'leads' ) ,
+			 __( 'LC' , 'leads') => __( 'Saint Lucia' , 'leads' ) ,
+			 __( 'VC' , 'leads') => __( 'Saint Vincent and the Grenadines' , 'leads' ) ,
+			 __( 'MF' , 'leads') => __( 'Saint-Martin (France)' , 'leads' ) ,
+			 __( 'SX' , 'leads') => __( 'Saint-Martin (Pays-Bas)' , 'leads' ) ,
+			 __( 'WS' , 'leads') => __( 'Samoa' , 'leads' ) ,
+			 __( 'SM' , 'leads') => __( 'San Marino' , 'leads' ) ,
+			 __( 'ST' , 'leads') => __( 'Sao Tome and Principe' , 'leads' ) ,
+			 __( 'SA' , 'leads') => __( 'Saudi Arabia' , 'leads' ) ,
+			 __( 'SN' , 'leads') => __( 'Senegal' , 'leads' ) ,
+			 __( 'RS' , 'leads') => __( 'Serbia' , 'leads' ) ,
+			 __( 'SC' , 'leads') => __( 'Seychelles' , 'leads' ) ,
+			 __( 'SL' , 'leads') => __( 'Sierra Leone' , 'leads' ) ,
+			 __( 'SG' , 'leads') => __( 'Singapore' , 'leads' ) ,
+			 __( 'SK' , 'leads') => __( 'Slovakia (Slovak Republic)' , 'leads' ) ,
+			 __( 'SI' , 'leads') => __( 'Slovenia' , 'leads' ) ,
+			 __( 'SB' , 'leads') => __( 'Solomon Islands' , 'leads' ) ,
+			 __( 'SO' , 'leads') => __( 'Somalia' , 'leads' ) ,
+			 __( 'ZA' , 'leads') => __( 'South Africa' , 'leads' ) ,
+			 __( 'GS' , 'leads') => __( 'South Georgia and the South Sandwich Islands' , 'leads' ) ,
+			 __( 'KR' , 'leads') => __( 'South Korea' , 'leads' ) ,
+			 __( 'SS' , 'leads') => __( 'South Sudan' , 'leads' ) ,
+			 __( 'ES' , 'leads') => __( 'Spain' , 'leads' ) ,
+			 __( 'LK' , 'leads') => __( 'Sri Lanka' , 'leads' ) ,
+			 __( 'PM' , 'leads') => __( 'St. Pierre and Miquelon' , 'leads' ) ,
+			 __( 'SD' , 'leads') => __( 'Sudan' , 'leads' ) ,
+			 __( 'SR' , 'leads') => __( 'Suriname' , 'leads' ) ,
+			 __( 'SJ' , 'leads') => __( 'Svalbard and Jan Mayen Islands' , 'leads' ) ,
+			 __( 'SZ' , 'leads') => __( 'Swaziland' , 'leads' ) ,
+			 __( 'SE' , 'leads') => __( 'Sweden' , 'leads' ) ,
+			 __( 'CH' , 'leads') => __( 'Switzerland' , 'leads' ) ,
+			 __( 'SY' , 'leads') => __( 'Syria' , 'leads' ) ,
+			 __( 'TW' , 'leads') => __( 'Taiwan' , 'leads' ) ,
+			 __( 'TJ' , 'leads') => __( 'Tajikistan' , 'leads' ) ,
+			 __( 'TZ' , 'leads') => __( 'Tanzania' , 'leads' ) ,
+			 __( 'TH' , 'leads') => __( 'Thailand' , 'leads' ) ,
+			 __( 'NL' , 'leads') => __( 'The Netherlands' , 'leads' ) ,
+			 __( 'TL' , 'leads') => __( 'Timor-Leste' , 'leads' ) ,
+			 __( 'TG' , 'leads') => __( 'Togo' , 'leads' ) ,
+			 __( 'TK' , 'leads') => __( 'Tokelau' , 'leads' ) ,
+			 __( 'TO' , 'leads') => __( 'Tonga' , 'leads' ) ,
+			 __( 'TT' , 'leads') => __( 'Trinidad and Tobago' , 'leads' ) ,
+			 __( 'TN' , 'leads') => __( 'Tunisia' , 'leads' ) ,
+			 __( 'TR' , 'leads') => __( 'Turkey' , 'leads' ) ,
+			 __( 'TM' , 'leads') => __( 'Turkmenistan' , 'leads' ) ,
+			 __( 'TC' , 'leads') => __( 'Turks and Caicos Islands' , 'leads' ) ,
+			 __( 'TV' , 'leads') => __( 'Tuvalu' , 'leads' ) ,
+			 __( 'UG' , 'leads') => __( 'Uganda' , 'leads' ) ,
+			 __( 'UA' , 'leads') => __( 'Ukraine' , 'leads' ) ,
+			 __( 'AE' , 'leads') => __( 'United Arab Emirates' , 'leads' ) ,
+			 __( 'GB' , 'leads') => __( 'United Kingdom' , 'leads' ) ,
+			 __( 'US' , 'leads') => __( 'United States' , 'leads' ) ,
+			 __( 'UM' , 'leads') => __( 'United States Minor Outlying Islands' , 'leads' ) ,
+			 __( 'UY' , 'leads') => __( 'Uruguay' , 'leads' ) ,
+			 __( 'UZ' , 'leads') => __( 'Uzbekistan' , 'leads' ) ,
+			 __( 'VU' , 'leads') => __( 'Vanuatu' , 'leads' ) ,
+			 __( 'VA' , 'leads') => __( 'Vatican' , 'leads' ) ,
+			 __( 'VE' , 'leads') => __( 'Venezuela' , 'leads' ) ,
+			 __( 'VN' , 'leads') => __( 'Vietnam' , 'leads' ) ,
+			 __( 'VG' , 'leads') => __( 'Virgin Islands (British)' , 'leads' ) ,
+			 __( 'VI' , 'leads') => __( 'Virgin Islands (U.S.)' , 'leads' ) ,
+			 __( 'WF' , 'leads') => __( 'Wallis and Futuna Islands' , 'leads' ) ,
+			 __( 'EH' , 'leads') => __( 'Western Sahara' , 'leads' ) ,
+			 __( 'YE' , 'leads') => __( 'Yemen' , 'leads' ) ,
+			 __( 'ZM' , 'leads') => __( 'Zambia' , 'leads' ) ,
 			 __( 'ZW' , 'leads') => __( 'Zimbabwe' , 'leads' )
 		);
 	}
-	
+
 	}
 }
 
