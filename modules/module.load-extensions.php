@@ -242,23 +242,23 @@ class CTALoadExtensions
 				'label' => __( 'CTA Width' , 'cta' ),
 				'description' => __( 'Enter the Width of the CTA in pixels. Example: 100% or 300px' , 'cta' ) ,
 				'id'  => 'wp_cta_width',
-				'type'  => 'text',
+				'type'  => 'width-height',
 				'default'  => '100%',
 				'class' => 'cta-width',
 				'context'  => 'priority',
 				'global' => true
-				);
+			);
 
 			$height = array(
 				'label' => __( 'CTA Height' , 'cta' ),
 				'description' => __( 'Enter the Height of the CTA in pixels. Example: auto or 300px' , 'cta' ),
 				'id'  => 'wp_cta_height',
-				'type'  => 'text',
+				'type'  => 'width-height',
 				'default'  => 'auto',
 				'class' => 'cta-height',
 				'context'  => 'priority',
 				'global' => true
-				);
+			);
 
 			array_unshift($wp_cta_data[$key]['settings'] , $width, $height);
 

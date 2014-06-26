@@ -10,7 +10,7 @@ function wp_cta_add_menu()
 	if (current_user_can('manage_options'))
 	{
 
-		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms' , 'cta' ), __( 'Create Forms' , 'cta' ) , 'manage_options', 'inbound-forms-redirect',100);
+		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Forms' , 'cta' ), __( 'Manage Forms' , 'cta' ) , 'manage_options', 'inbound-forms-redirect',100);
 
 		add_submenu_page('edit.php?post_type=wp-call-to-action', __( 'Templates' , 'cta' ) , __( 'Manage Templates' , 'cta' ) , 'manage_options', 'wp_cta_manage_templates','wp_cta_manage_templates',100);
 

@@ -48,7 +48,7 @@ function inbound_create_default_post_type_cta(){
         add_post_meta($default_lander, 'flat-cta-link_url-1', 'http://www.inboundnow.com');
 
         // Add A/B Testing meta
-        add_post_meta($default_lander, 'cta_ab_variations', '0,1');
+        add_post_meta($default_lander, 'wp-cta-variations', '{ "0":{"status":"active"} , "1":{"status":"active"} }');
         add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-0', 115);
         add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-1', 113);
         add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-0', 15);

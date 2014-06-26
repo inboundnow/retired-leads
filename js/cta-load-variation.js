@@ -39,7 +39,8 @@ function wp_cta_load_variation( cta_id , vid , disable_ajax )
 			 dataType: "script",
 			 async:false,
 			 data : {
-			  'cta_id' : cta_id
+				'action' : 'cta_get_variation',
+				'cta_id' : cta_id
 			 },
 			 success: function(vid) {
 				/* update local storage variable */

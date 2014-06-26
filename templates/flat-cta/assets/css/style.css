@@ -10,7 +10,9 @@
 	background: transparent;
 }
 .wp_cta_container {
-	margin:auto; 
+	margin:0; 
+	padding:0; 
+	
 
 }
 .wp_cta_container #content {

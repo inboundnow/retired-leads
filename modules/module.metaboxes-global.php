@@ -176,6 +176,151 @@ function wp_cta_display_controller()
 	}
 }
 
+
+function wp_cta_render_setting($field) {
+	global $post, $wpdb;
+
+
+	$meta = get_post_meta($post->ID, $field['id'], true);
+
+	if ( !isset( $field['default'] ) ) {
+		$field['default'] = '';
+	}
+	//echo $field['id'].':'.var_dump($meta);
+	//echo '<br>';
+
+	$final['value'] = (!empty($meta)) ? $meta : $field['default'];
+	$meta_class = (isset($field['class'])) ? " " . $field['class'] : '';
+	$dynamic_hide = (isset($field['reveal_on'])) ? ' inbound-hidden-row' : '';
+	$reveal_on = (isset($field['reveal_on'])) ? ' reveal-' . $field['reveal_on'] : '';
+
+	// begin a table row with
+	$no_label = array('html-block');
+
+	echo '<div id='.$field['id'].' class="wp-cta-option-row '.$meta_class. $dynamic_hide.	$reveal_on.'">';
+	if (!in_array($field['type'],$no_label)) {
+		echo'<div class="wp_cta_label'.$meta_class. $dynamic_hide.	$reveal_on.'"><label class="'.$meta_class.'" for="'.$field['id'].'">'.$field['label'].'</label></div>';
+	}
+	echo '<div class="wp-cta-option-area '.$meta_class.' field-'.$field['type'].'">';
+			switch($field['type']) {
+				// text
+				case 'text':
+					echo '<input type="text" class="'.$meta_class.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$final['value'].'" size="30" />
+							<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+					break;
+				case 'html-block':
+					echo '<div class="'.$meta_class.'">'.$field['description'].'</div>';
+					break;
+				case 'dropdown':
+					echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$meta_class.'">';
+					foreach ($field['options'] as $value=>$label) {
+						echo '<option', $final['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+					}
+					echo '</select><div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
+					break;
+				// select
+				case 'image-select':
+					echo '<select name="'.$field['id'].'" id="'.$field['id'].'" class="'.$meta_class.'">';
+					foreach ($field['options'] as $value=>$label) {
+						echo '<option', $final['value'] == $value ? ' selected="selected"' : '', ' value="'.$value.'">'.$label.'</option>';
+					}
+					echo '</select><br /><div class="wp-cta-image-container"></div></br><span class="description">'.$field['description'].'</span>';
+
+					break;
+				// textarea
+				case 'textarea':
+					echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="250" rows="6">'.$final['value'].'</textarea>
+							<br /><span class="description">'.$field['description'].'</span>';
+					break;
+				// checkbox
+				case 'checkbox':
+					echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$final['value'] ? ' checked="checked"' : '','/>
+							<label for="'.$field['id'].'">'.$field['description'].'</label>';
+					break;
+				// radio
+				case 'radio':
+					foreach ( $field['options'] as $option ) {
+						echo '<input type="radio" name="'.$field['id'].'" id="'.$option['value'].'" value="'.$option['value'].'" ',$final['value'] == $option['value'] ? ' checked="checked"' : '',' />
+								<label for="'.$option['value'].'">'.$option['label'].'</label><br />';
+					}
+					echo '<span class="description">'.$field['description'].'</span>';
+					break;
+				// checkbox_group
+				case 'checkbox_group':
+					foreach ($field['options'] as $option) {
+						echo '<input type="checkbox" value="'.$option['value'].'" name="'.$field['id'].'[]" id="'.$option['value'].'"',$final['value'] && in_array($option['value'], $final['value']) ? ' checked="checked"' : '',' />
+								<label for="'.$option['value'].'">'.$option['label'].'</label><br />';
+					}
+					echo '<span class="description">'.$field['description'].'</span>';
+					break;
+				case 'meta_vals':
+					$post_type = 'wp-lead';
+					$query = "
+						SELECT DISTINCT($wpdb->postmeta.meta_key)
+						FROM $wpdb->posts
+						LEFT JOIN $wpdb->postmeta
+						ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+						WHERE $wpdb->posts.post_type = 'wp-lead'
+						AND $wpdb->postmeta.meta_key != ''
+						AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
+						AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
+					";
+					$sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta;
+					$meta_keys = $wpdb->get_col($wpdb->prepare($query, $post_type));
+					// print_r($fields);
+					$list = get_post_meta( $post->ID, 'wp_cta_global_bt_values', true);
+					//print_r($list);
+					echo '<select multiple name="'.$field['id'].'[]" class="inbound-multi-select" id="'.$field['id'].'">';
+						$nice_names = array(
+						"wpleads_first_name" => "First Name",
+						"wpleads_last_name" => "Last Name",
+						"wpleads_email_address" => "Email Address",
+						"wpleads_city" => "City",
+						"wpleads_areaCode" => "Area Code",
+						"wpleads_country_name" => "Country Name",
+						"wpleads_region_code" => "State Abbreviation",
+						"wpleads_region_name" => "State Name",
+						"wp_lead_status" => "Lead Status",
+						"events_triggered" => "Number of Events Triggered",
+						"lp_page_views_count" => "Page View Count",
+						"wpl-lead-conversion-count" => "Number of Conversions"
+					);
+
+					foreach ($meta_keys as $meta_key)
+					{
+						if (array_key_exists($meta_key, $nice_names)) {
+							$label = $nice_names[$meta_key];
+
+
+							(in_array($meta_key, $list)) ? $selected = " selected='selected'" : $selected ="";
+
+							echo '<option', $selected, ' value="'.$meta_key.'" rel="" >'.$label.'</option>';
+
+						}
+					}
+					echo "</select><br><span class='description'>'".$field['description']."'</span>";
+				break;
+
+				case 'multiselect':
+
+					$selected_lists = $final['value'];
+
+					echo '<select multiple name="'.$field['id'].'[]" class="inbound-multi-select" id="'.$field['id'].'">';
+
+
+					foreach ( $field['options'] as $id => $value )
+					{
+						(in_array($id, $selected_lists)) ? $selected = " selected='selected'" : $selected ="";
+						echo '<option', $selected, ' value="'.$id.'" rel="" >'.$value.'</option>';
+
+					}
+					echo "</select><br><span class='description'>'".$field['description']."'</span>";
+					break;
+
+			} //end switch
+	echo '</div></div>';
+}
+
 //save the meta box action
 add_action( 'save_post', 'wp_cta_display_meta_save', 10);
 function wp_cta_display_meta_save($post_id)

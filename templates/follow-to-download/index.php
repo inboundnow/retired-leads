@@ -44,11 +44,11 @@ a.downloadButton.active{
 }
 </style>
 
-<div id="wp-cta-content" style="width:{{width}}height:{{width}}; margin: auto;">
+<div id="wp-cta-content" style="width:{{width}};height:{{height}}; margin: auto;">
   <div id="extra-text-area">{{header-text}}</div>
   <div id="inbound-share-model">
-                    <p> <span id="tweetLink"><img src="{{template-urlpath}}follow-image.png" title="Click and Follow to activate the download" ></span></p>
-          <div id="arrow-down"></div>
+        <span id="tweetLink"><img src="{{template-urlpath}}follow-image.png" title="Click and Follow to activate the download" ></span>
+        <div id="arrow-down"></div>
 
 
   <span id="placeholder-span" class="downloadButton" title="click the above share button to activate the download">Download</span>
