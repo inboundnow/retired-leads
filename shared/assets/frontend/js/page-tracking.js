@@ -1,27 +1,7 @@
-/* Console.log fix for old browsers */
-(function() {
-  if (!window.console) {
-    window.console = {};
-  }
-  // union of Chrome, FF, IE, and Safari console methods
-  var m = [
-    "log", "info", "warn", "error", "debug", "trace", "dir", "group",
-    "groupCollapsed", "groupEnd", "time", "timeEnd", "profile", "profileEnd",
-    "dirxml", "assert", "count", "markTimeline", "timeStamp", "clear"
-  ];
-  // define undefined methods as noops to prevent errors
-  for (var i = 0; i < m.length; i++) {
-    if (!window.console[m[i]]) {
-      window.console[m[i]] = function() {};
-    }
-  }
-})();
-
 /**
  * Lead Tracking JS
  * http://www.inboundnow.com
  */
-
 var InboundAnalytics = (function () {
 
    var debugMode = false;
@@ -32,9 +12,25 @@ var InboundAnalytics = (function () {
 
    var App = {
      init: function () {
+          this.polyFills();
           InboundAnalytics.PageTracking.StorePageView();
           InboundAnalytics.Events.loadEvents();
           InboundAnalytics.Utils.init();
+     },
+     polyFills: function() {
+          /* Console.log fix for old browsers */
+          if (!window.console) { window.console = {}; }
+          var m = [
+            "log", "info", "warn", "error", "debug", "trace", "dir", "group",
+            "groupCollapsed", "groupEnd", "time", "timeEnd", "profile", "profileEnd",
+            "dirxml", "assert", "count", "markTimeline", "timeStamp", "clear"
+          ];
+          // define undefined methods as noops to prevent errors
+          for (var i = 0; i < m.length; i++) {
+            if (!window.console[m[i]]) {
+              window.console[m[i]] = function() {};
+            }
+          }
      },
      /* Debugger Function toggled by var debugMode */
      debug: function(msg,callback){
@@ -173,6 +169,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           return get_params;
       },
       // Check local storage
+      // provate browsing safari fix https://github.com/marcuswestin/store.js/issues/42#issuecomment-25274685
       checkLocalStorage: function() {
         if ('localStorage' in window) {
             try {
@@ -189,6 +186,19 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             }
         }
         return supported;
+        /* http://spin.atomicobject.com/2013/01/23/ios-private-browsing-localstorage/
+        var hasStorage;
+        hasStorage = function() {
+          var mod, result;
+          try {
+            mod = new Date;
+            localStorage.setItem(mod, mod.toString());
+            result = localStorage.getItem(mod) === mod.toString();
+            localStorage.removeItem(mod);
+            return result;
+          } catch (_error) {}
+        };
+         */
       },
       /* Add days to datetime */
       addDays: function(myDate,days) {

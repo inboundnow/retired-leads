@@ -599,6 +599,12 @@
 							var send_email_subject = '';
 							var email_contents = ''; // if post created on other post
 						}
+						
+						if ( typeof email_contents == 'undefined' ) {
+							 email_contents = jQuery('#content').val(); 
+						}
+						
+						
 						var email_exists = InboundShortcodes.get_email();
 						console.log(email_exists);
 						if(email_exists != "" ) {
@@ -911,12 +917,12 @@
 				// fix regex for < and > the stripping breaks shortcodes
 				//var html = html.replace(/"/g, "QUOT");
 				//var html = html.replace(/'/g, "QUOT_SINGLE");
-				//var the_html = jQuery('<div/>').text(html).html();
-				//var the_html = the_html.replace(/'/g,'&#039;');
-				//var the_html = the_html.replace(/&lt;/g, "<");
-				//var the_html = the_html.replace(/&gt;/g, ">");
-				//var the_html = the_html.replace(/%3C/g, "<");
-				//var the_html = the_html.replace(/%3E/g, ">");
+				//var html = jQuery('<div/>').text(html).html();
+				//var html = the_html.replace(/'/g,'&#039;');
+				//var html = html.replace(//g, "<");
+				//var html = html.replace(//g, ">");
+				var html = html.replace(/</g, "&lt;");
+				var html = html.replace(/>/g, "&gt;");
 				var html = html.replace(/\?/g, "%3F");
 				var html = html.replace(/\/>/, "%2F%3E");
 				//var html = html.replace(/&/g, "%26");
@@ -974,7 +980,7 @@
 				var shortcode = jQuery(this).attr('data-launch-sc');
 
 				setTimeout(function() {
-				 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + inbound_load.image_dir);
+				 tb_show( inbound_load.pop_title, inbound_load.image_dir + 'popup.php?popup=' + shortcode + '&width=' + 900 + "&path=" + encodeURIComponent(inbound_load.image_dir));
 				        }, 500);
 
 			});
@@ -1006,5 +1012,41 @@
 
 				window.history.replaceState({}, document.title, window_url);
 			}
+
+			jQuery('#list-add-toggle').click( function() {
+				jQuery('#list-add-wrap').toggleClass( 'wp-hidden-child' );
+				return false;
+			});
+			
+			jQuery('#list-add-submit').click( function() {
+				var list_val = jQuery('#newformlist').val();
+				var list_parent_val = jQuery('#newlist_parent').val();
+				if(list_val == ''){
+					
+					jQuery('#newformlist').focus();
+					
+					return false;
+					
+				} else {
+					jQuery.ajax({
+						type:"POST",
+						url: ajaxurl,
+						data: "list_val=" + list_val +  "&list_parent_val=" + list_parent_val + "&action=inbound_form_add_lead_list",
+						success: function(data) {
+							var returned = jQuery.parseJSON(data);
+							if(returned.status != 'false'){
+								jQuery('#inbound_shortcode_lists').append('<option value="'+ returned.term_id +'">' + returned.name + '</option>');
+								jQuery('#list-ajax-response').html('List Added. Please Select From Above.');
+							} else {
+								
+								alert('Not able to add list at this monent. Please try again');
+							}
+						}
+					});
+					
+				}
+				
+			});
+			
 
 		});

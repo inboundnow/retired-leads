@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.0.7
+Version: 2.0.9
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -11,7 +11,7 @@ Domain Path: shared/languages/cta/
 */
 
 // DEFINE CONSTANTS AND GLOBAL VARIABLES
-define('WP_CTA_CURRENT_VERSION', '2.0.7' );
+define('WP_CTA_CURRENT_VERSION', '2.0.9' );
 define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -129,6 +129,7 @@ function inbound_load_shared(){
 
 	/* Define Shared Constant for Load Prevention*/
 	define('INBOUDNOW_SHARED','loaded');
+	require_once('shared/classes/class.lead-fields.php');
 
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
 	include_once('shared/classes/class.post-type.wp-lead.php'); 

@@ -255,45 +255,32 @@ if (!function_exists('json_encode_fallback')) {
     }
   }
 }
-/* Usage of JSON fallback
 
-	$output = array('inbound_shortcode'=> $shortcode,
-          'field_count'=>$field_count,
-          'form_settings_data' => $form_settings_data,
-          'field_values'=>$inbound_form_values);
 
-	if ( version_compare( phpversion(), '5.3', '<' ) ) {
-	echo json_encode_fallback($output);
-	} else {
-	echo json_encode($output,JSON_FORCE_OBJECT);
-	}
-
-*/
-
-/* Potentially Legacy is this being used anywhere?
-if (!function_exists('wpl_url_to_postid_final')) {
-function wpl_url_to_postid_final($url) {
-	global $wpdb;
-	$parsed = parse_url($url);
-	$url = $parsed['path'];
-	$parts = explode('/',$url);
-	$count = count($parts);
-	$count = $count -1;
-
-	if (empty($parts[$count])) {
-		$i = $count-1;
-		$slug = $parts[$i];
-	} else {
-		$slug = $parts[$count];
-	}
-
-	$my_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '$slug'");
-
-	if ($my_id) {
-		return $my_id;
-	} else {
-		return 0;
+/* Legacy Support */
+if (!function_exists('wpleads_add_lead_to_list')) {
+	function wpleads_add_lead_to_list( $list_id, $lead_id ) {
+		wp_set_post_terms( $lead_id, intval($list_id), 'wplead_list_category', true);		
+		do_action('post_add_lead_to_lead_list' , $lead_id , $list_id );
 	}
 }
+
+/* Legacy Support */
+if (!function_exists('wpleads_get_lead_lists_as_array')) {
+	
+	/* Get Array of Lead Lists from taxonomy */
+	function wpleads_get_lead_lists_as_array() {
+
+		$args = array(
+			'hide_empty' => false,
+		);
+
+		$terms = get_terms('wplead_list_category', $args);
+
+		foreach ( $terms as $term  ) {
+			$array[$term->term_id] = $term->name;
+		}
+
+		return $array;
+	}
 }
-*/
