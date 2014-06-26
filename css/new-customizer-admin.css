@@ -15,6 +15,12 @@ text-align: center;
 margin-top: 10px;
 margin-left: 0px !important; }
 
+#post-body-content .nav-tab-wrapper .nav-tab {
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 24px;
+}
+
 .inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
 position: inherit;
 /* bottom: -21px; */
@@ -41,9 +47,7 @@ padding-top: 0px !important;
 padding-top: 5px !important;
 }
 }
-#wp-cta-change-template-button {
-	padding: 6px 6px;
-}
+
 #submitdiv .handlediv , #submitdiv .hndle {
 	display: none !important;
 }
