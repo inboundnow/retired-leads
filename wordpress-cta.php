@@ -28,10 +28,12 @@ switch (is_admin()) :
 	case true :
 		/* loads admin files */
 		//include_once('functions/functions.global.php'); // old
-		include_once('modules/module.activate.php');
+		include_once('classes/class.activation.php');
+		include_once('classes/class.activation.upgrade-routines.php');
 		include_once('classes/class.post-type.wp-call-to-action.php');
 		include_once('classes/class.extension.wp-lead.php');
 		include_once('classes/class.extension.wordpress-seo.php');
+		include_once('classes/class.metaboxes.wp-call-to-action.php');
 		include_once('modules/module.admin-menus.php');
 		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.enqueue.php');
@@ -39,12 +41,12 @@ switch (is_admin()) :
 		include_once('modules/module.clone.php');
 		include_once('modules/module.install.php');
 		include_once('modules/module.extension-updater.php');
-		include_once('modules/module.ab-testing.php');
+		include_once('classes/class.cta.variations.php');
+		include_once('modules/module.metaboxes-ab-testing.php');
 		include_once('modules/module.widgets.php');
-		include_once('modules/module.calls-to-action.php');
+		include_once('classes/class.cta.render.php');
 		include_once('modules/module.load-extensions.php');
 		include_once('modules/module.metaboxes-global.php');
-		include_once('modules/module.metaboxes-wp-call-to-action.php');
 		include_once('modules/module.templates.php');
 		include_once('modules/module.store.php');
 		include_once('modules/module.utils.php');
@@ -55,6 +57,11 @@ switch (is_admin()) :
 		function wp_major_cta_update_notice(){
 		    global $pagenow;
 		    global $current_user ;
+			
+			if (!current_user_can('activate_plugins') ) {
+				return;
+			}
+			
 		    $user_id = $current_user->ID;
 		    if ( ! get_user_meta($user_id, 'wp_cta_major_update_ignore') ) {
 		             echo '<div class="updated" style="position:relative;">
@@ -104,8 +111,8 @@ switch (is_admin()) :
 		include_once('modules/module.ajax-setup.php');
 		include_once('modules/module.widgets.php');
 		include_once('modules/module.cookies.php');
-		include_once('modules/module.ab-testing.php');
-		include_once('modules/module.calls-to-action.php');
+		include_once('classes/class.cta.variations.php');		
+		include_once('classes/class.cta.render.php');
 		include_once('modules/module.utils.php');
 		include_once('modules/module.customizer.php');
 
@@ -124,11 +131,15 @@ function inbound_load_shared(){
 	define('INBOUDNOW_SHARED','loaded');
 
 	include_once('shared/tracking/store.lead.php'); // Lead Storage from landing pages
+	include_once('shared/classes/class.post-type.wp-lead.php'); 
 	include_once('shared/classes/class.form.php');  // Mirrored forms
 	include_once('shared/classes/class.menu.php');  // Inbound Marketing Menu
 	include_once('shared/classes/class.feedback.php');  // Inbound Feedback Form
 	include_once('shared/classes/class.debug.php');  // Inbound Debug & Scripts Class
 	include_once('shared/classes/class.compatibility.php');  // Inbound Compatibility Class
+	include_once('shared/classes/class.templating-engine.php');  // Inbound Templating Engine Class
+	require_once('shared/classes/class.shortcodes.email-template.php'); //Inbound Email Templating Shortcodes Class
+	require_once('shared/classes/class.lead-fields.php');  
 	include_once('shared/shortcodes/inbound-shortcodes.php');  // Shared Shortcodes
 	include_once('shared/extend/inboundnow.extend.php');
 	include_once('shared/extend/inboundnow.extension-licensing.php'); // Legacy - Inboundnow Package Licensing
@@ -137,7 +148,6 @@ function inbound_load_shared(){
 	include_once('shared/metaboxes/template.metaboxes.php');  // Shared Shortcodes
 	include_once('shared/functions/global.shared.functions.php'); // Global Shared Utility functions
 	include_once('shared/assets/assets.loader.class.php');  // Load Shared CSS and JS Assets
-	include_once('shared/functions/global.leads.cpt.php'); // Shared Lead functionality
 
 }
 
