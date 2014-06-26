@@ -10,9 +10,11 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		/* 
 		* @introduced: 2.0.8
 		* @migration-type: Meta pair migragtion
-		* @summary: convert meta key cta_ab_variations to wp-cta-variations
+		* @mirgration: convert meta key cta_ab_variations to wp-cta-variations
+		* @mirgration: convert meta key wp-cta-variation-notes to a sub key of wp-cta-variations object
+		* @migration: convert meta key wp-cta-selected-template to wp-cta-selected-template-0
 		*/
-		public static function migrate_theme_meta_data_1_5_6() {
+		public static function create_variation_object() {
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
 				'post_status' => 'publish'
@@ -29,6 +31,15 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 						/* get variation status */
 						$status = get_post_meta( $cta->ID , 'wp_cta_ab_variation_status' , true);
 						
+						/* Get variation notes & alter key for variations with vid=0 */
+						if (!$vid) {
+							$notes = get_post_meta( $cta->ID , 'wp-cta-variation-notes' , true );
+							$template = get_post_meta( $cta->ID , 'wp-cta-selected-template' , true );
+							update_post_meta( $cta->ID , 'wp-cta-selected-template-0' , $template );
+						} else {
+							$notes =  get_post_meta( $cta->ID , 'wp-cta-variation-notes-' . $vid , true);
+						}
+						
 						if ($status || $status === null) {
 							$status = 'active';
 						} else {
@@ -36,6 +47,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 						}
 						
 						$variations[ $vid ][ 'status' ] = $status;
+						$variations[ $vid ][ 'notes' ] = $notes;
 					}
 					
 					CTA_Variations::update_variations ( $cta->ID , $variations );

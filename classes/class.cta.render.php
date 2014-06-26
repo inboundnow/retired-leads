@@ -238,7 +238,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 
 			$cta_obj = apply_filters( 'wp_cta_obj' , $cta_obj );
-
+			
 			
 			/* return one cta out of list of available ctas */
 			$key = array_rand($cta_obj);
@@ -416,7 +416,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		public function reveal_loaded_ctas() {
 			/* determin variation */
 			wp_enqueue_script('cta-reveal-variation', WP_CTA_URLPATH.'js/cta-reveal-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-reveal-variation', 'cta_reveal', array( 'ajax_url' => WP_CTA_URLPATH.'modules/module.ajax-get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
+			wp_localize_script( 'cta-reveal-variation', 'cta_reveal', array( 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
 
 		}
 
@@ -952,7 +952,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 				$cta_variation_attributes = apply_filters('wp_cta_variation_attributes' , '' , $selected_cta['id'] , $vid);
-				$cta_template .= "<div id='wp_cta_".$selected_cta['id']."_variation_".$vid."' class='".$cta_variation_class."' style='overflow: hidden;display:{$display}; margin:auto;".$width.$height."' ".$cta_variation_attributes." data-variation='".$vid."' data-cta-id='".$selected_cta['id']."'>";
+				$cta_template .= "<div id='wp_cta_".$selected_cta['id']."_variation_".$vid."' class='".$cta_variation_class."' style='display:{$display}; margin:auto;".$width . $height."' ".$cta_variation_attributes." data-variation='".$vid."' data-cta-id='".$selected_cta['id']."'>";
 				$cta_template .= CTA_Render::replace_template_variables( $selected_cta , self::$instance->cta_templates[$template_slug]['html-template'] , $vid	);
 
 				$cta_template .= "</div>";
@@ -1068,7 +1068,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			if ( !isset(self::$instance->disable_ajax) ) {
 				self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 			}
-
+	
 			$script =  "<script>";
 			$script .= "	jQuery(document).ready(function($) {";
 			$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
@@ -1178,24 +1178,28 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			.slider-text {
 				font-size: 20px;
 			}
-			</style>
-			<div style="position:fixed; bottom:14px; right: 30%;">
-				<span class='slider-text'>Change Container Size: <span class="result"></span></span>
-				<div class="slider">
-					<input class="custom-input" type="range" min="0" value="0" max="100">
-
-				</div>
-			</div>
+			</style>			
 			<script type="text/javascript">
 			jQuery(document).ready(function($) {
-
-				$('.custom-input').change(function() {
-				var barValue = $(this).val(),
+				jQuery('.custom-input').change(function() {
+					var barValue = $(this).val(),
 					result = Math.round(barValue * 10) / 10;
-				jQuery("#cta-preview-container").width(result + '%');
-				$('.result').text(result + '%');
+					jQuery("#cta-preview-container").width(result + '%');
+					jQuery('.result').text(result + '%');
 				});
+				
+				jQuery('#cta-preview-container').cta_center();
 			});
+			
+			/* add jquery function to center cta in preview mode */
+			jQuery.fn.cta_center = function () {
+				this.css("position","absolute");
+				this.css("top", Math.max(0, ((jQuery(window).height() - jQuery(this).outerHeight()) / 2) + 
+															jQuery(window).scrollTop()) + "px");
+				this.css("left", Math.max(0, ((jQuery(window).width() - jQuery(this).outerWidth()) / 2) + 
+															jQuery(window).scrollLeft()) + "px");
+				return this;
+			}
 			</script>
 			<?php }
 			echo '</body>';
