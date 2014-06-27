@@ -99,15 +99,16 @@ class CTA_Metaboxes {
 			}
 		}
 
-		/* Advanced Call to Action Options 
+		/* Advanced Call to Action Options */
 		add_meta_box(
 			'wp_cta_tracking_metabox', // $id
 			__( 'Advanced Call to Action Options' , 'cta' ), // $title
 			array( __CLASS__ , 'show_advanced_settings' ), // $callback
 			'wp-call-to-action', // $page
 			'normal', // $context
-			'low'); // $priority
-		0*/
+			'low'
+		); // $priority
+
 		
 		/* Custom CSS */
 		add_meta_box(
@@ -810,7 +811,7 @@ class CTA_Metaboxes {
 		
 	}
 	
-	/*
+	
 	public static function show_advanced_settings () {
 		global $post;
 
@@ -841,7 +842,7 @@ class CTA_Metaboxes {
 
 		echo '</div>'; // end table
 	}
-	*/
+	
 }
 
 $GLOBALS['CTA_Metaboxes'] = new CTA_Metaboxes;
