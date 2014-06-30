@@ -3,7 +3,7 @@
  * Compability Mode Deregisters All Third party scripts not in the whitelist
  * - The class was made to cut down on third party support requests
  *
- * Call the dequeue manually InboundCompatibility::inbound_compatibilities_mode();
+ * Call the dequeue manually Inbound_Compatibility::inbound_compatibilities_mode();
  */
 
 /* From Global Settings if compat mode toggled on turn off third party scripts */
@@ -13,7 +13,7 @@ if (!function_exists('inbound_turn_on_compatiblity')) {
     $screen = get_current_screen();
 
     // Add all Plugin Screens to Array
-    $inbound_screens =  InboundCompatibility::return_inbound_now_screens(); // grabs our plugin screen ids
+    $inbound_screens =  Inbound_Compatibility::return_inbound_now_screens(); // grabs our plugin screen ids
 
     // If Not Inbound Now Screen Exit function
     if (!in_array($screen->id, $inbound_screens)) {
@@ -24,7 +24,7 @@ if (!function_exists('inbound_turn_on_compatiblity')) {
     $cta_compatiblity = get_option( 'wp-cta-main-inbound_compatibility_mode', $default = false );
     $lp_compatiblity = get_option( 'lp-main-inbound_compatibility_mode', $default = false );
     if ( $lead_compatiblity || $cta_compatiblity || $lp_compatiblity ) {
-      InboundCompatibility::inbound_compatibilities_mode(); // kill third party scripts
+      Inbound_Compatibility::inbound_compatibilities_mode(); // kill third party scripts
     }
   }
 }
@@ -51,8 +51,8 @@ if (!function_exists('inbound_compability_admin_notice')) {
   }
 }
 
-if (!class_exists('InboundCompatibility')) {
-  class InboundCompatibility {
+if (!class_exists('Inbound_Compatibility')) {
+  class Inbound_Compatibility {
     static $add_inbound_compatibility;
 
     /**

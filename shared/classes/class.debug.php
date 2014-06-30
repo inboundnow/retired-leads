@@ -13,8 +13,8 @@ if (!defined('INBOUND_CLASS_URL'))
   print_r($global_array);
   /**/
 
-if (!class_exists('InboundDebugScripts')) {
-  class InboundDebugScripts {
+if (!class_exists('Inbound_Debug_Scripts')) {
+  class Inbound_Debug_Scripts {
     static $add_debug;
 
   /*  Contruct
@@ -412,6 +412,6 @@ display: inline-block;}
 /*  Initialize InboundNow Debug
  *  --------------------------------------------------------- */
 
-InboundDebugScripts::init();
+Inbound_Debug_Scripts::init();
 
 ?>

@@ -39,7 +39,7 @@ class Inbound_Asset_Loader {
 		/* Conditionals for admin or frontend */
 		if(is_admin()) {
 
-			$inbound_now_screens = InboundCompatibility::return_inbound_now_screens(); // list of inbound now screens
+			$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
 			$screen = get_current_screen();
 
 			/* Target Specific screen with // echo $screen->id; */

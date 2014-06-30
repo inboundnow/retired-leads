@@ -1,8 +1,8 @@
 <?php
 /* Inbound Now Menu Class */
 
-if (!class_exists('InboundFeedback')) {
-  class InboundFeedback {
+if (!class_exists('Inbound_Feedback')) {
+  class Inbound_Feedback {
     static $add_feedback;
 
   /*  Contruct
@@ -376,6 +376,6 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
 /*  Initialize InboundNow Menu
  *  --------------------------------------------------------- */
 
-InboundFeedback::init();
+Inbound_Feedback::init();
 
 ?>
