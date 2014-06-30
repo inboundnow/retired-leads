@@ -830,9 +830,11 @@ class CTA_Metaboxes {
 		{
 			if ( isset($field['region']) && $field['region'] =='advanced')
 			{
-				( isset($field['global']) && $field['global'] ) ? $field['id'] : $field['id'] = "wp-cta-".$field['id'];
+				if ( !isset($field['global']) || !$field['global'] ) {
+					$field['id'] = apply_filters( 'wp_cta_prepare_input_id' , $field['id'] );
+				}
 
-				$field['id'] = apply_filters( 'wp_cta_prepare_input_id' , $field['id'] );
+				$field['id'] = "wp-cta-".$field['id'];
 
 				wp_cta_render_setting($field);
 			}
