@@ -54,7 +54,6 @@ class Inbound_Shortcodes {
 	static function loads($hook) {
 
 		global $post;
-		$final_path = self::set_file_path();
 
 		if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
 
