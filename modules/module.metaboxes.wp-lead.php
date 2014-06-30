@@ -59,7 +59,7 @@ function wp_leads_get_search_keywords($url = '') {
 
 	// Parse the query string into a query array
 	parse_str($query_str, $query);
-	$empty_keywords = __( 'Empty Keywords, User is probably logged into ' , 'leads' ) . $is_search_engine;
+	$empty_keywords = __( 'Empty' , 'leads' ) . $is_search_engine;
 	// Check some major search engines to get the correct query var
 	$search_engines = array(
 		'q' => 'alltheweb|aol|ask|ask|bing|google',
