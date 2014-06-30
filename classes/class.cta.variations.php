@@ -142,6 +142,23 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			self::update_variations( $cta_id , $variations );
 		}
 		
+		/*
+		* Sets the variation status to a custom status
+		*
+		* @param cta_id INT id of call to action
+		* @param vid INT id of variation to delete
+		* @param status STRING custom status 
+		*
+		*/
+		public static function set_variation_status( $cta_id , $vid , $status = 'play' ) {
+			
+			/* Update variations meta object */
+			$variations = self::get_variations( $cta_id );
+			$variations[ $vid ]['status'] = $status ;
+
+			self::update_variations( $cta_id , $variations );
+		}
+		
 		/* Updates variation object data on post save
 		*
 		* @param cta_id INT of call to action id
@@ -167,8 +184,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$current_variation = (isset($_POST['wp-cta-variation-id'])) ? $_POST['wp-cta-variation-id'] : '0';
 			$variations = self::get_variations( $cta_id );
 		
-			/* Set current variation status */
-			$variations[ $current_variation ]['status'] = $_POST['wp-cta-variation-status'][ $current_variation ];
+			/* Set current variation status */		
+			$variations[ $current_variation ]['status'] = apply_filters( 'wp_cta_save_variation_status' ,  $_POST['wp-cta-variation-status'][ $current_variation ] );
 			
 			/* Update variation meta object */
 			self::update_variations( $cta_id , $variations );
