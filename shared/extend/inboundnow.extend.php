@@ -16,10 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if ( ! defined( 'INBOUNDNOW_STORE_URL' ) )
 	define('INBOUNDNOW_STORE_URL','http://www.inboundnow.com/');
 	
-if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) ) 
+if ( ! class_exists( 'Inbound_License' ) ) 
 {
 
-	class INBOUNDNOW_EXTEND {
+	class Inbound_License {
 
 		private $plugin_basename;
 		private $plugin_slug;
@@ -346,3 +346,10 @@ if ( ! class_exists( 'INBOUNDNOW_EXTEND' ) )
 
 	}
 }	// end class_exists check
+
+/* Legacy Class Name */
+if ( !class_exists('INBOUNDNOW_EXTEND') ) {
+	
+	class INBOUNDNOW_EXTEND extends Inbound_Extend {};
+	
+}
