@@ -164,7 +164,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* Determine where we should place the call to action selected to appear on this page */
 			self::$instance->cta_content_placement = get_post_meta( self::$instance->obj_id , 'cta_content_placement',	true);
-
+			
 			self::$instance->cta_content_placement = apply_filters('wp_cta_content_placement' , self::$instance->cta_content_placement );
 
 			if ( self::$instance->cta_content_placement == 'off' ) {
@@ -420,18 +420,16 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 		}
 
+		/* Replaced tokens in call to action template with values */
 		public function replace_template_variables( $selected_cta , $template , $vid ) {
+			
+			/* Ger template slug */
 			$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
-			/* Preg match parsing - Keep here */
-				preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
-				//preg_match_all('/{{+(.*?)}}/', $template, $tokens); // check for normal tags
-				//print_r($tokens[0]);
-			/* end preg match for advanced template functions */
+			/* Get all tokens */
+			preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
 
-
-
-
+			/* Get width and height */
 			(isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
 			(isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
 
@@ -447,10 +445,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$template = str_replace( '{{cta-height}}' , $height , $template );
 			$template = str_replace( '{{width}}' , $w , $template );
 			$template = str_replace( '{{height}}' , $h , $template );
-
+			
 			/* Add special loop here with filter for custom tokens */
-
-			//print_r($selected_cta['meta'][$vid]); exit;
 			$false_match = array();
 			$count_of_loop = count($selected_cta['meta'][$vid]);
 			$token_array = array();
@@ -703,8 +699,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 			}
 
-
-			//$template = preg_replace($strip_content_pattern, '', $template);
+			/* Add target tags to links */
+			if (get_post_meta( $selected_cta['id'] , 'wp-cta-link-open-option-' . $vid , true ) == 'new_tab' ) {				
+				$template = str_replace('<a ', '<a target="_blank" ' , $template);
+			}
 
 			return $template;
 		}
