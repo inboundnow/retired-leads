@@ -3,8 +3,6 @@
 // replacing wp_cta_render_metabox
 function inbound_template_metabox_render( $plugin , $key , $custom_fields , $post)
 {
-	global $CTA_Variation;
-	
 	switch ($plugin) {
 		case "cta" :
 			$prefix = 'wp_cta';
@@ -22,7 +20,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 	echo '<div class="form-table" id="inbound-meta">';
 
 	//print_r($custom_fields);exit;
-	$current_var = $CTA_Variations->get_current_variation_id();
+	$current_var = wp_cta_ab_testing_get_current_variation_id();
 	
 	foreach ($custom_fields as $field) 
 	{
@@ -41,11 +39,11 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 			$meta = $field['default'];
 		}
 
-		// Remove prefixes on global => true template options
-		if (isset($field['global']) && $field['global'] === true) {
+        // Remove prefixes on global => true template options
+        if (isset($field['global']) && $field['global'] === true) {
 			$field_id = $field['id'];
 			$meta = get_post_meta($post->ID, $field['id'] , true);
-		}
+        }
 
 		// begin a table row with
 		echo '<div class="'.$field['id'].$type_class_row.' div-'.$option_class.' wp-call-to-action-option-row inbound-meta-box-row">';
@@ -109,7 +107,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 					case 'media':
 						//echo 1; exit;
 						echo '<label for="upload_image" data-field-type="text">';
-						echo '<input name="'.$field_id.'"	id="'.$field_id.'" type="text" size="36" name="upload_image" value="'.$meta.'" />';
+						echo '<input name="'.$field_id.'"  id="'.$field_id.'" type="text" size="36" name="upload_image" value="'.$meta.'" />';
 						echo '<input class="upload_image_button" id="uploader_'.$field_id.'" type="button" value="Upload Image" />';
 						echo '<p class="description">'.$field['description'].'</p>';
 						break;

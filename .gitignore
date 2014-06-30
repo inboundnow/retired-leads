@@ -25,3 +25,6 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
+shared/.SyncIgnore
+shared/languages/landing-pages/_get-translations.bat
+shared/languages/leads/_get-translations.bat
