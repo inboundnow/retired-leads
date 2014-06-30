@@ -22,9 +22,9 @@ if (!defined('INBOUND_FORMS_ADMIN'))
 
 /*	InboundNow Shortcodes Class
  *	--------------------------------------------------------- */
-if (!class_exists('InboundShortcodes')) {
+if (!class_exists('Inbound_Shortcodes')) {
 
-class InboundShortcodes {
+class Inbound_Shortcodes {
 	static $add_script;
 
 	/*	Contruct
@@ -149,13 +149,13 @@ class InboundShortcodes {
 	static function add_rich_plugins( $plugins ) {
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugins['InboundShortcodes'] = INBOUDNOW_SHARED_PATH . 'shortcodes/js/tinymce.js';
+		$plugins['Inbound_Shortcodes'] = INBOUDNOW_SHARED_PATH . 'shortcodes/js/tinymce.js';
 		return $plugins;
 
 	}
 
 	static function register_rich_buttons( $buttons ) {
-		array_push( $buttons, "|", 'InboundShortcodesButton' );
+		array_push( $buttons, "|", 'Inbound_ShortcodesButton' );
 		return $buttons;
 	}
 
@@ -250,7 +250,7 @@ class InboundShortcodes {
 			</a>
 			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUND_SHARED_ASSETS.'global/images/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
 			</div>';
-			echo "<style type='text/css'>.mce_InboundShortcodesButton { background-color: yellow; }</style>";
+			echo "<style type='text/css'>.mce_Inbound_ShortcodesButton { background-color: yellow; }</style>";
 
 		}
 	}
@@ -629,7 +629,7 @@ class InboundShortcodes {
 		$form_serialize = get_post_meta($post->ID, 'inbound_form_values', true);
 		$field_count = get_post_meta($post->ID, 'inbound_form_field_count', true);
 		$short_shortcode = "";
-		$shortcode = new InboundShortcodesFields( 'forms' );
+		$shortcode = new Inbound_ShortcodesFields( 'forms' );
 
 		if ( empty ( $post ) || 'inbound-forms' !== get_post_type( $GLOBALS['post'] ) ) {
 				return;
@@ -831,6 +831,6 @@ class InboundShortcodes {
 }
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
-InboundShortcodes::init();
+Inbound_Shortcodes::init();
 
 ?>
