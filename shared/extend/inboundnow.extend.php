@@ -350,6 +350,6 @@ if ( ! class_exists( 'Inbound_License' ) )
 /* Legacy Class Name */
 if ( !class_exists('INBOUNDNOW_EXTEND') ) {
 	
-	class INBOUNDNOW_EXTEND extends Inbound_Extend {};
+	class INBOUNDNOW_EXTEND extends Inbound_License {};
 	
 }

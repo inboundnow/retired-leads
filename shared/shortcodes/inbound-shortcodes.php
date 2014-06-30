@@ -22,9 +22,9 @@ if (!defined('INBOUND_FORMS_ADMIN'))
 
 /*	InboundNow Shortcodes Class
  *	--------------------------------------------------------- */
-if (!class_exists('InboundShortcodes')) {
+if (!class_exists('Inbound_Shortcodes')) {
 
-class InboundShortcodes {
+class Inbound_Shortcodes {
 	static $add_script;
 
 	/*	Contruct
@@ -170,7 +170,7 @@ class InboundShortcodes {
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		$final_path = self::set_file_path();
-		$plugins['InboundShortcodes'] = $final_path.'shared/shortcodes/js/tinymce.js';
+		$plugins['Inbound_Shortcodes'] = $final_path.'shared/shortcodes/js/tinymce.js';
 		return $plugins;
 
 	}
@@ -650,7 +650,7 @@ class InboundShortcodes {
 		$form_serialize = get_post_meta($post->ID, 'inbound_form_values', true);
 		$field_count = get_post_meta($post->ID, 'inbound_form_field_count', true);
 		$short_shortcode = "";
-		$shortcode = new InboundShortcodesFields( 'forms' );
+		$shortcode = new Inbound_Shortcodes_Fields( 'forms' );
 
 		if ( empty ( $post ) || 'inbound-forms' !== get_post_type( $GLOBALS['post'] ) ) {
 				return;
@@ -852,6 +852,6 @@ class InboundShortcodes {
 }
 /*	Initialize InboundNow Shortcodes
  *	--------------------------------------------------------- */
-InboundShortcodes::init();
+Inbound_Shortcodes::init();
 
 ?>

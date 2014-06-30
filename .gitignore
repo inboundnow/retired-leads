@@ -6,3 +6,4 @@
 
 .SyncIgnore
 *.bat
+shared/languages/calls-to-action/.tx/config
