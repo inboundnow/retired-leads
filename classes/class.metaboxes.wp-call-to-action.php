@@ -238,8 +238,9 @@ class CTA_Metaboxes {
 		
 		global $post, $CTA_Variations;
 	
-		$variations = $CTA_Variations->get_variations($post->ID);
-
+		$variations = $CTA_Variations->get_variations($post->ID);		
+		$next_available_variation_id = $CTA_Variations->get_next_available_variation_id( $post->ID );
+		
 		echo '<div id="bab-stat-box">';
 
 		foreach ($variations as $vid=>$variation)
@@ -299,8 +300,8 @@ class CTA_Metaboxes {
 							<span class='bab-stat-control-pause'><a title="Pause this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=pause-variation'><?php _e('Pause' , 'cta' ); ?></a></span> <span class='bab-stat-seperator pause-sep'>|</span>
 							<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play' , 'cta' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
 							<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+							<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 							<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&wp_cta_iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-							<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&new_meta_key=<?php echo $howmany; ?>'><?php _e('Clone' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 							<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete' , 'cta' ); ?></a></span>
 						</div>
 					</div>
@@ -349,12 +350,13 @@ class CTA_Metaboxes {
 			$type_class_row = " inbound-" . $field['type'] . "-row";
 			$type_class_option = " inbound-" . $field['type'] . "-option";
 			$option_class = (isset($field['class'])) ? $field['class'] : ''; 
-
-			$meta = get_post_meta($post->ID, $field_id, true);
-
-			//print_r($field);
-			if (!metadata_exists('post',$post->ID,$field_id))
-			{
+			
+			/* if setting does has a stored value then use default value */
+			if ( metadata_exists( 'post', $post->ID , $field_id ) ) {
+				$meta = get_post_meta($post->ID, $field_id, true);				
+			} 
+			/* else set value to stored value */
+			else {
 				$meta = $field['default'];
 			}
 
@@ -362,6 +364,16 @@ class CTA_Metaboxes {
 			if (isset($field['global']) && $field['global'] === true) {
 				$field_id = apply_filters('wp_cta_prepare_input_id', $field['id'] );						
 				$meta = get_post_meta($post->ID, $field_id , true);
+			}
+			
+			/* Set setting value to cloned value if clone command is enabled */
+			if ( isset($_GET['clone']) ) {
+
+				if (isset($field['global']) && $field['global'] === true) {
+					$meta = get_post_meta($post->ID,  $field['id'] . '-'. $_GET['clone'] , true);
+				} else {
+					$meta = get_post_meta($post->ID,  $settings_key . '-' . $field['id'] . '-'. $_GET['clone'] , true);
+				}
 			}
 
 			// begin a table row with
@@ -619,7 +631,7 @@ class CTA_Metaboxes {
 		$next_available_variation_id = $CTA_Variations->get_next_available_variation_id( $post->ID );
 		$current_variation_id = $CTA_Variations->get_current_variation_id();
 		
-		if (isset($_GET['new-variation'])) {
+		if ( isset($_GET['new-variation']) || isset($_GET['clone']) ) {
 			$current_variation_id = $next_available_variation_id;
 		}
 		

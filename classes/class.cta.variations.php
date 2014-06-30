@@ -66,6 +66,11 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			/* Listen for play variation command */
 			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='play-variation' ) {	
 				self::play_variation( $_GET['post']	,$_GET['vid'] );
+			}		
+			
+			/* Listen for clone  variation command */
+			if ( isset($_GET['ab-action']) && $_GET['ab-action']=='play-variation' ) {	
+				self::play_variation( $_GET['post']	,$_GET['vid'] );
 			}
 			
 			/* Listen for new variation / clone variation command & localize the correct data */
@@ -384,11 +389,6 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		public static function get_current_variation_id() {
 			global $post;
 			
-			
-			if (isset($_GET['new_meta_key'])){
-				return $_GET['new_meta_key'];
-			}
-
 			if (isset($_REQUEST['wp-cta-variation-id'])){
 				return $_REQUEST['wp-cta-variation-id'];
 			}
