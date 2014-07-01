@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 Inbound Scripts and CSS Enqueue
 */
 

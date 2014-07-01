@@ -472,7 +472,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				$thispattern = '/{{'.$key.'\|+(.*?)}}/';
 				preg_match_all($thispattern, $template, $token_matchs);
-				/*
+				/**
 				echo "<pre>";
 				if (!empty($token_matchs[0])){
 					print_r($token_matchs[0]);
@@ -707,7 +707,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return $template;
 		}
 
-		/*
+		/**
 		* Prints / Returns Custom JS & CSS Related to Call to Action
 		*/
 		public static function load_custom_js_css( $selected_cta = null , $return = false ) {
@@ -754,7 +754,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				// http://regexr.com/?36e6v
 				// http://regex101.com/r/rF9iR9
 				/* IN PROGRESS */
-				/*
+				/**
 				$css = explode("}", $dynamic_css);
 				$pattern = "/.-?[_a-zA-Z]+[_a-zA-Z0-9-]*(?=[^}]*\{)/"; // close. matches all ids and classes but separates
 				//$pattern = "/(?![^{]*})(#\S+)\b/";
@@ -1053,7 +1053,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return	$script . $custom_css_js . do_shortcode($cta_template);
 		}
 
-		/*
+		/**
 		* Returns or Echos Script That Reveals Call to Action Variation
 		* @param cta_id INT
 		* @param variation_id INT

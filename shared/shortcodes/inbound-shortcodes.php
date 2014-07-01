@@ -235,7 +235,7 @@ class Inbound_Shortcodes {
 
 		return $button;
 	}
- /*
+ /**
 	static function inbound_shortcode_prompt($hook) {
 
 		global $pagenow, $current_user, $post;
@@ -558,7 +558,7 @@ class Inbound_Shortcodes {
 					}
 
 					$li_count++;
-					/*
+					/**
 						$new_value = $value;
 						$new_value = preg_replace('/ class=(["\'])(.*?)(["\'])/','class="$2 lp-track-link"', $new_value);
 						$content = str_replace($value, $new_value, $content);

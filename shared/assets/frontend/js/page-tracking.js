@@ -517,7 +517,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
  * The below functions illustrate how to use custom javascript callbacks to fire events
  * based on lead data and what they have and have not done on the site.
  */
-/*
+/**
 
 // Raw Javascript Version - trigger custom function on page view trigger
 

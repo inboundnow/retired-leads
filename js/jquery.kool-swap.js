@@ -1,4 +1,4 @@
-/*
+/**
 Kool Swap v0.2.2
 by Joscha Schmidt - http://www.itsjoe.de
 

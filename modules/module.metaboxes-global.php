@@ -367,7 +367,7 @@ function wp_cta_display_meta_save($post_id)
 		$old = get_post_meta($post_id, $field['id'], true);
 		(isset($_POST[$field['id']])) ? $new = $_POST[$field['id']] : $new = null;
 		
-		/*
+		/**
 		echo $field['id'].' old:'.$old.'<br>';
 		echo $field['id'].' new:'.$new.'<br>';
 		*/

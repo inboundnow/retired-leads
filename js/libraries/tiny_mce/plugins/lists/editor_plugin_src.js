@@ -241,7 +241,7 @@
 				return false;
 			}
 
-			/*
+			/**
 			 	If we are at the end of a list item surrounded with an element, pressing enter should create a
 			 	new list item instead without splitting the element e.g. don't want to create new P or H1 tag
 			  */

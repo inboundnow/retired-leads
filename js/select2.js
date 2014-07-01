@@ -1,4 +1,4 @@
-﻿/*
+﻿/**
 Copyright 2012 Igor Vaynberg
 
 Version: 3.4.1 Timestamp: Thu Jun 27 18:02:10 PDT 2013
@@ -21,7 +21,7 @@ the specific language governing permissions and limitations under the Apache Lic
 (function ($) {
     if(typeof $.fn.each2 == "undefined") {
         $.fn.extend({
-            /*
+            /**
             * 4-10 times faster .each replacement
             * use it carefully, as it overrides jQuery context of element on each iteration
             */

@@ -168,7 +168,7 @@ jQuery(document).ready(function($) {
 		jQuery('html, body').stop().animate({
 			scrollTop: jQuery(anchorid).offset().top - 100
 		}, 500,'easeInOutExpo');
-		/*
+		/**
 		if you don't want to use the easing effects:
 		$('html, body').stop().animate({
 			scrollTop: $($anchor.attr('href')).offset().top
@@ -355,7 +355,7 @@ jQuery(document).ready(function($) {
 	//jQuery(parent.document).find('#wp_cta_customizer_options').contents().find('#wp_content_ifr').contents().find("body").html();
 
 	// Need to resize or insert custom css into media-uploader iframe
-	/*
+	/**
 		tb_position_two = function() {
             var tbWindow = $('#TB_window');
             console.log(tbWindow);

@@ -1,4 +1,4 @@
-/*
+/**
 Version: 3.4.1 Timestamp: Thu Jun 27 18:02:10 PDT 2013
 */
 .select2-container {
@@ -15,7 +15,7 @@ Version: 3.4.1 Timestamp: Thu Jun 27 18:02:10 PDT 2013
 .select2-drop,
 .select2-search,
 .select2-search input{
-  /*
+  /**
     Force border-box so that % widths fit the parent
     container without overlap because of margin/padding.
 
@@ -427,7 +427,7 @@ Version: 3.4.1 Timestamp: Thu Jun 27 18:02:10 PDT 2013
     display: list-item;
 }
 
-/*
+/**
 disabled look for disabled choices in the results dropdown
 */
 .select2-results .select2-disabled.select2-highlighted {

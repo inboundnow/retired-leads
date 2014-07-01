@@ -674,7 +674,7 @@
 					return false;
 				}
 			});
-/*
+/**
 			if (DOM.get(ed.id + '_path_row')) {
 				Event.add(ed.id + '_tbl', 'mouseover', function(e) {
 					var re;

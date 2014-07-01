@@ -142,7 +142,7 @@ class CTA_Metaboxes {
 	}
 	
 	
-	/*
+	/**
 	* Show Template Settings Metabox 
 	*/
 	public static function show_template_settings(	$post , $metabox_args ) {	
@@ -177,7 +177,7 @@ class CTA_Metaboxes {
 
 	}
 	
-	/*
+	/**
 	* Show Extension Metabox - loads & displays metaboxes built from extension settings 
 	*/
 	public static function show_extension_metabox( $post,$key ) {
@@ -193,7 +193,7 @@ class CTA_Metaboxes {
 		self::render_settings('cta' , $key, $wp_cta_custom_fields, $post);
 	}
 	
-	/*
+	/**
 	* Show Custom JS Metabox 
 	*
 	*/
@@ -505,7 +505,7 @@ class CTA_Metaboxes {
 	}
 	
 	
-	/*
+	/**
 	* Loads and hide the template selection grid
 	*
 	*/
@@ -599,7 +599,7 @@ class CTA_Metaboxes {
 		echo "</div>";
 	}
 	
-	/*
+	/**
 	*	Listenens for template id and returns template settings
 	*
 	*
@@ -617,7 +617,7 @@ class CTA_Metaboxes {
 	}
 	
 	
-	/*
+	/**
 	* Adds variation navigation tabs to call to action edit screen
 	*
 	*/	
@@ -719,7 +719,7 @@ class CTA_Metaboxes {
 		/* Add call to action permalink */
 	}
 	
-	/*
+	/**
 	* Changes the default placeholder text of wp_title when cta is being created. With CTAs, wp_title is a descriptive title.
 	*
 	*/
@@ -730,7 +730,7 @@ class CTA_Metaboxes {
 		return __( 'Enter Call to Action Description' , 'cta' );
 	}
 	
-	/*
+	/**
 	* Adds variation notes below title
 	*/
 	public static function add_variation_notes() {
@@ -749,7 +749,7 @@ class CTA_Metaboxes {
 
 	}
 	
-	/*
+	/**
 	* Enqueues js 
 	*/
 	public static function enqueue_admin_scripts() {
@@ -762,7 +762,7 @@ class CTA_Metaboxes {
 		wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'css/admin-ab-testing.css');
 	}
 	
-	/*
+	/**
 	* Prints js at admin footer
 	*/
 	public static function print_admin_scripts() {

@@ -74,7 +74,7 @@ class Document extends CSSBlockList {
         }
     }
 
-    /*
+    /**
      * Create shorthands properties whenever possible
      */
 

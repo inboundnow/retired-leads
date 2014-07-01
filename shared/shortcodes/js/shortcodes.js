@@ -843,7 +843,7 @@
 
 						return false;
 					}
-	/*
+	/**
 					if ( shortcode_name === "insert_inbound_form_shortcode" && form_name == "") {
 						var email_field = 'x';
 						var test = get_email();

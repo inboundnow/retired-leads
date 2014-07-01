@@ -9,7 +9,7 @@
 		'no_preview' => false,
 
 		'options' => array(
-			/*
+			/**
 			'style' => array(
 				'name' => __('Button Style', 'leads'),
 				'desc' => __('Select the button style.', 'leads'),
@@ -39,7 +39,7 @@
 							'type' => 'text',
 							'std' => '20'
 			),
-			/*
+			/**
 			'color' => array(
 				'name' => __('Button Color', 'leads'),
 				'desc' => __('Select the button color.', 'leads'),

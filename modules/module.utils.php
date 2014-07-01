@@ -341,7 +341,7 @@ function wp_cta_remove_all_styles()
 */
 
 
-/*
+/**
 	class css2string {
 	    var $css;
 
@@ -399,7 +399,7 @@ function wp_cta_remove_all_styles()
 	echo $getStyle->getSelector("div.item"); */
 
 // Remove all body_classes from custom landing page templates - disabled but you can use the function above to model native v non-native template conditionals.
-/*
+/**
 add_action('wp','wpcta_remove_plugin_filters');
 
 function wpcta_remove_plugin_filters() {

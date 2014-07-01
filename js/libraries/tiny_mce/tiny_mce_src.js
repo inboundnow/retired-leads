@@ -562,7 +562,7 @@
 	// Add a "#ifndefjquery" statement around each core API function you add below
 	var patches = {
 		'tinymce.dom.DOMUtils' : {
-			/*
+			/**
 			addClass : function(e, c) {
 				if (is(e, 'array') && is(e[0], 'string'))
 					e = e.join(',#');
@@ -601,7 +601,7 @@
 				return $(this.get(n)).is(patt);
 			}
 
-			/*
+			/**
 			show : function(e) {
 				if (is(e, 'array') && is(e[0], 'string'))
 					e = e.join(',#');
@@ -704,7 +704,7 @@
 			*/
 		}
 
-/*
+/**
 		'tinymce.dom.Event' : {
 			add : function (o, n, f, s) {
 				var lo, cb;
@@ -5513,7 +5513,7 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 
 				return clone;
 			}
-/*
+/**
 			// Setup HTML5 patched document fragment
 			if (!self.frag) {
 				self.frag = doc.createDocumentFragment();
@@ -6736,7 +6736,7 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 			return /^(top|left|bottom|right|width|height)/i.test(c) || /;\s*(top|left|bottom|right|width|height)/i.test(c);
 		}
 
-		/*
+		/**
 		walk : function(n, f, s) {
 			var d = this.doc, w;
 
@@ -6750,7 +6750,7 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 		}
 		*/
 
-		/*
+		/**
 		toRGB : function(s) {
 			var c = /^\s*?#([0-9A-F]{2})([0-9A-F]{1,2})([0-9A-F]{2})?\s*?$/.exec(s);
 

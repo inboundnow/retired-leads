@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
@@ -14,7 +14,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
 	
-		/*
+		/**
 		* Main Inbound_Calls_To_Action_Plugin Instance
 		*
 		*/

@@ -85,7 +85,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 
 		}
 		
-		/*
+		/**
 		* Deletes variation for	a call to action
 		*
 		* @param cta_id INT id of call to action
@@ -115,7 +115,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$_SESSION[ $cta_id . '-variation-id'] = $vid;
 		}
 		
-		/*
+		/**
 		* Pauses variation for a call to action
 		*
 		* @param cta_id INT id of call to action
@@ -131,7 +131,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			self::update_variations( $cta_id , $variations );
 		}
 		
-		/*
+		/**
 		* Activations variation for a call to action
 		*
 		* @param cta_id INT id of call to action
@@ -147,7 +147,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			self::update_variations( $cta_id , $variations );
 		}
 		
-		/*
+		/**
 		* Sets the variation status to a custom status
 		*
 		* @param cta_id INT id of call to action
@@ -199,7 +199,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 
 		
 
-		/*
+		/**
 		* Returns array of variation data given a call to action id
 		*
 		* @param cta_id INT id of call to action
@@ -225,7 +225,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		}
 				
 
-		/*
+		/**
 		* Returns the status of a variation given cta_id and vid
 		*
 		* @param cta_id INT id of call to action
@@ -245,7 +245,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $status;
 		}
 		
-		/*
+		/**
 		* Returns the permalink of a variation given cta_id and vid
 		*
 		* @param cta_id INT id of call to action
@@ -264,7 +264,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return add_query_arg( array('wp-cta-variation-id'=> $vid ) , $permalink ) ;
 		}
 		
-		/*
+		/**
 		* Updates 'wp-cta-variations' meta key with json object
 		*
 		* @param cta_id INT id of call to action
@@ -278,7 +278,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		}
 		
 		
-		/*
+		/**
 		* Returns array of variation specific meta data 
 		*
 		* @param cta_id INT ID of call to action
@@ -305,7 +305,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $meta;
 		}
 		
-		/*
+		/**
 		* Gets the call to action variation notes
 		*
 		* @param cta_id INT id of call to action
@@ -325,7 +325,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			
 		}
 		
-		/*
+		/**
 		* Gets the call to action variation custom css
 		*
 		* @param cta_id INT id of call to action
@@ -345,7 +345,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			
 		}	
 		
-		/*
+		/**
 		* Gets the call to action variation custom js
 		*
 		* @param cta_id INT id of call to action
@@ -442,7 +442,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			}
 		}
 		
-		/*
+		/**
 		* Get Screenshot URL for Call to Action preview. If local environment show template thumbnail.
 		*
 		* @param cta_id INT id if of call to action
@@ -474,7 +474,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $screenshot;
 		}
 		
-		/*
+		/**
 		* Appends current variation id onto a URL
 		*
 		* @param link STRING URL that param will be appended onto
@@ -497,7 +497,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $link;
 		}
 		
-		/*
+		/**
 		* Discovers which alphabetic letter should be associated with a given cta's variation id.
 		*
 		* @param cta_id INT id of call to action
@@ -550,7 +550,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			}
 		}
 
-		/*
+		/**
 		* Returns impression for given cta and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -569,7 +569,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $impressions;
 		}
 
-		/*
+		/**
 		* Increments impression count for given cta and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -589,7 +589,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			update_post_meta( $cta_id , 'wp-cta-ab-variation-impressions-'.$vid , $impressions);
 		}
 		
-		/*
+		/**
 		* Manually sets conversion count for given cta id and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -601,7 +601,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			update_post_meta( $cta_id , 'wp-cta-ab-variation-impressions-'.$vid , $count);
 		}
 		
-		/*
+		/**
 		* Returns impression for given cta and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -620,7 +620,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $conversions;
 		}
 
-		/*
+		/**
 		* Returns conversion rate for given cta and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -645,7 +645,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			return $conversion_rate;
 		}
 
-		/*
+		/**
 		* Increments conversion count for given cta id and variation id
 		*
 		* @param cta_id INT id of call to action
@@ -665,7 +665,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			update_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid , $conversions);
 		}
 		
-		/*
+		/**
 		* Manually sets conversion count for given cta id and variation id
 		*
 		* @param cta_id INT id of call to action

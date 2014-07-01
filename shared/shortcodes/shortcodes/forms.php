@@ -365,7 +365,7 @@ if (!function_exists('inbound_forms_cpt')) {
 	    register_post_type( 'inbound-forms' , $args );
 		//flush_rewrite_rules( false );
 
-		/*
+		/**
 		add_action('admin_menu', 'remove_list_cat_menu');
 		function remove_list_cat_menu() {
 			global $submenu;

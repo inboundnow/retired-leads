@@ -248,7 +248,7 @@ class DeclarationBlock extends RuleSet {
 		$this->removeRule('font');
 	}
 
-	/*
+	/**
 	 * Convert shorthand background declarations
 	 * (e.g. <tt>background: url("chess.png") gray 50% repeat fixed;</tt>)
 	 * into their constituent parts.
@@ -429,7 +429,7 @@ class DeclarationBlock extends RuleSet {
 		$this->createShorthandProperties($aProperties, 'border');
 	}
 
-	/*
+	/**
 	 * Looks for long format CSS dimensional properties
 	 * (margin, padding, border-color, border-style and border-width) 
 	 * and converts them into shorthand CSS properties.
