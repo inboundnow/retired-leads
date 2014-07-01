@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	$(".inbound-multi-select").select2({
+	jQuery(".inbound-multi-select").select2({
 		placeholder: "Select one or more calls to action to rotate through",
 		allowClear: true,
 	});
