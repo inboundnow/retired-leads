@@ -49,7 +49,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
-					include_once('classes/class.load-shared.php');
 					include_once('classes/class.activation.php');
 					include_once('classes/class.activation.upgrade-routines.php');
 					include_once('classes/class.post-type.wp-call-to-action.php');
@@ -79,7 +78,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 				case false :
 					/* load front-end files */
-					include_once('classes/class.load-shared.php');
 					include_once('modules/module.load-extensions.php');
 					include_once('classes/class.post-type.wp-call-to-action.php');
 					include_once('classes/class.extension.wp-lead.php');
@@ -101,7 +99,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		
 		/* Load Shared Files at priority 3 */
 		private static function load_shared_files() {
-			require_once('classes/class.load-shared.php'); 
+			require_once('shared/classes/class.load-shared.php'); 
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 		}
 	
