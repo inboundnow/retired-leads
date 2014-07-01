@@ -12,22 +12,52 @@ if ( !class_exists('Inbound_Akismet') ) {
 		private function load_hooks() {
 			/* Load hooks if akismet filtering is enabled */
 			if (get_option('inbound_forms_enable_akismet' , '1' )) {
-				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) );
+				
+				/* spam checks have to run in two different locations */
+				//add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) ); /* On store lead ajax */
+				add_filter( 'lead_processing_spam_check' , array( __CLASS__ , 'check_is_spam' ) ); /* On form email actions */
 			}
 		}
 		
+		/* Checks if post content contains spam material
+		*
+		* @param lead_data ARRAY 
+		*
+		* @return BOOL true for spam and false for spam 
+		*
+		*/
 		public static function check_is_spam( $lead_data ) {
 			$api_key = Inbound_Akismet::get_api_key();
 
+
+			/* return true if akismet is not setup */
 			if (!$api_key) {
-				return;
+				return true;
 			}
 
 			$params = Inbound_Akismet::prepare_params( $lead_data );
-			Inbound_Akismet::api_check( $params );
-				
+			$is_spam = Inbound_Akismet::api_check( $params );
+			
+			/* if not spam return false */
+			if (!$is_spam) {
+				return false;
+			}
+			
+			/* Discover which filter is calling the spam check and react to spam accordingly */
+			switch (current_filter()) {
+				/* Kill ajax script if inbound_store_lead_pre hook */
+				case 'inbound_store_lead_pre':
+					exit;
+					break;
+				/* Return false to prevent email actions if lead_processing_spam_check hook */
+				case 'lead_processing_spam_check':
+					return true;
+					break;
+			}
+			
 		}
 		
+		/* This function polls Akismet to see if submitted content contains spam */
 		public static function api_check( $params ) {
 			global $akismet_api_host, $akismet_api_port;
 
@@ -50,14 +80,12 @@ if ( !class_exists('Inbound_Akismet') ) {
 					'/1.1/comment-check', $akismet_api_port );
 			}
 
+			/* returns true if spam else return false */
 			if ( 'true' == $response[1] ) {
-				error_log( 'spam' );
-				/* is spam bot kill store command */
-				exit;
+				return true;
 			} 
 			
-			error_log('not spam');
-				
+			return false;				
 		}
 		
 		/* Get Akismet API key */
@@ -81,11 +109,12 @@ if ( !class_exists('Inbound_Akismet') ) {
 			$last_name = (isset($lead_data['wpleads_last_name'])) ? $lead_data['wpleads_last_name'] : '';
 			$email_address = (isset($lead_data['wpleads_email_address'])) ? $lead_data['wpleads_email_address'] : '';
 
-			$content = Inbound_Akismet::detect_content( $lead_data['form_input_values'] );
+			$content = Inbound_Akismet::detect_content( $lead_data );
 	
 		
 			$params = array(
 				'comment_author' => $first_name . ' ' . $last_name,
+				//'comment_author' => 'spamcheck-test-123',
 				'comment_author_email' => $email_address,
 				'comment_content' => $content
 			);
@@ -102,21 +131,39 @@ if ( !class_exists('Inbound_Akismet') ) {
 			return $params;
 		}
 		
-		public static function detect_content( $form_submit_values ) {
-			$form_submit_values = json_decode( stripslashes($form_submit_values) , true );
-
-			/* If notes is mapped to the form then use the 'wpleads_notes' map key */
-			if (isset($form_submit_values['wpleads_notes'])) {
-				return $form_submit_values['wpleads_notes'];
+		public static function detect_content( $lead_data ) {
+		
+			/* Look for the form_input_values key in lead data array first */
+			if (isset($lead_data['form_input_values'])) {
+				$form_submit_values = json_decode( stripslashes($lead_data) , true );
+				
+				/* If notes is mapped to the form then use the 'wpleads_notes' map key */
+				if (isset($form_submit_values['wpleads_notes'])) {
+					return $form_submit_values['wpleads_notes'];
+				}
+				
+				/* detect multi-line content in form submission */
+				foreach ( $form_submit_values as $key => $value ) {
+					if ( substr_count( $value, "\n" ) > 1 ) {
+						return $value;
+					}
+				}
+			}
+			
+			
+			/* Next look to see if our data is available in the main array */
+			if (isset($lead_data['wpleads_notes'])) {
+				return $lead_data['wpleads_notes'];
 			}
 			
 			/* detect multi-line content in form submission */
-			foreach ( $form_submit_values as $key => $value ) {
+			foreach ( $lead_data as $key => $value ) {
 				if ( substr_count( $value, "\n" ) > 1 ) {
-					error_log( $key );
 					return $value;
 				}
 			}
+			
+			
 			
 			return ''; 
 		}
@@ -124,7 +171,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 	}
 
 	/* Load Email Templates Post Type Pre Init */
-	add_action('init' , function() {
+	add_action('plugins_loaded' , function() {
 		$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
 	} );
 }

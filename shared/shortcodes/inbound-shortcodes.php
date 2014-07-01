@@ -628,7 +628,7 @@ class Inbound_Shortcodes {
 		$form_serialize = get_post_meta($post->ID, 'inbound_form_values', true);
 		$field_count = get_post_meta($post->ID, 'inbound_form_field_count', true);
 		$short_shortcode = "";
-		$shortcode = new Inbound_ShortcodesFields( 'forms' );
+		$shortcode = new Inbound_Shortcodes_Fields( 'forms' );
 
 		if ( empty ( $post ) || 'inbound-forms' !== get_post_type( $GLOBALS['post'] ) ) {
 				return;

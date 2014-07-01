@@ -816,28 +816,34 @@ class Inbound_Forms {
 
 				$field = strtolower($field);
 
-				if (preg_match( '/Email|e-mail|email/i', $value)) {
-					$field = "email";
+				if (preg_match( '/Email|e-mail|email/i', $field)) {
+					$field = "wpleads_email_address";
 				}
 
-				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $value) && !isset($form_data['first-name'])) {
-					$field = "first-name";
+				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_data['first-name'])) {
+					$field = "wpleads_first_name";
 				}
 
-				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $value) && !isset($form_data['last-name'])) {
-					$field = "last-name";
+				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $field) && !isset($form_data['last-name'])) {
+					$field = "wpleads_last_name";
 				}
 
-				if (preg_match( '/Phone|phone number|telephone/i', $value)) {
-					$field = "phone";
+				if (preg_match( '/Phone|phone number|telephone/i', $field)) {
+					$field = "wpleads_work_phone";
 				}
 
 				$form_post_data[$field] = strip_tags( $value );
 			}
-
+			
+			
+			
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
-			self::send_conversion_admin_notification($form_post_data , $form_meta_data);
-			self::send_conversion_lead_notification($form_post_data , $form_meta_data);
+			
+			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
+			if (!apply_filters( 'lead_processing_spam_check' , $form_post_data ) ) {
+				self::send_conversion_admin_notification($form_post_data , $form_meta_data);
+				self::send_conversion_lead_notification($form_post_data , $form_meta_data);
+			}
 
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
 
