@@ -59,7 +59,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('modules/module.tracking.php');
 				require_once('modules/module.enqueue-admin.php');
 				require_once('modules/module.form-integrations.php');
-
 				require_once('classes/class.post-type.email-template.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
@@ -85,7 +84,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		
 		/* Load Shared Files */
 		private static function load_shared_files() {
-			require_once('classes/class.load-shared.php'); 
+			require_once('shared/classes/class.load-shared.php'); 
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 	}

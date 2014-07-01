@@ -19,6 +19,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		public static function load_constants() {
 			define( 'INBOUDNOW_SHARED' , 'loaded' );
 			define( 'INBOUDNOW_SHARED_PATH' ,	self::get_shared_path() );
+			define( 'INBOUDNOW_SHARED_URLPATH' ,	self::get_shared_urlpath() );
 		}
 		
 		public static function load_files() {			
@@ -60,11 +61,22 @@ if (!class_exists('Inbound_Load_Shared')) {
 		/* Load Correct Shared Path */
 		public static function get_shared_path() {
 			if ( defined('WP_CTA_PATH') ) {
-				return WP_CTA_PATH . '/shared/';
+				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
 				return LANDINGPAGES_PATH . '/shared/';
 			} else if (	defined('WPL_PATH') ) {
 				return WPL_PATH . '/shared/';
+			}
+		}
+		
+		/* Load Correct Shared Path */
+		public static function get_shared_urlpath() {
+			if ( defined('WP_CTA_PATH') ) {
+				return WP_CTA_URLPATH . 'shared/';
+			} else if (	defined('LANDINGPAGES_PATH') ) {
+				return LANDINGPAGES_URLPATH . '/shared/';
+			} else if (	defined('WPL_PATH') ) {
+				return WPL_URLPATH . '/shared/';
 			}
 		}
 	}	

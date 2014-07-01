@@ -45,7 +45,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'publicly_queryable' => true,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUND_SHARED_ASSETS . '/global/images/leads.png',
+				'menu_icon' => INBOUDNOW_SHARED_PATH . 'assets/' . '/global/images/leads.png',
 				'capability_type' => 'post',
 				'hierarchical' => false,
 				'menu_position' => null,

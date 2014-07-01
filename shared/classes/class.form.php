@@ -3,8 +3,8 @@
  * Creates Inbound Form Shortcode
  */
 
-if (!class_exists('InboundForms')) {
-class InboundForms {
+if (!class_exists('Inbound_Forms')) {
+class Inbound_Forms {
 	static $add_script;
 	//=============================================
 	// Hooks and Filters
@@ -1297,5 +1297,5 @@ class InboundForms {
 	}
 }
 
-InboundForms::init();
+Inbound_Forms::init();
 ?>

@@ -1,8 +1,8 @@
 <?php
 /* Inbound Now Menu Class */
 
-if (!class_exists('InboundMenu')) {
-	class InboundMenu {
+if (!class_exists('Inbound_Menu')) {
+	class Inbound_Menu {
 
 		static $add_menu;
 		static $go_button;
@@ -594,5 +594,5 @@ if (!class_exists('InboundMenu')) {
 		}
 	}
 
-	$InboundMenu = new InboundMenu();
+	$Inbound_Menu = new Inbound_Menu();
 }
