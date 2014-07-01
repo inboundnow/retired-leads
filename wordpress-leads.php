@@ -48,7 +48,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('modules/module.activate.php');
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.nav-menus.php');
-				require_once('modules/module.wp_list_table-leads.php');
 				require_once('modules/module.metaboxes.wp-lead.php');
 				require_once('modules/module.post-type.wp-lead.php');
 				require_once('modules/module.post-type.landing-pages.php');
