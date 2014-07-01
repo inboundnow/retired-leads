@@ -3,13 +3,6 @@
 Inbound Scripts and CSS Enqueue
 */
 
-if (!defined('INBOUND_SHARED_ASSETS')) {
- 	define('INBOUND_SHARED_ASSETS', plugin_dir_url(__FILE__));
-}
-
-if (!defined('INBOUND_SHARED_ASSETS_PATH')) {
-	define('INBOUND_SHARED_ASSETS_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-}
 
 if (!class_exists('Inbound_Asset_Loader')) {
 class Inbound_Asset_Loader {
@@ -91,17 +84,17 @@ class Inbound_Asset_Loader {
 	static function load_file($name, $file_name, $deps = array(), $localize_var = null, $localize_array = array()) {
 		$is_script = false;
 		$deps = (empty($deps)) ? array() : $deps;
-    	$url = INBOUND_SHARED_ASSETS . $file_name;
-    	$file = INBOUND_SHARED_ASSETS_PATH . $file_name;
+    	$url = INBOUDNOW_SHARED_URLPATH . 'assets/' . $file_name;
+    	$file = INBOUDNOW_SHARED_PATH . 'assets/' . $file_name;
+		
     	$file_type = strpos($file_name, '.js');
     	if (!(false === $file_type)) { $is_script = true; }
 
 		if(file_exists($file)) {
 			if($is_script) {
-				// wp_register_script( $handle, $src, $deps, $ver, $in_footer );
-				// $deps = array(), $ver = false, $in_footer = false
 				wp_register_script($name, $url, $deps);
 				wp_enqueue_script($name);
+
 				if ($localize_var != null) {
 					wp_localize_script( $name , $localize_var, $localize_array );
 				}
