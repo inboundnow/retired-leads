@@ -64,7 +64,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			} else {
 				/* Frontend Includes */
-				//require_once INBOUND_NOW_PATH . 'includes/process-download.php';
 				/* load global */
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.post-type.wp-lead.php');
