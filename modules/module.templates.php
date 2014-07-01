@@ -22,7 +22,7 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 	}
 
-	class WP_CTA_MANAGE_TEMPLATES extends WP_List_Table {
+	class CTA_Manage_Uploaded_Templates extends WP_List_Table {
 		private $template_data;
 		private $singular;
 		private $plural;
@@ -239,7 +239,7 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 		</h2>
 		<?php
 
-		$myListTable = new WP_CTA_MANAGE_TEMPLATES();
+		$myListTable = new CTA_Manage_Uploaded_Templates();
 		$myListTable->prepare_items();
 		?>
 		<form method="post" >
