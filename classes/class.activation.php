@@ -86,7 +86,7 @@ class CTA_Activation {
 	}
 	
 	/* Aborts activation and details 
-	* @param args ARRAY of message details 
+	* @param ARRAY $args array of message details 
 	*/
 	public static function abort_activation( $args ) {
 		echo $args['title'] . '<br>';

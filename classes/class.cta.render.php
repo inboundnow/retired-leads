@@ -176,7 +176,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 		/* Generate a set of data related to CTA(s) 
-		 * @param cta_display_list ARRAY of cta id(s)
+		 * @param ARRAY $cta_display_list array of cta id(s)
 		*/
 		public static function prepare_cta_dataset( $cta_display_list , $variation_id = null) {
 			global $CTA_Variations;
@@ -1055,10 +1055,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 		/**
 		* Returns or Echos Script That Reveals Call to Action Variation
-		* @param cta_id INT
-		* @param variation_id INT
-		* @param return BOOL
-		* @return STRING
+		* @param INT $cta_id 
+		* @param INT $variation_id 
+		* @param BOOL $return If set to true will return instead of print
+		* @return STRING $script javascript code
 		*/
 		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
 		{

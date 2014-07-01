@@ -88,8 +88,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Deletes variation for	a call to action
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation to delete
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation to delete
 		*
 		*/
 		public static function delete_variation( $cta_id	,	$vid ) {
@@ -118,8 +118,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Pauses variation for a call to action
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation to delete
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation to delete
 		*
 		*/
 		public static function pause_variation( $cta_id	,	$vid ) {
@@ -134,8 +134,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Activations variation for a call to action
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation to play
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation to play
 		*
 		*/
 		public static function play_variation( $cta_id	,	$vid ) {
@@ -150,9 +150,9 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Sets the variation status to a custom status
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation to delete
-		* @param status STRING custom status 
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation to delete
+		* @param STRING $status custom status 
 		*
 		*/
 		public static function set_variation_status( $cta_id , $vid , $status = 'play' ) {
@@ -166,7 +166,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		
 		/* Updates variation object data on post save
 		*
-		* @param cta_id INT of call to action id
+		* @param INT $cta_id of call to action id
 		*
 		*/
 		public static function save_variation_object_data( $cta_id )
@@ -202,8 +202,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns array of variation data given a call to action id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of specific variation
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of specific variation
 		*
 		* @returns ARRAY of variation data
 		*/
@@ -228,8 +228,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns the status of a variation given cta_id and vid
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT variation id of call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid variation id of call to action
 		*
 		* @returns STRING status
 		*/
@@ -248,8 +248,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns the permalink of a variation given cta_id and vid
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT variation id of call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid variation id of call to action
 		*
 		* @returns STRING permalink
 		*/
@@ -267,7 +267,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Updates 'wp-cta-variations' meta key with json object
 		*
-		* @param cta_id INT id of call to action
+		* @param INT $cta_id id of call to action
 		* @param variations ARRAY of variation data
 		*
 		*/
@@ -281,10 +281,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns array of variation specific meta data 
 		*
-		* @param cta_id INT ID of call to action
-		* @param vid INT ID of variation belonging to call to action
+		* @param INT $cta_id ID of call to action
+		* @param INT $vid ID of variation belonging to call to action
 		*
-		* @return ARRAY of variation meta data
+		* @return ARRAY $meta array of variation meta data
 		*/
 		public static function get_variation_meta ( $cta_id , $vid ) {
 			$meta = array();
@@ -308,10 +308,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Gets the call to action variation notes
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT variation id of call to action variation, will attempt to autodetect if left as null
+		* @param INT $cta_id id of call to action
+		* @param INT $vid variation id of call to action variation, will attempt to autodetect if left as null
 		*
-		* @return variation notes.
+		* @return STRING $notes variation notes.
 		*/
 		public static function get_variation_notes ( $cta_id , $vid = null) {
 			
@@ -328,10 +328,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Gets the call to action variation custom css
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT variation id of call to action variation, will attempt to autodetect if left as null
+		* @param INT $cta_id id of call to action
+		* @param INT $vid variation id of call to action variation, will attempt to autodetect if left as null
 		*
-		* @return STRING custom_css.
+		* @return STRING $custom_css.
 		*/
 		public static function get_variation_custom_css ( $cta_id , $vid = null) {
 			
@@ -348,10 +348,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Gets the call to action variation custom js
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT variation id of call to action variation, will attempt to autodetect if left as null
+		* @param INT $cta_id id of call to action
+		* @param INT $vid variation id of call to action variation, will attempt to autodetect if left as null
 		*
-		* @return STRING custom_css.
+		* @return STRING $custom_js.
 		*/
 		public static function get_variation_custom_js ( $cta_id , $vid = null) {
 			
@@ -368,7 +368,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/* Adds variation id onto base meta key 
 		*
 		* @param id STRING of meta key to store data into for given setting
-		* @param vid INT id of variation belonging to call to action, will attempt to autodetect if left as null
+		* @param INT $vid id of variation belonging to call to action, will attempt to autodetect if left as null
 		*
 		* @returns STRING of meta key appended with variation id
 		*/
@@ -423,8 +423,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/* 
 		* Gets id of template given cta id 
 		*
-		* @param cta_id INT of call to action
-		* @param vid INT of variation id
+		* @param INT $cta_id of call to action
+		* @param INT $vid of variation id
 		*
 		* @returns STRING id of selected template
 		*/	
@@ -445,8 +445,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Get Screenshot URL for Call to Action preview. If local environment show template thumbnail.
 		*
-		* @param cta_id INT id if of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id if of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		* @return STRING url of preview
 		*/
@@ -500,8 +500,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Discovers which alphabetic letter should be associated with a given cta's variation id.
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		* @return STRING alphebit letter.
 		*/
@@ -553,8 +553,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns impression for given cta and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		* @return INT impression count
 		*/
@@ -572,8 +572,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Increments impression count for given cta and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
 		public static function record_impression( $cta_id , $vid ) {
@@ -592,8 +592,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Manually sets conversion count for given cta id and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
 		public static function set_impression_count( $cta_id , $vid , $count) {
@@ -604,8 +604,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns impression for given cta and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		* @return INT impression count
 		*/
@@ -623,8 +623,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Returns conversion rate for given cta and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		* @return INT conversion rate
 		*/
@@ -648,8 +648,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Increments conversion count for given cta id and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
 		public static function record_conversion(	$cta_id , $vid ) {
@@ -668,8 +668,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		/**
 		* Manually sets conversion count for given cta id and variation id
 		*
-		* @param cta_id INT id of call to action
-		* @param vid INT id of variation belonging to call to action
+		* @param INT $cta_id id of call to action
+		* @param INT $vid id of variation belonging to call to action
 		*
 		*/
 		public static function set_conversion_count(	$cta_id , $vid , $count) {

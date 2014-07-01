@@ -61,7 +61,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('modules/module.global-settings.php');
 					include_once('modules/module.clone.php');
 					include_once('modules/module.install.php');
-					include_once('modules/module.extension-updater.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('modules/module.metaboxes-ab-testing.php');
 					include_once('modules/module.widgets.php');

@@ -793,7 +793,7 @@ class CTA_Metaboxes {
 	
 	/* Updates call to action variation data on post save
 	*
-	* @param cta_id INT of call to action id
+	* @param INT $cta_id of call to action id
 	*
 	*/
 	public static function save_call_to_action_data( $cta_id ) {
