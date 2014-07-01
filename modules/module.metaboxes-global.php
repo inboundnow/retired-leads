@@ -164,7 +164,7 @@ function wp_cta_display_metabox() {
 
 function wp_cta_display_controller()
 {
-	$CTAExtensions = CTALoadExtensions();
+	$CTAExtensions = CTA_Load_Extensions();
 	$extension_data = $CTAExtensions->definitions;
 	
 	foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)
@@ -353,7 +353,7 @@ function wp_cta_display_meta_save($post_id)
 
 	// add filter
 		
-	$CTAExtensions = CTALoadExtensions();
+	$CTAExtensions = CTA_Load_Extensions();
 	$extension_data = $CTAExtensions->definitions;
 	
 	foreach ($extension_data['wp-cta-controller']['settings'] as $key=>$field)

@@ -49,8 +49,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				require_once(WP_CTA_PATH.'lib/Sabberworm/load-css-parse.php');
 
 				/* load cta template data */
-				$CTALoadExtensions = CTALoadExtensions();
-				self::$instance->cta_templates = $CTALoadExtensions->template_definitions;
+				$CTA_Load_Extensions = CTA_Load_Extensions();
+				self::$instance->cta_templates = $CTA_Load_Extensions->template_definitions;
 
 				/* load cta(s) */
 				self::$instance->hooks();

@@ -76,7 +76,7 @@ if (is_admin()) {
 
 	function wp_cta_admin_enqueue($hook) {
 		global $post;
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 		$screen = get_current_screen();
 
 		global $wp_scripts; /* dequeue third party scripts */

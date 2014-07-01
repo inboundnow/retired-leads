@@ -48,7 +48,7 @@ class CTA_Metaboxes {
 	public static function load_metaboxes() {
 		global $post , $CTA_Variations;
 		
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 
 		if ($post->post_type!='wp-call-to-action') {
 			return;
@@ -147,7 +147,7 @@ class CTA_Metaboxes {
 	*/
 	public static function show_template_settings(	$post , $metabox_args ) {	
 
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 		$extension_data = $CTAExtensions->definitions;
 
 		$template_id = $metabox_args['args']['template_id'];
@@ -181,7 +181,7 @@ class CTA_Metaboxes {
 	* Show Extension Metabox - loads & displays metaboxes built from extension settings 
 	*/
 	public static function show_extension_metabox( $post,$key ) {
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 		$extension_data = $CTAExtensions->definitions;
 
 		$key = $key['args']['key'];
@@ -331,7 +331,7 @@ class CTA_Metaboxes {
 		
 		global $CTA_Variations;
 		
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 		$extension_data = $CTAExtensions->definitions;
 
 		// Use nonce for verification
@@ -512,7 +512,7 @@ class CTA_Metaboxes {
 	public static function load_template_select_container() {
 		global $wp_cta_data, $post, $current_url, $CTA_Variations;
 
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 
 		if (isset($post)&&$post->post_type!='wp-call-to-action'||!isset($post)){ return false; }
 
@@ -827,7 +827,7 @@ class CTA_Metaboxes {
 	public static function show_advanced_settings () {
 		global $post;
 
-		$CTAExtensions = CTALoadExtensions();
+		$CTAExtensions = CTA_Load_Extensions();
 		$extension_data = $CTAExtensions->definitions;
 
 		// Use nonce for verification

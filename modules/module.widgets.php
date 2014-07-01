@@ -94,8 +94,8 @@ class CTA_Static_Widget extends WP_Widget
 		/* get enviroment object id if available */
 		$obj_id = $wp_query->get_queried_object_id();
 
-		$CTALoadExtensions = CTALoadExtensions();
-		$this->cta_templates = $CTALoadExtensions->template_definitions;
+		$CTA_Load_Extensions = CTA_Load_Extensions();
+		$this->cta_templates = $CTA_Load_Extensions->template_definitions;
 
 		$CTA_Render = CTA_Render();
 

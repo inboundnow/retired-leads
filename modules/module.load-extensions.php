@@ -2,12 +2,12 @@
 /* loads extension definitions related to Calls to Action plugin */
 /* extension definitions include cta templates, cta metaboxes    */
 
-function CTALoadExtensions()
+function CTA_Load_Extensions()
 {
-	return CTALoadExtensions::instance();
+	return CTA_Load_Extensions::instance();
 }
 
-class CTALoadExtensions
+class CTA_Load_Extensions
 {
 	private static $instance;
 	public $definitions;
@@ -15,9 +15,9 @@ class CTALoadExtensions
 
 	public static function instance()
 	{
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CTALoadExtensions ) )
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof CTA_Load_Extensions ) )
 		{
-			self::$instance = new CTALoadExtensions;
+			self::$instance = new CTA_Load_Extensions;
 
 			/* if frontend load transient data - this data will update on every wp-admin call so you can use an admin call as a cache clear */
 			if ( !is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX &&  isset($_POST['action']) && $_POST['action'] != 'wp_cta_get_template_meta' )  )

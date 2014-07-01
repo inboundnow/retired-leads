@@ -7,7 +7,7 @@ function inbound_template_metabox_render( $plugin , $key , $custom_fields , $pos
 		case "cta" :
 			$prefix = 'wp_cta';
 			$prefix_dash = 'wp-cta';
-			$CTAExtensions = CTALoadExtensions();
+			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 			break;
 	}

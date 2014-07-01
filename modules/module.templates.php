@@ -28,8 +28,8 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 		private $plural;
 
 		function __construct() {
-			$CTALoadExtensions = CTALoadExtensions();
-			$wp_cta_data = $CTALoadExtensions->template_definitions;
+			$CTA_Load_Extensions = CTA_Load_Extensions();
+			$wp_cta_data = $CTA_Load_Extensions->template_definitions;
 			$final_data = array();
 			
 			foreach ($wp_cta_data as $key=>$data)
