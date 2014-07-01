@@ -63,7 +63,7 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 					$thumbnail = WP_CTA_UPLOADS_URLPATH.$key."/thumbnail.png";
 				}
 				
-				echo $thumbnail;
+				//echo $thumbnail;
 
 				$this_data['ID']  = $key;
 				$this_data['template']  = $key;
