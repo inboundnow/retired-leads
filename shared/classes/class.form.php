@@ -227,7 +227,7 @@ class Inbound_Forms {
 					}
 
 					foreach ($dropdown_fields as $key => $value) {
-						$form .= '<option value="'.$key.'">'. utf8_encode($value) .'</option>';
+						$form .= '<option value="'.$key.'">'. $value .'</option>';
 					}
 					$form .= '</select>';
 				}
@@ -907,7 +907,7 @@ class Inbound_Forms {
 			$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
 
 			foreach ($to_address as $key => $recipient) {
-				$result = wp_mail( $recipient , $subject , utf8_encode($body) , $headers );
+				$result = wp_mail( $recipient , $subject , $body , $headers );
 			}
 
 		} else {
