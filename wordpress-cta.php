@@ -96,7 +96,10 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			endswitch;
 		}
 		
-		/* Load Shared Files at priority 3 */
+		/**
+		 *  Loads components shared between Inbound Now plugins
+		 *  
+		 */
 		private static function load_shared_files() {
 			require_once('shared/classes/class.load-shared.php'); 
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );

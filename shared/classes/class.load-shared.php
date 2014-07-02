@@ -5,6 +5,10 @@ if (!class_exists('Inbound_Load_Shared')) {
 
 	class Inbound_Load_Shared {
 		
+		/**
+		 * Initialize shared component loading only once.
+		 *  
+		 */
 		public static function init() {
 			/* Bail if shared files already loaded */
 			if (defined('INBOUDNOW_SHARED')) {
@@ -16,12 +20,20 @@ if (!class_exists('Inbound_Load_Shared')) {
 			self::load_legacy_elements();
 		}
 		
+		/**
+		 *  Define constants used by shared files here
+		 *  
+		 */
 		public static function load_constants() {
 			define( 'INBOUDNOW_SHARED' , 'loaded' );
 			define( 'INBOUDNOW_SHARED_PATH' ,	self::get_shared_path() );
 			define( 'INBOUDNOW_SHARED_URLPATH' ,	self::get_shared_urlpath() );
 		}
 		
+		/**
+		 *  Include shared php files here
+		 *  
+		 */
 		public static function load_files() {			
 
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php'); 	
@@ -46,6 +58,11 @@ if (!class_exists('Inbound_Load_Shared')) {
 			self::load_legacy_elements();
 		}
 		
+		/**
+		 *  Legacy constants go here
+		 *  
+		 *  
+		 */
 		public static function load_legacy_elements() {
 			
 			if ( !defined( 'LANDINGPAGES_TEXT_DOMAIN' ) ) {
@@ -58,7 +75,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 			
 		}
 		
-		/* Load Correct Shared Path */
+		/**
+		 *  Returns the correct absolute path to the Inbound Now shared directory
+		 *  
+		 *  @return Path to shared folder
+		 *  
+		 */
 		public static function get_shared_path() {
 			if ( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
@@ -69,7 +91,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 			}
 		}
 		
-		/* Load Correct Shared Path */
+		/**
+		 *  Returns the correct URL path to the Inbound Now Shared directory
+		 *  
+		 *  @return URL path to shared directory
+		 *  
+		 */
 		public static function get_shared_urlpath() {
 			if ( defined('WP_CTA_PATH') ) {
 				return WP_CTA_URLPATH . 'shared/';
