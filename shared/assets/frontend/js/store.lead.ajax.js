@@ -323,6 +323,7 @@ function inbound_form_submit(this_form, e) {
 	// Set variables after mapping
 	inbound_data['email'] = (!inbound_data['email']) ? this_form.find('.inbound-email').val() : inbound_data['email'];
 	inbound_data['form_name'] = this_form.find('.inbound_form_name').val() || "Not Found";
+	inbound_data['form_id'] = this_form.find('.inbound_form_id').val() || "Not Found";
 	inbound_data['first_name'] = (!inbound_data['first_name']) ? inbound_data['name'] : inbound_data['first_name'];
 	inbound_data['last_name'] = inbound_data['last_name'] || false;
 	inbound_data['phone'] = inbound_data['phone'] || false;
