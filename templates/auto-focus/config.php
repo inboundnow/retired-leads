@@ -41,7 +41,7 @@ array(
         'description' => "Message Text",
         'id'  => 'content-text',
         'type'  => 'wysiwyg',
-        'default'  => '<a href="http://www.inboundnow.com/market"><img src="'.$this_path.'/inbound-now-cta.jpg"></a>',
+        'default'  => '<a href="http://www.inboundnow.com/market"><img src="'.$url_path.'/inbound-now-cta.jpg"></a>',
         'context'  => 'normal'
         )
     );

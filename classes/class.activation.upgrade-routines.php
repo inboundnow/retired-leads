@@ -14,7 +14,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		* @mirgration: convert meta key wp-cta-variation-notes to a sub key of wp-cta-variations object
 		* @migration: convert meta key wp-cta-selected-template to wp-cta-selected-template-0
 		*/
-		public static function create_variation_objectss() {
+		public static function create_variation_objectsx() {
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
 				'posts_per_page' => -1
@@ -23,9 +23,10 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			/* loop through ctas and migrate data */
 			foreach ($ctas as $cta) {
 				$variations = array();
+				
 				$legacy_value = get_post_meta( $cta->ID , 'cta_ab_variations' , true );
-				if ($legacy_value !== null ) {
-					
+				if ( $legacy_value || is_numeric($legacy_value)) {
+
 					$variation_ids_array = explode(',' , $legacy_value );
 					$variation_ids_array = ($variation_ids_array) ? $variation_ids_array : array(0=>0);
 					
@@ -43,7 +44,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 							
 							foreach ( $meta as $key => $value ) {
 								if ( !is_numeric( substr( $key , -1) ) ) {
-									update_post_meta( $cta->ID , $key . '-0' , $value[0] , true );
+									add_post_meta( $cta->ID , $key . '-0' , $value[0] , true );
 									//echo $cta->ID . ' ' .  $key . '-0 ' . $value[0] . '<br>';
 								}
 							}
@@ -63,6 +64,9 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 					}
 					
 					CTA_Variations::update_variations ( $cta->ID , $variations );
+					
+					/* Delete legacy meta key pair */
+					delete_post_meta( $cta->ID , 'cta_ab_variations');
 				}else {
 					//echo $cta->ID;exit;
 				}
