@@ -14,7 +14,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		* @mirgration: convert meta key wp-cta-variation-notes to a sub key of wp-cta-variations object
 		* @migration: convert meta key wp-cta-selected-template to wp-cta-selected-template-0
 		*/
-		public static function create_variation_objects() {
+		public static function create_variation_objectss() {
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
 				'posts_per_page' => -1
@@ -43,7 +43,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 							
 							foreach ( $meta as $key => $value ) {
 								if ( !is_numeric( substr( $key , -1) ) ) {
-									update_post_meta( $cta->ID , $key . '-0' , $value[0] );
+									update_post_meta( $cta->ID , $key . '-0' , $value[0] , true );
 									//echo $cta->ID . ' ' .  $key . '-0 ' . $value[0] . '<br>';
 								}
 							}
