@@ -7,7 +7,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 	class CTA_Activation_Update_Routines {
 		
-		/* 
+		/**
 		* @introduced: 2.0.8
 		* @migration-type: Meta pair migragtion
 		* @mirgration: convert meta key cta_ab_variations to wp-cta-variations
