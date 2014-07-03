@@ -39,8 +39,9 @@ class CTA_Activation {
 
 	}
 	
-	/* This method loads public methods from the CTA_Activation_Update_Routines class and automatically runs them if they have not been run yet. 
-	 * We use transients to store the data, which may not be the best way but I don't have to worry about save/update/create option and the auto load process 
+	/**
+	*This method loads public methods from the CTA_Activation_Update_Routines class and automatically runs them if they have not been run yet. 
+	* We use transients to store the data, which may not be the best way but I don't have to worry about save/update/create option and the auto load process 
 	*/
 
 	public static function run_updates() {
@@ -67,6 +68,40 @@ class CTA_Activation {
 		set_transient( 'cta_completed_updaters' , $completed );
 		
 	}
+	
+	/**
+	*  This method checks if there are upgrade routines that have not been executed yet and notifies the administror if there are
+	*    
+	*/
+	public static function run_upgrade_routine_checks() {
+		
+		/* Listen for a manual upgrade call */
+		if (isset($_GET['plugin_action']) && $_GET['plugin_action'] == 'upgrade_routines' && $_GET['plugin'] =='cta' ) {
+			self::run_updates();
+		}
+		
+		/* Get list of updaters from CTA_Activation_Update_Routines class */
+		$updaters = get_class_methods('CTA_Activation_Update_Routines');
+		
+		/* Get transient list of completed update processes */
+		$completed = ( get_transient( 'cta_completed_updaters' ) ) ?  get_transient( 'cta_completed_updaters' ) : array();
+		
+		/* Get the difference between the two arrays */
+		$remaining = array_diff( $updaters , $completed );
+		
+		if (count($remaining)>0) {
+			add_action( 'admin_notices', array( __CLASS__ , 'display_upgrade_routine_notice' ) );
+		}
+	}
+	
+	public static function display_upgrade_routine_notice() {
+		?>
+		<div class="error">
+			<p><?php _e( '<strong>WARNING!</strong> We\'ve noticed that <strong>Calls to Action plugin</strong> requires <strong>database upgrades</strong> for proper functioning. To manually initiate the db updates please click the following link:', 'cta' ); ?> <a href='?plugin=cta&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'cta' ); ?></a></p>
+		</div>
+		<?php
+	}
+	
 	
 	/* Creates transient records of past and current version data */
 	public static function store_version_data() {
@@ -170,5 +205,8 @@ class CTA_Activation {
 /* Add Activation Hook */
 register_activation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'activate' ) );
 register_deactivation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'deactivate' ) );
+
+/* Add listener for uncompleted upgrade routines */
+add_action( 'admin_init' , array( 'CTA_Activation' , 'run_upgrade_routine_checks' ) );
 
 }
