@@ -42,6 +42,9 @@ class CTA_Metaboxes {
 		/* Saves all all incomming POST data as meta pairs */
 		add_action( 'save_post' , array( __CLASS__ , 'save_call_to_action_data' ) );
 		
+		/* Remove WordPress SEO Metabox from wp-call-to-action post_type */		
+		add_action( 'add_meta_boxes', array( __CLASS__  , 'remove_wp_seo' ) , 100000 );
+		
 	}
 	
 	/* Loads Metaboxex */
@@ -855,6 +858,15 @@ class CTA_Metaboxes {
 		do_action( "wordpress_cta_add_meta" ); // Action for adding extra meta boxes/options
 
 		echo '</div>'; // end table
+	}
+	
+	/**
+	*  Removes WordPress SEO metabox from wp-call-to-action post type.
+	*  Currently disabled. This throws admin js error. 
+	*  
+	*/
+	public static function remove_wp_seo() {
+	    //remove_meta_box( 'wpseo_meta', 'wp-call-to-action', 'normal' ); // change custom-post-type into the name of your custom post type
 	}
 	
 }
