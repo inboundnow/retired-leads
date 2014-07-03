@@ -176,7 +176,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 
 		/* Generate a set of data related to CTA(s) 
-		 * @param ARRAY $cta_display_list array of cta id(s)
+		* @param ARRAY $cta_display_list array of cta id(s)
 		*/
 		public static function prepare_cta_dataset( $cta_display_list , $variation_id = null) {
 			global $CTA_Variations;
@@ -208,11 +208,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				foreach ($cta_obj[$cta_id]['variations'] as $vid => $variation) {
 
-					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {
+					if ( !isset($meta['wp-cta-selected-template-' . $vid ][0]) ) {						
+						unset($cta_obj[$cta_id]['variations'][$vid]); 
 						continue;
 					}
 					
 					if ( $variation['status'] == 'paused' && !isset($_GET['wp-cta-variation-id']) ) {
+						unset($cta_obj[$cta_id]['variations'][$vid]); 
 						continue;
 					}					
 
@@ -727,12 +729,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				if (isset($_GET['wp-cta-variation-id']) && ( $vid != $_GET['wp-cta-variation-id'] ) ) {
 					continue;
 				}
-				
+					
+		
 				$meta = $selected_cta['meta'][$vid];
-
-				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
-
-				
+				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;		
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 				$custom_css = CTA_Variations::get_variation_custom_css ( $selected_cta['id'] , $vid );
@@ -909,7 +909,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			foreach ($selected_cta['variations'] as $vid => $variation )
 			{
 				$meta = $selected_cta['meta'][$vid];
-				if (	isset($meta['wp_cta_height-'.$vid]) && is_int( $meta['wp_cta_height-'.$vid]) ) {
+				if ( isset($meta['wp_cta_height-'.$vid]) && is_int( $meta['wp_cta_height-'.$vid]) ) {
 					$heights[] = $meta['wp_cta_height-'.$vid];
 				}
 			}
@@ -1067,7 +1067,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
 			}
 	
-			$script =  "<script>";
+			$script =	"<script>";
 			$script .= "	jQuery(document).ready(function($) {";
 			$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
 			$script .= "	});";
