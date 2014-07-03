@@ -45,7 +45,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'publicly_queryable' => true,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUDNOW_SHARED_PATH . 'assets/' . '/global/images/leads.png',
+				'menu_icon' => INBOUDNOW_SHARED_URLPATH . 'assets/global/images/leads.png',
 				'capability_type' => 'post',
 				'hierarchical' => false,
 				'menu_position' => null,
@@ -254,7 +254,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
 			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
 			
-			if ( !$submenu[$menu_page] ) {
+			if ( !isset($submenu[$menu_page]) ) {
 				return;
 			}
 			
