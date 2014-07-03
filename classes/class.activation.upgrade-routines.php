@@ -12,7 +12,6 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		* @migration-type: Meta pair migragtion
 		* @mirgration: convert meta key cta_ab_variations to wp-cta-variations & delete cta_ab_variations
 		* @mirgration: convert meta key wp-cta-variation-notes to a sub key of wp-cta-variations object
-		* @migration: convert meta key wp-cta-selected-template to wp-cta-selected-template-0
 		* @migration: convert all meta keys that do not have an -{{vid}} suffix to a -0 suffix
 		*/
 		public static function create_variation_objectsx() {
