@@ -56,57 +56,57 @@ function wp_leads_set_current_lists($lead_id){
 
 /**
  * wp_leads_update_page_view_obj updates page_views meta for known leads
- * @param  int $lead_id     [ID of lead]
- * @param  int $page_id     [ID of page]
+ * @param  ARRAY $lead_data   array of data associated with page view event
  */
 
-function wp_leads_update_page_view_obj( $lead_id, $page_id ) {
+function wp_leads_update_page_view_obj( $lead_data ) {
 
-	if($page_id === "" || empty($page_id)){
+	if( !$lead_data['page_id']){
 		return;
 	}
-	$current_page_view_count = get_post_meta($lead_id,'wpleads_page_view_count', true);
+
+	$current_page_view_count = get_post_meta( $lead_data['lead_id'] ,'wpleads_page_view_count', true);
 
 	$increment_page_views = $current_page_view_count + 1;
 
-	update_post_meta($lead_id,'wpleads_page_view_count', $increment_page_views); // update count
+	update_post_meta( $lead_data['lead_id'] , 'wpleads_page_view_count' , $increment_page_views ); // update count
 
-	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+	$time = current_time( 'timestamp' , 0 ); // Current wordpress time from settings
 	$wordpress_date_time = date("Y-m-d G:i:s T", $time);
 
-	$page_view_data = get_post_meta( $lead_id, 'page_views', TRUE );
-	//echo $page_id; // for debug
+	$page_view_data = get_post_meta( $lead_data['lead_id'] , 'page_views', TRUE );
+	//echo $lead_data['page_id']; // for debug
 
 	// If page_view meta exists do this
 	if ($page_view_data) {
 		$current_count = 0; // default
 		$timeout = 30;  // 30 Timeout analytics tracking for same page timestamps
-		$page_view_data = json_decode($page_view_data,true);
+		$page_view_data = json_decode( $page_view_data , true );
 
 		// increment view count on page
-		if(isset($page_view_data[$page_id])) {
-			$current_count = count($page_view_data[$page_id]);
-			$last_view = $page_view_data[$page_id][$current_count];
+		if(isset($page_view_data[ $lead_data['page_id'] ])) {
+			$current_count = count($page_view_data[ $lead_data['page_id'] ]);
+			$last_view = $page_view_data[ $lead_data['page_id'] ][$current_count];
 			$timeout = abs(strtotime($last_view) - strtotime($wordpress_date_time));
 		}
 
 		// If page hasn't been viewed in past 30 seconds. Log it
 		if ($timeout >= 30) {
-			$page_view_data[$page_id][$current_count + 1] = $wordpress_date_time;
+			$page_view_data[ $lead_data['page_id'] ][ $current_count + 1 ] = $wordpress_date_time;
 			$page_view_data = json_encode($page_view_data);
-			update_post_meta( $lead_id, 'page_views', $page_view_data );
+			update_post_meta( $lead_data['lead_id'] , 'page_views' , $page_view_data );
 		}
 
 	} else {
 		// Create page_view meta if it doesn't exist
 		$page_view_data = array();
-		$page_view_data[$page_id][0] = $wordpress_date_time;
-		$page_view_data = json_encode($page_view_data);
-		update_post_meta( $lead_id, 'page_views', $page_view_data );
+		$page_view_data[ $lead_data['page_id'] ][0] = $wordpress_date_time;
+		$page_view_data = json_encode( $page_view_data );
+		update_post_meta( $lead_data['lead_id'] , 'page_views' , $page_view_data );
 	}
-	
+
 	/* Run hook that tells WordPress lead data has been updated */
-	do_action('wplead_page_view' , array( 'lead_id' => $lead_id ) );
+	do_action('wplead_page_view' , $lead_data );
 }
 
 /**
