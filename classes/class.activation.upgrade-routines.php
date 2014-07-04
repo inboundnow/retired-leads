@@ -14,7 +14,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 		* @mirgration: convert meta key wp-cta-variation-notes to a sub key of wp-cta-variations object
 		* @migration: convert all meta keys that do not have an -{{vid}} suffix to a -0 suffix
 		*/
-		public static function create_variation_objectsx() {
+		public static function create_variation_objects() {
 			$ctas = get_posts( array(
 				'post_type' => 'wp-call-to-action',
 				'posts_per_page' => -1
