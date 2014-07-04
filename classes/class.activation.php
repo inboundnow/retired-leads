@@ -51,7 +51,7 @@ class CTA_Activation {
 		$updaters = get_class_methods('CTA_Activation_Update_Routines');
 		
 		/* Get transient list of completed update processes */
-		$completed = ( get_transient( 'cta_completed_updaters' ) ) ?  get_transient( 'cta_completed_updaters' ) : array();
+		$completed = ( get_option( 'cta_completed_upgrade_routines' ) ) ?  get_option( 'cta_completed_upgrade_routines' ) : array();
 
 		/* Get the difference between the two arrays */
 		$remaining = array_diff( $updaters , $completed );
@@ -65,7 +65,7 @@ class CTA_Activation {
 		}
 		
 		/* Update this transient value with list of completed upgrade processes */
-		set_transient( 'cta_completed_updaters' , $completed );
+		update_option( 'cta_completed_upgrade_routines' , $completed );
 		
 	}
 	
@@ -84,7 +84,7 @@ class CTA_Activation {
 		$updaters = get_class_methods('CTA_Activation_Update_Routines');
 		
 		/* Get transient list of completed update processes */
-		$completed = ( get_transient( 'cta_completed_updaters' ) ) ?  get_transient( 'cta_completed_updaters' ) : array();
+		$completed = ( get_option( 'cta_completed_upgrade_routines' ) ) ?  get_option( 'cta_completed_upgrade_routines' ) : array();
 		
 		/* Get the difference between the two arrays */
 		$remaining = array_diff( $updaters , $completed );

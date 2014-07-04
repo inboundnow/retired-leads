@@ -24,52 +24,50 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 			foreach ($ctas as $cta) {
 				$variations = array();
 				
-				$legacy_value = get_post_meta( $cta->ID , 'cta_ab_variations' , true );
-				if ( $legacy_value || is_numeric($legacy_value)) {
-
-					$variation_ids_array = explode(',' , $legacy_value );
-					$variation_ids_array = ($variation_ids_array) ? $variation_ids_array : array(0=>0);
+				/* If CTA already has our upgraded meta key then continue to next cta*/ 
+				if ( get_post_meta( $cta->ID , 'wp-cta-variations' , true ) ) {
+					continue;
+				}
 					
-					foreach ( $variation_ids_array as $vid ) {
+				$legacy_value = get_post_meta( $cta->ID , 'cta_ab_variations' , true );
+				$variation_ids_array = explode(',' , $legacy_value );
+				$variation_ids_array = ($variation_ids_array) ? $variation_ids_array : array(0=>0);
+				
+				foreach ( $variation_ids_array as $vid ) {
+					
+					/* get variation status */
+					$status = get_post_meta( $cta->ID , 'wp_cta_ab_variation_status' , true);
+					
+					/* Get variation notes & alter key for variations with vid=0 */
+					if (!$vid) {
 						
-						/* get variation status */
-						$status = get_post_meta( $cta->ID , 'wp_cta_ab_variation_status' , true);
+						/* for each meta without an variation id add one */
+						$meta = get_post_meta( $cta->ID ); 
+						$notes = get_post_meta( $cta->ID , 'wp-cta-variation-notes' , true );
 						
-						/* Get variation notes & alter key for variations with vid=0 */
-						if (!$vid) {
-							
-							/* for each meta without an variation id add one */
-							$meta = get_post_meta( $cta->ID ); 
-							$notes = get_post_meta( $cta->ID , 'wp-cta-variation-notes' , true );
-							
-							foreach ( $meta as $key => $value ) {
-								if ( !is_numeric( substr( $key , -1) ) ) {
-									add_post_meta( $cta->ID , $key . '-0' , $value[0] , true );
-									//echo $cta->ID . ' ' .  $key . '-0 ' . $value[0] . '<br>';
-								}
+						foreach ( $meta as $key => $value ) {
+							if ( !is_numeric( substr( $key , -1) ) ) {
+								add_post_meta( $cta->ID , $key . '-0' , $value[0] , true );
+								//echo $cta->ID . ' ' .  $key . '-0 ' . $value[0] . '<br>';
 							}
+						}
 
-						} else {
-							$notes =  get_post_meta( $cta->ID , 'wp-cta-variation-notes-' . $vid , true);
-						}
-						
-						if ( $status == 2 ) {
-							$status = 'paused';
-						} else {
-							$status = 'active';
-						}
-						
-						$variations[ $vid ][ 'status' ] = $status;
-						$variations[ $vid ][ 'notes' ] = $notes;
+					} else {
+						$notes =  get_post_meta( $cta->ID , 'wp-cta-variation-notes-' . $vid , true);
 					}
 					
-					CTA_Variations::update_variations ( $cta->ID , $variations );
+					if ( $status == 2 ) {
+						$status = 'paused';
+					} else {
+						$status = 'active';
+					}
 					
-					/* Delete legacy meta key pair */
-					delete_post_meta( $cta->ID , 'cta_ab_variations');
-				}else {
-					//echo $cta->ID;exit;
+					$variations[ $vid ][ 'status' ] = $status;
+					$variations[ $vid ][ 'notes' ] = $notes;
 				}
+				
+				CTA_Variations::update_variations ( $cta->ID , $variations );
+		
 				//echo '<hr>';
 			}
 			//exit;
