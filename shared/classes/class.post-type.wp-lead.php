@@ -130,27 +130,56 @@ if ( !class_exists('Inbound_Leads') ) {
 			register_taxonomy( 'lead-tags', 'wp-lead', $args );
 		}
 		
+		/**
+		*  Make sure that all list ids are intval
+		*  
+		*  @param MIXED $lists 
+		*  @return ARRAY
+		*  
+		*/
+		public static function intval_list_ids( $lists ) {
+
+			if (is_array($lists)) {
+				foreach ($lists as $key => $id) {
+					$lists[ $key ] = intval($id);
+				}
+			} else {
+				$lists = intval( $list_id );
+			}
+			
+			return $lists;
+		}
+		
+		
 		/* 
 		* Adds lead to list 
 		*
 		* @param lead_id INT
-		* @param list_id MIXED INT,STRING,ARRAY
+		* @param list_id MIXED INT,ARRAY
 		*
 		*/
 		public static function add_lead_to_list( $lead_id , $list_id ) {
-			wp_set_object_terms( $lead_id, $list_id , 'wpleads_list_category', true );			
+			
+			/* intval list ids */
+			$list_id = Inbound_Leads::intval_list_ids( $list_id );
+			
+			wp_set_object_terms( $lead_id, $list_id , 'wplead_list_category', true );			
 			do_action('add_lead_to_lead_list' , $lead_id , $list_id );
 		}
+		
 		
 		/* 
 		* Removes lead from list 
 		*
 		* @param lead_id INT
-		* @param list_id MIXED INT,STRING,ARRAY
+		* @param list_id MIXED INT, ARRAY
 		*
 		*/
 		public static function remove_lead_from_list( $lead_id , $list_id ) {
-			wp_remove_object_terms( $lead_id, $list_id , 'wpleads_list_category', true );
+			/* intval list ids */
+			$list_id = Inbound_Leads::intval_list_ids( $list_id );
+			
+			wp_remove_object_terms( $lead_id, $list_id , 'wplead_list_category', true );
 			do_action('remove_lead_from_list' , $lead_id , $list_id );
 		}
 		
@@ -159,7 +188,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		* Adds tag to lead
 		*
 		* @param lead_id INT
-		* @param tag_id MIXED INT,STRING,ARRAY
+		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
 		public static function add_tag_to_lead( $lead_id , $list_id ) {
