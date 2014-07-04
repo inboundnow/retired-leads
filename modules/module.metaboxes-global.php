@@ -19,8 +19,8 @@ function cta_placements_content_add_meta_box()
 	$exclude[] = 'inbound-forms';
 	$exclude[] = 'email-template';
 	$exclude[] = 'inbound-log';
-	// add filter
-
+	$exclude[] = 'landing-page';
+	
 	foreach ($post_types as $value ) {
 		$priority = ($value === 'landing-page') ? 'core' : 'high';
 		if (!in_array($value,$exclude))
