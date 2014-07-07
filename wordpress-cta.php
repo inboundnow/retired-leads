@@ -105,10 +105,13 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 		}
 		
+		/**
+		*  Loads the correct .mo file for this plugin
+		*  
+		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
 				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
-				echo WP_CTA_PATH . 'lang/';
 			});
 		}
 	
