@@ -9,7 +9,7 @@ Author URI: http://www.inboundnow.com/
 Text Domain: cta
 Domain Path: lang
 */
-define('WPLANG' , 'fr_FR');
+
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
