@@ -7,7 +7,7 @@ Author: Inbound Now
 Version: 1.4.2
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
-Domain Path: shared/languages/leads/
+Domain Path: lang
 */
 
 if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
@@ -22,6 +22,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			self::define_constants();
 			self::includes();	
 			self::load_shared_files();
+			self::load_text_domain();
 		}
 
 		/* Setup plugin constants */
@@ -30,7 +31,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			define('WPL_URL',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
-			define('WPL_SLUG', plugin_basename( __FILE__ ) );
+			define('WPL_SLUG', plugin_basename( dirname(__FILE__) ) );
 			define('WPL_FILE',  __FILE__ );
 			define('WPL_STORE_URL', 'http://www.inboundnow.com' );
 			$uploads = wp_upload_dir();
@@ -84,6 +85,16 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		private static function load_shared_files() {
 			require_once('shared/classes/class.load-shared.php'); 
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
+		}
+		
+		/**
+		*  Loads the correct .mo file for this plugin
+		*  
+		*/
+		private static function load_text_domain() {
+			add_action('init' , function() {
+				load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/lang/' );
+			});
 		}
 	}
 	

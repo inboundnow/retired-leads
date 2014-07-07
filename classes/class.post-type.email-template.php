@@ -55,9 +55,9 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'add_new' => __( 'Add New Email Templates', 'leads' ),
 				'add_new_item' => __( 'Create New Email Templates' , 'leads' ),
 				'edit_item' => __( 'Edit Email Templates' , 'leads' ),
-				'new_item' => __( 'New Email Templatess' , 'leads' ),
-				'view_item' => __( 'View Email Templatess' , 'leads' ),
-				'search_items' => __( 'Search Email Templatess' , 'leads' ),
+				'new_item' => __( 'New Email Templates' , 'leads' ),
+				'view_item' => __( 'View Email Templates' , 'leads' ),
+				'search_items' => __( 'Search Email Templates' , 'leads' ),
 				'not_found' =>	__( 'Nothing found' , 'leads' ),
 				'not_found_in_trash' => __( 'Nothing found in Trash' , 'leads' ),
 				'parent_item_colon' => ''
