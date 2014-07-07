@@ -7,9 +7,9 @@ Version: 2.0.9
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
-Domain Path: shared/languages/cta/
+Domain Path: lang
 */
-
+define('WPLANG' , 'fr_FR');
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
@@ -22,6 +22,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			self::define_constants();
 			self::includes();	
 			self::load_shared_files();
+			self::load_text_domain();
 		}
 
 		/* 
@@ -102,6 +103,13 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		private static function load_shared_files() {
 			require_once('shared/classes/class.load-shared.php'); 
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
+		}
+		
+		private static function load_text_domain() {
+			add_action('init' , function() {
+				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
+				echo WP_CTA_PATH . 'lang/';
+			});
 		}
 	
 	}
