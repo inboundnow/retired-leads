@@ -1,6 +1,6 @@
 <?php
 /**
-*   Divider Shortcode
+*	Divider Shortcode
 */
 
 /* 	Shortcode generator config
@@ -41,7 +41,7 @@
 			)
 		),
 		'shortcode' => '[divider style="{{style}}" color="{{color}}" margin_top="{{margin_top}}" margin_bottom="{{margin_bottom}}"]',
-		'popup_title' => __('Insert Divider Shortcode', 'leads')
+		'popup_title' => 'Insert Divider Shortcode'
 	);
 
 /* 	Page builder module config

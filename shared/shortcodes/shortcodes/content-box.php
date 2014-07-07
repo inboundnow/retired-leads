@@ -1,6 +1,6 @@
 <?php
 /**
-*   Content Box Shortcode
+*	Content Box Shortcode
 */
 
 /* 	Shortcode generator config
@@ -29,7 +29,7 @@
 			)
 		),
 		'shortcode' => '[content_box color="{{color}}"]{{content}}[/content_box]',
-		'popup_title' => __('Insert Content Box Shortcode', 'leads')
+		'popup_title' => 'Insert Content Box Shortcode'
 	);
 
 /* 	Page builder module config

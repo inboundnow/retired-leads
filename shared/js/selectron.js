@@ -1,4 +1,4 @@
-/*
+/**
  * Selectron.js - v 1.0
  * Copyright 2005, 2013 Inbound Now
  * Builds jQuery and CSS Selectors for with mouse clicks

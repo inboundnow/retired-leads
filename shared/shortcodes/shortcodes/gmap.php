@@ -1,6 +1,6 @@
 <?php
 /**
-*   Google Map Shortcode
+*	Google Map Shortcode
 */
 
 /* 	Shortcode generator config
@@ -80,7 +80,7 @@
 			)
 		),
 		'shortcode' => '[gmap type="{{type}}" address="{{address}}" lat="{{latitude}}" lng="{{longitude}}" zoom="{{zoom}}" pancontrol="{{pancontrol}}" zoomcontrol="{{zoomcontrol}}" maptypecontrol="{{maptypecontrol}}" width="{{width}}" height="{{height}}"]{{content}}[/gmap]',
-		'popup_title' => __('Insert Google Map Shortcode', 'leads')
+		'popup_title' => 'Insert Google Map Shortcode'
 	);
 
 /* 	Add shortcode
@@ -104,7 +104,7 @@
 		), $atts));
 		$out = '';
 		if ( !$lat == '' && !$lng == '') :
-		$out .= '<div id="google_map_'.preg_replace('![^a-z0-9]+!i', '', $lat) . preg_replace('![^a-z0-9]+!i', '', $lng) . $type .'" class="google_map"  style="width:'.$width.'px;height:'.$height.'px"></div>' . "\n";
+		$out .= '<div id="google_map_'.preg_replace('![^a-z0-9]+!i', '', $lat) . preg_replace('![^a-z0-9]+!i', '', $lng) . $type .'" class="google_map"	style="width:'.$width.'px;height:'.$height.'px"></div>' . "\n";
 		$out .= '
 		<script type="text/javascript">
 		(function($) {

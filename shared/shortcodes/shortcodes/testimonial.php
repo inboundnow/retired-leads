@@ -1,6 +1,6 @@
 <?php
 /**
-*   Testimonial Shortcode
+*	Testimonial Shortcode
 */
 
 /* 	Shortcode generator config
@@ -31,8 +31,8 @@
 		'child' => array(
 			'options' => array(
 				'author' => array(
-					'name' => __('Testimony Author',  'leads'),
-					'desc' => __('Enter the testimony author name.',  'leads'),
+					'name' => __('Testimony Author',	'leads'),
+					'desc' => __('Enter the testimony author name.',	'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
@@ -43,17 +43,17 @@
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Testimony Content',  'leads'),
-					'desc' => __('Put the content here.',  'leads'),
+					'name' => __('Testimony Content',	'leads'),
+					'desc' => __('Put the content here.',	'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[testimony author="{{author}}" meta="{{meta}}"]{{content}}[/testimony]',
-			'clone' => __('Add More Testimony',  'leads' )
+			'clone' => __('Add More Testimony',	'leads' )
 		),
-		'shortcode' => '[testimonial heading="{{heading}}"  column="{{column}}"]{{child}}[/testimonial]',
-		'popup_title' => __('Insert Testimonial Shortcode',  'leads')
+		'shortcode' => '[testimonial heading="{{heading}}"	column="{{column}}"]{{child}}[/testimonial]',
+		'popup_title' => 'Insert Testimonial Shortcode'
 	);
 
 /* 	Page builder module config
@@ -148,29 +148,29 @@
 			}
 
 			for($i = 0; $i < count($matches[0]); $i++) {
-	            $out .= '<div class="'.$grid.'">';
-                    $out .= '<div class="fancy-quote">';
-                        $out .= '<div class="quote-text">';
-                            $out .= '<div class="triangle"></div>';
-                            $out .= '<p>'.do_shortcode(trim($matches[5][$i])).'</p>';
-                        $out .= '</div>';
+				$out .= '<div class="'.$grid.'">';
+					$out .= '<div class="fancy-quote">';
+						$out .= '<div class="quote-text">';
+							$out .= '<div class="triangle"></div>';
+							$out .= '<p>'.do_shortcode(trim($matches[5][$i])).'</p>';
+						$out .= '</div>';
 
-                        $out .= '<div class="quote-author">';
-                            if( $matches[3][$i]['author'] ) {
-	                            $out .= '<span class="quote-author-name">'.$matches[3][$i]['author'].'</span>';
-	                        }
+						$out .= '<div class="quote-author">';
+							if( $matches[3][$i]['author'] ) {
+								$out .= '<span class="quote-author-name">'.$matches[3][$i]['author'].'</span>';
+							}
 
-                            if( $matches[3][$i]['meta'] ){
-		                        $out .= ' - <span class="quote-author-meta">'.$matches[3][$i]['meta'].'</span>';
-		                    }
-                        $out .= '</div>';
-                    $out .= '</div>';
-                $out .= '</div>';
+							if( $matches[3][$i]['meta'] ){
+								$out .= ' - <span class="quote-author-meta">'.$matches[3][$i]['meta'].'</span>';
+							}
+						$out .= '</div>';
+					$out .= '</div>';
+				$out .= '</div>';
 
-                if( $i == $column - 1 ) {
-                	$out .= '<div class="clear"></div>';
-                }
-            }
+				if( $i == $column - 1 ) {
+					$out .= '<div class="clear"></div>';
+				}
+			}
 		}
 
 		$out .= '</div>';

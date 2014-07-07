@@ -1,6 +1,6 @@
 <?php
 /**
-*   Button Shortcode
+*	Button Shortcode
 */
 
 /* 	Shortcode generator config
@@ -9,7 +9,7 @@
 		'no_preview' => false,
 
 		'options' => array(
-			/*
+			/**
 			'style' => array(
 				'name' => __('Button Style', 'leads'),
 				'desc' => __('Select the button style.', 'leads'),
@@ -39,7 +39,7 @@
 							'type' => 'text',
 							'std' => '20'
 			),
-			/*
+			/**
 			'color' => array(
 				'name' => __('Button Color', 'leads'),
 				'desc' => __('Select the button color.', 'leads'),
@@ -102,7 +102,7 @@
 		),
 		// style="{{style}}"
 		'shortcode' => '[button font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
-		'popup_title' => __('Insert Button Shortcode', 'leads')
+		'popup_title' =>'Insert Button Shortcode'
 	);
 
 /* 	Add shortcode

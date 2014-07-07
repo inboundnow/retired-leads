@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
 Grab all icons from http://fontawesome.io/icons/
 jQuery(".container").eq(3).addClass('special-class');
 function toTitleCase(str)
@@ -63,7 +63,7 @@ jQuery(".lead").append('"' + clean + '" => "' + toTitleCase(new_name) + '", ');
 	// Landing Pages and CTA Shared Shortcodes
 
 	/* Temporary need Forks */
-	/*
+	/**
 	require_once ('shortcodes/callout.php');
 	//require_once ('shortcodes/landing-page-list.php'); // ALL Landing page list
 
@@ -86,7 +86,7 @@ jQuery(".lead").append('"' + clean + '" => "' + toTitleCase(new_name) + '", ');
 	//require_once ('shortcodes/testimonial.php'); // add custom testimonials
 	//require_once ('shortcodes/video.php'); // Add trackable video
 */
-/*
+/**
  * 	Fix issues when shortcodes are embedded in a block of content that is filtered by wpautop.
  * 	http://www.johannheyne.de
  * 	----------------------------------------------------- */

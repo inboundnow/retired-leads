@@ -183,7 +183,7 @@ if ( !class_exists('Leads_Field_Map') ) {
  * type: type of user area. 'text' or 'textarea'
  */
 
-/*
+/**
 add_filter('wp_leads_add_lead_field', 'custom_add_more_lead_fields', 10, 1);
 function custom_add_more_lead_fields($lead_fields) {
 

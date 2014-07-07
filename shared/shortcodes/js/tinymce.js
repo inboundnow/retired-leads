@@ -109,7 +109,7 @@ var shortcode_addons = ["landing-pages","cta","leads"]; // Addon example
 						a.addWithPopup( b, myArray[i], myArray[i] );
 					}
 					*/
-					/*
+					/**
 					//a.addWithPopup( b, 'Insert Button Shortcode',  'button' );
 					//a.addWithPopup( b, 'Alert', 'alert' );
 					//a.addWithPopup( b, 'Call Out', 'callout' );

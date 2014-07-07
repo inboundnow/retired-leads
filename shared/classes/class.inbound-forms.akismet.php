@@ -14,7 +14,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 			if (get_option('inbound_forms_enable_akismet' , '1' )) {
 				
 				/* spam checks have to run in two different locations */
-				//add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) ); /* On store lead ajax */
+				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) ); /* On store lead ajax */
 				add_filter( 'lead_processing_spam_check' , array( __CLASS__ , 'check_is_spam' ) ); /* On form email actions */
 			}
 		}

@@ -18,12 +18,12 @@ class Inbound_Email_Template_Shortcodes {
 			add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
 	}
 	
-	/*
+	/**
 	* Used by leads-new-lead-notification email template to dispaly form fields the user inputted when converting on a form.
 	*
 	*/
 	public static function post_params_table( $atts ) {
-		/*
+		/**
 		extract( shortcode_atts( array(
 	      'foo' => 'no foo',
 	      'baz' => 'default baz'
@@ -79,7 +79,7 @@ class Inbound_Email_Template_Shortcodes {
 		return $html;
 	}
 	
-	/*
+	/**
 	* Used by wp-notify-post-author email template to show comment author gravitar
 	*
 	* 

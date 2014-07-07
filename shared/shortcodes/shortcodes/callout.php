@@ -61,7 +61,7 @@
 			)
 		),
 		'shortcode' => '[callout title="{{title}}" subtitle="{{subtitle}}" button_label="{{button_label}}" button_icon="{{button_icon}}" link="{{link}}"]',
-		'popup_title' => __('Insert Call Out Shortcode',  'leads')
+		'popup_title' => 'Insert Call Out Shortcode'
 	);
 
 /* 	Page builder module config

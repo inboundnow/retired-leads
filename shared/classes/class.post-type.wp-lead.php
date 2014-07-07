@@ -45,7 +45,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'publicly_queryable' => true,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => INBOUDNOW_SHARED_PATH . 'assets/' . '/global/images/leads.png',
+				'menu_icon' => INBOUDNOW_SHARED_URLPATH . 'assets/global/images/leads.png',
 				'capability_type' => 'post',
 				'hierarchical' => false,
 				'menu_position' => null,
@@ -130,27 +130,56 @@ if ( !class_exists('Inbound_Leads') ) {
 			register_taxonomy( 'lead-tags', 'wp-lead', $args );
 		}
 		
+		/**
+		*  Make sure that all list ids are intval
+		*  
+		*  @param MIXED $lists 
+		*  @return ARRAY
+		*  
+		*/
+		public static function intval_list_ids( $lists ) {
+
+			if (is_array($lists)) {
+				foreach ($lists as $key => $id) {
+					$lists[ $key ] = intval($id);
+				}
+			} else {
+				$lists = intval( $list_id );
+			}
+			
+			return $lists;
+		}
+		
+		
 		/* 
 		* Adds lead to list 
 		*
 		* @param lead_id INT
-		* @param list_id MIXED INT,STRING,ARRAY
+		* @param list_id MIXED INT,ARRAY
 		*
 		*/
 		public static function add_lead_to_list( $lead_id , $list_id ) {
-			wp_set_object_terms( $lead_id, $list_id , 'wpleads_list_category', true );			
+			
+			/* intval list ids */
+			$list_id = Inbound_Leads::intval_list_ids( $list_id );
+			
+			wp_set_object_terms( $lead_id, $list_id , 'wplead_list_category', true );			
 			do_action('add_lead_to_lead_list' , $lead_id , $list_id );
 		}
+		
 		
 		/* 
 		* Removes lead from list 
 		*
 		* @param lead_id INT
-		* @param list_id MIXED INT,STRING,ARRAY
+		* @param list_id MIXED INT, ARRAY
 		*
 		*/
 		public static function remove_lead_from_list( $lead_id , $list_id ) {
-			wp_remove_object_terms( $lead_id, $list_id , 'wpleads_list_category', true );
+			/* intval list ids */
+			$list_id = Inbound_Leads::intval_list_ids( $list_id );
+			
+			wp_remove_object_terms( $lead_id, $list_id , 'wplead_list_category', true );
 			do_action('remove_lead_from_list' , $lead_id , $list_id );
 		}
 		
@@ -159,7 +188,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		* Adds tag to lead
 		*
 		* @param lead_id INT
-		* @param tag_id MIXED INT,STRING,ARRAY
+		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
 		public static function add_tag_to_lead( $lead_id , $list_id ) {
@@ -254,7 +283,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
 			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
 			
-			if ( !$submenu[$menu_page] ) {
+			if ( !isset($submenu[$menu_page]) ) {
 				return;
 			}
 			

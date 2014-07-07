@@ -80,7 +80,7 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
 
 function inbound_store_lead( $args = array() ) {
 	global $user_ID, $wpdb;
-	/*
+	/**
 	// simulate ajax fail
 	header('HTTP/1.0 404 Not found'); exit;
 	/**/
@@ -132,7 +132,7 @@ function inbound_store_lead( $args = array() ) {
 	*/
 
 	/* NEW MAPPING Loop In Progress */
-	/*
+	/**
 	$check_map = array(
 		"phone" => 'wpleads_work_phone',
 		"company" => "wpleads_company_name",

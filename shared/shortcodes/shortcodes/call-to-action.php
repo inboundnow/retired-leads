@@ -1,7 +1,7 @@
 <?php
 /**
-*   Inbound Forms Shortcode Options
-*   Forms code found in /shared/classes/form.class.php
+*	Inbound Forms Shortcode Options
+*	Forms code found in /shared/classes/form.class.php
 */
 
 	$shortcodes_config['call-to-action'] = array(
@@ -27,5 +27,5 @@
 
 		),
 		'shortcode' => '[cta id="{{insert_default}}" align="{{align}}"]',
-		'popup_title' => __('Insert Call to Action',  'leads')
+		'popup_title' => 'Insert Call to Action'
 	);

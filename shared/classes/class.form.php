@@ -309,7 +309,7 @@ class Inbound_Forms {
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
 			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -836,15 +836,15 @@ class Inbound_Forms {
 			}
 			
 			
-			
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 			
 			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
-			if (!apply_filters( 'lead_processing_spam_check' , $form_post_data ) ) {
+			if (!apply_filters( 'form_submission_spam_check' , $form_post_data ) ) {
 				self::send_conversion_admin_notification($form_post_data , $form_meta_data);
 				self::send_conversion_lead_notification($form_post_data , $form_meta_data);
 			}
 
+			/* hook runs after form actions are completed and before page redirect */
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
 
 			/* redirect now */
@@ -907,7 +907,7 @@ class Inbound_Forms {
 			$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
 
 			foreach ($to_address as $key => $recipient) {
-				$result = wp_mail( $recipient , $subject , utf8_encode($body) , $headers );
+				$result = wp_mail( $recipient , $subject , $body , $headers );
 			}
 
 		} else {
