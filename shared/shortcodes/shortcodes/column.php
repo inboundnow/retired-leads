@@ -1,6 +1,6 @@
 <?php
 /**
-*   Columns Shortcode
+*	Columns Shortcode
 */
 
 /* 	Shortcode generator config
@@ -39,7 +39,7 @@
 			)
 		),
 		'shortcode' => '[columns gutter="{{gutter}}"]{{set}}[/columns]',
-		'popup_title' => __('Insert Column Shortcode', 'leads')
+		'popup_title' => 'Insert Column Shortcode'
 	);
 
 /* 	Page builder module config

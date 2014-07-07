@@ -1,6 +1,6 @@
 <?php
 /**
-*   Alert Shortcode
+*	Alert Shortcode
 */
 
 /* 	Shortcode generator config
@@ -29,7 +29,7 @@
 			)
 		),
 		'shortcode' => '[alert color="{{color}}"]{{content}}[/alert]',
-		'popup_title' => __('Insert Alert Message Shortcode', 'leads')
+		'popup_title' => 'Insert Alert Message Shortcode'
 	);
 
 /* 	Add shortcode

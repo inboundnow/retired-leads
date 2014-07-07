@@ -98,5 +98,5 @@
 			),
 		),
 		'shortcode' => '[social_share style="{{style}}" align="{{align}}" heading_align="{{header-align}}" text="{{text}}" heading="{{heading}}" facebook="{{facebook}}" twitter="{{twitter}}" google_plus="{{google_plus}}" linkedin="{{linkedin}}" pinterest="{{pinterest}}" link="{{link}}" /]',
-		'popup_title' => __('Insert Social Share Shortcode', 'leads')
+		'popup_title' => 'Insert Social Share Shortcode'
 	);

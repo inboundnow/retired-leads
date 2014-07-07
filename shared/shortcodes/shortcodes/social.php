@@ -1,6 +1,6 @@
 <?php
 /**
-*   Social Links Shortcode
+*	Social Links Shortcode
 */
 
 /* 	Shortcode generator config
@@ -58,7 +58,7 @@
 			)
 		),
 		'shortcode' => '[social_links facebook="{{facebook}}" twitter="{{twitter}}" google_plus="{{google_plus}}" linkedin="{{linkedin}}" github="{{github}}" pinterest="{{pinterest}}" /]',
-		'popup_title' => __('Insert Social Link Shortcode', 'leads')
+		'popup_title' => 'Insert Social Link Shortcode'
 	);
 
 /* 	Add shortcode

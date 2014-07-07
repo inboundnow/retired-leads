@@ -35,7 +35,7 @@
 			)
 		),
 		'shortcode' => '[landing-page-list heading="{{heading}}" column="{{column}}" number="{{number}}"]',
-		'popup_title' => __('Insert Landing Page List Shortcode', 'leads')
+		'popup_title' => 'Insert Landing Page List Shortcode'
 	);
 
 /* 	Page builder module config

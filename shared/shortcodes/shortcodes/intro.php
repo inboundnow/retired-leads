@@ -33,7 +33,7 @@
 			)
 		),
 		'shortcode' => '[intro title="{{title}}" alignment="{{alignment}}"]{{content}}[/intro]',
-		'popup_title' => __('Insert Intro Shortcode',  'leads')
+		'popup_title' => 'Insert Intro Shortcode'
 	);
 
 /* 	Page builder module config
