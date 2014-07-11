@@ -327,7 +327,7 @@
 			'clone' => __('Add Another Field',  'leads' )
 		),
 		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',
-		'popup_title' => __('Insert Inbound Form Shortcode',  'leads')
+		'popup_title' => 'Insert Inbound Form Shortcode'
 	);
 
 /* CPT Lead Lists */

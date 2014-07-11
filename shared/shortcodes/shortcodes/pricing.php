@@ -70,7 +70,7 @@
 			'clone' => __('Add More Testimony',  'leads' )
 		),
 		'shortcode' => '[pricing column="{{column}}"]{{child}}[/pricing]',
-		'popup_title' => __('Insert Pricing Shortcode',  'leads')
+		'popup_title' => 'Insert Pricing Shortcode'
 	);
 
 /* 	Page builder module config

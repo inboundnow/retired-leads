@@ -1,6 +1,6 @@
 <?php
 /**
-*   Video Shortcode
+*	Video Shortcode
 */
 
 /* 	Shortcode generator config
@@ -16,7 +16,7 @@
 			)
 		),
 		'shortcode' => '[video url="{{url}}" /]',
-		'popup_title' => __('Insert Video Shortcode', 'leads')
+		'popup_title' => 'Insert Video Shortcode'
 	);
 
 /* 	Add shortcode

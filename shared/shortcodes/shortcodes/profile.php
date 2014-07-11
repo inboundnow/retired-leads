@@ -58,7 +58,7 @@
 			)
 		),
 		'shortcode' => '[profile name="{{name}}" meta="{{meta}}" image="{{image}}"]{{content}}[/profile]',
-		'popup_title' => __('Insert Profile Shortcode', 'leads')
+		'popup_title' => 'Insert Profile Shortcode'
 	);
 
 /* 	Page builder module config

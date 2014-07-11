@@ -1,6 +1,6 @@
 <?php
 /**
-*   Button Shortcode
+*	Button Shortcode
 */
 
 /* 	Shortcode generator config
@@ -102,7 +102,7 @@
 		),
 		// style="{{style}}"
 		'shortcode' => '[button font_size="{{font-size}}" color="{{color}}" text_color="{{text-color}}" icon="{{icon}}" url="{{url}}" width="{{width}}" target="{{target}}"]{{content}}[/button]',
-		'popup_title' => __('Insert Button Shortcode', 'leads')
+		'popup_title' =>'Insert Button Shortcode'
 	);
 
 /* 	Add shortcode

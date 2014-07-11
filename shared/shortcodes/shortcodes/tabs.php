@@ -1,6 +1,6 @@
 <?php
 /**
-*   Tabs Shortcode
+*	Tabs Shortcode
 */
 
 /* 	Shortcode generator config
@@ -18,8 +18,8 @@
 		'child' => array(
 			'options' => array(
 				'title' => array(
-					'name' => __('Tab Title',  'leads'),
-					'desc' => __('Enter the tab title.',  'leads'),
+					'name' => __('Tab Title',	'leads'),
+					'desc' => __('Enter the tab title.',	'leads'),
 					'type' => 'text',
 					'std' => ''
 				),
@@ -31,17 +31,17 @@
 					'std' => ''
 				),
 				'content' => array(
-					'name' => __('Tab Content',  'leads'),
-					'desc' => __('Put the content here.',  'leads'),
+					'name' => __('Tab Content',	'leads'),
+					'desc' => __('Put the content here.',	'leads'),
 					'type' => 'textarea',
 					'std' => ''
 				)
 			),
 			'shortcode' => '[tab title="{{title}}" icon="{{icon}}"]{{content}}[/tab]',
-			'clone' => __('Add More Tab',  'leads' )
+			'clone' => __('Add More Tab',	'leads' )
 		),
 		'shortcode' => '[tabs]{{child}}[/tabs]',
-		'popup_title' => __('Insert Tabs Shortcode',  'leads')
+		'popup_title' => 'Insert Tabs Shortcode'
 	);
 
 /* 	Page builder module config

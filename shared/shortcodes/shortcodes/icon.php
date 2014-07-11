@@ -41,7 +41,7 @@
 			),
 		),
 		'shortcode' => '[icon icon="{{icon}}" size="{{size}}" style="{{style}}"]',
-		'popup_title' => __('Insert Icon Shortcode', 'leads')
+		'popup_title' => 'Insert Icon Shortcode'
 	);
 
 /* 	Add shortcode

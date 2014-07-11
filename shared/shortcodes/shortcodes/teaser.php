@@ -1,6 +1,6 @@
 <?php
 /**
-*   Teaser Shortcode
+*	Teaser Shortcode
 */
 
 /* 	Shortcode generator config
@@ -81,10 +81,10 @@
 				)
 			),
 			'shortcode' => '[block title="{{title}}" subtitle="{{subtitle}}" icon="{{icon}}" link="{{link}}" ]{{content}}[/block]',
-			'clone' => __('Add More Block',  'leads' )
+			'clone' => __('Add More Block',	'leads' )
 		),
 		'shortcode' => '[teaser heading="{{heading}}" style="{{style}}" column="{{column}}"]{{child}}[/teaser]',
-		'popup_title' => __('Insert Teaser Shortcode', 'leads')
+		'popup_title' => 'Insert Teaser Shortcode'
 	);
 
 /* 	Page builder module config
