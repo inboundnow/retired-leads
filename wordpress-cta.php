@@ -1,5 +1,5 @@
 <?php
-/**
+/*
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
@@ -13,24 +13,24 @@ Domain Path: lang
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
-	
+
 		/**
 		* Main Inbound_Calls_To_Action_Plugin Instance
 		*
 		*/
-		public function __construct() {				
+		public function __construct() {
 			self::define_constants();
-			self::includes();	
+			self::includes();
 			self::load_shared_files();
 			self::load_text_domain();
 		}
 
-		/* 
-		* Setup plugin constants 
+		/*
+		* Setup plugin constants
 		*
 		*/
 		private static function define_constants() {
-		
+
 			define('WP_CTA_CURRENT_VERSION', '2.1.1' );
 			define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
@@ -41,12 +41,12 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
 			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
 			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' );
-			
+
 		}
-		
+
 		/* Include required plugin files */
 		private static function includes() {
-						
+
 			switch (is_admin()) :
 				case true :
 					/* loads admin files */
@@ -87,7 +87,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('modules/module.ajax-setup.php');
 					include_once('modules/module.widgets.php');
 					include_once('modules/module.cookies.php');
-					include_once('classes/class.cta.variations.php');		
+					include_once('classes/class.cta.variations.php');
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');
 					include_once('modules/module.customizer.php');
@@ -95,28 +95,28 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					BREAK;
 			endswitch;
 		}
-		
+
 		/**
 		 *  Loads components shared between Inbound Now plugins
-		 *  
+		 *
 		 */
 		private static function load_shared_files() {
-			require_once('shared/classes/class.load-shared.php'); 
+			require_once('shared/classes/class.load-shared.php');
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 		}
-		
+
 		/**
 		*  Loads the correct .mo file for this plugin
-		*  
+		*
 		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
 				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
 			});
 		}
-	
+
 	}
-	
+
 	/* Initiate Plugin */
 	$GLOBALS['Inbound_Calls_To_Action_Plugin'] = new Inbound_Calls_To_Action_Plugin;
 
