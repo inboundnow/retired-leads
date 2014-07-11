@@ -402,8 +402,7 @@ jQuery(document).ready(function($) {
 		}
 	}
 
-	//console.log(inbound_data);
-	if ( jQuery('.wpl-search-box').length ) {
+
 	/* Core Inbound Search Tracking Script */
 	jQuery("body").on('submit', '.wpl-search-box', function (e) {
 		var inbound_search_data = jQuery.totalStorage('inbound_search') || {},
@@ -478,11 +477,9 @@ jQuery(document).ready(function($) {
 
 
 	});
-	}
 
 
 	/* Core Inbound Form Tracking Script */
-	if ( jQuery('.wpl-track-me').length ) {
 	jQuery("body").on('submit', '.wpl-track-me', function (e) {
 		var inbound_data = inbound_data || {},
 		this_form = jQuery(this),
@@ -567,7 +564,7 @@ jQuery(document).ready(function($) {
 		});
 
 	});
-	}
+	
 
 	/* Core Inbound Link Tracking */
 	if ( jQuery('.wpl-track-me-link').length ) {
