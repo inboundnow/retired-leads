@@ -36,7 +36,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'page-view-tracking',
 			'label' => __('Page View Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales followups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>" , 'leads' ),
+			'description' => __("<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>" , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -76,7 +76,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'extra-lead-data',
 			'label' => __('Full Contact API Key' , 'leads' ),
-			'description' => sprintf( __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: %s here %s </p>" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+			'description' => sprintf( __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: %s </p>" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
@@ -92,7 +92,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'inbound_email_replace_core_template',
 			'option_name'  => 'inbound_email_replace_core_template',
-			'label' => __('Replace WorPress Email Templates with Inbound Now Email Templates' , 'leads' ),
+			'label' => __('Replace WordPress Email Templates with Inbound Now Email Templates' , 'leads' ),
 			'description' => __("<p>This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language.</p>" , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
