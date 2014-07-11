@@ -384,8 +384,9 @@ class Inbound_Forms {
 		echo '<script type="text/javascript">
 			jQuery(document).ready(function($){
 
+	
 			jQuery("form").submit(function(e) {
-				jQuery("form").find("input").each(function(){
+				jQuery(this).find("input").each(function(){
 				    if(!jQuery(this).prop("required")){
 				    } else if (!jQuery(this).val()) {
 					alert("Oops! Looks like you have not filled out all of the required fields!");
