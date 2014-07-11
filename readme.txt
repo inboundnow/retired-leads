@@ -72,7 +72,6 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 * Major code refactoring for improved developer experience. 
 * Added: Button to clear all cta stats at once
 * Fix: Open cta links in new window
-* Fix: Open cta links in new window
 
 
 = 2.0.9 =
