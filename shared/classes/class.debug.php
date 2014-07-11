@@ -73,7 +73,7 @@ if (!class_exists('Inbound_Debug_Scripts')) {
                 wp_dequeue_script( $handle );
             }
             //wp_enqueue_script( 'jquery' );
-            wp_register_script('inbound-debug', WP_CTA_URLPATH . 'shared/classes/js/debug.js', array('jquery'));
+            wp_register_script('inbound-debug', INBOUDNOW_SHARED_URLPATH . 'classes/js/debug.js', array('jquery'));
             wp_enqueue_script( 'inbound-debug' );
 
             foreach ( $store as $handle ) {
