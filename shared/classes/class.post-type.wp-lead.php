@@ -5,10 +5,16 @@ if ( !class_exists('Inbound_Leads') ) {
 
 	class Inbound_Leads {
 
+		/**
+		*  Initalize Inbound_Leads class
+		*/
 		function __construct() {
 			self::load_hooks();
 		}
 
+		/**
+		*  Load action hooks & filters
+		*/
 		private function load_hooks() {
 			/* Register Leads Post Type */			
 			add_action( 'init' , array( __CLASS__ , 'register_post_type' ));
@@ -21,7 +27,9 @@ if ( !class_exists('Inbound_Leads') ) {
 				add_filter( 'admin_menu' , array( __CLASS__ , 'remove_menus' ) );
 			}
 		}
-
+		/**
+		*	Register wp-lead post type
+		*/
 		public static function register_post_type() {
 			$lead_active = get_option( 'Leads_Activated' ); // Check if leads is activated
 
@@ -58,7 +66,9 @@ if ( !class_exists('Inbound_Leads') ) {
 
 		}
 		
-		/* Register Category Taxonomy */
+		/**
+		*	Register Category Taxonomy 
+		*/
 		public static function register_taxonomies() {
 
 			/* Register lead lists */
@@ -131,11 +141,11 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		/**
-		*  Make sure that all list ids are intval
-		*  
-		*  @param MIXED $lists 
-		*  @return ARRAY
-		*  
+		*	Make sure that all list ids are intval
+		*	
+		*	@param MIXED $lists 
+		*	@return ARRAY
+		*	
 		*/
 		public static function intval_list_ids( $lists ) {
 
@@ -151,7 +161,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		
-		/* 
+		/**
 		* Adds lead to list 
 		*
 		* @param lead_id INT
@@ -168,7 +178,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		
-		/* 
+		/**
 		* Removes lead from list 
 		*
 		* @param lead_id INT
@@ -183,19 +193,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			do_action('remove_lead_from_list' , $lead_id , $list_id );
 		}
 		
-		
-		/* 
-		* Adds tag to lead
-		*
-		* @param lead_id INT
-		* @param tag_id MIXED INT, STRING, ARRAY
-		*
-		*/
-		public static function add_tag_to_lead( $lead_id , $list_id ) {
-			wp_set_object_terms( $lead_id, $list_id , 'lead-tags', true );
-		}
-		
-		/* 
+		/**
 		* Get an array of all lead lists
 		*
 		* @returns ARRAY of lead lists with term id as key and list name as value
@@ -208,14 +206,37 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$terms = get_terms('wplead_list_category', $args);
 
-			foreach ( $terms as $term  ) {
+			foreach ( $terms as $term	) {
 				$array[$term->term_id] = $term->name;
 			}
 
 			return $array;
 		}
 
-		/* 
+		/**
+		*  Get lead list infomration 
+		*  
+		*  @param STRING $search accepts 'id' , 'slug' , 'name' or 'term_taxonomy_id'
+		*  @param INT $list_id
+		*  
+		*  @returns ARRAY
+		*/
+		public static function get_lead_list_by( $search , $list_id ) {
+			return  get_term_by( $search , $list_id , 'wplead_list_category', ARRAY_A);				
+		}
+		
+		/**
+		* Adds tag to lead
+		*
+		* @param lead_id INT
+		* @param tag_id MIXED INT, STRING, ARRAY
+		*
+		*/
+		public static function add_tag_to_lead( $lead_id , $list_id ) {
+			wp_set_object_terms( $lead_id, $list_id , 'lead-tags', true );
+		}
+		
+		/**
 		* Remove tag from lead
 		*
 		* @param lead_id INT
@@ -226,7 +247,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			wp_remove_object_terms( $lead_id, $list_id , 'lead-tags', true );
 		}
 		
-		/* 
+		/**
 		* Shows message to install leads when leads is not installed or activated
 		*
 		*/
@@ -242,7 +263,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			}
 		}
 		
-		/* 
+		/** 
 		* Gets number of leads in list
 		*
 		* @param list_id INT of lead list taxonomy object
@@ -257,7 +278,7 @@ if ( !class_exists('Inbound_Leads') ) {
 						array (
 							'taxonomy' => 'wplead_list_category' ,
 							'field' => 'id' ,
-							'terms' => array(  $list_id )
+							'terms' => array(	$list_id )
 						)
 					),
 					'posts_per_page' => -1 			
@@ -279,7 +300,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			//print_r($submenu);exit;
 			// This needs to be set to the URL for the admin menu section (aka "Menu Page")
 			$menu_page = 'edit.php?post_type=wp-lead';
-		 
+		
 			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
 			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
 			

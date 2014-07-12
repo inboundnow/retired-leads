@@ -98,11 +98,11 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *  
 		 */
 		public static function get_shared_urlpath() {
-			if ( defined('WP_CTA_PATH') ) {
+			if ( defined('WP_CTA_URLPATH') ) {
 				return WP_CTA_URLPATH . 'shared/';
-			} else if (	defined('LANDINGPAGES_PATH') ) {
+			} else if (	defined('LANDINGPAGES_URLPATH') ) {
 				return LANDINGPAGES_URLPATH . '/shared/';
-			} else if (	defined('WPL_PATH') ) {
+			} else if (	defined('WPL_URLPATH') ) {
 				return WPL_URLPATH . '/shared/';
 			}
 		}

@@ -578,14 +578,14 @@ function wpleads_display_metabox_main() {
 			$size = 150;
 			$size_small = 36;
 			$url = site_url();
-			$default = WPL_URL . '/images/gravatar_default_150.jpg';
+			$default = WPL_URLPATH . '/images/gravatar_default_150.jpg';
 
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 			$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
 
 			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 			    $gravatar = $default;
-			   	$gravatar2 = WPL_URL . '/images/gravatar_default_32-2x.png';
+			   	$gravatar2 = WPL_URLPATH . '/images/gravatar_default_32-2x.png';
 			}
 			// If social picture exists use it
 			if(preg_match("/gravatar_default_/", $gravatar) && $extra_image != ""){

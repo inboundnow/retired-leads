@@ -48,7 +48,7 @@ if ( !class_exists('Inbound_Automation_Post_Type') ) {
 				'publicly_queryable' => false,
 				'show_ui' => true,
 				'query_var' => true,
-				'menu_icon' => WPL_URL . '/images/automation.png',
+				'menu_icon' => WPL_URLPATH . '/images/automation.png',
 				'show_in_menu'  => 'edit.php?post_type=wp-lead',
 				'capability_type' => 'post',
 				'hierarchical' => false,

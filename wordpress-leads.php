@@ -28,7 +28,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		/* Setup plugin constants */
 		private static function define_constants() {
 			define('WPL_CURRENT_VERSION', '1.4.3' );
-			define('WPL_URL',  plugins_url( '/', __FILE__ ) );
+			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
 			define('WPL_SLUG', plugin_basename( dirname(__FILE__) ) );

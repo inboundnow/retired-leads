@@ -70,7 +70,7 @@ function wpleads_custom_columns( $column, $post_id ) {
 		$email = get_post_meta( $post_id , 'wpleads_email_address', true );
 		$size = 50;
 		$url = site_url();
-		$default = WPL_URL . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
+		$default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
 		$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
 	/*
