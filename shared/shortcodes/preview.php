@@ -32,8 +32,8 @@ $test =  html_entity_decode( trim( $html_test2 ) );
 //echo $test;
 	$shortcode = html_entity_decode( trim( $_GET['sc'] ) );
 	// SET CORRECT FILE PATHS FOR SCRIPTS
-	if ( defined( 'WPL_URLPATH' )) {
-	   $final_path = WPL_URLPATH . "/";
+	if ( defined( 'WPL_URL' )) {
+	   $final_path = WPL_URL . "/";
 	} else if (defined( 'LANDINGPAGES_URLPATH' )){
 		$final_path = LANDINGPAGES_URLPATH;
 	} else if (defined( 'WP_CTA_URLPATH' )){

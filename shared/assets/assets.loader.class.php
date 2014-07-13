@@ -134,7 +134,7 @@ class Inbound_Asset_Loader {
 		   $id_check = ($post_id != null) ? true : false;
 		}
 		if (!$id_check) {
-			$post_id = WPL_URLPATH_to_postid($current_page);
+			$post_id = wpl_url_to_postid($current_page);
 			$id_check = ($post_id != null) ? true : false;
 		}
 		if(!$id_check){
