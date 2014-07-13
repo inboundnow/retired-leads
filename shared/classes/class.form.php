@@ -821,11 +821,11 @@ class Inbound_Forms {
 					$field = "wpleads_email_address";
 				}
 
-				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_data['first-name'])) {
+				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_post_data['wpleads_first_name'])) {
 					$field = "wpleads_first_name";
 				}
 
-				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $field) && !isset($form_data['last-name'])) {
+				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $field) && !isset($form_post_data['wpleads_last_name'])) {
 					$field = "wpleads_last_name";
 				}
 
@@ -835,7 +835,6 @@ class Inbound_Forms {
 
 				$form_post_data[$field] = strip_tags( $value );
 			}
-			
 			
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 			
