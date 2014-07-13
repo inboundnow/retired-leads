@@ -34,8 +34,8 @@ function inbound_media_button() {
 }
 add_action( 'media_buttons', 'inbound_media_button', 11 );
 /* Get Page Id for Lead Tracking, fallback if $post->ID fails */
-if (!function_exists('wpl_url_to_postid')) {
-	function wpl_url_to_postid($url) {
+if (!function_exists('WPL_URLPATH_to_postid')) {
+	function WPL_URLPATH_to_postid($url) {
 		global $wp_rewrite;
 
 		$url = apply_filters('url_to_postid', $url);
@@ -171,7 +171,7 @@ if (!function_exists('wpl_url_to_postid')) {
 		return 0;
 	}
 }
-// Get Page Id for Lead Tracking, fallback if wpl_url_to_postid() fails
+// Get Page Id for Lead Tracking, fallback if WPL_URLPATH_to_postid() fails
 if (!function_exists('wp_leads_get_page_final_id')) {
 	function wp_leads_get_page_final_id(){
 			global $post;
@@ -179,7 +179,7 @@ if (!function_exists('wp_leads_get_page_final_id')) {
 			return;
 			$current_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$current_url = preg_replace('/\?.*/', '', $current_url);
-			$page_id = wpl_url_to_postid($current_url);
+			$page_id = WPL_URLPATH_to_postid($current_url);
 			$site_url = get_option('siteurl');
 			$clean_current_url = rtrim($current_url,"/");
 

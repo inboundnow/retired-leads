@@ -85,7 +85,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 = 1.4.3 =
-* Bug Fix: Renamed constant WPL_URL to WPL_URLPATH to fix shared asset loading.
+* Bug Fix: Renamed constant WPL_URLPATH to WPL_URLPATH to fix shared asset loading.
 
 = 1.4.3 =
 * Bug Fix: Remove marketing automation button for non-admin members logged in

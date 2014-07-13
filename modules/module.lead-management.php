@@ -157,7 +157,7 @@ function lead_management_js() {
 		wp_localize_script( 'bulk-manage-leads' , 'bulk_manage_leads', array( 'admin_url' => admin_url( 'admin-ajax.php' )));
 		wp_enqueue_script('jqueryui');
 		wp_enqueue_script('jquery-ui-selectable'); // FINSIH THIS http://jqueryui.com/selectable/
-		wp_enqueue_style('wpleads-list-css', WPL_URL.'/css/admin-management.css');
+		wp_enqueue_style('wpleads-list-css', WPL_URLPATH.'/css/admin-management.css');
 		wp_admin_css('thickbox');
 		add_thickbox();
 }

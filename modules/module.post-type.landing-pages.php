@@ -2,7 +2,7 @@
 
 add_action('lp_lead_table_data_is_details_column','wpleads_add_user_edit_button');
 function wpleads_add_user_edit_button($item) {
-	$image = WPL_URL.'/images/icons/edit_user.png';
+	$image = WPL_URLPATH.'/images/icons/edit_user.png';
 	echo '&nbsp;&nbsp;<a href="'.get_admin_url().'post.php?post='.$item['ID'].'&action=edit" target="_blank"><img src="'.$image.'" title="Edit Lead"></a>';
 }
 
