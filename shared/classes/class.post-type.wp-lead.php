@@ -194,6 +194,32 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		/**
+		* Get an array of all lead lists belonging to lead id
+		*
+		* @param INT $lead_id ID of lead
+		*
+		* @returns ARRAY of lead lists with term id as key and list name as value 
+		*/
+		public static function get_lead_lists_by_lead_id( $lead_id ) {
+
+			$args = array(
+				'hide_empty' => false,
+			);
+
+			$terms = get_the_terms( $lead_id , 'wplead_list_category' );
+			
+			if (!$terms) {
+				return array();
+			}
+			
+			foreach ( $terms as $term	) {
+				$array[$term->term_id] = $term->name;
+			}
+
+			return $array;
+		}
+		
+		/**
 		* Get an array of all lead lists
 		*
 		* @returns ARRAY of lead lists with term id as key and list name as value
