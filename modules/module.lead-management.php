@@ -164,7 +164,7 @@ function lead_management_js() {
 
 function lead_management_admin_screen() {
 	global $wpdb;
-	InboundCompatibility::inbound_compatibilities_mode(); // Load only our scripts
+	Inbound_Compatibility::inbound_compatibilities_mode(); // Load only our scripts
 	if (isset($_GET['testthis'])) {
        test_query();
 	}
