@@ -15,7 +15,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 				
 				/* spam checks have to run in two different locations */
 				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) ); /* On store lead ajax */
-				add_filter( 'lead_processing_spam_check' , array( __CLASS__ , 'check_is_spam' ) ); /* On form email actions */
+				add_filter( 'form_actions_spam_check' , array( __CLASS__ , 'check_is_spam' ) ); /* On form email actions */
 			}
 		}
 		
@@ -32,7 +32,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 			/* return true if akismet is not setup */
 			if (!$api_key) {
-				return true;
+				return false;
 			}
 
 			$params = Inbound_Akismet::prepare_params( $lead_data );
@@ -49,8 +49,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 				case 'inbound_store_lead_pre':
 					exit;
 					break;
-				/* Return false to prevent email actions if lead_processing_spam_check hook */
-				case 'lead_processing_spam_check':
+				/* Return true to prevent email actions if form_actions_spam_check hook */
+				case 'form_actions_spam_check':
 					return true;
 					break;
 			}
