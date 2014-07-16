@@ -4,23 +4,23 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.4.5
+Version: 1.4.6
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
 Domain Path: lang
 */
 
 if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
-	
+
 	final class Inbound_Leads_Plugin {
 
 		/**
 		 * Main Inbound_Leads_Plugin Instance
 		 *
 		*/
-		public function __construct() {				
+		public function __construct() {
 			self::define_constants();
-			self::includes();	
+			self::includes();
 			self::load_shared_files();
 			self::load_text_domain();
 		}
@@ -44,7 +44,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			if ( is_admin() ) {
 
-				
+
 				/* Admin Includes */
 				require_once('modules/module.activate.php');
 				require_once('modules/module.ajax-setup.php');
@@ -80,16 +80,16 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			//require_once INBOUND_NOW_PATH . 'includes/install.php';
 		}
-		
+
 		/* Load Shared Files */
 		private static function load_shared_files() {
-			require_once('shared/classes/class.load-shared.php'); 
+			require_once('shared/classes/class.load-shared.php');
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
-		
+
 		/**
 		*  Loads the correct .mo file for this plugin
-		*  
+		*
 		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
@@ -97,7 +97,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			});
 		}
 	}
-	
+
 	$GLOBALS['Inbound_Leads_Plugin'] = new Inbound_Leads_Plugin;
 }
 
