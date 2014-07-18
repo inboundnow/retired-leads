@@ -304,7 +304,7 @@ class Inbound_Forms {
 			}
 			// End Loop
 
-			$current_page = get_permalink();
+			$current_page =  "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$submit_bg.$submit_color.$image_button.'">
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
