@@ -32,7 +32,7 @@ class Inbound_Templating_Engine {
 			'site-name' => get_option( 'blogname' , '' ),
 			'site-tagline' => get_option( 'blogdescription' , '' ),
 			'site-url' => get_option( 'siteurl' , '' ) , 
-			'leads-urlpath' => WPL_URL , 
+			'leads-urlpath' => WPL_URLPATH , 
 			'landingpages-urlpath' => LANDINGPAGES_URLPATH , 
 			'date-time' =>  date( 'Y-m-d H:i:s A', current_time( 'timestamp', 1 ) )
 		);

@@ -135,7 +135,11 @@ if ( !class_exists('Inbound_Akismet') ) {
 		
 			/* Look for the form_input_values key in lead data array first */
 			if (isset($lead_data['form_input_values'])) {
-				$form_submit_values = json_decode( stripslashes($lead_data) , true );
+				$form_submit_values = json_decode( stripslashes($lead_data['form_input_values']) , true );
+				
+				if (!is_array($form_submit_values)) {
+					$form_submit_values = array();
+				}
 				
 				/* If notes is mapped to the form then use the 'wpleads_notes' map key */
 				if (isset($form_submit_values['wpleads_notes'])) {
