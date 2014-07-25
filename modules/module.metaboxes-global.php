@@ -209,9 +209,9 @@ function wp_cta_render_setting($field) {
 							<div class="wp_cta_tooltip" title="'.$field['description'].'"></div>';
 					break;
 				case 'colorpicker':
-						echo '<input type="text" class="jpicker '.$meta_class.'" style="background-color:#'.$final['value'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$final['value'].'" size="5" />
-								<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
-						break;
+					echo '<input type="text" class="jpicker '.$meta_class.'" style="background-color:#'.$final['value'].'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$final['value'].'" size="5" />
+							<div class="wp_cta_tooltip tool_color" title="'.$field['description'].'"></div>';
+					break;
 				case 'html-block':
 					echo '<div class="'.$meta_class.'">'.$field['description'].'</div>';
 					break;
