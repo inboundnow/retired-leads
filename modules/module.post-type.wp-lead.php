@@ -273,21 +273,22 @@ function wpl_admin_posts_meta_filter( $query ) {
 }
 
 
-function wp_leads_lead_email_filter( $query ) {
-		global $pagenow;
-		$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
+	function wp_leads_lead_email_filter( $query ) {
+			global $pagenow;
+			$screen = get_current_screen(); //@this function is not working on some wp installation. Look more into this.
 
-		if (!$screen)
-			return;
+			if (!$screen)
+				return;
 
-		$screen_id = $screen->id;
+			$screen_id = $screen->id;
 
-		if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
-			$query->query_vars['meta_key'] = 'wpleads_email_address';
-		if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
-			$query->query_vars['meta_value'] = $_GET['lead-email'];
-		}
-}
+			if ( is_admin() && $pagenow=='edit.php' && $screen_id=='edit-wp-lead' && isset($_GET['lead-email']) && $_GET['lead-email'] != '') {
+				$query->query_vars['meta_key'] = 'wpleads_email_address';
+			if (isset($_GET['lead-email']) && $_GET['lead-email'] != '')
+				$query->query_vars['meta_value'] = $_GET['lead-email'];
+			}
+	}
+	
 	// Redirect clicks from lead emails to lead profiles.
 	add_action('admin_init', 'wp_lead_redirect_with_email');
 	function wp_lead_redirect_with_email() {
