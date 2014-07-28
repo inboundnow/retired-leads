@@ -231,6 +231,38 @@ class Inbound_Forms {
 					}
 					$form .= '</select>';
 				}
+				else if ($type === 'date-selector')
+				{
+					$m = date('m');
+					$d = date('d');
+					$y = date('Y');
+					
+					$months = self::get_date_selectons('months');
+					$days = self::get_date_selectons('days');
+					$years = self::get_date_selectons('years');
+
+					$form .= '<div class="dateSelector">';
+					$form .= '	<select id="formletMonth" name="'. $field_name .'[month]" >';
+					foreach ($months as $key => $value) {
+						( $m == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '	<select id="formletDays" name="'. $field_name .'[day]" >';
+					foreach ($days as $key => $value) {
+						( $d == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '	<select id="formletYears" name="'. $field_name .'[year]" >';
+					foreach ($years as $key => $value) {
+						( $y == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '</div>';
+					
+				}
 				else if ($type === 'radio')
 				{
 					$radio_fields = array();
@@ -736,6 +768,57 @@ class Inbound_Forms {
 		return $email_template;
 	}
 
+	/**
+	*  Prepare an array of days, months, years. Make i18n ready
+	*  @param STRING $case lets us know which array to return
+	*  
+	*  @returns ARRAY of data
+	*/
+	public static function get_date_selectons( $case ) {
+	
+		switch( $case ) {
+		
+			case 'months':
+				return array( 
+					'01' => __( 'Jan' , 'leads' ),
+					'02' => __( 'Feb' , 'leads' ),
+					'03' => __( 'Mar' , 'leads' ),
+					'04' => __( 'Apr' , 'leads' ),
+					'05' => __( 'May' , 'leads' ),
+					'06' => __( 'Jun' , 'leads' ),
+					'07' => __( 'Jul' , 'leads' ),
+					'08' => __( 'Aug' , 'leads' ),
+					'09' => __( 'Sep' , 'leads' ),
+					'10' => __( 'Oct' , 'leads' ),
+					'11' => __( 'Nov' , 'leads' ),
+					'12' => __( 'Dec' , 'leads' )
+				);
+				break;
+			case 'days' :
+				return array (
+					'01' => '01',	'02' => '02',	'03' => '03',	'04' => '04',	'05' => '05',
+					'06' => '06',	'07' => '07',	'08' => '08',	'09' => '09',	'10' => '10',
+					'11' => '11',	'12' => '12',	'13' => '13',	'14' => '14',	'15' => '15',
+					'16' => '16',	'17' => '17',	'18' => '18',	'19' => '19',	'20' => '20',
+					'21' => '21',	'22' => '22',	'23' => '23',	'24' => '24',	'25' => '25',
+					'26' => '26',	'27' => '27',	'28' => '28',	'29' => '29',	'30' => '30',
+					'31' => '31'
+				);
+				break;
+			case 'years' :
+				
+				for ($i=1920;$i<2101;$i++) {
+					$years[$i] = $i;
+				}
+				
+				return $years;
+				break;
+		}
+	}
+	
+	/**
+	*  Prepare an array of country codes and country names. Make i18n ready
+	*/
 	public static function get_countries_array() {
 		return array (
 			 __( 'AF' , 'leads') => __( 'Afghanistan' , 'leads' ) ,
