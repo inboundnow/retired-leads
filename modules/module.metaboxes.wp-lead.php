@@ -447,7 +447,7 @@ function wp_lead_display_extra_data($values, $type) {
 
 	// Get All Websites associated with the person
 	elseif ($type === 'website' && isset($websites) && is_array($websites)) {
-			echo "<div id='lead-websites'><h4>". _e( 'Websites' , 'leads' ) ."</h4>";
+			echo "<div id='lead-websites'><h4>". __( 'Websites' , 'leads' ) ."</h4>";
 			//print_r($websites);
 			foreach($websites as $site)
 			{
@@ -457,7 +457,7 @@ function wp_lead_display_extra_data($values, $type) {
 	}
 	// Get All Social Media Account associated with the person
 	elseif ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
-			echo "<div id='lead-social-profiles'><h4>". _e( 'Social Media Profiles' , 'leads' ) ."</h4>";
+			echo "<div id='lead-social-profiles'><h4>". __( 'Social Media Profiles' , 'leads' ) ."</h4>";
 			//print_r($social_profiles);
 			foreach($social_profiles as $profiles) {
 				$network = (isset($profiles['typeName'])) ? $profiles['typeName'] : "";
@@ -480,11 +480,11 @@ function wp_lead_display_extra_data($values, $type) {
 			echo $print;
 			echo "<span class='lead-work-label ".$hideclass."'>" . $title . " at ". $org_name ."</span>";
 		}
-		echo "<span id='show-work-history'>". _e( 'View past work' , 'leads' ) ."</span></div>";
+		echo "<span id='show-work-history'>". __( 'View past work' , 'leads' ) ."</span></div>";
 	}
 	// Get All demo graphic info associated with the person
 	elseif ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
-		echo "<div id='lead-demographics'><h4>". _e( 'Demographics' ,'leads' ) ."</h4>";
+		echo "<div id='lead-demographics'><h4>". __( 'Demographics' ,'leads' ) ."</h4>";
 		$location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
 		$age = (isset($demographics['age'])) ? $demographics['age'] : "";
 		$ageRange = (isset($demographics['ageRange'])) ? $demographics['ageRange'] : "";
@@ -494,7 +494,7 @@ function wp_lead_display_extra_data($values, $type) {
 	}
 	// Get All Topics associated with the person
 	elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
-		echo "<div id='lead-topics'><h4>". _e( 'Interests' , 'leads' ) ."</h4>";
+		echo "<div id='lead-topics'><h4>". __( 'Interests' , 'leads' ) ."</h4>";
 		foreach($interested_in as $topic) {
 			echo "<span class='lead-topic-tag'>". $topic['value'] . "</span>";
 		}
