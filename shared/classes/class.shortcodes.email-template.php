@@ -31,7 +31,9 @@ class Inbound_Email_Template_Shortcodes {
 		*/
 		$html = '';
 		
-		foreach ($_POST as $key => $value ) {
+		$post_params = apply_filters( 'inbound-email-post-params' , $_POST);
+		
+		foreach ($post_params as $key => $value ) {
 			
 			$name = str_replace(array('-','_'),' ', $key);
 			$name = ucwords($name);
