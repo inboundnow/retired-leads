@@ -193,6 +193,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 			?>
 			<div class='inbound_email_templates_form_submission_tokens'>
+				<span class='lead_token' title='The ID of the lead stored in the WordPress database,' style='cursor:pointer;'>{{lead-id}}</span><br>
 				<span class='lead_token' title='First & Last name of recipient' style='cursor:pointer;'>{{lead-full-name}}</span><br>
 				<span class='lead_token' title='First name of recipient' style='cursor:pointer;'>{{lead-first-name}}</span><br>
 				<span class='lead_token' title='Last name of recipient' style='cursor:pointer;'>{{lead-last-name}}</span><br>
