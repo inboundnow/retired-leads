@@ -13,7 +13,7 @@ if (!class_exists('Inbound_Menu')) {
 		static $load_callstoaction;
 		static $load_leads;
 
-		function init()
+		public static function init()
 		{
 			 // Exit if admin bar not there
 			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
