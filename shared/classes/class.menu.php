@@ -135,7 +135,7 @@ if (!class_exists('Inbound_Menu')) {
 			$menu_items[ $leads_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
 				'title'  => __( 'Leads', 'leads' ),
-				'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
+				'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
 				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'leads' ) )
 			);
 
