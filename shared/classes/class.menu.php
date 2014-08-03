@@ -101,7 +101,7 @@ if (!class_exists('Inbound_Menu')) {
 
 		}
 
-		public function hooks()
+		public static function hooks()
 		{
 			/* add filters here */
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
@@ -120,7 +120,7 @@ if (!class_exists('Inbound_Menu')) {
 		}
 
 
-		function load_leads( $menu_items )
+		public static function load_leads( $menu_items )
 		{
 			/* Check if Leads Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('leads/wordpress-leads.php')) {
@@ -179,7 +179,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_callstoaction( $menu_items )
+		public static function load_callstoaction( $menu_items )
 		{
 			/* Check if Calls To Action Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('cta/wordpress-cta.php')) {
@@ -235,7 +235,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_landingpages( $menu_items )
+		public static function load_landingpages( $menu_items )
 		{
 			/* Check if Landing Pages Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('landing-pages/landing-pages.php')) {
@@ -292,7 +292,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_forms( $menu_items )
+		public static function load_forms( $menu_items )
 		{
 			/* Check if Leads Active */
 			if (!self::$load_forms) {
@@ -340,7 +340,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_manage_templates( $menu_items )
+		public static function load_manage_templates( $menu_items )
 		{
 			if ( !isset(self::$load_landingpages) || !isset(self::$load_callstoaction) ) {
 				return $menu_items;
@@ -387,7 +387,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_settings( $menu_items )
+		public static function load_settings( $menu_items )
 		{
 			$settings_key = 'inbound-settings';
 
@@ -430,7 +430,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_analytics( $menu_items )
+		public static function load_analytics( $menu_items )
 		{
 			$analytics_key = 'inbound-analytics';
 
@@ -445,7 +445,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_seo( $menu_items )
+		public static function load_seo( $menu_items )
 		{
 			$seo_key = 'inbound-seo';
 
@@ -461,7 +461,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_support( $secondary_menu_items )
+		public static function load_support( $secondary_menu_items )
 		{
 			$support_key = 'inbound-support';
 
@@ -497,7 +497,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $secondary_menu_items;
 		}
 
-		function load_inbound_hq( $secondary_menu_items )
+		public static function load_inbound_hq( $secondary_menu_items )
 		{
 			$hq_key = 'inbound-hq';
 
@@ -544,7 +544,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $secondary_menu_items;
 		}
 
-		function load_debug( $secondary_menu_items )
+		public static function load_debug( $secondary_menu_items )
 		{
 			$debug_key = 'inbound-debug';
 
