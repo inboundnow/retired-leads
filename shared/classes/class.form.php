@@ -185,10 +185,15 @@ class Inbound_Forms {
 				$input_classes = $email_input . $first_name_input . $last_name_input . $phone_input;
 
 				$type = (isset($matches[3][$i]['type'])) ? $matches[3][$i]['type'] : '';
+				$show_labels = true;
+
+				if ($type === "hidden" || $type === "honeypot" || $type === "html-block" || $type === "divider") {
+					$show_labels = false;
+				}
 
 				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$field_container_class.'">';
 
-				if ($type != 'hidden' && $form_labels != "bottom" && $type != "html-block" && $type != "divider" || $type === "radio")
+				if ($show_labels && $form_labels != "bottom" || $type === "radio")
 				{
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
@@ -214,9 +219,8 @@ class Inbound_Forms {
 						$form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
 					}
 					$form .= '</select>';
-				}
-				else if ($type === 'dropdown_countries')
-				{
+
+				} else if ($type === 'dropdown_countries') {
 
 					$dropdown_fields = self::get_countries_array();
 
@@ -230,9 +234,9 @@ class Inbound_Forms {
 						$form .= '<option value="'.$key.'">'. utf8_encode($value) .'</option>';
 					}
 					$form .= '</select>';
-				}
-				else if ($type === 'radio')
-				{
+
+				} else if ($type === 'radio') {
+
 					$radio_fields = array();
 					$radio = $matches[3][$i]['radio'];
 					$radio_fields = explode(",", $radio);
@@ -244,9 +248,7 @@ class Inbound_Forms {
 						$radio_val =	strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
 						$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
 					}
-				}
-				else if ($type === 'checkbox')
-				{
+				} else if ($type === 'checkbox') {
 					$checkbox_fields = array();
 
 					$checkbox = $matches[3][$i]['checkbox'];
@@ -262,27 +264,21 @@ class Inbound_Forms {
 
 						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'" '.$required_id.'>'.$value.'<br>';
 					}
-				}
-				else if ($type === 'html-block')
-				{
+				} else if ($type === 'html-block') {
 					$html = $matches[3][$i]['html'];
 					//echo $html;
 					$form .= "<div class={$field_input_class}>";
 					$form .= do_shortcode(html_entity_decode($html));
 					$form .= "</div>";
-				}
-				else if ($type === 'divider')
-				{
+				} else if ($type === 'divider') {
 					$divider = $matches[3][$i]['divider_options'];
 					//echo $html;
 					$form .= "<div class='inbound-form-divider {$field_input_class}'>" . $divider . "<hr></div>";
-				}
-				else if ($type === 'editor')
-				{
+				} else if ($type === 'editor') {
 					//wp_editor(); // call wp editor
-				}
-				else
-				{
+				} else if ($type === 'honeypot') {
+					$form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
+				} else {
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 					$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -291,8 +287,7 @@ class Inbound_Forms {
 					}
 					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
 				}
-				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio" && $type != "html-block" && $type != "divider")
-				{
+				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
@@ -384,7 +379,7 @@ class Inbound_Forms {
 		echo '<script type="text/javascript">
 			jQuery(document).ready(function($){
 
-	
+
 			jQuery("form").submit(function(e) {
 				jQuery(this).find("input").each(function(){
 				    if(!jQuery(this).prop("required")){
@@ -463,6 +458,10 @@ class Inbound_Forms {
 
 		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
 		{
+			if(isset($_POST['stop_dirty_subs']) && $_POST['stop_dirty_subs'] != "") {
+				wp_die( $message = 'Die You spam bastard' );
+				return false;
+			}
 			/* get form submitted form's meta data */
 			$form_meta_data = get_post_meta( $_POST['inbound_form_id'] );
 
@@ -530,7 +529,7 @@ class Inbound_Forms {
 
 				$form_post_data[$field] = strip_tags( $value );
 			}
-			
+
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 
 			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
@@ -605,7 +604,7 @@ class Inbound_Forms {
 				$result = wp_mail( $recipient , $subject , $body , $headers );
 			}
 
-		} 
+		}
 
 	}
 

@@ -208,6 +208,7 @@
 						"date" => __("Date Field", "leads"),
 						"time" => __("Time Field", "leads"),
 						'hidden' => __("Hidden Field", "leads"),
+						'honeypot' => __("Anti Spam Honey Pot", "leads"),
 						//'file_upload' => __("File Upload", "leads"),
 						//'editor' => __("HTML Editor" ,"leads"),
 						//"multi-select" => __("multi-select" ,  "leads")
@@ -376,8 +377,7 @@ if (!function_exists('inbound_forms_cpt')) {
 }
 
 
-if (is_admin())
-{
+if (is_admin()) {
 	// Change the columns for the edit CPT screen
 	add_filter( "manage_inbound-forms_posts_columns", "inbound_forms_change_columns" );
 	if (!function_exists('inbound_forms_change_columns')) {
