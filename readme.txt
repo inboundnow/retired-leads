@@ -68,6 +68,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.1.4 =
+* "Translation 100% for Romanian." - FX Benard
+
 = 2.1.3 =
 * Fix: Lead email notifications now working again.
 
