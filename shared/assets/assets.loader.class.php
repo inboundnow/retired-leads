@@ -1,5 +1,5 @@
 <?php
-/**
+/*
 Inbound Scripts and CSS Enqueue
 */
 
@@ -86,7 +86,7 @@ class Inbound_Asset_Loader {
 		$deps = (empty($deps)) ? array() : $deps;
     	$url = INBOUDNOW_SHARED_URLPATH . 'assets/' . $file_name;
     	$file = INBOUDNOW_SHARED_PATH . 'assets/' . $file_name;
-		
+
     	$file_type = strpos($file_name, '.js');
     	if (!(false === $file_type)) { $is_script = true; }
 
