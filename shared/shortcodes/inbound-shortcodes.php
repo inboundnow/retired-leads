@@ -235,7 +235,7 @@ class Inbound_Shortcodes {
 
 		return $button;
 	}
- /**
+ /*
 	static function inbound_shortcode_prompt($hook) {
 
 		global $pagenow, $current_user, $post;
@@ -621,7 +621,7 @@ class Inbound_Shortcodes {
 	static function inbound_forms_header_area()
 	{
 		global $post;
-		
+
 		$post_id = $post->ID;
 		$post_title = get_the_title( $post_id );
 		$popup = trim(get_post_meta($post->ID, 'inbound_shortcode', true));
@@ -644,8 +644,7 @@ class Inbound_Shortcodes {
 				<?php
 
 				$lead_conversion_list = get_post_meta( $post_id , 'lead_conversion_list', TRUE );
-				if ($lead_conversion_list)
-				{
+				if ($lead_conversion_list) {
 					$lead_conversion_list = json_decode($lead_conversion_list,true);
 					foreach ($lead_conversion_list as $key => $value) {
 						$email = $lead_conversion_list[$key]['email'];

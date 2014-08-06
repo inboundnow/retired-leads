@@ -240,7 +240,7 @@ class Inbound_Forms {
 					$m = date('m');
 					$d = date('d');
 					$y = date('Y');
-					
+
 					$months = self::get_date_selectons('months');
 					$days = self::get_date_selectons('days');
 					$years = self::get_date_selectons('years');
@@ -265,7 +265,7 @@ class Inbound_Forms {
 					}
 					$form .= '	</select>';
 					$form .= '</div>';
-					
+
 				}
 				else if ($type === 'radio')
 				{
@@ -484,12 +484,39 @@ class Inbound_Forms {
 
 		return $content;
 	}
+	// Save Form Conversion to Form CPT
+	static function store_form_stats($form_id, $email) {
 
+			//$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			// $wordpress_date_time = date("Y-m-d G:i:s", $time);
+			$form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
+			$form_conversion_num++;
+			update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
+
+			// Add Lead Email to Conversions List
+			$lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
+			$lead_conversion_list = json_decode($lead_conversion_list,true);
+			if (is_array($lead_conversion_list)) {
+				$lead_count = count($lead_conversion_list);
+				$lead_conversion_list[$lead_count]['email'] = $email;
+				// $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
+				$lead_conversion_list = json_encode($lead_conversion_list);
+				update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			} else {
+				$lead_conversion_list = array();
+				$lead_conversion_list[0]['email'] = $email;
+				//	$lead_conversion_list[0]['date'] = $wordpress_date_time;
+				$lead_conversion_list = json_encode($lead_conversion_list);
+				update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			}
+
+	}
 	/* Perform Actions After a Form Submit */
 	static function do_actions(){
 
 		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
 		{
+
 			if(isset($_POST['stop_dirty_subs']) && $_POST['stop_dirty_subs'] != "") {
 				wp_die( $message = 'Die You spam bastard' );
 				return false;
@@ -503,37 +530,6 @@ class Inbound_Forms {
 				$redirect = $_POST['inbound_current_page_url'];
 			}
 
-			// Save Form Conversion to Form CPT
-			if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
-				$form_id = $_POST['inbound_form_id'];
-				// Increment Form Conversion Count
-				//$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-				// $wordpress_date_time = date("Y-m-d G:i:s", $time);
-				$form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
-				$form_conversion_num++;
-				update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
-				// Add Lead Email to Conversions List
-
-				if ( isset($_POST['email'])) {
-					$lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
-					$lead_conversion_list = json_decode($lead_conversion_list,true);
-					if (is_array($lead_conversion_list)) {
-						$lead_count = count($lead_conversion_list);
-						$lead_conversion_list[$lead_count]['email'] = $_POST['email'];
-						// $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
-						$lead_conversion_list = json_encode($lead_conversion_list);
-						update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
-					} else {
-						$lead_conversion_list = array();
-						$lead_conversion_list[0]['email'] = $_POST['email'];
-						//	$lead_conversion_list[0]['date'] = $wordpress_date_time;
-						$lead_conversion_list = json_encode($lead_conversion_list);
-						update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
-					}
-				}
-			}
-
-
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
 
@@ -545,6 +541,9 @@ class Inbound_Forms {
 
 				if (preg_match( '/Email|e-mail|email/i', $field)) {
 					$field = "wpleads_email_address";
+					if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
+						self::store_form_stats($_POST['inbound_form_id'], $value);
+					}
 				}
 
 				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_post_data['wpleads_first_name'])) {
@@ -770,15 +769,15 @@ class Inbound_Forms {
 	/**
 	*  Prepare an array of days, months, years. Make i18n ready
 	*  @param STRING $case lets us know which array to return
-	*  
+	*
 	*  @returns ARRAY of data
 	*/
 	public static function get_date_selectons( $case ) {
-	
+
 		switch( $case ) {
-		
+
 			case 'months':
-				return array( 
+				return array(
 					'01' => __( 'Jan' , 'leads' ),
 					'02' => __( 'Feb' , 'leads' ),
 					'03' => __( 'Mar' , 'leads' ),
@@ -805,16 +804,16 @@ class Inbound_Forms {
 				);
 				break;
 			case 'years' :
-				
+
 				for ($i=1920;$i<2101;$i++) {
 					$years[$i] = $i;
 				}
-				
+
 				return $years;
 				break;
 		}
 	}
-	
+
 	/**
 	*  Prepare an array of country codes and country names. Make i18n ready
 	*/
