@@ -32,10 +32,21 @@ class Inbound_Templating_Engine {
 			'site-name' => get_option( 'blogname' , '' ),
 			'site-tagline' => get_option( 'blogdescription' , '' ),
 			'site-url' => get_option( 'siteurl' , '' ) , 
-			'leads-urlpath' => WPL_URLPATH , 
-			'landingpages-urlpath' => LANDINGPAGES_URLPATH , 
 			'date-time' =>  date( 'Y-m-d H:i:s A', current_time( 'timestamp', 1 ) )
 		);
+		
+		/* Plugin specific constants */
+		if ( defined( 'LANDINGPAGES_URLPATH' ) ) {
+			self::$instance->defaults['landingpages-urlpath'] = LANDINGPAGES_URLPATH;
+		}
+		
+		if ( defined( 'WPL_URLPATH' ) ) {
+			self::$instance->defaults['leads-urlpath'] = WPL_URLPATH;
+		}
+		
+		if ( defined( 'WP_CTA_URLPATH' ) ) {
+			self::$instance->defaults['callstoaction-urlpath'] = WP_CTA_URLPATH;
+		}
 	}
 
 	/* Replace Tokens */
