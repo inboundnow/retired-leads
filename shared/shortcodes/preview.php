@@ -75,6 +75,7 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Pr
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y-m-d G:i:s T", $time);
 		wp_localize_script( 'funnel-tracking' , 'wplft', array( 'post_id' => '100000000', 'ip_address' => $_SERVER['REMOTE_ADDR'], 'wp_lead_data' => null, 'admin_url' => admin_url( 'admin-ajax.php' ), 'track_time' => $wordpress_date_time));
+		wp_dequeue_script('form-population');
 		wp_head();
 ?>
 <style type="text/css">

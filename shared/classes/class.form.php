@@ -336,7 +336,7 @@ class Inbound_Forms {
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" name="inbound_params" value=""></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
 			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -514,9 +514,8 @@ class Inbound_Forms {
 	/* Perform Actions After a Form Submit */
 	static function do_actions(){
 
-		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
-		{
-
+		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') {
+			$form_post_data = array();
 			if(isset($_POST['stop_dirty_subs']) && $_POST['stop_dirty_subs'] != "") {
 				wp_die( $message = 'Die You spam bastard' );
 				return false;
@@ -530,11 +529,17 @@ class Inbound_Forms {
 				$redirect = $_POST['inbound_current_page_url'];
 			}
 
-			if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
+			if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {
 
-				$params = json_decode($_POST['inbound_params'],true);
-				print_r($params);
-				exit;
+				$url_params = json_decode(stripslashes($_POST['inbound_params']));
+				foreach ($url_params as $field => $value) {
+					/* Store UTM params */
+					if (preg_match( '/utm_/i', $field)) {
+						//echo $field . ":" . $value;
+						$form_post_data[$field] = strip_tags( $value );
+					}
+				}
+
 			}
 
 			//print_r($_POST);
@@ -593,7 +598,7 @@ class Inbound_Forms {
 	public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
 
 		if ( $template = self::get_new_lead_email_template()) {
-
+			echo "send"; exit;
 			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 			function set_html_content_type() {
 				return 'text/html';
@@ -625,11 +630,15 @@ class Inbound_Forms {
 				}
 			}
 
+			$from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
+
 			/* Prepare Additional Data For Token Engine */
 			$form_post_data['redirect_message'] = (isset($form_post_data['inbound_redirect']) && $form_post_data['inbound_redirect'] != "") ? "They were redirected to " . $form_post_data['inbound_redirect'] : '';
 
 			/* Discover From Name */
 			$from_name = get_option( 'blogname' , '' );
+			$from_name = apply_filters( 'inbound_admin_notification_from_name', $from_name  );
+
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 			$subject = $Inbound_Templating_Engine->replace_tokens( $subject , array( $form_post_data , $form_meta_data )	);
 			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array( $form_post_data , $form_meta_data )	);
@@ -697,9 +706,8 @@ class Inbound_Forms {
 			$confirm_subject = $template_array['subject'];
 			$confirm_email_message = $template_array['body'];
 
-		}
 		/* Else Use Custom Template */
-		else {
+		} else {
 
 			$template = get_post($form_id);
 			$content = $template->post_content;
@@ -739,7 +747,7 @@ class Inbound_Forms {
 	}
 
 	/* Get Email Template for New Lead Notification */
-	public static function get_new_lead_email_template( ) {
+	static function get_new_lead_email_template( ) {
 
 		$email_template = array();
 
