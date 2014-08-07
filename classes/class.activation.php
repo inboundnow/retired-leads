@@ -36,7 +36,9 @@ class CTA_Activation {
 		
 		/* Set Default Settings */
 		self::set_default_settings();
-
+		
+		/* Activate shared components */
+		self::activate_shared();
 	}
 	
 	/**
@@ -120,6 +122,13 @@ class CTA_Activation {
 		add_option( 'wp_cta_global_record_admin_actions', '1', '', 'no' );
 		add_option( 'wp_cta_global_wp_cta_slug', 'cta', '', 'no' );
 		update_option( 'wp_cta_activate_rewrite_check', '1');
+	}
+	
+	/**
+	*  Tells Inbound Shared to run activation commands
+	*/
+	public static function activate_shared() {
+		set_transient( 'Inbound_Activate', true );
 	}
 	
 	/* Aborts activation and details 

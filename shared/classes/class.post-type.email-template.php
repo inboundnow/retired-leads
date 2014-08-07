@@ -17,6 +17,9 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 			/* Load Admin Only Hooks */
 			if (is_admin()) {
 			
+				/* Register Email Templates on Activation */
+				add_action( "inbound_shared_activate", array( __CLASS__ , 'register_templates' ) );
+			
 				/* Register Columns */
 				add_filter( 'manage_email-template_posts_columns' , array( __CLASS__ , 'register_columns') );
 				
