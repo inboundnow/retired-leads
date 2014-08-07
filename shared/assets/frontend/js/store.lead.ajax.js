@@ -391,7 +391,7 @@ jQuery(document).ready(function($) {
 
 	var cookies = InboundAnalytics.Utils.getAllCookies();
 	var inbound_store = jQuery.totalStorage('inbound_cookies');
-		
+
 	// loop through cookies and assign to inbound_data object
 	if (typeof inbound_store =='object' && inbound_store) {
 		for(var name in inbound_store) {
@@ -485,8 +485,12 @@ jQuery(document).ready(function($) {
 		this_form = jQuery(this),
 		event_type = e.type,
 		is_search = false,
-		form_type = 'normal';
-
+		form_type = 'normal',
+		honey_pot = this_form.find('.stop_dirty_subs');
+		if (honey_pot.length > 0 && honey_pot.val() != "") {
+			alert('Get Lost Spam Bot');
+			return false;
+		}
 
 		inbound_data['form_type'] = inbound_form_type(this_form);
 
@@ -564,7 +568,7 @@ jQuery(document).ready(function($) {
 		});
 
 	});
-	
+
 
 	/* Core Inbound Link Tracking */
 	if ( jQuery('.wpl-track-me-link').length ) {
@@ -629,7 +633,7 @@ jQuery(document).ready(function($) {
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
 					//jQuery.totalStorage.deleteItem('cta_clicks'); // remove cta
-					
+
 					return true;
 				   },
 			error: function(MLHttpRequest, textStatus, errorThrown){
