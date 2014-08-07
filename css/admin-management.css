@@ -1221,7 +1221,9 @@ table th.sort-up:after {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.lead-export-symbol:before{
+  content:"\f019";
+}
 .lead-update-tags-symbol:before {
   content: "\f02c";
 }
