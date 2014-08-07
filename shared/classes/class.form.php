@@ -336,7 +336,7 @@ class Inbound_Forms {
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" name="inbound_params" value=""></form></div>';
 			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -528,6 +528,13 @@ class Inbound_Forms {
 				$redirect = base64_decode($_POST['inbound_furl']);
 			} else if (isset($_POST['inbound_current_page_url'])) {
 				$redirect = $_POST['inbound_current_page_url'];
+			}
+
+			if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
+
+				$params = json_decode($_POST['inbound_params'],true);
+				print_r($params);
+				exit;
 			}
 
 			//print_r($_POST);
