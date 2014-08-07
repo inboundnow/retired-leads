@@ -32,7 +32,7 @@ class Inbound_Email_Template_Shortcodes {
 		$html = '';
 
 		$post_params = apply_filters( 'inbound-email-post-params' , $_POST);
-		$blacklist = array('inbound_submitted', 'inbound_submitted', 'inbound_notify', 'inbound_params');
+		$blacklist = array('inbound_submitted', 'inbound_notify', 'inbound_params', 'inbound_furl', 'stop_dirty_subs');
 
 		// Parse out UTM Params
 		if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {
@@ -60,6 +60,7 @@ class Inbound_Email_Template_Shortcodes {
 				$value  = __( 'n/a' , 'ma');
 			}
 
+
 			/* Rewrite UTM params */
 			if (preg_match( '/utm_/i', $key)) {
 				$name = ucfirst(str_replace("utm_", "", $key));
@@ -67,6 +68,19 @@ class Inbound_Email_Template_Shortcodes {
 
 			if ($key == "inbound_form_id" ) {
 				$value = "<a title='". __( 'View/Edit this form' , 'ma' ) ."' href='" . admin_url( 'post.php?post=' . $value . '&action=edit' ). "'>".$value."</a>";
+			}
+
+			if($key == "inbound_form_lists" && $value != "") {
+				$name = 'Added to Lists:';
+				$lists = explode(',', $value);
+				$count = count($lists) - 1;
+				$list_links = "";
+				foreach ($lists as $list ) {
+					//$list_name = get_term_by('term_id', $list, 'wplead_list_category');
+					$list_links .= "<a title='". __( 'View this list' , 'ma' ) ."' href='" . admin_url( 'edit.php?page=lead_management&post_type=wp-lead&wplead_list_category%5B%5D='.$list.'&relation=AND&orderby=date&order=asc&s=&t=&submit=Search+Leads' ). "'>".$list."</a>";
+					if($count) { $list_links .= ' - '; $count--; }
+				}
+				$value = $list_links;
 			}
 
 			if ($key == "wp_cta_id" ) {
@@ -77,16 +91,13 @@ class Inbound_Email_Template_Shortcodes {
 				$name = __("Converted on Page" , 'ma' );
 			}
 
-			$html .= '<tr style="border-bottom: 1px solid #cccccc;">';
-			$html .= '	<td width="600" style="border-right: 1px solid #cccccc; padding: 10px; padding-bottom: 5px;">';
-			$html .= '		<div style="padding-left:5px; display:inline-block; padding-bottom: 5px; font-size: 16px; color:#555;">';
-			$html .= '			<strong>'.$name.'</strong>';
-			$html .= '		</div>';
-			$html .= '		<div style="padding-left:5px; display:inline-block; font-size: 14px; color:#000;">';
-			$html .= '			'.$value.'';
-			$html .= '		</div>';
-			$html .= '	</td>';
-			$html .= '</tr>';
+			$html .= '<tr style="border-bottom:1px solid #cccccc;">';
+			$html .= '<td width="600" style="border-right:1px solid #cccccc;padding:10px;padding-bottom:5px;">';
+			$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size: 16px; color:#555;"><strong>';
+			$html .= $name;
+			$html .= '</strong></div><div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">';
+			$html .= $value;
+			$html .= '</div></td></tr>';
 		}
 
 		return $html;
