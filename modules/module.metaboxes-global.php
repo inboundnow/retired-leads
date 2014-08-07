@@ -20,6 +20,7 @@ function cta_placements_content_add_meta_box()
 	$exclude[] = 'email-template';
 	$exclude[] = 'inbound-log';
 	$exclude[] = 'landing-page';
+	$exclude[] = 'edd-license';
 	
 	foreach ($post_types as $value ) {
 		$priority = ($value === 'landing-page') ? 'core' : 'high';
