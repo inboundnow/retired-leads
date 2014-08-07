@@ -59,7 +59,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('modules/module.tracking.php');
 				require_once('modules/module.enqueue-admin.php');
 				require_once('modules/module.form-integrations.php');
-				require_once('classes/class.post-type.email-template.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
 
@@ -69,7 +68,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.post-type.wp-lead.php');
 				require_once('modules/module.form-integrations.php');
-				require_once('classes/class.post-type.email-template.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
 				/* load frontend */

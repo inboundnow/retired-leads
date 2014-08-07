@@ -205,9 +205,11 @@
 						"checkbox" => __("Checkbox", "leads"),
 						"html-block" => __("HTML Block", "leads"),
 						'divider' => __("Divider", "leads"),
-						"date" => __("Date Field", "leads"),
+						"date" => __("Date Picker Field", "leads"),
+						"date-selector" => __("Date Selector Field", "leads"),
 						"time" => __("Time Field", "leads"),
 						'hidden' => __("Hidden Field", "leads"),
+						'honeypot' => __("Anti Spam Honey Pot", "leads"),
 						//'file_upload' => __("File Upload", "leads"),
 						//'editor' => __("HTML Editor" ,"leads"),
 						//"multi-select" => __("multi-select" ,  "leads")
@@ -365,19 +367,18 @@ if (!function_exists('inbound_forms_cpt')) {
 	    register_post_type( 'inbound-forms' , $args );
 		//flush_rewrite_rules( false );
 
-		/**
+		/*
 		add_action('admin_menu', 'remove_list_cat_menu');
 		function remove_list_cat_menu() {
 			global $submenu;
 			unset($submenu['edit.php?post_type=wp-lead'][15]);
 			//print_r($submenu); exit;
-		} */
+		}*/
 	}
 }
 
 
-if (is_admin())
-{
+if (is_admin()) {
 	// Change the columns for the edit CPT screen
 	add_filter( "manage_inbound-forms_posts_columns", "inbound_forms_change_columns" );
 	if (!function_exists('inbound_forms_change_columns')) {
@@ -577,7 +578,7 @@ if (!function_exists('inbound_form_save')) {
 	    	  		echo json_encode($output,JSON_FORCE_OBJECT);
 	    	  		wp_die();
 	    } else {
-		
+
 			// If from popup run this
 	        $query = $wpdb->prepare(
 	            'SELECT ID FROM ' . $wpdb->posts . '
@@ -586,7 +587,7 @@ if (!function_exists('inbound_form_save')) {
 	            $form_name
 	        );
 	        $wpdb->query( $query );
-			
+
 	        // If form exists
 	        if ( $wpdb->num_rows ) {
 	            $post_ID = $wpdb->get_var( $query );
@@ -610,7 +611,7 @@ if (!function_exists('inbound_form_save')) {
 	            }
 
 	        } else {
-			
+
 	            // If form doesn't exist create it
 	            $post = array(
 	                'post_title'        => $form_name,
@@ -727,40 +728,40 @@ if (!function_exists('inbound_form_auto_publish')) {
 }
 
 if (!function_exists('inbound_form_add_lead_list')) {
-	
+
 	add_action('wp_ajax_inbound_form_add_lead_list', 'inbound_form_add_lead_list');
 
 	function inbound_form_add_lead_list()
 	{
 		if(isset($_POST['list_val']) && !empty($_POST['list_val'])){
-			
+
 			$list_title = $_POST['list_val'];
-			
+
 			$taxonomy = 'wplead_list_category';
-			
+
 			$list_parent = $_POST['list_parent_val'];
-			
+
 			$term_array = wp_insert_term( $list_title, $taxonomy, $args = array('parent' => $list_parent) );
-			
+
 			if($term_array['term_id']){
-			
+
 				$term_id = $term_array['term_id'];
-				
+
 				$term = get_term( $term_id, $taxonomy );
-				
+
 				$name = $term->name;
-				
-				$response_arr = array('status' => true, 'term_id' => $term_id, 'name' => $name); 
-			
+
+				$response_arr = array('status' => true, 'term_id' => $term_id, 'name' => $name);
+
 			} else {
-				
+
 				$response_arr = array('status' => false);
 			}
-			
+
 			echo json_encode($response_arr);
-		   
+
 		}
-		
+
 	 	wp_die();
 	}
 }

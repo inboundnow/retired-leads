@@ -185,10 +185,15 @@ class Inbound_Forms {
 				$input_classes = $email_input . $first_name_input . $last_name_input . $phone_input;
 
 				$type = (isset($matches[3][$i]['type'])) ? $matches[3][$i]['type'] : '';
+				$show_labels = true;
+
+				if ($type === "hidden" || $type === "honeypot" || $type === "html-block" || $type === "divider") {
+					$show_labels = false;
+				}
 
 				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$field_container_class.'">';
 
-				if ($type != 'hidden' && $form_labels != "bottom" && $type != "html-block" && $type != "divider" || $type === "radio")
+				if ($show_labels && $form_labels != "bottom" || $type === "radio")
 				{
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
@@ -214,9 +219,8 @@ class Inbound_Forms {
 						$form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
 					}
 					$form .= '</select>';
-				}
-				else if ($type === 'dropdown_countries')
-				{
+
+				} else if ($type === 'dropdown_countries') {
 
 					$dropdown_fields = self::get_countries_array();
 
@@ -231,6 +235,38 @@ class Inbound_Forms {
 					}
 					$form .= '</select>';
 				}
+				else if ($type === 'date-selector')
+				{
+					$m = date('m');
+					$d = date('d');
+					$y = date('Y');
+
+					$months = self::get_date_selectons('months');
+					$days = self::get_date_selectons('days');
+					$years = self::get_date_selectons('years');
+
+					$form .= '<div class="dateSelector">';
+					$form .= '	<select id="formletMonth" name="'. $field_name .'[month]" >';
+					foreach ($months as $key => $value) {
+						( $m == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '	<select id="formletDays" name="'. $field_name .'[day]" >';
+					foreach ($days as $key => $value) {
+						( $d == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '	<select id="formletYears" name="'. $field_name .'[year]" >';
+					foreach ($years as $key => $value) {
+						( $y == $key ) ? $sel = 'selected="selected"' : $sel = '';
+						$form .= '<option value="'.$key.'" '.$sel.'>'.$value.'</option>';
+					}
+					$form .= '	</select>';
+					$form .= '</div>';
+
+				}
 				else if ($type === 'radio')
 				{
 					$radio_fields = array();
@@ -244,9 +280,7 @@ class Inbound_Forms {
 						$radio_val =	strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
 						$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
 					}
-				}
-				else if ($type === 'checkbox')
-				{
+				} else if ($type === 'checkbox') {
 					$checkbox_fields = array();
 
 					$checkbox = $matches[3][$i]['checkbox'];
@@ -262,27 +296,21 @@ class Inbound_Forms {
 
 						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'" '.$required_id.'>'.$value.'<br>';
 					}
-				}
-				else if ($type === 'html-block')
-				{
+				} else if ($type === 'html-block') {
 					$html = $matches[3][$i]['html'];
 					//echo $html;
 					$form .= "<div class={$field_input_class}>";
 					$form .= do_shortcode(html_entity_decode($html));
 					$form .= "</div>";
-				}
-				else if ($type === 'divider')
-				{
+				} else if ($type === 'divider') {
 					$divider = $matches[3][$i]['divider_options'];
 					//echo $html;
 					$form .= "<div class='inbound-form-divider {$field_input_class}'>" . $divider . "<hr></div>";
-				}
-				else if ($type === 'editor')
-				{
+				} else if ($type === 'editor') {
 					//wp_editor(); // call wp editor
-				}
-				else
-				{
+				} else if ($type === 'honeypot') {
+					$form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
+				} else {
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 					$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 					$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -291,8 +319,7 @@ class Inbound_Forms {
 					}
 					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
 				}
-				if ($type != 'hidden' && $form_labels === "bottom" && $type != "radio" && $type != "html-block" && $type != "divider")
-				{
+				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
@@ -304,12 +331,12 @@ class Inbound_Forms {
 			}
 			// End Loop
 
-			$current_page = get_permalink();
+			$current_page =  "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$submit_bg.$submit_color.$image_button.'">
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" name="inbound_params" value=""></form></div>';
 			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -384,7 +411,7 @@ class Inbound_Forms {
 		echo '<script type="text/javascript">
 			jQuery(document).ready(function($){
 
-	
+
 			jQuery("form").submit(function(e) {
 				jQuery(this).find("input").each(function(){
 				    if(!jQuery(this).prop("required")){
@@ -457,12 +484,43 @@ class Inbound_Forms {
 
 		return $content;
 	}
+	// Save Form Conversion to Form CPT
+	static function store_form_stats($form_id, $email) {
 
+			//$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			// $wordpress_date_time = date("Y-m-d G:i:s", $time);
+			$form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
+			$form_conversion_num++;
+			update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
+
+			// Add Lead Email to Conversions List
+			$lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
+			$lead_conversion_list = json_decode($lead_conversion_list,true);
+			if (is_array($lead_conversion_list)) {
+				$lead_count = count($lead_conversion_list);
+				$lead_conversion_list[$lead_count]['email'] = $email;
+				// $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
+				$lead_conversion_list = json_encode($lead_conversion_list);
+				update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			} else {
+				$lead_conversion_list = array();
+				$lead_conversion_list[0]['email'] = $email;
+				//	$lead_conversion_list[0]['date'] = $wordpress_date_time;
+				$lead_conversion_list = json_encode($lead_conversion_list);
+				update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
+			}
+
+	}
 	/* Perform Actions After a Form Submit */
 	static function do_actions(){
 
 		if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1')
 		{
+
+			if(isset($_POST['stop_dirty_subs']) && $_POST['stop_dirty_subs'] != "") {
+				wp_die( $message = 'Die You spam bastard' );
+				return false;
+			}
 			/* get form submitted form's meta data */
 			$form_meta_data = get_post_meta( $_POST['inbound_form_id'] );
 
@@ -472,36 +530,12 @@ class Inbound_Forms {
 				$redirect = $_POST['inbound_current_page_url'];
 			}
 
-			// Save Form Conversion to Form CPT
-			if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
-				$form_id = $_POST['inbound_form_id'];
-				// Increment Form Conversion Count
-				//$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
-				// $wordpress_date_time = date("Y-m-d G:i:s", $time);
-				$form_conversion_num = get_post_meta($form_id, 'inbound_form_conversion_count', true);
-				$form_conversion_num++;
-				update_post_meta( $form_id, 'inbound_form_conversion_count', $form_conversion_num );
-				// Add Lead Email to Conversions List
+			if(isset($_POST['inbound_furl']) && $_POST['inbound_furl'] != "") {
 
-				if ( isset($_POST['email'])) {
-					$lead_conversion_list = get_post_meta( $form_id, 'lead_conversion_list', TRUE );
-					$lead_conversion_list = json_decode($lead_conversion_list,true);
-					if (is_array($lead_conversion_list)) {
-						$lead_count = count($lead_conversion_list);
-						$lead_conversion_list[$lead_count]['email'] = $_POST['email'];
-						// $lead_conversion_list[$lead_count]['date'] = $wordpress_date_time;
-						$lead_conversion_list = json_encode($lead_conversion_list);
-						update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
-					} else {
-						$lead_conversion_list = array();
-						$lead_conversion_list[0]['email'] = $_POST['email'];
-						//	$lead_conversion_list[0]['date'] = $wordpress_date_time;
-						$lead_conversion_list = json_encode($lead_conversion_list);
-						update_post_meta( $form_id, 'lead_conversion_list', $lead_conversion_list );
-					}
-				}
+				$params = json_decode($_POST['inbound_params'],true);
+				print_r($params);
+				exit;
 			}
-
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
@@ -514,6 +548,9 @@ class Inbound_Forms {
 
 				if (preg_match( '/Email|e-mail|email/i', $field)) {
 					$field = "wpleads_email_address";
+					if(isset($_POST['inbound_form_id']) && $_POST['inbound_form_id'] != "") {
+						self::store_form_stats($_POST['inbound_form_id'], $value);
+					}
 				}
 
 				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_post_data['wpleads_first_name'])) {
@@ -530,7 +567,7 @@ class Inbound_Forms {
 
 				$form_post_data[$field] = strip_tags( $value );
 			}
-			
+
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 
 			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
@@ -605,7 +642,7 @@ class Inbound_Forms {
 				$result = wp_mail( $recipient , $subject , $body , $headers );
 			}
 
-		} 
+		}
 
 	}
 
@@ -736,6 +773,57 @@ class Inbound_Forms {
 		return $email_template;
 	}
 
+	/**
+	*  Prepare an array of days, months, years. Make i18n ready
+	*  @param STRING $case lets us know which array to return
+	*
+	*  @returns ARRAY of data
+	*/
+	public static function get_date_selectons( $case ) {
+
+		switch( $case ) {
+
+			case 'months':
+				return array(
+					'01' => __( 'Jan' , 'leads' ),
+					'02' => __( 'Feb' , 'leads' ),
+					'03' => __( 'Mar' , 'leads' ),
+					'04' => __( 'Apr' , 'leads' ),
+					'05' => __( 'May' , 'leads' ),
+					'06' => __( 'Jun' , 'leads' ),
+					'07' => __( 'Jul' , 'leads' ),
+					'08' => __( 'Aug' , 'leads' ),
+					'09' => __( 'Sep' , 'leads' ),
+					'10' => __( 'Oct' , 'leads' ),
+					'11' => __( 'Nov' , 'leads' ),
+					'12' => __( 'Dec' , 'leads' )
+				);
+				break;
+			case 'days' :
+				return array (
+					'01' => '01',	'02' => '02',	'03' => '03',	'04' => '04',	'05' => '05',
+					'06' => '06',	'07' => '07',	'08' => '08',	'09' => '09',	'10' => '10',
+					'11' => '11',	'12' => '12',	'13' => '13',	'14' => '14',	'15' => '15',
+					'16' => '16',	'17' => '17',	'18' => '18',	'19' => '19',	'20' => '20',
+					'21' => '21',	'22' => '22',	'23' => '23',	'24' => '24',	'25' => '25',
+					'26' => '26',	'27' => '27',	'28' => '28',	'29' => '29',	'30' => '30',
+					'31' => '31'
+				);
+				break;
+			case 'years' :
+
+				for ($i=1920;$i<2101;$i++) {
+					$years[$i] = $i;
+				}
+
+				return $years;
+				break;
+		}
+	}
+
+	/**
+	*  Prepare an array of country codes and country names. Make i18n ready
+	*/
 	public static function get_countries_array() {
 		return array (
 			 __( 'AF' , 'leads') => __( 'Afghanistan' , 'leads' ) ,

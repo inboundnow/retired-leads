@@ -13,7 +13,7 @@ if (!class_exists('Inbound_Menu')) {
 		static $load_callstoaction;
 		static $load_leads;
 
-		function __construct()
+		public static function init()
 		{
 			 // Exit if admin bar not there
 			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
@@ -25,7 +25,7 @@ if (!class_exists('Inbound_Menu')) {
 			self::$inboundnow_menu_key = 'inbound-admin-bar';
 			self::$inboundnow_menu_secondary_group_key = 'inbound-secondary';
 			self::hooks();
-			add_action( 'admin_bar_menu', array( $this , 'load_inboundnow_menu' ), 98);
+			add_action( 'admin_bar_menu', array( __CLASS__ , 'load_inboundnow_menu' ), 98);
 		}
 
 		public static function load_inboundnow_menu()
@@ -101,26 +101,26 @@ if (!class_exists('Inbound_Menu')) {
 
 		}
 
-		public function hooks()
+		public static function hooks()
 		{
 			/* add filters here */
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_callstoaction') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_landingpages') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_leads') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_forms') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_manage_templates') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_settings') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_analytics') , 10 );
-			add_filter('inboundnow_menu_primary' , array( $this , 'load_seo') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_landingpages') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_leads') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_forms') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_manage_templates') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_settings') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_analytics') , 10 );
+			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_seo') , 10 );
 
 
-			add_filter('inboundnow_menu_secondary' , array( $this , 'load_support') , 10 );
-			add_filter('inboundnow_menu_secondary' , array( $this , 'load_inbound_hq') , 10 );
-			add_filter('inboundnow_menu_secondary' , array( $this , 'load_debug') , 10 );
+			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_support') , 10 );
+			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_inbound_hq') , 10 );
+			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_debug') , 10 );
 		}
 
 
-		function load_leads( $menu_items )
+		public static function load_leads( $menu_items )
 		{
 			/* Check if Leads Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('leads/wordpress-leads.php')) {
@@ -135,7 +135,7 @@ if (!class_exists('Inbound_Menu')) {
 			$menu_items[ $leads_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
 				'title'  => __( 'Leads', 'leads' ),
-				'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
+				'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
 				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'leads' ) )
 			);
 
@@ -179,7 +179,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_callstoaction( $menu_items )
+		public static function load_callstoaction( $menu_items )
 		{
 			/* Check if Calls To Action Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('cta/wordpress-cta.php')) {
@@ -235,7 +235,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_landingpages( $menu_items )
+		public static function load_landingpages( $menu_items )
 		{
 			/* Check if Landing Pages Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('landing-pages/landing-pages.php')) {
@@ -292,7 +292,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_forms( $menu_items )
+		public static function load_forms( $menu_items )
 		{
 			/* Check if Leads Active */
 			if (!self::$load_forms) {
@@ -340,7 +340,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_manage_templates( $menu_items )
+		public static function load_manage_templates( $menu_items )
 		{
 			if ( !isset(self::$load_landingpages) || !isset(self::$load_callstoaction) ) {
 				return $menu_items;
@@ -387,7 +387,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_settings( $menu_items )
+		public static function load_settings( $menu_items )
 		{
 			$settings_key = 'inbound-settings';
 
@@ -430,7 +430,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_analytics( $menu_items )
+		public static function load_analytics( $menu_items )
 		{
 			$analytics_key = 'inbound-analytics';
 
@@ -445,7 +445,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_seo( $menu_items )
+		public static function load_seo( $menu_items )
 		{
 			$seo_key = 'inbound-seo';
 
@@ -461,7 +461,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		function load_support( $secondary_menu_items )
+		public static function load_support( $secondary_menu_items )
 		{
 			$support_key = 'inbound-support';
 
@@ -497,7 +497,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $secondary_menu_items;
 		}
 
-		function load_inbound_hq( $secondary_menu_items )
+		public static function load_inbound_hq( $secondary_menu_items )
 		{
 			$hq_key = 'inbound-hq';
 
@@ -544,7 +544,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $secondary_menu_items;
 		}
 
-		function load_debug( $secondary_menu_items )
+		public static function load_debug( $secondary_menu_items )
 		{
 			$debug_key = 'inbound-debug';
 
@@ -594,5 +594,5 @@ if (!class_exists('Inbound_Menu')) {
 		}
 	}
 
-	$Inbound_Menu = new Inbound_Menu();
+	add_action('init' , array( 'Inbound_Menu' , 'init' ) );
 }
