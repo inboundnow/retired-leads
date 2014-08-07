@@ -1727,8 +1727,7 @@ function wpleads_display_conversion_path() {
   	$new_key_array = array();
   	$num = 0;
 
-  	foreach ( $new_array as $key => $val )
-	{
+  	foreach ( $new_array as $key => $val ) {
 		$new_key_array[ $num ] = $val;
 		$num++;
   	}
@@ -1737,8 +1736,7 @@ function wpleads_display_conversion_path() {
   	$new_loop = 1;
   	$total_session_count = 0;
 
-    foreach ($new_key_array as $key => $value)
-	{
+    foreach ($new_key_array as $key => $value) {
 
     	$last_item = $key - 1;
     	$next_item = $key + 1;
@@ -1750,15 +1748,14 @@ function wpleads_display_conversion_path() {
 
     	if(isset($new_key_array[$last_item]['date'])){
     		$timeout = abs(strtotime($new_key_array[$last_item]['date']) - strtotime($new_key_array[$key]['date']));
-    	} else{
+    	} else {
     		$timeout = 3601;
     	}
 
     	$date =  date_create($new_key_array[$key]['date']);
     	$break = 'off';
 
-    	if ($timeout >= 3600)
-		{
+    	if ($timeout >= 3600) {
     		echo $close_div . '<a class="session-anchor" id="view-session-'.$total_session_count.'""></a><div id="conversion-tracking" class="wpleads-conversion-tracking-table" summary="Conversion Tracking">
 
     		<div class="conversion-tracking-header">
@@ -1772,23 +1769,20 @@ function wpleads_display_conversion_path() {
 
     	$page_id = $new_key_array[$key]['page'];
 
-		if (strpos($page_id,'cat_') !== false)
-		{
+		if (strpos($page_id,'cat_') !== false) {
 			$cat_id = str_replace("cat_", "", $page_id);
 			$page_name = get_cat_name($cat_id) . " Category Page";
 			$tag_names = '';
 			$page_permalink = get_category_link( $cat_id );
-		}
-		elseif (strpos($page_id,'tag_') !== false)
-		{
+
+		} elseif (strpos($page_id,'tag_') !== false) {
 			$tag_id = str_replace("tag_", "", $page_id);
 			$tag = get_tag( $tag_id );
 			$page_name = $tag->name . " - Tag Page";
 			$tag_names = '';
 			$page_permalink = get_tag_link($tag_id);
-		}
-		else
-		{
+
+		} else {
 			$page_title = get_the_title($page_id);
 			$page_name = ($page_id != 0) ? $page_title : 'N/A';
 			$page_permalink = get_permalink($page_id);
@@ -1809,18 +1803,18 @@ function wpleads_display_conversion_path() {
     	$second = ($second_diff['seconds'] != 0) ? "<strong>" . $second_diff['seconds'] . "</strong> " : 'Less than 1 second';
     	$second_text = ($second_diff['seconds'] != 0) ? $second_diff['sec-text'] . " " : '';
 
-		if ($break === "on")
-		{
+		if ($break === "on") {
     		$minute = "";
     		$minute_text =  "";
     		$second =  "";
     		$second_text =  "Session Timeout";
     	}
 
-    	if ($page_id != "0" && $page_id != "null")
-		{
+    	if ($page_id != "0" && $page_id != "null") {
+
+			$page_output = strlen($page_name) > 65 ? substr($page_name,0,65)."..." : $page_name;
 			echo "<div class='lp-page-view-item ".$conversion."'>
-			<span class='marker'></span> <a href='".$page_permalink."' title='View This Page' target='_blank'>".$page_name."</a> on <span>".date_format($date_print, 'F jS, Y \a\t g:i:s a')."</span>
+			<span class='marker'></span> <a href='".$page_permalink."' title='View ".$page_name."' target='_blank'>".$page_output."</a> on <span>".date_format($date_print, 'F jS, Y \a\t g:i:s a')."</span>
 			".$conversion_text."
 			<span class='time-on-page'>". $minute . $minute_text .  $second . $second_text . "</span>
 			</div>";
