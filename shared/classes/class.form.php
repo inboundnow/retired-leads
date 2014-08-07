@@ -389,22 +389,19 @@ class Inbound_Forms {
 	}
 
 	/* Enqueue JS & CSS */
-	static function register_script()
-	{
+	static function register_script() {
 		wp_enqueue_style( 'inbound-shortcodes' );
 	}
 
 	// only call enqueue once
-	static function print_script()
-	{
+	static function print_script() {
 		if ( ! self::$add_script )
 		return;
 		wp_enqueue_style( 'inbound-shortcodes' );
 	}
 
 	// move to file
-	static function inline_my_script()
-	{
+	static function inline_my_script() {
 		if ( ! self::$add_script )
 			return;
 
@@ -529,18 +526,7 @@ class Inbound_Forms {
 				$redirect = $_POST['inbound_current_page_url'];
 			}
 
-			if(isset($_POST['inbound_params']) && $_POST['inbound_params'] != "") {
 
-				$url_params = json_decode(stripslashes($_POST['inbound_params']));
-				foreach ($url_params as $field => $value) {
-					/* Store UTM params */
-					if (preg_match( '/utm_/i', $field)) {
-						//echo $field . ":" . $value;
-						$form_post_data[$field] = strip_tags( $value );
-					}
-				}
-
-			}
 
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
@@ -598,7 +584,7 @@ class Inbound_Forms {
 	public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
 
 		if ( $template = self::get_new_lead_email_template()) {
-			echo "send"; exit;
+
 			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 			function set_html_content_type() {
 				return 'text/html';
@@ -640,8 +626,8 @@ class Inbound_Forms {
 			$from_name = apply_filters( 'inbound_admin_notification_from_name', $from_name  );
 
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
-			$subject = $Inbound_Templating_Engine->replace_tokens( $subject , array( $form_post_data , $form_meta_data )	);
-			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array( $form_post_data , $form_meta_data )	);
+			$subject = $Inbound_Templating_Engine->replace_tokens( $subject, array($form_post_data, $form_meta_data));
+			$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
 
 
 			$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
@@ -732,8 +718,8 @@ class Inbound_Forms {
 
 
 
-		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject , array( $form_post_data , $form_meta_data )	);
-		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data , $form_meta_data )	);
+		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
+		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data, $form_meta_data )	);
 
 
 		$from_name = get_option( 'blogname' , '' );
