@@ -15,7 +15,7 @@ class Inbound_Email_Template_Shortcodes {
 		add_shortcode( 'inbound-email-post-params', array( __CLASS__, 'post_params_table' ), 1 );
 		
 		/* Shortcode for generating gravitar from email */
-			add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
+		add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
 	}
 	
 	/**
