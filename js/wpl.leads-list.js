@@ -51,12 +51,15 @@ jQuery(document).ready(function($) {
 		);
 
 		jQuery(".submitdelete").text("Delete");
-		var textchange = jQuery("li.publish").html().replace("Published", "Live");
-			jQuery('li.publish').html(textchange);
 
-		  jQuery('.date.column-date').each(function() {
-		 var textchange2 = jQuery(this).html().replace("Published", "");
-		  jQuery(this).html(textchange2);
+		jQuery("li.publish").each( function() {
+			var textchange = jQuery(this).html().replace("Published", "Live");
+			jQuery(this).html( textchange );
+		});
+
+		jQuery('.date.column-date').each(function() {
+			var textchange2 = jQuery(this).html().replace("Published", "");
+			jQuery(this).html(textchange2);
 		});
 
 
