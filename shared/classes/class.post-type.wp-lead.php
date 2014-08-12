@@ -345,7 +345,7 @@ if ( !class_exists('Inbound_Leads') ) {
 	}
 
 	/**
-	*  	Load Email Templates Post
+	*  	Register 'wp-lead' CPT
 	*/	
 	add_action('init' , 'inbound_leads_init' , 9 );
 	function inbound_leads_init() {
