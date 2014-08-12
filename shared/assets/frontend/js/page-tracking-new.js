@@ -363,11 +363,14 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       }
 
     },
+    /* Cross-browser event listening  */
     addListener: function(obj, eventName, listener) {
       if(obj.addEventListener) {
         obj.addEventListener(eventName, listener, false);
-      } else {
+      } else if (obj.attachEvent) {
         obj.attachEvent("on" + eventName, listener);
+      } else {
+        obj['on' + eventName] = listener;
       }
     }
 
@@ -633,6 +636,54 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
         };
         InboundAnalytics.Utils.doAjax(data, firePageCallback);
       }
+    },
+    tabSwitch: function() {
+        /* test out simplier script
+        function onBlur() {
+          document.body.className = 'blurred';
+        };
+        function onFocus(){
+          document.body.className = 'focused';
+        };
+
+        if (false) { // check for Internet Explorer
+          document.onfocusin = onFocus;
+          document.onfocusout = onBlur;
+        } else {
+          window.onfocus = onFocus;
+          window.onblur = onBlur;
+        }
+        */
+
+       var hidden, visibilityState, visibilityChange;
+
+        if (typeof document.hidden !== "undefined") {
+          hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+        } else if (typeof document.mozHidden !== "undefined") {
+          hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+        } else if (typeof document.msHidden !== "undefined") {
+          hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+        } else if (typeof document.webkitHidden !== "undefined") {
+          hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
+        } // if
+
+        var document_hidden = document[hidden];
+
+        document.addEventListener(visibilityChange, function() {
+          if(document_hidden != document[hidden]) {
+            if(document[hidden]) {
+              // Document hidden
+              console.log('hidden');
+              InboundAnalytics.Events.browserTabHidden();
+            } else {
+              // Document shown
+              console.log('shown');
+              InboundAnalytics.Events.browserTabVisible();
+            } // if
+
+            document_hidden = document[hidden];
+          } // if
+        });
     }
   }
 
@@ -1201,6 +1252,23 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           this.triggerJQueryEvent(eventName, data);
           console.log('Page Revisit');
       },
+      /* get idle times https://github.com/robflaherty/riveted/blob/master/riveted.js */
+      browserTabHidden: function() {
+        /* http://www.thefutureoftheweb.com/demo/2007-05-16-detect-browser-window-focus/ */
+          var eventName = "inbound_analytics_tab_hidden";
+          var tab_hidden = new CustomEvent(eventName);
+          window.dispatchEvent(tab_hidden);
+          console.log('Tab Hidden');
+          this.triggerJQueryEvent(eventName);
+      }
+      browserTabVisible: function() {
+        var eventName = "inbound_analytics_tab_visible";
+        var tab_visible = new CustomEvent(eventName);
+        window.dispatchEvent(tab_visible);
+        console.log('Tab Visible');
+        this.triggerJQueryEvent(eventName);
+      },
+      /* Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
       sessionStart: function() {
           var session_start = new CustomEvent("inbound_analytics_session_start");
           window.dispatchEvent(session_start);
