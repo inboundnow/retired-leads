@@ -177,8 +177,6 @@ if ( !class_exists('Inbound_Akismet') ) {
 	/**
 	*  	Load Inbound Akismet
 	*/
-	function inbound_akismet_init() {
-		$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
-	}
-	add_action('plugins_loaded' , 'inbound_akismet_init' );
+	$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
+
 }
