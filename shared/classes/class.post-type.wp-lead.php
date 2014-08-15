@@ -225,7 +225,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @returns ARRAY of lead lists with term id as key and list name as value
 		*/
 		public static function get_lead_lists_as_array() {
-
+			$array = array();
+		
 			$args = array(
 				'hide_empty' => false,
 			);
