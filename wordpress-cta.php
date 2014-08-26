@@ -82,7 +82,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('modules/module.enqueue.php');
 					include_once('modules/module.track.php');
-					include_once('modules/module.click-tracking.php');
+					include_once('classes/class.click-tracking.php');
 					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.widgets.php');
 					include_once('modules/module.cookies.php');
