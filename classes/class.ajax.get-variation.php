@@ -274,8 +274,8 @@ Class WP_DB_Connect {
 	}
 }
 
-$cta_varation = new Return_Variation;
-class Return_Variation {
+$cta_varation = new CTA_AJAX_Return_Variation;
+class CTA_AJAX_Return_Variation {
 
 	private $cta_id;
 	private $db;

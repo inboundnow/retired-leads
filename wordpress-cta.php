@@ -56,8 +56,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.metaboxes.wp-call-to-action.php');
-					include_once('modules/module.admin-menus.php');
-					include_once('modules/module.ajax-setup.php');
+					include_once('classes/class.menus.php');
+					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.enqueue.php');
 					include_once('modules/module.global-settings.php');
 					include_once('modules/module.clone.php');
@@ -84,7 +84,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('modules/module.enqueue.php');
 					include_once('modules/module.track.php');
 					include_once('modules/module.click-tracking.php');
-					include_once('modules/module.ajax-setup.php');
+					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.widgets.php');
 					include_once('modules/module.cookies.php');
 					include_once('classes/class.cta.variations.php');
