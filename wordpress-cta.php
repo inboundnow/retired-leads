@@ -16,7 +16,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 		/**
 		* Main Inbound_Calls_To_Action_Plugin Instance
-		*
 		*/
 		public function __construct() {
 			self::define_constants();
@@ -111,6 +110,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function load_text_domain() {
 			add_action('init' , function() {
+
 				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
 			});
 		}

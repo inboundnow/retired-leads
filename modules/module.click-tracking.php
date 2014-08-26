@@ -2,6 +2,9 @@
 
 add_action('wp_footer', 'wpcta_click_callback');
 
+/**
+ * Rewrite URLs in CTAs for click tracking
+ */
 function wpcta_click_callback()
 {
 	global $post;
@@ -52,7 +55,11 @@ function wpcta_click_callback()
 <?php }
 }
 
-// Register CTA Clicks
+
+
+/**
+ * When CTA url is clicked store the click count to the lead
+ */
 add_action('init', 'wp_cta_click_track_redirect', 11); // Click Tracking init
 function wp_cta_click_track_redirect()
 {
@@ -121,8 +128,13 @@ function wp_cta_click_track_redirect()
 	}
 }
 
-function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation)
-{
+/**
+ * Store the click data to the correct variation
+ * @param  [type] $event_id      cta id
+ * @param  [type] $lead_ID       lead id
+ * @param  [type] $cta_variation which variation was clicked
+ */
+function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation) {
 	// If leads_triggered meta exists do this
 	$event_trigger_log = get_post_meta($event_id,'leads_triggered',true);
 	$timezone_format = 'Y-m-d G:i:s T';
@@ -130,7 +142,7 @@ function wp_cta_store_click_data($event_id, $lead_ID, $cta_variation)
 	$conversion_count = get_post_meta($event_id,'wp-cta-ab-variation-conversions-'.$cta_variation ,true);
 	$conversion_count++;
 	update_post_meta($event_id, 'wp-cta-ab-variation-conversions-'.$cta_variation, $conversion_count);
-	/**
+	/*
 		if ($event_trigger_log) {
 			$event_trigger_log = json_decode($event_trigger_log,true);
 			// increment trigger count
