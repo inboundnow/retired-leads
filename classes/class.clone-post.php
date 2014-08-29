@@ -18,7 +18,7 @@ class CTA_Clone_Post {
 	public static function load_hooks() {
 		
 		/* Adds quick actions to row */
-		add_filter('post_row_actions', array( __CLASS__ , 'add_row_actions' ) ,10,2);
+		add_filter('post_row_actions', array( __CLASS__ , 'add_row_actions' ) ,8,2);
 		
 		/* Add listener for processing clone request */
 		add_action('admin_action_cta_clone_post', array( __CLASS__ , 'clone_post' ) );
@@ -30,10 +30,10 @@ class CTA_Clone_Post {
 	public static function add_row_actions($actions, $post) {
 		
 		if ( $post->post_type != 'wp-call-to-action' ) {
-			return;
+			return $actions;
 		}
 		
-		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', tru ).'" title="'
+		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
 		. esc_attr(__( 'Clone this item' , 'cta' ))
 		. '">' .	__( 'Clone' , 'cta' ) . '</a>';
 
@@ -178,7 +178,7 @@ class CTA_Clone_Post {
 			FROM $wpdb->postmeta
 			WHERE `post_id` = $post_id
 		");
-
+		
 		foreach($wpdb->last_result as $k => $v)
 		{
 			$data[$v->meta_key] =	$v->meta_value;

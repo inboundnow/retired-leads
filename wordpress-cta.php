@@ -59,7 +59,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.enqueue.php');
 					include_once('modules/module.global-settings.php');
-					include_once('modules/module.clone.php');
+					include_once('classes/class.clone-post.php');
 					include_once('modules/module.install.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('modules/module.widgets.php');
@@ -69,7 +69,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('modules/module.templates.php');
 					include_once('modules/module.store.php');
 					include_once('modules/module.utils.php');
-					include_once('modules/module.customizer.php');
+					include_once('classes/class.customizer.php');
 					include_once('modules/module.track.php');
 
 					BREAK;
@@ -85,11 +85,10 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.click-tracking.php');
 					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.widgets.php');
-					include_once('modules/module.cookies.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');
-					include_once('modules/module.customizer.php');
+					include_once('classes/class.customizer.php');
 
 					BREAK;
 			endswitch;
