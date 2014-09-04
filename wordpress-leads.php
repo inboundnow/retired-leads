@@ -16,7 +16,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 		/**
 		 * Main Inbound_Leads_Plugin Instance
-		 *
 		*/
 		public function __construct() {
 			self::define_constants();
@@ -44,7 +43,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			if ( is_admin() ) {
 
-
 				/* Admin Includes */
 				require_once('modules/module.activate.php');
 				require_once('modules/module.ajax-setup.php');
@@ -64,12 +62,14 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			} else {
 				/* Frontend Includes */
+
 				/* load global */
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.post-type.wp-lead.php');
 				require_once('modules/module.form-integrations.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
+
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
 				require_once('modules/module.tracking.php');
