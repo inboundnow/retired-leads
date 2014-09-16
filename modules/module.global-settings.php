@@ -106,15 +106,7 @@ function wpleads_get_global_settings() {
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
-		),
-		array(
-			'id'  => 'api_allow_user_keys',
-			'label' => __('Enable ' , 'leads' ),
-			'description' => __("<p>Set how often you would like to process lead automation? Cronjob Settings.</p>" , 'leads' ),
-			'type'  => 'dropdown',
-			'default'  => 'hourly',
-			'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
-		) 
+		)
 	);
 
 	/* Setup License Keys Tab */
