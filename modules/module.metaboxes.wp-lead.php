@@ -377,6 +377,9 @@ function wp_leads_grab_extra_data() {
 
         $social_data = get_post_meta($post->ID , 'social_data', true );
         $person_obj = $social_data;
+		if (!is_object($person_obj)) {
+			$person_obj = array();
+		}
         // check for social data
         if (empty($social_data)) {
 
@@ -418,6 +421,7 @@ function wp_leads_grab_extra_data() {
 function wp_lead_display_extra_data($values, $type) {
 
 	$person_obj = $values;
+	
 	//print_r($person_obj);
 	$confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
 
@@ -429,8 +433,8 @@ function wp_lead_display_extra_data($values, $type) {
 	$organizations = (isset($person_obj['organizations'])) ? $person_obj['organizations'] : "No Organizations Found";
 	$demographics = (isset($person_obj['demographics'])) ? $person_obj['demographics'] : "N/A";
 	$interested_in = (isset($person_obj['digitalFootprint']['topics'])) ? $person_obj['digitalFootprint']['topics'] : "N/A";
+	$image = (isset($person_obj['photos'][0]['url'])) ? $person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
 
-	$image = (isset($person_obj['photos'][0]['url'])) ?$person_obj['photos'][0]['url'] : "/wp-content/plugins/leads/images/gravatar_default_150.jpg";
 	$klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
 
 	//echo "<img src='" . $image . "'><br>";
