@@ -107,14 +107,14 @@ function wpleads_get_global_settings() {
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
 		),
-		/*array(
-			'id'  => 'lead_automation_cronjob_period',
-			'label' => __('How often do you want to process marketing automation rules?' , 'leads' ),
+		array(
+			'id'  => 'api_allow_user_keys',
+			'label' => __('Enable ' , 'leads' ),
 			'description' => __("<p>Set how often you would like to process lead automation? Cronjob Settings.</p>" , 'leads' ),
 			'type'  => 'dropdown',
 			'default'  => 'hourly',
 			'options' => array('twicedaily'=>'twice a day','daily'=>'Once a day','hourly'=>'Every Hour')
-		) */
+		) 
 	);
 
 	/* Setup License Keys Tab */
@@ -125,6 +125,20 @@ function wpleads_get_global_settings() {
 	$tab_slug = 'wpleads-extensions';
 	$wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
 
+	/* Setup API Keys Tab */
+	if (current_user_can('activate_plugins')) {
+		$tab_slug = 'wpleads-apikeys';
+		$wpleads_global_settings[$tab_slug]['label'] = __('API Keys' , 'leads' );
+		
+		$wpleads_global_settings[$tab_slug]['settings'] = array(
+			array(
+				'id'  => 'api-keys-table',
+				'label' => __('API Keys Table' , 'leads' ),
+				'type'  => 'api-keys-table'
+			)
+		);
+	}
+	
 	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
 
 	return $wpleads_global_settings;
@@ -164,11 +178,18 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 		$display = 'none';
 	}
 
+	/* add extra styling for the api tab */
+	if ( $key == 'wpleads-apikeys' ) {
+		$styling = 'padding:0px;';
+	} else {
+		$styling = '';
+	}
+	
 	/* Use nonce for verification */
 	echo "<input type='hidden' name='wpl_{$key}_custom_fields_nonce' value='".wp_create_nonce('wpl-nonce')."' />";
 
 	/* Begin the field table and loop */
-	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'">';
+	echo '<table class="wpl-tab-display" id="'.$key.'" style="display:'.$display.'; ' . $styling .'">';
 
 	foreach ($custom_fields as $field) {
 		/* get value of this field if it exists for this post */
@@ -182,6 +203,16 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 		$field['value'] = get_option($field['id'], $default);
 
+		/* Handle the API Keys List Table separately */
+		if ($field['type'] == 'api-keys-table') {
+			echo '<tr><td>';
+			$api_keys_table = new Inbound_API_Keys_Table();
+			$api_keys_table->prepare_items();
+			$api_keys_table->display();
+			echo '</td></tr>';
+			continue;
+		}
+		
 		echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300;">';
 		if ($field['type']=='header'){
 			echo $field['default'];
@@ -271,6 +302,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 						echo '<div class="wpl_tooltip tool_dropdown" title="'. $field['description'] .'"></div>';
 					break;
 
+
 				} //end switch
 
 				do_action('wpleads_render_global_settings',$field);
@@ -281,13 +313,43 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 function wpleads_display_global_settings_js() {
 	global $wpleads_global_settings;
-	$wpleads_global_settings = wpleads_get_global_settings();
+
 
 	if (isset($_GET['tab'])) {
 		$default_id = $_GET['tab'];
 	} else {
 		$default_id ='wpl-main';
 	}
+	?>
+	
+	<script type='text/javascript'>
+	/* Hide sidebar when API Keys Tab is opened */
+	jQuery(document).ready( function($) {
+
+		jQuery('body').on( 'click' , '.wpl-nav-tab' , function() {
+
+			if ( this.id == 'tabs-wpleads-apikeys' ) {
+				jQuery('.lp-settings-tab-sidebar').hide();
+				jQuery('#wpl-button-create-new-group-open').hide();
+			} else {
+				jQuery('.lp-settings-tab-sidebar').show();				
+				jQuery('#wpl-button-create-new-group-open').show();
+			}
+		});
+		
+		<?php
+		if ( isset($_GET['tab']) && $_GET['tab'] == 'tabs-wpleads-apikeys' ) {
+			echo "jQuery('.lp-settings-tab-sidebar').hide();";
+			echo "jQuery('#wpl-button-create-new-group-open').hide();";
+		}
+		?>
+	
+	});
+	
+	</script>
+	
+	<?php
+	
 }
 
 function wpleads_display_global_settings() {
@@ -299,7 +361,7 @@ function wpleads_display_global_settings() {
 		$active_tab = $_REQUEST['open-tab'];
 	}
 
-	wpleads_display_global_settings_js();
+	
 	wpleads_save_global_settings();
 
 	echo '<h2 class="nav-tab-wrapper">';
@@ -327,13 +389,14 @@ function wpleads_display_global_settings() {
 		}
 
 		$these_settings = $wpleads_global_settings[$key]['settings'];
-		wpleads_render_global_settings($key,$these_settings, $active_tab);
+		wpleads_render_global_settings($key, $these_settings , $active_tab);
 	}
 	echo '<div style="float:left;padding-left:9px;padding-top:20px;">
 			<input type="submit" value="Save Settings" tabindex="5" id="wpl-button-create-new-group-open" class="button-primary" >
 		</div>';
 	echo "</form>";
 
+	wpleads_display_global_settings_js();
 }
 
 function wpleads_save_global_settings() {
