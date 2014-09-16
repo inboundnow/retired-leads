@@ -91,10 +91,11 @@ jQuery(document).ready(function($) {
 	  return false;
 	}
 
+	/* Add Tracking Classes & Reveal CTAs */
+	wp_cta_add_tracking_classes(loaded_ctas);
+	
 	/* Record Impressions */
 	wp_cta_record_impressions(ctas);
 
-	/* Add Tracking Classes */
-	wp_cta_add_tracking_classes(loaded_ctas);
 
 });

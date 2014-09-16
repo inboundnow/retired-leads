@@ -98,7 +98,7 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data['source'] = (array_key_exists('source', $mapped_data)) ? $mapped_data['source'] : 'NA';
 	$lead_data['page_id'] = (array_key_exists('page_id', $mapped_data)) ? $mapped_data['page_id'] : '0';
 	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
-	$lead_data['post_type'] = (array_key_exists('post_type', $mapped_data)) ? $mapped_data['post_type'] : 'na';
+	$lead_data['post_type'] = (array_key_exists('post_type', $mapped_data)) ? $mapped_data['post_type'] : false;
 	$lead_data['wp_lead_uid'] = (array_key_exists('wp_lead_uid', $mapped_data)) ? $mapped_data['wp_lead_uid'] : false;
 	$lead_data['lead_lists'] = (array_key_exists('leads_list', $mapped_data)) ? explode(",", $mapped_data['leads_list']) : false;
 	$lead_data['ip_address'] = (array_key_exists('ip_address', $mapped_data)) ? $mapped_data['ip_address'] : false;
@@ -106,6 +106,7 @@ function inbound_store_lead( $args = array() ) {
 
 	/* POST Vars */
 	$lead_data['page_id'] = ( !$lead_data['page_id'] && isset($_POST['page_id'])) ? $_POST['page_id'] : $lead_data['page_id'] ;
+	$lead_data['post_type'] = ( !$lead_data['post_type'] && isset($_POST['post_type'])) ? $_POST['post_type'] : $lead_data['post_type'] ;
 	$lead_data['variation'] = (array_key_exists('variation', $mapped_data)) ? $mapped_data['variation'] : '0';
 
 	$raw_search_data = (isset($_POST['Search_Data'])) ? $_POST['Search_Data'] : false;

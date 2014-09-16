@@ -38,39 +38,39 @@ class CTA_Click_Tracking {
 		?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-			var lead_cpt_id = jQuery.cookie("wp_lead_id");
-			var lead_email = jQuery.cookie("wp_lead_email");
-			var lead_unique_key = jQuery.cookie("wp_lead_uid");
+				var lead_cpt_id = jQuery.cookie("wp_lead_id");
+				var lead_email = jQuery.cookie("wp_lead_email");
+				var lead_unique_key = jQuery.cookie("wp_lead_uid");
 
-			// turn off link rewrites for custom ajax triggers
-			if (typeof (wp_cta_settings) != "undefined" && wp_cta_settings !== null) {
-				return false;
-			}
-			if (typeof (lead_cpt_id) != "undefined" && lead_cpt_id !== null) {
-			string = "&wpl_id=" + lead_cpt_id + "&l_type=wplid";
-			} else if (typeof (lead_email) != "undefined" && lead_email !== null && lead_email !== "") {
-				string = "&wpl_id=" + lead_email + "&l_type=wplemail";;
-			} else if (typeof (lead_unique_key) != "undefined" && lead_unique_key !== null && lead_unique_key !== "") {
-				string = "&wpl_id=" + lead_unique_key + "&l_type=wpluid";;
-			} else {
-				string = "";
-			}
-			var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-			jQuery('a').not("#wpadminbar a").each(function () {
-				jQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
-					var orignalurl = jQuery(this).attr("href");
-					//jQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
-					var link_is = external.test(orignalurl);
-					if (link_is === true) {
-						base_url = window.location.origin;
-					} else {
-						base_url = orignalurl;
-					}
-					var cta_variation = "&wp-cta-v=" + jQuery(this).attr("data-cta-varation");
-					var this_id = jQuery(this).attr("data-event-id");
-					var newurl = base_url + "?wp_cta_redirect_" + this_id + "=" + orignalurl + cta_variation + string;
-					jQuery(this).attr("href", newurl);
-				});
+				// turn off link rewrites for custom ajax triggers
+				if (typeof (wp_cta_settings) != "undefined" && wp_cta_settings !== null) {
+					return false;
+				}
+				if (typeof (lead_cpt_id) != "undefined" && lead_cpt_id !== null) {
+				string = "&wpl_id=" + lead_cpt_id + "&l_type=wplid";
+				} else if (typeof (lead_email) != "undefined" && lead_email !== null && lead_email !== "") {
+					string = "&wpl_id=" + lead_email + "&l_type=wplemail";;
+				} else if (typeof (lead_unique_key) != "undefined" && lead_unique_key !== null && lead_unique_key !== "") {
+					string = "&wpl_id=" + lead_unique_key + "&l_type=wpluid";;
+				} else {
+					string = "";
+				}
+				var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
+				jQuery('a').not("#wpadminbar a").each(function () {
+					jQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
+						var orignalurl = jQuery(this).attr("href");
+						//jQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
+						var link_is = external.test(orignalurl);
+						if (link_is === true) {
+							base_url = window.location.origin;
+						} else {
+							base_url = orignalurl;
+						}
+						var cta_variation = "&wp-cta-v=" + jQuery(this).attr("data-cta-varation");
+						var this_id = jQuery(this).attr("data-event-id");
+						var newurl = base_url + "?wp_cta_redirect_" + this_id + "=" + orignalurl + cta_variation + string;
+						jQuery(this).attr("href", newurl);
+					});
 			});
 			</script>
 		<?php
@@ -160,42 +160,7 @@ class CTA_Click_Tracking {
 		$conversion_count = get_post_meta($event_id,'wp-cta-ab-variation-conversions-'.$cta_variation ,true);
 		$conversion_count++;
 		update_post_meta($event_id, 'wp-cta-ab-variation-conversions-'.$cta_variation, $conversion_count);
-		/*
-			if ($event_trigger_log) {
-				$event_trigger_log = json_decode($event_trigger_log,true);
-				// increment trigger count
-				if(isset($event_trigger_log[$lead_ID])){
-					$current_count = $event_trigger_log[$lead_ID]['count'];
-				} else {
-					$current_count = 0;
-				}
-				$event_trigger_log[$lead_ID]['count'] = $current_count + 1;
-				$event_trigger_log[$lead_ID]['datetime'] = $wordpress_date_time;
-				$count = count($event_trigger_log[$lead_ID]['date']) + 1;
-				$event_trigger_log[$lead_ID]['date'][$count] = $wordpress_date_time;
-				$event_trigger_log = json_encode($event_trigger_log);
-				update_post_meta($event_id, 'leads_triggered', $event_trigger_log);
-			} else {
-				// Create leads_triggered meta
-				$event_trigger_log = array();
-				$event_trigger_log[$lead_ID]['count'] = 1;
-				$event_trigger_log[$lead_ID]['datetime'] = $wordpress_date_time;
-				$event_trigger_log[$lead_ID]['date'][1] = $wordpress_date_time;
-				$event_trigger_log = json_encode($event_trigger_log);
-				update_post_meta($event_id, 'leads_triggered', $event_trigger_log);
-			}
-
-			// Update Trigger Count
-			if(get_post_custom_keys($event_id)&&in_array('wp_cta_trigger_count',get_post_custom_keys($event_id))){
-				$wp_cta_trigger_count = get_post_meta($event_id,'wp_cta_trigger_count',true);
-			}
-			if (!isset($wp_cta_trigger_count)){
-				$wp_cta_trigger_count = 0;
-			}
-			$wp_cta_trigger_count++;
-			update_post_meta($event_id, 'wp_cta_trigger_count', $wp_cta_trigger_count); // update trigger count
-			*/
-			update_post_meta($event_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
+		update_post_meta($event_id, 'wp_cta_last_triggered', $wordpress_date_time ); // update last fired date
 	}
 	
 	/**

@@ -22,10 +22,10 @@ class CTA_Customizer {
 	public static function load_hooks() {
 		
 		
-		/* Load only on iframe preview window */
+		/* Load only on iframe container window */
 		if (isset($_GET['wp_cta_iframe_window'])) 	{
 			/* Enqueue Scripts  */
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_scripts' ));
+			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_container_scripts' ));
 			
 			/* Loads Preview Iframe in wp_head */
 			add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
@@ -35,13 +35,39 @@ class CTA_Customizer {
 		if (isset($_GET['cta-template-customize']) && $_GET['cta-template-customize']=='on') {
 			add_filter('wp_head', array( __CLASS__ , 'launch_customizer' ) );
 		}
+		
+		/* Load only on cta settings page when it customizer mode */
+		if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
+			/* Enqueue Scripts  */
+			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_settings_scripts' ));
+			
+		}
+		
+		if (isset($_GET['live-preview-area'])) {
+			/* Enqueue Scripts  */
+			add_action( 'wp_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_iframe_scripts' ));
+		}
 
 	}
 
-	public static function enqueue_preview_scripts() {
+	public static function enqueue_preview_container_scripts() {
 
 		/* Enqueue customizer CSS */
 		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'css/customizer-ab-testing.css');
+	
+	}
+	
+	public static function enqueue_preview_iframe_scripts() {
+		show_admin_bar( false );
+		wp_register_script('lp-customizer-load-js', WP_CTA_URLPATH . 'js/customizer.load.js', array('jquery'));
+		wp_enqueue_script('lp-customizer-load-js');
+	}
+	
+	
+	public static function enqueue_settings_scripts() {
+		//show_admin_bar( false ); // doesnt work
+		wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 	
 	}
 	
@@ -168,8 +194,8 @@ class CTA_Customizer {
 			jQuery("#wp-admin-bar-edit a").text("Main Edit Screen");
 
 			setTimeout(function() {
-			      jQuery(document).find("#wp-cta-live-preview").contents().find("#wpadminbar").hide()
-					   jQuery(document).find("#wp-cta-live-preview").contents().find("html").css("margin-bottom", "-28px");
+				jQuery(document).find("#wp-cta-live-preview").contents().find("#wpadminbar").hide()
+				jQuery(document).find("#wp-cta-live-preview").contents().find("html").css("margin-bottom", "-28px");
 
 			}, 2000);
 		 });

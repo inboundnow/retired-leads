@@ -406,7 +406,7 @@ jQuery(document).ready(function($) {
 	/* Core Inbound Search Tracking Script */
 	jQuery("body").on('submit', '.wpl-search-box', function (e) {
 		var inbound_search_data = jQuery.totalStorage('inbound_search') || {},
-		$this_form = $(this),
+		$this_form = jQuery(this),
 		processed = false;
 		datetime = wplft.track_time;
 		if( $this_form.is(".search-processes") ) {
@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
 
 		}
 		//return false;
-		$('body, button, input[type="button"], input').css('cursor', 'wait');
+		jQuery('body, button, input[type="button"], input').css('cursor', 'wait');
 		e.preventDefault();
 		var has_email = readCookie('wp_lead_email');
 		var search_count = countProperties(inbound_search_data);
@@ -454,7 +454,7 @@ jQuery(document).ready(function($) {
 						// Unbind form
 						//release_form_sub($this_form, 'FORM', inbound_data['form_type']);
 
-						$('body, button, input[type="button"], input').css('cursor', 'default');
+						jQuery('body, button, input[type="button"], input').css('cursor', 'default');
 						jQuery.totalStorage.deleteItem('inbound_search'); // remove search
 						console.log("search fired");
 						$this_form.unbind('submit');
@@ -497,18 +497,18 @@ jQuery(document).ready(function($) {
 		element_type = 'FORM';
 
 		// halt normal form submission
-		$('body, button, input[type="button"], input').css('cursor', 'wait');
+		jQuery('body, button, input[type="button"], input').css('cursor', 'wait');
 		e.preventDefault();
 
 		// Email Validation Check
-		var inbound_form_exists = $("#inbound-form-wrapper").length;
-		var email_validation = $(".inbound-email.invalid-email").length;
+		var inbound_form_exists = jQuery("#inbound-form-wrapper").length;
+		var email_validation = jQuery(".inbound-email.invalid-email").length;
 		if (email_validation > 0 && inbound_form_exists > 0) {
 			jQuery(".inbound-email.invalid-email").focus();
 			alert("Please enter a valid email address");
 			return false;
 		}
-		$(this_form).trigger("inbound_form_custom_data"); // trigger custom hook
+		jQuery(this_form).trigger("inbound_form_custom_data"); // trigger custom hook
 		data = inbound_form_submit(this_form, e); // big function for processing
 
 		ajax_fallback = this_form.is('.wpl-ajax-fallback');
@@ -518,7 +518,7 @@ jQuery(document).ready(function($) {
 			this_form.removeClass('wpl-track-me'); // release submit
 			set_lead_fallback(data);
 			console.log('ajax conflict stop process');
-			$('body, button, input[type="button"], input').css('cursor', 'default');
+			jQuery('body, button, input[type="button"], input').css('cursor', 'default');
 			var ninja = this_form.is('.ninja-forms-form');
 			var cf7 = this_form.is('.wpcf7-form');
 			if (!ninja && !cf7){
@@ -551,7 +551,7 @@ jQuery(document).ready(function($) {
 
 					release_form_sub(this_form, 'FORM', inbound_data['form_type']);
 
-					$('body, button, input[type="button"], input').css('cursor', 'default');
+					jQuery('body, button, input[type="button"], input').css('cursor', 'default');
 
 					jQuery.totalStorage.deleteItem('page_views'); // remove pageviews
 					jQuery.totalStorage.deleteItem('tracking_events'); // remove events
