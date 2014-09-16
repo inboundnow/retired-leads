@@ -56,10 +56,12 @@ class Inbound_Email_Template_Shortcodes {
 				continue;
 			}
 
-			if ( strlen($value) < 1 ) {
+			
+			if (is_array($value)) {
+				$value = implode(', ', $value);
+			} else if ( strlen($value) < 1 ) {
 				$value  = __( 'n/a' , 'ma');
 			}
-
 
 			/* Rewrite UTM params */
 			if (preg_match( '/utm_/i', $key)) {
@@ -100,6 +102,7 @@ class Inbound_Email_Template_Shortcodes {
 			$html .= '</div></td></tr>';
 		}
 
+		
 		return $html;
 	}
 

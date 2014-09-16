@@ -14,8 +14,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 			if (get_option('inbound_forms_enable_akismet' , '1' )) {
 				
 				/* spam checks have to run in two different locations */
-				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) ); /* On store lead ajax */
-				add_filter( 'form_actions_spam_check' , array( __CLASS__ , 'check_is_spam' ) ); /* On form email actions */
+				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); /* On store lead ajax */
+				add_filter( 'form_actions_spam_check' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); /* On form email actions */
 			}
 		}
 		
@@ -26,11 +26,11 @@ if ( !class_exists('Inbound_Akismet') ) {
 		* @return BOOL true for spam and false for spam 
 		*
 		*/
-		public static function check_is_spam( $lead_data ) {
+		public static function check_is_spam( $is_spam = false , $lead_data ) {
 			$api_key = Inbound_Akismet::get_api_key();
 
 
-			/* return true if akismet is not setup */
+			/* return false if akismet is not setup */
 			if (!$api_key) {
 				return false;
 			}
@@ -177,8 +177,6 @@ if ( !class_exists('Inbound_Akismet') ) {
 	/**
 	*  	Load Inbound Akismet
 	*/
-	function inbound_akismet_init() {
-		$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
-	}
-	add_action('plugins_loaded' , 'inbound_akismet_init' );
+	$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
+
 }

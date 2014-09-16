@@ -70,6 +70,12 @@ if ( !class_exists('Inbound_Shortcodes_Fields') ) {
 					$name = ( isset($option['name'])) ? $option['name'] : '';
 					$desc = ( isset($option['desc'])) ? $option['desc'] : '';
 					$std = ( isset($option['std']) ) ? $option['std'] : '';
+					$global = ( isset($option['global']) ) ? $option['global'] : '';
+					
+					if ($global) {
+						$uniquekey = $name;
+					}
+					
 					$placeholder = (isset($option['placeholder'])) ? $option['placeholder'] : '';
 					$parent_class = (isset($option['class'])) ? $option['class'] : '';
 
