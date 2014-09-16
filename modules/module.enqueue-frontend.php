@@ -9,7 +9,7 @@ function wpleads_enqueuescripts_header() {
 
 	// Load Tracking Scripts
 	if($post_type != "wp-call-to-action") {
-		
+
 		/* load jquery */
 		wp_enqueue_script('jquery');
 
@@ -21,7 +21,7 @@ function wpleads_enqueuescripts_header() {
 		}
 
 		if ($form_prepopulation === "1") {
-			wp_enqueue_script('form-population', WPL_URLPATH . '/js/wpl.form-population.js', array( 'jquery','jquery-cookie'));
+			wp_enqueue_script('form-population', WPL_URLPATH . 'js/wpl.form-population.js', array( 'jquery','jquery-cookie'));
 		} else {
 			wp_dequeue_script('form-population');
 		}
@@ -34,5 +34,5 @@ function wpleads_enqueuescripts_header() {
 			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids, 'form_exclude_ids' => $form_exclude_ids ) );
 		}
 
-	} 
+	}
 }
