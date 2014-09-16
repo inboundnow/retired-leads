@@ -9,7 +9,6 @@ class CTA_Metaboxes {
 	}
 	
 	public static function load_hooks() {
-		
 		/* Add metaboxes */
 		add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );	
 		
@@ -39,15 +38,15 @@ class CTA_Metaboxes {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
 		add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_admin_scripts' ) );
 					
-		/* Saves all all incomming POST data as meta pairs */
+		/* Saves all all incoming POST data as meta pairs */
 		add_action( 'save_post' , array( __CLASS__ , 'save_call_to_action_data' ) );
-		
+
 		/* Remove WordPress SEO Metabox from wp-call-to-action post_type */		
 		add_action( 'add_meta_boxes', array( __CLASS__  , 'remove_wp_seo' ) , 100000 );
 		
 	}
 	
-	/* Loads Metaboxex */
+	/* Loads Metaboxes */
 	public static function load_metaboxes() {
 		global $post , $CTA_Variations;
 		
@@ -802,22 +801,23 @@ class CTA_Metaboxes {
 	public static function save_call_to_action_data( $cta_id ) {
 		global $post;
 		unset($_POST['post_content']);
-
+error_log('here');
 		if ( wp_is_post_revision( $cta_id ) ) {
 			return;
 		}
-		
+		error_log('there');
 		if (  !isset($_POST['post_type']) || $_POST['post_type'] != 'wp-call-to-action' ) {
 			return;
 		}
-
+error_log('there2');
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
 			return;
 		}
-
+error_log('there3');
 		/* Set the call to action variation into a session variable */
 		$_SESSION[ $post->ID . '-variation-id'] = (isset($_POST[ 'wp-cta-variation-id'])) ? $_POST[ 'wp-cta-variation-id'] : '0';
-		
+	
+error_log('there-vid-' . $_SESSION[ $post->ID . '-variation-id'] );
 		foreach ($_POST as $key => $value) {
 			
 			update_post_meta( $cta_id , $key , $value );
