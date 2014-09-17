@@ -1129,9 +1129,7 @@ table th.sort-up:after {
   -moz-border-radius-topright: 0px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
-  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+
   }
   .cd-dropdown > span:after {
     font-family: FontAwesome;
@@ -1179,10 +1177,13 @@ table th.sort-up:after {
   .cd-dropdown.cd-active ul li span {
     line-height: 60px;
     background: #fff;
-    color: #bcbcbc;
+    color: #797979;
     display: block;
     border-radius: 0px;
 
+  }
+  .update-nag {
+    display: none !important;
   }
   .cd-dropdown ul li {
     border-radius: 5px;
