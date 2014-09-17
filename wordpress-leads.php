@@ -16,6 +16,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 		/**
 		 * Main Inbound_Leads_Plugin Instance
+		 *
 		*/
 		public function __construct() {
 			self::define_constants();
@@ -43,6 +44,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			if ( is_admin() ) {
 
+
 				/* Admin Includes */
 				require_once('modules/module.activate.php');
 				require_once('modules/module.ajax-setup.php');
@@ -59,20 +61,25 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('modules/module.form-integrations.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
+				require_once('classes/class.inbound-api.php');
+				require_once('classes/class.inbound-api.api-key-generation.php');
+				require_once('classes/class.inbound-api.api-keys-table.php');
+				require_once('classes/class.admin-notices.php');
 
 			} else {
 				/* Frontend Includes */
-
 				/* load global */
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.post-type.wp-lead.php');
 				require_once('modules/module.form-integrations.php');
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
-
+				require_once('classes/class.inbound-api.php');
+				
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
 				require_once('modules/module.tracking.php');
+				
 
 			}
 
@@ -104,4 +111,5 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 // Legacy function
 function wpleads_check_active() {
+	return true;
 }

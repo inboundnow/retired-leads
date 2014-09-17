@@ -294,7 +294,7 @@ class Inbound_Forms {
 
 						$required_id = ( $key == 0 ) ? $req : '';
 
-						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'" value="'. $checkbox_val .'" '.$required_id.'>'.$value.'<br>';
+						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" '.$required_id.'>'.$value.'<br>';
 					}
 				} else if ($type === 'html-block') {
 					$html = $matches[3][$i]['html'];
@@ -562,10 +562,10 @@ class Inbound_Forms {
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
 
 			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
-			//if (!apply_filters( 'form_actions_spam_check' , $form_post_data ) ) {
+			if (!apply_filters( 'form_actions_spam_check' , false ,  $form_post_data ) ) {
 				self::send_conversion_admin_notification($form_post_data , $form_meta_data);
 				self::send_conversion_lead_notification($form_post_data , $form_meta_data);
-			//}
+			}
 
 			/* hook runs after form actions are completed and before page redirect */
 			do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);

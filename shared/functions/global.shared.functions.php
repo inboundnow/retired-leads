@@ -270,7 +270,8 @@ if (!function_exists('wpleads_get_lead_lists_as_array')) {
 	
 	/* Get Array of Lead Lists from taxonomy */
 	function wpleads_get_lead_lists_as_array() {
-
+		$array = array();
+		
 		$args = array(
 			'hide_empty' => false,
 		);
