@@ -235,7 +235,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		public static function get_lead_lists_by_lead_id( $lead_id ) {
 
 			$args = array(
-				'hide_empty' => false,
+				'hide_empty' => false
 			);
 
 			$terms = get_the_terms( $lead_id , 'wplead_list_category' );
