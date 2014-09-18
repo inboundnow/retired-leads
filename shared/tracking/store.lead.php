@@ -161,8 +161,13 @@ function inbound_store_lead( $args = array() ) {
 	$lead_data = apply_filters( 'inboundnow_store_lead_pre_filter_data' , $lead_data);
 
 	do_action('inbound_store_lead_pre' , $lead_data); // Global lead storage action hook
+	
+	/* bail if spam */
+	if (apply_filters( 'inbound_check_if_spam' , $lead_data )) {
+		exit;
+	}
 
-	// check for set email
+	/* check for set email */
 	if ( ( isset( $lead_data['wpleads_email_address'] ) && !empty( $lead_data['wpleads_email_address'] ) && strstr( $lead_data['wpleads_email_address'] ,'@') ))
 	{
 		$query = $wpdb->prepare(
