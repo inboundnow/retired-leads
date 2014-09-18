@@ -86,6 +86,13 @@ if (!class_exists('Inbound_API')) {
 		 * @access static
 		 */
 		static $override = true;
+		
+		/**
+		 *
+		 * @var integer
+		 * @access static
+		 */
+		static $number = 50;
 
 		/**
 		 * Initialize the Inbound Leads API
@@ -117,40 +124,7 @@ if (!class_exists('Inbound_API')) {
 		 *
 		 */
 		public static function add_endpoint( $rewrite_rules ) {
-			add_rewrite_endpoint( 'inbound-api', EP_ALL );
-			add_rewrite_endpoint( 'v1', EP_ALL );
-			add_rewrite_endpoint( 'leads', EP_ALL );
-			add_rewrite_endpoint( 'tags', EP_ALL );
-			add_rewrite_endpoint( 'lists', EP_ALL );
-			add_rewrite_endpoint( 'field-map', EP_ALL );
-			add_rewrite_endpoint( 'analytics', EP_ALL );
-		}
-
-		/**
-		 * Registers query vars for API access
-		 *
-		 * @access public
-		 * @param array $vars Query vars
-		 * @return array $vars New query vars
-		 */
-		public static function query_vars( $vars ) {
-			$vars[] = 'inbound-api';
-			$vars[] = 'token';
-			$vars[] = 'key';
-			$vars[] = 'number';
-			$vars[] = 'date';
-			$vars[] = 'page';
-			$vars[] = 'startdate';
-			$vars[] = 'enddate';
-			$vars[] = 'has_tags';
-			$vars[] = 'does_not_have_tags';
-			$vars[] = 'in_lists';
-			$vars[] = 'not_in_lists';
-			$vars[] = 'has_uid';
-			$vars[] = 'has_emails';
-			$vars[] = 'meta_query';
-
-			return $vars;
+			add_rewrite_endpoint( 'inbound-api', EP_ALL );			
 		}
 
 		/**
@@ -169,19 +143,19 @@ if (!class_exists('Inbound_API')) {
 			global $wp_query;
 
 			self::$override = false;
-
+			
 			/* Check for presence of keys and tokens */
-			if ( empty( $wp_query->query_vars['token'] ) || empty( $wp_query->query_vars['key'] ) ) {
+			if ( empty( $_REQUEST['token'] ) || empty( $_REQUEST['key'] ) ) {
 				self::missing_auth();
 			}
 
 			// Retrieve the user by public API key and ensure they exist
-			if ( ! ( $user = self::get_user( $wp_query->query_vars['key'] ) ) ) {
+			if ( ! ( $user = self::get_user( $_REQUEST['key'] ) ) ) {
 				self::invalid_key();
 			} else {
-				$token  = urldecode( $wp_query->query_vars['token'] );
+				$token  = urldecode( $_REQUEST['token'] );
 				$secret = get_user_meta( $user, 'inbound_user_secret_key', true );
-				$public = urldecode( $wp_query->query_vars['key'] );
+				$public = urldecode( $_REQUEST['key'] );
 
 				if ( hash( 'md5', $secret . $public ) === $token ) {
 					self::$is_valid_request = true;
@@ -206,7 +180,7 @@ if (!class_exists('Inbound_API')) {
 			global $wpdb, $wp_query;
 
 			if( empty( $key ) )
-				$key = urldecode( $wp_query->query_vars['key'] );
+				$key = urldecode( $_REQUEST['key'] );
 
 			if ( empty( $key ) ) {
 				return false;
@@ -280,13 +254,13 @@ if (!class_exists('Inbound_API')) {
 		 * @param $accepted value type desired
 		 * @return $value or die();
 		 */
-		private static function validate_parameter( $value , $accepted ) {
+		private static function validate_parameter( $value , $key , $accepted ) {
 			
-			if (gettype($value == $accepted )) {
+			if (gettype($value) == $accepted ) {
 				return $value;
 			}
 			
-			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', 'leads' ) , $accepted , $key , $provided) ;
+			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting a %1$s for \'%2$s\' while a field type with %3$s was provided', 'leads' ) , $accepted , $key , gettype($value)) ;
 
 			self::$data = $error;
 			self::output( 401 );
@@ -301,6 +275,20 @@ if (!class_exists('Inbound_API')) {
 		 */
 		private static function invalid_parameter( $key , $accepted, $provided ) {
 			$error['error'] = sprintf( __( 'Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided', 'leads' ) , $accepted , $key , $provided) ;
+
+			self::$data = $error;
+			self::output( 401 );
+		}
+
+		/**
+		 * Displays generic WP_Error
+		 *
+		 * @access private
+		 * @uses Inbound_API::output()
+		 * @return void
+		 */
+		private static function throw_wp_error( $error_obj ) {
+			$error['error'] = $error_obj->get_error_message();
 
 			self::$data = $error;
 			self::output( 401 );
@@ -444,33 +432,26 @@ if (!class_exists('Inbound_API')) {
 		 *
 		 * @access private
 		 * @global $wp_query
-		 * @return int $wp_query->query_vars['page'] if page number returned (default: 1)
+		 * @return int $_REQUEST['page'] if page number returned (default: 1)
 		 */
 		public static function get_paged() {
 			global $wp_query;
 
-			return isset( $wp_query->query_vars['page'] ) ? $wp_query->query_vars['page'] : 1;
+			return isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : 1;
 		}
-
-
+		
 		/**
-		 * Number of results to display per page
+		 * Get number per page
+		 * uses REQUEST but falls back on self::$number
 		 *
 		 * @access private
 		 * @global $wp_query
-		 * @return int $per_page Results to display per page (default: 10)
+		 * @return int $_REQUEST['page'] if page number returned (default: 1)
 		 */
-		public static function per_page() {
-			global $wp_query;
+		public static function get_number() {
 
-			$per_page = isset( $wp_query->query_vars['number'] ) ? $wp_query->query_vars['number'] : 10;
-
-			if( $per_page < 0 && self::get_query_mode() == 'customers' )
-				$per_page = 99999999; // Customers query doesn't support -1
-
-			return apply_filters( 'inbound_api_results_per_page', $per_page );
+			return isset( $_REQUEST['number'] ) ? $_REQUEST['number'] : self::$number;
 		}
-
 
 		/**
 		 * Sets up the dates used to retrieve leads
@@ -701,7 +682,7 @@ if (!class_exists('Inbound_API')) {
 		 *  Query designed to return leads based on conditions defined by user.
 		 *  
 		 *  @access public
-		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query
+		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query , optional
 		 */
 		public static function leads_get( $params = array() ) {
 			
@@ -713,10 +694,10 @@ if (!class_exists('Inbound_API')) {
 			
 			/* Prepare WP_Query arguments with tax_query rules */
 			$args = self::leads_prepare_tax_query( $args , $params );
-			
+
 			/* Prepare WP_Query arguments with meta_query rules */
 			if (isset($params['meta_query'])) {
-				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'ARRAY'  );
+				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'ARRAY'  );
 			} 
 			
 			/* Run Query */
@@ -737,10 +718,10 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public static function leads_prepare_defaults( $params ) {
 			
-			 $args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'STRING'  ) : '';
-			 $args['p'] = (isset($params['ID'])) ? self::validate_parameter( $params['ID'] , 'INT'  ) : '';
-			 $args['posts_per_page'] = (isset($params['number'])) ? self::validate_parameter( $params['number'] , 'INT' ) : 50;
-			 $args['paged'] = (isset($params['page'])) ? self::validate_parameter( $params['page'] , 'INT' ) : 1 ;
+			 $args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'email' , 'string'  ) : '';
+			 $args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']) , 'ID' , 'integer'  ) : '';
+			 $args['posts_per_page'] = self::get_number();
+			 $args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']) , 'page' , 'integer' ) : 1 ;
 			 $args['post_type'] = 'wp-lead';
 			 return $args;
 		}
@@ -755,6 +736,12 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public static function leads_prepare_tax_query( $args , $params ) {
 			
+			/* if tax_query ovverride rules are manually set by user then use them  */
+			if (isset($params['tax_query'])) {
+				$args['tax_query'] = $params['tax_query'];
+				return $args;
+			}
+			
 			if ( isset($params['include_lists']) || isset($params['exclude_lists']) || isset($params['include_tags']) || isset($params['exclude_tags'])) {
 				$args['tax_query']['relation'] = 'AND';
 			}
@@ -762,8 +749,8 @@ if (!class_exists('Inbound_API')) {
 			if ( isset($params['include_lists']) ) {
 				$args['tax_query'][] = array(
 					'taxonomy' => 'wplead_list_category',
-					'field'    => 'ID',
-					'terms'    => self::validate_parameter( $params['include_lists'] , 'ARRAY'  ),
+					'field'    => 'term_id',
+					'terms'    => self::validate_parameter( $params['include_lists'] , 'include_lists' , 'array'  ),
 					'operator' => 'IN',
 				);
 			}
@@ -771,32 +758,56 @@ if (!class_exists('Inbound_API')) {
 			if ( isset($params['exclude_lists']) ) {
 				$args['tax_query'][] = array(
 					'taxonomy' => 'wplead_list_category',
-					'field'    => 'ID',
-					'terms'    => self::validate_parameter( $params['exclude_lists'] , 'ARRAY'  ),
+					'field'    => 'term_id',
+					'terms'    => self::validate_parameter( $params['exclude_lists'] , 'exclude_lists' , 'array'  ),
 					'operator' => 'NOT IN',
 				);
 			}
 			
 			if ( isset($params['include_tags']) ) {
+				$tags = self::get_tag_ids(self::validate_parameter( $params['include_tags'] , 'include_tags' , 'array'  ));
 				$args['tax_query'][] = array(
 					'taxonomy' => 'lead-tags',
-					'field'    => 'ID',
-					'terms'    => self::validate_parameter( $params['include_tags'] , 'ARRAY'  ),
-					'operator' => 'IN'
+					'field'    => 'term_id',
+					'terms'    => $tags,
+					'operator' => 'AND'
 				);
 			}
 			
 			if ( isset($params['exclude_tags']) ) {
+				$tags = self::get_tag_ids(self::validate_parameter( $params['exclude_tags'] , 'exclude_tags' , 'array'  ));
 				$args['tax_query'][] = array(
 					'taxonomy' => 'lead-tags',
 					'field'    => 'ID',
-					'terms'    => self::validate_parameter( $params['exclude_tags'] , 'ARRAY'  ),
+					'terms'    => $tags,
 					'operator' => 'NOT IN'
 				);
 			}
 			
 			return $args;
 		}
+		
+		
+		/**
+		 *  Get tag ids from given names
+		 *  @param ARRAY $tags contains array of tag names 
+		 *  @returns ARRAY $tag_ids contains array of tag term ids
+		 */
+		public static function get_tag_ids( $tags ) {
+			$tag_ids = array();
+			
+			foreach ($tags as $name) {
+				$tag = get_term_by( 'name' , $name , 'lead-tags' );
+
+				if ($tag) {
+					$tag_ids[] = $tag->term_id;
+				}
+			}
+			
+			return $tag_ids;
+		}
+		
+		
 		
 		/**
 		 *  Converts WP_Query object into array and imports additional lead data
@@ -812,41 +823,241 @@ if (!class_exists('Inbound_API')) {
 			
 			$leads = array();
 			$leads['results_count'] = $results->found_posts;
+			$leads['results_per_page'] = self::get_number();
 			$leads['max_pages'] = $results->max_num_pages;
+			
 			while ( $results->have_posts() ) : $results->the_post(); 
 				
 				$ID = $results->post->ID;
 				
 				/* set ID */
-				$leads[ $ID ]['ID'] = $ID;
+				$leads['results'][ $ID ]['ID'] = $ID;
 				
 				/* set lead lists */
 				$lists = get_the_terms( $ID , 'wplead_list_category' );
-				$leads[ $ID ]['lists'] = $lists;
+				$leads['results'][ $ID ]['lists'] = $lists;
 				
 				/* set lead tags */
 				$tags = get_the_terms( $ID , 'lead-tags' );
-				$leads[ $ID ]['tags'] = $tags;
+				$leads['results'][ $ID ]['tags'] = $tags;
 				
 				/* set lead meta data */ 
 				$meta_data = get_post_custom($ID);
-				$leads[ $ID ]['meta_data'] = $meta_data;
+				$leads['results'][ $ID ]['meta_data'] = $meta_data;
 			
 			endwhile;
 		
 			return $leads;
 		}
 		
-		public static function leads_add() {
-		
+		/**
+		 *  Adds a lead to the wp-lead custom post type
+		 *  @param ARRAY $params key/value pairs that will direct the building of WP_Query , optional
+		 *  @global OBJECT $Inbound_Leads Inbound_Leads
+		 */
+		public static function leads_add( $params = array() ) {
+			global $Inbound_Leads;
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* Make sure our meta_data field is setup correctly */
+			self::validate_parameter( $params['meta_data'] , 'meta_data' ,  'array'  );
+			
+			$args = array(
+				'post_title' =>  self::validate_parameter( $params['meta_data']['wpleads_email_address'] , 'meta_data[wpleads_email_address]' ,  'string'  ), /* validate email address */
+				'post_status' => 'publish',
+				'post_type' => 'wp-lead'
+			);
+			
+			/* check if lead exists */
+			$already_exists = self::leads_get( array( 'email' => $params['meta_data']['wpleads_email_address'] ) );
+			
+			if ( $already_exists ) {
+				$error['error'] = __( 'Lead already exists.' , 'leads' ) ;
+
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* Insert Lead */
+			$lead_id = wp_insert_post( $args , true );
+			
+			/* Check for error and send message back if contains error */
+			if( is_wp_error($lead_id) ) {
+				self::throw_wp_error( $lead_id );
+			}
+			
+			/* Add meta data to lead record */			
+			foreach ($params['meta_data'] as $key => $value ) {
+				update_post_meta( $lead_id , $key , $value );
+			}
+			
+			/* Add lead to lists */
+			if (isset($params['lead_lists']) && self::validate_parameter( $params['lead_lists'] , 'lead_lists' , 'array' ) ) {
+				
+				foreach ( $params['lead_lists'] as $list_id ) {
+					$Inbound_Leads->add_lead_to_list( $lead_id , $list_id );
+				}
+			}
+			
+			/* Add tag to leads */
+			if (isset($params['tags']) && self::validate_parameter( $params['tags'] , 'tags' , 'array' ) ) {
+				foreach ( $params['tags'] as $tag ) {
+					$Inbound_Leads->add_tag_to_lead( $lead_id , $tag );
+				}
+			}
+			
+			return self::leads_get( array( 'ID' => $lead_id ) );
+			
 		}
 		
-		public static function leads_update() {
-		
+		/**
+		 *  Updates a Lead profile 
+		 *  @param ARRAY $params key/value pairs that will assist database queries
+		 *  @global OBJECT $Inbound_Leads Inbound_Leads
+		 */
+		public static function leads_update( $params = array() ) {
+			global $Inbound_Leads;
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* Validate lead ID param */
+			if (isset( $params['ID'] ) ) {
+				self::validate_parameter( intval($params['ID']) , 'ID' ,  'integer'  );
+			}
+			
+			/* if email is set get lead ID by email */
+			if ( isset( $params['email'] ) ) {
+				$result = self::leads_get( array( 'email' => $params['email'] ) );
+				if ( isset($result['results']) ) {
+					$params['ID'] = key($result['results']);
+				}
+			}
+			
+			/* ID must be set by this point */
+			if ( !isset( $params['ID'] ) ) {
+				$error['error'] = __( 'Valid ID or email address not set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* Update email address in post_title if email is being updated */	
+			if ( isset( $params['meta_data']['wpleads_email_address'] ) ) {
+				$args = array(
+					'ID' => $params['ID'],
+					'post_title' => self::validate_parameter( $params['meta_data']['wpleads_email_address'] , 'meta_data[wpleads_email_address]' ,  'string'  ),
+					'post_status' => 'publish',
+					'post_type' => 'wp-lead'
+				);
+				wp_update_post( $args );
+			}
+			
+			/* Update meta data */ 
+			if ( isset( $params['meta_data']) ) {
+				
+				/* Make sure our meta_data field is setup correctly */
+				self::validate_parameter( $params['meta_data'] , 'meta_data' ,  'array'  );
+				
+				/* Loop through meta data fields and update key/value pairs */			
+				foreach ($params['meta_data'] as $key => $value ) {
+					update_post_meta( $params['ID'] , $key , $value );
+				}
+			}
+			
+			/* Add lead to lists  */
+			if ( isset( $params['add_to_lists']) ) {
+				
+				/* Make sure our add_to_lists field is setup correctly */
+				self::validate_parameter( $params['add_to_lists'] , 'add_to_lists' ,  'array'  );
+				
+				/* Loop through list ids and add */			
+				foreach ($params['add_to_lists'] as $list_id ) {
+					$Inbound_Leads->add_lead_to_list( $params['ID'] , $list_id );
+				}
+			}
+			
+			/* Remove lead from lists */
+			if ( isset( $params['remove_from_lists']) ) {
+			
+				/* Make sure our remove_from_lists field is setup correctly */
+				self::validate_parameter( $params['remove_from_lists'] , 'remove_from_lists' ,  'array'  );
+				
+				/* Loop through list ids and remove */			
+				foreach ($params['remove_from_lists'] as $list_id ) {
+					$Inbound_Leads->remove_lead_from_list( $params['ID'] , $list_id );
+				}
+			}
+			
+			/* add tags to lead */
+			if ( isset( $params['add_tags']) ) {
+				
+				/* Make sure our add_tags field is setup correctly */
+				self::validate_parameter( $params['add_tags'] , 'add_tags' ,  'array'  );
+				
+				/* Loop through tags and add */			
+				foreach ($params['add_tags'] as $tag ) {
+					$Inbound_Leads->add_tag_to_lead( $params['ID'] , $tag );
+				}
+			}
+			
+			/* remove tags from lead */
+			if ( isset( $params['remove_tags']) ) {
+			
+				/* Make sure our remove_tags field is setup correctly */
+				self::validate_parameter( $params['remove_tags'] , 'remove_tags' ,  'array'  );
+				
+				/* Loop through tags and remove */			
+				foreach ($params['remove_tags'] as $tag ) {
+					$Inbound_Leads->remove_tag_from_lead( $params['ID'] , $tag );
+				}
+			}
+			
+			return self::leads_get( array( 'ID' => $params['ID'] ) );
 		}
 		
-		public static function leads_delete() {
-		
+		/**
+		 *  Permanently deletes a lead profile
+		 *  @param ARRAY $params key/value pairs 
+		 */
+		public static function leads_delete( $params = array() ) {
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* Validate lead ID param */
+			if ( isset( $params['ID'] ) ) {
+				self::validate_parameter( intval($params['ID']) , 'ID' ,  'integer'  );
+			} 
+			/* if email is set get lead ID by email */
+			else if ( isset( $params['email'] ) ) {
+				
+				self::validate_parameter( $params['email'] , 'email' ,  'string'  );
+				
+				/* perform lead lookup by email */
+				$result = self::leads_get( array( 'email' => $params['email'] ) );
+				
+				/* get lead id if lookup successful */
+				if ( isset($result['results']) ) {
+					$params['ID'] = key($result['results']);
+				}
+			}
+			
+			/* ID must be set by this point */
+			if ( !isset( $params['ID'] ) ) {
+				$error['error'] = __( 'Valid ID or email address not set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* Delete lead */
+			wp_delete_post(  $params['ID'] , true );
+			
+			return array ( 
+				'message' => __( 'Lead successfully deleted' , 'leads' ),
+				'ID' => $params['ID']
+			);
 		}
 		
 		public static function field_map_get() {

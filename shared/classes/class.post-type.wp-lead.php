@@ -20,6 +20,10 @@ if ( !class_exists('Inbound_Leads') ) {
 			add_action( 'init' , array( __CLASS__ , 'register_post_type' ));
 			add_action( 'init' , array( __CLASS__ , 'register_taxonomies' ));
 			
+			/* Modify columns on lead list creation page */
+			add_filter( 'manage_edit-wplead_list_category_columns' , array( __CLASS__ , 'register_lead_list_columns' )); 
+			add_filter( 'manage_wplead_list_category_custom_column' , array( __CLASS__ , 'support_lead_list_columns' ), 10, 3);
+ 
 			if (is_admin()) {
 				add_action( 'edit_form_after_title', array( __CLASS__ , 'install_leads_prompt' ) );
 				
@@ -141,6 +145,34 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		/**
+		 *  Adds ID column to lead-tags WP List Table
+		 */
+		public static function register_lead_list_columns( $cols ) {
+			$new_columns = array(
+				'cb' => '<input type="checkbox" />',
+				'lead_id' => __('ID' , 'leads'),
+				'name' => __('Name' , 'leads'),
+				'description' => __('Description' , 'leads'),
+				'slug' => __('Slug' , 'leads'),
+				'posts' => __('Posts' , 'leads')
+				);
+			return $new_columns;
+		}
+		
+		/**
+		 *  Helps ID column display lead list ID 
+		 */
+		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
+			if ($column_name != 'lead_id' ) {
+				return $out;
+			}
+			
+			$out .= $term_id;
+			
+			return $out;
+		}
+		
+		/**
 		*	Make sure that all list ids are intval
 		*	
 		*	@param MIXED $lists 
@@ -154,7 +186,7 @@ if ( !class_exists('Inbound_Leads') ) {
 					$lists[ $key ] = intval($id);
 				}
 			} else {
-				$lists = intval( $list_id );
+				$lists = intval($lists);
 			}
 			
 			return $lists;
@@ -260,8 +292,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
-		public static function add_tag_to_lead( $lead_id , $list_id ) {
-			wp_set_object_terms( $lead_id, $list_id , 'lead-tags', true );
+		public static function add_tag_to_lead( $lead_id , $tag ) {
+			wp_set_object_terms( $lead_id, $tag , 'lead-tags', true );
 		}
 		
 		/**
