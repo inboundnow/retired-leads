@@ -163,7 +163,7 @@ function inbound_store_lead( $args = array() ) {
 	do_action('inbound_store_lead_pre' , $lead_data); // Global lead storage action hook
 	
 	/* bail if spam */
-	if (apply_filters( 'inbound_check_if_spam' , $lead_data )) {
+	if (apply_filters( 'inbound_check_if_spam' , false ,  $lead_data )) {
 		exit;
 	}
 

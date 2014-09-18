@@ -13,6 +13,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 			/* Load hooks if akismet filtering is enabled */
 			if (get_option('inbound_forms_enable_akismet' , '1' )) {				
 				add_action( 'inbound_check_if_spam' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); 				
+			} else {
+			
 			}
 		}
 		
@@ -23,7 +25,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 		* @return BOOL true for spam and false for spam 
 		*
 		*/
-		public static function check_is_spam( $lead_data ) {
+		public static function check_is_spam( $is_spam = false ,  $lead_data ) {
 			$api_key = Inbound_Akismet::get_api_key();
 
 			/* return false if akismet is not setup */
