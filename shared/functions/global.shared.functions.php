@@ -212,8 +212,7 @@ if (!function_exists('wp_leads_get_page_final_id')) {
 
 /* PHP 5.2 json encode fallback */
 if (!function_exists('json_encode_fallback')) {
-  function json_encode_fallback($a=false)
-  {
+  function json_encode_fallback($a=false) {
     if (is_null($a)) return 'null';
     if ($a === false) return 'false';
     if ($a === true) return 'true';
@@ -260,18 +259,18 @@ if (!function_exists('json_encode_fallback')) {
 /* Legacy Support */
 if (!function_exists('wpleads_add_lead_to_list')) {
 	function wpleads_add_lead_to_list( $list_id, $lead_id ) {
-		wp_set_post_terms( $lead_id, intval($list_id), 'wplead_list_category', true);		
+		wp_set_post_terms( $lead_id, intval($list_id), 'wplead_list_category', true);
 		do_action('post_add_lead_to_lead_list' , $lead_id , $list_id );
 	}
 }
 
 /* Legacy Support */
 if (!function_exists('wpleads_get_lead_lists_as_array')) {
-	
+
 	/* Get Array of Lead Lists from taxonomy */
 	function wpleads_get_lead_lists_as_array() {
 		$array = array();
-		
+
 		$args = array(
 			'hide_empty' => false,
 		);
