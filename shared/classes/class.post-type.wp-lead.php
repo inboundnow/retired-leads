@@ -254,19 +254,74 @@ if ( !class_exists('Inbound_Leads') ) {
 		/**
 		 *  Adds a new lead list
 		 */
-		public static function create_lead_list( $name , $description = '' ,  $parent_id = 0 ) {
+		public static function create_lead_list( $args ) {
 			
-			$term = term_exists( $name , '' , $parent_id ); 
+			$params = array();
+	
+			/* if no list name is present then return null */
+			if ( !isset( $args['name'] )) {
+				return null;
+			}
+			
+			if (isset( $args['description'] )) {
+				$params['description'] = $args['description'];
+			}
+			
+			if (isset( $args['parent'] )) {
+				$params['parent'] = $args['parent'];
+			} else {
+				$params['parent'] = 0;
+			}
+
+			$term = term_exists(  $args['name'] , 'wplead_list_category' , $params['parent'] ); 
+			
 			if ( !$term ) {
 				$term = wp_insert_term(
-					$name , // the term 
+					$args['name'], // the term 
 					'wplead_list_category', // the taxonomy
-					array(
-						'description'=> $description,
-						'parent'=> $parent_id
-					)
-				);
+					$params
 			}
+
+			if ( is_array($term) && isset( $term['term_id'] ) ) {
+				return array( 'id' => $term['term_id'] );
+			} else if ( is_numeric($term) ) {
+				return array( 'id' => $term );
+			} else {
+				return $term;
+			}
+		}
+		
+		/**
+		 *  updates a lead list
+		 */
+		public static function update_lead_list( $args = array ) {
+			
+			/* id is required */
+			if (!isset($args['id'])) {
+				return null;
+			}
+			
+			if (isset( $args['name'] )) {
+				$params['name'] = $args['name'];
+			}
+			
+			if (isset( $args['description'] )) {
+				$params['description'] = $args['description'];
+			}
+			
+			if (isset( $args['parent'] )) {
+				$params['parent'] = $args['parent'];
+			}
+			
+			$term = term_exists( $args['term_id'] , 'wplead_list_category' , $args['parent'] ); 
+			
+			if ( $term ) {
+				$term = wp_update_term(
+					$args['id'] , // the term 
+					'wplead_list_category', // the taxonomy
+					array( $params	)
+				);
+			} 
 
 			if ( is_array($term) && isset( $term['term_id'] ) ) {
 				return array( 'list_id' => $term['term_id'] );

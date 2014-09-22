@@ -92,7 +92,14 @@ if (!class_exists('Inbound_API')) {
 		 * @var integer
 		 * @access static
 		 */
-		static $number = 50;
+		static $results_per_page = 50;
+		
+		/**
+		 *
+		 * @var string
+		 * @access static
+		 */
+		static $tracking_endpoint = 'inbound' ;
 
 		/**
 		 * Initialize the Inbound Leads API
@@ -103,7 +110,8 @@ if (!class_exists('Inbound_API')) {
 			add_action( 'init',                     array( __CLASS__ , 'add_endpoint'     ) );
 			
 			/* Build Query Router */
-			add_action( 'template_redirect',        array( __CLASS__ , 'process_query'    ), -1 );
+			add_action( 'template_redirect',        array( __CLASS__ , 'process_api_query'    ), -1 );
+			add_action( 'template_redirect',        array( __CLASS__ , 'process_tracked_link'    ), -1 );
 			
 			/* Listen for & execute api key commands */
 			add_action( 'inbound_process_api_key',  array( __CLASS__ , 'process_api_key'  ) );
@@ -124,7 +132,13 @@ if (!class_exists('Inbound_API')) {
 		 *
 		 */
 		public static function add_endpoint( $rewrite_rules ) {
-			add_rewrite_endpoint( 'inbound-api', EP_ALL );			
+			
+			/* for API calls */
+			add_rewrite_endpoint( 'inbound-api', EP_ALL );	
+			
+			/* for click event tracking */		
+			self::$tracking_endpoint = apply_filters( 'inbound_event_endpoint' , self::$tracking_endpoint );
+			add_rewrite_endpoint( 'inbound', EP_ALL );	
 		}
 
 		/**
@@ -302,7 +316,7 @@ if (!class_exists('Inbound_API')) {
 		 * @global $wp_query
 		 * @return void
 		 */
-		public static function process_query() {
+		public static function process_api_query() {
 			global $wp_query;
 			
 			/* Check for inbound-api var. Get out if not present */
@@ -361,14 +375,9 @@ if (!class_exists('Inbound_API')) {
 					$data = self::lists_add();
 					BREAK;
 					
-				case 'v1/lists/update' :
+				case 'v1/lists/modify' :
 					/* add lead lists */
 					$data = self::lists_update();
-					BREAK;
-					
-				case 'v1/field-map' :
-					/* add lead lists */
-					$data = self::fieldmap_get();
 					BREAK;
 					
 				case 'v1/lists/delete' :
@@ -376,7 +385,12 @@ if (!class_exists('Inbound_API')) {
 					$data = self::lists_delete();
 					BREAK;
 					
-				case 'v1/analytics/track_links' :
+				case 'v1/field-map' :
+					/* add lead lists */
+					$data = self::fieldmap_get();
+					BREAK;
+					
+				case 'v1/analytics/track-link' :
 					/* delete lead lists */
 					$data = self::analytics_track_links();
 					BREAK;					
@@ -408,10 +422,10 @@ if (!class_exists('Inbound_API')) {
 				'v1/leads/delete',
 				'v1/lists',
 				'v1/lists/add',
-				'v1/lists/update',
+				'v1/lists/modify',
 				'v1/lists/delete',
 				'v1/field-map',
-				'v1/analytics/track_links',
+				'v1/analytics/track-link',
 			) );
 
 			$query = isset( $wp_query->query_vars['inbound-api'] ) ? $wp_query->query_vars['inbound-api'] : null;
@@ -441,16 +455,15 @@ if (!class_exists('Inbound_API')) {
 		}
 		
 		/**
-		 * Get number per page
-		 * uses REQUEST but falls back on self::$number
+		 * Get number of results per page to return
+		 * uses REQUEST but falls back on self::$results_per_page
 		 *
 		 * @access private
-		 * @global $wp_query
-		 * @return int $_REQUEST['page'] if page number returned (default: 1)
+		 * @return int 
 		 */
-		public static function get_number() {
+		public static function get_results_per_page() {
 
-			return isset( $_REQUEST['number'] ) ? $_REQUEST['number'] : self::$number;
+			return isset( $_REQUEST['results_per_page '] ) ? $_REQUEST['results_per_page '] : self::$results_per_page;
 		}
 
 		/**
@@ -702,7 +715,8 @@ if (!class_exists('Inbound_API')) {
 			
 			/* Run Query */
 			$results = new WP_Query( $args );
-
+			//var_dump($results->request);exit;
+			//var_dump($results);exit;
 			/* Get meta data for each result */
 			$results = self::prepare_lead_results( $results );
 			
@@ -720,9 +734,12 @@ if (!class_exists('Inbound_API')) {
 			
 			 $args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'email' , 'string'  ) : '';
 			 $args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']) , 'ID' , 'integer'  ) : '';
-			 $args['posts_per_page'] = self::get_number();
+			 $args['posts_per_page'] = self::get_results_per_page();
 			 $args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']) , 'page' , 'integer' ) : 1 ;
+			 $args['orderby'] = (isset($params['orderby'])) ?  $params['orderby'] : 'date' ;
+			 $args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'] , 'order_by' , 'string' ) : 'DESC' ;
 			 $args['post_type'] = 'wp-lead';
+
 			 return $args;
 		}
 		
@@ -823,7 +840,7 @@ if (!class_exists('Inbound_API')) {
 			
 			$leads = array();
 			$leads['results_count'] = $results->found_posts;
-			$leads['results_per_page'] = self::get_number();
+			$leads['results_per_page'] = self::get_results_per_page();
 			$leads['max_pages'] = $results->max_num_pages;
 			
 			while ( $results->have_posts() ) : $results->the_post(); 
@@ -1032,6 +1049,7 @@ if (!class_exists('Inbound_API')) {
 			} 
 			/* if email is set get lead ID by email */
 			else if ( isset( $params['email'] ) ) {
+				$params['ID'] = self::leads_get_id_from_email( $params['email'] );
 				
 				self::validate_parameter( $params['email'] , 'email' ,  'string'  );
 				
@@ -1060,32 +1078,213 @@ if (!class_exists('Inbound_API')) {
 			);
 		}
 		
-		public static function field_map_get() {
+		/**
+		*  Get lead ID from lead email address
+		*  @param STRING $email lead email address
+		*  @return INT $id
+		*/
+		public static function leads_get_id_from_email( $email ) {
+			
+			self::validate_parameter( $email , 'email' ,  'string'  );
+			
+			/* perform lead lookup by email */
+			$result = self::leads_get( array( 'email' => $email ) );
+			
+			/* get lead id if lookup successful */
+			if ( isset($result['results']) ) {
+				return key($result['results']);
+			} else {
+				return null;
+			}
 		
 		}
 		
+		/**
+		 *  Gets all lead lists
+		 *  @global OBJECT $Inbound_Leads Inbound_Leads
+		 */
 		public static function lists_get() {
-		
+			global $Inbound_Leads;
+			
+			return $Inbound_Leads->get_lead_lists_as_array();
 		}
 		
-		public static function lists_add() {
-		
+		/**
+		 *  Create a new lead list
+		 *  @global OBJECT $Inbound_Leads class Inbound_Leads
+		 */
+		public static function lists_add( $params = array() ) {
+			global $Inbound_Leads;
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			self::validate_parameter( $params['name'] , 'name' ,  'string'  );
+			
+			/* Prepare list description */
+			if (isset($params['description'])) {
+				self::validate_parameter( $params['description'] , 'description' ,  'string'  );
+			} else {
+				$params['description'] = '';
+			}
+			
+			/* Prepare parent */
+			if (isset($params['parent'])) {
+				self::validate_parameter( $params['parent'] , 'parent' ,  'string'  );
+			} else {
+				$params['parent'] = '';
+			}
+
+			return $Inbound_Leads->create_lead_list( $params );
 		}
 		
-		public static function lists_update() {
-		
+		/**
+		*  Updates a list's data
+		*  @global OBJECT $Inbound_Leads class Inbound_Leads
+		*  @return ARRAY 
+		*/
+		public static function lists_update( $params = array() ) {
+			global $Inbound_Leads;
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* Get list id */
+			if (isset($params['id'])) {
+				self::validate_parameter( intval($params['id']) , 'id' ,  'integer'  );
+			} else {
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* Prepare new list name if available */
+			if (isset($params['name'])) {
+				self::validate_parameter( $params['name'] , 'name' ,  'string'  );
+			} else {
+				$params['name'] = '';
+			}
+			
+			/* Prepare new list description if available */
+			if (isset($params['description'])) {
+				self::validate_parameter( $params['description'] , 'description' ,  'string'  );
+			} else {
+				$params['description'] = '';
+			}
+			
+			/* Prepare new parent if available*/
+			if (isset($params['parent'])) {
+				self::validate_parameter( intval($params['parent']) , 'parent' ,  'integer'  );
+			} else {
+				$params['parent'] = 0;
+			}
+			
+			return $Inbound_Leads->update_lead_list( $params );
 		}
 		
-		public static function lists_delete() {
-		
+		/**
+		*  Deletes a lead list
+		*/
+		public static function lists_delete( $params = array() ) {
+			global $Inbound_Leads;
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* Get list id */
+			if (isset($params['id'])) {
+				self::validate_parameter( intval($params['id']) , 'id' ,  'integer'  );
+			} else {
+				$error['error'] = __( 'This endpoint requires that the \'id\' be set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			return $Inbound_Leads->delete_lead_list( $params['id'] );
 		}
 		
-		public static function analytics_track_links() {
+		/**
+		*  Gets an array of mappable lead meta keys with their labels
+		*/
+		public static function fieldmap_get() {
+			$lead_fields = Leads_Field_Map::build_map_array();
+			array_shift($lead_fields);
+			return $lead_fields;
+		}
 		
+		public static function analytics_track_links( $params = array() ) {
+			
+			/* Merge POST & GET & @param vars into array variable */
+			$params = array_merge( $params , $_REQUEST ); 
+			
+			/* lead email or lead id required */
+			if ( !isset( $params['id'] ) && !isset( $params['email'])) {
+				$error['error'] = __( 'This endpoint requires either the \'id\' or the \'email\' parameter be set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* a link to mask is required */
+			if ( !isset( $params['url'] ) && !isset( $params['url'] ) ) {
+				$error['error'] = __( 'This endpoint requires the \'url\' parameter be set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
+			
+			/* Get Lead Id */
+			if (isset( $params['id'] ) ) {
+				$args['id'] = $params['id'];
+			} else if ( isset( $params['email'] ) ) {
+				$args['id'] = leads_get_id_from_email( $params['email'] );
+			}
+			
+			/* Set URL */
+			$args['url'] = $params['url'];
+			
+			/* Set custom_data */
+			if (isset($params['custom_data'])) {
+				self::validate_parameter( $params['custom_data'] , 'custom_data' ,  'array'  );
+				
+				$args = array_merge( $args , $params['custom_data'] );
+			}
+			
+			$tracked_link = add_query_arg( $args , get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' ) );
+			
+			return array( 'url' => $tracked_link );
 		}
 	
+		/**
+		 * Listens for the tracked links and update lead event profile
+		 *
+		 * @access public
+		 * @global $wp_query
+		 * @return void
+		 */
+		public static function process_tracked_link() {
+			global $wp_query;
+		
+			/* Check for inbound-api var. Get out if not present */
+			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) ) {
+				return;
+			}
+
+			/* Check to make sure id and url are present else set to blog homepage */
+			if (!isset( $_GET['url'])) {
+				$redirect = get_site_url();
+			} else {
+				$redirect = $_GET['url'];
+			}
+			
+			/* Add link click event to lead profile */
+			do_action( 'inbound_track_link' , $_GET );
+			
+			/* redirect to  url */
+			header('Location: '. $redirect );
+			exit;
+		}
 	}
 
 	$GLOBALS['Inbound_API'] = new Inbound_API();
 	
 }
+

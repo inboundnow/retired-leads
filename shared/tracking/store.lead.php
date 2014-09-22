@@ -417,7 +417,9 @@ function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 }
 
 
-
+/**
+ *  Loop trough lead_data array and update post meta 
+ */
 function inbound_update_common_meta($lead_data)
 {
 	/* Update user_ID if exists */

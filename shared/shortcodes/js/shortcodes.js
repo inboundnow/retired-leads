@@ -599,12 +599,12 @@
 							var send_email_subject = '';
 							var email_contents = ''; // if post created on other post
 						}
-						
+
 						if ( typeof email_contents == 'undefined' ) {
-							 email_contents = jQuery('#content').val(); 
+							 email_contents = jQuery('#content').val();
 						}
-						
-						
+
+
 						var email_exists = InboundShortcodes.get_email();
 						console.log(email_exists);
 						if(email_exists != "" ) {
@@ -717,25 +717,45 @@
 				     }
 				        return false;
 				});
+				function debounce(func, wait, immediate) {
+					var timeout;
+					return function() {
+						var context = this, args = arguments;
+						var later = function() {
+							timeout = null;
+							if (!immediate) func.apply(context, args);
+						};
+						var callNow = immediate && !timeout;
+						clearTimeout(timeout);
+						timeout = setTimeout(later, wait);
+						if (callNow) func.apply(context, args);
+					};
+				};
 
 				jQuery('body').on('change, keyup', '.inbound-shortcodes-child-input', function() {
-					InboundShortcodes.generateChild(); // runs refresh for children
-					var update_dom = jQuery(this).val();
-					var update_dom = update_dom.replace(/"/g, "'");
-					jQuery(this).attr('value', update_dom);
+					clearTimeout(jQuery.data(this, 'typeTimer'));
+					   jQuery.data(this, 'typeTimer', setTimeout(function() {
+						InboundShortcodes.generateChild(); // runs refresh for children
+						var update_dom = jQuery(this).val();
+						var update_dom = update_dom.replace(/"/g, "'");
+						jQuery(this).attr('value', update_dom);
+					}, 1000));
 				});
 
 				jQuery('.inbound-shortcodes-input', form).on('change, keyup', function () {
-					var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
-					console.log('yes');
-					console.log(exclude_input);
-					if (exclude_input != 'true'){
-					InboundShortcodes.generate(); // runs refresh
-					InboundShortcodes.generateChild();
-				}
-					var update_dom = jQuery(this).val();
-					var update_dom = update_dom.replace(/"/g, "'");
-					jQuery(this).attr('value', update_dom);
+					clearTimeout(jQuery.data(this, 'typeTimer'));
+						jQuery.data(this, 'typeTimer', setTimeout(function() {
+							var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
+							console.log('yes');
+							console.log(exclude_input);
+							if (exclude_input != 'true'){
+							InboundShortcodes.generate(); // runs refresh
+							InboundShortcodes.generateChild();
+							}
+							var update_dom = jQuery(this).val();
+							var update_dom = update_dom.replace(/"/g, "'");
+							jQuery(this).attr('value', update_dom);
+					}, 1000));
 				});
 
 				jQuery('body').on('change', 'input[type="checkbox"], input[type="radio"], input[type="color"], select', function () {
@@ -1017,16 +1037,16 @@
 				jQuery('#list-add-wrap').toggleClass( 'wp-hidden-child' );
 				return false;
 			});
-			
+
 			jQuery('#list-add-submit').click( function() {
 				var list_val = jQuery('#newformlist').val();
 				var list_parent_val = jQuery('#newlist_parent').val();
 				if(list_val == ''){
-					
+
 					jQuery('#newformlist').focus();
-					
+
 					return false;
-					
+
 				} else {
 					jQuery.ajax({
 						type:"POST",
@@ -1038,15 +1058,15 @@
 								jQuery('#inbound_shortcode_lists').append('<option value="'+ returned.term_id +'">' + returned.name + '</option>');
 								jQuery('#list-ajax-response').html('List Added. Please Select From Above.');
 							} else {
-								
+
 								alert('Not able to add list at this monent. Please try again');
 							}
 						}
 					});
-					
+
 				}
-				
+
 			});
-			
+
 
 		});
