@@ -336,12 +336,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			
 			/* lead status */
 			if (isset($_POST['wp_lead_status'])) {
-				return update_post_meta( $post_id, $key, $_POST[ $key ] );
+				update_post_meta( $post_id, 'wp_lead_status', $_POST[ $key ] );
 			}
 
 			/* Loop through mappable fields and save data */
 			$Leads_Field_Map = new Leads_Field_Map();
 			$wpleads_user_fields = $Leads_Field_Map->get_lead_fields();
+
 			foreach ($wpleads_user_fields as $key=>$field)
 			{
 
