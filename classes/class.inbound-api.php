@@ -715,8 +715,14 @@ if (!class_exists('Inbound_API')) {
 			
 			/* Run Query */
 			$results = new WP_Query( $args );
-			//var_dump($results->request);exit;
-			//var_dump($results);exit;
+			
+			/* If no results let them know */
+			if (!$results) {
+				$message['message'] = __( 'No leads were found given this query.' , 'leads' ) ;
+				self::$data = $message;
+				self::output( 401 );
+			}
+			
 			/* Get meta data for each result */
 			$results = self::prepare_lead_results( $results );
 			
