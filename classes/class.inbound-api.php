@@ -710,7 +710,7 @@ if (!class_exists('Inbound_API')) {
 
 			/* Prepare WP_Query arguments with meta_query rules */
 			if (isset($params['meta_query'])) {
-				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'ARRAY'  );
+				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'array'  );
 			} 
 			
 			/* Run Query */
@@ -1212,6 +1212,17 @@ if (!class_exists('Inbound_API')) {
 			return $lead_fields;
 		}
 		
+		/**
+		*  Stores tracked link data into 
+		*/
+		public static function analytics_get_tracking_code( $args = array() ) {
+			
+			$tracked_link = add_query_arg( $args , get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' ) );
+		}
+		
+		/**
+		*  Generate tracked link
+		*/
 		public static function analytics_track_links( $params = array() ) {
 			
 			/* Merge POST & GET & @param vars into array variable */
@@ -1231,15 +1242,11 @@ if (!class_exists('Inbound_API')) {
 				self::output( 401 );
 			}
 			
-			/* Get Lead Id */
-			if (isset( $params['id'] ) ) {
-				$args['id'] = $params['id'];
-			} else if ( isset( $params['email'] ) ) {
-				$args['id'] = leads_get_id_from_email( $params['email'] );
-			}
+			$args = $params;
 			
-			/* Set URL */
-			$args['url'] = $params['url'];
+			unset($args['token']);
+			unset($args['key']);
+			
 			
 			/* Set custom_data */
 			if (isset($params['custom_data'])) {
@@ -1248,7 +1255,11 @@ if (!class_exists('Inbound_API')) {
 				$args = array_merge( $args , $params['custom_data'] );
 			}
 			
-			$tracked_link = add_query_arg( $args , get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' ) );
+			/* Set datetime */
+			$args['datetime'] = current_time( 'timestamp' );
+			
+			/* get tracked link */
+			$tracked_link = self::analytics_get_tracking_code( $args );
 			
 			return array( 'url' => $tracked_link );
 		}
@@ -1274,6 +1285,14 @@ if (!class_exists('Inbound_API')) {
 			} else {
 				$redirect = $_GET['url'];
 			}
+			
+			/* add lead to lists*/
+			
+			/* remove lead from lists */
+			
+			/* add tags to lead */
+			
+			/* remove tags from lead */
 			
 			/* Add link click event to lead profile */
 			do_action( 'inbound_track_link' , $_GET );

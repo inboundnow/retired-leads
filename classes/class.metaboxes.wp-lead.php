@@ -12,7 +12,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		static $conversions;
 		static $comments;
 		static $searches;
-		static $tracked_custom_events;
+		static $custom_events;
 		
 		public function __construct() {			
 			self::load_hooks();
@@ -821,14 +821,14 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		/**
 		*  Gets number of tracked link clicks
 		*/
-		public static function get_tracked_link_clicks_count() {
+		public static function get_custom_events_count() {
 			global $post; 
 			
-			$tracked_custom_events = get_post_meta( $post->ID , 'inbound_tracked_events' , true);
-			self::$tracked_custom_events = json_decode( $tracked_custom_events , true);
+			$custom_events = get_post_meta( $post->ID , 'inbound_custom_events' , true);
+			self::$custom_events = json_decode( $custom_events , true);
 			
-			if ( isset(self::$tracked_custom_events) && is_array(self::$tracked_custom_events) ) {
-				return count(self::$tracked_custom_events);
+			if ( isset(self::$custom_events) && is_array(self::$custom_events) ) {
+				return count(self::$custom_events);
 			} else {
 				return 0;
 			}
@@ -864,8 +864,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				),
 				array(
 					'id'=>'lead-tracked-links',
-					'label'=> __( 'Tracked Clicks' , 'leads' ),
-					'count' => self::get_tracked_link_clicks_count()
+					'label'=> __( 'Custom Events' , 'leads' ),
+					'count' => self::get_custom_events_count()
 				)
 			);
 
@@ -1158,7 +1158,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		/**
 		*  Show tracked link clicks
 		*/
-		public static function activity_tracked_custom_events() {
+		public static function activity_custom_events() {
 			global $post; 
 			?>
 			<div id="lead-tracked-links" class='lead-activity'>
@@ -1167,15 +1167,15 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 				
 				// echo "First id : ". $the_array[1]['id'] . "!"; // Get specific value
-				if ( self::$tracked_clicks )
+				if ( self::$custom_events )
 				{
 					$count = 1;
 
-					foreach(self::$tracked_custom_events as	$key=>$event)
+					foreach(self::$custom_events as	$key=>$event)
 					{
 						$id = $event['tracking_id'];
 	
-						$date_raw = new DateTime(self::$tracked_custom_events[ $key ]['datetime']);
+						$date_raw = new DateTime(self::$custom_events[ $key ]['datetime']);
 	
 						$date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
 						$clean_date = $date_raw->format('Y-m-d H:i:s');
@@ -1187,7 +1187,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 									<div class="lead-timeline-body">
 										<div class="lead-event-text">
-											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span> '.  $event['tracking_id'] .'<span class="conversion-date">'.$date_of_conversion.'</span> <span class="campaing-id">'.$event['campign_id'].'</span></p>
+											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span> <span class="campaing-id">'.$event['campign_id'].'</span> <span class="conversion-date">'.$date_of_conversion.'</span> </p>
 										</div>
 									</div>
 								</div>';
@@ -1205,7 +1205,6 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</div>
 			<?php
 		}
-		}
 		
 		/**
 		*	Loads Activity UI
@@ -1217,7 +1216,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			self::activity_comments();
 			self::activity_searches();
 			self::activity_pageviews();
-			self::activity_tracked_custom_events();
+			self::activity_custom_events();
 		
 			do_action('wpleads_after_activity_log');
 			echo '</div>';
