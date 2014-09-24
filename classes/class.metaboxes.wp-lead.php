@@ -1177,8 +1177,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						$id = $event['tracking_id'];
 	
 						$date_raw = new DateTime(self::$custom_events[ $key ]['datetime']);
-	
-						$date_of_conversion = $date_raw->format('F jS, Y \a\t g:ia (l)');
+						$date_of_conversion = $date_raw->format('F jS, Y  g:ia (l)');
 						$clean_date = $date_raw->format('Y-m-d H:i:s');
 					
 						echo '<div class="lead-timeline recent-conversion-item cta-tracking-item" data-date="'.$clean_date.'">
@@ -1188,7 +1187,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 									<div class="lead-timeline-body">
 										<div class="lead-event-text">
-											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span> <span class="campaing-id">'.$event['campign_id'].'</span> <span class="conversion-date">'.$date_of_conversion.'</span> </p>
+											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span>  - <strong>Tracking ID: <span class="campaing-id">'.$event['tracking_id'].'</span></strong>  <span class="conversion-date">'.$date_of_conversion.'</span> </p>
 										</div>
 									</div>
 								</div>';

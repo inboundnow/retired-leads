@@ -1219,11 +1219,35 @@ if (!class_exists('Inbound_API')) {
 		}
 		
 		/**
-		*  Stores tracked link data into 
+		*  Generates random token 
+		*  @param length
+		*/
+		public static function generate_token( $min = 7 , $max = 11 ) {
+			$length = mt_rand( $min , $max );
+			return substr(str_shuffle("0123456789iloveinboundnow"), 0, $length);
+		}
+		
+		/**
+		*  Stores tracked link data into wp_inbound_tracked_links table
+		*  @param ARRAY $args passed arguments
 		*/
 		public static function analytics_get_tracking_code( $args = array() ) {
+			global $wpdb;
 			
-			$tracked_link = add_query_arg( $args , get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' ) );
+			$table_name = $wpdb->prefix . "inbound_tracked_links"; 
+			$serialized = serialize( $args );
+			$token = self::generate_token();
+			
+			$wpdb->insert( 
+				$table_name, 
+				array( 
+					'token' => $token,
+					'args' => $serialized
+				) 
+			);
+			
+			/* return tracked link */
+			return get_site_url( get_current_blog_id() , self::$tracking_endpoint . '/' . $token );
 		}
 		
 		/**
@@ -1247,6 +1271,13 @@ if (!class_exists('Inbound_API')) {
 				self::$data = $error;
 				self::output( 401 );
 			}
+
+			/* a tracking_id is required */
+			if ( !isset( $params['tracking_id'] ) ) {
+				$error['error'] = __( 'This endpoint requires the \'tracking_id\' parameter be set.' , 'leads' ) ;
+				self::$data = $error;
+				self::output( 401 );
+			}
 			
 			$args = $params;
 			
@@ -1262,7 +1293,7 @@ if (!class_exists('Inbound_API')) {
 			}
 			
 			/* Set datetime */
-			$args['datetime'] = current_time( 'timestamp' );
+			$args['datetime'] = current_time('mysql');
 			
 			/* get tracked link */
 			$tracked_link = self::analytics_get_tracking_code( $args );
@@ -1278,33 +1309,65 @@ if (!class_exists('Inbound_API')) {
 		 * @return void
 		 */
 		public static function process_tracked_link() {
-			global $wp_query;
+			global $wp_query , $wpdb , $Inbound_Leads;
 		
 			/* Check for inbound-api var. Get out if not present */
 			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) ) {
 				return;
 			}
 
-			/* Check to make sure id and url are present else set to blog homepage */
-			if (!isset( $_GET['url'])) {
-				$redirect = get_site_url();
-			} else {
-				$redirect = $_GET['url'];
+			/* Pull record from database */
+			$token = $wp_query->query_vars[ self::$tracking_endpoint ];
+			$table_name = $wpdb->prefix . "inbound_tracked_links"; 
+			$profiles = $wpdb->get_results("SELECT * FROM {$table_name} where `token` = '{$token}' ;");
+			
+			/* If no results exist send user to homepage */
+			if (!isset( $profiles)) {
+				/* redirect to  url */
+				header('Location: '. get_site_url() );
+			} 
+			
+			/* Get first result & prepare args */
+			$profile = $profiles[0];
+			$args = unserialize($profile->args);
+			
+			print_r($args);
+			
+			/* Add lead to lists */
+			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'] , 'add_lists' , 'array' ) ) {
+				
+				foreach ( $args['add_lists'] as $list_id ) {
+					$Inbound_Leads->add_lead_to_list( $args['id'] , $list_id );
+				}
 			}
 			
-			/* add lead to lists*/
+			/* Remove lead from lists */
+			if (isset($args['remove_lists']) && self::validate_parameter( $args['remove_lists'] , 'remove_lists' , 'array' ) ) {
+				
+				foreach ( $args['remove_lists'] as $list_id ) {
+					$Inbound_Leads->remove_lead_from_list( $args['id'] , $list_id );
+				}
+			}
 			
-			/* remove lead from lists */
+			/* Add tag to leads */
+			if (isset($args['add_tags']) && self::validate_parameter( $args['add_tags'] , 'add_tags' , 'array' ) ) {
+				foreach ( $args['add_tags'] as $tag ) {
+					$Inbound_Leads->add_tag_to_lead( $args['id'] , $tag );
+				}
+			}
 			
-			/* add tags to lead */
-			
-			/* remove tags from lead */
+			/* Remvoe tags from leads */
+			if (isset($args['remove_tags']) && self::validate_parameter( $args['remove_tags'] , 'remove_tags' , 'array' ) ) {
+				foreach ( $args['remove_tags'] as $tag ) {
+					$Inbound_Leads->remove_tag_from_lead( $args['id'] , $tag );
+				}
+			}
 			
 			/* Add link click event to lead profile */
-			do_action( 'inbound_track_link' , $_GET );
-			
+			do_action( 'inbound_track_link' , $args );
+			exit;
 			/* redirect to  url */
-			header('Location: '. $redirect );
+			header('Location: '. $args['url'] );
 			exit;
 		}
 	}
