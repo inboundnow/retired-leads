@@ -2,15 +2,6 @@
 
 if (is_admin())
 {
-	//define main tabs and bind display functions
-	if (isset($_GET['page'])&&($_GET['page']=='wp_cta_global_settings'&&$_GET['page']=='wp_cta_global_settings'))
-	{
-		add_action('admin_init','wp_cta_global_settings_enqueue');
-		function wp_cta_global_settings_enqueue()
-		{
-			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
-		}
-	}
 
 
 	function wp_cta_get_global_settings()
