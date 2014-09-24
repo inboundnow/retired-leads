@@ -80,7 +80,6 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
 function inbound_store_lead( $args = array() ) {
 	global $user_ID, $wpdb;
 
-
 	/* Mergs $args with POST request for support of ajax and direct calls */
 	$args = array_merge( $args , $_POST );
 	
@@ -417,7 +416,9 @@ function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 }
 
 
-
+/**
+ *  Loop trough lead_data array and update post meta 
+ */
 function inbound_update_common_meta($lead_data)
 {
 	/* Update user_ID if exists */
