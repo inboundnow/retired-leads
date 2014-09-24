@@ -157,7 +157,7 @@
 							"on" => "Color Options On",
 							"off" => "Color Options Off (use theme defaults)",
 							),
-						'std' => 'on',
+						'std' => 'off',
 						'class' => 'main-design-settings',
 			),
 			'submit-text-color' => array(
