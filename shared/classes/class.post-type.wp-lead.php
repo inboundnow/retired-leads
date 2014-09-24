@@ -252,6 +252,36 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		/**
+		 *  Adds a new lead list
+		 */
+		public static function create_lead_list( $name , $description = '' ,  $parent_id = 0 ) {
+			
+			$term = term_exists( $name , '' , $parent_id ); 
+			if ( !$term ) {
+				$term = wp_insert_term(
+					$name , // the term 
+					'wplead_list_category', // the taxonomy
+					array(
+						'description'=> $description,
+						'parent'=> $parent_id
+					)
+				);
+			}
+
+			if ( is_array($term) && isset( $term['term_id'] ) ) {
+				return array( 'list_id' => $term['term_id'] );
+			} else if ( is_numeric($term) ) {
+				return array( 'list_id' => $term );
+			} else {
+				return $term;
+			}
+		}
+		 
+		/**
+		 *  Deletes a lead list 
+		 */
+		
+		/**
 		* Get an array of all lead lists
 		*
 		* @returns ARRAY of lead lists with term id as key and list name as value
