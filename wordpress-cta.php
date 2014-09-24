@@ -85,7 +85,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			self::define_constants();
 			self::includes();
 			self::load_shared_files();
-			self::load_text_domain();
+			self::load_text_domain_init();
 		}
 
 		/*
@@ -173,12 +173,14 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*
 		*/
-		private static function load_text_domain() {
-			add_action('init' , function() {
-
-				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
-			});
+		private static function load_text_domain_init() {
+			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
 		}
+
+		public static function load_text_domain() {
+			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
+		}
+
 
 	}
 
