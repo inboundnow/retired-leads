@@ -14,6 +14,70 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
 
+		/* START PHP VERSION CHECKS */
+		/**
+		 * Admin notices, collected and displayed on proper action
+		 *
+		 * @var array
+		 */
+		public static $notices = array();
+
+		/**
+		 * Whether the current PHP version meets the minimum requirements
+		 *
+		 * @return bool
+		 */
+		public static function is_valid_php_version() {
+			return version_compare( PHP_VERSION, '5.3', '>=' );
+		}
+
+		/**
+		 * Invoked when the PHP version check fails. Load up the translations and
+		 * add the error message to the admin notices
+		 */
+		static function fail_php_version() {
+			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
+			self::notice( __( 'Calls to Action requires PHP version 5.3+, plugin is currently NOT ACTIVE.', 'cta' ) );
+		}
+
+		/**
+		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
+		 *
+		 * @param string $message
+		 * @param bool $is_error
+		 * @return void
+		 */
+		public static function notice( $message, $is_error = true ) {
+			if ( defined( 'WP_CLI' ) ) {
+				$message = strip_tags( $message );
+				if ( $is_error ) {
+					WP_CLI::warning( $message );
+				} else {
+					WP_CLI::success( $message );
+				}
+			} else {
+				// Trigger admin notices
+				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
+
+				self::$notices[] = compact( 'message', 'is_error' );
+			}
+		}
+
+		/**
+		 * Show an error or other message in the WP Admin
+		 *
+		 * @action all_admin_notices
+		 * @return void
+		 */
+		public static function admin_notices() {
+			foreach ( self::$notices as $notice ) {
+				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
+				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
+				echo wp_kses_post( $html_message );
+			}
+		}
+		/* END PHP VERSION CHECKS */
+
 		/**
 		* Main Inbound_Calls_To_Action_Plugin Instance
 		*/
@@ -21,7 +85,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			self::define_constants();
 			self::includes();
 			self::load_shared_files();
-			self::load_text_domain();
+			self::load_text_domain_init();
 		}
 
 		/*
@@ -107,16 +171,25 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*
 		*/
-		private static function load_text_domain() {
-			add_action('init' , function() {
-
-				load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
-			});
+		private static function load_text_domain_init() {
+			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
 		}
+
+		public static function load_text_domain() {
+			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
+		}
+
 
 	}
 
 	/* Initiate Plugin */
-	$GLOBALS['Inbound_Calls_To_Action_Plugin'] = new Inbound_Calls_To_Action_Plugin;
+	if ( Inbound_Calls_To_Action_Plugin::is_valid_php_version() ) {
+		// Get Inbound Now Running
+		$GLOBALS['Inbound_Calls_To_Action_Plugin'] = new Inbound_Calls_To_Action_Plugin;
+	} else {
+		// Show Fail
+		Inbound_Calls_To_Action_Plugin::fail_php_version();
+	}
+
 
 }
