@@ -585,8 +585,8 @@ class Inbound_Forms {
 
 		if ( $template = self::get_new_lead_email_template()) {
 
-			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-			function set_html_content_type() {
+			add_filter( 'wp_mail_content_type', 'inbound_set_html_content_type' );
+			function inbound_set_html_content_type() {
 				return 'text/html';
 			}
 

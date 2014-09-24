@@ -81,6 +81,7 @@ class CTA_Enqueues {
 
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
+		self::frontend_editor_enqueues( $hook );
 		self::reenqueue_3rd_party_scripts( $hook );
 	}
 	
@@ -176,6 +177,39 @@ class CTA_Enqueues {
 			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'js/admin/admin.post-new.js', array('jquery'), '1.0', true );
 			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'css/admin-post-new.css');
 		}
+	}
+	
+	/**
+	 *  Loads CSS & JS applied to frontend editor mode
+	 */
+	public static function frontend_editor_enqueues() {
+		
+		if (!isset($_GET['page'])||$_GET['page']!='wp-cta-frontend-editor') {
+			return;
+		}
+		
+		wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
+		wp_dequeue_script('jquery-cookie');
+		wp_enqueue_script('jquery-cookie', WP_CTA_URLPATH . 'js/jquery.cookie.js');
+		wp_enqueue_style( 'wp-admin' );
+		wp_admin_css('thickbox');
+		add_thickbox();
+
+		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'css/admin-style.css');
+
+		wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
+		wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ) );
+		wp_enqueue_script('wp-cta-frontend-editor-js', WP_CTA_URLPATH . 'js/customizer.save.js');
+
+		//jpicker - color picker
+		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'js/libraries/jpicker/jpicker-1.1.6.min.js');
+		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker-1.1.6.min.css');
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker.css');
+		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'css/customizer.frontend.css');
+		wp_dequeue_script('form-population');
+		wp_dequeue_script('funnel-tracking');
+		wp_enqueue_script('jquery-easing', WP_CTA_URLPATH . 'js/jquery.easing.min.js');
 	}
 	
 	public static function set_default_editor_mode() {

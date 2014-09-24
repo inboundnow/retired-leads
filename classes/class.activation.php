@@ -101,7 +101,7 @@ class CTA_Activation {
 	public static function display_upgrade_routine_notice() {
 		?>
 		<div class="error">
-			<p><?php _e( '<strong>WARNING!</strong> We\'ve noticed that <strong>Calls to Action plugin</strong> requires <strong>database upgrades</strong> for proper functioning. To manually initiate the db updates please click the following link:', 'cta' ); ?> <a href='?plugin=cta&plugin_action=upgrade_routines'><?php _e('Run Upgrade Processes' , 'cta' ); ?></a></p>
+			<p><?php _e( 'Calls to Action plugin requires  a database upgrade:', 'cta' ); ?> <a href='?plugin=cta&plugin_action=upgrade_routines'><?php _e('Upgrade Database Now' , 'cta' ); ?></a></p>
 		</div>
 		<?php
 	}
