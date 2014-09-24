@@ -13,8 +13,7 @@ if (!class_exists('Inbound_Menu')) {
 		static $load_callstoaction;
 		static $load_leads;
 
-		public static function init()
-		{
+		public static function init() {
 			 // Exit if admin bar not there
 			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
 			  return;
@@ -28,8 +27,7 @@ if (!class_exists('Inbound_Menu')) {
 			add_action( 'admin_bar_menu', array( __CLASS__ , 'load_inboundnow_menu' ), 98);
 		}
 
-		public static function load_inboundnow_menu()
-		{
+		public static function load_inboundnow_menu() {
 			global $wp_admin_bar;
 
 			$primary_menu_items = apply_filters( 'inboundnow_menu_primary' , array() );
@@ -46,8 +44,7 @@ if (!class_exists('Inbound_Menu')) {
 			//print_r($primary_menu_items);exit;
 
 			/** Add Primary Menu Items */
-			foreach ( $primary_menu_items as $id => $menu_item )
-			{
+			foreach ( $primary_menu_items as $id => $menu_item ) {
 				/** Add in the item ID */
 				$menu_item['id'] =  $id;
 
@@ -101,8 +98,7 @@ if (!class_exists('Inbound_Menu')) {
 
 		}
 
-		public static function hooks()
-		{
+		public static function hooks() {
 			/* add filters here */
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_landingpages') , 10 );
@@ -120,8 +116,7 @@ if (!class_exists('Inbound_Menu')) {
 		}
 
 
-		public static function load_leads( $menu_items )
-		{
+		public static function load_leads( $menu_items ) {
 			/* Check if Leads Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('leads/wordpress-leads.php')) {
 				return $menu_items;
@@ -179,8 +174,7 @@ if (!class_exists('Inbound_Menu')) {
 			return $menu_items;
 		}
 
-		public static function load_callstoaction( $menu_items )
-		{
+		public static function load_callstoaction( $menu_items ) {
 			/* Check if Calls To Action Active */
 			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('cta/wordpress-cta.php')) {
 				return $menu_items;

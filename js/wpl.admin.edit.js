@@ -165,7 +165,7 @@ jQuery(document).ready(function($) {
 	}
 
 
-	jQuery("#conversions-data-display nav li").click(function() {
+	jQuery("#activity-data-display nav li").click(function() {
 		jQuery(".active").removeClass("active");
 		jQuery(this).addClass("active");
 	});
@@ -216,9 +216,6 @@ jQuery(document).ready(function($) {
 	}
 
 	var conversion_empty = jQuery("#conversion-total").text();
-	if (conversion_empty === ""){
-		jQuery("#conversion-total").text(totalconversions);
-	}
 	jQuery('h2 .nav-tab').eq(0).css("margin-left", "10px");
 
 	jQuery("#message.updated").text("Lead Updated").css("padding", "10px");
@@ -243,7 +240,7 @@ jQuery(document).ready(function($) {
 
 	// Sort by date. http://stackoverflow.com/questions/7211704/jquery-order-by-date-in-data-attribute
 	jQuery(document).ready(function($) {
-		jQuery("#conversions-data-display .recent-conversion-item").sort(function(a,b){
+		jQuery("#activity-data-display .recent-conversion-item").sort(function(a,b){
 			return new Date(jQuery(a).attr("data-date")) > new Date(jQuery(b).attr("data-date"));
 		}).each(function(){
 		var clone = jQuery(this).clone().addClass("cloned-item");

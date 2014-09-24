@@ -44,12 +44,12 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			if ( is_admin() ) {
 
-
 				/* Admin Includes */
-				require_once('modules/module.activate.php');
+				require_once('classes/class.activation.php');
+				require_once('classes/class.activation.upgrade-routines.php');
 				require_once('modules/module.ajax-setup.php');
 				require_once('modules/module.nav-menus.php');
-				require_once('modules/module.metaboxes.wp-lead.php');
+				require_once('classes/class.metaboxes.wp-lead.php');
 				require_once('modules/module.post-type.wp-lead.php');
 				require_once('modules/module.post-type.landing-pages.php');
 				require_once('modules/module.lead-management.php');

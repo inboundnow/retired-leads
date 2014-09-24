@@ -20,6 +20,10 @@ if ( !class_exists('Inbound_Leads') ) {
 			add_action( 'init' , array( __CLASS__ , 'register_post_type' ));
 			add_action( 'init' , array( __CLASS__ , 'register_taxonomies' ));
 			
+			/* Modify columns on lead list creation page */
+			add_filter( 'manage_edit-wplead_list_category_columns' , array( __CLASS__ , 'register_lead_list_columns' )); 
+			add_filter( 'manage_wplead_list_category_custom_column' , array( __CLASS__ , 'support_lead_list_columns' ), 10, 3);
+ 
 			if (is_admin()) {
 				add_action( 'edit_form_after_title', array( __CLASS__ , 'install_leads_prompt' ) );
 				
@@ -141,6 +145,34 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 		
 		/**
+		 *  Adds ID column to lead-tags WP List Table
+		 */
+		public static function register_lead_list_columns( $cols ) {
+			$new_columns = array(
+				'cb' => '<input type="checkbox" />',
+				'lead_id' => __('ID' , 'leads'),
+				'name' => __('Name' , 'leads'),
+				'description' => __('Description' , 'leads'),
+				'slug' => __('Slug' , 'leads'),
+				'posts' => __('Posts' , 'leads')
+				);
+			return $new_columns;
+		}
+		
+		/**
+		 *  Helps ID column display lead list ID 
+		 */
+		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
+			if ($column_name != 'lead_id' ) {
+				return $out;
+			}
+			
+			$out .= $term_id;
+			
+			return $out;
+		}
+		
+		/**
 		*	Make sure that all list ids are intval
 		*	
 		*	@param MIXED $lists 
@@ -154,7 +186,7 @@ if ( !class_exists('Inbound_Leads') ) {
 					$lists[ $key ] = intval($id);
 				}
 			} else {
-				$lists = intval( $list_id );
+				$lists = intval($lists);
 			}
 			
 			return $lists;
@@ -203,7 +235,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		public static function get_lead_lists_by_lead_id( $lead_id ) {
 
 			$args = array(
-				'hide_empty' => false,
+				'hide_empty' => false
 			);
 
 			$terms = get_the_terms( $lead_id , 'wplead_list_category' );
@@ -218,6 +250,91 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			return $array;
 		}
+		
+		/**
+		 *  Adds a new lead list
+		 */
+		public static function create_lead_list( $args ) {
+			
+			$params = array();
+	
+			/* if no list name is present then return null */
+			if ( !isset( $args['name'] )) {
+				return null;
+			}
+			
+			if (isset( $args['description'] )) {
+				$params['description'] = $args['description'];
+			}
+			
+			if (isset( $args['parent'] )) {
+				$params['parent'] = $args['parent'];
+			} else {
+				$params['parent'] = 0;
+			}
+
+			$term = term_exists(  $args['name'] , 'wplead_list_category' , $params['parent'] ); 
+			
+			if ( !$term ) {
+				$term = wp_insert_term(
+					$args['name'], // the term 
+					'wplead_list_category', // the taxonomy
+					$params
+			}
+
+			if ( is_array($term) && isset( $term['term_id'] ) ) {
+				return array( 'id' => $term['term_id'] );
+			} else if ( is_numeric($term) ) {
+				return array( 'id' => $term );
+			} else {
+				return $term;
+			}
+		}
+		
+		/**
+		 *  updates a lead list
+		 */
+		public static function update_lead_list( $args = array ) {
+			
+			/* id is required */
+			if (!isset($args['id'])) {
+				return null;
+			}
+			
+			if (isset( $args['name'] )) {
+				$params['name'] = $args['name'];
+			}
+			
+			if (isset( $args['description'] )) {
+				$params['description'] = $args['description'];
+			}
+			
+			if (isset( $args['parent'] )) {
+				$params['parent'] = $args['parent'];
+			}
+			
+			$term = term_exists( $args['term_id'] , 'wplead_list_category' , $args['parent'] ); 
+			
+			if ( $term ) {
+				$term = wp_update_term(
+					$args['id'] , // the term 
+					'wplead_list_category', // the taxonomy
+					array( $params	)
+				);
+			} 
+
+			if ( is_array($term) && isset( $term['term_id'] ) ) {
+				return array( 'list_id' => $term['term_id'] );
+			} else if ( is_numeric($term) ) {
+				return array( 'list_id' => $term );
+			} else {
+				return $term;
+			}
+		}
+		 
+		/**
+		 *  Deletes a lead list 
+		 */
 		
 		/**
 		* Get an array of all lead lists
@@ -260,8 +377,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		* @param tag_id MIXED INT, STRING, ARRAY
 		*
 		*/
-		public static function add_tag_to_lead( $lead_id , $list_id ) {
-			wp_set_object_terms( $lead_id, $list_id , 'lead-tags', true );
+		public static function add_tag_to_lead( $lead_id , $tag ) {
+			wp_set_object_terms( $lead_id, $tag , 'lead-tags', true );
 		}
 		
 		/**

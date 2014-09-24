@@ -560,9 +560,9 @@ class Inbound_Forms {
 			}
 
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
-
-			/* Send emails if passes spam checks - spam checks happen on lead store ajax script and here on the email actions script - redundantly */
-			if (!apply_filters( 'form_actions_spam_check' , false ,  $form_post_data ) ) {
+			
+			/* Send emails if passes spam check returns false */
+			if ( !apply_filters( 'inbound_check_if_spam' , false ,  $form_post_data ) ) {
 				self::send_conversion_admin_notification($form_post_data , $form_meta_data);
 				self::send_conversion_lead_notification($form_post_data , $form_meta_data);
 			}
@@ -585,8 +585,8 @@ class Inbound_Forms {
 
 		if ( $template = self::get_new_lead_email_template()) {
 
-			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-			function set_html_content_type() {
+			add_filter( 'wp_mail_content_type', 'inbound_set_html_content_type' );
+			function inbound_set_html_content_type() {
 				return 'text/html';
 			}
 

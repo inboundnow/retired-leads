@@ -11,11 +11,10 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 		private function load_hooks() {
 			/* Load hooks if akismet filtering is enabled */
-			if (get_option('inbound_forms_enable_akismet' , '1' )) {
-				
-				/* spam checks have to run in two different locations */
-				add_action( 'inbound_store_lead_pre' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); /* On store lead ajax */
-				add_filter( 'form_actions_spam_check' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); /* On form email actions */
+			if (get_option('inbound_forms_enable_akismet' , '1' )) {				
+				add_action( 'inbound_check_if_spam' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 ); 				
+			} else {
+			
 			}
 		}
 		
@@ -26,9 +25,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 		* @return BOOL true for spam and false for spam 
 		*
 		*/
-		public static function check_is_spam( $is_spam = false , $lead_data ) {
+		public static function check_is_spam( $is_spam = false ,  $lead_data ) {
 			$api_key = Inbound_Akismet::get_api_key();
-
 
 			/* return false if akismet is not setup */
 			if (!$api_key) {
@@ -41,20 +39,11 @@ if ( !class_exists('Inbound_Akismet') ) {
 			/* if not spam return false */
 			if (!$is_spam) {
 				return false;
-			}
-			
-			/* Discover which filter is calling the spam check and react to spam accordingly */
-			switch (current_filter()) {
-				/* Kill ajax script if inbound_store_lead_pre hook */
-				case 'inbound_store_lead_pre':
-					exit;
-					break;
-				/* Return true to prevent email actions if form_actions_spam_check hook */
-				case 'form_actions_spam_check':
-					return true;
-					break;
-			}
-			
+			} 
+			/* else return true for spam */
+			else {
+				return true;
+			}			
 		}
 		
 		/* This function polls Akismet to see if submitted content contains spam */
