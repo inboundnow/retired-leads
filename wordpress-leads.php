@@ -22,7 +22,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			self::define_constants();
 			self::includes();
 			self::load_shared_files();
-			self::load_text_domain();
+			self::load_text_domain_init();
 		}
 
 		/* Setup plugin constants */
@@ -92,14 +92,20 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 
+		
 		/**
-		*  Loads the correct .mo file for this plugin
+		* Hook method to load correct text domain
 		*
 		*/
-		private static function load_text_domain() {
-			add_action('init' , function() {
-				load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/lang/' );
-			});
+		private static function load_text_domain_init() {
+			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
+		}
+
+		/**
+		*   Loads the text domain
+		*/
+		public static function load_text_domain() {
+			load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/lang/' );
 		}
 	}
 
