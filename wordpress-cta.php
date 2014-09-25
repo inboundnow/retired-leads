@@ -114,7 +114,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 				case true :
 					/* loads admin files */
 					include_once('classes/class.activation.php');
-					include_once('classes/class.activation.upgrade-routines.php');
+					include_once('classes/class.activation.database-routines.php');
 					include_once('classes/class.post-type.wp-call-to-action.php');
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
@@ -123,7 +123,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.ajax.listeners.php');
 					include_once('classes/class.enqueues.php');
 					include_once('classes/class.global-settings.php');
-					include_once('modules/module.global-settings.php');
 					include_once('classes/class.clone-post.php');
 					include_once('modules/module.install.php');
 					include_once('classes/class.cta.variations.php');
