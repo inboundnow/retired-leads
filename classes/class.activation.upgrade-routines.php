@@ -36,7 +36,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			) $charset_collate;";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			var_dump(dbDelta( $sql ));
+			dbDelta( $sql );
 
 		}
 		
@@ -51,14 +51,12 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		public static function migrate_meta_keys() {
 			global $wpdb;
 			
-			$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'";
-			$result = mysql_query($sql);
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'");
 
-			$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_page_view_count' where meta_key = 'wpl-lead-page-view-count'";
-			$result = mysql_query($sql);
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_page_view_count' where meta_key = 'wpl-lead-page-view-count'");
 
-			$sql = "update {$wpdb->prefix}postmeta set meta_key = 'wpleads_raw_post_data' where meta_key = 'wpl-lead-raw-post-data'";
-			$result = mysql_query($sql);
+			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_raw_post_data' where meta_key = 'wpl-lead-raw-post-data'");
+
 		}
 		
 

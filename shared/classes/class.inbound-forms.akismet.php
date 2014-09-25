@@ -137,7 +137,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 				
 				/* detect multi-line content in form submission */
 				foreach ( $form_submit_values as $key => $value ) {
-					if ( substr_count( $value, "\n" ) > 1 ) {
+					if ( !is_array( $value ) && substr_count( $value, "\n" ) > 1 ) {
 						return $value;
 					}
 				}
@@ -151,7 +151,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 			
 			/* detect multi-line content in form submission */
 			foreach ( $lead_data as $key => $value ) {
-				if ( substr_count( $value, "\n" ) > 1 ) {
+				if ( !is_array( $value ) && substr_count( $value, "\n" ) > 1 ) {
 					return $value;
 				}
 			}

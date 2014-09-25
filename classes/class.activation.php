@@ -40,6 +40,9 @@ class Leads_Activation {
 		
 		/* Activate shared components */
 		self::activate_shared();
+		
+		/* Mark Active */
+		add_option( 'Leads_Activated');
 	}
 	
 	/**
@@ -125,7 +128,7 @@ class Leads_Activation {
 	*  Tells Inbound Shared to run activation commands
 	*/
 	public static function activate_shared() {
-		set_transient( 'Inbound_Activate', true );
+		update_option( 'Inbound_Activate', true );
 	}
 	
 	/* Aborts activation and details 

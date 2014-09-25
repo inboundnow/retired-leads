@@ -80,7 +80,6 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
 function inbound_store_lead( $args = array() ) {
 	global $user_ID, $wpdb;
 
-
 	/* Mergs $args with POST request for support of ajax and direct calls */
 	$args = array_merge( $args , $_POST );
 	
