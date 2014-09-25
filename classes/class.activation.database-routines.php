@@ -83,54 +83,58 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 				's' => __( 'A/B Testing Call To Action Example' , 'cta' )						
 			) );
 			
-			var_dump($results);exit;
-			/* Create Default if it doesn't exist */
-			if ( ! isset( $lp_default_options[$option_key] ) ) {
-				$default_lander = wp_insert_post(
-						array(
-							'post_title'     => __( 'A/B Testing Call To Action Example' , 'cta' ),
-							'post_content'   => '',
-							'post_status'    => 'publish',
-							'post_author'    => $current_user->ID,
-							'post_type'      => 'wp-call-to-action',
-							'comment_status' => 'closed'
-						)
-					);
-				/* Variation A */
-				add_post_meta($default_lander, 'wp-cta-selected-template', 'flat-cta');
-				add_post_meta($default_lander, 'wp_cta_width-0', '310');
-				add_post_meta($default_lander, 'wp_cta_height-0', '300');
-				add_post_meta($default_lander, 'flat-cta-header-text', __( 'Snappy Headline' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-sub-header-text', __('Awesome Subheadline Text Goes here' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-text-color', '000000');
-				add_post_meta($default_lander, 'flat-cta-content-color', '60BCF0');
-				add_post_meta($default_lander, 'flat-cta-content-text-color', 'ffffff');
-				add_post_meta($default_lander, 'flat-cta-submit-button-color', 'ffffff');
-				add_post_meta($default_lander, 'flat-cta-submit-button-text', __( 'Download Now' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-link_url', 'http://www.inboundnow.com');
-
-				/* Variation B */
-				add_post_meta($default_lander, 'wp-cta-selected-template-1', 'flat-cta');
-				add_post_meta($default_lander, 'wp_cta_width-1', '310');
-				add_post_meta($default_lander, 'wp_cta_height-1', '300');
-				add_post_meta($default_lander, 'flat-cta-header-text-1', __( 'Great Offer' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-sub-header-text-1', __( 'Amazing Deals Await!<br> Click below to find<br> amazing deals' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-text-color-1', '000000');
-				add_post_meta($default_lander, 'flat-cta-content-color-1', 'f22424');
-				add_post_meta($default_lander, 'flat-cta-content-text-color-1', 'ffffff');
-				add_post_meta($default_lander, 'flat-cta-submit-button-color-1', 'ffffff');
-				add_post_meta($default_lander, 'flat-cta-submit-button-text-1', __( 'Learn More' , 'cta' ));
-				add_post_meta($default_lander, 'flat-cta-link_url-1', 'http://www.inboundnow.com');
-
-				/* Add A/B Testing meta */
-				add_post_meta($default_lander, 'wp-cta-variations', '{ "0":{"status":"active"} , "1":{"status":"active"} }');
-				add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-0', 115);
-				add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-1', 113);
-				add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-0', 15);
-				add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-1', 27);
-
-				add_post_meta($default_lander, 'link_open_option', 'this_window');
+			/* Make sure post does not exist before continuing */
+			if ( $results->have_posts() ) {
+				return;
 			}
+			
+			$current_user = wp_get_current_user();
+			
+			$default_lander = wp_insert_post(
+					array(
+						'post_title'     => __( 'A/B Testing Call To Action Example' , 'cta' ),
+						'post_content'   => '',
+						'post_status'    => 'publish',
+						'post_author'    => $current_user->ID,
+						'post_type'      => 'wp-call-to-action',
+						'comment_status' => 'closed'
+					)
+				);
+			/* Variation A */
+			add_post_meta($default_lander, 'wp-cta-selected-template', 'flat-cta');
+			add_post_meta($default_lander, 'wp_cta_width-0', '310');
+			add_post_meta($default_lander, 'wp_cta_height-0', '300');
+			add_post_meta($default_lander, 'flat-cta-header-text', __( 'Snappy Headline' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-sub-header-text', __('Awesome Subheadline Text Goes here' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-text-color', '000000');
+			add_post_meta($default_lander, 'flat-cta-content-color', '60BCF0');
+			add_post_meta($default_lander, 'flat-cta-content-text-color', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-color', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-text', __( 'Download Now' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-link_url', 'http://www.inboundnow.com');
+
+			/* Variation B */
+			add_post_meta($default_lander, 'wp-cta-selected-template-1', 'flat-cta');
+			add_post_meta($default_lander, 'wp_cta_width-1', '310');
+			add_post_meta($default_lander, 'wp_cta_height-1', '300');
+			add_post_meta($default_lander, 'flat-cta-header-text-1', __( 'Great Offer' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-sub-header-text-1', __( 'Amazing Deals Await!<br> Click below to find<br> amazing deals' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-text-color-1', '000000');
+			add_post_meta($default_lander, 'flat-cta-content-color-1', 'f22424');
+			add_post_meta($default_lander, 'flat-cta-content-text-color-1', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-color-1', 'ffffff');
+			add_post_meta($default_lander, 'flat-cta-submit-button-text-1', __( 'Learn More' , 'cta' ));
+			add_post_meta($default_lander, 'flat-cta-link_url-1', 'http://www.inboundnow.com');
+
+			/* Add A/B Testing meta */
+			add_post_meta($default_lander, 'wp-cta-variations', '{ "0":{"status":"active"} , "1":{"status":"active"} }');
+			add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-0', 115);
+			add_post_meta($default_lander, 'wp-cta-ab-variation-impressions-1', 113);
+			add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-0', 15);
+			add_post_meta($default_lander, 'wp-cta-ab-variation-conversions-1', 27);
+
+			add_post_meta($default_lander, 'link_open_option', 'this_window');
+			
 		
 		}
 	}
