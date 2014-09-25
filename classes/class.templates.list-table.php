@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * List table for visualizing 4rd party installed templates
  *
@@ -10,7 +9,6 @@
 
 
 if ( !class_exists('CTA_Template_Manager_List') ) {
-
 
 	if( ! class_exists( 'WP_List_Table' ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -35,14 +33,13 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
 					continue;
 
-				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox')
+				if (isset($data['info']['data_type']) && $data['info']['data_type']=='metabox') {
 					continue;
+				}
 
-				if (in_array($key,$array_core_templates))
+				if (in_array($key,$array_core_templates)) {
 					continue;
-
-				//if (stristr($data['category'],'Theme Integrated'))
-					//continue;
+				}
 
 				//echo "<br>";
 				if (isset($_POST['s'])&&!empty($_POST['s'])) {

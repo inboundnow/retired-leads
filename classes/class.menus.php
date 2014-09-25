@@ -1,5 +1,7 @@
 <?php
 
+if ( !class_exists('CTA_Menus') ) {
+
 /**
 *  Loads admin sub-menus and performs misc menu related functions
 */
@@ -41,3 +43,5 @@ class CTA_Menus {
 *  Loads Class Pre-Init 
 */
 $CTA_Menus = new CTA_Menus();
+
+}
