@@ -61,6 +61,14 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				return;
 			}
 	
+			/** Template management page */
+			global $_registered_pages;			
+			$hookname = get_plugin_page_hookname('wp_cta_manage_templates', 'edit.php?post_type=wp-call-to-action');
+			if (!empty($hookname)) {
+				add_action( $hookname , array( __CLASS__ , 'display_management_page') );
+			}			
+			$_registered_pages[$hookname] = true;	
+			
 			/** Template upload page */
 			global $_registered_pages;			
 			$hookname = get_plugin_page_hookname('wp_cta_templates_upload', 'edit.php?post_type=wp-call-to-action');
@@ -78,6 +86,209 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			$_registered_pages[$hookname] = true;
 			
 		}
+		
+		/**
+		*  Display management page
+		*/
+		public static function display_management_page() {
+			
+			/* Run action listener */
+			self::run_management_actions();
+			
+			$title = __('Manage Templates');
+			echo '<div class="wrap">';
+			screen_icon();
+			?>
+
+			<h2><?php echo esc_html( $title );	?>
+			 <a href="edit.php?post_type=wp-call-to-action&page=wp_cta_templates_upload" class="add-new-h2"><?php echo esc_html_x('Add New Template', 'template'); ?></a>
+			</h2>
+			<?php
+
+			$myListTable = new CTA_Template_Manager_List();
+			$myListTable->prepare_items();
+			?>
+			<form method="post" >
+			  <input type="hidden" name="page" value="my_list_test" />
+			  <?php $myListTable->search_box('search', 'search_id'); ?>
+			</form>
+			<form method="post" id='bulk_actions'>
+
+			<?php
+			$myListTable->display();
+
+			echo '</div></form>';
+		}
+		
+		/**
+		*  Listens for POSTED actions
+		*/
+		public static function run_management_actions() {
+			if (!isset($_REQUEST['action'])) {
+				return;
+			}
+			
+			switch ($_REQUEST['action']):
+				case 'upgrade':
+					if (count($_REQUEST['template'])>0)
+					{
+						foreach ($_REQUEST['template'] as $key=>$slug)
+						{
+							wp_cta_templates_upgrade_template($slug);
+						}
+					}
+					break;
+				case 'delete':
+					if (count($_REQUEST['template'])>0)
+					{
+						foreach ($_REQUEST['template'] as $key=>$slug)
+						{
+							self::delete_template( WP_CTA_PATH.'templates/'.$slug , $slug );
+						}
+					}
+					break;
+			endswitch;
+			
+		}
+		
+		/**
+		*  Checks template to see if there is an update ready to serve
+		*/
+		public static function check_template_for_update( $item ) {
+			$version = $item['version'];
+			$api_response = self::api_request( $item );
+			//print_r($api_response);
+			if( false !== $api_response ) {
+				if( version_compare( $version, $api_response['new_version'], '<' ) ) {
+					$template_page = WP_CTA_STORE_URL."/downloads/".$item['ID']."/";
+					$html = '<div class="update-message">'.$item['version'].' &nbsp;&nbsp; <font class="update-available">Version '.$api_response['new_version'].' available.</font><br> <a title="'.$item['name'].'" class="thickbox" href="'.$template_page.'" target="_blank">View template details</a> ';
+					$html .= 'or <a href="?post_type=wp-call-to-action&page=wp_cta_manage_templates&action=upgrade&template%5B%5D='.$item['ID'].'">update now</a>.</div>';
+					return $html;
+				} else {
+					return $item['version'];
+				}
+			} else {
+				return $item['version'];
+			}
+			
+		}
+		
+		/**
+		*  Upgrades a template given a slug
+		*  @param STRING $slug
+		*/
+		public static function upgrade_template( $slug ) {
+			$CTA_Load_Extensions = CTA_Load_Extensions();
+			$wp_cta_data = $CTA_Load_Extensions->template_definitions;
+			
+			$data = $wp_cta_data[$slug];
+
+			$item['ID']  = $slug;
+			$item['template']  = $slug;
+			$item['name']  = $data['label'];
+			$item['category']  = $data['category'];
+			$item['description']  = $data['description'];
+
+
+			$response = self::api_request( $item );
+			$package = $response['package'];
+		
+			IF (!isset($package)||empty($package)) {
+				return;
+			}
+			
+
+			$zip_array = wp_remote_get($package,null);
+			($zip_array['response']['code']==200) ? $zip = $zip_array['body'] : die("<div class='error'><p>{$slug}: Invalid download location (Version control not provided).</p></div>");
+
+			$uploads = wp_upload_dir();
+			$uploads_dir = $uploads['path'];
+
+			$temp = ini_get('upload_tmp_dir');
+			if (empty($temp))
+			{
+				$temp = "/tmp";
+			}
+
+			$file_path = $temp . "/".$slug.".zip";
+			file_put_contents($file_path, $zip);
+
+			include_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+
+			$zip = new PclZip( $file_path );
+			$uploads = wp_upload_dir();
+			$uploads_path = $uploads['basedir'];
+			$extended_path = $uploads_path.'/wp-call-to-actions/templates/';
+
+
+			if (!is_dir($extended_path)) {
+				wp_mkdir_p( $extended_path );
+			}
+
+			$result = $zip->extract(PCLZIP_OPT_PATH, $extended_path , PCLZIP_OPT_REPLACE_NEWER );
+
+			if (!$result){
+				die("There was a problem. Please try again!");
+			} else {
+				unlink($file_path);
+				echo '<div class="updated"><p>'.$data['label'].' upgraded successfully!</div>';
+			}
+		}
+		
+		/**
+		*  Deletes a 3rd party call to action template
+		*  @param STRING $dir
+		*  @param STRING $slug
+		*/
+		public static function delete_template( $dir , $slug) {
+			
+			if (!file_exists($dir)) {
+				return true;
+			}
+			
+			$CTA_Load_Extensions = CTA_Load_Extensions();
+			$data = $CTA_Load_Extensions->template_definitions;
+			
+			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+			foreach (scandir($dir) as $item) {
+				if ($item == '.' || $item == '..') continue;
+				if (!self::delete_template($dir . "/" . $item , $slug)) {
+					chmod($dir . "/" . $item, 0777);
+					if (!self::delete_template($dir . "/" . $item , $slug)) return false;
+				};
+			}
+			
+			rmdir($dir);
+
+
+			echo '<div class="updated"><p>'.$data['label'].' deleted successfully!</div>';
+		}
+		
+		/**
+		*  Checks Store API for template information
+		*/
+		public static function api_request( $item ) {
+			$api_params = array(
+				'edd_action' 	=> 'get_version',
+				'license' 		=> '',
+				'name' 			=> $item['name'],
+				'slug' 			=> $item['ID'],
+				'nature' 			=> 'template',
+			);
+
+			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+
+			if ( !is_wp_error( $request ) ):
+				$request = json_decode( wp_remote_retrieve_body( $request ), true );
+				if( $request ) {
+					$request['sections'] = maybe_unserialize( $request['sections'] );
+				}
+				return $request;
+			else:
+				return false;
+			endif;
+		}
+		
 		
 		/**
 		*  Displays template upload UI

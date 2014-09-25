@@ -129,6 +129,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.cta.render.php');
 					include_once('classes/class.load-extensions.php');
 					include_once('classes/class.metaboxes.global.php');
+					include_once('classes/class.templates.list-table.php');
 					include_once('classes/class.templates.manage.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
