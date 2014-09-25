@@ -124,7 +124,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.enqueues.php');
 					include_once('classes/class.global-settings.php');
 					include_once('classes/class.clone-post.php');
-					include_once('modules/module.install.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('modules/module.widgets.php');
 					include_once('classes/class.cta.render.php');
