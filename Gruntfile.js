@@ -7,8 +7,11 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['/shared/assets/frontend/js/analytics/*.js'],
-        dest: '/shared/assets/frontend/js/combined_analytics.js'
+        src: [	'shared/assets/frontend/js/analytics/analytics.js',
+        		'shared/assets/frontend/js/analytics/*.js',
+        		'shared/assets/frontend/js/analytics/analytics.init.js'
+        ],
+        dest: 'shared/assets/frontend/js/analytics.js'
       }
     },
     uglify: {
