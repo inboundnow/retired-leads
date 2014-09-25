@@ -91,6 +91,7 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 
 			$this->singular = 'ID';
 			$this->plural = 'ID';
+			$this->_actions = array();
 
 			$args = $this->_args;
 			//print_r($args);exit;
