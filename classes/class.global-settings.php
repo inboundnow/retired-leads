@@ -38,8 +38,6 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				return;
 			}
 			
-			if (isset($_GET['page'])&&($_GET['page']=='wp_cta_global_settings'&&$_GET['page']=='wp_cta_global_settings'))
-			{}
 			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
 		}
 	

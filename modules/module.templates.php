@@ -1,21 +1,6 @@
 <?php
+if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates') {
 
-if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_GET['page']) && $_GET['page']=='wp_cta_templates_update'|| isset($_GET['page']) && $_GET['page']=='wp_cta_templates_search') 
-{
-	add_action('admin_enqueue_scripts','wp_cta_templates_admin_enqueue');
-	function wp_cta_templates_admin_enqueue() {
-		wp_enqueue_script('wp-cta-js-templates-upload', WP_CTA_URLPATH . 'js/admin/admin.templates-upload.js');
-	}
-
-	include_once(WP_CTA_PATH.'modules/module.templates-upload.php');
-
-} else if (isset($_GET['page'])&&$_GET['page']=='wp_cta_manage_templates') {
-
-	add_action('admin_enqueue_scripts','wp_cta_templates_admin_enqueue');
-	function wp_cta_templates_admin_enqueue() {
-		wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'css/admin-templates.css');
-		wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'js/admin/admin.templates.js');
- 	}
 
 
 	if( ! class_exists( 'WP_List_Table' ) ) {
@@ -414,29 +399,5 @@ if (isset($_GET['page']) && $_GET['page']=='wp_cta_templates_upload' || isset($_
 
 
 		echo '<div class="updated"><p>'.$data['label'].' deleted successfully!</div>';
-	}
-}
-
-//create hidden pages for template upload management
-add_action('admin_menu', 'wp_cta_templates_add_menu');
-
-
-function wp_cta_templates_add_menu() {
-	if (current_user_can('manage_options'))
-	{
-		global $_registered_pages;
-
-		$hookname = get_plugin_page_hookname('wp_cta_templates_upload', 'edit.php?post_type=wp-call-to-action');
-		if (!empty($hookname)) {
-			add_action($hookname, 'wp_cta_templates_upload');
-		}
-		$_registered_pages[$hookname] = true;
-
-		$hookname = get_plugin_page_hookname('wp_cta_templates_search', 'edit.php?post_type=wp-call-to-action');
-		//echo $hookname;exit;
-		if (!empty($hookname)) {
-			add_action($hookname, 'wp_cta_templates_search');
-		}
-		$_registered_pages[$hookname] = true;
 	}
 }

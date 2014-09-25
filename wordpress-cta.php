@@ -103,7 +103,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			$uploads = wp_upload_dir();
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
 			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
-			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' );
+			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/market/' );
 
 		}
 
@@ -129,8 +129,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.cta.render.php');
 					include_once('classes/class.load-extensions.php');
 					include_once('classes/class.metaboxes.global.php');
-					include_once('modules/module.templates.php');
-					include_once('modules/module.store.php');
+					include_once('classes/class.templates.manage.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
 					include_once('modules/module.track.php');
