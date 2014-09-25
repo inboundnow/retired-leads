@@ -719,6 +719,12 @@ class Inbound_Forms {
 
 
 		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
+		
+		/* add default subject if empty */
+		if (!$confirm_subject) {
+			$confirm_subject = __( 'Thank you!' , 'leads' );
+		}
+		
 		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data, $form_meta_data )	);
 
 
