@@ -127,8 +127,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.cta.variations.php');
 					include_once('modules/module.widgets.php');
 					include_once('classes/class.cta.render.php');
-					include_once('modules/module.load-extensions.php');
-					include_once('modules/module.metaboxes-global.php');
+					include_once('classes/class.load-extensions.php');
+					include_once('classes/class.metaboxes.global.php');
 					include_once('modules/module.templates.php');
 					include_once('modules/module.store.php');
 					include_once('modules/module.utils.php');
@@ -139,7 +139,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 				case false :
 					/* load front-end files */
-					include_once('modules/module.load-extensions.php');
+					include_once('classes/class.load-extensions.php');
 					include_once('classes/class.post-type.wp-call-to-action.php');
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
