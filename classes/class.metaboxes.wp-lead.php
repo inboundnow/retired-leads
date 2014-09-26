@@ -662,13 +662,12 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					
 				});
 				
-				<?php 
-				
+				<?php 				
 				if ( $default_id == 'main' ) {
-					?>
+				?>
 					jQuery('.lead-profile-section').hide();
 					jQuery('#wpleads_lead_tab_main').show();
-					<?php
+				<?php
 				}
 				?>
 			});
@@ -1174,7 +1173,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			global $post; 
 			?>
 			<div id="lead-tracked-links" class='lead-activity'>
-				<h2><?php _e( 'Tracked Links Clicked' , 'cta' ); ?></h2>
+				<h2><?php _e( 'Custom Events' , 'cta' ); ?></h2>
 				<?php
 
 				
@@ -1208,7 +1207,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				}
 				else
 				{
-					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"' , 'cta' );
+					printf( __( '%1$s No custom events discovered! %2$s' , 'cta' ) , '<span id=\'wpl-message-none\'>' , '</span>' );
 				}
 
 
