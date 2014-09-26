@@ -66,8 +66,8 @@ class CTA_Customizer {
 
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
-		wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
-		wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
+		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 
 	}
 
