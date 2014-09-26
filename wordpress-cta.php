@@ -133,7 +133,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.templates.manage.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
-					include_once('modules/module.track.php');
+					include_once('classes/class.tracking.php');
 
 					BREAK;
 
@@ -144,8 +144,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.enqueues.php');
-					include_once('modules/module.track.php');
-					include_once('classes/class.click-tracking.php');
+					include_once('classes/class.tracking.php');
 					include_once('classes/class.ajax.listeners.php');
 					include_once('modules/module.widgets.php');
 					include_once('classes/class.cta.variations.php');

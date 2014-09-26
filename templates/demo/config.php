@@ -189,3 +189,13 @@ array(
 
 /* define dynamic template markup */
 $wp_cta_data[$key]['markup'] = file_get_contents($this_path . 'index.php');
+
+
+/**
+*  Our template's index.php file will make use of this custom function.
+*/
+if (!function_exists('cta_example_template_function')) {
+	function cta_example_template_function() {
+	  return 'Return value from cta_example_template_function()';
+	}
+}

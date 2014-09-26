@@ -1,6 +1,5 @@
 <?php
-/* loads extension definitions related to Calls to Action plugin */
-/* extension definitions include cta templates, cta metaboxes    */
+
 /**
  * Extension hooks and filters as well as default settings for core components
  *
@@ -162,6 +161,7 @@ if( !class_exists('CTA_Load_Extensions') ) {
 			if (!isset($post)) {
 				return;
 			}
+			
 			if ($post->post_type=='revision' ||  'trash' == get_post_status( $post_id )) {
 				return;
 			}

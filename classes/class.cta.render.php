@@ -647,9 +647,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 							echo "<br>Replacement " . $test . "<br>";
 						}
 
-						//$replace_pat = '/'.$value[0].'/';
-						//$pat = '/'.preg_quote($value[0]) .'/';
-						//$template = preg_replace($pat, $test, $template);
+					
 						$template = str_ireplace( $phpcode, $return_val, $template);
 					}
 				}
@@ -672,16 +670,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 							$function .= '}';
 							//echo $function;
 							$return_val = eval($function);
-							//echo "RETURN VAL: ". $return_val;
-							//$strip_content_pattern = '/{%(.*?)endif %}/';
-							//$strip_content_pattern ='/(?<={%\sif)(.*)(?=endif\s%})/';
-							/*$strip_content_pattern = '/{%\sif+(.*?)%}/';
-							preg_match_all($strip_content_pattern, $template, $test_tokens);
-							echo "<br>ENDIF MATCH<br>";
-							print_r($test_tokens);
-							echo "<br>ENNNNNNNNNNNNNNNNNd<br>";*/
+
 							if (!$return_val){
-							$template = inbound_delete_all_between($conditional_code, '{% endif %}', $template);
+								$template = self::delete_all_inbetween($conditional_code, '{% endif %}', $template);
 							}
 
 						}
@@ -690,10 +681,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 						//$return_val = eval($clean_val);
 						//echo $return_val;
 						if($debug_output) {
-						echo "<br>Template:".$template_slug."<br>";
-						echo "<br>Conditional : " . $clean_val . "<br>";
-						echo "PHP evaled: " . "<br>";
-						echo "<br>Replacement " . $test . "<br>";
+							echo "<br>Template:".$template_slug."<br>";
+							echo "<br>Conditional : " . $clean_val . "<br>";
+							echo "PHP evaled: " . "<br>";
+							echo "<br>Replacement " . $test . "<br>";
 						}
 						/* Clean all Conditional Tokens out of final output */
 						$template = str_ireplace( $conditional_code, '', $template);
@@ -708,6 +699,28 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			return $template;
 		}
+		
+		/**
+		*  Deletes content discovered in string between two other stringds
+		*  @param STRING $beginning
+		*  @param STRING $end
+		*  @param STRING $string
+		*  @return STRING modified string
+		*/
+		public static function delete_all_inbetween($beginning, $end, $string) {
+			
+			$beginningPos = strpos($string, $beginning);
+			$endPos = strpos($string, $end);
+			
+			if (!$beginningPos || !$endPos) {
+				return $string;
+			}
+
+			$textToDelete = substr($string, $beginningPos, ($endPos + strlen($end)) - $beginningPos);
+
+			return str_replace($textToDelete, '' , $string);
+		}
+		
 
 		/**
 		* Prints / Returns Custom JS & CSS Related to Call to Action

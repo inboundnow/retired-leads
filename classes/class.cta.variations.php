@@ -393,7 +393,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 				return $_REQUEST['wp-cta-variation-id'];
 			}
 			
-			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_GET['post'];
+			(isset($post->ID)) ? $post_id = $post->ID : $post_id = $_REQUEST['post'];
 
 			if (isset($_SESSION[ $post_id . '-variation-id'])) {	
 				return $_SESSION[ $post_id . '-variation-id'];

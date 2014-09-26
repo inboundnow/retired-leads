@@ -1,23 +1,7 @@
 <?php
 /* Template Functions */
-if (!function_exists('inbound_Hex_2_RGB')) {
-	function inbound_delete_all_between($beginning, $end, $string) {
-	  $beginningPos = strpos($string, $beginning);
-	  $endPos = strpos($string, $end);
-	  if (!$beginningPos || !$endPos) {
-	    return $string;
-	  }
 
-	  $textToDelete = substr($string, $beginningPos, ($endPos + strlen($end)) - $beginningPos);
-
-	  return str_replace($textToDelete, '', $string);
-	}
-}
-	if (!function_exists('cta_example_template_function')) {
-		function cta_example_template_function() {
-		  return 'Return value from cta_example_template_function()';
-		}
-	}
+	
 	/* Will move DO NOT DELTE */
 	if (!function_exists('inbound_run_processing')) {
 	function inbound_run_processing($token_match, $key, $value, $template) {
