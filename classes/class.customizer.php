@@ -66,7 +66,12 @@ class CTA_Customizer {
 
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
+		$screen = get_current_screen();
 		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
+			return;
+		}
+
 		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 
 	}
