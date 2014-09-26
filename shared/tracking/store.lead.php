@@ -80,13 +80,19 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
 function inbound_store_lead( $args = array( ) ) {
 	global $user_ID, $wpdb;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> a26ff3e1b0fc4cbde867ce4fd2a26830f9f54765
 	
 	if (!is_array($args)) {
 		$args = array();
 	}
 	
+<<<<<<< HEAD
+>>>>>>> a26ff3e1b0fc4cbde867ce4fd2a26830f9f54765
+=======
 >>>>>>> a26ff3e1b0fc4cbde867ce4fd2a26830f9f54765
 	/* Mergs $args with POST request for support of ajax and direct calls */
 	$args = array_merge( $args , $_POST );
