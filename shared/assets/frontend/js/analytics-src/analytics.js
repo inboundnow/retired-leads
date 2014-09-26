@@ -1,6 +1,7 @@
 /**
  * Lead Tracking JS
  * http://www.inboundnow.com
+ * This is the main analytics entry point
  */
 var inbound_data = inbound_data || {};
 // Ensure global _gaq Google Analytics queue has been initialized.

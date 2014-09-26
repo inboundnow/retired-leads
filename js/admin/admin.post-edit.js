@@ -148,6 +148,7 @@ jQuery(document).ready(function($) {
 				action: 'wp_cta_get_template_meta',
 				selected_template: template,
 				post_id: wp_cta_post_edit_ui.post_id,
+				post: wp_cta_post_edit_ui.post_id,
 			};
 
 			jQuery.ajax({

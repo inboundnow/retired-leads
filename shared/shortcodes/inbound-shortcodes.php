@@ -730,7 +730,7 @@ class Inbound_Shortcodes {
 		</div>
 		<div id="inbound-shortcodes-popup">
 			<div id="short_shortcode_form">
-				Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
+				Copy Shortcode: <input type="text" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value='[inbound_forms id="<?php echo $post_id;?>" name="<?php echo $post_title;?>"]'>
 			</div>
 			<div id="inbound-shortcodes-wrap">
 						<div id="inbound-shortcodes-form-wrap">

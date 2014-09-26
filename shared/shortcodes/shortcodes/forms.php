@@ -150,7 +150,7 @@
 				'class' => 'main-design-settings',
 			),
 			'submit-colors' => array(
-						'name' => __('Submit Button Color Options', 'leads'),
+						'name' => __('Submit Color Options', 'leads'),
 						'desc' => __('Choose Your Form Layout', 'leads'),
 						'type' => 'select',
 						'options' => array(
@@ -162,14 +162,14 @@
 			),
 			'submit-text-color' => array(
 							'name' => __('Button Text Color', 'leads'),
-							'desc' => __('Color of text', 'leads'),
+							'desc' => __('Color of text. Must toggle on "Submit Color Options" on', 'leads'),
 							'type' => 'colorpicker',
 							'std' => '#434242',
 							'class' => 'main-design-settings',
 						),
 			'submit-bg-color' => array(
 							'name' => __('Button BG Color', 'leads'),
-							'desc' => __('Background Color of Submit button', 'leads'),
+							'desc' => __('Background color of button.  Must toggle on "Submit Color Options" on', 'leads'),
 							'type' => 'colorpicker',
 							'std' => '#E9E9E9',
 							'class' => 'main-design-settings',
@@ -263,20 +263,20 @@
 					'std' => '',
 					'reveal_on' => 'divider' // on select choice show this
 				),
-				'helper' => array(
-					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
-					'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  'leads'),
-					'type' => 'helper-block',
-					'std' => '',
-					'class' => '',
-				),
 				'required' => array(
 					'name' => __('Required Field? <span class="small-optional-text">(optional)</span>', 'leads'),
 					'checkbox_text' => __('Check to make field required', 'leads'),
 					'desc' => '',
 					'type' => 'checkbox',
 					'std' => '0',
-					'class' => 'advanced',
+					'class' => '',
+				),
+				'helper' => array(
+					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
+					'desc' => __('<span class="show-advanced-fields">▶ Show advanced fields</span>',  'leads'),
+					'type' => 'helper-block',
+					'std' => '',
+					'class' => '',
 				),
 				'placeholder' => array(
 					'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'leads'),
