@@ -85,6 +85,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 = 1.5.0 =
+* Added Lead API
 * Added CSV exporting to Lead Management
 * Moved language file out of shared folder
 * Bug Fix: Email Systems 
