@@ -69,6 +69,13 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Loads Template Options */
 			$template_id = $CTA_Variations->get_current_template( $post->ID );
+			
+			/* If new variation use historic template id */
+			if ( isset($_GET['new-variation'] ) ){
+				$variations = $CTA_Variations->get_variations( $post->ID, $vid = null );
+				$vid = key($variations);
+				$template_id = $CTA_Variations->get_current_template( $post->ID , $vid );
+			} 
 
 			if ($template_id) {
 				$template_name = ucwords(str_replace('-',' ',$template_id));
@@ -160,7 +167,8 @@ if (!class_exists('CTA_Metaboxes')) {
 		* Show Template Settings Metabox 
 		*/
 		public static function show_template_settings(	$post , $metabox_args ) {	
-
+			global $CTA_Variations;
+			
 			$CTAExtensions = CTA_Load_Extensions();
 			$extension_data = $CTAExtensions->definitions;
 
@@ -540,7 +548,13 @@ if (!class_exists('CTA_Metaboxes')) {
 			$uploads_path = $uploads['basedir'];
 			$extended_path = $uploads_path.'/wp-call-to-actions/templates/';
 
-			$template = $CTA_Variations->get_current_template( $post->ID );
+			if ( isset($_GET['new-variation'] ) ){
+				$variations = $CTA_Variations->get_variations( $post->ID, $vid = null );
+				$vid = key($variations);
+				$template = $CTA_Variations->get_current_template( $post->ID , $vid );
+			} else {
+				$template = $CTA_Variations->get_current_template( $post->ID );
+			}
 
 			echo "<div class='wp-cta-template-selector-container' style='{$toggle}'>";
 			echo "<div class='wp-cta-selection-heading'>";
@@ -619,13 +633,13 @@ if (!class_exists('CTA_Metaboxes')) {
 		*
 		*/
 		public static function switch_templates( ) {
-
+				
 			$current_template = $_POST['selected_template'];
 			$post_id = $_POST['post_id'];
 			$post = get_post($post_id);
 
 			$key['args']['template_id'] = $current_template;
-
+			
 			CTA_Metaboxes::show_template_settings($post,$key);
 			die();
 		}
@@ -670,7 +684,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				}
 				echo '<a href="?post='.$post->ID.'&wp-cta-variation-id='.$vid.'&action=edit" class="wp-cta-nav-tab nav-tab nav-tab-special-'.$cur_class.'" id="tab-'.$vid.'" data-permalink="'.$permalink.'" target="_parent">Version '.$letter.'</a>';
 
-		}
+			}
 
 			if (!isset($_GET['new-variation'])) {
 
