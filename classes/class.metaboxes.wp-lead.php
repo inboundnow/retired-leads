@@ -659,12 +659,11 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				});
 
 				<?php
-
 				if ( $default_id == 'main' ) {
-					?>
+				?>
 					jQuery('.lead-profile-section').hide();
 					jQuery('#wpleads_lead_tab_main').show();
-					<?php
+				<?php
 				}
 				?>
 			});
@@ -772,7 +771,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					}
 					?>
 					</div>
-				<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php	_e( 'Show Empty Fields' , 'leads' ); ?></a></div>
+
 			</div>
 
 			<style type="text/css">.icon32-posts-wp-lead {background-image: url("<?php echo $gravatar2;?>") !important;}</style>
@@ -1170,7 +1169,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			global $post;
 			?>
 			<div id="lead-tracked-links" class='lead-activity'>
-				<h2><?php _e( 'Tracked Links Clicked' , 'cta' ); ?></h2>
+				<h2><?php _e( 'Custom Events' , 'cta' ); ?></h2>
 				<?php
 
 
@@ -1204,7 +1203,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				}
 				else
 				{
-					_e( '<span id=\'wpl-message-none\'>No Call to Action Clicks found!</span>"' , 'cta' );
+					printf( __( '%1$s No custom events discovered! %2$s' , 'cta' ) , '<span id=\'wpl-message-none\'>' , '</span>' );
 				}
 
 
@@ -1525,13 +1524,16 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			//uasort( self::$mapped_fields , array( __CLASS__ , 'piority_sort_filter' ) );
 
-			echo "<table id='wpleads_main_container'>";
+			echo "<table id='wpleads_main_container'>"; ?>
+			<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php	_e( 'Show Empty Fields' , 'leads' ); ?></a></div>
+			<?php
 			$api_key = get_option( 'wpl-main-extra-lead-data' , "");
 
 			if($api_key === "" || empty($api_key)) {
 				echo "<div class='lead-notice'>Please <a href='".esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'page' => 'wpleads_global_settings' ), 'edit.php' ) ) )."'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>" ;
 
 			}
+
 			foreach ( self::$mapped_fields as $field)
 			{
 				$id = strtolower($field['key']);

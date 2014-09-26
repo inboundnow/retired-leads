@@ -197,7 +197,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 		/* Handle the API Keys List Table separately */
 		if ($field['type'] == 'api-keys-table') {
-			echo '<tr><td>';
+			echo '</form><tr><td>';
 			$api_keys_table = new Inbound_API_Keys_Table();
 			$api_keys_table->prepare_items();
 			$api_keys_table->display();
