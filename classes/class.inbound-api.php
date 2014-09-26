@@ -1330,8 +1330,7 @@ if (!class_exists('Inbound_API')) {
 			/* Get first result & prepare args */
 			$profile = $profiles[0];
 			$args = unserialize($profile->args);
-			
-			print_r($args);
+	
 			
 			/* Add lead to lists */
 			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'] , 'add_lists' , 'array' ) ) {
@@ -1365,7 +1364,7 @@ if (!class_exists('Inbound_API')) {
 			
 			/* Add link click event to lead profile */
 			do_action( 'inbound_track_link' , $args );
-			exit;
+
 			/* redirect to  url */
 			header('Location: '. $args['url'] );
 			exit;

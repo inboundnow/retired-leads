@@ -319,7 +319,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Save meta data
+		*	Save meta data
 		*/
 		public static function save_data( $post_id )
 		{
@@ -659,7 +659,18 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					jQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
 					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');
 					jQuery('#id-open-tab').val(this_id);
+					
 				});
+				
+				<?php 
+				
+				if ( $default_id == 'main' ) {
+					?>
+					jQuery('.lead-profile-section').hide();
+					jQuery('#wpleads_lead_tab_main').show();
+					<?php
+				}
+				?>
 			});
 			</script>
 			<?php
@@ -694,8 +705,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		public static function display_lead_profile() {
-			 self::display_profile_image();
-			 echo '<div id="leads-right-col">';				
+			self::display_profile_image();
+			echo '<div id="leads-right-col">';				
 			
 				do_action('wpleads_before_main_fields');
 
@@ -765,7 +776,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					}
 					?>	
 					</div>
-				<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php  _e( 'Show Hidden Fields' , 'leads' ); ?></a></div>
+				<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php	_e( 'Show Hidden Fields' , 'leads' ); ?></a></div>
 			</div>	
 
 			<style type="text/css">.icon32-posts-wp-lead {background-image: url("<?php echo $gravatar2;?>") !important;}</style>
@@ -773,7 +784,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Gets number of conversion events
+		*	Gets number of conversion events
 		*/
 		public static function get_conversion_count() {
 			global $post;
@@ -784,7 +795,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Gets number of onsite search events
+		*	Gets number of onsite search events
 		*/
 		public static function get_search_count() {
 			global $post;
@@ -802,7 +813,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Gets number of comment events
+		*	Gets number of comment events
 		*/
 		public static function get_comment_count() {
 			global $post;
@@ -820,7 +831,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Gets number of tracked link clicks
+		*	Gets number of tracked link clicks
 		*/
 		public static function get_custom_events_count() {
 			global $post; 
@@ -836,7 +847,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/** 
-		*  Setup Activity Navigation
+		*	Setup Activity Navigation
 		*/
 		public static function activity_navigation() {
 			global $post;
@@ -900,7 +911,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/** 
-		*  Display conversion activity
+		*	Display conversion activity
 		*/
 		public static function activity_conversions() {
 			
@@ -914,7 +925,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				return;
 			}
 				
-			//uasort(self::$conversions , array( __CLASS__ ,  'datetime_sort' ) ); // Date sort
+			//uasort(self::$conversions , array( __CLASS__ ,	'datetime_sort' ) ); // Date sort
 
 			$i = count(self::$conversions);
 			foreach (self::$conversions as $key => $value) {
@@ -953,7 +964,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Displays activity comments
+		*	Displays activity comments
 		*/
 		public static function activity_comments() {
 
@@ -1000,7 +1011,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Displays activity searches 
+		*	Displays activity searches 
 		*/
 		public static function activity_searches() {
 			echo '<div id="lead-searches" class="lead-activity">';
@@ -1042,7 +1053,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Displays page view activity
+		*	Displays page view activity
 		*/
 		public static function activity_pageviews() {
 			global $post; 
@@ -1157,7 +1168,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Show tracked link clicks
+		*	Show tracked link clicks
 		*/
 		public static function activity_custom_events() {
 			global $post; 
@@ -1177,7 +1188,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						$id = $event['tracking_id'];
 	
 						$date_raw = new DateTime(self::$custom_events[ $key ]['datetime']);
-						$date_of_conversion = $date_raw->format('F jS, Y  g:ia (l)');
+						$date_of_conversion = $date_raw->format('F jS, Y	g:ia (l)');
 						$clean_date = $date_raw->format('Y-m-d H:i:s');
 					
 						echo '<div class="lead-timeline recent-conversion-item cta-tracking-item" data-date="'.$clean_date.'">
@@ -1187,7 +1198,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 									<div class="lead-timeline-body">
 										<div class="lead-event-text">
-											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span>  - <strong>Tracking ID: <span class="campaing-id">'.$event['tracking_id'].'</span></strong>  <span class="conversion-date">'.$date_of_conversion.'</span> </p>
+											<p><span class="lead-item-num">'.$key.'. </span><span class="lead-helper-text">'.sprintf( __( 'Tracked %s activity' , 'leads' ) , $event['event_type'] ).' </span>	- <strong>Tracking ID: <span class="campaing-id">'.$event['tracking_id'].'</span></strong>	<span class="conversion-date">'.$date_of_conversion.'</span> </p>
 										</div>
 									</div>
 								</div>';
@@ -1223,7 +1234,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		}
 		
 		/**
-		*  Displays conversion funnel data
+		*	Displays conversion funnel data
 		*/
 		public static function display_lead_conversion_paths() {
 			global $post, $wpdb;
@@ -1440,14 +1451,14 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 				// Get Raw form Data
 				$raw_data = get_post_meta($post->ID,'wpleads_raw_post_data', true);
-
 				if ($raw_data)
 				{
-					$raw_data = json_decode($raw_data, true);
+					$raw_data = json_decode( stripslashes($raw_data) , true);
+					$raw_data =( $raw_data ) ? $raw_data : array();
 					echo "<h2>". __( 'Form Inputs with Values' , 'leads' ) ."</h2>";
 					echo "<span id='click-to-map'></span>";
 					echo "<div id='wpl-raw-form-data-table'>";
-					foreach($raw_data as	$key=>$value)
+					foreach( $raw_data as	$key=>$value)
 					{
 						?>
 						<div class="wpl-raw-data-tr">
