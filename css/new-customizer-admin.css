@@ -23,7 +23,10 @@ margin-left: 0px !important; }
 	font-size: 12px;
 	line-height: 24px;
 }
-
+.wp-media-buttons {
+float: none !important;
+text-align: center !important;
+}
 .inbound-textarea-option .button-primary.new-save-wp-cta, .inbound-textarea-option .wp-cta-success-message {
 position: inherit;
 /* bottom: -21px; */
