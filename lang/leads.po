@@ -1,19 +1,108 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WordPress Leads\n"
-"POT-Creation-Date: 2014-07-08 17:25-0600\n"
-"PO-Revision-Date: 2014-07-08 17:25-0600\n"
+"POT-Creation-Date: 2014-09-25 23:38-0600\n"
+"PO-Revision-Date: 2014-09-25 23:38-0600\n"
 "Last-Translator: Hudson\n"
 "Language-Team: InboundNow <hudson@inboundnow.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.6\n"
+"X-Generator: Poedit 1.6.9\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
+
+#: ../classes/class.activation.php:108
+msgid "Leads plugin requires a database upgrade :"
+msgstr ""
+
+#: ../classes/class.activation.php:108
+msgid "Run Upgrade Processes"
+msgstr ""
+
+#: ../classes/class.activation.php:160 ../classes/class.activation.php:174
+#: ../classes/class.activation.php:188
+msgid "Leads plugin could not be installed"
+msgstr ""
+
+#: ../classes/class.activation.php:162
+msgid "Server PHP Version"
+msgstr ""
+
+#: ../classes/class.activation.php:163
+msgid "Required PHP Version"
+msgstr ""
+
+#: ../classes/class.activation.php:165
+#, php-format
+msgid "Please contact your hosting provider to upgrade PHP to %s or greater"
+msgstr ""
+
+#: ../classes/class.activation.php:176
+msgid "WordPress Version"
+msgstr ""
+
+#: ../classes/class.activation.php:177
+msgid "Required WordPress Version"
+msgstr ""
+
+#: ../classes/class.activation.php:179
+#, php-format
+msgid "Please update landing pages to version %s or greater."
+msgstr ""
+
+#: ../classes/class.activation.php:190
+msgid "Leads Version"
+msgstr ""
+
+#: ../classes/class.activation.php:191
+msgid "Required Leads Version"
+msgstr ""
+
+#: ../classes/class.activation.php:193
+#, php-format
+msgid "Please update Leads to version %s or greater."
+msgstr ""
+
+#: ../classes/class.activation.php:202
+msgid "Leads Plugin could not be installed"
+msgstr ""
+
+#: ../classes/class.activation.php:204
+msgid "Calls to Action Version"
+msgstr ""
+
+#: ../classes/class.activation.php:205
+msgid "Required Calls to Action Version"
+msgstr ""
+
+#: ../classes/class.activation.php:207
+#, php-format
+msgid "Please update Calls to Action to version %s or greater."
+msgstr ""
+
+#: ../classes/class.admin-notices.php:25
+msgid "User ID provided does not exist."
+msgstr ""
+
+#: ../classes/class.admin-notices.php:29
+msgid "API keys successfully generated."
+msgstr ""
+
+#: ../classes/class.admin-notices.php:33
+msgid "The specified user already has API keys."
+msgstr ""
+
+#: ../classes/class.admin-notices.php:37
+msgid "API keys successfully regenerated."
+msgstr ""
+
+#: ../classes/class.admin-notices.php:41
+msgid "API keys successfully revoked."
+msgstr ""
 
 #: ../classes/class.dashboard.php:1
 msgid "Today"
@@ -23,7 +112,7 @@ msgstr ""
 msgid "This Month"
 msgstr ""
 
-#: ../classes/class.dashboard.php:1 ../shared/classes/class.menu.php:137
+#: ../classes/class.dashboard.php:1 ../shared/classes/class.menu.php:132
 msgid "Leads"
 msgstr ""
 
@@ -33,6 +122,117 @@ msgstr ""
 
 #: ../classes/class.dashboard.php:1
 msgid "Since Last Month"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:49
+msgid "API Key"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:50
+#: ../modules/module.global-settings.php:127
+msgid "API Keys"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:73
+msgid "Are you sure you want to revoke permissions for this API Key?"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:78
+msgid "Are you sure you want to regenerate API Keys for this user?"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:124
+msgid "Reissue"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:129
+msgid "Revoke"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:146
+#: ../shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php:48
+msgid "Username"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:147
+msgid "Public Key"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:148
+msgid "Secret Key"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:149
+msgid "Token"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:171
+msgid "Enter User ID"
+msgstr ""
+
+#: ../classes/class.inbound-api.api-keys-table.php:172
+msgid "Generate New API Keys"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:226
+msgid "You must specify both a token and API key!"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:241
+msgid "Your request could not be authenticated! (check your token)"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:256
+msgid "Invalid API key!"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:277
+#, php-format
+msgid ""
+"Invalid parameter provided. Expecting a %1$s for '%2$s' while a field type "
+"with %3$s was provided"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:291
+#, php-format
+msgid ""
+"Invalid parameter provided. Expecting %1$s for %2$s the %3$s was provided"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:435
+msgid "Invalid endpoint: "
+msgstr ""
+
+#: ../classes/class.inbound-api.php:721
+msgid "No leads were found given this query."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:900
+msgid "Lead already exists."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:964 ../classes/class.inbound-api.php:1073
+msgid "Valid ID or email address not set."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:1082
+msgid "Lead successfully deleted"
+msgstr ""
+
+#: ../classes/class.inbound-api.php:1162 ../classes/class.inbound-api.php:1204
+msgid "This endpoint requires that the 'id' be set."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:1263
+msgid "This endpoint requires either the 'id' or the 'email' parameter be set."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:1270
+msgid "This endpoint requires the 'url' parameter be set."
+msgstr ""
+
+#: ../classes/class.inbound-api.php:1277
+msgid "This endpoint requires the 'tracking_id' parameter be set."
 msgstr ""
 
 #: ../classes/class.metaboxes.email-template.php:55
@@ -68,136 +268,1479 @@ msgstr ""
 msgid "Template restored!"
 msgstr ""
 
-#: ../classes/class.metaboxes.email-template.php:285
+#: ../classes/class.metaboxes.email-template.php:286
 msgid "Email Template Name"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:53
-#: ../classes/class.post-type.email-template.php:54
-#: ../classes/class.post-type.email-template.php:105
-msgid "Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:77
+msgid "Lead Stats"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:55
-msgid "Add New Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:87
+msgid "Last Conversion Activity Location"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:56
-msgid "Create New Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:97
+msgid "Lead Overview"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:57
-msgid "Edit Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:146
+msgid "Lead Status:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:58
-msgid "New Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:148
+msgid "Read/Viewed"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:59
-msgid "View Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:149
+msgid "New Lead"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:60
-msgid "Search Email Templates"
+#: ../classes/class.metaboxes.wp-lead.php:150
+msgid "Contacted"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:61
-#: ../modules/module.post-type.automation.php:40
-#: ../shared/classes/class.post-type.wp-lead.php:37
-#: ../shared/shortcodes/shortcodes/forms.php:347
-msgid "Nothing found"
+#: ../classes/class.metaboxes.wp-lead.php:151
+msgid "Active"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:62
-#: ../modules/module.post-type.automation.php:41
-#: ../shared/classes/class.post-type.wp-lead.php:38
-#: ../shared/shortcodes/shortcodes/forms.php:348
-msgid "Nothing found in Trash"
+#: ../classes/class.metaboxes.wp-lead.php:152
+msgid "Disqualified/Lost"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:89
-#: ../shared/classes/class.menu.php:220 ../shared/classes/class.menu.php:276
-msgid "Categories"
+#: ../classes/class.metaboxes.wp-lead.php:153
+msgid "Customer"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:90
-msgid "Email Template Category"
+#: ../classes/class.metaboxes.wp-lead.php:154
+msgid "Archive"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:106
-#: ../shared/shortcodes/shortcodes/landing_pages.php:37
-#: ../shared/shortcodes/shortcodes/landing_pages.php:99
-msgid "Category"
+#: ../classes/class.metaboxes.wp-lead.php:199
+msgid "Total Page Views "
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:107
-msgid "Description"
+#: ../classes/class.metaboxes.wp-lead.php:205
+msgid "# of Conversions "
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:297
-msgid "Token Testing"
+#: ../classes/class.metaboxes.wp-lead.php:230
+msgid "Time Since Last Conversion"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:298
-msgid "Token Testing Template - {{site-name}}"
+#: ../classes/class.metaboxes.wp-lead.php:290
+msgid "City:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:300
-msgid "Designed for testing & debugging tokens."
+#: ../classes/class.metaboxes.wp-lead.php:292
+msgid "State:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:307
-msgid "New Lead Notification"
+#: ../classes/class.metaboxes.wp-lead.php:295
+msgid "Area Code:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:308
-msgid "{{site-name}} - {{form-name}} - New Lead Conversion"
+#: ../classes/class.metaboxes.wp-lead.php:298
+msgid "Country:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:310
-msgid ""
-"Designed for notifying administrator of new lead conversion when an Inbound "
-"Form is submitted."
+#: ../classes/class.metaboxes.wp-lead.php:301
+msgid "IP Address:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:317
-msgid "New User Signup Notification"
+#: ../classes/class.metaboxes.wp-lead.php:306
+msgid "View Map:"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:318
-msgid "Your New Account - {{site-name}}"
+#: ../classes/class.metaboxes.wp-lead.php:311
+msgid "No Geo data collected"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:320
-msgid ""
-"WordPress core template for notifying\tnew users of their\tcreated accounts."
+#: ../classes/class.metaboxes.wp-lead.php:422
+msgid "Years"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:327
-msgid "New Comment Notification"
+#: ../classes/class.metaboxes.wp-lead.php:422
+msgid "Year"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:328
-msgid "New Comment Posted - {{wp-post-title}} - {{site-name}}"
+#: ../classes/class.metaboxes.wp-lead.php:424
+msgid "Months"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:330
-msgid "WordPress core template for notifying post authors of new comments."
+#: ../classes/class.metaboxes.wp-lead.php:424
+msgid "Month"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:337
-msgid "New Comment Moderation"
+#: ../classes/class.metaboxes.wp-lead.php:426
+msgid "Days"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:338
-msgid "Moderate Comment - {{wp-post-title}} - {{site-name}}"
+#: ../classes/class.metaboxes.wp-lead.php:426
+msgid "Day"
 msgstr ""
 
-#: ../classes/class.post-type.email-template.php:340
-msgid ""
-"WordPress core template for notifying post authors of new comments that need "
-"moderating."
+#: ../classes/class.metaboxes.wp-lead.php:428
+msgid "Hours"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:428
+msgid "Hour"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:430
+msgid "Minutes"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:430
+msgid "Minute"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:432
+msgid "Seconds"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:432
+msgid "Second"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:524
+msgid "Websites"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:534
+msgid "Social Media Profiles"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:557
+msgid "View past work"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:561
+msgid "Demographics"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:571
+msgid "Interests"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:588
+#: ../shared/shortcodes/shortcodes/profile.php:67
+msgid "Profile"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:592
+msgid "Activity"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:596
+msgid "Conversion Paths"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:600
+msgid "Input Logs"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:770
+msgid "Edit User Profile"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:854
+msgid "Conversions"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:859
+#: ../classes/class.metaboxes.wp-lead.php:1057
+msgid "Page Views"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:864
+msgid "Comments"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:869
+msgid "Searches"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:874
+#: ../classes/class.metaboxes.wp-lead.php:1172
+msgid "Custom Events"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:884
+#: ../classes/class.metaboxes.wp-lead.php:1437
+msgid "All"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:899
+msgid "Most Recent"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:900
+msgid "Oldest"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:914
+msgid "Landing Page Conversions"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:918
+msgid "No conversions found!"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:950
+msgid "view visit path"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:996
+msgid "View and respond to the comment"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1013
+msgid "Lead Searches"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1061
+msgid "No Page View History Found"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1196
+#, php-format
+msgid "Tracked %s activity"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1206
+#, php-format
+msgid "%1$s No custom events discovered! %2$s"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1438
+msgid "Form Data"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1439
+msgid "Page Data"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1440
+msgid "Event Data"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1453
+msgid "Form Inputs with Values"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1461
+msgid "Input name:"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1488
+msgid "Raw Form Data Array"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1497
+msgid "No raw data found!"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1528
+msgid "Show Empty Fields"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1561
+msgid "Add New Link"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1561
+msgid "add link"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1644
+msgid "Country..."
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1645
+#: ../shared/classes/class.form.php:823
+msgid "Afghanistan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1646
+#: ../shared/classes/class.form.php:825
+msgid "Albania"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1647
+#: ../shared/classes/class.form.php:826
+msgid "Algeria"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1648
+#: ../shared/classes/class.form.php:827
+msgid "American Samoa"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1649
+#: ../shared/classes/class.form.php:828
+msgid "Andorra"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1650
+#: ../shared/classes/class.form.php:829
+msgid "Angola"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1651
+#: ../shared/classes/class.form.php:830
+msgid "Anguilla"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1652
+msgid "Antigua &amp; Barbuda"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1653
+#: ../shared/classes/class.form.php:833
+msgid "Argentina"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1654
+#: ../shared/classes/class.form.php:834
+msgid "Armenia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1655
+#: ../shared/classes/class.form.php:835
+msgid "Aruba"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1656
+#: ../shared/classes/class.form.php:836
+msgid "Australia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1657
+#: ../shared/classes/class.form.php:837
+msgid "Austria"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1658
+#: ../shared/classes/class.form.php:838
+msgid "Azerbaijan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1659
+#: ../shared/classes/class.form.php:839
+msgid "Bahamas"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1660
+#: ../shared/classes/class.form.php:840
+msgid "Bahrain"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1661
+#: ../shared/classes/class.form.php:841
+msgid "Bangladesh"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1662
+#: ../shared/classes/class.form.php:842
+msgid "Barbados"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1663
+#: ../shared/classes/class.form.php:843
+msgid "Belarus"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1664
+#: ../shared/classes/class.form.php:844
+msgid "Belgium"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1665
+#: ../shared/classes/class.form.php:845
+msgid "Belize"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1666
+#: ../shared/classes/class.form.php:846
+msgid "Benin"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1667
+#: ../shared/classes/class.form.php:847
+msgid "Bermuda"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1668
+#: ../shared/classes/class.form.php:848
+msgid "Bhutan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1669
+#: ../shared/classes/class.form.php:849
+msgid "Bolivia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1670
+msgid "Bonaire"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1671
+msgid "Bosnia &amp; Herzegovina"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1672
+#: ../shared/classes/class.form.php:851
+msgid "Botswana"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1673
+#: ../shared/classes/class.form.php:853
+msgid "Brazil"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1674
+msgid "British Indian Ocean Ter"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1675
+msgid "Brunei"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1676
+#: ../shared/classes/class.form.php:856
+msgid "Bulgaria"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1677
+#: ../shared/classes/class.form.php:857
+msgid "Burkina Faso"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1678
+#: ../shared/classes/class.form.php:858
+msgid "Burundi"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1679
+#: ../shared/classes/class.form.php:859
+msgid "Cambodia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1680
+#: ../shared/classes/class.form.php:860
+msgid "Cameroon"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1681
+#: ../shared/classes/class.form.php:861
+msgid "Canada"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1682
+msgid "Canary Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1683
+#: ../shared/classes/class.form.php:862
+msgid "Cape Verde"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1684
+#: ../shared/classes/class.form.php:864
+msgid "Cayman Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1685
+#: ../shared/classes/class.form.php:865
+msgid "Central African Republic"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1686
+#: ../shared/classes/class.form.php:866
+msgid "Chad"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1687
+msgid "Channel Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1688
+#: ../shared/classes/class.form.php:867
+msgid "Chile"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1689
+#: ../shared/classes/class.form.php:868
+msgid "China"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1690
+#: ../shared/classes/class.form.php:869
+msgid "Christmas Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1691
+msgid "Cocos Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1692
+#: ../shared/classes/class.form.php:871
+msgid "Colombia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1693
+#: ../shared/classes/class.form.php:872
+msgid "Comoros"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1694
+#: ../shared/classes/class.form.php:873
+msgid "Congo"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1695
+#: ../shared/classes/class.form.php:875
+msgid "Cook Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1696
+#: ../shared/classes/class.form.php:876
+msgid "Costa Rica"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1697
+msgid "Cote D'Ivoire"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1698
+#: ../shared/classes/class.form.php:878
+msgid "Croatia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1699
+#: ../shared/classes/class.form.php:879
+msgid "Cuba"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1700
+#: ../shared/classes/class.form.php:880
+msgid "Curacao"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1701
+#: ../shared/classes/class.form.php:881
+msgid "Cyprus"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1702
+#: ../shared/classes/class.form.php:882
+msgid "Czech Republic"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1703
+#: ../shared/classes/class.form.php:883
+msgid "Denmark"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1704
+#: ../shared/classes/class.form.php:884
+msgid "Djibouti"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1705
+#: ../shared/classes/class.form.php:885
+msgid "Dominica"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1706
+#: ../shared/classes/class.form.php:886
+msgid "Dominican Republic"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1707
+msgid "East Timor"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1708
+#: ../shared/classes/class.form.php:887
+msgid "Ecuador"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1709
+#: ../shared/classes/class.form.php:888
+msgid "Egypt"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1710
+#: ../shared/classes/class.form.php:889
+msgid "El Salvador"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1711
+#: ../shared/classes/class.form.php:890
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1712
+#: ../shared/classes/class.form.php:891
+msgid "Eritrea"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1713
+#: ../shared/classes/class.form.php:892
+msgid "Estonia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1714
+#: ../shared/classes/class.form.php:893
+msgid "Ethiopia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1715
+#: ../shared/classes/class.form.php:894
+msgid "Falkland Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1716
+#: ../shared/classes/class.form.php:895
+msgid "Faroe Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1717
+#: ../shared/classes/class.form.php:896
+msgid "Fiji"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1718
+#: ../shared/classes/class.form.php:897
+msgid "Finland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1719
+#: ../shared/classes/class.form.php:898
+msgid "France"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1720
+#: ../shared/classes/class.form.php:899
+msgid "French Guiana"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1721
+#: ../shared/classes/class.form.php:900
+msgid "French Polynesia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1722
+msgid "French Southern Ter"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1723
+#: ../shared/classes/class.form.php:902
+msgid "Gabon"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1724
+#: ../shared/classes/class.form.php:903
+msgid "Gambia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1725
+#: ../shared/classes/class.form.php:904
+msgid "Georgia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1726
+#: ../shared/classes/class.form.php:905
+msgid "Germany"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1727
+#: ../shared/classes/class.form.php:906
+msgid "Ghana"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1728
+#: ../shared/classes/class.form.php:907
+msgid "Gibraltar"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1729
+msgid "Great Britain"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1730
+#: ../shared/classes/class.form.php:908
+msgid "Greece"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1731
+#: ../shared/classes/class.form.php:909
+msgid "Greenland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1732
+#: ../shared/classes/class.form.php:910
+msgid "Grenada"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1733
+#: ../shared/classes/class.form.php:911
+msgid "Guadeloupe"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1734
+#: ../shared/classes/class.form.php:912
+msgid "Guam"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1735
+#: ../shared/classes/class.form.php:913
+msgid "Guatemala"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1736
+#: ../shared/classes/class.form.php:915
+msgid "Guinea"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1737
+#: ../shared/classes/class.form.php:917
+msgid "Guyana"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1738
+#: ../shared/classes/class.form.php:918
+msgid "Haiti"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1739
+msgid "Hawaii"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1740
+#: ../shared/classes/class.form.php:920
+msgid "Honduras"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1741
+#: ../shared/classes/class.form.php:921
+msgid "Hong Kong"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1742
+#: ../shared/classes/class.form.php:922
+msgid "Hungary"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1743
+#: ../shared/classes/class.form.php:923
+msgid "Iceland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1744
+#: ../shared/classes/class.form.php:924
+msgid "India"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1745
+#: ../shared/classes/class.form.php:925
+msgid "Indonesia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1746
+#: ../shared/classes/class.form.php:926
+msgid "Iran"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1747
+#: ../shared/classes/class.form.php:927
+msgid "Iraq"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1748
+#: ../shared/classes/class.form.php:928
+msgid "Ireland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1749
+#: ../shared/classes/class.form.php:929
+msgid "Isle of Man"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1750
+#: ../shared/classes/class.form.php:930
+msgid "Israel"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1751
+#: ../shared/classes/class.form.php:931
+msgid "Italy"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1752
+#: ../shared/classes/class.form.php:932
+msgid "Jamaica"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1753
+#: ../shared/classes/class.form.php:933
+msgid "Japan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1754
+#: ../shared/classes/class.form.php:935
+msgid "Jordan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1755
+#: ../shared/classes/class.form.php:936
+msgid "Kazakhstan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1756
+#: ../shared/classes/class.form.php:937
+msgid "Kenya"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1757
+#: ../shared/classes/class.form.php:938
+msgid "Kiribati"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1758
+msgid "Korea North"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1759
+msgid "Korea South"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1760
+#: ../shared/classes/class.form.php:939
+msgid "Kuwait"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1761
+#: ../shared/classes/class.form.php:940
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1762
+msgid "Laos"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1763
+#: ../shared/classes/class.form.php:942
+msgid "Latvia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1764
+#: ../shared/classes/class.form.php:943
+msgid "Lebanon"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1765
+#: ../shared/classes/class.form.php:944
+msgid "Lesotho"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1766
+#: ../shared/classes/class.form.php:945
+msgid "Liberia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1767
+#: ../shared/classes/class.form.php:946
+msgid "Libya"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1768
+#: ../shared/classes/class.form.php:947
+msgid "Liechtenstein"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1769
+#: ../shared/classes/class.form.php:948
+msgid "Lithuania"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1770
+#: ../shared/classes/class.form.php:949
+msgid "Luxembourg"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1771
+#: ../shared/classes/class.form.php:950
+msgid "Macau"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1772
+#: ../shared/classes/class.form.php:951
+msgid "Macedonia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1773
+#: ../shared/classes/class.form.php:952
+msgid "Madagascar"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1774
+#: ../shared/classes/class.form.php:954
+msgid "Malaysia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1775
+#: ../shared/classes/class.form.php:953
+msgid "Malawi"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1776
+#: ../shared/classes/class.form.php:955
+msgid "Maldives"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1777
+#: ../shared/classes/class.form.php:956
+msgid "Mali"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1778
+#: ../shared/classes/class.form.php:957
+msgid "Malta"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1779
+#: ../shared/classes/class.form.php:958
+msgid "Marshall Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1780
+#: ../shared/classes/class.form.php:959
+msgid "Martinique"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1781
+#: ../shared/classes/class.form.php:960
+msgid "Mauritania"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1782
+#: ../shared/classes/class.form.php:961
+msgid "Mauritius"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1783
+#: ../shared/classes/class.form.php:962
+msgid "Mayotte"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1784
+#: ../shared/classes/class.form.php:963
+msgid "Mexico"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1785
+msgid "Midway Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1786
+#: ../shared/classes/class.form.php:965
+msgid "Moldova"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1787
+#: ../shared/classes/class.form.php:966
+msgid "Monaco"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1788
+#: ../shared/classes/class.form.php:967
+msgid "Mongolia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1789
+#: ../shared/classes/class.form.php:969
+msgid "Montserrat"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1790
+#: ../shared/classes/class.form.php:970
+msgid "Morocco"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1791
+#: ../shared/classes/class.form.php:971
+msgid "Mozambique"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1792
+#: ../shared/classes/class.form.php:972
+msgid "Myanmar"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1793
+msgid "Nambia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1794
+#: ../shared/classes/class.form.php:974
+msgid "Nauru"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1795
+#: ../shared/classes/class.form.php:975
+msgid "Nepal"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1796
+msgid "Netherland Antilles"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1797
+msgid "Netherlands (Holland, Europe)"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1798
+msgid "Nevis"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1799
+#: ../shared/classes/class.form.php:976
+msgid "New Caledonia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1800
+#: ../shared/classes/class.form.php:977
+msgid "New Zealand"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1801
+#: ../shared/classes/class.form.php:978
+msgid "Nicaragua"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1802
+#: ../shared/classes/class.form.php:979
+msgid "Niger"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1803
+#: ../shared/classes/class.form.php:980
+msgid "Nigeria"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1804
+#: ../shared/classes/class.form.php:981
+msgid "Niue"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1805
+#: ../shared/classes/class.form.php:982
+msgid "Norfolk Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1806
+#: ../shared/classes/class.form.php:985
+msgid "Norway"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1807
+#: ../shared/classes/class.form.php:986
+msgid "Oman"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1808
+#: ../shared/classes/class.form.php:987
+msgid "Pakistan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1809
+msgid "Palau Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1810
+msgid "Palestine"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1811
+#: ../shared/classes/class.form.php:990
+msgid "Panama"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1812
+#: ../shared/classes/class.form.php:991
+msgid "Papua New Guinea"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1813
+#: ../shared/classes/class.form.php:992
+msgid "Paraguay"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1814
+#: ../shared/classes/class.form.php:993
+msgid "Peru"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1815
+#: ../shared/classes/class.form.php:994
+msgid "Philippines"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1816
+msgid "Pitcairn Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1817
+#: ../shared/classes/class.form.php:996
+msgid "Poland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1818
+#: ../shared/classes/class.form.php:997
+msgid "Portugal"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1819
+#: ../shared/classes/class.form.php:998
+msgid "Puerto Rico"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1820
+#: ../shared/classes/class.form.php:999
+msgid "Qatar"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1821
+msgid "Republic of Montenegro"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1822
+msgid "Republic of Serbia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1823
+#: ../shared/classes/class.form.php:1000
+msgid "Reunion"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1824
+#: ../shared/classes/class.form.php:1001
+msgid "Romania"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1825
+msgid "Russia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1826
+#: ../shared/classes/class.form.php:1003
+msgid "Rwanda"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1827
+msgid "St Barthelemy"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1828
+msgid "St Eustatius"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1829
+msgid "St Helena"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1830
+msgid "St Kitts-Nevis"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1831
+msgid "St Lucia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1832
+msgid "St Maarten"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1833
+msgid "St Pierre &amp; Miquelon"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1834
+msgid "St Vincent &amp; Grenadines"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1835
+msgid "Saipan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1836
+#: ../shared/classes/class.form.php:1011
+msgid "Samoa"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1837
+msgid "Samoa American"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1838
+#: ../shared/classes/class.form.php:1012
+msgid "San Marino"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1839
+msgid "Sao Tome &amp; Principe"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1840
+#: ../shared/classes/class.form.php:1014
+msgid "Saudi Arabia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1841
+#: ../shared/classes/class.form.php:1015
+msgid "Senegal"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1842
+#: ../shared/classes/class.form.php:1017
+msgid "Seychelles"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1843
+#: ../shared/classes/class.form.php:1018
+msgid "Sierra Leone"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1844
+#: ../shared/classes/class.form.php:1019
+msgid "Singapore"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1845
+msgid "Slovakia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1846
+#: ../shared/classes/class.form.php:1021
+msgid "Slovenia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1847
+#: ../shared/classes/class.form.php:1022
+msgid "Solomon Islands"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1848
+#: ../shared/classes/class.form.php:1023
+msgid "Somalia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1849
+#: ../shared/classes/class.form.php:1024
+msgid "South Africa"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1850
+#: ../shared/classes/class.form.php:1028
+msgid "Spain"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1851
+#: ../shared/classes/class.form.php:1029
+msgid "Sri Lanka"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1852
+#: ../shared/classes/class.form.php:1031
+msgid "Sudan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1853
+#: ../shared/classes/class.form.php:1032
+msgid "Suriname"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1854
+#: ../shared/classes/class.form.php:1034
+msgid "Swaziland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1855
+#: ../shared/classes/class.form.php:1035
+msgid "Sweden"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1856
+#: ../shared/classes/class.form.php:1036
+msgid "Switzerland"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1857
+#: ../shared/classes/class.form.php:1037
+msgid "Syria"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1858
+msgid "Tahiti"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1859
+#: ../shared/classes/class.form.php:1038
+msgid "Taiwan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1860
+#: ../shared/classes/class.form.php:1039
+msgid "Tajikistan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1861
+#: ../shared/classes/class.form.php:1040
+msgid "Tanzania"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1862
+#: ../shared/classes/class.form.php:1041
+msgid "Thailand"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1863
+#: ../shared/classes/class.form.php:1044
+msgid "Togo"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1864
+#: ../shared/classes/class.form.php:1045
+msgid "Tokelau"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1865
+#: ../shared/classes/class.form.php:1046
+msgid "Tonga"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1866
+msgid "Trinidad &amp; Tobago"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1867
+#: ../shared/classes/class.form.php:1048
+msgid "Tunisia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1868
+#: ../shared/classes/class.form.php:1049
+msgid "Turkey"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1869
+#: ../shared/classes/class.form.php:1050
+msgid "Turkmenistan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1870
+msgid "Turks &amp; Caicos Is"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1871
+#: ../shared/classes/class.form.php:1052
+msgid "Tuvalu"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1872
+#: ../shared/classes/class.form.php:1053
+msgid "Uganda"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1873
+#: ../shared/classes/class.form.php:1054
+msgid "Ukraine"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1874
+#: ../shared/classes/class.form.php:1055
+msgid "United Arab Emirates"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1875
+#: ../shared/classes/class.form.php:1056
+msgid "United Kingdom"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1876
+msgid "United States of America"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1877
+#: ../shared/classes/class.form.php:1059
+msgid "Uruguay"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1878
+#: ../shared/classes/class.form.php:1060
+msgid "Uzbekistan"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1879
+#: ../shared/classes/class.form.php:1061
+msgid "Vanuatu"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1880
+msgid "Vatican City State"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1881
+#: ../shared/classes/class.form.php:1063
+msgid "Venezuela"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1882
+#: ../shared/classes/class.form.php:1064
+msgid "Vietnam"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1883
+msgid "Virgin Islands (Brit)"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1884
+msgid "Virgin Islands (USA)"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1885
+msgid "Wake Island"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1886
+msgid "Wallis &amp; Futana Is"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1887
+#: ../shared/classes/class.form.php:1069
+msgid "Yemen"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1888
+msgid "Zaire"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1889
+#: ../shared/classes/class.form.php:1070
+msgid "Zambia"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1890
+#: ../shared/classes/class.form.php:1071
+msgid "Zimbabwe"
+msgstr ""
+
+#: ../classes/class.metaboxes.wp-lead.php:1957
+msgid "Tag cloud of content consumed"
 msgstr ""
 
 #: ../modules/module.ajax-setup.php:273
@@ -246,10 +1789,10 @@ msgstr ""
 #: ../modules/module.global-settings.php:39
 msgid ""
 "<p>WordPress Leads automatically tracks page views of converted leads. This "
-"is extremely valuable lead intelligence and will help with your sales "
-"followups. However with great power comes great resposibility, this extra "
-"tracking can cause problems on high high traffic sites. You can turn off "
-"tracking if you see any issues.</p>"
+"is extremely valuable lead intelligence and will help with your sales follow "
+"ups. However with great power comes great resposibility, this extra tracking "
+"can cause problems on high high traffic sites. You can turn off tracking if "
+"you see any issues.</p>"
 msgstr ""
 
 #: ../modules/module.global-settings.php:46
@@ -298,7 +1841,7 @@ msgstr ""
 #, php-format
 msgid ""
 "<p>Enter your Full contact API key. If you don't have one. Grab a free one "
-"here: %s here %s </p>"
+"here: %s </p>"
 msgstr ""
 
 #: ../modules/module.global-settings.php:86
@@ -313,7 +1856,7 @@ msgid ""
 msgstr ""
 
 #: ../modules/module.global-settings.php:95
-msgid "Replace WorPress Email Templates with Inbound Now Email Templates"
+msgid "Replace WordPress Email Templates with Inbound Now Email Templates"
 msgstr ""
 
 #: ../modules/module.global-settings.php:96
@@ -335,12 +1878,16 @@ msgid ""
 "akismet to prevent spam submissions.</p>"
 msgstr ""
 
-#: ../modules/module.global-settings.php:122
+#: ../modules/module.global-settings.php:114
 msgid "License Keys"
 msgstr ""
 
-#: ../modules/module.global-settings.php:126
+#: ../modules/module.global-settings.php:118
 msgid "Extensions"
+msgstr ""
+
+#: ../modules/module.global-settings.php:132
+msgid "API Keys Table"
 msgstr ""
 
 #: ../modules/module.lead-management.php:114
@@ -391,7 +1938,7 @@ msgid "Use % for wildcards."
 msgstr ""
 
 #: ../modules/module.lead-management.php:345
-#: ../shared/classes/class.post-type.wp-lead.php:36
+#: ../shared/classes/class.post-type.wp-lead.php:48
 msgid "Search Leads"
 msgstr ""
 
@@ -451,7 +1998,8 @@ msgid "View"
 msgstr ""
 
 #: ../modules/module.lead-management.php:545
-#: ../shared/classes/class.form.php:1153
+#: ../shared/classes/class.form.php:925
+#: ../shared/classes/class.post-type.wp-lead.php:153
 msgid "ID"
 msgstr ""
 
@@ -463,1498 +2011,60 @@ msgstr ""
 msgid "What do you want to do with the selected leads?"
 msgstr ""
 
-#: ../modules/module.lead-management.php:628
-msgid "Add to"
-msgstr ""
-
-#: ../modules/module.lead-management.php:629
-msgid "Remove from"
+#: ../modules/module.lead-management.php:627
+msgid "Export Leads as CSV"
 msgstr ""
 
 #: ../modules/module.lead-management.php:634
-msgid "Separate multiple tags with commas. "
+msgid "Add to"
 msgstr ""
 
 #: ../modules/module.lead-management.php:635
-#: ../modules/module.lead-management.php:643
+msgid "Remove from"
+msgstr ""
+
+#: ../modules/module.lead-management.php:640
+msgid "Separate multiple tags with commas. "
+msgstr ""
+
+#: ../modules/module.lead-management.php:641
+#: ../modules/module.lead-management.php:649
 msgid "Replace"
 msgstr ""
 
-#: ../modules/module.lead-management.php:636
-#: ../modules/module.lead-management.php:644
+#: ../modules/module.lead-management.php:642
+#: ../modules/module.lead-management.php:650
 msgid "Add"
 msgstr ""
 
-#: ../modules/module.lead-management.php:637
-#: ../modules/module.lead-management.php:645
+#: ../modules/module.lead-management.php:643
+#: ../modules/module.lead-management.php:651
 msgid "Remove"
 msgstr ""
 
-#: ../modules/module.lead-management.php:651
-#: ../modules/module.lead-management.php:682
+#: ../modules/module.lead-management.php:657
+#: ../modules/module.lead-management.php:688
 msgid "Permanently Delete Selected Leads"
 msgstr ""
 
-#: ../modules/module.lead-management.php:678
+#: ../modules/module.lead-management.php:684
 msgid "Choose action to apply to selected leads"
 msgstr ""
 
-#: ../modules/module.lead-management.php:680
+#: ../modules/module.lead-management.php:685
+msgid "Export Selected Leads as CSV"
+msgstr ""
+
+#: ../modules/module.lead-management.php:686
 msgid "Add or Remove Selected Leads from Lists"
 msgstr ""
 
-#: ../modules/module.lead-management.php:681
+#: ../modules/module.lead-management.php:687
 msgid "Add or Remove Tags to Selected Leads"
 msgstr ""
 
-#: ../modules/module.lead-management.php:806
+#: ../modules/module.lead-management.php:813
 msgid "User does not have admin level permissions."
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:62
-msgid "Empty"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:91
-msgid "Lead Stats"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:109
-msgid "Years"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:109
-msgid "Year"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:111
-msgid "Months"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:111
-msgid "Month"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:113
-msgid "Days"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:113
-msgid "Day"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:115
-msgid "Hours"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:115
-msgid "Hour"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:117
-msgid "Minutes"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:117
-msgid "Minute"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:119
-msgid "Seconds"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:119
-msgid "Second"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:163
-msgid "Total Page Views "
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:166
-msgid "# of Conversions "
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:190
-msgid "Time Since Last Conversion"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:220
-msgid "Last Conversion Activity Location"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:255
-msgid "City:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:257
-msgid "State:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:260
-msgid "Area Code:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:263
-msgid "Country:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:266
-msgid "IP Address:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:279
-msgid "View Map:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:284
-msgid "No Geo data collected"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:324
-msgid "Lead Status:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:326
-msgid "Read/Viewed"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:327
-msgid "New Lead"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:328
-msgid "Contacted"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:329
-msgid "Active"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:330
-msgid "Disqualified/Lost"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:331
-msgid "Customer"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:332
-msgid "Archive"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:450
-msgid "Websites"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:460
-msgid "Social Media Profiles"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:483
-msgid "View past work"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:487
-msgid "Demographics"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:497
-msgid "Interests"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:516
-msgid "Lead Overview"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:570
-msgid "Show Hidden/Empty Fields"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:616
-msgid "Edit User Profile"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:636
-msgid "Tag cloud of content consumed"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:686
-msgid "Conversions"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:689
-#: ../modules/module.metaboxes.wp-lead.php:878
-msgid "Page Views"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:692
-msgid "Comments"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:695
-msgid "Searches"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:704
-#: ../modules/module.metaboxes.wp-lead.php:1009
-msgid "All"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:719
-msgid "Most Recent"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:720
-msgid "Oldest"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:726
-msgid "Landing Page Conversions"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:766
-msgid "view visit path"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:775
-msgid "No conversions found!"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:816
-msgid "View and respond to the comment"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:995
-msgid "No Page View History Found"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1010
-msgid "Form Data"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1011
-msgid "Page Data"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1012
-msgid "Event Data"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1025
-msgid "Form Inputs with Values"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1033
-msgid "Input name:"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1060
-msgid "Raw Form Data Array"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1069
-msgid "No raw data found!"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1121
-msgid "Add New Link"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1121
-msgid "add link"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1204
-msgid "Country..."
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1205
-#: ../shared/classes/class.form.php:1051
-msgid "Afghanistan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1206
-#: ../shared/classes/class.form.php:1053
-msgid "Albania"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1207
-#: ../shared/classes/class.form.php:1054
-msgid "Algeria"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1208
-#: ../shared/classes/class.form.php:1055
-msgid "American Samoa"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1209
-#: ../shared/classes/class.form.php:1056
-msgid "Andorra"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1210
-#: ../shared/classes/class.form.php:1057
-msgid "Angola"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1211
-#: ../shared/classes/class.form.php:1058
-msgid "Anguilla"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1212
-msgid "Antigua &amp; Barbuda"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1213
-#: ../shared/classes/class.form.php:1061
-msgid "Argentina"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1214
-#: ../shared/classes/class.form.php:1062
-msgid "Armenia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1215
-#: ../shared/classes/class.form.php:1063
-msgid "Aruba"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1216
-#: ../shared/classes/class.form.php:1064
-msgid "Australia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1217
-#: ../shared/classes/class.form.php:1065
-msgid "Austria"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1218
-#: ../shared/classes/class.form.php:1066
-msgid "Azerbaijan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1219
-#: ../shared/classes/class.form.php:1067
-msgid "Bahamas"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1220
-#: ../shared/classes/class.form.php:1068
-msgid "Bahrain"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1221
-#: ../shared/classes/class.form.php:1069
-msgid "Bangladesh"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1222
-#: ../shared/classes/class.form.php:1070
-msgid "Barbados"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1223
-#: ../shared/classes/class.form.php:1071
-msgid "Belarus"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1224
-#: ../shared/classes/class.form.php:1072
-msgid "Belgium"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1225
-#: ../shared/classes/class.form.php:1073
-msgid "Belize"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1226
-#: ../shared/classes/class.form.php:1074
-msgid "Benin"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1227
-#: ../shared/classes/class.form.php:1075
-msgid "Bermuda"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1228
-#: ../shared/classes/class.form.php:1076
-msgid "Bhutan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1229
-#: ../shared/classes/class.form.php:1077
-msgid "Bolivia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1230
-msgid "Bonaire"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1231
-msgid "Bosnia &amp; Herzegovina"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1232
-#: ../shared/classes/class.form.php:1079
-msgid "Botswana"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1233
-#: ../shared/classes/class.form.php:1081
-msgid "Brazil"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1234
-msgid "British Indian Ocean Ter"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1235
-msgid "Brunei"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1236
-#: ../shared/classes/class.form.php:1084
-msgid "Bulgaria"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1237
-#: ../shared/classes/class.form.php:1085
-msgid "Burkina Faso"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1238
-#: ../shared/classes/class.form.php:1086
-msgid "Burundi"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1239
-#: ../shared/classes/class.form.php:1087
-msgid "Cambodia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1240
-#: ../shared/classes/class.form.php:1088
-msgid "Cameroon"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1241
-#: ../shared/classes/class.form.php:1089
-msgid "Canada"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1242
-msgid "Canary Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1243
-#: ../shared/classes/class.form.php:1090
-msgid "Cape Verde"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1244
-#: ../shared/classes/class.form.php:1092
-msgid "Cayman Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1245
-#: ../shared/classes/class.form.php:1093
-msgid "Central African Republic"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1246
-#: ../shared/classes/class.form.php:1094
-msgid "Chad"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1247
-msgid "Channel Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1248
-#: ../shared/classes/class.form.php:1095
-msgid "Chile"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1249
-#: ../shared/classes/class.form.php:1096
-msgid "China"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1250
-#: ../shared/classes/class.form.php:1097
-msgid "Christmas Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1251
-msgid "Cocos Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1252
-#: ../shared/classes/class.form.php:1099
-msgid "Colombia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1253
-#: ../shared/classes/class.form.php:1100
-msgid "Comoros"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1254
-#: ../shared/classes/class.form.php:1101
-msgid "Congo"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1255
-#: ../shared/classes/class.form.php:1103
-msgid "Cook Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1256
-#: ../shared/classes/class.form.php:1104
-msgid "Costa Rica"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1257
-msgid "Cote D'Ivoire"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1258
-#: ../shared/classes/class.form.php:1106
-msgid "Croatia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1259
-#: ../shared/classes/class.form.php:1107
-msgid "Cuba"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1260
-#: ../shared/classes/class.form.php:1108
-msgid "Curacao"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1261
-#: ../shared/classes/class.form.php:1109
-msgid "Cyprus"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1262
-#: ../shared/classes/class.form.php:1110
-msgid "Czech Republic"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1263
-#: ../shared/classes/class.form.php:1111
-msgid "Denmark"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1264
-#: ../shared/classes/class.form.php:1112
-msgid "Djibouti"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1265
-#: ../shared/classes/class.form.php:1113
-msgid "Dominica"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1266
-#: ../shared/classes/class.form.php:1114
-msgid "Dominican Republic"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1267
-msgid "East Timor"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1268
-#: ../shared/classes/class.form.php:1115
-msgid "Ecuador"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1269
-#: ../shared/classes/class.form.php:1116
-msgid "Egypt"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1270
-#: ../shared/classes/class.form.php:1117
-msgid "El Salvador"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1271
-#: ../shared/classes/class.form.php:1118
-msgid "Equatorial Guinea"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1272
-#: ../shared/classes/class.form.php:1119
-msgid "Eritrea"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1273
-#: ../shared/classes/class.form.php:1120
-msgid "Estonia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1274
-#: ../shared/classes/class.form.php:1121
-msgid "Ethiopia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1275
-#: ../shared/classes/class.form.php:1122
-msgid "Falkland Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1276
-#: ../shared/classes/class.form.php:1123
-msgid "Faroe Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1277
-#: ../shared/classes/class.form.php:1124
-msgid "Fiji"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1278
-#: ../shared/classes/class.form.php:1125
-msgid "Finland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1279
-#: ../shared/classes/class.form.php:1126
-msgid "France"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1280
-#: ../shared/classes/class.form.php:1127
-msgid "French Guiana"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1281
-#: ../shared/classes/class.form.php:1128
-msgid "French Polynesia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1282
-msgid "French Southern Ter"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1283
-#: ../shared/classes/class.form.php:1130
-msgid "Gabon"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1284
-#: ../shared/classes/class.form.php:1131
-msgid "Gambia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1285
-#: ../shared/classes/class.form.php:1132
-msgid "Georgia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1286
-#: ../shared/classes/class.form.php:1133
-msgid "Germany"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1287
-#: ../shared/classes/class.form.php:1134
-msgid "Ghana"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1288
-#: ../shared/classes/class.form.php:1135
-msgid "Gibraltar"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1289
-msgid "Great Britain"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1290
-#: ../shared/classes/class.form.php:1136
-msgid "Greece"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1291
-#: ../shared/classes/class.form.php:1137
-msgid "Greenland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1292
-#: ../shared/classes/class.form.php:1138
-msgid "Grenada"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1293
-#: ../shared/classes/class.form.php:1139
-msgid "Guadeloupe"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1294
-#: ../shared/classes/class.form.php:1140
-msgid "Guam"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1295
-#: ../shared/classes/class.form.php:1141
-msgid "Guatemala"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1296
-#: ../shared/classes/class.form.php:1143
-msgid "Guinea"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1297
-#: ../shared/classes/class.form.php:1145
-msgid "Guyana"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1298
-#: ../shared/classes/class.form.php:1146
-msgid "Haiti"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1299
-msgid "Hawaii"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1300
-#: ../shared/classes/class.form.php:1148
-msgid "Honduras"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1301
-#: ../shared/classes/class.form.php:1149
-msgid "Hong Kong"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1302
-#: ../shared/classes/class.form.php:1150
-msgid "Hungary"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1303
-#: ../shared/classes/class.form.php:1151
-msgid "Iceland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1304
-#: ../shared/classes/class.form.php:1152
-msgid "India"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1305
-#: ../shared/classes/class.form.php:1153
-msgid "Indonesia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1306
-#: ../shared/classes/class.form.php:1154
-msgid "Iran"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1307
-#: ../shared/classes/class.form.php:1155
-msgid "Iraq"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1308
-#: ../shared/classes/class.form.php:1156
-msgid "Ireland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1309
-#: ../shared/classes/class.form.php:1157
-msgid "Isle of Man"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1310
-#: ../shared/classes/class.form.php:1158
-msgid "Israel"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1311
-#: ../shared/classes/class.form.php:1159
-msgid "Italy"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1312
-#: ../shared/classes/class.form.php:1160
-msgid "Jamaica"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1313
-#: ../shared/classes/class.form.php:1161
-msgid "Japan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1314
-#: ../shared/classes/class.form.php:1163
-msgid "Jordan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1315
-#: ../shared/classes/class.form.php:1164
-msgid "Kazakhstan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1316
-#: ../shared/classes/class.form.php:1165
-msgid "Kenya"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1317
-#: ../shared/classes/class.form.php:1166
-msgid "Kiribati"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1318
-msgid "Korea North"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1319
-msgid "Korea South"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1320
-#: ../shared/classes/class.form.php:1167
-msgid "Kuwait"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1321
-#: ../shared/classes/class.form.php:1168
-msgid "Kyrgyzstan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1322
-msgid "Laos"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1323
-#: ../shared/classes/class.form.php:1170
-msgid "Latvia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1324
-#: ../shared/classes/class.form.php:1171
-msgid "Lebanon"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1325
-#: ../shared/classes/class.form.php:1172
-msgid "Lesotho"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1326
-#: ../shared/classes/class.form.php:1173
-msgid "Liberia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1327
-#: ../shared/classes/class.form.php:1174
-msgid "Libya"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1328
-#: ../shared/classes/class.form.php:1175
-msgid "Liechtenstein"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1329
-#: ../shared/classes/class.form.php:1176
-msgid "Lithuania"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1330
-#: ../shared/classes/class.form.php:1177
-msgid "Luxembourg"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1331
-#: ../shared/classes/class.form.php:1178
-msgid "Macau"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1332
-#: ../shared/classes/class.form.php:1179
-msgid "Macedonia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1333
-#: ../shared/classes/class.form.php:1180
-msgid "Madagascar"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1334
-#: ../shared/classes/class.form.php:1182
-msgid "Malaysia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1335
-#: ../shared/classes/class.form.php:1181
-msgid "Malawi"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1336
-#: ../shared/classes/class.form.php:1183
-msgid "Maldives"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1337
-#: ../shared/classes/class.form.php:1184
-msgid "Mali"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1338
-#: ../shared/classes/class.form.php:1185
-msgid "Malta"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1339
-#: ../shared/classes/class.form.php:1186
-msgid "Marshall Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1340
-#: ../shared/classes/class.form.php:1187
-msgid "Martinique"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1341
-#: ../shared/classes/class.form.php:1188
-msgid "Mauritania"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1342
-#: ../shared/classes/class.form.php:1189
-msgid "Mauritius"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1343
-#: ../shared/classes/class.form.php:1190
-msgid "Mayotte"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1344
-#: ../shared/classes/class.form.php:1191
-msgid "Mexico"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1345
-msgid "Midway Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1346
-#: ../shared/classes/class.form.php:1193
-msgid "Moldova"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1347
-#: ../shared/classes/class.form.php:1194
-msgid "Monaco"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1348
-#: ../shared/classes/class.form.php:1195
-msgid "Mongolia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1349
-#: ../shared/classes/class.form.php:1197
-msgid "Montserrat"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1350
-#: ../shared/classes/class.form.php:1198
-msgid "Morocco"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1351
-#: ../shared/classes/class.form.php:1199
-msgid "Mozambique"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1352
-#: ../shared/classes/class.form.php:1200
-msgid "Myanmar"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1353
-msgid "Nambia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1354
-#: ../shared/classes/class.form.php:1202
-msgid "Nauru"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1355
-#: ../shared/classes/class.form.php:1203
-msgid "Nepal"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1356
-msgid "Netherland Antilles"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1357
-msgid "Netherlands (Holland, Europe)"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1358
-msgid "Nevis"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1359
-#: ../shared/classes/class.form.php:1204
-msgid "New Caledonia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1360
-#: ../shared/classes/class.form.php:1205
-msgid "New Zealand"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1361
-#: ../shared/classes/class.form.php:1206
-msgid "Nicaragua"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1362
-#: ../shared/classes/class.form.php:1207
-msgid "Niger"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1363
-#: ../shared/classes/class.form.php:1208
-msgid "Nigeria"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1364
-#: ../shared/classes/class.form.php:1209
-msgid "Niue"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1365
-#: ../shared/classes/class.form.php:1210
-msgid "Norfolk Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1366
-#: ../shared/classes/class.form.php:1213
-msgid "Norway"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1367
-#: ../shared/classes/class.form.php:1214
-msgid "Oman"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1368
-#: ../shared/classes/class.form.php:1215
-msgid "Pakistan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1369
-msgid "Palau Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1370
-msgid "Palestine"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1371
-#: ../shared/classes/class.form.php:1218
-msgid "Panama"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1372
-#: ../shared/classes/class.form.php:1219
-msgid "Papua New Guinea"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1373
-#: ../shared/classes/class.form.php:1220
-msgid "Paraguay"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1374
-#: ../shared/classes/class.form.php:1221
-msgid "Peru"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1375
-#: ../shared/classes/class.form.php:1222
-msgid "Philippines"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1376
-msgid "Pitcairn Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1377
-#: ../shared/classes/class.form.php:1224
-msgid "Poland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1378
-#: ../shared/classes/class.form.php:1225
-msgid "Portugal"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1379
-#: ../shared/classes/class.form.php:1226
-msgid "Puerto Rico"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1380
-#: ../shared/classes/class.form.php:1227
-msgid "Qatar"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1381
-msgid "Republic of Montenegro"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1382
-msgid "Republic of Serbia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1383
-#: ../shared/classes/class.form.php:1228
-msgid "Reunion"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1384
-#: ../shared/classes/class.form.php:1229
-msgid "Romania"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1385
-msgid "Russia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1386
-#: ../shared/classes/class.form.php:1231
-msgid "Rwanda"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1387
-msgid "St Barthelemy"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1388
-msgid "St Eustatius"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1389
-msgid "St Helena"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1390
-msgid "St Kitts-Nevis"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1391
-msgid "St Lucia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1392
-msgid "St Maarten"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1393
-msgid "St Pierre &amp; Miquelon"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1394
-msgid "St Vincent &amp; Grenadines"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1395
-msgid "Saipan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1396
-#: ../shared/classes/class.form.php:1239
-msgid "Samoa"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1397
-msgid "Samoa American"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1398
-#: ../shared/classes/class.form.php:1240
-msgid "San Marino"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1399
-msgid "Sao Tome &amp; Principe"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1400
-#: ../shared/classes/class.form.php:1242
-msgid "Saudi Arabia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1401
-#: ../shared/classes/class.form.php:1243
-msgid "Senegal"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1402
-#: ../shared/classes/class.form.php:1245
-msgid "Seychelles"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1403
-#: ../shared/classes/class.form.php:1246
-msgid "Sierra Leone"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1404
-#: ../shared/classes/class.form.php:1247
-msgid "Singapore"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1405
-msgid "Slovakia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1406
-#: ../shared/classes/class.form.php:1249
-msgid "Slovenia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1407
-#: ../shared/classes/class.form.php:1250
-msgid "Solomon Islands"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1408
-#: ../shared/classes/class.form.php:1251
-msgid "Somalia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1409
-#: ../shared/classes/class.form.php:1252
-msgid "South Africa"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1410
-#: ../shared/classes/class.form.php:1256
-msgid "Spain"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1411
-#: ../shared/classes/class.form.php:1257
-msgid "Sri Lanka"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1412
-#: ../shared/classes/class.form.php:1259
-msgid "Sudan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1413
-#: ../shared/classes/class.form.php:1260
-msgid "Suriname"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1414
-#: ../shared/classes/class.form.php:1262
-msgid "Swaziland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1415
-#: ../shared/classes/class.form.php:1263
-msgid "Sweden"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1416
-#: ../shared/classes/class.form.php:1264
-msgid "Switzerland"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1417
-#: ../shared/classes/class.form.php:1265
-msgid "Syria"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1418
-msgid "Tahiti"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1419
-#: ../shared/classes/class.form.php:1266
-msgid "Taiwan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1420
-#: ../shared/classes/class.form.php:1267
-msgid "Tajikistan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1421
-#: ../shared/classes/class.form.php:1268
-msgid "Tanzania"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1422
-#: ../shared/classes/class.form.php:1269
-msgid "Thailand"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1423
-#: ../shared/classes/class.form.php:1272
-msgid "Togo"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1424
-#: ../shared/classes/class.form.php:1273
-msgid "Tokelau"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1425
-#: ../shared/classes/class.form.php:1274
-msgid "Tonga"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1426
-msgid "Trinidad &amp; Tobago"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1427
-#: ../shared/classes/class.form.php:1276
-msgid "Tunisia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1428
-#: ../shared/classes/class.form.php:1277
-msgid "Turkey"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1429
-#: ../shared/classes/class.form.php:1278
-msgid "Turkmenistan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1430
-msgid "Turks &amp; Caicos Is"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1431
-#: ../shared/classes/class.form.php:1280
-msgid "Tuvalu"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1432
-#: ../shared/classes/class.form.php:1281
-msgid "Uganda"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1433
-#: ../shared/classes/class.form.php:1282
-msgid "Ukraine"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1434
-#: ../shared/classes/class.form.php:1283
-msgid "United Arab Emirates"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1435
-#: ../shared/classes/class.form.php:1284
-msgid "United Kingdom"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1436
-msgid "United States of America"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1437
-#: ../shared/classes/class.form.php:1287
-msgid "Uruguay"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1438
-#: ../shared/classes/class.form.php:1288
-msgid "Uzbekistan"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1439
-#: ../shared/classes/class.form.php:1289
-msgid "Vanuatu"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1440
-msgid "Vatican City State"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1441
-#: ../shared/classes/class.form.php:1291
-msgid "Venezuela"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1442
-#: ../shared/classes/class.form.php:1292
-msgid "Vietnam"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1443
-msgid "Virgin Islands (Brit)"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1444
-msgid "Virgin Islands (USA)"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1445
-msgid "Wake Island"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1446
-msgid "Wallis &amp; Futana Is"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1447
-#: ../shared/classes/class.form.php:1297
-msgid "Yemen"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1448
-msgid "Zaire"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1449
-#: ../shared/classes/class.form.php:1298
-msgid "Zambia"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1450
-#: ../shared/classes/class.form.php:1299
-msgid "Zimbabwe"
-msgstr ""
-
-#: ../modules/module.metaboxes.wp-lead.php:1659
-msgid ""
-"Visitor Path Sessions - <span class=\"session-desc\">(Sessions expire after "
-"1 hour of inactivity)</span> <span class=\"minimize-paths button\">Shrink "
-"Session View</span>"
 msgstr ""
 
 #: ../modules/module.nav-menus.php:8
@@ -1965,16 +2075,16 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
-#: ../modules/module.nav-menus.php:12 ../shared/classes/class.menu.php:307
+#: ../modules/module.nav-menus.php:12 ../shared/classes/class.menu.php:301
 msgid "Manage Forms"
 msgstr ""
 
-#: ../modules/module.nav-menus.php:14 ../shared/classes/class.menu.php:229
-#: ../shared/classes/class.menu.php:285
+#: ../modules/module.nav-menus.php:14 ../shared/classes/class.menu.php:223
+#: ../shared/classes/class.menu.php:279
 msgid "Settings"
 msgstr ""
 
-#: ../modules/module.nav-menus.php:14 ../shared/classes/class.menu.php:397
+#: ../modules/module.nav-menus.php:14 ../shared/classes/class.menu.php:391
 msgid "Global Settings"
 msgstr ""
 
@@ -2011,6 +2121,20 @@ msgstr ""
 msgid "Search Automation Rules"
 msgstr ""
 
+#: ../modules/module.post-type.automation.php:40
+#: ../shared/classes/class.post-type.email-template.php:61
+#: ../shared/classes/class.post-type.wp-lead.php:49
+#: ../shared/shortcodes/shortcodes/forms.php:349
+msgid "Nothing found"
+msgstr ""
+
+#: ../modules/module.post-type.automation.php:41
+#: ../shared/classes/class.post-type.email-template.php:62
+#: ../shared/classes/class.post-type.wp-lead.php:50
+#: ../shared/shortcodes/shortcodes/forms.php:350
+msgid "Nothing found in Trash"
+msgstr ""
+
 #: ../modules/module.post-type.automation.php:69
 msgid "Automation Status"
 msgstr ""
@@ -2035,1226 +2159,1274 @@ msgstr ""
 msgid "yes"
 msgstr ""
 
-#: ../modules/module.post-type.wp-lead.php:358
+#: ../modules/module.post-type.wp-lead.php:359
 msgid "Filter By Custom Fields"
 msgstr ""
 
-#: ../modules/module.post-type.wp-lead.php:375
+#: ../modules/module.post-type.wp-lead.php:376
 msgid "Value:"
 msgstr ""
 
-#: ../modules/module.post-type.wp-lead.php:495
 #: ../modules/module.post-type.wp-lead.php:496
+#: ../modules/module.post-type.wp-lead.php:497
 msgid "Add to Contact List"
 msgstr ""
 
-#: ../modules/module.post-type.wp-lead.php:498
 #: ../modules/module.post-type.wp-lead.php:499
+#: ../modules/module.post-type.wp-lead.php:500
 msgid "Export CSV"
 msgstr ""
 
-#: ../modules/module.post-type.wp-lead.php:501
 #: ../modules/module.post-type.wp-lead.php:502
+#: ../modules/module.post-type.wp-lead.php:503
 msgid "Export XML"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1051
+#: ../shared/classes/class.form.php:782
+msgid "Jan"
+msgstr ""
+
+#: ../shared/classes/class.form.php:783
+msgid "Feb"
+msgstr ""
+
+#: ../shared/classes/class.form.php:784
+msgid "Mar"
+msgstr ""
+
+#: ../shared/classes/class.form.php:785
+msgid "Apr"
+msgstr ""
+
+#: ../shared/classes/class.form.php:786
+msgid "May"
+msgstr ""
+
+#: ../shared/classes/class.form.php:787
+msgid "Jun"
+msgstr ""
+
+#: ../shared/classes/class.form.php:788
+msgid "Jul"
+msgstr ""
+
+#: ../shared/classes/class.form.php:789
+msgid "Aug"
+msgstr ""
+
+#: ../shared/classes/class.form.php:790
+msgid "Sep"
+msgstr ""
+
+#: ../shared/classes/class.form.php:791
+msgid "Oct"
+msgstr ""
+
+#: ../shared/classes/class.form.php:792
+msgid "Nov"
+msgstr ""
+
+#: ../shared/classes/class.form.php:793
+msgid "Dec"
+msgstr ""
+
+#: ../shared/classes/class.form.php:823
 msgid "AF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1052
+#: ../shared/classes/class.form.php:824
 msgid "AX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1052
+#: ../shared/classes/class.form.php:824
 msgid "Aland Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1053
+#: ../shared/classes/class.form.php:825
 msgid "AL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1054
+#: ../shared/classes/class.form.php:826
 msgid "DZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1055
+#: ../shared/classes/class.form.php:827
 msgid "AS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1056
+#: ../shared/classes/class.form.php:828
 msgid "AD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1057
+#: ../shared/classes/class.form.php:829
 msgid "AO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1058
+#: ../shared/classes/class.form.php:830
 msgid "AI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1059
+#: ../shared/classes/class.form.php:831
 msgid "AQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1059
+#: ../shared/classes/class.form.php:831
 msgid "Antarctica"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1060
+#: ../shared/classes/class.form.php:832
 msgid "AG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1060
+#: ../shared/classes/class.form.php:832
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1061
+#: ../shared/classes/class.form.php:833
 msgid "AR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1062
+#: ../shared/classes/class.form.php:834
 msgid "AM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1063
+#: ../shared/classes/class.form.php:835
 msgid "AW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1064
+#: ../shared/classes/class.form.php:836
 msgid "AU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1065
+#: ../shared/classes/class.form.php:837
 msgid "AT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1066
+#: ../shared/classes/class.form.php:838
 msgid "AZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1067
+#: ../shared/classes/class.form.php:839
 msgid "BS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1068
+#: ../shared/classes/class.form.php:840
 msgid "BH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1069
+#: ../shared/classes/class.form.php:841
 msgid "BD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1070
+#: ../shared/classes/class.form.php:842
 msgid "BB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1071
+#: ../shared/classes/class.form.php:843
 msgid "BY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1072
+#: ../shared/classes/class.form.php:844
 msgid "BE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1073
+#: ../shared/classes/class.form.php:845
 msgid "BZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1074
+#: ../shared/classes/class.form.php:846
 msgid "BJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1075
+#: ../shared/classes/class.form.php:847
 msgid "BM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1076
+#: ../shared/classes/class.form.php:848
 msgid "BT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1077
+#: ../shared/classes/class.form.php:849
 msgid "BO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1078
+#: ../shared/classes/class.form.php:850
 msgid "BA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1078
+#: ../shared/classes/class.form.php:850
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1079
+#: ../shared/classes/class.form.php:851
 msgid "BW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1080
+#: ../shared/classes/class.form.php:852
 msgid "BV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1080
+#: ../shared/classes/class.form.php:852
 msgid "Bouvet Island"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1081
+#: ../shared/classes/class.form.php:853
 msgid "BR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1082
+#: ../shared/classes/class.form.php:854
 msgid "IO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1082
+#: ../shared/classes/class.form.php:854
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1083
+#: ../shared/classes/class.form.php:855
 msgid "BN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1083
+#: ../shared/classes/class.form.php:855
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1084
+#: ../shared/classes/class.form.php:856
 msgid "BG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1085
+#: ../shared/classes/class.form.php:857
 msgid "BF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1086
+#: ../shared/classes/class.form.php:858
 msgid "BI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1087
+#: ../shared/classes/class.form.php:859
 msgid "KH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1088
+#: ../shared/classes/class.form.php:860
 msgid "CM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1089
+#: ../shared/classes/class.form.php:861
 msgid "CA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1090
+#: ../shared/classes/class.form.php:862
 msgid "CV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1091
+#: ../shared/classes/class.form.php:863
 msgid "BQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1091
+#: ../shared/classes/class.form.php:863
 msgid "Caribbean Netherlands "
 msgstr ""
 
-#: ../shared/classes/class.form.php:1092
+#: ../shared/classes/class.form.php:864
 msgid "KY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1093
+#: ../shared/classes/class.form.php:865
 msgid "CF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1094
+#: ../shared/classes/class.form.php:866
 msgid "TD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1095
+#: ../shared/classes/class.form.php:867
 msgid "CL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1096
+#: ../shared/classes/class.form.php:868
 msgid "CN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1097
+#: ../shared/classes/class.form.php:869
 msgid "CX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1098
+#: ../shared/classes/class.form.php:870
 msgid "CC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1098
+#: ../shared/classes/class.form.php:870
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1099
+#: ../shared/classes/class.form.php:871
 msgid "CO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1100
+#: ../shared/classes/class.form.php:872
 msgid "KM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1101
+#: ../shared/classes/class.form.php:873
 msgid "CG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1102
+#: ../shared/classes/class.form.php:874
 msgid "CD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1102
+#: ../shared/classes/class.form.php:874
 msgid "Congo, Democratic Republic of"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1103
+#: ../shared/classes/class.form.php:875
 msgid "CK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1104
+#: ../shared/classes/class.form.php:876
 msgid "CR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1105
+#: ../shared/classes/class.form.php:877
 msgid "CI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1105
+#: ../shared/classes/class.form.php:877
 msgid "Cote d'Ivoire"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1106
+#: ../shared/classes/class.form.php:878
 msgid "HR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1107
+#: ../shared/classes/class.form.php:879
 msgid "CU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1108
+#: ../shared/classes/class.form.php:880
 msgid "CW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1109
+#: ../shared/classes/class.form.php:881
 msgid "CY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1110
+#: ../shared/classes/class.form.php:882
 msgid "CZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1111
+#: ../shared/classes/class.form.php:883
 msgid "DK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1112
+#: ../shared/classes/class.form.php:884
 msgid "DJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1113
+#: ../shared/classes/class.form.php:885
 msgid "DM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1114
+#: ../shared/classes/class.form.php:886
 msgid "DO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1115
+#: ../shared/classes/class.form.php:887
 msgid "EC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1116
+#: ../shared/classes/class.form.php:888
 msgid "EG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1117
+#: ../shared/classes/class.form.php:889
 msgid "SV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1118
+#: ../shared/classes/class.form.php:890
 msgid "GQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1119
+#: ../shared/classes/class.form.php:891
 msgid "ER"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1120
+#: ../shared/classes/class.form.php:892
 msgid "EE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1121
+#: ../shared/classes/class.form.php:893
 msgid "ET"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1122
+#: ../shared/classes/class.form.php:894
 msgid "FK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1123
+#: ../shared/classes/class.form.php:895
 msgid "FO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1124
+#: ../shared/classes/class.form.php:896
 msgid "FJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1125
+#: ../shared/classes/class.form.php:897
 msgid "FI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1126
+#: ../shared/classes/class.form.php:898
 msgid "FR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1127
+#: ../shared/classes/class.form.php:899
 msgid "GF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1128
+#: ../shared/classes/class.form.php:900
 msgid "PF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1129
+#: ../shared/classes/class.form.php:901
 msgid "TF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1129
+#: ../shared/classes/class.form.php:901
 msgid "French Southern Territories"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1130
+#: ../shared/classes/class.form.php:902
 msgid "GA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1131
+#: ../shared/classes/class.form.php:903
 msgid "GM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1132
+#: ../shared/classes/class.form.php:904
 msgid "GE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1133
+#: ../shared/classes/class.form.php:905
 msgid "DE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1134
+#: ../shared/classes/class.form.php:906
 msgid "GH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1135
+#: ../shared/classes/class.form.php:907
 msgid "GI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1136
+#: ../shared/classes/class.form.php:908
 msgid "GR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1137
+#: ../shared/classes/class.form.php:909
 msgid "GL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1138
+#: ../shared/classes/class.form.php:910
 msgid "GD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1139
+#: ../shared/classes/class.form.php:911
 msgid "GP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1140
+#: ../shared/classes/class.form.php:912
 msgid "GU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1141
+#: ../shared/classes/class.form.php:913
 msgid "GT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1142
+#: ../shared/classes/class.form.php:914
 msgid "GG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1142
+#: ../shared/classes/class.form.php:914
 msgid "Guernsey"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1143
+#: ../shared/classes/class.form.php:915
 msgid "GN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1144
+#: ../shared/classes/class.form.php:916
 msgid "GW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1144
+#: ../shared/classes/class.form.php:916
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1145
+#: ../shared/classes/class.form.php:917
 msgid "GY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1146
+#: ../shared/classes/class.form.php:918
 msgid "HT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1147
+#: ../shared/classes/class.form.php:919
 msgid "HM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1147
+#: ../shared/classes/class.form.php:919
 msgid "Heard and McDonald Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1148
+#: ../shared/classes/class.form.php:920
 msgid "HN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1149
+#: ../shared/classes/class.form.php:921
 msgid "HK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1150
+#: ../shared/classes/class.form.php:922
 msgid "HU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1151
+#: ../shared/classes/class.form.php:923
 msgid "IS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1152
+#: ../shared/classes/class.form.php:924
 msgid "IN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1154
+#: ../shared/classes/class.form.php:926
 msgid "IR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1155
+#: ../shared/classes/class.form.php:927
 msgid "IQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1156
+#: ../shared/classes/class.form.php:928
 msgid "IE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1157
+#: ../shared/classes/class.form.php:929
 msgid "IM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1158
+#: ../shared/classes/class.form.php:930
 msgid "IL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1159
+#: ../shared/classes/class.form.php:931
 msgid "IT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1160
+#: ../shared/classes/class.form.php:932
 msgid "JM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1161
+#: ../shared/classes/class.form.php:933
 msgid "JP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1162
+#: ../shared/classes/class.form.php:934
 msgid "JE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1162
+#: ../shared/classes/class.form.php:934
 msgid "Jersey"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1163
+#: ../shared/classes/class.form.php:935
 msgid "JO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1164
+#: ../shared/classes/class.form.php:936
 msgid "KZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1165
+#: ../shared/classes/class.form.php:937
 msgid "KE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1166
+#: ../shared/classes/class.form.php:938
 msgid "KI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1167
+#: ../shared/classes/class.form.php:939
 msgid "KW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1168
+#: ../shared/classes/class.form.php:940
 msgid "KG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1169
+#: ../shared/classes/class.form.php:941
 msgid "LA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1169
+#: ../shared/classes/class.form.php:941
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1170
+#: ../shared/classes/class.form.php:942
 msgid "LV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1171
+#: ../shared/classes/class.form.php:943
 msgid "LB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1172
+#: ../shared/classes/class.form.php:944
 msgid "LS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1173
+#: ../shared/classes/class.form.php:945
 msgid "LR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1174
+#: ../shared/classes/class.form.php:946
 msgid "LY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1175
+#: ../shared/classes/class.form.php:947
 msgid "LI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1176
+#: ../shared/classes/class.form.php:948
 msgid "LT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1177
+#: ../shared/classes/class.form.php:949
 msgid "LU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1178
+#: ../shared/classes/class.form.php:950
 msgid "MO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1179
+#: ../shared/classes/class.form.php:951
 msgid "MK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1180
+#: ../shared/classes/class.form.php:952
 msgid "MG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1181
+#: ../shared/classes/class.form.php:953
 msgid "MW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1182
+#: ../shared/classes/class.form.php:954
 msgid "MY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1183
+#: ../shared/classes/class.form.php:955
 msgid "MV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1184
+#: ../shared/classes/class.form.php:956
 msgid "ML"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1185
+#: ../shared/classes/class.form.php:957
 msgid "MT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1186
+#: ../shared/classes/class.form.php:958
 msgid "MH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1187
+#: ../shared/classes/class.form.php:959
 msgid "MQ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1188
+#: ../shared/classes/class.form.php:960
 msgid "MR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1189
+#: ../shared/classes/class.form.php:961
 msgid "MU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1190
+#: ../shared/classes/class.form.php:962
 msgid "YT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1191
+#: ../shared/classes/class.form.php:963
 msgid "MX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1192
+#: ../shared/classes/class.form.php:964
 msgid "FM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1192
+#: ../shared/classes/class.form.php:964
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1193
+#: ../shared/classes/class.form.php:965
 msgid "MD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1194
+#: ../shared/classes/class.form.php:966
 msgid "MC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1195
+#: ../shared/classes/class.form.php:967
 msgid "MN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1196
+#: ../shared/classes/class.form.php:968
 msgid "ME"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1196
+#: ../shared/classes/class.form.php:968
 msgid "Montenegro"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1197
+#: ../shared/classes/class.form.php:969
 msgid "MS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1198
+#: ../shared/classes/class.form.php:970
 msgid "MA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1199
+#: ../shared/classes/class.form.php:971
 msgid "MZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1200
+#: ../shared/classes/class.form.php:972
 msgid "MM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1201
+#: ../shared/classes/class.form.php:973
 msgid "NA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1201
+#: ../shared/classes/class.form.php:973
 msgid "Namibia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1202
+#: ../shared/classes/class.form.php:974
 msgid "NR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1203
+#: ../shared/classes/class.form.php:975
 msgid "NP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1204
+#: ../shared/classes/class.form.php:976
 msgid "NC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1205
+#: ../shared/classes/class.form.php:977
 msgid "NZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1206
+#: ../shared/classes/class.form.php:978
 msgid "NI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1207
+#: ../shared/classes/class.form.php:979
 msgid "NE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1208
+#: ../shared/classes/class.form.php:980
 msgid "NG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1209
+#: ../shared/classes/class.form.php:981
 msgid "NU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1210
+#: ../shared/classes/class.form.php:982
 msgid "NF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1211
+#: ../shared/classes/class.form.php:983
 msgid "KP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1211
+#: ../shared/classes/class.form.php:983
 msgid "North Korea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1212
+#: ../shared/classes/class.form.php:984
 msgid "MP"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1212
+#: ../shared/classes/class.form.php:984
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1213
+#: ../shared/classes/class.form.php:985
 msgid "NO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1214
+#: ../shared/classes/class.form.php:986
 msgid "OM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1215
+#: ../shared/classes/class.form.php:987
 msgid "PK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1216
+#: ../shared/classes/class.form.php:988
 msgid "PW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1216
+#: ../shared/classes/class.form.php:988
 msgid "Palau"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1217
+#: ../shared/classes/class.form.php:989
 msgid "PS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1217
+#: ../shared/classes/class.form.php:989
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1218
+#: ../shared/classes/class.form.php:990
 msgid "PA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1219
+#: ../shared/classes/class.form.php:991
 msgid "PG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1220
+#: ../shared/classes/class.form.php:992
 msgid "PY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1221
+#: ../shared/classes/class.form.php:993
 msgid "PE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1222
+#: ../shared/classes/class.form.php:994
 msgid "PH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1223
+#: ../shared/classes/class.form.php:995
 msgid "PN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1223
+#: ../shared/classes/class.form.php:995
 msgid "Pitcairn"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1224
+#: ../shared/classes/class.form.php:996
 msgid "PL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1225
+#: ../shared/classes/class.form.php:997
 msgid "PT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1226
+#: ../shared/classes/class.form.php:998
 msgid "PR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1227
+#: ../shared/classes/class.form.php:999
 msgid "QA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1228
+#: ../shared/classes/class.form.php:1000
 msgid "RE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1229
+#: ../shared/classes/class.form.php:1001
 msgid "RO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1230
+#: ../shared/classes/class.form.php:1002
 msgid "RU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1230
+#: ../shared/classes/class.form.php:1002
 msgid "Russian Federation"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1231
+#: ../shared/classes/class.form.php:1003
 msgid "RW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1232
+#: ../shared/classes/class.form.php:1004
 msgid "BL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1232
+#: ../shared/classes/class.form.php:1004
 msgid "Saint Barthelemy"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1233
+#: ../shared/classes/class.form.php:1005
 msgid "SH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1233
+#: ../shared/classes/class.form.php:1005
 msgid "Saint Helena"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1234
+#: ../shared/classes/class.form.php:1006
 msgid "KN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1234
+#: ../shared/classes/class.form.php:1006
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1235
+#: ../shared/classes/class.form.php:1007
 msgid "LC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1235
+#: ../shared/classes/class.form.php:1007
 msgid "Saint Lucia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1236
+#: ../shared/classes/class.form.php:1008
 msgid "VC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1236
+#: ../shared/classes/class.form.php:1008
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1237
+#: ../shared/classes/class.form.php:1009
 msgid "MF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1237
+#: ../shared/classes/class.form.php:1009
 msgid "Saint-Martin (France)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1238
+#: ../shared/classes/class.form.php:1010
 msgid "SX"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1238
+#: ../shared/classes/class.form.php:1010
 msgid "Saint-Martin (Pays-Bas)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1239
+#: ../shared/classes/class.form.php:1011
 msgid "WS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1240
+#: ../shared/classes/class.form.php:1012
 msgid "SM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1241
+#: ../shared/classes/class.form.php:1013
 msgid "ST"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1241
+#: ../shared/classes/class.form.php:1013
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1242
+#: ../shared/classes/class.form.php:1014
 msgid "SA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1243
+#: ../shared/classes/class.form.php:1015
 msgid "SN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1244
+#: ../shared/classes/class.form.php:1016
 msgid "RS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1244
+#: ../shared/classes/class.form.php:1016
 msgid "Serbia"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1245
+#: ../shared/classes/class.form.php:1017
 msgid "SC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1246
+#: ../shared/classes/class.form.php:1018
 msgid "SL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1247
+#: ../shared/classes/class.form.php:1019
 msgid "SG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1248
+#: ../shared/classes/class.form.php:1020
 msgid "SK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1248
+#: ../shared/classes/class.form.php:1020
 msgid "Slovakia (Slovak Republic)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1249
+#: ../shared/classes/class.form.php:1021
 msgid "SI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1250
+#: ../shared/classes/class.form.php:1022
 msgid "SB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1251
+#: ../shared/classes/class.form.php:1023
 msgid "SO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1252
+#: ../shared/classes/class.form.php:1024
 msgid "ZA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1253
+#: ../shared/classes/class.form.php:1025
 msgid "GS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1253
+#: ../shared/classes/class.form.php:1025
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1254
+#: ../shared/classes/class.form.php:1026
 msgid "KR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1254
+#: ../shared/classes/class.form.php:1026
 msgid "South Korea"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1255
+#: ../shared/classes/class.form.php:1027
 msgid "SS"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1255
+#: ../shared/classes/class.form.php:1027
 msgid "South Sudan"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1256
+#: ../shared/classes/class.form.php:1028
 msgid "ES"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1257
+#: ../shared/classes/class.form.php:1029
 msgid "LK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1258
+#: ../shared/classes/class.form.php:1030
 msgid "PM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1258
+#: ../shared/classes/class.form.php:1030
 msgid "St. Pierre and Miquelon"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1259
+#: ../shared/classes/class.form.php:1031
 msgid "SD"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1260
+#: ../shared/classes/class.form.php:1032
 msgid "SR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1261
+#: ../shared/classes/class.form.php:1033
 msgid "SJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1261
+#: ../shared/classes/class.form.php:1033
 msgid "Svalbard and Jan Mayen Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1262
+#: ../shared/classes/class.form.php:1034
 msgid "SZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1263
+#: ../shared/classes/class.form.php:1035
 msgid "SE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1264
+#: ../shared/classes/class.form.php:1036
 msgid "CH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1265
+#: ../shared/classes/class.form.php:1037
 msgid "SY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1266
+#: ../shared/classes/class.form.php:1038
 msgid "TW"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1267
+#: ../shared/classes/class.form.php:1039
 msgid "TJ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1268
+#: ../shared/classes/class.form.php:1040
 msgid "TZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1269
+#: ../shared/classes/class.form.php:1041
 msgid "TH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1270
+#: ../shared/classes/class.form.php:1042
 msgid "NL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1270
+#: ../shared/classes/class.form.php:1042
 msgid "The Netherlands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1271
+#: ../shared/classes/class.form.php:1043
 msgid "TL"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1271
+#: ../shared/classes/class.form.php:1043
 msgid "Timor-Leste"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1272
+#: ../shared/classes/class.form.php:1044
 msgid "TG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1273
+#: ../shared/classes/class.form.php:1045
 msgid "TK"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1274
+#: ../shared/classes/class.form.php:1046
 msgid "TO"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1275
+#: ../shared/classes/class.form.php:1047
 msgid "TT"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1275
+#: ../shared/classes/class.form.php:1047
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1276
+#: ../shared/classes/class.form.php:1048
 msgid "TN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1277
+#: ../shared/classes/class.form.php:1049
 msgid "TR"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1278
+#: ../shared/classes/class.form.php:1050
 msgid "TM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1279
+#: ../shared/classes/class.form.php:1051
 msgid "TC"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1279
+#: ../shared/classes/class.form.php:1051
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1280
+#: ../shared/classes/class.form.php:1052
 msgid "TV"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1281
+#: ../shared/classes/class.form.php:1053
 msgid "UG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1282
+#: ../shared/classes/class.form.php:1054
 msgid "UA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1283
+#: ../shared/classes/class.form.php:1055
 msgid "AE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1284
+#: ../shared/classes/class.form.php:1056
 msgid "GB"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1285
+#: ../shared/classes/class.form.php:1057
 msgid "US"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1285
+#: ../shared/classes/class.form.php:1057
 msgid "United States"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1286
+#: ../shared/classes/class.form.php:1058
 msgid "UM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1286
+#: ../shared/classes/class.form.php:1058
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1287
+#: ../shared/classes/class.form.php:1059
 msgid "UY"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1288
+#: ../shared/classes/class.form.php:1060
 msgid "UZ"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1289
+#: ../shared/classes/class.form.php:1061
 msgid "VU"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1290
+#: ../shared/classes/class.form.php:1062
 msgid "VA"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1290
+#: ../shared/classes/class.form.php:1062
 msgid "Vatican"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1291
+#: ../shared/classes/class.form.php:1063
 msgid "VE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1292
+#: ../shared/classes/class.form.php:1064
 msgid "VN"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1293
+#: ../shared/classes/class.form.php:1065
 msgid "VG"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1293
+#: ../shared/classes/class.form.php:1065
 msgid "Virgin Islands (British)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1294
+#: ../shared/classes/class.form.php:1066
 msgid "VI"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1294
+#: ../shared/classes/class.form.php:1066
 msgid "Virgin Islands (U.S.)"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1295
+#: ../shared/classes/class.form.php:1067
 msgid "WF"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1295
+#: ../shared/classes/class.form.php:1067
 msgid "Wallis and Futuna Islands"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1296
+#: ../shared/classes/class.form.php:1068
 msgid "EH"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1296
+#: ../shared/classes/class.form.php:1068
 msgid "Western Sahara"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1297
+#: ../shared/classes/class.form.php:1069
 msgid "YE"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1298
+#: ../shared/classes/class.form.php:1070
 msgid "ZM"
 msgstr ""
 
-#: ../shared/classes/class.form.php:1299
+#: ../shared/classes/class.form.php:1071
 msgid "ZW"
 msgstr ""
 
@@ -3316,363 +3488,562 @@ msgid "Country"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:99
-msgid "Shipping Address"
+msgid "Billing First Name"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:105
-msgid "Shipping Address Continued"
+msgid "Billing Last Name"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:111
-msgid "Shipping City"
+msgid "Billing Company"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:117
-msgid "Shipping State/Region"
+msgid "Billing Address"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:123
-msgid "Shipping Zip-code"
+msgid "Billing Address Continued"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:129
-msgid "Shipping Country"
+msgid "Billing City"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:135
-msgid "Related Websites"
+msgid "Billing State/Region"
 msgstr ""
 
 #: ../shared/classes/class.lead-fields.php:141
+msgid "Billing Zip-code"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:148
+msgid "Billing Country"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:154
+msgid "Shipping First Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:160
+msgid "Shipping Last Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:166
+msgid "Shipping Company Name"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:172
+msgid "Shipping Address"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:178
+msgid "Shipping Address Continued"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:184
+msgid "Shipping City"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:190
+msgid "Shipping State/Region"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:196
+msgid "Shipping Zip-code"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:202
+msgid "Shipping Country"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:208
+msgid "Related Websites"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:214
 msgid "Notes"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:24
+#: ../shared/classes/class.lead-fields.php:220
+msgid "Twitter Account"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:226
+msgid "Youtube Account"
+msgstr ""
+
+#: ../shared/classes/class.lead-fields.php:232
+msgid "Facebook Account"
+msgstr ""
+
+#: ../shared/classes/class.menu.php:23
 msgid "GO"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:41
+#: ../shared/classes/class.menu.php:39
 msgid " Marketing"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:143
+#: ../shared/classes/class.menu.php:138
 msgid "Search All Leads"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:158
+#: ../shared/classes/class.menu.php:153
 msgid "View All Leads"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:160 ../shared/classes/class.menu.php:315
-#: ../shared/classes/class.menu.php:317
+#: ../shared/classes/class.menu.php:155 ../shared/classes/class.menu.php:309
+#: ../shared/classes/class.menu.php:311
 msgid "View All Forms"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:166 ../shared/classes/class.menu.php:168
+#: ../shared/classes/class.menu.php:161 ../shared/classes/class.menu.php:163
 msgid "View Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:174
+#: ../shared/classes/class.menu.php:169
 msgid "Create New Lead"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:176
+#: ../shared/classes/class.menu.php:171
 msgid "Add new lead"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:196
+#: ../shared/classes/class.menu.php:190
 msgid "Call to Actions"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:198 ../shared/classes/class.menu.php:206
-#: ../shared/classes/class.menu.php:254 ../shared/classes/class.menu.php:262
+#: ../shared/classes/class.menu.php:192 ../shared/classes/class.menu.php:200
+#: ../shared/classes/class.menu.php:248 ../shared/classes/class.menu.php:256
 msgid "View All Landing Pages"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:204
+#: ../shared/classes/class.menu.php:198
 msgid "View Calls to Action List"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:212
+#: ../shared/classes/class.menu.php:206
 msgid "Add New Call to Action"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:214 ../shared/classes/class.menu.php:337
+#: ../shared/classes/class.menu.php:208 ../shared/classes/class.menu.php:331
 msgid "Add new call to action"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:222 ../shared/classes/class.menu.php:278
+#: ../shared/classes/class.menu.php:214 ../shared/classes/class.menu.php:270
+#: ../shared/classes/class.post-type.email-template.php:89
+msgid "Categories"
+msgstr ""
+
+#: ../shared/classes/class.menu.php:216 ../shared/classes/class.menu.php:272
 msgid "Landing Page Categories"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:231
+#: ../shared/classes/class.menu.php:225
 msgid "Manage Call to Action Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:252
+#: ../shared/classes/class.menu.php:246
 msgid "Landing Pages"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:260
+#: ../shared/classes/class.menu.php:254
 msgid "View Landing Pages List"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:268
+#: ../shared/classes/class.menu.php:262
 msgid "Add New Landing Page"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:270
+#: ../shared/classes/class.menu.php:264
 msgid "Add new Landing Page"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:287
+#: ../shared/classes/class.menu.php:281
 msgid "Manage Landing Page Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:335
-#: ../shared/shortcodes/shortcodes/forms.php:342
+#: ../shared/classes/class.menu.php:329
+#: ../shared/shortcodes/shortcodes/forms.php:344
 msgid "Create New Form"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:354
+#: ../shared/classes/class.menu.php:348
 msgid "Manage Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:362 ../shared/classes/class.menu.php:364
+#: ../shared/classes/class.menu.php:356 ../shared/classes/class.menu.php:358
 msgid "Download More Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:371 ../shared/classes/class.menu.php:373
+#: ../shared/classes/class.menu.php:365 ../shared/classes/class.menu.php:367
 msgid "Landing Page Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:381 ../shared/classes/class.menu.php:383
+#: ../shared/classes/class.menu.php:375 ../shared/classes/class.menu.php:377
 msgid "Call to Action Templates"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:406 ../shared/classes/class.menu.php:408
+#: ../shared/classes/class.menu.php:400 ../shared/classes/class.menu.php:402
 msgid "Call to Action Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:415 ../shared/classes/class.menu.php:417
+#: ../shared/classes/class.menu.php:409 ../shared/classes/class.menu.php:411
 msgid "Landing Page Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:424 ../shared/classes/class.menu.php:426
+#: ../shared/classes/class.menu.php:418 ../shared/classes/class.menu.php:420
 msgid "Lead Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:440 ../shared/classes/class.menu.php:442
+#: ../shared/classes/class.menu.php:434 ../shared/classes/class.menu.php:436
 msgid "Analytics (coming soon)"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:455
+#: ../shared/classes/class.menu.php:449
 msgid "SEO by Yoast"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:457
+#: ../shared/classes/class.menu.php:451
 msgid "Manage SEO Settings"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:471 ../shared/classes/class.menu.php:473
+#: ../shared/classes/class.menu.php:465 ../shared/classes/class.menu.php:467
 msgid "Support Forum"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:479 ../shared/classes/class.menu.php:481
+#: ../shared/classes/class.menu.php:473 ../shared/classes/class.menu.php:475
 msgid "Documentation"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:485
+#: ../shared/classes/class.menu.php:479
 msgid "Search Docs"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:507 ../shared/classes/class.menu.php:509
+#: ../shared/classes/class.menu.php:501 ../shared/classes/class.menu.php:503
 msgid "Inbound Now Plugin HQ"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:515 ../shared/classes/class.menu.php:517
+#: ../shared/classes/class.menu.php:509 ../shared/classes/class.menu.php:511
 msgid "GitHub Repository Developer Center"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:523 ../shared/classes/class.menu.php:525
+#: ../shared/classes/class.menu.php:517 ../shared/classes/class.menu.php:519
 msgid "Official Blog"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:531 ../shared/classes/class.menu.php:533
+#: ../shared/classes/class.menu.php:525 ../shared/classes/class.menu.php:527
 msgid "My Account"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:539 ../shared/classes/class.menu.php:541
+#: ../shared/classes/class.menu.php:533 ../shared/classes/class.menu.php:535
 msgid "Purchase History"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:554
+#: ../shared/classes/class.menu.php:548
 msgid ""
 "<span style=\"color:#fff;font-size: 13px;margin-top: -1px;display: inline-"
 "block;\">Debug Tools</span>"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:580
+#: ../shared/classes/class.menu.php:574
 msgid "Check for Javascript Errors"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:582
+#: ../shared/classes/class.menu.php:576
 msgid "Click here to check javascript errors on this page"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:588
+#: ../shared/classes/class.menu.php:582
 msgid "Remove Javascript Errors"
 msgstr ""
 
-#: ../shared/classes/class.menu.php:590
+#: ../shared/classes/class.menu.php:584
 msgid "Click here to remove broken javascript to fix issues"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:32
+#: ../shared/classes/class.post-type.email-template.php:53
+#: ../shared/classes/class.post-type.email-template.php:54
+#: ../shared/classes/class.post-type.email-template.php:105
+msgid "Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:55
+msgid "Add New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:56
+msgid "Create New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:57
+msgid "Edit Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:58
+msgid "New Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:59
+msgid "View Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:60
+msgid "Search Email Templates"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:90
+msgid "Email Template Category"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:106
+#: ../shared/shortcodes/shortcodes/landing_pages.php:37
+#: ../shared/shortcodes/shortcodes/landing_pages.php:99
+msgid "Category"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:107
+#: ../shared/classes/class.post-type.wp-lead.php:155
+msgid "Description"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:300
+msgid "Token Testing"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:301
+msgid "Token Testing Template - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:303
+msgid "Designed for testing & debugging tokens."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:310
+msgid "New Lead Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:311
+msgid "{{site-name}} - {{form-name}} - New Lead Conversion"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:313
+msgid ""
+"Designed for notifying administrator of new lead conversion when an Inbound "
+"Form is submitted."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:320
+msgid "New User Signup Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:321
+msgid "Your New Account - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:323
+msgid ""
+"WordPress core template for notifying\tnew users of their\tcreated accounts."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:330
+msgid "New Comment Notification"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:331
+msgid "New Comment Posted - {{wp-post-title}} - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:333
+msgid "WordPress core template for notifying post authors of new comments."
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:340
+msgid "New Comment Moderation"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:341
+msgid "Moderate Comment - {{wp-post-title}} - {{site-name}}"
+msgstr ""
+
+#: ../shared/classes/class.post-type.email-template.php:343
+msgid ""
+"WordPress core template for notifying post authors of new comments that need "
+"moderating."
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:44
 msgid "Add New Lead"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:33
+#: ../shared/classes/class.post-type.wp-lead.php:45
 msgid "Edit Lead"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:34
+#: ../shared/classes/class.post-type.wp-lead.php:46
 msgid "New Leads"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:35
+#: ../shared/classes/class.post-type.wp-lead.php:47
 msgid "View Leads"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:66
-#: ../shared/classes/class.post-type.wp-lead.php:81
+#: ../shared/classes/class.post-type.wp-lead.php:80
+#: ../shared/classes/class.post-type.wp-lead.php:95
 msgid "Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:67
+#: ../shared/classes/class.post-type.wp-lead.php:81
 msgid "Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:68
+#: ../shared/classes/class.post-type.wp-lead.php:82
 msgid "Search Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:69
+#: ../shared/classes/class.post-type.wp-lead.php:83
 msgid "Popular Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:70
+#: ../shared/classes/class.post-type.wp-lead.php:84
 msgid "All Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:73
+#: ../shared/classes/class.post-type.wp-lead.php:87
 msgid "Edit Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:74
+#: ../shared/classes/class.post-type.wp-lead.php:88
 msgid "Update Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:75
+#: ../shared/classes/class.post-type.wp-lead.php:89
 msgid "Add New Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:76
+#: ../shared/classes/class.post-type.wp-lead.php:90
 msgid "New Lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:77
+#: ../shared/classes/class.post-type.wp-lead.php:91
 msgid "Separate Lead Lists with commas"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:78
+#: ../shared/classes/class.post-type.wp-lead.php:92
 msgid "Add or remove Lead Lists"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:79
+#: ../shared/classes/class.post-type.wp-lead.php:93
 msgid "Choose from the most used lead List"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:80
+#: ../shared/classes/class.post-type.wp-lead.php:94
 msgid "No Lead Lists found."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:87
+#: ../shared/classes/class.post-type.wp-lead.php:101
 msgid "List Management"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:102
+#: ../shared/classes/class.post-type.wp-lead.php:116
 msgid "Search Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:103
+#: ../shared/classes/class.post-type.wp-lead.php:117
 msgid "Popular Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:104
+#: ../shared/classes/class.post-type.wp-lead.php:118
 msgid "All Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:107
+#: ../shared/classes/class.post-type.wp-lead.php:121
 msgid "Edit Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:108
+#: ../shared/classes/class.post-type.wp-lead.php:122
 msgid "Update Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:109
+#: ../shared/classes/class.post-type.wp-lead.php:123
 msgid "Add New Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:110
+#: ../shared/classes/class.post-type.wp-lead.php:124
 msgid "New Lead Tag"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:111
+#: ../shared/classes/class.post-type.wp-lead.php:125
 msgid "Separate Lead Tags with commas"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:112
+#: ../shared/classes/class.post-type.wp-lead.php:126
 msgid "Add or remove Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:113
+#: ../shared/classes/class.post-type.wp-lead.php:127
 msgid "Choose from the most used lead tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:114
+#: ../shared/classes/class.post-type.wp-lead.php:128
 msgid "No lead tags found."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:115
+#: ../shared/classes/class.post-type.wp-lead.php:129
 msgid "Lead Tags"
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:241
+#: ../shared/classes/class.post-type.wp-lead.php:154
+msgid "Name"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:156
+msgid "Slug"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:157
+msgid "Posts"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:338
+msgid "must include an id parameter"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:343
+msgid "lead list deleted"
+msgstr ""
+
+#: ../shared/classes/class.post-type.wp-lead.php:419
 msgid ""
 "WordPress Leads is not currently installed/activated to view and manage "
 "leads please turn it on."
 msgstr ""
 
-#: ../shared/classes/class.post-type.wp-lead.php:268
+#: ../shared/classes/class.post-type.wp-lead.php:446
 #, php-format
 msgid "%d leads"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:40
+#: ../shared/classes/class.shortcodes.email-template.php:63
 msgid "n/a"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:56
+#: ../shared/classes/class.shortcodes.email-template.php:72
 msgid "View/Edit this form"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:60
+#: ../shared/classes/class.shortcodes.email-template.php:82
+msgid "View this list"
+msgstr ""
+
+#: ../shared/classes/class.shortcodes.email-template.php:89
 msgid "View/Edit this CTA"
 msgstr ""
 
-#: ../shared/classes/class.shortcodes.email-template.php:64
+#: ../shared/classes/class.shortcodes.email-template.php:93
 msgid "Converted on Page"
 msgstr ""
 
@@ -3723,37 +4094,37 @@ msgstr ""
 msgid "Form Conversions"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:652
+#: ../shared/shortcodes/inbound-shortcodes.php:651
 msgid "View this Lead"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:656
+#: ../shared/shortcodes/inbound-shortcodes.php:655
 msgid "No Conversions Yet!"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:662
+#: ../shared/shortcodes/inbound-shortcodes.php:661
 msgid "Set Email Response to Send to the person filling out the form"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:689
+#: ../shared/shortcodes/inbound-shortcodes.php:688
 msgid "Select Response Email Template"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:691
+#: ../shared/shortcodes/inbound-shortcodes.php:690
 msgid "Do not use a premade email template"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:749
-#: ../shared/shortcodes/inbound-shortcodes.php:771
+#: ../shared/shortcodes/inbound-shortcodes.php:748
+#: ../shared/shortcodes/inbound-shortcodes.php:770
 #: ../shared/shortcodes/popup.php:27 ../shared/shortcodes/popup.php:50
 msgid "Insert Shortcode"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:758
+#: ../shared/shortcodes/inbound-shortcodes.php:757
 msgid "Form Preview"
 msgstr ""
 
-#: ../shared/shortcodes/inbound-shortcodes.php:761
+#: ../shared/shortcodes/inbound-shortcodes.php:760
 #: ../shared/shortcodes/popup.php:39
 msgid "Shortcode has no preview"
 msgstr ""
@@ -4310,155 +4681,163 @@ msgid "Checkbox"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:206
-#: ../shared/shortcodes/shortcodes/forms.php:243
+#: ../shared/shortcodes/shortcodes/forms.php:245
 msgid "HTML Block"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:208
-msgid "Date Field"
+msgid "Date Picker Field"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:209
-msgid "Time Field"
+msgid "Date Selector Field"
 msgstr ""
 
 #: ../shared/shortcodes/shortcodes/forms.php:210
+msgid "Time Field"
+msgstr ""
+
+#: ../shared/shortcodes/shortcodes/forms.php:211
 msgid "Hidden Field"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:219
+#: ../shared/shortcodes/shortcodes/forms.php:212
+msgid "Anti Spam Honey Pot"
+msgstr ""
+
+#: ../shared/shortcodes/shortcodes/forms.php:221
 msgid "Dropdown choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:220
+#: ../shared/shortcodes/shortcodes/forms.php:222
 msgid "Enter Your Dropdown Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:223
-#: ../shared/shortcodes/shortcodes/forms.php:239
+#: ../shared/shortcodes/shortcodes/forms.php:225
+#: ../shared/shortcodes/shortcodes/forms.php:241
 msgid "Choice 1, Choice 2, Choice 3"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:227
+#: ../shared/shortcodes/shortcodes/forms.php:229
 msgid "Radio Choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:228
+#: ../shared/shortcodes/shortcodes/forms.php:230
 msgid "Enter Your Radio Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:235
+#: ../shared/shortcodes/shortcodes/forms.php:237
 msgid "Checkbox choices"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:236
+#: ../shared/shortcodes/shortcodes/forms.php:238
 msgid "Enter Your Checkbox Options. Separate by commas."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:244
+#: ../shared/shortcodes/shortcodes/forms.php:246
 msgid "This is a raw HTML block in the form. Insert text/HTML"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:250
+#: ../shared/shortcodes/shortcodes/forms.php:252
 msgid "Default Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:251
+#: ../shared/shortcodes/shortcodes/forms.php:253
 msgid "Enter the Default Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:258
+#: ../shared/shortcodes/shortcodes/forms.php:260
 msgid "Divider Text (optional)"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:259
+#: ../shared/shortcodes/shortcodes/forms.php:261
 msgid "This is the text in the divider"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:265
-#: ../shared/shortcodes/shortcodes/forms.php:287
+#: ../shared/shortcodes/shortcodes/forms.php:267
+#: ../shared/shortcodes/shortcodes/forms.php:289
 msgid "Field Description <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:266
+#: ../shared/shortcodes/shortcodes/forms.php:268
 msgid "<span class=\"show-advanced-fields\">Show advanced fields</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:272
+#: ../shared/shortcodes/shortcodes/forms.php:274
 msgid "Required Field? <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:273
+#: ../shared/shortcodes/shortcodes/forms.php:275
 msgid "Check to make field required"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:280
+#: ../shared/shortcodes/shortcodes/forms.php:282
 msgid "Field Placeholder <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:281
+#: ../shared/shortcodes/shortcodes/forms.php:283
 msgid "Put field placeholder text here. Only works for normal text inputs"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:288
+#: ../shared/shortcodes/shortcodes/forms.php:290
 msgid "Put field description here."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:294
+#: ../shared/shortcodes/shortcodes/forms.php:296
 msgid ""
 "Field Container Classes <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:295
+#: ../shared/shortcodes/shortcodes/forms.php:297
 msgid ""
 "Add additional class ids to the div that contains this field. Separate "
 "classes with spaces."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:301
+#: ../shared/shortcodes/shortcodes/forms.php:303
 msgid ""
 "Field Input Classes <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:302
+#: ../shared/shortcodes/shortcodes/forms.php:304
 msgid ""
 "Add additional class ids to this input field. Separate classes with spaces."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:309
+#: ../shared/shortcodes/shortcodes/forms.php:311
 msgid ""
 "Dynamic Field Filling <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:310
+#: ../shared/shortcodes/shortcodes/forms.php:312
 msgid "Enter Your Dynamic URL parameter"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:318
+#: ../shared/shortcodes/shortcodes/forms.php:320
 msgid "Map Field To  <span class=\"small-optional-text\">(optional)</span>"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:319
+#: ../shared/shortcodes/shortcodes/forms.php:321
 msgid "Map this field to Leads Value"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:327
+#: ../shared/shortcodes/shortcodes/forms.php:329
 msgid "Add Another Field"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:343
+#: ../shared/shortcodes/shortcodes/forms.php:345
 msgid "Edit Form"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:344
+#: ../shared/shortcodes/shortcodes/forms.php:346
 msgid "New Form"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:345
+#: ../shared/shortcodes/shortcodes/forms.php:347
 msgid "View Lists"
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/forms.php:346
+#: ../shared/shortcodes/shortcodes/forms.php:348
 msgid "Search Lists"
 msgstr ""
 
@@ -5000,10 +5379,6 @@ msgstr ""
 msgid "Enter the profile description text."
 msgstr ""
 
-#: ../shared/shortcodes/shortcodes/profile.php:67
-msgid "Profile"
-msgstr ""
-
 #: ../shared/shortcodes/shortcodes/profile.php:96
 msgid "Paste your profile URL here."
 msgstr ""
@@ -5486,10 +5861,6 @@ msgstr ""
 msgid ""
 "{{wp-user-login}},  Your account for <a href=\"{{site-url}}\">{{site-name}}</"
 "a> has been setup! Please use the credentials below to access your account:"
-msgstr ""
-
-#: ../shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php:48
-msgid "Username"
 msgstr ""
 
 #: ../shared/templates/email-templates/wp-new-user-notification/wp-new-user-notification.php:59

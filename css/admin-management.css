@@ -23,6 +23,10 @@ background-color: #EBEBEB;
 #toggle {
 	margin-left: 0px;
 }
+#wpbody-content {
+
+width: 99%;
+}
 #lead-sort-by {
 	margin-left: 0px;
 }

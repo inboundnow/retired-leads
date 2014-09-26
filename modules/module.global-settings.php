@@ -117,6 +117,10 @@ function wpleads_get_global_settings() {
 	$tab_slug = 'wpleads-extensions';
 	$wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
 
+	
+	
+	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
+
 	/* Setup API Keys Tab */
 	if (current_user_can('activate_plugins')) {
 		$tab_slug = 'wpleads-apikeys';
@@ -131,8 +135,6 @@ function wpleads_get_global_settings() {
 		);
 	}
 	
-	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
-
 	return $wpleads_global_settings;
 }
 
@@ -197,7 +199,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 
 		/* Handle the API Keys List Table separately */
 		if ($field['type'] == 'api-keys-table') {
-			echo '<tr><td>';
+			echo '</form><tr><td>';
 			$api_keys_table = new Inbound_API_Keys_Table();
 			$api_keys_table->prepare_items();
 			$api_keys_table->display();

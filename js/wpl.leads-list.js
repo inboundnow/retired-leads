@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	if (jQuery('.wp-list-table').length > 0)
 	{
 		jQuery('.edit a').addClass('button-primary').addClass('button');
-		jQuery('.trash a').addClass('button-primary').addClass('button');
+		jQuery('.row-actions .trash a').addClass('button-primary').addClass('button');
 		jQuery('.clone a').addClass('button');
 		// Script for leads list page
 		jQuery('.row-actions').each(function() {

@@ -13,22 +13,22 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		static $comments;
 		static $searches;
 		static $custom_events;
-		
-		public function __construct() {			
+
+		public function __construct() {
 			self::load_hooks();
 		}
 
 		public static function load_hooks() {
-			
+
 			/* Hide metaboxes */
 			add_filter('default_hidden_meta_boxes', array ( __CLASS__ , 'hide_metaboxes' ) , 10, 2);
-			
+
 			/* Add Metaboxes */
 			add_action( 'add_meta_boxes' , array( __CLASS__ , 'define_metaboxes') );
 
 			/* Add header metabox	*/
 			add_action( 'edit_form_after_title', array( __CLASS__ , 'add_header' ) );
-			
+
 			/* Add Save Actions */
 			add_action( 'save_post' , array( __CLASS__ , 'save_data' ) );
 
@@ -36,14 +36,14 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
 			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_admin_scripts' ) );
 		}
-				
+
 		public static function hide_metaboxes($hidden, $screen) {
 			global $post;
-			
+
 			if ( isset($post) && $post->post_type != 'wp-lead' ) {
 				return $hidden;
-			} 
-		
+			}
+
 			$hidden = array(
 				'postexcerpt',
 				'slugdiv',
@@ -57,7 +57,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				'wp-advertisement-dropper-post',
 				'postdivrich'
 			);
-			
+
 			return $hidden;
 		}
 
@@ -78,9 +78,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				array( __CLASS__ , 'display_quick_stats' ),
 				'wp-lead' ,
 				'side',
-				'high' 
+				'high'
 			);
-			
+
 			/* Show IP Address & Geolocation metabox */
 			add_meta_box(
 				'lp-ip-address-sidebar-preview',
@@ -88,9 +88,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				array( __CLASS__ , 'display_geolocation' ),
 				'wp-lead' ,
 				'side',
-				'low' 
+				'low'
 			);
-			
+
 			/* Main metabox */
 			add_meta_box(
 				'wplead_metabox_main', // $id
@@ -105,14 +105,14 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			add_meta_box(
 				'wplead_metabox_conversion', // $id
 				__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'leads' ),
-				array( __CLASS__ , 'display_conversion_paths' ), 
+				array( __CLASS__ , 'display_conversion_paths' ),
 				'wp-lead', // $page
 				'normal', // $context
 				'high'); // $priority
 			}
 			*/
 		}
-		
+
 		/**
 		*	Adds header menu items
 		*/
@@ -159,7 +159,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*	Display Quick Stats Metabox
 		*/
@@ -169,7 +169,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$conversions = get_post_meta($post->ID,'wpleads_conversion_data', true);
 			self::$conversions = json_decode($conversions, true);
-			
+
 
 			(is_array(self::$conversions)) ? $count_conversions = count(self::$conversions) : $count_conversions = get_post_meta($post->ID,'wpleads_conversion_count', true);
 
@@ -199,11 +199,11 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					<div id="page_view_total"><?php _e('Total Page Views ' , 'leads' );?><span id="p-view-total"><?php echo $page_view_count; ?></span>
 					</div>
 
-					<?php 
+					<?php
 					if ($count_conversions) {
-					?>					
+					?>
 					<div id="conversion_count_total"><?php _e( '# of Conversions ' , 'leads' ); ?><span id="conversion-total"><?php echo $count_conversions; ?></span>
-					</div>					
+					</div>
 					<?php
 					}
 
@@ -240,7 +240,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						<?php
 					}
 					?>
-					
+
 					<div id="time-since-last-visit"></div>
 					<div id="lead-score"></div><!-- Custom Before Quick stats and After Hook here for custom fields shown -->
 					</div>
@@ -249,20 +249,20 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</div>
 			<?php
 		}
-		
+
 		/**
-		*		Display information about last visit given ip address 
+		*		Display information about last visit given ip address
 		*/
 		public static function display_geolocation() {
 			global $post;
 
 			$ip_address = get_post_meta( $post->ID , 'wpleads_ip_address', true );
 			$geo_result = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
-			
+
 			if (!is_array($geo_result)) {
 				return;
 			}
-			
+
 			$geo_result_body = $geo_result['body'];
 			$geo_array = unserialize($geo_result_body);
 			$city = get_post_meta($post->ID, 'wpleads_city', true);
@@ -285,7 +285,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 							unset($geo_array['geoplugin_currencySymbol_UTF8']);
 							unset($geo_array['geoplugin_currencySymbol']);
 							unset($geo_array['geoplugin_dmaCode']);
-							
+
 							if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
 								echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , 'leads')."</span>" . $geo_array['geoplugin_city'] . "</div>"; }
 							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
@@ -300,7 +300,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
 								echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , 'leads')."</span>" . $ip_address . "</div>";
 							}
-							
+
 						}
 						if (($latitude != 0) && ($longitude != 0)) {
 							echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , 'leads').'</a>';
@@ -317,7 +317,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*	Save meta data
 		*/
@@ -333,7 +333,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				return;
 			}
 
-			
+
 			/* lead status */
 			if (isset($_POST['wp_lead_status'])) {
 				update_post_meta( $post_id, 'wp_lead_status', $_POST[ $key ] );
@@ -403,13 +403,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			}
 
 		}
-		
+
 		/**
 		* Gets time difference between two date time strings
 		*/
 		public static function	get_time_diff($date1, $date2) {
 			$time_diff = array();
-			
+
 			$diff = abs(strtotime($date2) - strtotime($date1));
 			$years = floor($diff / (365*60*60*24));
 			$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
@@ -433,21 +433,17 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			return $time_diff;
 		}
-		
-		/** 
+
+		/**
 		*	Get details from full contact
 		*/
 		public static function get_full_contact_details() {
 			global $post;
-			
-			
+
+
 			$email = self::$mapped_fields['wpleads_email_address']['value'];
 			$api_key = get_option( 'wpl-main-extra-lead-data' , "");
 
-			if($api_key === "" || empty($api_key)) {
-				echo "<div class='lead-notice'>Please <a href='".esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'page' => 'wpleads_global_settings' ), 'edit.php' ) ) )."'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>" ;
-				return;
-			}
 
 			$social_data = get_post_meta($post->ID , 'social_data', true );
 			$person_obj = $social_data;
@@ -484,18 +480,18 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			}
 
-			
+
 			self::$full_contact = $person_obj;
 		}
 
-		
-		/** 
+
+		/**
 		*	Gets data from full contact social object
 		*/
 		public static function display_full_contact_details($values, $type) {
 
 			$person_obj = $values;
-			
+
 			//print_r($person_obj);
 			$confidence_level = (isset($person_obj['likelihood'])) ? $person_obj['likelihood'] : "";
 
@@ -580,7 +576,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			}
 
 		}
-		
+
 		/**
 		*	Setups main metabox tab navigation
 		*/
@@ -588,7 +584,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$tabs = array(
 				array(
-					'id'=>'wpleads_lead_tab_main', 
+					'id'=>'wpleads_lead_tab_main',
 					'label'=> __( 'Profile' , 'leads' )
 				),
 				array(
@@ -606,36 +602,36 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			);
 
 			self::$tabs = apply_filters('wpl_lead_tabs',$tabs);
-			
+
 			/* get open tab */
 			self::$active_tab = 'wpleads_lead_tab_main';
 			if (isset($_REQUEST['open-tab'])) {
 				self::$active_tab = $_REQUEST['open-tab'];
 			}
-			
+
 			/* Set hidden input for active tab */
 			echo "<input type='hidden' name='open-tab' id='id-open-tab' value='".self::$active_tab."'>";
-			
+
 			/* Print JS controls */
 			self::navigation_js($tabs);
 		}
-		
+
 		public static function display_tabs() {
 			?>
 			<h2 id="lead-tabs" class="nav-tab-wrapper">
 				<?php
-				foreach (self::$tabs as $key=>$array) { 
+				foreach (self::$tabs as $key=>$array) {
 				?>
 					<a id='tabs-<?php echo $array['id']; ?>' class="wpl-nav-tab nav-tab nav-tab-special<?php echo self::$active_tab == $array['id'] ? '-active' : '-inactive'; ?>"><?php echo $array['label']; ?></a>
 				<?php
 				}
 				?>
 			</h2>
-			
+
 			<?php
-		
+
 		}
-		
+
 		/**
 		*	Generates JS for Tab Switching
 		*/
@@ -659,10 +655,10 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					jQuery('.wpl-nav-tab').addClass('nav-tab-special-inactive');
 					jQuery('#tabs-'+this_id).addClass('nav-tab-special-active');
 					jQuery('#id-open-tab').val(this_id);
-					
+
 				});
-				
-				<?php 				
+
+				<?php
 				if ( $default_id == 'main' ) {
 				?>
 					jQuery('.lead-profile-section').hide();
@@ -674,24 +670,24 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</script>
 			<?php
 		}
-		
-		/** 
+
+		/**
 		*	Gets mapped field data for this lead provide and sets it into static variable
 		*/
 		public static function get_mapped_fields() {
-			global $post;			
-			
+			global $post;
+
 			$fields = array();
-			
+
 			$mapped_fields = Leads_Field_Map::get_lead_fields();
-			
+
 			foreach ($mapped_fields as $key => $field) {
-				
+
 				$fields[ $field['key'] ] = $field;
-				
+
 				/* Get related meta value if exists */
 				$fields[ $field['key'] ]['value'] = get_post_meta( $post->ID , $mapped_fields[$key]['key'] ,true );
-				
+
 				/* Get default mapped value if meta value does not exists */
 				if ( !$fields[ $field['key'] ]['value'] && isset($mapped_fields[$key]['default']) ) {
 					$fields[ $field['key'] ]['value'] = $mapped_fields[$key]['default'];
@@ -702,38 +698,38 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			self::$mapped_fields = $fields;
 		}
-		
+
 		public static function display_lead_profile() {
 			self::display_profile_image();
-			echo '<div id="leads-right-col">';				
-			
+			echo '<div id="leads-right-col">';
+
 				do_action('wpleads_before_main_fields');
 
 				self::render_settings();
-				
+
 				/* Display more Full Contact data */
-				self::display_full_contact_details( self::$full_contact , 'website'); 
-				self::display_full_contact_details( self::$full_contact , 'demographics'); 
-				self::display_full_contact_details( self::$full_contact , 'topics'); 
-				
+				self::display_full_contact_details( self::$full_contact , 'website');
+				self::display_full_contact_details( self::$full_contact , 'demographics');
+				self::display_full_contact_details( self::$full_contact , 'topics');
+
 				/* Display tag cloud */
-				self::display_tag_cloud(); 
-		
+				self::display_tag_cloud();
+
 				/* Hook for displaying content after mapped fields */
 				echo "<div id='wpl-after-main-fields'>";
 				do_action('wpleads_after_main_fields'); // Custom Action for additional info above Lead list
 				echo "</div>";
-				
+
 			echo '</div>';
 
 		}
-		
+
 		/**
-		*	Displayed mapped field data 
+		*	Displayed mapped field data
 		*/
 		public static function display_profile_image() {
 			global $post;
-			
+
 			$extra_image = get_post_meta( $post->ID , 'lead_main_image', true );
 			$size = 150;
 			$size_small = 36;
@@ -773,32 +769,32 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						$edit_user_link = get_edit_user_link( $wp_user_id );
 						echo '<a	target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
 					}
-					?>	
+					?>
 					</div>
-				<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php	_e( 'Show Hidden Fields' , 'leads' ); ?></a></div>
-			</div>	
+
+			</div>
 
 			<style type="text/css">.icon32-posts-wp-lead {background-image: url("<?php echo $gravatar2;?>") !important;}</style>
 			<?php
 		}
-		
+
 		/**
 		*	Gets number of conversion events
 		*/
 		public static function get_conversion_count() {
 			global $post;
-		
+
 			$conversion_count = count(self::$conversions);
-			
+
 			return $conversion_count;
 		}
-		
+
 		/**
 		*	Gets number of onsite search events
 		*/
 		public static function get_search_count() {
 			global $post;
-			
+
 			$wpleads_search_data = get_post_meta($post->ID,'wpleads_search_data', true);
 			self::$searches = json_decode($wpleads_search_data, true);
 			if (is_array(self::$searches)){
@@ -807,16 +803,16 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			} else {
 				$search_count = 0;
 			}
-			
+
 			return $search_count;
 		}
-		
+
 		/**
 		*	Gets number of comment events
 		*/
 		public static function get_comment_count() {
 			global $post;
-		
+
 			$comments_query = new WP_Comment_Query;
 			self::$comments = $comments_query->query( array('author_email' => self::$mapped_fields['wpleads_email_address']['value']) );
 
@@ -824,34 +820,34 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				$comment_count = count(self::$comments);
 			} else {
 				$comment_count = 0;
-			} 
-			
+			}
+
 			return $comment_count;
 		}
-		
+
 		/**
 		*	Gets number of tracked link clicks
 		*/
 		public static function get_custom_events_count() {
-			global $post; 
-			
+			global $post;
+
 			$custom_events = get_post_meta( $post->ID , 'inbound_custom_events' , true);
 			self::$custom_events = json_decode( $custom_events , true);
-			
+
 			if ( isset(self::$custom_events) && is_array(self::$custom_events) ) {
 				return count(self::$custom_events);
 			} else {
 				return 0;
 			}
 		}
-		
-		/** 
+
+		/**
 		*	Setup Activity Navigation
 		*/
 		public static function activity_navigation() {
 			global $post;
-			
-							
+
+
 			$nav_items = array(
 				array(
 					'id'=>'lead-conversions',
@@ -908,22 +904,22 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			<div id="all-lead-history"><ol></ol></div>
 			<?php
 		}
-		
-		/** 
+
+		/**
 		*	Display conversion activity
 		*/
 		public static function activity_conversions() {
-			
+
 			echo '<div id="lead-conversions" class="lead-activity">';
 			echo '	<h2>' . __('Landing Page Conversions' , 'leads' ) .'</h2>';
-				
+
 
 			if (!isset(self::$conversions) || !is_array(self::$conversions)) {
 				echo "	<span id='wpl-message-none'>". __( 'No conversions found!' , 'leads' ) ."</span>";
 				echo '</div>';
 				return;
 			}
-				
+
 			//uasort(self::$conversions , array( __CLASS__ ,	'datetime_sort' ) ); // Date sort
 
 			$i = count(self::$conversions);
@@ -959,9 +955,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			}
 
-			echo '</div>';		
+			echo '</div>';
 		}
-		
+
 		/**
 		*	Displays activity comments
 		*/
@@ -969,7 +965,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			echo '<div id="lead-comments" class="lead-activity">';
 			echo '<h2>Lead Comments</h2>';
-			
+
 			if (!self::$comments) {
 				echo "<span id='wpl-message-none'>No comments found!</span>";
 				echo '</div>';
@@ -1004,13 +1000,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					</div>';
 				$c_i--;
 			}
-			
-			
-			echo '</div>';		
+
+
+			echo '</div>';
 		}
-		
+
 		/**
-		*	Displays activity searches 
+		*	Displays activity searches
 		*/
 		public static function activity_searches() {
 			echo '<div id="lead-searches" class="lead-activity">';
@@ -1021,7 +1017,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				echo '</div>';
 				return;
 			}
-			
+
 			$search_count = count(self::$searches);
 
 			$c_i = $search_count;
@@ -1050,16 +1046,16 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			}
 			echo '</div>';
 		}
-		
+
 		/**
 		*	Displays page view activity
 		*/
 		public static function activity_pageviews() {
-			global $post; 
-			
+			global $post;
+
 			echo '<div id="lead-page-views" class="lead-activity">';
 			echo '	<h2>' . __( 'Page Views' , 'leads' ) .'</h2>';
-					
+
 
 			if (!self::$page_views) {
 				echo "<span id='wpl-message-none'>". __( 'No Page View History Found' , 'leads' ) ."</span>";
@@ -1069,7 +1065,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$new_array = array();
 			$loop = 0;
-			
+
 			// Combine and loop through all page view objects
 			foreach(self::$page_views as $key=>$val) {
 				foreach(self::$page_views[$key] as $test){
@@ -1078,8 +1074,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						$loop++;
 				}
 			}
-			
-			// Merge conversion and page view json objects							
+
+			// Merge conversion and page view json objects
 			//uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse') ); // Date sort
 
 
@@ -1129,7 +1125,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 				$timeon_page = $timeout / 60;
 				$date_print = date_create($new_key_array[$key]['date']);
-				
+
 				if(isset($new_key_array[$last_item]['date'])){
 					$second_diff = self::get_time_diff($new_key_array[$last_item]['date'], $new_key_array[$key]['date']);
 				} else {
@@ -1165,18 +1161,18 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			echo '</div>';
 		}
-		
+
 		/**
 		*	Show tracked link clicks
 		*/
 		public static function activity_custom_events() {
-			global $post; 
+			global $post;
 			?>
 			<div id="lead-tracked-links" class='lead-activity'>
 				<h2><?php _e( 'Custom Events' , 'cta' ); ?></h2>
 				<?php
 
-				
+
 				// echo "First id : ". $the_array[1]['id'] . "!"; // Get specific value
 				if ( self::$custom_events )
 				{
@@ -1185,11 +1181,11 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					foreach(self::$custom_events as	$key=>$event)
 					{
 						$id = $event['tracking_id'];
-	
+
 						$date_raw = new DateTime(self::$custom_events[ $key ]['datetime']);
 						$date_of_conversion = $date_raw->format('F jS, Y	g:ia (l)');
 						$clean_date = $date_raw->format('Y-m-d H:i:s');
-					
+
 						echo '<div class="lead-timeline recent-conversion-item cta-tracking-item" data-date="'.$clean_date.'">
 									<a class="lead-timeline-img" href="#non">
 										<!--<i class="lead-icon-target"></i>-->
@@ -1215,7 +1211,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			</div>
 			<?php
 		}
-		
+
 		/**
 		*	Loads Activity UI
 		*/
@@ -1227,11 +1223,11 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			self::activity_searches();
 			self::activity_pageviews();
 			self::activity_custom_events();
-		
+
 			do_action('wpleads_after_activity_log');
 			echo '</div>';
 		}
-		
+
 		/**
 		*	Displays conversion funnel data
 		*/
@@ -1387,7 +1383,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			<?php
 		}
-		
+
 		/**
 		*	Displays main lead content containers
 		*/
@@ -1395,43 +1391,43 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			global $post, $wpdb;
 
 			self::setup_tabs();
-			
+
 			self::get_mapped_fields();
 
 			self::get_full_contact_details();
-			
-			
+
+
 			?>
 			<div class="lead-profile">
-				<?php 
-				
-				self::display_tabs(); 
+				<?php
+
+				self::display_tabs();
 				?>
 				<div class="lead-profile-section" id='wpleads_lead_tab_main'>
-				
+
 					<div id="wpleads_lead_tab_main_inner">
-					<?php 
-					
+					<?php
+
 					self::display_lead_profile();
-					
+
 					?>
 					</div>
 				</div>
 				<div class="lead-profile-section" id='wpleads_lead_tab_activity'>
-					<?php 
-				
+					<?php
+
 					self::display_lead_activity();
-					
+
 					?>
 				</div>
 				<div class="lead-profile-section" id='wpleads_lead_tab_conversions'>
-					<?php 
-				
+					<?php
+
 					self::display_lead_conversion_paths();
-					
+
 					?>
 				</div>
-			</div>				
+			</div>
 
 			<div class="lead-profile-section" id="wpleads_lead_tab_raw_form_data" >
 				<div id="raw-data-display">
@@ -1505,30 +1501,38 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 				</div> <!-- end #raw-data-display -->
 			</div>
-				
+
 			<?php
 			do_action('wpl_print_lead_tab_sections');
 
 		}
-		
 
-		
+
+
 		/**
 		*	Field sorting array filter
 		*/
 		public static function piority_sort_filter($a,$b){
 			return $a['priority'] > $b['priority']?1:-1;
 		}
-		
+
 		/**
 		*	Loops through settings definitions and displays settings
-		*	@param ARRAY $fields 
+		*	@param ARRAY $fields
 		*/
 		public static function render_settings( ) {
 
 			//uasort( self::$mapped_fields , array( __CLASS__ , 'piority_sort_filter' ) );
 
-			echo "<table id='wpleads_main_container'>";
+			echo "<table id='wpleads_main_container'>"; ?>
+			<div id='toggle-lead-fields'><a class='button' id='show-hidden-fields'><?php	_e( 'Show Empty Fields' , 'leads' ); ?></a></div>
+			<?php
+			$api_key = get_option( 'wpl-main-extra-lead-data' , "");
+
+			if($api_key === "" || empty($api_key)) {
+				echo "<div class='lead-notice'>Please <a href='".esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'page' => 'wpleads_global_settings' ), 'edit.php' ) ) )."'>enter your Full Contact API key</a> for additional lead data. <a href='http://www.inboundnow.com/collecting-advanced-lead-intelligence-wordpress-free/' target='_blank'>Read more</a></div>" ;
+
+			}
 
 			foreach ( self::$mapped_fields as $field)
 			{
@@ -1554,7 +1558,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						$links = explode(';',$field['value']);
 						$links = array_filter($links);
 
-						echo "<div style='text-align:right;float:right'><span class='add-new-link'>".__( 'Add New Link')." <img src='".WPL_URLPATH."/images/add.png' title='".__( 'add link' ) ."' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
+						echo "<div style='position:relative;'><span class='add-new-link'>".__( 'Add New Link')." <img src='".WPL_URLPATH."/images/add.png' title='".__( 'add link' ) ."' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
 						echo "<div class='wpleads-links-container' id='{$id}-container'>";
 
 						$remove_icon = WPL_URLPATH.'/images/remove.png';
@@ -1893,7 +1897,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			echo '</table>';
 		}
-		
+
 		/**
 		*	fetches social icon given link url
 		*/
@@ -1942,13 +1946,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			return $icon;
 		}
-		
+
 		/**
 		*	Displays tag cloud
 		*/
 		public static function display_tag_cloud() {
 			$tags = self::get_lead_tag_cloud(); // get content tags
-						
+
 			if (!empty($tags)){
 				echo '<div id="lead-tag-cloud"><h4>'. __( 'Tag cloud of content consumed' , 'leads' ) .'</h4>';
 				foreach ($tags as $key => $value) {
@@ -1957,17 +1961,17 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				echo "</div>";
 			}
 		}
-		
+
 		/**
 		*	Fetches tag cloud
 		*/
 		public static function get_lead_tag_cloud() {
-			
+
 			global $post;
-			
 
 
-			
+
+
 			if( self::$page_views && is_array(self::$page_views)) {
 				// Collect all viewed page IDs
 				foreach(self::$page_views as $key=>$val)
@@ -2008,7 +2012,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			return $return_tags; // return tag array
 		}
-		
+
 		/**
 		*	Array filter for sorting by datetime DESC
 		*/
