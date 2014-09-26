@@ -117,6 +117,10 @@ function wpleads_get_global_settings() {
 	$tab_slug = 'wpleads-extensions';
 	$wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
 
+	
+	
+	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
+
 	/* Setup API Keys Tab */
 	if (current_user_can('activate_plugins')) {
 		$tab_slug = 'wpleads-apikeys';
@@ -131,8 +135,6 @@ function wpleads_get_global_settings() {
 		);
 	}
 	
-	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
-
 	return $wpleads_global_settings;
 }
 
