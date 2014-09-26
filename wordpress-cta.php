@@ -125,7 +125,8 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.global-settings.php');
 					include_once('classes/class.clone-post.php');
 					include_once('classes/class.cta.variations.php');
-					include_once('modules/module.widgets.php');
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');
 					include_once('classes/class.cta.render.php');
 					include_once('classes/class.load-extensions.php');
 					include_once('classes/class.metaboxes.global.php');
@@ -145,8 +146,9 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.enqueues.php');
 					include_once('classes/class.tracking.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('modules/module.widgets.php');
+					include_once('classes/class.ajax.listeners.php');					
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');

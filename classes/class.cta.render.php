@@ -623,7 +623,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$value = $global_val_array[$correct_key];
 
 				/* run function procssing here inbound_run_processing might be able to replace code above eventually */
-				$template = inbound_run_processing($full_token, $correct_key, $value, $template);
+				$template = self::support_conditional_tags( $full_token, $correct_key, $value, $template );
 			}
 
 			/* Remove tokens that arent matched */
@@ -701,11 +701,116 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 		
 		/**
-		*  Deletes content discovered in string between two other stringds
-		*  @param STRING $beginning
-		*  @param STRING $end
-		*  @param STRING $string
-		*  @return STRING modified string
+		*  Adds support for conditional tags to the token engine
+		*/
+		public static function support_conditional_tags($token_match, $key, $value, $template) {
+
+			if (!preg_match('/\|/', $token_match)) {
+				return $template;
+			}
+
+			$show_debug_token = false;
+			$raw_php_function = false; // Adds ability to run raw php
+			
+			if ($show_debug_token) {
+				echo "<br><span style='color:red'>Token MATCH ON:</span> " . $token_match . " Val: ". $value . "<br>";
+			}
+
+			$clean_key = str_replace(array("{", "}"), "", $token_match);
+
+			$separate_token = explode('|', $clean_key); // split at pipe
+			$correct_key = $separate_token[0];
+
+			/* Run Special Parse Functions Here */
+			$run_function = $separate_token[1];
+			$function_name = explode("(", $run_function);
+
+			preg_match('#\((.*?)\)#', $run_function, $fun_match);
+			if (is_array($fun_match)){
+
+				$function_args = (isset($fun_match[1])) ? $fun_match[1] : '';
+				$function_args_array = explode(',', $function_args);
+				$args = $function_args_array;
+				if(empty($args[0])) {
+					if ($show_debug_token) {
+					echo "NO params set default value<br>";
+					}
+					$args[0] = $value;
+				}
+			}
+
+			if(preg_match("/php:/", $run_function)) {
+				if ($show_debug_token) {
+				echo "PHP function";
+				echo $function_name[0];
+				}
+				$php_function = str_replace("php:", '', $function_name[0]);
+				$raw_php_function = true; // Adds ability to run raw php
+			}
+
+			$function_args = array();
+			$function_args[0] = $value;
+			foreach ($args as $arr_key => $arr_value) {
+
+				if ($arr_value === "this"){
+					$function_args[$arr_key + 1] = $value;
+					if ($show_debug_token) {
+					//echo "arg" . $arr_key. ":" . $arr_value;
+					}
+					// first value always user input val
+				} else {
+					$function_args[$arr_key + 1] = $arr_value;
+				}
+
+				if ($show_debug_token) {
+				echo "arg" . $arr_key. ":" . $arr_value . ", ";
+				}
+
+			}
+
+			$function_args = array_unique($function_args); // dedupe values
+
+			if (count($function_args) < 2 ) {
+				$function_args = $function_args[0]; // send single value to function
+			}
+
+			/* Function temp references
+			replace: {{ "I like %this% and %that%."|replace({'%this%': foo, '%that%': "bar"}) }}
+			*/
+			
+			if ($raw_php_function) {
+				$template_function = $php_function;
+			} else {
+				$template_function = 'inbound_template_' . $function_name[0];
+			}
+
+			/* If function exists run it */
+			if (function_exists($template_function)) {
+				$value = $template_function($function_args);
+				if ($show_debug_token) {
+				echo "<br>Running Function: <strong>" .	$template_function . "</strong> with args <strong>";
+				print_r($function_args);
+				echo "</strong><br>";
+
+				$look_for = "{{" .$key . "}}";
+				$reg = preg_quote( "{{" .$key . "}}");
+				echo "Replace " . $token_match . " with ". $value . "<br>";
+
+				}
+			}
+			
+			$template = str_ireplace( $token_match , $value , $template); // single space
+			
+		
+			return $template;
+		}
+		
+		/**
+		*	Deletes content discovered in string between two other stringds
+		*	@param STRING $beginning
+		*	@param STRING $end
+		*	@param STRING $string
+		*	@return STRING modified string
 		*/
 		public static function delete_all_inbetween($beginning, $end, $string) {
 			
