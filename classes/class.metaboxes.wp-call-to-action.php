@@ -55,7 +55,9 @@ if (!class_exists('CTA_Metaboxes')) {
 			
 		}
 		
-		/* Loads Metaboxes */
+		/**
+		*  		Loads Metaboxes 
+		*/
 		public static function load_metaboxes() {
 			global $post , $CTA_Variations;
 			
@@ -67,6 +69,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Loads Template Options */
 			$template_id = $CTA_Variations->get_current_template( $post->ID );
+
 			if ($template_id) {
 				$template_name = ucwords(str_replace('-',' ',$template_id));
 				add_meta_box(
@@ -182,7 +185,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				echo "&nbsp;&nbsp;";
 			}
 			echo '<a class="button-primary" id="wp-cta-change-template-button">'. __( 'Choose Another Template' , 'cta' ) .'</a>';
-			echo '<input type="hidden" id="" name="' . $template_input_name .'" value="' .$template_id .'">';
+			echo '<input type="hidden" id="" name="' . $template_input_name .'" class="selected-template" value="' .$template_id .'">';
 
 			self::render_settings( $template_id , $wp_cta_custom_fields , $post);
 
@@ -335,7 +338,7 @@ if (!class_exists('CTA_Metaboxes')) {
 		}
 		
 		
-		/* 
+		/**
 		* Display CTA Settings for templates AND extensions
 		*/
 		public static function render_settings( $settings_key , $custom_fields , $post ) {
@@ -686,7 +689,7 @@ if (!class_exists('CTA_Metaboxes')) {
 		}
 		
 		
-		/* 
+		/**
 		* Renders shortcode data for user to copy for user 
 		*/
 		public static function add_shortcode_data() {
@@ -702,7 +705,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			
 		}
 		
-		/* 
+		/**
 		* Renders shortcode data for user to copy for user 
 		*/
 		public static function add_hidden_inputs() {
@@ -802,7 +805,8 @@ if (!class_exists('CTA_Metaboxes')) {
 			<?php
 		}
 		
-		/* Updates call to action variation data on post save
+		/**
+		* Updates call to action variation data on post save
 		*
 		* @param INT $cta_id of call to action id
 		*
@@ -826,7 +830,6 @@ if (!class_exists('CTA_Metaboxes')) {
 			/* Set the call to action variation into a session variable */
 			$_SESSION[ $post->ID . '-variation-id'] = (isset($_POST[ 'wp-cta-variation-id'])) ? $_POST[ 'wp-cta-variation-id'] : '0';
 		
-
 			foreach ($_POST as $key => $value) {
 				
 				update_post_meta( $cta_id , $key , $value );
