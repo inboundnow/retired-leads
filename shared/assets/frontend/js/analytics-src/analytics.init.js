@@ -1,5 +1,6 @@
 /**
  * Init Inbound Analytics
+ * - initializes analytics
  */
 
  var Lead_Globals = jQuery.totalStorage('inbound_lead_data') || null;

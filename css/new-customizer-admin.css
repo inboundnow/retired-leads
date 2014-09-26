@@ -1,6 +1,9 @@
 #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback  {
 	display: none !important;
 }
+#titlediv #title {
+	margin-bottom: 20px;
+}
 html.wp-toolbar {
 	padding-top: 0px !important;
 }
@@ -180,6 +183,9 @@ width: 106% !important; }
 .inbound-wysiwyg-option {
 margin-left: -17px !important;
 }
+.inbound-meta-box-option.inbound-wysiwyg-option {
+margin-left: -12px !important;
+}
 .mceIframeContainer.mceFirst.mceLast iframe {
 	width: 90% !important;
 }
@@ -187,11 +193,13 @@ margin-left: -17px !important;
 margin-left: -10px !important;
 }
 .wp-editor-container {
-border-right-color: transparent !important;
+
 }
 .wp-media-buttons .insert-media {
-margin-left: 15px !important;
+margin-left: 0px !important;
 }
+.cta-options-row {
+width: 95% !important; }
 #inbound-shortcodes-preview-wrap {
 	display: none !important;
 }

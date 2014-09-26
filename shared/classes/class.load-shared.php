@@ -139,10 +139,10 @@ if (!class_exists('Inbound_Load_Shared')) {
 		*  Run activation rules hosted in shared directory 
 		*/
 		public static function run_activation_rules() {
-			if ( is_admin() && get_transient( 'Inbound_Activate' ) ) {
+			if ( is_admin() && get_option( 'Inbound_Activate' ) ) {
 				
 				/* Delete activation trigger */
-				delete_transient( 'Inbound_Activate' );
+				delete_option( 'Inbound_Activate' );
 				
 				/* Run activation action hook for shared components */
 				do_action( 'inbound_shared_activate' );

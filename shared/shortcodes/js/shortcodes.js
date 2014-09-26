@@ -964,7 +964,7 @@
 		    wp = retString;
 		}
 		jQuery(document).ready( function() {
-
+			var wp = wp || {}; 
 			setTimeout(function() {
 			    setGlobalwp(wp);
 			}, 300);
