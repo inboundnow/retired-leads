@@ -11,6 +11,14 @@
 .lead-comment-div p {
 	margin-top: 0px;
 }
+.lead-notice {
+	margin-left: 40px;
+	margin-bottom: 20px;
+	margin-top: 10px
+}
+#postcustom {
+	display: none;
+}
 .lead-timeline-img img, .updated.inbound-shortcode-trigger {
 	display: none !important;
 }
