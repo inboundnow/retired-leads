@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Grab all icons from http://fontawesome.io/icons/
 jQuery(".container").eq(3).addClass('special-class');
 function toTitleCase(str)
