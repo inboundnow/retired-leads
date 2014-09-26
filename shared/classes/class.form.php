@@ -592,9 +592,16 @@ class Inbound_Forms {
 
 			/* Rebuild Form Meta Data to Load Single Values	*/
 			foreach( $form_meta_data as $key => $value ) {
-				$form_meta_data[$key] = $value[0];
+				if ( isset($value[0]) ) {
+					$form_meta_data[$key] = $value[0];
+				}
 			}
 
+			/* If there's no notification email in place then bail */
+			if ( !isset($form_meta_data['inbound_notify_email']) ) {
+				return;
+			}
+			
 			/* Get Email We Should Send Notifications To */
 			$email_to = $form_meta_data['inbound_notify_email'];
 
@@ -719,6 +726,12 @@ class Inbound_Forms {
 
 
 		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
+		
+		/* add default subject if empty */
+		if (!$confirm_subject) {
+			$confirm_subject = __( 'Thank you!' , 'leads' );
+		}
+		
 		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data, $form_meta_data )	);
 
 
