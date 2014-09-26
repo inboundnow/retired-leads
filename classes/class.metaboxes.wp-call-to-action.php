@@ -860,7 +860,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 					$field['id'] = "wp-cta-".$field['id'];
 
-					wp_cta_render_setting($field);
+					CTA_Metaboxes_Global::render_setting($field);
 				}
 			}
 
