@@ -91,7 +91,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			add_action('template_redirect', array( $this , 'preview_cta') , 2 );
 
 			/* Modify admin URL for previews */
-			//add_filter('admin_url', array( $this, 'modify_admin_url' ) );
+			add_filter('admin_url', array( $this, 'modify_admin_url' ) );
 
 		}
 
@@ -647,7 +647,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 							echo "<br>Replacement " . $test . "<br>";
 						}
 
-					
+
 						$template = str_ireplace( $phpcode, $return_val, $template);
 					}
 				}
@@ -699,7 +699,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			return $template;
 		}
-		
+
 		/**
 		*  Adds support for conditional tags to the token engine
 		*/
@@ -711,7 +711,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			$show_debug_token = false;
 			$raw_php_function = false; // Adds ability to run raw php
-			
+
 			if ($show_debug_token) {
 				echo "<br><span style='color:red'>Token MATCH ON:</span> " . $token_match . " Val: ". $value . "<br>";
 			}
@@ -777,7 +777,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			/* Function temp references
 			replace: {{ "I like %this% and %that%."|replace({'%this%': foo, '%that%': "bar"}) }}
 			*/
-			
+
 			if ($raw_php_function) {
 				$template_function = $php_function;
 			} else {
@@ -798,13 +798,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				}
 			}
-			
+
 			$template = str_ireplace( $token_match , $value , $template); // single space
-			
-		
+
+
 			return $template;
 		}
-		
+
 		/**
 		*	Deletes content discovered in string between two other stringds
 		*	@param STRING $beginning
@@ -813,10 +813,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		*	@return STRING modified string
 		*/
 		public static function delete_all_inbetween($beginning, $end, $string) {
-			
+
 			$beginningPos = strpos($string, $beginning);
 			$endPos = strpos($string, $end);
-			
+
 			if (!$beginningPos || !$endPos) {
 				return $string;
 			}
@@ -825,7 +825,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			return str_replace($textToDelete, '' , $string);
 		}
-		
+
 
 		/**
 		* Prints / Returns Custom JS & CSS Related to Call to Action
@@ -1228,7 +1228,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
 
-			echo '<body style="background-color:#fff;">';
+			echo '<body style="background-color:transparent;">';
 			echo '<div id="cta-preview-container" style="margin:auto;">';
 			if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 				echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');

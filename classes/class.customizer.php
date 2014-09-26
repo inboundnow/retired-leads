@@ -66,8 +66,8 @@ class CTA_Customizer {
 
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
-		wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
-		wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
+		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 
 	}
 
@@ -228,7 +228,7 @@ class CTA_Customizer {
 		echo '		</td>';
 
 		echo '		<td>';
-		echo '			<iframe id="wp-cta-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 64%; '.$correct_width.' height:1000px; position: fixed;  top: 20%; z-index: 1; border: none; overflow:hidden;
+		echo '			<iframe id="wp-cta-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 68%; '.$correct_width.' height:1000px; left: 32%; position: fixed;  top: 20%; z-index: 1; border: none; overflow:hidden;
 		//background-image: linear-gradient(45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194)), linear-gradient(-45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194));
 		 background-position: initial initial; background-repeat: initial initial;"></iframe>';
 		echo '		</td>';

@@ -8,10 +8,11 @@ overflow: visible !important;
 #wp-cta-notes-area input {
 	width: 95%;
 	color: #AAAAAA;
-	height: 25px;
-	padding: 11px;
-	padding-top: 13px;
+
 	border: 1px solid #ccc;
+}
+#post-body-content  {
+margin-bottom: 0px;
 }
 #wp-cta-notes-area input:focus{
 	color: #000;
