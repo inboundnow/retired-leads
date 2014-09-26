@@ -1,7 +1,6 @@
 #inbound-meta .inbound-meta-box-row {
 display: block;
-padding: 10px;
-padding-left: 0px;
+padding-bottom: 10px;
 }
 .inbound-meta-box-label, .inbound-meta-box-option {
 	display: inline-block;

@@ -2,31 +2,31 @@
 
 
 class CTA_Customizer {
-	
+
 	/**
 	*	Initiates class CTA_Customizer
 	*/
 	public function	__construct() {
-		
+
 		self::load_hooks();
-				
+
 		/* If preview mode in effect then kill admin bar */
 		if (isset($_GET['cache_bust'])) {
 			show_admin_bar( false );
 		}
 	}
-	
+
 	/**
 	*	Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		
-		
+
+
 		/* Load only on iframe container window */
 		if (isset($_GET['wp_cta_iframe_window'])) 	{
 			/* Enqueue Scripts  */
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_container_scripts' ));
-			
+
 			/* Loads Preview Iframe in wp_head */
 			add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
 		}
@@ -35,14 +35,14 @@ class CTA_Customizer {
 		if (isset($_GET['cta-template-customize']) && $_GET['cta-template-customize']=='on') {
 			add_filter('wp_head', array( __CLASS__ , 'launch_customizer' ) );
 		}
-		
+
 		/* Load only on cta settings page when it customizer mode */
 		if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
 			/* Enqueue Scripts  */
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_settings_scripts' ));
-			
+
 		}
-		
+
 		if (isset($_GET['live-preview-area'])) {
 			/* Enqueue Scripts  */
 			add_action( 'wp_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_iframe_scripts' ));
@@ -54,34 +54,34 @@ class CTA_Customizer {
 
 		/* Enqueue customizer CSS */
 		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'css/customizer-ab-testing.css');
-	
+
 	}
-	
+
 	public static function enqueue_preview_iframe_scripts() {
 		show_admin_bar( false );
 		wp_register_script('lp-customizer-load-js', WP_CTA_URLPATH . 'js/customizer.load.js', array('jquery'));
 		wp_enqueue_script('lp-customizer-load-js');
 	}
-	
-	
+
+
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
 		wp_enqueue_style('new-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
 		wp_enqueue_script('new-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
-	
+
 	}
-	
+
 	/* Adds CTA Preview Iframe */
 	public static function load_preview_iframe() {
 		global $CTA_Variations;
-		
+
 		$wp_cta_variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
 		$cta_id = $_GET['post_id'];
 
 		$variations = $CTA_Variations->get_variations( $cta_id );
-		$post_type_is = get_post_type($cta_id); 
+		$post_type_is = get_post_type($cta_id);
 		?>
-		
+
 		<link rel="stylesheet" href="<?php echo WP_CTA_URLPATH . 'css/customizer-ab-testing.css';?>" />
 		<style type="text/css">
 
@@ -101,8 +101,8 @@ class CTA_Customizer {
 		#current_variation_id, #current-post-id {
 			display: none !important;
 		}
-		
- 
+
+
 		<?php if ($post_type_is !== "wp-call-to-action") {
 		echo "#variation-list {display:none !important;}";
 		} ?>
@@ -130,10 +130,10 @@ class CTA_Customizer {
 		echo "<span id='current-post-id'>$cta_id</span>";
 
 		echo '</div>';
-	
+
 	}
-	
-	
+
+
 	public static function launch_customizer() {
 
 		global $post;
@@ -213,11 +213,11 @@ class CTA_Customizer {
 		$width = get_post_meta($current_page_id, 'wp_cta_width-'.$version, true);
 		$height = get_post_meta($current_page_id, 'wp_cta_height-'.$version, true);
 		//$replace = get_post_meta( 2112, 'wp_cta_global_bt_lists', true); // move to ext
-			
+
 		$correct_height = self::get_correct_dimensions($height, 'height');
 		(!$correct_height) ? $correct_height = 'auto' : $correct_height = $correct_height;
 		$correct_width = 'width:100%;';
-		
+
 		?>
 		<?php
 		echo '<div class="wp-cta-load-overlay" style="top: 0;bottom: 0; left: 0;right: 0;position: fixed;opacity: .8; display:none;"></div>';
@@ -226,9 +226,9 @@ class CTA_Customizer {
 		echo '		<td style="width:35%">';
 		echo '			<iframe id="wp_cta_customizer_options" src="'.$customizer_link.'" style="width: 32%; height: 100%; position: fixed; left: 0px; z-index: 999999999; top: 26px;"></iframe>';
 		echo '		</td>';
-		
+
 		echo '		<td>';
-		echo '			<iframe id="wp-cta-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 100%; '.$correct_width.' height:1000px; position: fixed;  top: 20%; z-index: 1; border: none; overflow:hidden;
+		echo '			<iframe id="wp-cta-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 64%; '.$correct_width.' height:1000px; position: fixed;  top: 20%; z-index: 1; border: none; overflow:hidden;
 		//background-image: linear-gradient(45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194)), linear-gradient(-45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194));
 		 background-position: initial initial; background-repeat: initial initial;"></iframe>';
 		echo '		</td>';
@@ -237,12 +237,12 @@ class CTA_Customizer {
 		wp_footer();
 		exit;
 	}
-	
+
 	/**
 	*  Looks at user inputed width and height and prepares correct format
 	*/
 	public static function get_correct_dimensions($input, $css_prop) {
-		
+
 		if (preg_match("/px/i", $input)){
 		   $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
 		} else if (preg_match("/%/", $input)) {
@@ -252,7 +252,7 @@ class CTA_Customizer {
 		} else {
 		   $input = " ".$css_prop.": $input" . "px;";
  		}
- 		
+
 		return $input;
 	}
 

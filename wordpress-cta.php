@@ -103,7 +103,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			$uploads = wp_upload_dir();
 			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
 			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
-			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/cta/' );
+			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/market/' );
 
 		}
 
@@ -125,29 +125,30 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.global-settings.php');
 					include_once('classes/class.clone-post.php');
 					include_once('classes/class.cta.variations.php');
-					include_once('modules/module.widgets.php');
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');
 					include_once('classes/class.cta.render.php');
-					include_once('modules/module.load-extensions.php');
-					include_once('modules/module.metaboxes-global.php');
-					include_once('modules/module.templates.php');
-					include_once('modules/module.store.php');
+					include_once('classes/class.load-extensions.php');
+					include_once('classes/class.metaboxes.global.php');
+					include_once('classes/class.templates.list-table.php');
+					include_once('classes/class.templates.manage.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
-					include_once('modules/module.track.php');
+					include_once('classes/class.tracking.php');
 
 					BREAK;
 
 				case false :
 					/* load front-end files */
-					include_once('modules/module.load-extensions.php');
+					include_once('classes/class.load-extensions.php');
 					include_once('classes/class.post-type.wp-call-to-action.php');
 					include_once('classes/class.extension.wp-lead.php');
 					include_once('classes/class.extension.wordpress-seo.php');
 					include_once('classes/class.enqueues.php');
-					include_once('modules/module.track.php');
-					include_once('classes/class.click-tracking.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('modules/module.widgets.php');
+					include_once('classes/class.tracking.php');
+					include_once('classes/class.ajax.listeners.php');					
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');

@@ -1,7 +1,10 @@
 <?php
 
-class CTA_Click_Tracking {
+class CTA_Conversion_Tracking {
 	
+	/**
+	*  Initializes Class
+	*/
 	public function __construct() {
 		
 		self::load_hooks();
@@ -15,8 +18,29 @@ class CTA_Click_Tracking {
 		
 		/*  When CTA url is clicked store the click count to the lead & redirect*/
 		add_action( 'init' , array( __CLASS__ ,  'redirect_link' ) , 11); // Click Tracking init
+		
+		/* Track form submissions related to call to actions a conversions */
+		add_action('inbound_store_lead_pre' , array( __CLASS__ , 'set_form_submission_conversion' ) , 20 , 1 );
 	}
 
+	/**
+	*  Listens for tracked form submissions embedded in calls to actions & incrememnt conversions
+	*/
+	public static function set_form_submission_conversion( $data ) {
+		$raw_post_values = json_decode( stripslashes($data['form_input_values']) , true);
+
+		if (!isset($raw_post_values['wp_cta_id'])) {
+			return;
+		}
+		
+		$cta_id = $raw_post_values['wp_cta_id'];
+		$vid = $raw_post_values['wp_cta_vid'];	
+
+		$lp_conversions = get_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, true );
+		$lp_conversions++;
+		update_post_meta(  $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
+	}
+	
 	/**
 	* Rewrite URLs in CTAs for click tracking
 	*/
@@ -202,4 +226,4 @@ class CTA_Click_Tracking {
 	}
 }
 
-$CTA_Click_Tracking = new CTA_Click_Tracking();
+$CTA_Conversion_Tracking = new CTA_Conversion_Tracking();

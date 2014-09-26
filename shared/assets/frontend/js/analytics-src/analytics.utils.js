@@ -1,7 +1,7 @@
 /**
  * Utility functions
  * @param  Object InboundAnalytics - Main JS object
- * @return Object - include util functions
+ * include util functions
  */
 var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
