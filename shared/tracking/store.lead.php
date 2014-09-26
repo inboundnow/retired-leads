@@ -71,16 +71,19 @@ function inbound_store_lead_search($args = array()) {
 }
 
 
-add_action('wp_ajax_inbound_store_lead', 'inbound_store_lead');
-add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead');
+add_action('wp_ajax_inbound_store_lead', 'inbound_store_lead' , 10 , 1);
+add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
 
 /**
  *  This method needs to be rebuilt
  */
-function inbound_store_lead( $args = array() ) {
+function inbound_store_lead( $args = array( ) ) {
 	global $user_ID, $wpdb;
-
-
+	
+	if (!is_array($args)) {
+		$args = array();
+	}
+	
 	/* Mergs $args with POST request for support of ajax and direct calls */
 	$args = array_merge( $args , $_POST );
 	
