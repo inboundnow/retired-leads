@@ -91,7 +91,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			add_action('template_redirect', array( $this , 'preview_cta') , 2 );
 
 			/* Modify admin URL for previews */
-			//add_filter('admin_url', array( $this, 'modify_admin_url' ) );
+			add_filter('admin_url', array( $this, 'modify_admin_url' ) );
 
 		}
 
