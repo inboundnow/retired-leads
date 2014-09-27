@@ -1,11 +1,11 @@
 <style>
 
-#cta_container #content 
+#cta_container #content
 {
 	background: transparent;
 }
 #cta_container {
-	margin:auto; 
+	margin:auto;
 
 }
 #cta_container #content {
@@ -15,7 +15,8 @@
 }
 
 #cta_container p {
-
+	padding-right: 0px;
+	padding-left: 0px;
 	text-align: {{content-alignment}};
 	color:#fff;
 }
@@ -30,7 +31,7 @@
 }
 
 
-/*@import url(https://fonts.googleapis.com/css?family={{font}}:300,400,600); */ 
+/*@import url(https://fonts.googleapis.com/css?family={{font}}:300,400,600); */
 #cta_container {
   text-align: {{content-alignment}};
   font-family: Calibri, Helvetica, Arial, sans-serif;
@@ -129,6 +130,8 @@
 	margin-bottom: 10px;
 	font-weight: 300;
 	font-size:20px;
+	padding-right: 0px;
+	padding-left: 0px;
 }
 #cta_container a {
 	text-decoration: none;
