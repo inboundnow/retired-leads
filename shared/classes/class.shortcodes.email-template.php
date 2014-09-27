@@ -103,12 +103,15 @@ class Inbound_Email_Template_Shortcodes {
 				$name = __("Converted on Page" , 'ma' );
 			}
 
-			$html .= '<tr style="border-bottom:1px solid #cccccc;">';
-			$html .= '<td width="600" style="border-right:1px solid #cccccc;padding:10px;padding-bottom:5px;">';
-			$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size: 16px; color:#555;"><strong>';
-			$html .= $name;
-			$html .= '</strong></div>';
-			$html .= '<div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">'. $value .'</div>';
+			$html .= '<tr style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#cccccc;">';
+			$html .= '<td width="600" style="border-right:1px solid #cccccc;">';
+			//$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size:16px;color:#555;font-weight:bold;">' . $name . '</div>';
+			$html .= '<table cellpadding="10" style="width:100%;max-width:600px;border-collapse:collapse;border:none;background:white;"><tbody><tr style="background:#ffffff;height:27px;font-weight:lighter;color:#555;font-size:16px;border:none;text-align:left;"><td align="left" width="200" style="color:#555;font-size:16px;font-weight:bold;">';
+		     $html .= $name;
+		     $html .= '</td><td align="left" width="400" style="font-size:14px;color:#000;">';
+		     $html .= $value;
+     		$html .= '</td></tr></tbody></table>';
+			//$html .= '<div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">'. $value .'</div>';
 			$html .= '</td></tr>';
 		}
 
