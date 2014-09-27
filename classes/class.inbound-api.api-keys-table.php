@@ -170,6 +170,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 				<input type="hidden" name="inbound_action" value="generate-api-keys" />
 				<input type='text' name="user_id" placeholder="<?php _e( 'Enter User ID' , 'leads' ); ?>">
 				<?php submit_button( __( 'Generate New API Keys', 'leads' ), 'secondary', 'submit', false ); ?>
+				&nbsp;<a class='button button-primary' href='http://docs.inboundnow.com/guide/lead-api-documentation-v1/' target='_blank'><?php _e('View Documentation' , 'leads'); ?></a>
 			</form>
 			<?php
 			$inbound_api_is_bottom = true;
