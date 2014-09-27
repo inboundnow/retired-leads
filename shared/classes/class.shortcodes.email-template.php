@@ -18,6 +18,7 @@ class Inbound_Email_Template_Shortcodes {
 		add_shortcode( 'inbound-gravitar', array( __CLASS__, 'generate_gravitar' ), 1 );
 	}
 
+
 	/**
 	* Used by leads-new-lead-notification email template to dispaly form fields the user inputted when converting on a form.
 	*
@@ -47,6 +48,14 @@ class Inbound_Email_Template_Shortcodes {
 			}
 		}
 
+		if( isset($post_params[ 'email' ])){
+			$emailVal = $post_params[ 'email' ];
+			unset($post_params[ 'email' ]);
+			$email_array = array('email' => $emailVal );
+			$post_params = array_merge( $email_array, $post_params );
+			//print_r($post_params); exit;
+		}
+
 		foreach ($post_params as $key => $value ) {
 
 			$name = str_replace(array('-','_'),' ', $key);
@@ -56,12 +65,13 @@ class Inbound_Email_Template_Shortcodes {
 				continue;
 			}
 
-			
+
 			if (is_array($value)) {
 				$value = implode(', ', $value);
 			} else if ( strlen($value) < 1 ) {
 				$value  = __( 'n/a' , 'ma');
 			}
+
 
 			/* Rewrite UTM params */
 			if (preg_match( '/utm_/i', $key)) {
@@ -97,12 +107,13 @@ class Inbound_Email_Template_Shortcodes {
 			$html .= '<td width="600" style="border-right:1px solid #cccccc;padding:10px;padding-bottom:5px;">';
 			$html .= '<div style="padding-left:5px;display:inline-block;padding-bottom:5px;font-size: 16px; color:#555;"><strong>';
 			$html .= $name;
-			$html .= '</strong></div><div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">';
-			$html .= $value;
-			$html .= '</div></td></tr>';
+			$html .= '</strong></div>';
+			$html .= '<div style="padding-left:5px;display:inline-block;font-size:14px;color:#000;">'. $value .'</div>';
+			$html .= '</td></tr>';
 		}
 
-		
+		//echo $html; exit;
+
 		return $html;
 	}
 
