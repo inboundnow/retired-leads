@@ -42,7 +42,7 @@ class Leads_Activation {
 		self::activate_shared();
 		
 		/* Mark Active */
-		add_option( 'Leads_Activated');
+		add_option( 'Leads_Activated' , true );
 	}
 	
 	/**

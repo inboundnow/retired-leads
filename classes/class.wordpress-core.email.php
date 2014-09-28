@@ -58,9 +58,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 		
 		/* Sets the Email Content Type to Use HTML */
 		public static function set_email_type() {
-			add_filter( 'wp_mail_content_type', function() {			
-				return 'text/html';
-			});
+			add_filter( 'wp_mail_content_type', array( __CLASS__ , 'email_type' ));
+		}
+		
+		public static function email_type() {
+			return 'text/html';
 		}
 		
 		/* Notify New User of Account Details */
