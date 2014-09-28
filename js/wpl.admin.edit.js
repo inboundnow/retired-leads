@@ -18,7 +18,9 @@ jQuery(document).ready(function($) {
 
 	// Getting URL var by its nam
 	var byName = getUrlVar('tab');
-
+	setTimeout(function() {
+	     $('#poststuff').fadeIn(300);
+	}, 300);
 	// Set setting Tab
 	setTimeout(function() {
 	    jQuery("#" + byName).click();

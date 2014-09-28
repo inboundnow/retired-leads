@@ -597,7 +597,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				),
 				array(
 					'id'=>'wpleads_lead_tab_raw_form_data',
-					'label'=> __( 'Input Logs' , 'leads' )
+					'label'=> __( 'Logs' , 'leads' )
 				)
 			);
 
@@ -767,7 +767,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					$wp_user_id = get_post_meta( $post->ID , 'wpleads_wordpress_user_id' , true );
 					if ( isset($wp_user_id) && ($wp_user_id != 1) ) {
 						$edit_user_link = get_edit_user_link( $wp_user_id );
-						echo '<a	target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
+						//echo '<a	target="_blank" href="'.$edit_user_link.'">'. __( 'Edit User Profile' , 'leads' ) .'</a>';
 					}
 					?>
 					</div>

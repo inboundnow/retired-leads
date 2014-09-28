@@ -18,7 +18,13 @@ function inbound_form_classes(forms_array, functionName, classes) {
 function inbound_process_all_forms(){
 
 	jQuery('form').each(function() {
-	var match = 'comment', attributes = {}, form = jQuery(this), form_id = form.attr('id'), form_class = form.attr('class'), form_name = form.attr('name'), form_action = form.attr('action'), form_target = form.attr('target');
+	var match = 'comment', attributes = {},
+	form = jQuery(this),
+	form_id = form.attr('id'),
+	form_class = form.attr('class'),
+	form_name = form.attr('name'),
+	form_action = form.attr('action'),
+	form_target = form.attr('target');
 
 		if ( form.is( ".wpcf7-form" ) ) {
 			var is_cf7_ajax = form.find('.ajax-loader');
@@ -46,7 +52,7 @@ function inbound_process_all_forms(){
 			if (id_match > -1){
 				var halt = true;
 			} */
-		   // console.log(atr + ": " + attributes[atr]);
+		   console.log(atr + ": " + attributes[atr]);
 		   if (typeof (attributes[atr]) != "undefined" && attributes[atr] != null && attributes[atr] != "") {
 				if (attributes[atr].toLowerCase().indexOf(match)>-1 && inbound_ajax.comment_tracking === 'on') {
 					form.addClass('wpl-track-me').addClass('wpl-comment-form');
@@ -66,23 +72,22 @@ function inbound_process_all_forms(){
 
 jQuery(document).ready(function($) {
 
-	var form_ids = wpleads.form_ids;
-	var forms = form_ids.split(',');
-	var form_exclude_ids = wpleads.form_exclude_ids;
-	var exclude_forms = form_exclude_ids.split(',');
-	var classes = ['wpl-track-me', 'wpl-search-box', 'wpl-ajax-fallback', 'wpl-comment-form'];
-
 	// Process all forms on page
 	inbound_process_all_forms();
 
-	// Include Specific Forms from Settings
-	if (typeof (form_ids) != "undefined" && form_ids != null && form_ids != "") {
-		inbound_form_classes(forms, 'addClass', classes);
+	var classes = ['wpl-track-me', 'wpl-search-box', 'wpl-ajax-fallback', 'wpl-comment-form'];
+	var single = ['wpl-track-me'];
+	/* Remove specified IDs from form tracking */
+	if (typeof (inbound_track_include) != "undefined" && inbound_track_include != null && inbound_track_include != "") {
+		console.log('remove ids ' + inbound_track_include);
+		var selectors = inbound_track_include.split(',');
+		inbound_form_classes(selectors, 'addClass', single);
 	}
-	// Exclude Specific Forms from Settings
-	if (typeof (form_exclude_ids) != "undefined" && form_exclude_ids != null && form_exclude_ids != "") {
-		inbound_form_classes(exclude_forms, 'removeClass', classes);
+	/* Remove specified Classes from form tracking */
+	if (typeof (inbound_track_exclude) != "undefined" && inbound_track_exclude != null && inbound_track_exclude != "") {
+		console.log('remove classes ' + inbound_track_exclude);
+		var selectors = inbound_track_exclude.split(',');
+		inbound_form_classes(selectors, 'removeClass', classes);
 	}
-
 
 });
