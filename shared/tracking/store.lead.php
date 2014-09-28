@@ -174,7 +174,6 @@ function inbound_store_lead( $args = array( ) ) {
 			//$post = add_filter('lp_leads_post_vars',$post);
 			$lead_data['lead_id'] = wp_insert_post($post);
 			$lead_id = $lead_data['lead_id'];
-			update_post_meta( $lead_id, 'wpleads_wordpress_user_id', $user_ID );
 
 			/* updates common meta for new leads */
 			inbound_update_common_meta($lead_data);
@@ -375,7 +374,7 @@ function inbound_store_lead( $args = array( ) ) {
 		do_action('wpl_store_lead_post', $lead_data );
 		do_action('lp_store_lead_post', $lead_data );
 
-		if (!$args) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 
 			echo $lead_id;
 			die();
