@@ -75,7 +75,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 			$template = self::get_template( 'wp-new-user-notification' );
 			
 			$user = new WP_User($user_id);
-
+			
+			if ( !$plaintext_pass ) {
+				$plaintext_pass = __( '<i>hidden</h1>' , 'leads' );
+			}
+			
 			$args = array(
 				array(
 					'wp_user_id' => $user_id,
