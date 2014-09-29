@@ -515,3 +515,39 @@ function inbound_check_lead_name( $lead_data ) {
 	return $lead_data;
 }
 add_action( 'inboundnow_store_lead_pre_filter_data' , 'inbound_check_lead_name' , 10 , 1);
+
+/**
+ *  Loads correct lead UID during a login
+ */
+function inbound_load_tracking_cookie( $user_login, $user) {
+    
+	if (!isset($user->data->user_email)) {
+		return;
+	}
+	
+	global $wp_query;
+	
+	/* search leads cpt for record containing email & get UID */
+	$results = new WP_Query( array( 'post_type' => 'wp-lead' , 's' => $user->data->user_email ) );
+	
+	if (!$results) {
+		return;
+	}
+	
+	if ( $results->have_posts() ) {
+		while ( $results->have_posts() ) {
+			
+			$uid = get_post_meta( $results->post->ID , 'wp_leads_uid' , true );
+			
+			if (!$uid) {
+				return;
+			}
+			
+			setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
+			return;
+		}
+	}
+	
+	
+}
+add_action('wp_login', 'inbound_load_tracking_cookie', 10, 2);
