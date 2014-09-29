@@ -555,8 +555,10 @@ class Inbound_Forms {
 				if (preg_match( '/Phone|phone number|telephone/i', $field)) {
 					$field = "wpleads_work_phone";
 				}
-
-				$form_post_data[$field] = strip_tags( $value );
+				
+				if (!is_array($value) {
+					$form_post_data[$field] = strip_tags( $value );
+				}
 			}
 
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
