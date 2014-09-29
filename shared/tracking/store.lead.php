@@ -174,7 +174,6 @@ function inbound_store_lead( $args = array( ) ) {
 			//$post = add_filter('lp_leads_post_vars',$post);
 			$lead_data['lead_id'] = wp_insert_post($post);
 			$lead_id = $lead_data['lead_id'];
-			update_post_meta( $lead_id, 'wpleads_wordpress_user_id', $user_ID );
 
 			/* updates common meta for new leads */
 			inbound_update_common_meta($lead_data);
@@ -375,7 +374,7 @@ function inbound_store_lead( $args = array( ) ) {
 		do_action('wpl_store_lead_post', $lead_data );
 		do_action('lp_store_lead_post', $lead_data );
 
-		if (!$args) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 
 			echo $lead_id;
 			die();
@@ -516,3 +515,39 @@ function inbound_check_lead_name( $lead_data ) {
 	return $lead_data;
 }
 add_action( 'inboundnow_store_lead_pre_filter_data' , 'inbound_check_lead_name' , 10 , 1);
+
+/**
+ *  Loads correct lead UID during a login
+ */
+function inbound_load_tracking_cookie( $user_login, $user) {
+    
+	if (!isset($user->data->user_email)) {
+		return;
+	}
+	
+	global $wp_query;
+	
+	/* search leads cpt for record containing email & get UID */
+	$results = new WP_Query( array( 'post_type' => 'wp-lead' , 's' => $user->data->user_email ) );
+	
+	if (!$results) {
+		return;
+	}
+	
+	if ( $results->have_posts() ) {
+		while ( $results->have_posts() ) {
+			
+			$uid = get_post_meta( $results->post->ID , 'wp_leads_uid' , true );
+			
+			if (!$uid) {
+				return;
+			}
+			
+			setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
+			return;
+		}
+	}
+	
+	
+}
+add_action('wp_login', 'inbound_load_tracking_cookie', 10, 2);

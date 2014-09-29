@@ -11,7 +11,7 @@ var InboundAnalytics = (function () {
    var debugMode = false;
 
    var _privateMethod = function () {
-      console.log('Run private');
+      console.log('Run private method');
    };
 
    var App = {
