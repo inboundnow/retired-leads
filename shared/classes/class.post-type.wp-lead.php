@@ -6,7 +6,7 @@ if ( !class_exists('Inbound_Leads') ) {
 	class Inbound_Leads {
 
 		/**
-		*  Initalize Inbound_Leads class
+		*  Initialize Inbound_Leads class
 		*/
 		function __construct() {
 			self::load_hooks();
