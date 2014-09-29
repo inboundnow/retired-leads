@@ -19,7 +19,7 @@ function wpleads_get_global_settings() {
 		),
 		array(
 			'id'  => 'exclude-tracking-ids',
-			'label' => __('IDs of forms <u>NOT</u> to track' , 'leads' ),
+			'label' => __('IDs or Classes of forms <u>NOT</u> to track' , 'leads' ),
 			'description' => __("<p>Enter in a value found in a HTML form's id attribute to turn off tracking.</p>" , 'leads' ),
 			'type'  => 'text',
 			'default'  => '',
@@ -117,15 +117,15 @@ function wpleads_get_global_settings() {
 	$tab_slug = 'wpleads-extensions';
 	$wpleads_global_settings[$tab_slug]['label'] = __('Extensions' , 'leads' );
 
-	
-	
+
+
 	$wpleads_global_settings = apply_filters('wpleads_define_global_settings', $wpleads_global_settings);
 
 	/* Setup API Keys Tab */
 	if (current_user_can('activate_plugins')) {
 		$tab_slug = 'wpleads-apikeys';
 		$wpleads_global_settings[$tab_slug]['label'] = __('API Keys' , 'leads' );
-		
+
 		$wpleads_global_settings[$tab_slug]['settings'] = array(
 			array(
 				'id'  => 'api-keys-table',
@@ -134,7 +134,7 @@ function wpleads_get_global_settings() {
 			)
 		);
 	}
-	
+
 	return $wpleads_global_settings;
 }
 
@@ -178,7 +178,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 	} else {
 		$styling = '';
 	}
-	
+
 	/* Use nonce for verification */
 	echo "<input type='hidden' name='wpl_{$key}_custom_fields_nonce' value='".wp_create_nonce('wpl-nonce')."' />";
 
@@ -206,7 +206,7 @@ function wpleads_render_global_settings($key,$custom_fields,$active_tab) {
 			echo '</td></tr>';
 			continue;
 		}
-		
+
 		echo '<tr><th class="wpl-gs-th" valign="top" style="font-weight:300;">';
 		if ($field['type']=='header'){
 			echo $field['default'];
@@ -315,7 +315,7 @@ function wpleads_display_global_settings_js() {
 		$default_id ='wpl-main';
 	}
 	?>
-	
+
 	<script type='text/javascript'>
 	/* Hide sidebar when API Keys Tab is opened */
 	jQuery(document).ready( function($) {
@@ -326,24 +326,24 @@ function wpleads_display_global_settings_js() {
 				jQuery('.lp-settings-tab-sidebar').hide();
 				jQuery('#wpl-button-create-new-group-open').hide();
 			} else {
-				jQuery('.lp-settings-tab-sidebar').show();				
+				jQuery('.lp-settings-tab-sidebar').show();
 				jQuery('#wpl-button-create-new-group-open').show();
 			}
 		});
-		
+
 		<?php
 		if ( isset($_GET['tab']) && $_GET['tab'] == 'tabs-wpleads-apikeys' ) {
 			echo "jQuery('.lp-settings-tab-sidebar').hide();";
 			echo "jQuery('#wpl-button-create-new-group-open').hide();";
 		}
 		?>
-	
+
 	});
-	
+
 	</script>
-	
+
 	<?php
-	
+
 }
 
 function wpleads_display_global_settings() {
@@ -355,7 +355,7 @@ function wpleads_display_global_settings() {
 		$active_tab = $_REQUEST['open-tab'];
 	}
 
-	
+
 	wpleads_save_global_settings();
 
 	echo '<h2 class="nav-tab-wrapper">';

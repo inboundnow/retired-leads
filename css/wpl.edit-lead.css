@@ -8,6 +8,9 @@
 #lead-main-image {
 
 }
+#poststuff {
+	display: none;
+}
 .lead-comment-div p {
 	margin-top: 0px;
 }

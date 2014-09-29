@@ -21,17 +21,21 @@ function wpleads_enqueuescripts_header() {
 		}
 
 		if ($form_prepopulation === "1") {
-			wp_enqueue_script('form-population', WPL_URLPATH . 'js/wpl.form-population.js', array( 'jquery','jquery-cookie'));
+			wp_enqueue_script('form-population', WPL_URLPATH.'js/wpl.form-population.js', array( 'jquery','jquery-cookie'));
 		} else {
 			wp_dequeue_script('form-population');
 		}
 
 		// Load form tracking class
-		$form_ids = get_option( 'wpl-main-tracking-ids' , 1);
-		$form_exclude_ids = get_option( 'wpl-main-exclude-tracking-ids');
-		if ($form_ids || $form_exclude_ids) {
-			wp_enqueue_script('wpl-assign-class', WPL_URLPATH . '/js/wpl.assign-class.js', array( 'jquery'));
-			wp_localize_script( 'wpl-assign-class', 'wpleads', array( 'form_ids' => $form_ids, 'form_exclude_ids' => $form_exclude_ids ) );
+		$inbound_track_include = get_option( 'wpl-main-tracking-ids', 1);
+		if (!empty($inbound_track_include) && $inbound_track_include != "") {
+			wp_enqueue_script('wpl-assign-class', WPL_URLPATH . 'js/wpl.assign-class.js', array( 'jquery'));
+			wp_localize_script( 'wpl-assign-class', 'inbound_track_include', $inbound_track_include );
+		}
+		$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
+		if (!empty($inbound_track_exclude) && $inbound_track_exclude != "") {
+			wp_enqueue_script('wpl-assign-class', WPL_URLPATH . 'js/wpl.assign-class.js', array( 'jquery'));
+			wp_localize_script( 'wpl-assign-class', 'inbound_track_exclude', $inbound_track_exclude);
 		}
 
 	}

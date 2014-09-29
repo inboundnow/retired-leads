@@ -76,6 +76,7 @@ outline: none;
 	color: #21759b;
 	text-decoration: underline;
 	font-size: 12px;
+	display: none;
 }
 
 .apply-map {

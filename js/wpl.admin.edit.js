@@ -18,7 +18,9 @@ jQuery(document).ready(function($) {
 
 	// Getting URL var by its nam
 	var byName = getUrlVar('tab');
-
+	setTimeout(function() {
+	     $('#poststuff').fadeIn(300);
+	}, 300);
 	// Set setting Tab
 	setTimeout(function() {
 	    jQuery("#" + byName).click();
@@ -308,7 +310,7 @@ jQuery(document).ready(function($) {
     });
 
 	// lead mapping
-	var selectbox = jQuery('<select style="display:none" name="NOA" class="id_NOA"></select>');
+	/*var selectbox = jQuery('<select style="display:none" name="NOA" class="id_NOA"></select>');
 	jQuery("#raw-data-display").prepend(selectbox);
 	jQuery('.wpleads-th label').each(function(i) {
 		// create select options
@@ -322,6 +324,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(".map-raw-field").on("click", function(event){
+
 		var count_of_fields = jQuery(this).parent().find(".possible-map-value").size();
 		var this_selected = jQuery(this).parent().find(".toggle-val").size();
 		console.log(this_selected);
@@ -396,7 +399,7 @@ jQuery(document).ready(function($) {
         }
         //alert(toggle_value);
     });
-
+	*/
 	jQuery(".possible-map-value").on("click", function(event){
 	jQuery(".toggle-val").removeClass("toggle-val");
 	jQuery(this).toggleClass("toggle-val");
