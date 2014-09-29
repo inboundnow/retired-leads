@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
 Tested up to: 4.0
-Stable Tag: 1.5.0
+Stable Tag: 1.5.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
