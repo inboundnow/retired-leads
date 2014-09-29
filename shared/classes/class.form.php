@@ -556,9 +556,8 @@ class Inbound_Forms {
 					$field = "wpleads_work_phone";
 				}
 				
-				if (!is_array($value) {
-					$form_post_data[$field] = strip_tags( $value );
-				}
+				$form_post_data[$field] = (!is_array($value)) ?  strip_tags( $value ) : $value;
+	
 			}
 
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
