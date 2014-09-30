@@ -63,6 +63,9 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'parent_item_colon' => ''
 			);
 
+			/* Menu to place email templates sub menu into */
+			$post_type = apply_filters( 'inbound_email_templates_submenu_placement' , 'wp-lead' );
+
 			$args = array(
 				'labels' 				=> $labels,
 				'public'				=> true,
@@ -70,7 +73,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 				'show_ui' 				=> true,
 				'query_var' 			=> true,
 				//'menu_icon' 			=> INBOUDNOW_SHARED_URLPATH . '/images/email.png',
-				'show_in_menu'			=> 'edit.php?post_type=wp-lead',
+				'show_in_menu'			=> 'edit.php?post_type=' . $post_type ,
 				'capability_type' 		=> 'post',
 				'hierarchical' 			=> false,
 				'menu_position' 		=> null,
