@@ -17,7 +17,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		public function __construct() {
 			self::load_hooks();
 		}
-
+ 
 		public static function load_hooks() {
 
 			/* Hide metaboxes */

@@ -10,7 +10,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		
 		/**
 		* @introduced: 1.5.1
-		* @migration-type: db modification
+		* @migration-type: db modification 
 		* @mirgration: creates wp_inbound_link_tracking table
 		*/
 		public static function create_link_tracking_table() {
