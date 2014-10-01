@@ -64,7 +64,8 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 			);
 
 			/* Menu to place email templates sub menu into */
-			$post_type = apply_filters( 'inbound_email_templates_submenu_placement' , 'wp-lead' );
+			$labels = apply_filters( 'inbound_email-template_labels' , $labels );
+			$post_type = apply_filters( 'inbound_email-template_submenu_placement' , 'wp-lead' );
 
 			$args = array(
 				'labels' 				=> $labels,

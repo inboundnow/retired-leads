@@ -48,6 +48,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$exclude[] = 'inbound-forms';
 			$exclude[] = 'email-template';
 			$exclude[] = 'inbound-log';
+			$exclude[] = 'inbound-email';
 			$exclude[] = 'landing-page';
 			$exclude[] = 'edd-license';
 			
