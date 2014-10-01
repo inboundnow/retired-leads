@@ -463,7 +463,7 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public static function get_results_per_page() {
 
-			return isset( $_REQUEST['results_per_page '] ) ? $_REQUEST['results_per_page'] : self::$results_per_page;
+			return isset( $_REQUEST['results_per_page'] ) ? $_REQUEST['results_per_page'] : self::$results_per_page;
 		}
 
 		/**
