@@ -2,7 +2,7 @@
     <testsuites>
         <!-- Default test suite to run all tests -->
         <testsuite>
-            <directory prefix="test_" suffix=".php">tests/travis-ci</directory>
+            <directory prefix="test." suffix=".php">tests/travis-ci/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
