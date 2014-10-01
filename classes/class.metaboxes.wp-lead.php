@@ -98,19 +98,20 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				array( __CLASS__ , 'display_main' ) , // $callback
 				'wp-lead', // $page
 				'normal', // $context
-				'high'
-			); // $priority
+				'high' // $priority
+			);
 
-			/*
+
 			add_meta_box(
-				'wplead_metabox_conversion', // $id
-				__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'leads' ),
-				array( __CLASS__ , 'display_conversion_paths' ),
+				'wplead_metabox_referal', // $id
+				__( 'Source of Lead' , 'leads' ),
+				array( __CLASS__ , 'display_referData' ),
 				'wp-lead', // $page
 				'normal', // $context
-				'high'); // $priority
-			}
-			*/
+				'high' // $priority
+			);
+
+
 		}
 
 		/**
@@ -1383,7 +1384,42 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			<?php
 		}
+		/**
+		*	Displays main lead content containers
+		*/
+		public static function display_referData() {
+			global $post;
 
+			// Get Raw form Data
+			$referral_data = get_post_meta($post->ID,'wpleads_referral_data', true);
+			if ($referral_data)
+			{
+				$referral_data = json_decode( stripslashes($referral_data) , true);
+				$count = count($referral_data);
+				$referral_data = ( $referral_data ) ? $referral_data : array();
+				$referral_data = array_reverse($referral_data);
+				foreach( $referral_data as	$key=>$value) {
+					$date =	date_create($referral_data[$key]['datetime']);
+
+					?>
+					<div class="wpl-raw-data-tr">
+						<span class="wpl-raw-data-td-label">
+							<?php echo " <span class='lead-key-normal'>". $count . "</span>"; ?>
+						</span>
+						<span class="wpl-raw-data-td-value">
+							<?php
+							if(isset($value['source'])){
+								$src = ($value['source'] === "NA") ? "Direct Traffic" : $value['source'];
+								echo $src . ' on ' .  date_format($date, 'F jS, Y \a\t g:ia (l)');
+							}
+							?>
+						</span>
+					</div>
+				<?php
+					$count--;
+				}
+			}
+		}
 		/**
 		*	Displays main lead content containers
 		*/

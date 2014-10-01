@@ -1,4 +1,5 @@
 /*tab setup*/
+/*tab setup*/
 .nav-tab-special-inactive{
 	border-color: #DFDFDF #DFDFDF #FFFFFF;
 	border-top-left-radius: 3px;
@@ -499,7 +500,7 @@ padding-left: 28px;
 
 #leads-right-col {
 	float: left;
-	//width: 78%;
+	width: 75%;
 	position: relative;
 }
 

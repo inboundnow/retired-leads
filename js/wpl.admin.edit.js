@@ -20,6 +20,7 @@ jQuery(document).ready(function($) {
 	var byName = getUrlVar('tab');
 	setTimeout(function() {
 	     $('#poststuff').fadeIn(300);
+	     $('#postcustom .hndle span').text('Raw Data');
 	}, 300);
 	// Set setting Tab
 	setTimeout(function() {
