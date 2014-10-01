@@ -17,7 +17,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		public function __construct() {
 			self::load_hooks();
 		}
-
+ 
 		public static function load_hooks() {
 
 			/* Hide metaboxes */
@@ -98,19 +98,20 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				array( __CLASS__ , 'display_main' ) , // $callback
 				'wp-lead', // $page
 				'normal', // $context
-				'high'
-			); // $priority
+				'high' // $priority
+			);
 
-			/*
+
 			add_meta_box(
-				'wplead_metabox_conversion', // $id
-				__( 'Visitor Path Sessions - <span class="session-desc">(Sessions expire after 1 hour of inactivity)</span> <span class="minimize-paths button">Shrink Session View</span>' , 'leads' ),
-				array( __CLASS__ , 'display_conversion_paths' ),
+				'wplead_metabox_referal', // $id
+				__( 'Source of Lead' , 'leads' ),
+				array( __CLASS__ , 'display_referData' ),
 				'wp-lead', // $page
 				'normal', // $context
-				'high'); // $priority
-			}
-			*/
+				'high' // $priority
+			);
+
+
 		}
 
 		/**
@@ -256,19 +257,33 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		public static function display_geolocation() {
 			global $post;
 
-			$ip_address = get_post_meta( $post->ID , 'wpleads_ip_address', true );
-			$geo_result = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
+			$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
 
-			if (!is_array($geo_result)) {
+			$array = json_decode($ip_addresses, true);
+			
+			if (is_array($array)) {
+				$ip_address = key($array);
+				if (isset( $array[ $ip_address ]['geodata'] )) {
+					$geodata = $array[ $ip_address ]['geodata'];
+				}
+			} else {
+				$ip_address = $ip_addresses;
+			}
+			
+			if (!$geodata) {
+				$geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
+				$geodata = unserialize(  $geodata['body'] );
+			}
+			
+			if (!is_array($geodata)) {
 				return;
 			}
 
-			$geo_result_body = $geo_result['body'];
-			$geo_array = unserialize($geo_result_body);
+			
 			$city = get_post_meta($post->ID, 'wpleads_city', true);
 			$state = get_post_meta($post->ID, 'wpleads_region_name', true);
-			$latitude = $geo_array['geoplugin_latitude'];
-			$longitude = $geo_array['geoplugin_longitude'];
+			$latitude = $geodata['geoplugin_latitude'];
+			$longitude = $geodata['geoplugin_longitude'];
 
 			?>
 			<div >
@@ -277,27 +292,27 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						<div id='lead-geo-data-area'>
 
 						<?php
-						if (is_array($geo_array)) {
-							unset($geo_array['geoplugin_status']);
-							unset($geo_array['geoplugin_credit']);
-							unset($geo_array['geoplugin_request']);
-							unset($geo_array['geoplugin_currencyConverter']);
-							unset($geo_array['geoplugin_currencySymbol_UTF8']);
-							unset($geo_array['geoplugin_currencySymbol']);
-							unset($geo_array['geoplugin_dmaCode']);
+						if (is_array($geodata)) {
+							unset($geodata['geoplugin_status']);
+							unset($geodata['geoplugin_credit']);
+							unset($geodata['geoplugin_request']);
+							unset($geodata['geoplugin_currencyConverter']);
+							unset($geodata['geoplugin_currencySymbol_UTF8']);
+							unset($geodata['geoplugin_currencySymbol']);
+							unset($geodata['geoplugin_dmaCode']);
 
-							if (isset($geo_array['geoplugin_city']) && $geo_array['geoplugin_city'] != ""){
-								echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , 'leads')."</span>" . $geo_array['geoplugin_city'] . "</div>"; }
-							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
-								echo "<div class='lead-geo-field'><span class='geo-label'>".__('State:' , 'leads')."</span>" . $geo_array['geoplugin_regionName'] . "</div>";
+							if (isset($geodata['geoplugin_city']) && $geodata['geoplugin_city'] != ""){
+								echo "<div class='lead-geo-field'><span class='geo-label'>".__('City:' , 'leads')."</span>" . $geodata['geoplugin_city'] . "</div>"; }
+							if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != ""){
+								echo "<div class='lead-geo-field'><span class='geo-label'>".__('State:' , 'leads')."</span>" . $geodata['geoplugin_regionName'] . "</div>";
 							}
-							if (isset($geo_array['geoplugin_areaCode']) && $geo_array['geoplugin_areaCode'] != ""){
-								echo "<div class='lead-geo-field'><span class='geo-label'>".__('Area Code:' , 'leads')."</span>" . $geo_array['geoplugin_areaCode'] . "</div>";
+							if (isset($geodata['geoplugin_areaCode']) && $geodata['geoplugin_areaCode'] != ""){
+								echo "<div class='lead-geo-field'><span class='geo-label'>".__('Area Code:' , 'leads')."</span>" . $geodata['geoplugin_areaCode'] . "</div>";
 							}
-							if (isset($geo_array['geoplugin_countryName']) && $geo_array['geoplugin_countryName'] != ""){
-								echo "<div class='lead-geo-field'><span class='geo-label'>".__('Country:' , 'leads')."</span>" . $geo_array['geoplugin_countryName'] . "</div>";
+							if (isset($geodata['geoplugin_countryName']) && $geodata['geoplugin_countryName'] != ""){
+								echo "<div class='lead-geo-field'><span class='geo-label'>".__('Country:' , 'leads')."</span>" . $geodata['geoplugin_countryName'] . "</div>";
 							}
-							if (isset($geo_array['geoplugin_regionName']) && $geo_array['geoplugin_regionName'] != ""){
+							if (isset($geodata['geoplugin_regionName']) && $geodata['geoplugin_regionName'] != ""){
 								echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , 'leads')."</span>" . $ip_address . "</div>";
 							}
 
@@ -1383,7 +1398,42 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			<?php
 		}
+		/**
+		*	Displays main lead content containers
+		*/
+		public static function display_referData() {
+			global $post;
 
+			// Get Raw form Data
+			$referral_data = get_post_meta($post->ID,'wpleads_referral_data', true);
+			if ($referral_data)
+			{
+				$referral_data = json_decode( stripslashes($referral_data) , true);
+				$count = count($referral_data);
+				$referral_data = ( $referral_data ) ? $referral_data : array();
+				$referral_data = array_reverse($referral_data);
+				foreach( $referral_data as	$key=>$value) {
+					$date =	date_create($referral_data[$key]['datetime']);
+
+					?>
+					<div class="wpl-raw-data-tr">
+						<span class="wpl-raw-data-td-label">
+							<?php echo " <span class='lead-key-normal'>". $count . "</span>"; ?>
+						</span>
+						<span class="wpl-raw-data-td-value">
+							<?php
+							if(isset($value['source'])){
+								$src = ($value['source'] === "NA") ? "Direct Traffic" : $value['source'];
+								echo $src . ' on ' .  date_format($date, 'F jS, Y \a\t g:ia (l)');
+							}
+							?>
+						</span>
+					</div>
+				<?php
+					$count--;
+				}
+			}
+		}
 		/**
 		*	Displays main lead content containers
 		*/

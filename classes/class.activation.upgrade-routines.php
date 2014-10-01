@@ -7,9 +7,10 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 	class Leads_Activation_Update_Routines {
 		
+		
 		/**
-		* @introduced: 2.1.4
-		* @migration-type: db modification
+		* @introduced: 1.5.1
+		* @migration-type: db modification 
 		* @mirgration: creates wp_inbound_link_tracking table
 		*/
 		public static function create_link_tracking_table() {
@@ -41,7 +42,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		}
 		
 		/**
-		* @introduced: 2.0.0
+		* @introduced: 1.1.0
 		* @migration-type: meta key update
 		* @mirgration: standardizes meta key from old naming conversion to new naming convention
 		* @keychange: wpl-lead-conversion-count to wpleads_conversion_count
