@@ -228,20 +228,7 @@ function inbound_store_lead( $args = array( ) ) {
 
 		/* Store IP addresss & Store GEO Data */
 		if ($lead_data['ip_address']) {
-			update_post_meta( $lead_id, 'wpleads_ip_address', $lead_data['ip_address'] );
-			if ($lead_data['ip_address'] != "127.0.0.1"){ // exclude localhost
-			$geo_array = @unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
-			(isset($geo_array['geoplugin_areaCode'])) ? update_post_meta( $lead_id, 'wpleads_areaCode', $geo_array['geoplugin_areaCode'] ) : null;
-			(isset($geo_array['geoplugin_city'])) ? update_post_meta( $lead_id, 'wpleads_city', $geo_array['geoplugin_city'] ) : null;
-			(isset($geo_array['geoplugin_regionName'])) ? update_post_meta( $lead_id, 'wpleads_region_name', $geo_array['geoplugin_regionName'] ) : null;
-			(isset($geo_array['geoplugin_regionCode'])) ? update_post_meta( $lead_id, 'wpleads_region_code', $geo_array['geoplugin_regionCode'] ) : null;
-			(isset($geo_array['geoplugin_countryName'])) ? update_post_meta( $lead_id, 'wpleads_country_name', $geo_array['geoplugin_countryName'] ) : null;
-			(isset($geo_array['geoplugin_countryCode'])) ? update_post_meta( $lead_id, 'wpleads_country_code', $geo_array['geoplugin_countryCode'] ) : null;
-			(isset($geo_array['geoplugin_latitude'])) ? update_post_meta( $lead_id, 'wpleads_latitude', $geo_array['geoplugin_latitude'] ) : null;
-			(isset($geo_array['geoplugin_longitude'])) ? update_post_meta( $lead_id, 'wpleads_longitude', $geo_array['geoplugin_longitude'] ) : null;
-			(isset($geo_array['geoplugin_currencyCode'])) ? update_post_meta( $lead_id, 'wpleads_currency_code', $geo_array['geoplugin_currencyCode'] ) : null;
-			(isset($geo_array['geoplugin_currencySymbol_UTF8'])) ? update_post_meta( $lead_id, 'wpleads_currency_symbol', $geo_array['geoplugin_currencySymbol_UTF8'] ) : null;
-			}
+			inbound_update_geolocation_data( $lead_data );
 		}
 
 		/* Store Conversion Data to Lead */
@@ -443,7 +430,33 @@ function inbound_update_common_meta($lead_data)
 	}
 }
 
+/**
+ *  Connects to geoplugin.net and gets data on IP address and sets it into historical log
+ *  @param ARRAY $lead_data 
+ */
+function inbound_update_geolocation_data( $lead_data ) {
 
+	$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
+	$ip_addresses = json_decode($ip_addresses, true);
+	
+	if (!$ip_addresses) {
+		$ip_addresses = array();
+	}
+	
+	$new_record[ $lead_data['ip_address'] ]['ip_address'] = $lead_data['ip_address'];
+	
+	
+	/* ignore for local environments */
+	if ($lead_data['ip_address']!= "127.0.0.1"){ // exclude localhost
+		$geo_array = @unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
+		$new_record['geodata'] = $geo_array;
+	}
+	
+	$ip_addresses = array_merge( $new_record , $ip_addresses );
+	$ip_addresses = json_encode( $ip_addresses );
+	
+	update_post_meta( $lead_data['lead_id'], 'wpleads_ip_address', $ip_addresses );
+}
 
 function inbound_json_array_merge( $arr1, $arr2 ) {
 	$keys = array_keys( $arr2 );
