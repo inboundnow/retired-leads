@@ -95,7 +95,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		private static function define_constants() {
 
 			define('WP_CTA_CURRENT_VERSION', '2.2.1' );
-			define('WP_CTA_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
+			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
 			define('WP_CTA_FILE', __FILE__ );
