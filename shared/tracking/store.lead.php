@@ -36,7 +36,7 @@ function inbound_store_lead_search($args = array()) {
 			$search_array = array();
 			foreach ($search as $key => $value) {
 				$search_array[$count] = array( 'date' => $search[$count]['date'],
-											   'value' => $search[$count]['value']);
+												'value' => $search[$count]['value']);
 				$count++;
 			}
 
@@ -75,7 +75,7 @@ add_action('wp_ajax_inbound_store_lead', 'inbound_store_lead' , 10 , 1);
 add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
 
 /**
- *  This method needs to be rebuilt
+ *	This method needs to be rebuilt
  */
 function inbound_store_lead( $args = array( ) ) {
 	global $user_ID, $wpdb;
@@ -92,7 +92,7 @@ function inbound_store_lead( $args = array( ) ) {
 	$lead_data['user_ID'] = $user_ID;
 	$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 	$lead_data['wpleads_email_address'] = (isset($args['emailTo'])) ? $args['emailTo'] : false;
-	$lead_data['page_views'] = (isset($args['page_views'])) ?  $args['page_views'] : false;
+	$lead_data['page_views'] = (isset($args['page_views'])) ?	$args['page_views'] : false;
 	$lead_data['form_input_values'] = (isset($args['form_input_values'])) ? $args['form_input_values'] : false; // raw post data
 	
 	/* Attempt to populate lead data through mappped fields */
@@ -119,8 +119,8 @@ function inbound_store_lead( $args = array( ) ) {
 	$lead_data['search_data'] = $search_data;
 
 	/* Legacy - needs to be phased out - search for alias key matches */
-	$lead_data['wpleads_full_name'] = (isset($args['full_name'])) ?  $args['full_name'] : "";
-	$lead_data['wpleads_first_name'] = (isset($args['first_name'])) ?  $args['first_name'] : "";
+	$lead_data['wpleads_full_name'] = (isset($args['full_name'])) ?	$args['full_name'] : "";
+	$lead_data['wpleads_first_name'] = (isset($args['first_name'])) ?	$args['first_name'] : "";
 	$lead_data['wpleads_last_name'] = (isset($args['last_name'])) ? $args['last_name'] : "";
 	$lead_data['wpleads_company_name'] = (isset($args['company_name'] )) ? $args['company_name'] : "";
 	$lead_data['wpleads_mobile_phone'] = (isset($args['phone'])) ? $args['phone'] : "";
@@ -136,7 +136,7 @@ function inbound_store_lead( $args = array( ) ) {
 	do_action('inbound_store_lead_pre' , $lead_data , $args ); // Global lead storage action hook
 	
 	/* bail if spam */
-	if (apply_filters( 'inbound_check_if_spam' , false ,  $lead_data )) {
+	if (apply_filters( 'inbound_check_if_spam' , false ,	$lead_data )) {
 		exit;
 	}
 
@@ -165,7 +165,7 @@ function inbound_store_lead( $args = array( ) ) {
 			/* Create New Lead */
 			$post = array(
 				'post_title'		=> $lead_data['wpleads_email_address'],
-				 //'post_content'		=> $json,
+				//'post_content'		=> $json,
 				'post_status'		=> 'publish',
 				'post_type'		=> 'wp-lead',
 				'post_author'		=> 1
@@ -187,8 +187,8 @@ function inbound_store_lead( $args = array( ) ) {
 		}
 
 		/***
-		 * Run Processes for all Leads below
-		 ***/
+		* Run Processes for all Leads below
+		***/
 		do_action('wpleads_after_conversion_lead_insert',$lead_id); // action hook on all lead inserts
 
 		update_post_meta( $lead_id, 'wpleads_inbound_form_mapped_data', $lead_data['Mapped_Data']);
@@ -250,7 +250,7 @@ function inbound_store_lead( $args = array( ) ) {
 		update_post_meta($lead_id, 'wpleads_referral_data', $lead_data['referral_data']); // Store referral object
 
 
-		/* Store Conversion Data to LANDING PAGE/CTA DATA  */
+		/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
 		if ($lead_data['post_type'] == 'landing-page' || $lead_data['post_type'] == 'wp-call-to-action')
 		{
 			$page_conversion_data = get_post_meta( $lead_data['page_id'], 'inbound_conversion_data', TRUE );
@@ -407,7 +407,7 @@ function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 
 
 /**
- *  Loop trough lead_data array and update post meta 
+ *	Loop trough lead_data array and update post meta 
  */
 function inbound_update_common_meta($lead_data)
 {
@@ -431,13 +431,13 @@ function inbound_update_common_meta($lead_data)
 }
 
 /**
- *  Connects to geoplugin.net and gets data on IP address and sets it into historical log
- *  @param ARRAY $lead_data 
+ *	Connects to geoplugin.net and gets data on IP address and sets it into historical log
+ *	@param ARRAY $lead_data 
  */
 function inbound_update_geolocation_data( $lead_data ) {
 
 	$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
-	$ip_addresses = json_decode($ip_addresses, true);
+	$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
 	
 	if (!$ip_addresses) {
 		$ip_addresses = array();
@@ -448,8 +448,12 @@ function inbound_update_geolocation_data( $lead_data ) {
 	
 	/* ignore for local environments */
 	if ($lead_data['ip_address']!= "127.0.0.1"){ // exclude localhost
-		$geo_array = @unserialize(wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']));
-		$new_record['geodata'] = $geo_array;
+		$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']);
+		if ( isset( $response['body'] ) ) {
+			$geo_array = @unserialize( $response['body'] );
+			$new_record[ $lead_data['ip_address'] ]['geodata'] = $geo_array;
+		}
+		
 	}
 	
 	$ip_addresses = array_merge( $new_record , $ip_addresses );
@@ -496,7 +500,7 @@ function inbound_search_args_for_mapped_data( $lead_data , $args ) {
 add_action( 'inboundnow_store_lead_pre_filter_data' , 'inbound_search_args_for_mapped_data' , 10 , 2);
 
 /**
-*  Assembles first,last, & full name from partial data
+*	Assembles first,last, & full name from partial data
 */
 function inbound_check_lead_name( $lead_data ) {
 
@@ -530,10 +534,10 @@ function inbound_check_lead_name( $lead_data ) {
 add_action( 'inboundnow_store_lead_pre_filter_data' , 'inbound_check_lead_name' , 10 , 1);
 
 /**
- *  Loads correct lead UID during a login
+ *	Loads correct lead UID during a login
  */
 function inbound_load_tracking_cookie( $user_login, $user) {
-    
+	
 	if (!isset($user->data->user_email)) {
 		return;
 	}
