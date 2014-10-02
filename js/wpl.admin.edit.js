@@ -416,7 +416,7 @@ jQuery(document).ready(function($) {
 				data: {
 					action: 'wp_leads_auto_mark_as_read',
 					page_id: post_id,
-					nonce: nonce_val
+					//nonce: nonce_val
 				},
 
 				success: function(data){
