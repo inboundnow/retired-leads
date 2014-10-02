@@ -258,9 +258,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			global $post;
 
 			$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
-
-			$array = json_decode($ip_addresses, true);
 			
+			$array = json_decode( stripslashes($ip_addresses), true);
+
 			if (is_array($array)) {
 				$ip_address = key($array);
 				if (isset( $array[ $ip_address ]['geodata'] )) {
@@ -270,7 +270,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				$ip_address = $ip_addresses;
 			}
 			
-			if (!$geodata) {
+			if (!isset($geodata)) {
 				$geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
 				$geodata = unserialize(  $geodata['body'] );
 			}
@@ -279,9 +279,6 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				return;
 			}
 
-			
-			$city = get_post_meta($post->ID, 'wpleads_city', true);
-			$state = get_post_meta($post->ID, 'wpleads_region_name', true);
 			$latitude = $geodata['geoplugin_latitude'];
 			$longitude = $geodata['geoplugin_longitude'];
 
@@ -316,13 +313,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 								echo "<div class='lead-geo-field'><span class='geo-label'>".__('IP Address:' , 'leads')."</span>" . $ip_address . "</div>";
 							}
 
-						}
-						if (($latitude != 0) && ($longitude != 0)) {
-							echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , 'leads').'</a>';
-							echo '<div id="lead-google-map">
-									<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
-									</div>';
-						} else {
+							if (($geodata['geoplugin_latitude'] != 0) && ( $geodata['geoplugin_longitude'] != 0)) {
+								echo '<a class="maps-link" href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q='.$latitude.','.$longitude.'&z=12" target="_blank">'.__('View Map:' , 'leads').'</a>';
+								echo '<div id="lead-google-map">
+										<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
+										</div>';
+							} 
+						}else {
 							echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 						}
 						?>
