@@ -105,7 +105,7 @@ function inbound_store_lead( $args = array( ) ) {
 	$lead_data['post_type'] = (array_key_exists('post_type', $mapped_data)) ? $mapped_data['post_type'] : false;
 	$lead_data['wp_lead_uid'] = (array_key_exists('wp_lead_uid', $mapped_data)) ? $mapped_data['wp_lead_uid'] : false;
 	$lead_data['lead_lists'] = (array_key_exists('leads_list', $mapped_data)) ? explode(",", $mapped_data['leads_list']) : false;
-	$lead_data['ip_address'] = (array_key_exists('ip_address', $mapped_data)) ? $mapped_data['ip_address'] : false;
+	$lead_data['ip_address'] = inbound_get_ip_address();
 
 
 	/* Check first level for data related to lead submit */
@@ -564,7 +564,29 @@ function inbound_load_tracking_cookie( $user_login, $user) {
 			return;
 		}
 	}
-	
-	
 }
 add_action('wp_login', 'inbound_load_tracking_cookie', 10, 2);
+
+/**
+*  Get IP Address, check for x-forwarded-for header first and falls back on the server remote address
+*  @returns STRING ip address
+*/
+function inbound_get_ip_address() {
+	if($_SERVER["HTTP_X_FORWARDED_FOR"]) {
+		if($_SERVER["HTTP_CLIENT_IP"]) {
+			$proxy = $_SERVER["HTTP_CLIENT_IP"];
+		} else {
+			$proxy = $_SERVER["REMOTE_ADDR"];
+		}
+
+		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+	} else {
+		if($_SERVER["HTTP_CLIENT_IP"]) {
+			$ip = $_SERVER["HTTP_CLIENT_IP"];
+		} else {
+			$ip = $_SERVER["REMOTE_ADDR"];
+		}
+	}
+	
+	return $ip;
+}
