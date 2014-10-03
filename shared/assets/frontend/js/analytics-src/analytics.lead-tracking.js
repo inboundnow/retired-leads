@@ -22,49 +22,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
             });
         }
       },
-      attachFormSubmitEvent: function (){
-        for(var i=0; i<window.document.forms.length; i++){
-          var form = window.document.forms[i];
-          var className = "wpl-track-me";
-          if ('classList' in document.documentElement) {
-            var hasClass = form.classList.contains(className);
-          } else {
-            var hasClass = new RegExp('(^|\\s)' + className + '(\\s|$)').test(form.className); /* IE Polyfill */
-          }
-          /* is tracked form */
-          if(hasClass){
-            console.log("Has Class", hasClass);
-            InboundAnalytics.Utils.addListener(form, 'submit', InboundAnalytics.LeadsAPI.formSubmit );
-            console.log(form);
-          }
-
-        }
-        console.log("RAN attach event");
-      },
-      makeRequest: function(url) {
-          if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-            httpRequest = new XMLHttpRequest();
-          } else if (window.ActiveXObject) { // IE
-            try {
-              httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-            }
-            catch (e) {
-              try {
-                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-              }
-              catch (e) {}
-            }
-          }
-
-          if (!httpRequest) {
-            alert('Giving up :( Cannot create an XMLHTTP instance');
-            return false;
-          }
-          httpRequest.onreadystatechange = InboundAnalytics.LeadsAPI.alertContents;
-          httpRequest.open('GET', url);
-          httpRequest.send();
-        },
-        inbound_map_fields: function (el, value, Obj) {
+      inbound_map_fields: function (el, value, Obj) {
           var formObj = [];
           var $this = el;
           var clean_output = value;
@@ -378,7 +336,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
           },
           success = function(returnData){
                     var obj = JSON.parse(returnData);
-                    console.log('RAAAAAAn');
+                    console.log('Got all the lead data check ');
                     setGlobalLeadVar(obj);
                     jQuery.totalStorage('inbound_lead_data', obj); // store lead data
           };
