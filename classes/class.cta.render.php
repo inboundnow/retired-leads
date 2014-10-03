@@ -262,7 +262,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/*	Check if Dirs exist first */
 			$has_js_dir = WP_CTA_PATH.'templates/'.$template['slug'].'/assets/css/';
-			$has_style_dir = WP_CTA_URLPATH.'templates/'.$template['slug'].'/assets/js/';
+			$has_style_dir = WP_CTA_PATH.'templates/'.$template['slug'].'/assets/js/';
 
 			if(file_exists($has_js_dir)) {
 				/* get js files */
@@ -276,7 +276,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				}
 			}
 
-			if(file_exists($has_js_dir)) {
+			if(file_exists($has_style_dir)) {
 				/* get css files */
 				$results = scandir($template['path'].'assets/css/');
 				foreach ($results as $name) {
