@@ -294,7 +294,7 @@ class Inbound_Forms {
 
 						$required_id = ( $key == 0 ) ? $req : '';
 
-						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" '.$required_id.'>'.$value.'<br>';
+						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" '.$required_id.'>'.$checkbox_val_trimmed.'<br>';
 					}
 				} else if ($type === 'html-block') {
 					$html = $matches[3][$i]['html'];
@@ -555,13 +555,13 @@ class Inbound_Forms {
 				if (preg_match( '/Phone|phone number|telephone/i', $field)) {
 					$field = "wpleads_work_phone";
 				}
-				
+
 				$form_post_data[$field] = (!is_array($value)) ?  strip_tags( $value ) : $value;
-	
+
 			}
 
 			$form_meta_data['post_id'] = $_POST['inbound_form_id']; // pass in form id
-			
+
 			/* Send emails if passes spam check returns false */
 			if ( !apply_filters( 'inbound_check_if_spam' , false ,  $form_post_data ) ) {
 				self::send_conversion_admin_notification($form_post_data , $form_meta_data);
@@ -602,7 +602,7 @@ class Inbound_Forms {
 			if ( !isset($form_meta_data['inbound_notify_email']) ) {
 				return;
 			}
-			
+
 			/* Get Email We Should Send Notifications To */
 			$email_to = $form_meta_data['inbound_notify_email'];
 
@@ -727,12 +727,12 @@ class Inbound_Forms {
 
 
 		$confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
-		
+
 		/* add default subject if empty */
 		if (!$confirm_subject) {
 			$confirm_subject = __( 'Thank you!' , 'leads' );
 		}
-		
+
 		$confirm_email_message = $Inbound_Templating_Engine->replace_tokens( $confirm_email_message , array( $form_post_data, $form_meta_data )	);
 
 
