@@ -1,13 +1,13 @@
 function getUrlVars() {
-           var vars = [], hash;
-           var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-           for(var i = 0; i < hashes.length; i++)
-           {
-             hash = hashes[i].split('=');
-             vars.push(hash[0]);
-             vars[hash[0]] = hash[1];
-           }
-           return vars;
+   var vars = [], hash;
+   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+   for(var i = 0; i < hashes.length; i++)
+   {
+	 hash = hashes[i].split('=');
+	 vars.push(hash[0]);
+	 vars[hash[0]] = hash[1];
+   }
+   return vars;
 };
 
 function getUrlVar(name){
@@ -22,11 +22,13 @@ jQuery(document).ready(function($) {
 	     $('#poststuff').fadeIn(300);
 	     $('#postcustom .hndle span').text('Raw Data');
 	}, 300);
+	
 	// Set setting Tab
 	setTimeout(function() {
 	    jQuery("#" + byName).click();
 	}, 300);
-	  /* Update Setting URL */
+	
+	/* Update Setting URL */
 	jQuery("body").on('click', '.nav-tab', function () {
 	  var this_id = jQuery(this).attr('id');
 	  if (history.pushState) {
@@ -307,100 +309,9 @@ jQuery(document).ready(function($) {
     	jQuery(".event-order-list").attr("data-change-sort", "#all-lead-history");
     	jQuery("#all-lead-history").fadeIn(700);
     	jQuery(".lead-item-num").hide();
-    	//jQuery(".lead-activity").fadeIn(700);
     });
 
-	// lead mapping
-	/*var selectbox = jQuery('<select style="display:none" name="NOA" class="id_NOA"></select>');
-	jQuery("#raw-data-display").prepend(selectbox);
-	jQuery('.wpleads-th label').each(function(i) {
-		// create select options
-		new_loop_val = i + 1;
-		var id_for_val = jQuery(this).parent().parent().attr("class");
-		var final_id = id_for_val.replace(" hidden-lead-fields","");
-		field_name_dirty = jQuery(this).text();
-		var field_name_clean = field_name_dirty.replace(":","");
-		var field_name_cleaner = field_name_clean.replace("/","");
-		jQuery(".id_NOA").append("<option value='" + final_id +"'>" + field_name_cleaner + "</option>");
-	});
 
-	jQuery(".map-raw-field").on("click", function(event){
-
-		var count_of_fields = jQuery(this).parent().find(".possible-map-value").size();
-		var this_selected = jQuery(this).parent().find(".toggle-val").size();
-		console.log(this_selected);
-		if (this_selected === 1) {
-		jQuery(".toggle-val").addClass("re-do").removeClass("toggle-val");
-		jQuery(".re-do").addClass("toggle-val").removeClass("re-do");
-		}
-		if (count_of_fields === 1){
-			jQuery(this).parent().find(".possible-map-value").addClass('toggle-val');
-		}
-		jQuery(".map-active-class").removeClass("map-active-class");
-
-		jQuery(this).find(".apply-map").show();
-		jQuery(this).prepend(selectbox);
-		jQuery(selectbox).show();
-		jQuery(".map-hide").show();
-		jQuery(this).addClass("map-active-class");
-	});
-
-	var nonce_val = wp_lead_map.wp_lead_map_nonce;
-	jQuery(".apply-map").on('click', function () {
-        var value_clicked = jQuery(this).parent().parent().find(".toggle-val").size();
-
-        if (value_clicked === 0) {
-            alert("You must select one of the values to map!");
-        } else {
-
-            var conf = confirm("Are you sure you want to update this field?");
-
-            if (conf == true) {
-                var map_val = jQuery(this).parent().find("select").val();
-                var map_val_id = "#" + map_val;
-                var toggle_value = jQuery(this).parent().parent().find('.toggle-val').text();
-                //console.log(map_val_id);
-                jQuery(map_val_id).val(toggle_value);
-                jQuery(map_val_id).parent().parent().show();
-                //   alert(map_val + " Updated as " + toggle_value + ". Make sure to Save the Post!");
-                // define the bulk edit row
-                var post_id = jQuery("#post_ID").val();
-                var status = "Read";
-
-                jQuery.ajax({
-                    type: 'POST',
-                    url: wp_lead_map.ajaxurl,
-                    context: this,
-                    data: {
-                        action: 'wp_leads_raw_form_map_save',
-                        meta_val: map_val,
-                        mapped_field: toggle_value,
-                        page_id: post_id,
-                        nonce: nonce_val
-                    },
-
-                    success: function (data) {
-                        var self = this;
-                        //alert(data);
-                        // jQuery('.lp-form').unbind('submit').submit();
-                        var worked = '<span class="success-message-map">Success! ' + map_val + ' set to ' + toggle_value + '</span>';
-                        var s_message = jQuery(self).parent();
-                        jQuery(worked).appendTo(s_message);
-                        //alert("Changes Saved!");
-                    },
-
-                    error: function (MLHttpRequest, textStatus, errorThrown) {
-                        alert("Ajax not enabled");
-                    }
-                });
-
-                return false;
-
-            }
-        }
-        //alert(toggle_value);
-    });
-	*/
 	jQuery(".possible-map-value").on("click", function(event){
 	jQuery(".toggle-val").removeClass("toggle-val");
 	jQuery(this).toggleClass("toggle-val");
