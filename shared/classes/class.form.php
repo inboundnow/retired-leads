@@ -199,7 +199,7 @@ class Inbound_Forms {
 				}
 
 				if ($type === 'textarea') {
-					$form .=	'<textarea class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="in_'.$field_name.'" '.$req.'/>'.$placeholder_use.'</textarea>';
+					$form .=	'<textarea placeholder="'.$placeholder_use.'" class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="in_'.$field_name.'" '.$req.'/></textarea>';
 				}
 				else if ($type === 'dropdown')
 				{
