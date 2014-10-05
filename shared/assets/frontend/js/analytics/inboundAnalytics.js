@@ -440,15 +440,19 @@ var InboundForms = (function (InboundAnalytics) {
 
       },
       mapFormValues: function(form) {
+              var inputByName = {};
+              var params = [];
+              /* test for [] array syntax */
+              var fieldNameExp = /\[([^\[]*)\]/g;
               for (var i=0; i < form.elements.length; i++) {
 
                 formField = form.elements[i];
                 multiple = false;
 
                 if (formField.name) {
-
+                    /* test for [] array syntax */
                     cleanName = formField.name.replace(fieldNameExp, "_$1");
-                    if (!elementsByName[cleanName]) { elementsByName[cleanName] = []; }
+                    if (!inputByName[cleanName]) { inputByName[cleanName] = []; }
 
                     switch (formField.nodeName) {
 
@@ -481,12 +485,22 @@ var InboundForms = (function (InboundAnalytics) {
                     }
 
                     if (value) {
-                        elementsByName[cleanName].push(multiple ? values.join(',') : encodeURIComponent(value));
+                        inputByName[cleanName].push(multiple ? values.join(',') : encodeURIComponent(value));
                     }
 
                 }
 
             }
+            var matchCommon = /name|first name|last name|email|e-mail|phone|website|job title|company|tele|address|comment/;
+            for (var inputName in inputByName) {
+                 if (matchCommon.test(inputName) !== false) {
+                    console.log(inputName + " Matches Regex");
+                    /* run mapping loop only for the matches here */
+                 }
+                 params.push( inputName + '=' + inputByName[inputName].join(',') );
+            }
+            var final_params = params.join('&');
+            console.log(final_params);
       },
       getInputValue = function(input) {
              var value = false;
