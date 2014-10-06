@@ -687,6 +687,13 @@ class Inbound_Forms {
 
 		echo "<style type='text/css'>
 		/* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
+		.email_suggestion {
+			font-size: 13px;
+			padding-top: 0px;
+			margin-top: 0px;
+			display: block;
+			font-style: italic;
+		}
 		input.invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
 							-moz-box-shadow: 0 0 6px #f8b9b7;
 							box-shadow: 0 0 6px #F8B9B7;
