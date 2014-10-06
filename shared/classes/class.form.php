@@ -166,6 +166,7 @@ class Inbound_Forms {
 				if ($map_field != "") {
 					$field_name = $map_field;
 				} else {
+					$label = self::santize_inputs($label);
 					$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
 				}
 
@@ -343,7 +344,21 @@ class Inbound_Forms {
 			return $form;
 		}
 	}
-
+	static function santize_inputs($content){
+		// Strip HTML Tags
+		$clear = strip_tags($content);
+		// Clean up things like &amp;
+		$clear = html_entity_decode($clear);
+		// Strip out any url-encoded stuff
+		$clear = urldecode($clear);
+		// Replace non-AlNum characters with space
+		$clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
+		// Replace Multiple spaces with single space
+		$clear = preg_replace('/ +/', ' ', $clear);
+		// Trim the string of leading/trailing space
+		$clear = trim($clear);
+		return $clear;
+	}
 	/* Create shorter shortcode for [inbound_forms] */
 	static function inbound_short_form_create( $atts, $content = null )
 	{
