@@ -22,12 +22,12 @@ jQuery(document).ready(function($) {
 	     $('#poststuff').fadeIn(300);
 	     $('#postcustom .hndle span').text('Raw Data');
 	}, 300);
-	
+
 	// Set setting Tab
 	setTimeout(function() {
 	    jQuery("#" + byName).click();
 	}, 300);
-	
+
 	/* Update Setting URL */
 	jQuery("body").on('click', '.nav-tab', function () {
 	  var this_id = jQuery(this).attr('id');
@@ -115,11 +115,11 @@ jQuery(document).ready(function($) {
 	var hideago = jQuery("#session-time-since:visible").length;
 
 	if (hideempty === 0) {
-		jQuery("#touch-point").html("<strong>Moments ago</strong>")
+		//jQuery("#touch-point").html("<strong>Moments ago</strong>")
 	}
 
 	if (hideago === 0) {
-		jQuery("#session-time-since").text("Just Now!");
+		//jQuery("#session-time-since").text("Just Now!");
 	}
 
 	jQuery("#submitdiv .hndle").text("Update Lead Information");
