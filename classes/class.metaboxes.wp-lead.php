@@ -17,7 +17,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		public function __construct() {
 			self::load_hooks();
 		}
- 
+
 		public static function load_hooks() {
 
 			/* Hide metaboxes */
@@ -258,7 +258,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			global $post;
 
 			$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
-			
+
 			$array = json_decode( stripslashes($ip_addresses), true);
 
 			if (is_array($array)) {
@@ -269,12 +269,12 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			} else {
 				$ip_address = $ip_addresses;
 			}
-			
+
 			if (!isset($geodata)) {
 				$geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
 				$geodata = unserialize(  $geodata['body'] );
 			}
-			
+
 			if (!is_array($geodata)) {
 				return;
 			}
@@ -318,7 +318,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 								echo '<div id="lead-google-map">
 										<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
 										</div>';
-							} 
+							}
 						}else {
 							echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 						}
@@ -1245,7 +1245,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		*/
 		public static function display_lead_conversion_paths() {
 			global $post, $wpdb;
-
+			echo "<p>Visitors path through the website.</p>";
 			$c_array = array();
 			if (is_array(self::$conversions))
 			{
