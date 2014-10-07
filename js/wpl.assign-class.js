@@ -52,7 +52,7 @@ function inbound_process_all_forms(){
 			if (id_match > -1){
 				var halt = true;
 			} */
-		   console.log(atr + ": " + attributes[atr]);
+		   //console.log(atr + ": " + attributes[atr]);
 		   if (typeof (attributes[atr]) != "undefined" && attributes[atr] != null && attributes[atr] != "") {
 				if (attributes[atr].toLowerCase().indexOf(match)>-1 && inbound_ajax.comment_tracking === 'on') {
 					form.addClass('wpl-track-me').addClass('wpl-comment-form');
