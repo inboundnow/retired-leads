@@ -2,7 +2,6 @@
 /**
 *   Inbound Forms Shortcode Options
 *   Forms code found in /shared/classes/form.class.php
-*   tets
 */
 
 	if (empty($lead_list_names)){
