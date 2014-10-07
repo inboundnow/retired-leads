@@ -584,8 +584,7 @@ class Inbound_Shortcodes {
 			$column_css = "#inbound-list.class-".$num." ul { clear:both;} #inbound-list.class-".$num." li { width: 19.5%; float: left; display: inline;}";
 		}
 
-		return '<style type="text/css">
-
+		return '<div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">'. do_shortcode($content).'</div>' . '<style type="text/css">
 			#inbound-list.class-'.$num.' li {
 			'.$final_text_color.'
 			list-style: none;
@@ -612,10 +611,7 @@ class Inbound_Shortcodes {
 				width:100%;
 			}
 			}
-			</style>
-			<div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">
-			'. do_shortcode($content).'
-			</div>';
+			</style>';
 	}
 
 	static function inbound_forms_header_area()

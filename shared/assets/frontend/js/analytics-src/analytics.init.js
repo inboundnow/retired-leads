@@ -1,41 +1,42 @@
 /**
- * Init Inbound Analytics
- * - initializes analytics
+ * Lead Tracking JS
+ * http://www.inboundnow.com
+ * This is the main analytics entry point
  */
 
- var Lead_Globals = jQuery.totalStorage('inbound_lead_data') || null;
- function setGlobalLeadVar(retString){
-     Lead_Globals = retString;
- }
+var inbound_data = inbound_data || {};
+var _inboundOptions = _inboundOptions || {};
+/* Ensure global _gaq Google Analytics queue has been initialized. */
+var _gaq = _gaq || [];
 
- InboundAnalytics.init(); // run analytics
+var InboundAnalytics = (function (Options) {
 
- /* run on ready */
- jQuery(document).ready(function($) {
-   //record non conversion status
-   var in_u = InboundAnalytics.Utils,
-   wp_lead_uid = in_u.readCookie("wp_lead_uid"),
-   wp_lead_id = in_u.readCookie("wp_lead_id"),
-   expire_check = in_u.readCookie("lead_session_expire"); // check for session
+   /* Constants */
+   var debugMode = false;
 
-   if (expire_check === null) {
-      console.log('expired vistor. Run Processes');
-     //var data_to_lookup = global-localized-vars;
-     if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
-         /* Get Lead_Globals */
-         InboundAnalytics.LeadsAPI.getAllLeadData(expire_check);
-         /* Lead list check */
-         InboundAnalytics.LeadsAPI.getLeadLists();
-       }
-   }
+   var App = {
+     /* Initialize individual modules */
+     init: function () {
+         InboundAnalytics.Utils.init();
+         InboundAnalytics.PageTracking.StorePageView();
+         InboundAnalytics.Events.loadEvents();
+         InboundAnalytics.Forms.init();
+     },
+     /* Debugger Function toggled by var debugMode */
+     debug: function(msg, callback){
+        //if app not in debug mode, exit immediately
+        if(!debugMode || !console){return};
+        var msg = msg || false;
+        //console.log the message
+        if(msg && (typeof msg === 'string')){console.log(msg)};
 
- //window.addEventListener('load',function(){
- //    InboundAnalytics.LeadsAPI.attachSubmitEvent(window,InboundAnalytics.LeadsAPI.formSubmit);
- //}, false);
+        //execute the callback if one was passed-in
+        if(callback && (callback instanceof Function)){
+             callback();
+        };
+     }
+   };
 
- in_u.contentLoaded(window, InboundAnalytics.LeadsAPI.attachFormSubmitEvent);
+  return App;
 
- /* Set Session Timeout */
- in_u.SetSessionTimeout();
-
- });
+})(_inboundOptions);

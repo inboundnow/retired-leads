@@ -46,6 +46,7 @@ class Inbound_Asset_Loader {
 
 	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
+
 			global $wp_scripts;
 
 			if ( !empty( $wp_scripts->queue ) ) {
@@ -56,6 +57,7 @@ class Inbound_Asset_Loader {
 			}
 
 	  		self::load_file('funnel-tracking', 'frontend/js/page-tracking.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
+	  		//self::load_file('funnel-tracking', 'frontend/js/analytics/inboundAnalytics.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
 	  		// TODO: Merge Localize of wplft into inbound_ajax
 	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'inbound_ajax', self::localize_lead_data());
 

@@ -13,6 +13,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           this.getReferer();
 
       },
+      /* Polyfills for missing browser functionality */
       polyFills: function() {
            /* Console.log fix for old browsers */
            if (!window.console) { window.console = {}; }
@@ -54,7 +55,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           }
           document.cookie = name+"="+value+expires+"; path=/";
       },
-      // Read cookie
+      /* Read cookie */
       readCookie: function(name) {
           var nameEQ = name + "=";
           var ca = document.cookie.split(';');
@@ -69,10 +70,11 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           }
           return null;
       },
-      // Erase cookie
+      /* Erase cookies */
       eraseCookie: function(name) {
           createCookie(name,"",-1);
       },
+      /* Get All Cookies */
       getAllCookies: function(){
               var cookies = {};
               if (document.cookie && document.cookie != '') {
@@ -89,7 +91,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       /* Grab URL params and save */
       setUrlParams: function() {
           var urlParams = {},
-          local_store = InboundAnalytics.Utils.checkLocalStorage();
+          local_store = this.checkLocalStorage();
 
             (function () {
               var e,
@@ -260,6 +262,15 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
             return obj3;
       },
+      hasClass: function(className, el) {
+          var hasClass = false;
+          if ('classList' in document.documentElement) {
+            var hasClass = el.classList.contains(className);
+          } else {
+            var hasClass = new RegExp('(^|\\s)' + className + '(\\s|$)').test(el.className); /* IE Polyfill */
+          }
+          return hasClass;
+      },
       trim: function(s) {
           s = s.replace(/(^\s*)|(\s*$)/gi,"");
           s = s.replace(/[ ]{2,}/gi," ");
@@ -289,6 +300,29 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
         });
     },
+    makeRequest: function(url) {
+        if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+          httpRequest = new XMLHttpRequest();
+        } else if (window.ActiveXObject) { // IE
+          try {
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+          }
+          catch (e) {
+            try {
+              httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {}
+          }
+        }
+
+        if (!httpRequest) {
+          alert('Giving up :( Cannot create an XMLHTTP instance');
+          return false;
+        }
+        httpRequest.onreadystatechange = InboundAnalytics.LeadsAPI.alertContents;
+        httpRequest.open('GET', url);
+        httpRequest.send();
+      },
     contentLoaded: function(win, fn) {
 
       var done = false, top = true,
