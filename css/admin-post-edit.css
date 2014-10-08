@@ -2,6 +2,9 @@
 background-color: #fff;
 border: none;
 }
+body.modal-open {
+overflow: auto !important;
+}
 #wpbody-content {
 overflow: visible !important;
 }
