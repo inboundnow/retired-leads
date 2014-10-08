@@ -6,8 +6,7 @@
 #inbound-hero {
   width: 35%;
 float: left;
-margin-right: 4%;
-margin-left: 4%;
+margin-left: 20px;
 position: relative;
 }
 #inbound-content {

@@ -1130,6 +1130,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				foreach (self::$instance->cta_height as $key => $value) {
 					$content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
 				}
+				/* fix for popup size */
 				$content .=	"<script>";
 				$content .= "	jQuery(document).ready(function($) {";
 				$content .= "		setTimeout(function() {";
