@@ -39,6 +39,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		private $selected_cta;
 		private $cta_template;
 		private $is_preview;
+		private $cta_width;
+		private $cta_height;
 
 		public static function instance() {
 			if ( !isset( self::$instance ) && ! ( self::$instance instanceof CTA_Render )) {
@@ -1045,7 +1047,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top};margin-bottom:{$margin_bottom};position:relative;' >";
 
 
-
+			$width_array = array();
+			$height_array = array();
 			/* build cta content */
 			foreach ($selected_cta['variations'] as $vid => $variation )
 			{
@@ -1060,6 +1063,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$width = self::$instance->cta_get_correct_dimensions($w, 'width');
 				$height = self::$instance->cta_get_correct_dimensions($h, 'height');
 
+
+				$width_array[$vid] = $w;
+				self::$instance->cta_width = $width_array;
+				$height_array[$vid] = $h;
+				self::$instance->cta_height = $height_array;
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
 				$cta_variation_class = "inbound-cta-container wp_cta_content wp_cta_variation wp_cta_".$selected_cta['id']."_variation_".$vid."";
@@ -1115,6 +1123,26 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			} elseif (self::$instance->cta_content_placement=='popup') {
 				$content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'></button>" . self::$instance->cta_template . "</div>";
+
+				foreach (self::$instance->cta_width as $key => $value) {
+					$content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
+				}
+				foreach (self::$instance->cta_height as $key => $value) {
+					$content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
+				}
+				$content .=	"<script>";
+				$content .= "	jQuery(document).ready(function($) {";
+				$content .= "		setTimeout(function() {";
+             	$content .= "		var vid = $('.inbound-cta-container:visible').attr('data-variation');";
+				$content .= "		var vidw = '.data-vid-w-' + vid;";
+				$content .= "		var vidh = '.data-vid-h-' + vid;";
+				$content .= "		var h = $(vidh).attr('data-height');";
+				$content .= "		var w = $(vidw).attr('data-width');";
+				$content .= "		$('.white-popup-block').css({'height': h, 'width': w});";
+				$content .= "	 }, 500);";
+				$content .= "	});";
+				$content .= "</script>";
+
 			}
 
 			return $content;
