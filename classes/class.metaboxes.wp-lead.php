@@ -1100,6 +1100,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$new_loop = 1;
 			$total_session_count = 0;
+			$test = count($new_key_array);
 			foreach ($new_key_array as $key => $value) {
 
 				$last_item = $key - 1;
@@ -1162,12 +1163,13 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 						<div class="lead-timeline-body">
 							<div class="lead-event-text">
-								<p><span class="lead-item-num">'.$new_loop.'.</span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_permalink.'" id="lead-session" rel="" target="_blank">'.$page_title .'</a><span class="conversion-date">'.date_format($date_print, 'F jS, Y \a\t g:i:s a').'</span></p>
+								<p><span class="lead-item-num"></span><span class="lead-helper-text">Viewed page: </span><a href="'.$page_permalink.'" id="lead-session" rel="" target="_blank">'.$page_title .'</a><span class="conversion-date">'.date_format($date_print, 'F jS, Y \a\t g:i:s a').'</span></p>
 							</div>
 						</div>
 					</div>';
 
 				$new_loop++;
+				$test--;
 
 			}
 
@@ -1245,7 +1247,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		*/
 		public static function display_lead_conversion_paths() {
 			global $post, $wpdb;
-			echo "<p>Visitors path through the website.</p>";
+			echo "<p>Visitors path through the website per visit. Visits timeout after 1 hour of inactivity.</p>";
 			$c_array = array();
 			if (is_array(self::$conversions))
 			{
