@@ -421,16 +421,7 @@ class Inbound_Forms {
 			return;
 
 		echo '<script type="text/javascript">
-			/*
-			 * Mailcheck https://github.com/mailcheck/mailcheck
-			 * Author
-			 * Derrick Ko (@derrickko)
-			 *
-			 * Released under the MIT License.
-			 *
-			 * v 1.1.0
-			 */
-
+		if (typeof Mailcheck === "undefined") {
 			var Mailcheck = {
 			  domainThreshold: 1,
 			  topLevelThreshold: 3,
@@ -637,7 +628,8 @@ class Inbound_Forms {
 			      Mailcheck.run(opts);
 			    }
 			  })(jQuery);
-			}
+			};
+		}
 			jQuery(document).ready(function($){
 
 			jQuery("form").submit(function(e) {
@@ -651,9 +643,10 @@ class Inbound_Forms {
 				    }
 				});
 			});
-			$("#email").on("blur", function(event) {
-			  console.log("event ", event);
-			  console.log("this ", $(this));
+			$(".inbound-email").on("blur", function(event) {
+			  //console.log("event ", event);
+			  //console.log("this ", $(this));
+			  var that = $(this);
 			  $(this).mailcheck({
 
 			    suggested: function(element, suggestion) {
@@ -661,7 +654,7 @@ class Inbound_Forms {
 			      console.log("suggestion ", suggestion.full);
 			      $(".email_suggestion").remove();
 			      var insert = "<span class=\"email_suggestion\">Did you mean <b><i>" + suggestion.full + "</b></i>?</span>";
-			      $("#email").after(insert);
+			      $(that).after(insert);
 			    },
 			    empty: function(element) {
 			      // callback code
