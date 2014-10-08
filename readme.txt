@@ -84,12 +84,18 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+
+= 1.5.1 =
+* Improved form email typo detection
+* Improved Template Styles
+* Fixed content wysiwyg scroll freezing bug
+
 = 1.5.0 =
 * Added Lead API
 * Added CSV exporting to Lead Management
 * Moved language file out of shared folder
-* Bug Fix: Email Systems 
-* Bug Fix: Lead notification email treats multiple selections correctly now. 
+* Bug Fix: Email Systems
+* Bug Fix: Lead notification email treats multiple selections correctly now.
 * Add default email confirmation subject when empty.
 
 = 1.4.6 =

@@ -14,6 +14,70 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 	final class Inbound_Leads_Plugin {
 
+		/* START PHP VERSION CHECKS */
+		/**
+		 * Admin notices, collected and displayed on proper action
+		 *
+		 * @var array
+		 */
+		public static $notices = array();
+
+		/**
+		 * Whether the current PHP version meets the minimum requirements
+		 *
+		 * @return bool
+		 */
+		public static function is_valid_php_version() {
+			return version_compare( PHP_VERSION, '5.3', '>=' );
+		}
+
+		/**
+		 * Invoked when the PHP version check fails. Load up the translations and
+		 * add the error message to the admin notices
+		 */
+		static function fail_php_version() {
+			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
+			$plugin_url = admin_url( 'plugins.php' );
+			self::notice( __( 'Leads requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'leads' ) );
+		}
+
+		/**
+		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
+		 *
+		 * @param string $message
+		 * @param bool $is_error
+		 * @return void
+		 */
+		public static function notice( $message, $is_error = true ) {
+			if ( defined( 'WP_CLI' ) ) {
+				$message = strip_tags( $message );
+				if ( $is_error ) {
+					WP_CLI::warning( $message );
+				} else {
+					WP_CLI::success( $message );
+				}
+			} else {
+				// Trigger admin notices
+				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
+
+				self::$notices[] = compact( 'message', 'is_error' );
+			}
+		}
+
+		/**
+		 * Show an error or other message in the WP Admin
+		 *
+		 * @action all_admin_notices
+		 * @return void
+		 */
+		public static function admin_notices() {
+			foreach ( self::$notices as $notice ) {
+				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
+				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
+				echo wp_kses_post( $html_message );
+			}
+		}
+		/* END PHP VERSION CHECKS */
 		/**
 		 * Main Inbound_Leads_Plugin Instance
 		 *
@@ -75,11 +139,11 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
 				require_once('classes/class.inbound-api.php');
-				
+
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
 				require_once('modules/module.tracking.php');
-				
+
 
 			}
 
@@ -92,7 +156,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 
-		
+
 		/**
 		* Hook method to load correct text domain
 		*
@@ -109,11 +173,16 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		}
 	}
 
-	$GLOBALS['Inbound_Leads_Plugin'] = new Inbound_Leads_Plugin;
+	/* Initiate Plugin */
+	if ( Inbound_Leads_Plugin::is_valid_php_version() ) {
+		// Get Inbound Now Running
+		$GLOBALS['Inbound_Leads_Plugin'] = new Inbound_Leads_Plugin;
+	} else {
+		// Show Failure message
+		Inbound_Leads_Plugin::fail_php_version();
+	}
+
 }
-
-/* Load Shared Files */
-
 
 // Legacy function
 function wpleads_check_active() {
