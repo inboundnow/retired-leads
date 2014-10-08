@@ -68,6 +68,12 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.2.1 =
+* Improved form email typo detection
+* Improved Template Styles
+* Improved frontend editor
+* Fixed content wysiwyg scroll freezing bug
+
 = 2.2.0 =
 * French - 100% Translated
 * Converted code standards to CLASS based system.
@@ -81,7 +87,7 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 * Fix: Lead email notifications now working again.
 
 = 2.1.2 =
-* Major code refactoring for improved developer experience. 
+* Major code refactoring for improved developer experience.
 * Added: Button to clear all cta stats at once
 * Fix: Open cta links in new window
 
