@@ -1300,7 +1300,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$new_loop = 1;
 			$total_session_count = 0;
-
+			$new_key_array = array_reverse($new_key_array);
 			foreach ($new_key_array as $key => $value) {
 
 				$last_item = $key - 1;
