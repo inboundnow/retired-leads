@@ -1431,6 +1431,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				<?php
 					$count--;
 				}
+			} else {
+				echo "<h2>No Referral Data Detected.</h2>";
 			}
 		}
 		/**

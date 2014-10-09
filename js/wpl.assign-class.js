@@ -79,14 +79,14 @@ jQuery(document).ready(function($) {
 	var single = ['wpl-track-me'];
 	/* Remove specified IDs from form tracking */
 	if (typeof (inbound_track_include) != "undefined" && inbound_track_include != null && inbound_track_include != "") {
-		console.log('remove ids ' + inbound_track_include);
-		var selectors = inbound_track_include.split(',');
+		console.log('remove ids ' + inbound_track_include.include);
+		var selectors = inbound_track_include.include.split(',');
 		inbound_form_classes(selectors, 'addClass', single);
 	}
 	/* Remove specified Classes from form tracking */
 	if (typeof (inbound_track_exclude) != "undefined" && inbound_track_exclude != null && inbound_track_exclude != "") {
-		console.log('remove classes ' + inbound_track_exclude);
-		var selectors = inbound_track_exclude.split(',');
+		console.log('remove classes ' + inbound_track_exclude.exclude);
+		var selectors = inbound_track_exclude.exclude.split(',');
 		inbound_form_classes(selectors, 'removeClass', classes);
 	}
 
