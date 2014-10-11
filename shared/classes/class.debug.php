@@ -8,7 +8,7 @@ if (!defined('INBOUND_CLASS_URL'))
     define('INBOUND_CLASS_URL', plugin_dir_url(__FILE__));
 
   //update_option( 'inbound_global_dequeue', "" );
-  /**
+  /*
   $global_array = get_option( 'inbound_global_dequeue' );
   print_r($global_array);
   /**/
