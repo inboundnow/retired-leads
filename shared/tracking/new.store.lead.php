@@ -35,7 +35,16 @@ if (!class_exists('LeadStorage')) {
 			$lead['mapped_params'] = self::checkVal('mapped_params', $args);
 			$lead['ip_address'] = self::inbound_get_ip_address();
 
+			if($lead['mapped_params']){
+				parse_str($lead['mapped_params'], $mappedData);
+				//print_r($output); wp_die();
+				//$mappedData = json_decode(stripslashes($lead['mapped_params']), true );
+			} else {
+				$mappedData = array();
+			}
 
+			$lead['lead_lists'] = (array_key_exists('inbound_form_lists', $mappedData)) ? explode(",", $mappedData['inbound_form_lists']) : false;
+			//print_r($lead['lead_lists']); wp_die();
 			/* check for set email */
 			if ( (isset($lead['email']) && !empty($lead['email']) && strstr($lead['email'] ,'@'))) {
 				//print_r($_POST); wp_die();
@@ -63,7 +72,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store past search history */
-				if($lead['search_data']){
+				if(isset($lead['search_data'])){
 					self::storeSearchHistory($lead);
 				}
 
@@ -76,7 +85,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
-				if (isset($lead['post_type']) && $lead['post_type'] == 'landing-page' || $lead['post_type'] == 'wp-call-to-action') {
+				if (isset($lead['post_type']) && $lead['post_type'] == 'landing-page' || isset($lead['post_type']) && $lead['post_type'] == 'wp-call-to-action') {
 					self::storeConversionStats($lead);
 				}
 
@@ -85,7 +94,7 @@ if (!class_exists('LeadStorage')) {
 					self::storeGeolocationData($lead);
 				}
 
-				setcookie('wp_lead_id' , $lead['id'], time() + (20 * 365 * 24 * 60 * 60),'/');
+				//setcookie('wp_lead_id' , $lead['id'], time() + (20 * 365 * 24 * 60 * 60),'/');
 
 				do_action('inbound_store_lead_post', $lead );
 				do_action('wp_cta_store_lead_post', $lead );
