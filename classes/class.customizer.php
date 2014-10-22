@@ -71,7 +71,7 @@ class CTA_Customizer {
 		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
 			return;
 		}
-
+		wp_enqueue_script('cta-frontend-editor-js', WP_CTA_URLPATH . 'js/customizer.save.js');
 		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
 
 	}
