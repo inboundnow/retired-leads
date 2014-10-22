@@ -111,15 +111,13 @@ class Inbound_Forms {
 		$form_width = ($width != "") ? $width_output : '';
 
 		//if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) {
-		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches))
-		{
+		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches)) {
+
 			return '';
 
-		}
-		else
-		{
-			for($i = 0; $i < count($matches[0]); $i++)
-			{
+		} else {
+
+			for($i = 0; $i < count($matches[0]); $i++) {
 				$matches[3][$i] = shortcode_parse_atts($matches[3][$i]);
 			}
 			//print_r($matches[3]);
@@ -143,16 +141,11 @@ class Inbound_Forms {
 
 				$placeholder_use = ($field_placeholder != "") ? $field_placeholder : $label;
 
-				if ($field_placeholder != "")
-				{
+				if ($field_placeholder != "") {
 					$form_placeholder = "placeholder='".$placeholder_use."'";
-				}
-				else if (isset($form_labels) && $form_labels === "placeholder")
-				{
+				} else if (isset($form_labels) && $form_labels === "placeholder") {
 					$form_placeholder = "placeholder='".$placeholder_use."'";
-				}
-				else
-				{
+				} else {
 					$form_placeholder = "";
 				}
 
@@ -170,6 +163,7 @@ class Inbound_Forms {
 					$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
 				}
 
+				$data_mapping_attr = ($map_field != "") ? ' data-map-form-field="'.$map_field.'" ' : '';
 
 				/* Map Common Fields */
 				(preg_match( '/Email|e-mail|email/i', $label, $email_input)) ? $email_input = " inbound-email" : $email_input = "";
@@ -318,7 +312,7 @@ class Inbound_Forms {
 					if ($type === 'hidden' && $dynamic_value != "") {
 						$fill_value = $dynamic_value;
 					}
-					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
+					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.' '.$req.'/>';
 				}
 				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
