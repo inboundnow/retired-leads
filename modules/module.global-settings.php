@@ -104,7 +104,7 @@ function wpleads_get_global_settings() {
 			'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
 			'description' => __("<p>Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions.</p>" , 'leads' ),
 			'type'  => 'radio',
-			'default'  => '1',
+			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
 		)
 	);
