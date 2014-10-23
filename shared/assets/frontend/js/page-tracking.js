@@ -308,6 +308,16 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           }
 
         });
+    },
+    /* Cross-browser event listening  */
+    addListener: function(obj, eventName, listener) {
+      if(obj.addEventListener) {
+        obj.addEventListener(eventName, listener, false);
+      } else if (obj.attachEvent) {
+        obj.attachEvent("on" + eventName, listener);
+      } else {
+        obj['on' + eventName] = listener;
+      }
     }
 
   };

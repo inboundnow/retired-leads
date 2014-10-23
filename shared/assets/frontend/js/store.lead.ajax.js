@@ -217,6 +217,17 @@ function release_form_sub(this_form, element_type, form_type){
 		this_form.unbind('submit');
 		this_form.submit();
 
+		/* fallback if submit name="submit" */
+		setTimeout(function() {
+			var inputs = jQuery(this_form).find('input');
+			jQuery(inputs).each(function(){
+				var type = jQuery(this).attr('type');
+				if (type === "submit") {
+					jQuery(this).click();
+				}
+			});
+		}, 1000);
+
 		if (form_type === "comment"){
 			console.log("RELEASE ME");
 			setTimeout(function() {
