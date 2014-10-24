@@ -774,7 +774,7 @@ class Inbound_Forms {
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
 
-				if ( get_magic_quotes_gpc() ) {
+				if ( get_magic_quotes_gpc() && is_string($value) ) {
 					$value = stripslashes( $value );
 				}
 
