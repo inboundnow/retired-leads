@@ -51,6 +51,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 			$exclude[] = 'inbound-email';
 			$exclude[] = 'landing-page';
 			$exclude[] = 'edd-license';
+			$exclude[] = 'acf-field-group';
 			
 			$exclude = apply_filters( 'cta_excluded_post_types' , $exclude);
 			

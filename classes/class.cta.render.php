@@ -10,7 +10,6 @@
 
 */
 
-
 if ( !class_exists( 'CTA_Render' ) ) {
 
 
@@ -40,6 +39,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		private $selected_cta;
 		private $cta_template;
 		private $is_preview;
+		private $cta_width;
+		private $cta_height;
 
 		public static function instance() {
 			if ( !isset( self::$instance ) && ! ( self::$instance instanceof CTA_Render )) {
@@ -1046,7 +1047,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top};margin-bottom:{$margin_bottom};position:relative;' >";
 
 
-
+			$width_array = array();
+			$height_array = array();
 			/* build cta content */
 			foreach ($selected_cta['variations'] as $vid => $variation )
 			{
@@ -1061,6 +1063,11 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				$width = self::$instance->cta_get_correct_dimensions($w, 'width');
 				$height = self::$instance->cta_get_correct_dimensions($h, 'height');
 
+
+				$width_array[$vid] = $w;
+				self::$instance->cta_width = $width_array;
+				$height_array[$vid] = $h;
+				self::$instance->cta_height = $height_array;
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 
 				$cta_variation_class = "inbound-cta-container wp_cta_content wp_cta_variation wp_cta_".$selected_cta['id']."_variation_".$vid."";
@@ -1116,6 +1123,27 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			} elseif (self::$instance->cta_content_placement=='popup') {
 				$content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'></button>" . self::$instance->cta_template . "</div>";
+
+				foreach (self::$instance->cta_width as $key => $value) {
+					$content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
+				}
+				foreach (self::$instance->cta_height as $key => $value) {
+					$content .= "<span class='data-vid-h-".$key."' data-height='" . $value ."'></span>";
+				}
+				/* fix for popup size */
+				$content .=	"<script>";
+				$content .= "	jQuery(document).ready(function($) {";
+				$content .= "		setTimeout(function() {";
+             	$content .= "		var vid = $('.inbound-cta-container:visible').attr('data-variation');";
+				$content .= "		var vidw = '.data-vid-w-' + vid;";
+				$content .= "		var vidh = '.data-vid-h-' + vid;";
+				$content .= "		var h = $(vidh).attr('data-height');";
+				$content .= "		var w = $(vidw).attr('data-width');";
+				$content .= "		$('.white-popup-block').css({'height': h, 'width': w});";
+				$content .= "	 }, 500);";
+				$content .= "	});";
+				$content .= "</script>";
+
 			}
 
 			return $content;
@@ -1348,6 +1376,97 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		}
 	}
 }
+/*
+Util functions for token parser.
+usage: {{token|function_name}}
+usage: {{token|color}} run inbound_template_color on token
+ */
+if (!function_exists('inbound_template_color')) {
+	function inbound_template_color($args){
+		$prefix = "#";
+		if (is_array($args)){
+			$color = $args[0];
+		} else {
+			$color = $args;
+		}
+		if(preg_match("/rbg/", $color)) {
+			$prefix = "";
+		}
+
+		return $prefix . $color;
+	}
+}
+if (!function_exists('inbound_template_brightness')) {
+	function inbound_template_brightness($args){
+
+			$hex_color = $args[0];
+			$hue = intval($args[1]);
+
+			$format = 'hex';
+			if (strpos($hex_color,'#') !== false) {
+			    $input = $hex_color;
+			} else {
+				$input = "#" . $hex_color;
+			}
+
+			$col = Array(
+			    hexdec(substr($input,1,2)),
+			    hexdec(substr($input,3,2)),
+			    hexdec(substr($input,5,2))
+			);
+
+			$color_scheme_array =
+			array(
+					100 => array( $col[0]/4, $col[1]/4, $col[2]/4),
+					95 => array( $col[0]/3, $col[1]/3, $col[2]/3),
+					90 => array( $col[0]/2.7, $col[1]/2.7, $col[2]/2.7),
+					85 => array( $col[0]/2.5, $col[1]/2.5, $col[2]/2.5),
+					80 => array( $col[0]/2.2, $col[1]/2.2, $col[2]/2.2),
+					75 => array( $col[0]/2, $col[1]/2, $col[2]/2),
+					70 => array( $col[0]/1.7, $col[1]/1.7, $col[2]/1.7),
+					65 => array( $col[0]/1.5, $col[1]/1.5, $col[2]/1.5),
+					60 => array( $col[0]/1.3,$col[1]/1.3,$col[2]/1.3),
+					55 => array( $col[0]/1.1,$col[1]/1.1,$col[2]/1.1),
+					50 => array( $col[0],$col[1],$col[2]),
+					45 => array( 255-(255-$col[0])/1.1, 255-(255-$col[1])/1.1, 255-(255-$col[2])/1.1),
+					40 => array( 255-(255-$col[0])/1.3, 255-(255-$col[1])/1.3, 255-(255-$col[2])/1.3),
+					35 => array( 255-(255-$col[0])/1.5, 255-(255-$col[1])/1.5, 255-(255-$col[2])/1.5),
+					30 => array( 255-(255-$col[0])/1.7, 255-(255-$col[1])/1.7, 255-(255-$col[2])/1.7),
+					25 => array( 255-(255-$col[0])/2, 255-(255-$col[1])/2, 255-(255-$col[2])/2),
+					20 => array( 255-(255-$col[0])/2.2, 255-(255-$col[1])/2.2, 255-(255-$col[2])/2.2),
+					15 => array( 255-(255-$col[0])/3, 255-(255-$col[1])/2.7, 255-(255-$col[2])/3),
+					10 => array(255-(255-$col[0])/5, 255-(255-$col[1])/5, 255-(255-$col[2])/5),
+					5 => array(255-(255-$col[0])/10, 255-(255-$col[1])/10, 255-(255-$col[2])/10),
+					0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
+					);
+
+			($format === 'hex') ? $sign = "#" : $sign = '';
+			$return_scheme = array();
+			foreach ($color_scheme_array as $key => $val) {
+
+				$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
+			    $return_scheme[$key] = $each_color_return;
+
+			}
+				//return $closest;
+				if(isset($_GET['color_scheme'])) {
+					foreach ($return_scheme as $key => $hex_value) {
+						echo "<div style='background:$hex_value; display:block; width:100%;'>$key</div>";
+					}
+				}
+
+				$new_color = $return_scheme[$hue];
+				if (strpos($new_color,'#') !== false) {
+				    $return_color = $new_color;
+				} else {
+					$return_color = "#" . $new_color;
+				}
+
+				return $return_color;
+
+	}
+}
+
 
 function wp_cta_check_active()
 {

@@ -46,7 +46,11 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$CTA_Render = CTA_Render();
 
 			$selected_ctas = $instance['cta_ids'];
-
+			
+			if (!is_array($selected_ctas)) {
+				return;
+			}
+			
 			$cta_ids =  implode(",", $selected_ctas);
 			$count = count($selected_ctas);
 			$rand_key = array_rand($selected_ctas, 1);
