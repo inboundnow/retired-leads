@@ -787,17 +787,6 @@ class Inbound_Forms {
 					}
 				}
 
-				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_post_data['wpleads_first_name'])) {
-					$field = "wpleads_first_name";
-				}
-
-				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $field) && !isset($form_post_data['wpleads_last_name'])) {
-					$field = "wpleads_last_name";
-				}
-
-				if (preg_match( '/Phone|phone number|telephone/i', $field)) {
-					$field = "wpleads_work_phone";
-				}
 
 				$form_post_data[$field] = (!is_array($value)) ?  strip_tags( $value ) : $value;
 
