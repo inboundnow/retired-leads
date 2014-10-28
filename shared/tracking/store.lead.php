@@ -77,7 +77,7 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
 /**
  *	This method needs to be rebuilt
  */
-function inbound_store_lead( $args = array( ) ) {
+function inbound_store_lead( $args = array( ) , $return = false ) {
 	global $user_ID, $wpdb;
 	
 	if (!is_array($args)) {
@@ -361,7 +361,7 @@ function inbound_store_lead( $args = array( ) ) {
 		do_action('wpl_store_lead_post', $lead_data );
 		do_action('lp_store_lead_post', $lead_data );
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && !$return ) {
 
 			echo $lead_id;
 			die();
