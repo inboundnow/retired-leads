@@ -9,6 +9,7 @@ var InboundForms = (function (InboundAnalytics) {
     var no_match = [];
     var rawParams = [];
     var mappedParams = [];
+    utils = InboundAnalytics.Utils;
     var matchCommonFields = [
                         "first name",
                         "last name",
@@ -30,11 +31,7 @@ var InboundForms = (function (InboundAnalytics) {
 
       // Init Form functions
       init: function() {
-          var form = window.document.forms[0];
-          jQuery('form').removeClass('wpl-track-me');
-          this.initFormMapping(form);
-          this.attachFormSubmitEvent(form);
-
+          this.formTrackInit();
       },
       debug: function(msg, callback){
          //if app not in debug mode, exit immediately
@@ -48,6 +45,16 @@ var InboundForms = (function (InboundAnalytics) {
               callback();
          };
       },
+      formTrackInit: function(){
+          for(var i=0; i<window.document.forms.length; i++){
+            var form = window.document.forms[i];
+            var trackForm = InboundAnalytics.Utils.hasClass("wpl-track-me", form);
+            if (trackForm) {
+              this.attachFormSubmitEvent(form); /* attach form listener */
+              this.initFormMapping(form);
+            }
+          }
+      },
       /* Map field fields on load */
       initFormMapping: function(form) {
 
@@ -60,6 +67,8 @@ var InboundForms = (function (InboundAnalytics) {
                               hiddenInputs.push(formInput);
                               continue;
                           }
+                          /* Remember visible inputs */
+                          this.rememberInputValues(formInput);
 
                           var inboundReturn = this.mapField(formInput);
                           //console.log(inboundReturn);
@@ -76,93 +85,82 @@ var InboundForms = (function (InboundAnalytics) {
       },
       /* attach form listeners */
       attachFormSubmitEvent: function (form) {
-        // Change listener
-        //
-        // Submit Listener
-        if(form.addEventListener) {
-            form.addEventListener("submit", function(evt){
-                //inputsObject = {};
-                evt.preventDefault();
-                InboundAnalytics.Forms.saveFormData(evt.target);
-            }, true);
-        } else {
-            form.attachEvent('onsubmit', function(evt){
-                //inputsObject = {};
-                evt.preventDefault();
-               InboundAnalytics.Forms.saveFormData(evt.target);
-            });
-        }
+        utils.addListener(form, 'submit', function(event) {
+          event.preventDefault();
+          InboundAnalytics.Forms.saveFormData(event.target);
+
+        });
       },
       saveFormData: function(form) {
           var inputsObject = inputsObject || {};
           for (var i=0; i < form.elements.length; i++) {
-                  this.debug('inputs obj',function(){
-                      console.log(inputsObject);
-                  });
+              this.debug('inputs obj',function(){
+                  console.log(inputsObject);
+              });
 
-                  formInput = form.elements[i];
-                  multiple = false;
+              formInput = form.elements[i];
+              multiple = false;
 
-                  if (formInput.name) {
+              if (formInput.name) {
 
-                      inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
-                      //inputName = inputName.replace(/-/g, "_");
-                      if (!inputsObject[inputName]) { inputsObject[inputName] = {}; }
-                      if (formInput.type) { inputsObject[inputName]['type'] = formInput.type; }
-                      if (!inputsObject[inputName]['name']) { inputsObject[inputName]['name'] = formInput.name; }
-                      if (formInput.dataset.mapFormField) {
-                        inputsObject[inputName]['map'] = formInput.dataset.mapFormField;
-                      }
-                      /*if (formInput.id) { inputsObject[inputName]['id'] = formInput.id; }
-                      if ('classList' in document.documentElement)  {
-                          if (formInput.classList) { inputsObject[inputName]['class'] = formInput.classList; }
-                      }*/
+                  inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
+                  //inputName = inputName.replace(/-/g, "_");
+                  if (!inputsObject[inputName]) { inputsObject[inputName] = {}; }
+                  if (formInput.type) { inputsObject[inputName]['type'] = formInput.type; }
+                  if (!inputsObject[inputName]['name']) { inputsObject[inputName]['name'] = formInput.name; }
+                  if (formInput.dataset.mapFormField) {
+                    inputsObject[inputName]['map'] = formInput.dataset.mapFormField;
+                  }
+                  /*if (formInput.id) { inputsObject[inputName]['id'] = formInput.id; }
+                  if ('classList' in document.documentElement)  {
+                      if (formInput.classList) { inputsObject[inputName]['class'] = formInput.classList; }
+                  }*/
 
-                      switch (formInput.nodeName) {
+                  switch (formInput.nodeName) {
 
-                          case 'INPUT':
-                              value = this.getInputValue(formInput);
+                      case 'INPUT':
+                          value = this.getInputValue(formInput);
 
-                              console.log(value);
-                              if (value === false) { continue; }
-                              break;
+                          console.log(value);
+                          if (value === false) { continue; }
+                          break;
 
-                          case 'TEXTAREA':
-                              value = formInput.value;
-                              break;
+                      case 'TEXTAREA':
+                          value = formInput.value;
+                          break;
 
-                          case 'SELECT':
-                              if (formInput.multiple) {
-                                  values = [];
-                                  multiple = true;
+                      case 'SELECT':
+                          if (formInput.multiple) {
+                              values = [];
+                              multiple = true;
 
-                                  for (var j = 0; j < formInput.length; j++) {
-                                      if (formInput[j].selected) {
-                                          values.push(encodeURIComponent(formInput[j].value));
-                                      }
+                              for (var j = 0; j < formInput.length; j++) {
+                                  if (formInput[j].selected) {
+                                      values.push(encodeURIComponent(formInput[j].value));
                                   }
-
-                              } else {
-                                  value = (formInput.value);
                               }
 
-                              console.log('select val', value);
-                              break;
-                      }
+                          } else {
+                              value = (formInput.value);
+                          }
 
-                      if (value) {
-                          /* inputsObject[inputName].push(multiple ? values.join(',') : encodeURIComponent(value)); */
-                          if (!inputsObject[inputName]['value']) { inputsObject[inputName]['value'] = []; }
-                          inputsObject[inputName]['value'].push(multiple ? values.join(',') : encodeURIComponent(value));
-                          var value = multiple ? values.join(',') : encodeURIComponent(value);
+                          console.log('select val', value);
+                          break;
+                  }
 
-                      }
+                  if (value) {
+                      /* inputsObject[inputName].push(multiple ? values.join(',') : encodeURIComponent(value)); */
+                      if (!inputsObject[inputName]['value']) { inputsObject[inputName]['value'] = []; }
+                      inputsObject[inputName]['value'].push(multiple ? values.join(',') : encodeURIComponent(value));
+                      var value = multiple ? values.join(',') : encodeURIComponent(value);
 
                   }
-              }
 
-              console.log('These are the raw values', inputsObject);
-              InboundAnalytics.totalStorage('the_key', inputsObject);
+              }
+          }
+
+          console.log('These are the raw values', inputsObject);
+          InboundAnalytics.totalStorage('the_key', inputsObject);
 
               //var inputsObject = sortInputs(inputsObject);
 
@@ -201,108 +199,106 @@ var InboundForms = (function (InboundAnalytics) {
                 'mapped_params' : mapped_params
               };
       },
-      rememberInputs: function() {
-        var elements = document.querySelectorAll('input, select, textarea'),
-        utils = InboundAnalytics.Utils;
+      rememberInputValues: function(input) {
+        var utils = InboundAnalytics.Utils;
+        //var FormStore = InboundAnalytics.totalStorage('the_key');
 
-        for (var i = elements.length - 1; i >= 0; i--) {
           /* polyfill this dom load */
-          var name = ( elements[i].name ) ? elements[i].name : '';
-          var type = ( elements[i].type ) ? elements[i].type : 'text';
+          var name = ( input.name ) ? input.name : '';
+          var type = ( input.type ) ? input.type : 'text';
           if(type === 'submit' || type === 'hidden' || type === 'checkbox' || type === 'file' || type === "password") {
-            continue;
+              return false;
           }
 
             if(utils.readCookie(name) && name != 'comment' ){
                 //jQuery(this).val( jQuery.cookie(name) );
                value = decodeURIComponent(utils.readCookie(name));
-               elements[i].value = value;
+               input.value = value;
             }
 
-            utils.addListener(elements[i], 'change', function(e) {
-              console.log('change ' + e.target.name  + " " + encodeURIComponent(e.target.value));
+            utils.addListener(input, 'change', function(e) {
               /* TODO Fix the correct Value */
+              console.log('change ' + e.target.name  + " " + encodeURIComponent(e.target.value));
               var fieldname = e.target.name.replace(/-/g, "_");
 
-              utils.createCookie(e.target.name, encodeURIComponent(e.target.value));
-              // var FormStore = InboundAnalytics.totalStorage('the_key');
-              // update formStore Obj and resave
+              utils.createCookie("inbound_" + e.target.name, encodeURIComponent(e.target.value));
               // InboundAnalytics.totalStorage('the_key', FormStore);
               /* Push to 'unsubmitted form object' */
             });
-
-        };
-
       },
       mapField: function(input) {
 
-                      /* Maps data attributes to fields on page load */
-                      var input_id = input.id || false;
-                      var input_name = input.name || false;
+            /* Maps data attributes to fields on page load */
+            var input_id = input.id || false;
+            var input_name = input.name || false;
 
-                      // Main Loop
-                      for (i = 0; i < matchCommonFields.length; i++) {
-                        //for (var i = matchCommonFields.length - 1; i >= 0; i--) {
-                         var found = false;
-                         var match = matchCommonFields[i];
-                         var lookingFor = trim(match);
-                         var nice_name = lookingFor.replace(/ /g,'_');
-                         //console.log("NICE NAME", nice_name);
-                         //console.log('looking for match on ' + lookingFor);
+            /* Loop through all match possiblities */
+            for (i = 0; i < matchCommonFields.length; i++) {
+              //for (var i = matchCommonFields.length - 1; i >= 0; i--) {
+               var found = false;
+               var match = matchCommonFields[i];
+               var lookingFor = trim(match);
+               var nice_name = lookingFor.replace(/ /g,'_');
 
-                         /* look for name attribute match */
-                         if (input_name && input_name.toLowerCase().indexOf(lookingFor)>-1) {
-                            var found = true;
-                            this.debug('FOUND name attribute',function(){
-                                console.warn('FOUND name: ' + lookingFor);
-                            });
+               this.debug('Names',function(){
+                   console.log("NICE NAME", nice_name);
+                   console.log('looking for match on ' + lookingFor);
+               });
 
-                         /* look for id match */
-                         } else if (input_id && input_id.toLowerCase().indexOf(lookingFor)>-1) {
-                            var found = true;
+               /* look for name attribute match */
+               if (input_name && input_name.toLowerCase().indexOf(lookingFor)>-1) {
+                  var found = true;
+                  this.debug('FOUND name attribute',function(){
+                      console.warn('FOUND name: ' + lookingFor);
+                  });
 
-                            this.debug('FOUND id:',function(){
-                                console.log('FOUND id: ' + lookingFor);
-                            });
+               /* look for id match */
+               } else if (input_id && input_id.toLowerCase().indexOf(lookingFor)>-1) {
+                  var found = true;
 
-                         /* Check siblings for label */
-                         } else if (label = this.siblingsIsLabel(input)) {
+                  this.debug('FOUND id:',function(){
+                      console.log('FOUND id: ' + lookingFor);
+                  });
 
-                            if (label[0].innerText.toLowerCase().indexOf(lookingFor)>-1) {
-                                var found = true;
+               /* Check siblings for label */
+               } else if (label = this.siblingsIsLabel(input)) {
 
-                                this.debug('Sibling matches single label',function(){
-                                    console.log('FOUND label text: ' + lookingFor);
-                                });
+                  if (label[0].innerText.toLowerCase().indexOf(lookingFor)>-1) {
+                      var found = true;
 
-                            }
-                            /* Check closest li for label */
-                         } else if (labelText = this.CheckParentForLabel(input)) {
-                            console.warn("li labels found in form");
-                            console.log(labelText)
-                            if (labelText.toLowerCase().indexOf(lookingFor)>-1) {
-                                var found = true;
-                            }
+                      this.debug('Sibling matches single label',function(){
+                          console.log('FOUND label text: ' + lookingFor);
+                      });
 
-                         } else {
+                  }
+                  /* Check closest li for label */
+               } else if (labelText = this.CheckParentForLabel(input)) {
+                  console.warn("li labels found in form");
+                  console.log(labelText)
+                  if (labelText.toLowerCase().indexOf(lookingFor)>-1) {
+                      var found = true;
+                  }
 
-                            this.debug('NO MATCH',function(){
-                                console.log('NO Match on ' + lookingFor + " in " + input_name);
-                            });
+               } else {
 
-                            no_match.push(lookingFor);
+                  this.debug('NO MATCH',function(){
+                      console.log('NO Match on ' + lookingFor + " in " + input_name);
+                  });
 
-                         }
+                  no_match.push(lookingFor);
 
-                          if (found) {
-                            this.addDataAttr(input, nice_name);
-                            this.removeArrayItem(matchCommonFields, lookingFor);
-                            i--; //decrement count
-                          }
+               }
 
-                      }
+              /* Map the field */
+              if (found) {
+                this.addDataAttr(input, nice_name);
+                this.removeArrayItem(matchCommonFields, lookingFor);
+                i--; //decrement count
+              }
 
-                      return inbound_data;
+            }
+
+            return inbound_data;
 
       },
       /* Get correct input values */
@@ -330,13 +326,13 @@ var InboundForms = (function (InboundAnalytics) {
       },
       /* Add data-map-form-field attr to input */
       addDataAttr: function(formInput, match){
-                var getAllInputs = document.getElementsByName(formInput.name);
-                for (var i = getAllInputs.length - 1; i >= 0; i--) {
-                    if(!formInput.dataset.mapFormField) {
-                        getAllInputs[i].dataset.mapFormField = match;
-                    }
-                };
 
+                      var getAllInputs = document.getElementsByName(formInput.name);
+                      for (var i = getAllInputs.length - 1; i >= 0; i--) {
+                          if(!formInput.dataset.mapFormField) {
+                              getAllInputs[i].dataset.mapFormField = match;
+                          }
+                      };
       },
       /* Optimize matchCommonFields array for fewer lookups */
       removeArrayItem: function(array, item){

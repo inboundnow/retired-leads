@@ -13,6 +13,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           this.getReferer();
 
       },
+      /* http://stackoverflow.com/questions/951791/javascript-global-error-handling */
       /* Polyfills for missing browser functionality */
       polyFills: function() {
            /* Console.log fix for old browsers */
@@ -35,7 +36,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
                var evt = document.createEvent( 'CustomEvent' );
                evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
                return evt;
-              };
+              }
 
              CustomEvent.prototype = window.Event.prototype;
 
@@ -77,7 +78,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       /* Get All Cookies */
       getAllCookies: function(){
               var cookies = {};
-              if (document.cookie && document.cookie != '') {
+              if (document.cookie && document.cookie !== '') {
                   var split = document.cookie.split(';');
                   for (var i = 0; i < split.length; i++) {
                       var name_value = split[i].split("=");
@@ -85,7 +86,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
                       cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
                   }
               }
-              jQuery.totalStorage('inbound_cookies', cookies); // store cookie data
+              InboundAnalytics.totalStorage('inbound_cookies', cookies); // store cookie data
               return cookies;
       },
       /* Grab URL params and save */
@@ -132,16 +133,16 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             }
 
             if(local_store){
-              var pastParams =  jQuery.totalStorage('inbound_url_params');
+              var pastParams =  InboundAnalytics.totalStorage('inbound_url_params');
               var params = this.mergeObjs(pastParams, urlParams);
-              jQuery.totalStorage('inbound_url_params', params); // store cookie data
+              InboundAnalytics.totalStorage('inbound_url_params', params); // store cookie data
             }
       },
       getUrlParams: function(){
           var local_store = this.checkLocalStorage(),
           get_params = {};
           if(local_store){
-            var get_params =  jQuery.totalStorage('inbound_url_params');
+            var get_params = InboundAnalytics.totalStorage('inbound_url_params');
           }
           return get_params;
       },
@@ -240,7 +241,6 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       },
       SetUID:  function () {
        /* Set Lead UID */
-
        if(this.readCookie("wp_lead_uid") === null) {
           var wp_lead_uid =  this.CreateUID(35);
           this.createCookie("wp_lead_uid", wp_lead_uid );
@@ -271,6 +271,15 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           }
           return hasClass;
       },
+      removeClass: function(className, elem){
+        if ('classList' in document.documentElement) {
+            elem.classList.remove(className);
+        } else {
+          if (this.hasClass(elem, className)) {
+            elem.className = elem.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
+          }
+        }
+      },
       trim: function(s) {
           s = s.replace(/(^\s*)|(\s*$)/gi,"");
           s = s.replace(/[ ]{2,}/gi," ");
@@ -300,7 +309,56 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
         });
     },
-    makeRequest: function(url) {
+    ajaxPolyFill: function() {
+        if (typeof XMLHttpRequest !== 'undefined') {
+            return new XMLHttpRequest();
+        }
+        var versions = [
+            "MSXML2.XmlHttp.5.0",
+            "MSXML2.XmlHttp.4.0",
+            "MSXML2.XmlHttp.3.0",
+            "MSXML2.XmlHttp.2.0",
+            "Microsoft.XmlHttp"
+        ];
+
+        var xhr;
+        for(var i = 0; i < versions.length; i++) {
+            try {
+                xhr = new ActiveXObject(versions[i]);
+                break;
+            } catch (e) {
+            }
+        }
+        return xhr;
+    },
+    ajaxSendData: function(url, callback, method, data, sync) {
+        var x = this.ajaxPolyFill();
+        x.open(method, url, sync);
+        x.onreadystatechange = function() {
+            if (x.readyState == 4) {
+                callback(x.responseText)
+            }
+        };
+        if (method == 'POST') {
+            x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        }
+        x.send(data);
+    },
+    ajaxGet: function(url, data, callback, sync) {
+        var query = [];
+        for (var key in data) {
+            query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+        }
+        this.ajaxSendData(url + '?' + query.join('&'), callback, 'GET', null, sync)
+    },
+    ajaxPost: function(url, data, callback, sync) {
+        var query = [];
+        for (var key in data) {
+            query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+        }
+        this.ajaxSendData(url, callback, 'POST', query.join('&'), sync)
+    },
+    makeRequest: function(url, data) {
         if (window.XMLHttpRequest) { // Mozilla, Safari, ...
           httpRequest = new XMLHttpRequest();
         } else if (window.ActiveXObject) { // IE
@@ -321,9 +379,9 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
         }
         httpRequest.onreadystatechange = InboundAnalytics.LeadsAPI.alertContents;
         httpRequest.open('GET', url);
-        httpRequest.send();
-      },
-    contentLoaded: function(win, fn) {
+        httpRequest.send(data);
+    },
+    domReady: function(win, fn) {
 
       var done = false, top = true,
 
@@ -357,16 +415,28 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
     },
     /* Cross-browser event listening  */
-    addListener: function(obj, eventName, listener) {
-      if(obj.addEventListener) {
-        obj.addEventListener(eventName, listener, false);
-      } else if (obj.attachEvent) {
-        obj.attachEvent("on" + eventName, listener);
+    addListener: function(element, eventName, listener) {
+      //console.log(eventName);
+      //console.log(listener);
+      if(element.addEventListener) {
+        element.addEventListener(eventName, listener, false);
+      } else if (element.attachEvent) {
+        element.attachEvent("on" + eventName, listener);
       } else {
-        obj['on' + eventName] = listener;
+        element['on' + eventName] = listener;
+      }
+    },
+    removeListener: function(element, eventName, listener) {
+      console.log('test');
+      console.log(listener);
+      if (element.removeEventListener) {
+         element.removeEventListener(eventName, listener, false);
+      } else if (element.detachEvent) {
+         element.detachEvent("on" + eventName, listener);
+      } else {
+         element["on" + eventName] = null;
       }
     }
-
   };
 
   return InboundAnalytics;

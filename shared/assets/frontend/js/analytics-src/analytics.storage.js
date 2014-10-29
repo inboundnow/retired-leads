@@ -1,7 +1,5 @@
-/* Fork of jquery.total-storage.js */
+/* LocalStorage Component */
 var InboundTotalStorage = (function (InboundAnalytics){
-
-  /* Variables I'll need throghout */
 
   var supported, ls, mod = 'inboundAnalytics';
   if ('localStorage' in window){

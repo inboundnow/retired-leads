@@ -5,10 +5,10 @@
  */
 // https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
 var InboundAnalyticsEvents = (function (InboundAnalytics) {
-
+    console.log(InboundAnalytics.Settings);
     InboundAnalytics.Events =  {
       // Create cookie
-      loadEvents: function() {
+      loadEvents: function(test) {
           this.analyticsLoaded();
       },
       triggerJQueryEvent: function(eventName, data){
@@ -41,6 +41,7 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           var page_view_saved = new CustomEvent("inbound_analytics_saved");
           window.dispatchEvent(page_view_saved);
           console.log('Page View Saved');
+          InboundAnalytics.hooks.doAction( 'inbound.page_view');
       },
       analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
           var error = new CustomEvent("inbound_analytics_error", {

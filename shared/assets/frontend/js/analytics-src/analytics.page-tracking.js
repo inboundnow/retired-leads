@@ -15,7 +15,7 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
     },
     StorePageView: function() {
           var timeout = this.CheckTimeOut();
-          var pageviewObj = jQuery.totalStorage('page_views');
+          var pageviewObj = InboundAnalytics.totalStorage('page_views');
           if(pageviewObj === null) {
             pageviewObj = {};
           }
@@ -40,19 +40,16 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
                   InboundAnalytics.Events.pageFirstView(page_seen_count);
               }
 
-              jQuery.totalStorage('page_views', pageviewObj);
+              InboundAnalytics.totalStorage('page_views', pageviewObj);
 
           }
     },
     CheckTimeOut: function() {
-        var PageViews = jQuery.totalStorage('page_views');
-        if(PageViews === null) {
-        var PageViews = {};
-        }
+        var PageViews = InboundAnalytics.totalStorage('page_views') || {};
         var page_id = wplft.post_id,
         pageviewTimeout = true, /* Default */
         page_seen = PageViews[page_id];
-        if(typeof(page_seen) != "undefined" && page_seen !== null) {
+        if(typeof(page_seen) !== "undefined" && page_seen !== null) {
 
             var time_now = InboundAnalytics.Utils.GetDate(),
             vc = PageViews[page_id].length - 1,
@@ -100,7 +97,7 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
       var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
       lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
 
-      if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
+      if (typeof (lead_id) !== "undefined" && lead_id !== null && lead_id !== "") {
 
         InboundAnalytics.debug('Run page view ajax');
 
@@ -166,7 +163,7 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
           } // if
         });
     }
-  }
+  };
 
     return InboundAnalytics;
 
