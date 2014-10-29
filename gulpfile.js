@@ -16,6 +16,7 @@ var paths = {
   scripts : [
     sharedPath + 'analytics.init.js',
     sharedPath + 'analytics.utils.js',
+    sharedPath + 'analytics.hooks.js',
     sharedPath + 'analytics.forms.js',
     sharedPath + 'analytics.events.js',
     sharedPath + 'analytics.storage.js',
