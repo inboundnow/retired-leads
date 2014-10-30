@@ -69,7 +69,7 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			$args = array(
 				'labels' 				=> $labels,
-				'public'				=> true,
+				'public'				=> false,
 				'publicly_queryable' 	=> true,
 				'show_ui' 				=> true,
 				'query_var' 			=> true,
