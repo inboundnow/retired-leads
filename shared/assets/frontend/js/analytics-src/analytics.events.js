@@ -1,12 +1,12 @@
 /**
  * Event functions
- * @param  Object InboundAnalytics - Main JS object
+ * @param  Object _inbound - Main JS object
  * @return Object - include event triggers
  */
 // https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
-var InboundAnalyticsEvents = (function (InboundAnalytics) {
-    console.log(InboundAnalytics.Settings);
-    InboundAnalytics.Events =  {
+var _inboundEvents = (function (_inbound) {
+    console.log(_inbound.Settings);
+    _inbound.Events =  {
       // Create cookie
       loadEvents: function(test) {
           this.analyticsLoaded();
@@ -41,7 +41,7 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           var page_view_saved = new CustomEvent("inbound_analytics_saved");
           window.dispatchEvent(page_view_saved);
           console.log('Page View Saved');
-          InboundAnalytics.hooks.doAction( 'inbound.page_view');
+          _inbound.hooks.doAction( 'inbound.page_view');
       },
       analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
           var error = new CustomEvent("inbound_analytics_error", {
@@ -113,6 +113,6 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
 
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

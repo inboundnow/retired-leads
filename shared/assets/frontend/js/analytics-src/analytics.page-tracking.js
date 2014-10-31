@@ -1,9 +1,9 @@
-var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
+var _inboundPageTracking = (function (_inbound) {
 
-    InboundAnalytics.PageTracking = {
+    _inbound.PageTracking = {
 
     getPageViews: function () {
-        var local_store = InboundAnalytics.Utils.checkLocalStorage();
+        var local_store = _inbound.Utils.checkLocalStorage();
         if(local_store){
           var page_views = localStorage.getItem("page_views"),
           local_object = JSON.parse(page_views);
@@ -15,12 +15,12 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
     },
     StorePageView: function() {
           var timeout = this.CheckTimeOut();
-          var pageviewObj = InboundAnalytics.totalStorage('page_views');
+          var pageviewObj = _inbound.totalStorage('page_views');
           if(pageviewObj === null) {
             pageviewObj = {};
           }
           var current_page_id = wplft.post_id;
-          var datetime = InboundAnalytics.Utils.GetDate();
+          var datetime = _inbound.Utils.GetDate();
 
           if (timeout) {
               // If pageviewObj exists, do this
@@ -30,37 +30,37 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
                   pageviewObj[current_page_id].push(datetime);
                   /* Page Revisit Trigger */
                   var page_seen_count = pageviewObj[current_page_id].length;
-                  InboundAnalytics.Events.pageRevisit(page_seen_count);
+                  _inbound.Events.pageRevisit(page_seen_count);
 
               } else {
                   pageviewObj[current_page_id] = [];
                   pageviewObj[current_page_id].push(datetime);
                   /* Page First Seen Trigger */
                   var page_seen_count = 1;
-                  InboundAnalytics.Events.pageFirstView(page_seen_count);
+                  _inbound.Events.pageFirstView(page_seen_count);
               }
 
-              InboundAnalytics.totalStorage('page_views', pageviewObj);
+              _inbound.totalStorage('page_views', pageviewObj);
 
           }
     },
     CheckTimeOut: function() {
-        var PageViews = InboundAnalytics.totalStorage('page_views') || {};
+        var PageViews = _inbound.totalStorage('page_views') || {};
         var page_id = wplft.post_id,
         pageviewTimeout = true, /* Default */
         page_seen = PageViews[page_id];
         if(typeof(page_seen) !== "undefined" && page_seen !== null) {
 
-            var time_now = InboundAnalytics.Utils.GetDate(),
+            var time_now = _inbound.Utils.GetDate(),
             vc = PageViews[page_id].length - 1,
             last_view = PageViews[page_id][vc],
             last_view_ms = new Date(last_view).getTime(),
             time_now_ms = new Date(time_now).getTime(),
             timeout_ms = last_view_ms + 30*1000,
             time_check = Math.abs(last_view_ms - time_now_ms),
-            wait_time = 30000;
+            wait_time = _inbound.Settings.timeout || 30000;
 
-            InboundAnalytics.debug('Timeout Checks =',function(){
+            _inbound.debug('Timeout Checks =',function(){
                  console.log('Current Time is: ' + time_now);
                  console.log('Last view is: ' + last_view);
                  console.log("Last view milliseconds " + last_view_ms);
@@ -74,15 +74,15 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
             if (time_check < wait_time){
               time_left =  Math.abs((wait_time - time_check)) * .001;
               pageviewTimeout = false;
-              var status = '30 sec timeout not done: ' + time_left + " seconds left";
+              var status = wait_time / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
             } else {
               var status = 'Timeout Happened. Page view fired';
               this.firePageView();
               pageviewTimeout = true;
-              InboundAnalytics.Events.analyticsTriggered();
+              _inbound.Events.analyticsTriggered();
             }
 
-            //InboundAnalytics.debug('',function(){
+            //_inbound.debug('',function(){
                  console.log(status);
             //});
        } else {
@@ -94,12 +94,12 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
 
     },
     firePageView: function() {
-      var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
-      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
+      var lead_id = _inbound.Utils.readCookie('wp_lead_id'),
+      lead_uid = _inbound.Utils.readCookie('wp_lead_uid');
 
       if (typeof (lead_id) !== "undefined" && lead_id !== null && lead_id !== "") {
 
-        InboundAnalytics.debug('Run page view ajax');
+        _inbound.debug('Run page view ajax');
 
         var data = {
                 action: 'wpl_track_user',
@@ -110,9 +110,9 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
                 json: '0'
               };
         var firePageCallback = function(user_id){
-                InboundAnalytics.Events.analyticsSaved();
+                _inbound.Events.analyticsSaved();
         };
-        InboundAnalytics.Utils.doAjax(data, firePageCallback);
+        _inbound.Utils.doAjax(data, firePageCallback);
       }
     },
     tabSwitch: function() {
@@ -152,11 +152,11 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
             if(document[hidden]) {
               // Document hidden
               console.log('hidden');
-              InboundAnalytics.Events.browserTabHidden();
+              _inbound.Events.browserTabHidden();
             } else {
               // Document shown
               console.log('shown');
-              InboundAnalytics.Events.browserTabVisible();
+              _inbound.Events.browserTabVisible();
             } // if
 
             document_hidden = document[hidden];
@@ -165,6 +165,6 @@ var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
     }
   };
 
-    return InboundAnalytics;
+    return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

@@ -11,25 +11,27 @@ var _gaq = _gaq || [];
 
 var _inboundOptions = {
   test: true,
-}
+  //timeout: 10000
+};
 
-var InboundAnalytics = (function (options) {
+var _inbound = (function (options) {
    /* Constants */
    var defaults = {
-        debugMode : false
+        debugMode : false,
+        timeout: 30000
    };
 
-   var App = {
+   var Analytics = {
      /* Initialize individual modules */
      init: function () {
-         InboundAnalytics.Utils.init();
-         InboundAnalytics.PageTracking.StorePageView();
-         InboundAnalytics.Events.loadEvents(settings);
+         _inbound.Utils.init();
+         _inbound.PageTracking.StorePageView();
+         _inbound.Events.loadEvents(settings);
      },
      DomLoaded: function(){
-        InboundAnalytics.Forms.init();
+        _inbound.Forms.init();
         setTimeout(function() {
-             InboundAnalytics.Forms.init();
+             _inbound.Forms.init();
          }, 2000);
      },
      getSettings: function (defaults, options) {
@@ -69,10 +71,10 @@ var InboundAnalytics = (function (options) {
      }
    };
 
-   var settings = App.getSettings(defaults, options);
+   var settings = Analytics.getSettings(defaults, options);
    /* Set globals */
-   App.Settings = settings || {};
+   Analytics.Settings = settings || {};
 
-  return App;
+  return Analytics;
 
 })(_inboundOptions);

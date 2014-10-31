@@ -1,17 +1,18 @@
 /**
  * Utility functions
- * @param  Object InboundAnalytics - Main JS object
+ * @param  Object _inbound - Main JS object
  * include util functions
  */
-var InboundAnalyticsUtils = (function (InboundAnalytics) {
+var _inboundUtils = (function (_inbound) {
 
-    InboundAnalytics.Utils =  {
+    /* Private methods here */
+
+    _inbound.Utils =  {
       init: function() {
           this.polyFills();
           this.setUrlParams();
           this.SetUID();
           this.getReferer();
-
       },
       /* http://stackoverflow.com/questions/951791/javascript-global-error-handling */
       /* Polyfills for missing browser functionality */
@@ -86,7 +87,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
                       cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
                   }
               }
-              InboundAnalytics.totalStorage('inbound_cookies', cookies); // store cookie data
+              _inbound.totalStorage('inbound_cookies', cookies); // store cookie data
               return cookies;
       },
       /* Grab URL params and save */
@@ -133,16 +134,16 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
             }
 
             if(local_store){
-              var pastParams =  InboundAnalytics.totalStorage('inbound_url_params');
+              var pastParams =  _inbound.totalStorage('inbound_url_params');
               var params = this.mergeObjs(pastParams, urlParams);
-              InboundAnalytics.totalStorage('inbound_url_params', params); // store cookie data
+              _inbound.totalStorage('inbound_url_params', params); // store cookie data
             }
       },
       getUrlParams: function(){
           var local_store = this.checkLocalStorage(),
           get_params = {};
           if(local_store){
-            var get_params = InboundAnalytics.totalStorage('inbound_url_params');
+            var get_params = _inbound.totalStorage('inbound_url_params');
           }
           return get_params;
       },
@@ -191,7 +192,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
         seconds = time_now.getSeconds(),
         month = time_now.getMonth() + 1;
         if (month < 10) { month = '0' + month; }
-        InboundAnalytics.debug('Current Date:',function(){
+        _inbound.debug('Current Date:',function(){
             console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
         });
         var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
@@ -202,9 +203,9 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           var session_check = this.readCookie("lead_session_expire");
           //console.log(session_check);
           if(session_check === null){
-            InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
+            _inbound.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
           } else {
-            InboundAnalytics.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
+            _inbound.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
           }
           var d = new Date();
           d.setTime(d.getTime() + 30*60*1000);
@@ -222,7 +223,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
         //console.log(expire_time);
         var d = new Date();
         d.setTime(d.getTime() + 30*60*1000);
-        var referrer_cookie = InboundAnalytics.Utils.readCookie("wp_lead_referral_site");
+        var referrer_cookie = _inbound.Utils.readCookie("wp_lead_referral_site");
         if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
           var referrer = document.referrer || "NA";
           this.createCookie("wp_lead_referral_site", referrer, d, true); // Set cookie on page loads
@@ -244,7 +245,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
        if(this.readCookie("wp_lead_uid") === null) {
           var wp_lead_uid =  this.CreateUID(35);
           this.createCookie("wp_lead_uid", wp_lead_uid );
-          InboundAnalytics.debug('Set UID');
+          _inbound.debug('Set UID');
        }
       },
       /* Count number of session visits */
@@ -271,8 +272,18 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           }
           return hasClass;
       },
+      addClass: function(className, elem){
+        if ('classList' in document.documentElement) {
+              elem.classList.add(className);
+        } else {
+           if (!this.hasClass(elem, className)) {
+             elem.className += (elem.className ? ' ' : '') + className;
+           }
+        }
+      },
       removeClass: function(className, elem){
         if ('classList' in document.documentElement) {
+
             elem.classList.remove(className);
         } else {
           if (this.hasClass(elem, className)) {
@@ -293,7 +304,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
       data = data || null,
       action = data.action;
 
-      InboundAnalytics.debug('Ajax Processed:',function(){
+      _inbound.debug('Ajax Processed:',function(){
            console.log('ran ajax action: ' + action);
       });
 
@@ -304,7 +315,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           success: responseHandler,
           error: function(MLHttpRequest, textStatus, errorThrown){
             console.log(MLHttpRequest+' '+errorThrown+' '+textStatus);
-            InboundAnalytics.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
+            _inbound.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
           }
 
         });
@@ -377,7 +388,7 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
           alert('Giving up :( Cannot create an XMLHTTP instance');
           return false;
         }
-        httpRequest.onreadystatechange = InboundAnalytics.LeadsAPI.alertContents;
+        httpRequest.onreadystatechange = _inbound.LeadsAPI.alertContents;
         httpRequest.open('GET', url);
         httpRequest.send(data);
     },
@@ -439,6 +450,6 @@ var InboundAnalyticsUtils = (function (InboundAnalytics) {
     }
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

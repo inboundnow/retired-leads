@@ -279,7 +279,7 @@ var saveFormData = function() {
         }
 
         console.log('These are the raw values', inputsObject);
-        InboundAnalytics.totalStorage('the_key', inputsObject);
+        _inbound.totalStorage('the_key', inputsObject);
 
         //var inputsObject = sortInputs(inputsObject);
 
@@ -330,10 +330,10 @@ if(form.addEventListener) {
 
 /**
  * Form functions
- * @param  Object InboundAnalytics - Form tracking functionality
+ * @param  Object _inbound - Form tracking functionality
  * @return Object - form functions
  */
-var InboundForms = (function (InboundAnalytics) {
+var InboundForms = (function (_inbound) {
 
     var debugMode = false;
     var matchCommonFields = [
@@ -353,7 +353,7 @@ var InboundForms = (function (InboundAnalytics) {
                         /* Adding values here maps them */
     ];
 
-    InboundAnalytics.Forms =  {
+    _inbound.Forms =  {
 
       // Init Form functions
       init: function() {
@@ -569,6 +569,6 @@ var InboundForms = (function (InboundAnalytics) {
 
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

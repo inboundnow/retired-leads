@@ -1,15 +1,15 @@
 /**
  * Form functions
- * @param  Object InboundAnalytics - Form tracking functionality
+ * @param  Object _inbound - Form tracking functionality
  * @return Object - form functions
  */
-var InboundForms = (function (InboundAnalytics) {
+var InboundForms = (function (_inbound) {
 
     var debugMode = false;
     var no_match = [];
     var rawParams = [];
     var mappedParams = [];
-    utils = InboundAnalytics.Utils;
+    utils = _inbound.Utils;
     var matchCommonFields = [
                         "first name",
                         "last name",
@@ -27,7 +27,7 @@ var InboundForms = (function (InboundAnalytics) {
                         /* Adding values here maps them */
     ];
 
-    InboundAnalytics.Forms =  {
+    _inbound.Forms =  {
 
       // Init Form functions
       init: function() {
@@ -48,7 +48,7 @@ var InboundForms = (function (InboundAnalytics) {
       formTrackInit: function(){
           for(var i=0; i<window.document.forms.length; i++){
             var form = window.document.forms[i];
-            var trackForm = InboundAnalytics.Utils.hasClass("wpl-track-me", form);
+            var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
             if (trackForm) {
               this.attachFormSubmitEvent(form); /* attach form listener */
               this.initFormMapping(form);
@@ -87,7 +87,7 @@ var InboundForms = (function (InboundAnalytics) {
       attachFormSubmitEvent: function (form) {
         utils.addListener(form, 'submit', function(event) {
           event.preventDefault();
-          InboundAnalytics.Forms.saveFormData(event.target);
+          _inbound.Forms.saveFormData(event.target);
 
         });
       },
@@ -160,7 +160,7 @@ var InboundForms = (function (InboundAnalytics) {
           }
 
           console.log('These are the raw values', inputsObject);
-          InboundAnalytics.totalStorage('the_key', inputsObject);
+          _inbound.totalStorage('the_key', inputsObject);
 
               //var inputsObject = sortInputs(inputsObject);
 
@@ -200,8 +200,8 @@ var InboundForms = (function (InboundAnalytics) {
               };
       },
       rememberInputValues: function(input) {
-        var utils = InboundAnalytics.Utils;
-        //var FormStore = InboundAnalytics.totalStorage('the_key');
+        var utils = _inbound.Utils;
+        //var FormStore = _inbound.totalStorage('the_key');
 
           /* polyfill this dom load */
           var name = ( input.name ) ? input.name : '';
@@ -222,7 +222,7 @@ var InboundForms = (function (InboundAnalytics) {
               var fieldname = e.target.name.replace(/-/g, "_");
 
               utils.createCookie("inbound_" + e.target.name, encodeURIComponent(e.target.value));
-              // InboundAnalytics.totalStorage('the_key', FormStore);
+              // _inbound.totalStorage('the_key', FormStore);
               /* Push to 'unsubmitted form object' */
             });
       },
@@ -394,6 +394,6 @@ var InboundForms = (function (InboundAnalytics) {
 
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

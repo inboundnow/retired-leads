@@ -1,4 +1,4 @@
-var InboundAnalyticsHooks = (function (InboundAnalytics) {
+var _inboundHooks = (function (_inbound) {
 
 	/**
 	 * Handles managing all events for whatever you plug it into. Priorities for hooks are based on lowest to highest in
@@ -239,8 +239,8 @@ var InboundAnalyticsHooks = (function (InboundAnalytics) {
 
 	};
 
-	InboundAnalytics.hooks = new EventManager();
+	_inbound.hooks = new EventManager();
 
-    return InboundAnalytics;
+    return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

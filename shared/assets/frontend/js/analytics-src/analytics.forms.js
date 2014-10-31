@@ -1,16 +1,23 @@
 /**
- * Form functions
- * @param  Object InboundAnalytics - Form tracking functionality
- * @return Object - form functions
+ * # Inbound Analytics Form Functions
+ *
+ * This file contains all of the form functions of the main _inbound object.
+ * Filters and actions are described below
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
  */
-var InboundForms = (function (InboundAnalytics) {
 
-    var debugMode = false;
-    var no_match = [];
-    var rawParams = [];
-    var mappedParams = [];
-    utils = InboundAnalytics.Utils;
-    var matchCommonFields = [
+/* Launches form class */
+var InboundForms = (function (_inbound) {
+
+    var debugMode = false,
+    utils = _inbound.Utils,
+    no_match = [],
+    rawParams = [],
+    mappedParams = [];
+
+    var FieldMapArray = [
                         "first name",
                         "last name",
                         "name",
@@ -27,15 +34,39 @@ var InboundForms = (function (InboundAnalytics) {
                         /* Adding values here maps them */
     ];
 
-
-    InboundAnalytics.Forms =  {
+    _inbound.Forms =  {
 
       // Init Form functions
       init: function() {
-          console.log(InboundAnalytics.hooks);
-          matchCommonFields = InboundAnalytics.hooks.applyFilters( 'inbound.form_map_before', matchCommonFields);
-          alert(matchCommonFields);
-          InboundAnalytics.Forms.formTrackInit();
+          console.log(_inbound.hooks);
+          _inbound.Forms.runFieldMappingFilters();
+          _inbound.Forms.assignTrackClass();
+          _inbound.Forms.formTrackInit();
+      },
+      /**
+       * This triggers the forms.field_map filter on the mapping array.
+       * This will allow you to add or remore Items from the mapping lookup
+       *
+       * ### Example
+       *
+       * ```js
+       *  // Adding the filter function
+       *  function Inbound_Add_Filter_Example( FieldMapArray ) {
+       *    var map = FieldMapArray || [];
+       *    map.push('new lookup value');
+       *
+       *    return map;
+       *  };
+       *
+       *  // Adding the filter on dom ready
+       *  _inbound.hooks.addFilter( 'inbound.form_map_before', Inbound_Add_Filter_Example, 10 );
+       * ```
+       *
+       * @return {[type]} [description]
+       */
+      runFieldMappingFilters: function(){
+          FieldMapArray = _inbound.hooks.applyFilters( 'forms.field_map', FieldMapArray);
+          //alert(FieldMapArray);
       },
       debug: function(msg, callback){
          //if app not in debug mode, exit immediately
@@ -50,56 +81,94 @@ var InboundForms = (function (InboundAnalytics) {
          };
       },
       formTrackInit: function(){
+
           for(var i=0; i<window.document.forms.length; i++){
+            var trackForm = false;
             var form = window.document.forms[i];
-            var trackForm = InboundAnalytics.Utils.hasClass("wpl-track-me", form);
+
+            trackForm = this.checkTrackStatus(form);
+            // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
             if (trackForm) {
               this.attachFormSubmitEvent(form); /* attach form listener */
               this.initFormMapping(form);
             }
           }
       },
+      checkTrackStatus: function(form){
+          var ClassIs = form.getAttribute('class');
+          if( ClassIs !== "" && ClassIs !== null) {
+              if(ClassIs.toLowerCase().indexOf("wpl-track-me")>-1) {
+                return true;
+              } else if (ClassIs.toLowerCase().indexOf("inbound-track")>-1) {
+                return true;
+              } else {
+                console.log("No form to track on this page. Please assign on in settings");
+                return false;
+              }
+          }
+      },
+      assignTrackClass: function(form) {
+          if(window.inbound_track_include){
+              var selectors = inbound_track_include.include.split(',');
+              this.loopClassSelectors(selectors, 'add');
+          }
+          if(window.inbound_track_exclude){
+              var selectors = inbound_track_exclude.exclude.split(',');
+              this.loopClassSelectors(selectors, 'remove');
+          }
+      },
+      /* Loop through include/exclude items for tracking */
+      loopClassSelectors: function(selectors, action){
+          for (var i = selectors.length - 1; i >= 0; i--) {
+            selector = document.querySelector(utils.trim(selectors[i]));
+            //console.log("SELECTOR", selector);
+            if(selector) {
+                if( action === 'add'){
+                  _inbound.Utils.addClass('wpl-track-me', selector);
+                  _inbound.Utils.addClass('inbound-track', selector);
+                } else {
+                  _inbound.Utils.removeClass('wpl-track-me', selector);
+                  _inbound.Utils.removeClass('inbound-track', selector);
+                }
+            }
+          };
+      },
       /* Map field fields on load */
       initFormMapping: function(form) {
+                        var hiddenInputs = [];
 
-                      var hiddenInputs = [];
+                        for (var i=0; i < form.elements.length; i++) {
+                            formInput = form.elements[i];
 
-                      for (var i=0; i < form.elements.length; i++) {
-                          formInput = form.elements[i];
+                            if (formInput.type === 'hidden') {
+                                hiddenInputs.push(formInput);
+                                continue;
+                            }
+                            this.mapField(formInput);
+                            /* Remember visible inputs */
+                            this.rememberInputValues(formInput);
 
-                          if (formInput.type === 'hidden') {
-                              hiddenInputs.push(formInput);
-                              continue;
-                          }
+                        }
+                        for (var i = hiddenInputs.length - 1; i >= 0; i--) {
+                            formInput = hiddenInputs[i];
+                            this.mapField(formInput);
+                        };
 
-
-                          this.mapField(formInput);
-                          /* Remember visible inputs */
-                          this.rememberInputValues(formInput);
-
-                      }
-                      for (var i = hiddenInputs.length - 1; i >= 0; i--) {
-                          formInput = hiddenInputs[i];
-                          this.mapField(formInput);
-                      };
-
-                    console.log('mapping on load completed');
-
+                    //console.log('mapping on load completed');
       },
-      the_func: function(event) {
+      formListener: function(event) {
           console.log(event);
           event.preventDefault();
-          InboundAnalytics.Forms.saveFormData(event.target);
+          _inbound.Forms.saveFormData(event.target);
       },
       /* attach form listeners */
       attachFormSubmitEvent: function (form) {
-        utils.addListener(form, 'submit', this.the_func);
+        utils.addListener(form, 'submit', this.formListener);
       },
       releaseFormSubmit: function(form){
-        console.log('remove event');
+        //console.log('remove form listener event');
         utils.removeClass('wpl-track-me', form);
-        utils.removeListener(form, 'submit', this.the_func);
-        return false;
+        utils.removeListener(form, 'submit', this.formListener);
         form.submit();
         /* fallback if submit name="submit" */
         setTimeout(function() {
@@ -182,7 +251,7 @@ var InboundForms = (function (InboundAnalytics) {
           }
 
           //console.log('These are the raw values', inputsObject);
-          //InboundAnalytics.totalStorage('the_key', inputsObject);
+          //_inbound.totalStorage('the_key', inputsObject);
           //var inputsObject = sortInputs(inputsObject);
 
           var matchCommon = /name|first name|last name|email|e-mail|phone|website|job title|company|tele|address|comment/;
@@ -207,12 +276,21 @@ var InboundForms = (function (InboundAnalytics) {
               if (typeof (inputMappedField) != "undefined" && inputMappedField != null && inputsObject[input]['value']) {
                 //console.log('Data ATTR', formInput.dataset.mapFormField);
                 mappedParams.push( inputMappedField + "=" + inputsObject[input]['value'].join(',') );
+                if(input === 'email'){
+                  var email = inputsObject[input]['value'].join(',');
+                }
               }
           }
+
           var raw_params = rawParams.join('&');
           console.log("Raw PARAMS", raw_params);
           var mapped_params = mappedParams.join('&');
           console.log("Mapped PARAMS", mapped_params);
+          var page_views = _inbound.totalStorage('page_views') || {};
+
+          var inboundDATA = {
+            'email': email
+          };
           search_data = {};
           /* Filter here for raw */
           //alert(mapped_params);
@@ -222,24 +300,26 @@ var InboundForms = (function (InboundAnalytics) {
             'action': 'inbound_lead_store',
             'email': 'jimbo@test.com',
             'search_data': 'test',
+            'page_views': page_views,
             'post_type': 'landing-page'
           };
           callback = function(string){
+            /* Action Example */
+            _inbound.hooks.doAction( 'inbound_form_after_submission');
             alert('callback fired' + string);
-            InboundAnalytics.Forms.releaseFormSubmit(form);
+
+            _inbound.Forms.releaseFormSubmit(form);
             //form.submit();
             setTimeout(function() {
-              var inputs = jQuery(form).find('input');
-              jQuery(inputs).each(function(){
-                var type = jQuery(this).attr('type');
-                if (type === "submit") {
-                  //jQuery(this).click();
-                }
-              });
+              for (var i=0; i < form.elements.length; i++) {
+                  if (form.elements[i] === "submit") {
+                    form.elements[i].click();
+                  }
+              }
             }, 1000);
 
           }
-          //InboundAnalytics.LeadsAPI.makeRequest(landing_path_info.admin_url);
+          //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
           utils.ajaxPost(landing_path_info.admin_url, formData, callback);
       },
 
@@ -263,7 +343,7 @@ var InboundForms = (function (InboundAnalytics) {
               var fieldname = e.target.name.replace(/-/g, "_");
 
               utils.createCookie("inbound_" + e.target.name, encodeURIComponent(e.target.value));
-              // InboundAnalytics.totalStorage('the_key', FormStore);
+              // _inbound.totalStorage('the_key', FormStore);
               /* Push to 'unsubmitted form object' */
             });
       },
@@ -274,10 +354,10 @@ var InboundForms = (function (InboundAnalytics) {
             var input_name = input.name || false;
 
             /* Loop through all match possiblities */
-            for (i = 0; i < matchCommonFields.length; i++) {
-              //for (var i = matchCommonFields.length - 1; i >= 0; i--) {
+            for (i = 0; i < FieldMapArray.length; i++) {
+              //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
                var found = false;
-               var match = matchCommonFields[i];
+               var match = FieldMapArray[i];
                var lookingFor = utils.trim(match);
                var nice_name = lookingFor.replace(/ /g,'_');
 
@@ -336,7 +416,7 @@ var InboundForms = (function (InboundAnalytics) {
               /* Map the field */
               if (found) {
                 this.addDataAttr(input, nice_name);
-                this.removeArrayItem(matchCommonFields, lookingFor);
+                this.removeArrayItem(FieldMapArray, lookingFor);
                 i--; //decrement count
               }
 
@@ -378,7 +458,7 @@ var InboundForms = (function (InboundAnalytics) {
                           }
                       };
       },
-      /* Optimize matchCommonFields array for fewer lookups */
+      /* Optimize FieldMapArray array for fewer lookups */
       removeArrayItem: function(array, item){
           if (array.indexOf) {
             index = array.indexOf(item);
@@ -438,6 +518,6 @@ var InboundForms = (function (InboundAnalytics) {
 
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});

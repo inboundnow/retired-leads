@@ -1,11 +1,11 @@
 /**
  * Leads API functions
- * @param  Object InboundAnalytics - Main JS object
+ * @param  Object _inbound - Main JS object
  * @return Object - include event triggers
  */
-var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
+var _inboundLeadsAPI = (function (_inbound) {
     var httpRequest;
-    InboundAnalytics.LeadsAPI =  {
+    _inbound.LeadsAPI =  {
       init: function() {
 
       },
@@ -58,7 +58,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
 
              // Main Loop
              for (var i = 0; i < array.length; i++) {
-                 var clean_output = InboundAnalytics.Utils.trim(array[i]);
+                 var clean_output = _inbound.Utils.trim(array[i]);
                  var nice_name = clean_output.replace(/^\s+|\s+$/g,'');
                  var nice_name = nice_name.replace(" ",'_');
                  var in_object_already = nice_name in inbound_data;
@@ -66,8 +66,8 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
 
                  if (input_name.toLowerCase().indexOf(clean_output)>-1) {
                    /*  Look for attr name match */
-                   var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                   InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
+                   var the_map = _inbound.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
+                   _inbound.LeadsAPI.add_inbound_form_class($this, clean_output);
                    console.log('match name: ' + clean_output);
                    console.log(nice_name in inbound_data);
                     if (!in_object_already) {
@@ -75,8 +75,8 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
                     }
                  } else if (input_id.toLowerCase().indexOf(clean_output)>-1) {
                   /* look for id match */
-                   var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                   InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
+                   var the_map = _inbound.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
+                   _inbound.LeadsAPI.add_inbound_form_class($this, clean_output);
                    console.log('match id: ' + clean_output);
 
                     if (!in_object_already) {
@@ -88,8 +88,8 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
                   var closest_label = $this.closest('li').children('label').html() || "NULL";
                    if (closest_label.toLowerCase().indexOf(clean_output)>-1) {
 
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
+                     var the_map = _inbound.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
+                     _inbound.LeadsAPI.add_inbound_form_class($this, clean_output);
                      console.log($this.context);
 
                      var exists_in_dom = body.find("[data-inbound-form-map='inbound_map_" + nice_name + "']").length;
@@ -106,8 +106,8 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
                   var closest_div = $this.closest('div').children('label').html() || "NULL";
                    if (closest_div.toLowerCase().indexOf(clean_output)>-1)
                    {
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
+                     var the_map = _inbound.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
+                     _inbound.LeadsAPI.add_inbound_form_class($this, clean_output);
                      console.log('match div: ' + clean_output);
                      if (!in_object_already) {
                      inbound_data[nice_name] = this_val;
@@ -118,8 +118,8 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
                   var closest_p = $this.closest('p').children('label').html() || "NULL";
                    if (closest_p.toLowerCase().indexOf(clean_output)>-1)
                    {
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
+                     var the_map = _inbound.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
+                     _inbound.LeadsAPI.add_inbound_form_class($this, clean_output);
                      console.log('match p: ' + clean_output);
                      if (!in_object_already) {
                      inbound_data[nice_name] = this_val;
@@ -162,7 +162,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
         inbound_exclude = inbound_exclude || [],
         form_inputs = this_form.find('input,textarea,select');
         inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id', 'inbound_form_lists');
-        var form_type = InboundAnalytics.LeadsAPI.inbound_form_type(this_form),
+        var form_type = _inbound.LeadsAPI.inbound_form_type(this_form),
         inbound_data = inbound_data || {},
         email = inbound_data['email'] || false;
 
@@ -206,7 +206,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
           var this_input = jQuery(this);
           var this_input_val = this_input.val();
           if (typeof (this_input_val) != "undefined" && this_input_val != null && this_input_val != "") {
-          var inbound_data = InboundAnalytics.LeadsAPI.run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, tele, address, comment");
+          var inbound_data = _inbound.LeadsAPI.run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, tele, address, comment");
           }
           return inbound_data;
         });
@@ -217,15 +217,15 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
         var data = inbound_data || {};
         // Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
         var pageviewObj = jQuery.totalStorage('page_views');
-        data['page_view_count'] = InboundAnalytics.Utils.countProperties(pageviewObj);
+        data['page_view_count'] = _inbound.Utils.countProperties(pageviewObj);
         data['leads_list'] = jQuery(this_form).find('#inbound_form_lists').val();
         data['source'] = jQuery.cookie("wp_lead_referral_site") || "NA";
         data['page_id'] = inbound_ajax.post_id;
         data['page_views'] = JSON.stringify(pageviewObj);
 
         // Map form fields
-        var returned_form_data = InboundAnalytics.LeadsAPI.return_mapped_values(this_form); //console.log(returned_form_data);
-        var data = InboundAnalytics.Utils.mergeObjs(data,returned_form_data); //console.log(data);
+        var returned_form_data = _inbound.LeadsAPI.return_mapped_values(this_form); //console.log(returned_form_data);
+        var data = _inbound.Utils.mergeObjs(data,returned_form_data); //console.log(data);
         var this_form = jQuery(this_form);
         // Set variables after mapping
         data['email'] = (!data['email']) ? this_form.find('.inbound-email').val() : data['email'];
@@ -247,11 +247,11 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
         }
 
         /* Store form fields & exclude field values */
-        var all_form_fields = InboundAnalytics.LeadsAPI.grab_all_form_input_vals(this_form);
+        var all_form_fields = _inbound.LeadsAPI.grab_all_form_input_vals(this_form);
         /* end Store form fields & exclude field values */
 
         if(data['email']){
-           InboundAnalytics.Utils.createCookie("wp_lead_email", data['email'], 365); /* set email cookie */
+           _inbound.Utils.createCookie("wp_lead_email", data['email'], 365); /* set email cookie */
         }
 
         //var variation = (typeof (landing_path_info) != "undefined") ? landing_path_info.variation : false;
@@ -308,13 +308,13 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
 
         e.preventDefault(); /* Halt form processing */
         console.log("This works");
-        var data = InboundAnalytics.LeadsAPI.inbound_form_submit(e.target, e); // big function for processing
+        var data = _inbound.LeadsAPI.inbound_form_submit(e.target, e); // big function for processing
         console.log(data);
         alert('Working');
         //document.getElementById("ajaxButton").onclick = function() { makeRequest('test.html'); };
 
         /* Final Ajax Call on Submit */
-        InboundAnalytics.LeadsAPI.makeRequest('test.html');
+        _inbound.LeadsAPI.makeRequest('test.html');
       },
        alertContents: function() {
          if (httpRequest.readyState === 4) {
@@ -328,7 +328,7 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
          }
        },
       getAllLeadData: function(expire_check) {
-          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id"),
+          var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
           old_data = jQuery.totalStorage('inbound_lead_data'),
           data = {
             action: 'inbound_get_all_lead_data',
@@ -350,23 +350,23 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
           }
 
           if(!old_data && expire_check === null) {
-              InboundAnalytics.debug('Go to Database',function(){
+              _inbound.debug('Go to Database',function(){
                    console.log(expire_check);
                    console.log(old_data);
               });
-              InboundAnalytics.Utils.doAjax(data, success);
+              _inbound.Utils.doAjax(data, success);
           } else {
               setGlobalLeadVar(old_data); // set global lead var with localstorage data
-              var lead_data_expiration = InboundAnalytics.Utils.readCookie("lead_data_expiration");
+              var lead_data_expiration = _inbound.Utils.readCookie("lead_data_expiration");
               if (lead_data_expiration === null) {
-                InboundAnalytics.Utils.doAjax(data, success);
+                _inbound.Utils.doAjax(data, success);
                 console.log('localized data old. Pull new from DB');
               }
           }
 
       },
       getLeadLists: function() {
-          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
+          var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id");
           var data = {
                   action: 'wpl_check_lists',
                   wp_lead_id: wp_lead_id,
@@ -375,10 +375,10 @@ var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
                     jQuery.cookie("lead_session_list_check", true, { path: '/', expires: 1 });
                     console.log("Lists checked");
           };
-          InboundAnalytics.Utils.doAjax(data, success);
+          _inbound.Utils.doAjax(data, success);
       }
     };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
+})(_inbound || {});
