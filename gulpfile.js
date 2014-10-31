@@ -8,6 +8,7 @@ var gulp    = require('gulp'),
     plumber = require('gulp-plumber'),
     clean   = require('gulp-clean'),
     rename  = require('gulp-rename'),
+    markdox = require("gulp-markdox"),
     package = require('./package.json');
 
 var sharedPath = 'shared/assets/frontend/js/analytics-src/';
@@ -78,6 +79,11 @@ gulp.task('watch', function() {
     //gulp.watch('scss/*.scss', ['sass']);
 });
 
+gulp.task("doc", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    .pipe(markdox())
+    .pipe(gulp.dest("./doc"));
+});
 
 gulp.task('default', [
   'lint',
