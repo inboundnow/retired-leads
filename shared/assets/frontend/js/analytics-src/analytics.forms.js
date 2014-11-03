@@ -1,5 +1,5 @@
 /**
- * # Inbound Analytics Form Functions
+ * # Inbound Forms
  *
  * This file contains all of the form functions of the main _inbound object.
  * Filters and actions are described below
@@ -47,7 +47,10 @@ var InboundForms = (function (_inbound) {
        * This triggers the forms.field_map filter on the mapping array.
        * This will allow you to add or remore Items from the mapping lookup
        *
-       * ### Example
+       * ### Example inbound.form_map_before filter
+       *
+       * This is an example of how form mapping can be filtered and
+       * additional fields can be mapped via javascript
        *
        * ```js
        *  // Adding the filter function
