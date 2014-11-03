@@ -23,7 +23,7 @@ var paths = {
     sharedPath + 'analytics.storage.js',
     sharedPath + 'analytics.lead-tracking.js',
     sharedPath + 'analytics.page-tracking.js',
-    sharedPath + 'analytics.load.js',
+    sharedPath + 'analytics.start.js',
   ],
   test: [
     'test/spec/**/*.js'
@@ -82,7 +82,26 @@ gulp.task('watch', function() {
 gulp.task("doc", function(){
   gulp.src("shared/assets/frontend/js/analytics-src/*.js")
     .pipe(markdox())
-    .pipe(gulp.dest("./doc"));
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./docs/docs"));
+});
+/* concat docs */
+gulp.task("maindoc", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    .pipe(markdox())
+    .pipe(concat("main.md"))
+    .pipe(gulp.dest("./docs/docs"));
+});
+
+gulp.task("docs", function(){
+  gulp.src("shared/assets/frontend/js/analytics/inboundAnalytics.js")
+    .pipe(markdox())
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./docs/docs"));
 });
 
 gulp.task('default', [
