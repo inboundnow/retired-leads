@@ -17,11 +17,13 @@ if (!class_exists('LeadStorage')) {
 		static function inbound_lead_store($args = array()) {
 			global $user_ID, $wpdb;
 			if (!is_array($args)) { $args = array(); }
+
 			/* Mergs $args with POST request for support of ajax and direct calls */
 			if(isset($_POST)){
 				$args = array_merge( $args, $_POST );
 			}
 
+			$lead = array();
 			if(isset($user_ID)){
 				$lead['user_ID'] = $user_ID;
 			}
@@ -29,7 +31,7 @@ if (!class_exists('LeadStorage')) {
 			$time = current_time( 'timestamp', 0 );
 			$lead['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 
-			$lead['email'] = self::checkVal('email', $args);
+			$lead['email'] = str_replace("%40", "@", self::checkVal('email', $args));
 			$lead['page_views'] = self::checkVal('page_views', $args);
 			$lead['raw_params'] = self::checkVal('raw_params', $args);
 			$lead['mapped_params'] = self::checkVal('mapped_params', $args);
