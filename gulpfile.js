@@ -1,3 +1,7 @@
+/* https://gist.github.com/demisx/9512212 excample
+http://willi.am/blog/2014/08/16/gulp-automation-path-abstraction/
+
+Good example: https://gist.github.com/samuelhorn/8743217 */
 var gulp    = require('gulp'),
     karma   = require('gulp-karma'),
     jshint  = require('gulp-jshint'),
@@ -15,9 +19,10 @@ var sharedPath = 'shared/assets/frontend/js/analytics-src/';
 var paths = {
   output : 'shared/assets/frontend/js/analytics/',
   scripts : [
+    sharedPath + 'jquery.js',
     sharedPath + 'analytics.init.js',
-    sharedPath + 'analytics.utils.js',
     sharedPath + 'analytics.hooks.js',
+    sharedPath + 'analytics.utils.js',
     sharedPath + 'analytics.forms.js',
     sharedPath + 'analytics.events.js',
     sharedPath + 'analytics.storage.js',
