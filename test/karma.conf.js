@@ -23,6 +23,7 @@ module.exports = function (config) {
       'karma-phantomjs-launcher',
       'karma-jasmine'
     ],
+    //singleRun: false,
     reporters : ['spec']
   });
 };

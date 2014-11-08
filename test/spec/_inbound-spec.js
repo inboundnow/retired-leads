@@ -1,6 +1,15 @@
+
+
 describe('inboundAnalytics', function () {
+
     describe("Our data array", function() {
       it("has four items", function() {
+        expect(4).toBe(4);
+      });
+    });
+
+    describe("Cookie Getter", function() {
+      it("returns the cookie value", function() {
         expect(4).toBe(4);
       });
     });
