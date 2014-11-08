@@ -1,7 +1,27 @@
+/**
+ * # Page View Tracking
+ *
+ * Page view tracking
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ */
+
+/* Launches view tracking */
 var _inboundPageTracking = (function (_inbound) {
 
     _inbound.PageTracking = {
 
+    /**
+     * Returns the pages viewed by the site visitor
+     *
+     * ```js
+     *  var pageViews = _inbound.PageTracking.getPageViews();
+     *  // returns page view object
+     * ```
+     *
+     * @return {object} page view object with page ID as key and timestamp
+     */
     getPageViews: function () {
         var local_store = _inbound.Utils.checkLocalStorage();
         if(local_store){
@@ -14,7 +34,8 @@ var _inboundPageTracking = (function (_inbound) {
         }
     },
     StorePageView: function() {
-          var timeout = this.CheckTimeOut();
+          var timeout = this.CheckTimeOut(),
+          page_seen_count;
           var pageviewObj = _inbound.totalStorage('page_views');
           if(pageviewObj === null) {
             pageviewObj = {};
@@ -29,14 +50,14 @@ var _inboundPageTracking = (function (_inbound) {
               if(typeof(page_seen) != "undefined" && page_seen !== null) {
                   pageviewObj[current_page_id].push(datetime);
                   /* Page Revisit Trigger */
-                  var page_seen_count = pageviewObj[current_page_id].length;
+                  page_seen_count = pageviewObj[current_page_id].length;
                   _inbound.Events.pageRevisit(page_seen_count);
 
               } else {
                   pageviewObj[current_page_id] = [];
                   pageviewObj[current_page_id].push(datetime);
                   /* Page First Seen Trigger */
-                  var page_seen_count = 1;
+                  page_seen_count = 1;
                   _inbound.Events.pageFirstView(page_seen_count);
               }
 
@@ -72,7 +93,7 @@ var _inboundPageTracking = (function (_inbound) {
             //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
 
             if (time_check < wait_time){
-              time_left =  Math.abs((wait_time - time_check)) * .001;
+              time_left =  Math.abs((wait_time - time_check)) * 0.001;
               pageviewTimeout = false;
               var status = wait_time / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
             } else {
@@ -147,7 +168,8 @@ var _inboundPageTracking = (function (_inbound) {
 
         var document_hidden = document[hidden];
 
-        document.addEventListener(visibilityChange, function() {
+        _inbound.Utils.addListener(document, visibilityChange, function(e) {
+        //document.addEventListener(visibilityChange, function() {
           if(document_hidden != document[hidden]) {
             if(document[hidden]) {
               // Document hidden

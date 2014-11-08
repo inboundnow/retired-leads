@@ -15,7 +15,8 @@ var InboundForms = (function (_inbound) {
     utils = _inbound.Utils,
     no_match = [],
     rawParams = [],
-    mappedParams = [];
+    mappedParams = [],
+    settings = _inbound.Settings;
 
     var FieldMapArray = [
                         "first name",
@@ -38,7 +39,6 @@ var InboundForms = (function (_inbound) {
 
       // Init Form functions
       init: function() {
-          console.log(_inbound.hooks);
           _inbound.Forms.runFieldMappingFilters();
           _inbound.Forms.assignTrackClass();
           _inbound.Forms.formTrackInit();
@@ -110,7 +110,7 @@ var InboundForms = (function (_inbound) {
               }
           }
       },
-      assignTrackClass: function(form) {
+      assignTrackClass: function() {
           if(window.inbound_track_include){
               var selectors = inbound_track_include.include.split(',');
               this.loopClassSelectors(selectors, 'add');
@@ -147,9 +147,14 @@ var InboundForms = (function (_inbound) {
                                 hiddenInputs.push(formInput);
                                 continue;
                             }
+                            /* Map form fields */
                             this.mapField(formInput);
                             /* Remember visible inputs */
                             this.rememberInputValues(formInput);
+                            /* Fill visible inputs */
+                            if(settings.formAutoPopulation){
+                              this.fillInputValues(formInput);
+                            }
 
                         }
                         for (var i = hiddenInputs.length - 1; i >= 0; i--) {
@@ -281,36 +286,108 @@ var InboundForms = (function (_inbound) {
                 mappedParams.push( inputMappedField + "=" + inputsObject[input]['value'].join(',') );
                 if(input === 'email'){
                   var email = inputsObject[input]['value'].join(',');
+                  //alert(email);
+
                 }
               }
           }
 
           var raw_params = rawParams.join('&');
-          console.log("Raw PARAMS", raw_params);
+          console.log("Stringified Raw Form PARAMS", raw_params);
+
+
           var mapped_params = mappedParams.join('&');
-          console.log("Mapped PARAMS", mapped_params);
+          console.log("Stringified Mapped PARAMS", mapped_params);
+
+          /* Check Use form Email or Cookie */
+          var email = utils.getParameterVal('email', mapped_params) || utils.readCookie('wp_lead_email');
+          var fullName = utils.getParameterVal('name', mapped_params);
+          var fName = utils.getParameterVal('first_name', mapped_params);
+          var lName = utils.getParameterVal('last_name', mapped_params);
+
+          // Fallbacks for empty values
+          if (!lName && fName) {
+            var parts = decodeURI(fName).split(" ");
+            if(parts.length > 0){
+                fName = parts[0];
+                lName = parts[1];
+            }
+          }
+
+          if(fullName && !lName && !fName){
+            var parts = decodeURI(fullName).split(" ");
+            if(parts.length > 0){
+                fName = parts[0];
+                lName = parts[1];
+            }
+          }
+
+          fullName = (fName && lName) ? fName + " " + lName : fullName;
+
+          console.log(fName); // outputs email address or false
+          console.log(lName); // outputs email address or false
+          console.log(fullName); // outputs email address or false
+          //return false;
           var page_views = _inbound.totalStorage('page_views') || {};
+          var urlParams = _inbound.totalStorage('inbound_url_params') || {};
 
           var inboundDATA = {
             'email': email
           };
+          /* Get Variation ID */
+          if (typeof (landing_path_info) != "undefined") {
+            var variation = landing_path_info.variation;
+          } else if (typeof (cta_path_info) != "undefined") {
+            var variation = cta_path_info.variation;
+          } else {
+            var variation = 0;
+          }
+          var post_type = inbound_settings.post_type || 'page';
+          var page_id = inbound_settings.post_id || 0;
+          // data['wp_lead_uid'] = jQuery.cookie("wp_lead_uid") || null;
+          // data['search_data'] = JSON.stringify(jQuery.totalStorage('inbound_search')) || {};
           search_data = {};
           /* Filter here for raw */
           //alert(mapped_params);
+          /**
+           * Old data model
+              var return_data = {
+                        "action": 'inbound_store_lead',
+                        "emailTo": data['email'],
+                        "first_name": data['first_name'],
+                        "last_name": data['last_name'],
+                        "phone": data['phone'],
+                        "address": data['address'],
+                        "company_name": data['company'],
+                        "page_views": data['page_views'],
+                        "form_input_values": all_form_fields,
+                        "Mapped_Data": mapped_form_data,
+                        "Search_Data": data['search_data']
+              };
+           */
           formData = {
+            'action': 'inbound_lead_store',
+            'email': email,
+            "full_name": fullName,
+            "first_name": fName,
+            "last_name": lName,
             'raw_params' : raw_params,
             'mapped_params' : mapped_params,
-            'action': 'inbound_lead_store',
-            'email': 'jimbo@test.com',
+            'url_params': JSON.stringify(urlParams),
             'search_data': 'test',
-            'page_views': page_views,
-            'post_type': 'landing-page'
+            'page_views': JSON.stringify(page_views),
+            'post_type': post_type,
+            'page_id': page_id,
+            'variation': variation
           };
           callback = function(string){
             /* Action Example */
             _inbound.hooks.doAction( 'inbound_form_after_submission');
             alert('callback fired' + string);
-
+            /* Set Lead cookie ID */
+            utils.createCookie("wp_lead_id", string);
+            _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
+            _inbound.totalStorage.deleteItem('tracking_events'); // remove events
             _inbound.Forms.releaseFormSubmit(form);
             //form.submit();
             setTimeout(function() {
@@ -323,32 +400,66 @@ var InboundForms = (function (_inbound) {
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
+          //_inbound.Events.fireEvent('inbound_form_before_submission', formData, true);
+          _inbound.trigger('inbound_form_before_submission', formData, true);
+
           utils.ajaxPost(landing_path_info.admin_url, formData, callback);
       },
-
       rememberInputValues: function(input) {
-
           var name = ( input.name ) ? "inbound_" + input.name : '';
           var type = ( input.type ) ? input.type : 'text';
-          if(type === 'submit' || type === 'hidden' || type === 'checkbox' || type === 'file' || type === "password") {
+          if(type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
               return false;
           }
 
-            if(utils.readCookie(name) && name != 'comment' ){
-                //jQuery(this).val( jQuery.cookie(name) );
-               value = decodeURIComponent(utils.readCookie(name));
-               input.value = value;
+          utils.addListener(input, 'change', function(e) {
+
+            if(e.target.name) {
+                /* Check for input type */
+                if(type !== "checkbox") {
+                    var value = e.target.value;
+                } else {
+                  var values = [];
+                  var checkboxes = document.querySelectorAll('input[name="'+e.target.name+'"]');
+                    for (var i = 0; i < checkboxes.length; i++) {
+                      var checked = checkboxes[i].checked;
+                      if(checked){
+                        values.push(checkboxes[i].value);
+                      }
+                      value = values.join(',');
+                    };
+                }
+            console.log('change ' + e.target.name  + " " + encodeURIComponent(value));
+            /* Set Field Input Cookies */
+            utils.createCookie("inbound_" + e.target.name, encodeURIComponent(value));
+            // _inbound.totalStorage('the_key', FormStore);
+            /* Push to 'unsubmitted form object' */
             }
 
-            utils.addListener(input, 'change', function(e) {
-              /* TODO Fix the correct Value */
-              console.log('change ' + e.target.name  + " " + encodeURIComponent(e.target.value));
-              var fieldname = e.target.name.replace(/-/g, "_");
+          });
+      },
+      fillInputValues: function(input){
+          var name = ( input.name ) ? "inbound_" + input.name : '';
+          var type = ( input.type ) ? input.type : 'text';
+          if(type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
+              return false;
+          }
+          if(utils.readCookie(name) && name != 'comment' ){
 
-              utils.createCookie("inbound_" + e.target.name, encodeURIComponent(e.target.value));
-              // _inbound.totalStorage('the_key', FormStore);
-              /* Push to 'unsubmitted form object' */
-            });
+             value = decodeURIComponent(utils.readCookie(name));
+             if(type === 'checkbox' || type === 'radio'){
+                 var checkbox_vals = value.split(',');
+                 for (var i = 0; i < checkbox_vals.length; i++) {
+                      if (input.value.indexOf(checkbox_vals[i])>-1) {
+                        input.checked = true;
+                      }
+                 }
+             } else {
+                if(value !== "undefined"){
+                  input.value = value;
+                }
+             }
+          }
       },
       /* Maps data attributes to fields on page load */
       mapField: function(input) {
@@ -387,6 +498,8 @@ var InboundForms = (function (_inbound) {
                /* Check siblings for label */
                } else if (label = this.siblingsIsLabel(input)) {
 
+                  //var label = (label.length > 1 ? label[0] : label);
+                  //console.log('label', label);
                   if (label[0].innerText.toLowerCase().indexOf(lookingFor)>-1) {
                       var found = true;
 

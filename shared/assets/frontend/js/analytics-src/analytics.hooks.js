@@ -1,3 +1,13 @@
+/**
+ * # Hooks & Filters
+ *
+ * This file contains all of the form functions of the main _inbound object.
+ * Filters and actions are described below
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ */
+
 var _inboundHooks = (function (_inbound) {
 
 	/**

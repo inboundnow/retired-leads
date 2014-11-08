@@ -1,20 +1,58 @@
 /**
- * Init Inbound Analytics
- * - initializes analytics
+ * # Start
+ *
+ * Runs init functions and runs the domReady functions
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
  */
-
+if (window.jQuery) {
+ jQuery(document).on('inbound_analytics_loaded', function (event, data) {
+   alert('inbound_analytics_loaded');
+   console.log("inbound_analytics_loaded");
+ });
+}
  var Inbound_Add_Filter_Example = function( array ) {
   console.log('filter ran');
   var map = array || [];
   map.push('tehdhshs');
   return map;
  };
- var Inbound_Add_Action_Example = function(){ console.log('callback triggered')};
- _inbound.hooks.addAction( 'namespace.identifier', Inbound_Add_Action_Example, 10 );
+ var Inbound_Add_Action_Example = function() {
+          console.log('callback triggered');
+          //jQuery('form').css('color', 'red');
+  };
+ _inbound.add_action( 'namespace.identifier', Inbound_Add_Action_Example, 10 );
+
+
+ _inbound.add_action( 'inbound_form_before_submission', alert_form_data, 10 );
+ //_inbound.remove_action( 'inbound_form_before_submission');
+/* raw_js_trigger event trigger */
+ window.addEventListener("inbound_form_before_submission", raw_js_trigger, false);
+ function raw_js_trigger(e){
+     var data = e.detail;
+
+     alert('Pure Javascript inbound_form_before_submission action fire');
+     //alert(JSON.stringify(data));
+ }
+ if (window.jQuery) {
+jQuery(document).on('inbound_form_before_submission', function (event, data) {
+  console.log("inbound_form_before_submission action triggered");
+  alert('Run jQuery inbound_form_before_submission trigger');
+  //alert(JSON.stringify(data));
+});
+}
+
+function alert_form_data(data){
+  alert('inbound inbound_form_before_submission action fire');
+  //alert(JSON.stringify(data));
+}
 
 function DOIT(){
   alert('DO IT');
 }
+
+
 _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
 
 
@@ -26,13 +64,12 @@ _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
  }
 
  _inbound.Utils.domReady(window, function(){
-
     /* Filter Example */
     _inbound.hooks.addFilter( 'inbound.form_map_before', Inbound_Add_Filter_Example, 10 );
     /* On Load Analytics Events */
     _inbound.DomLoaded();
     /* Action Example */
-    _inbound.hooks.doAction( 'namespace.identifier');
+    _inbound.do_action( 'namespace.identifier');
 
 
     var utils = _inbound.Utils,
@@ -60,7 +97,7 @@ _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
 
  function action_a( value ) {
   window.actionValue += 'a';
-  console.log('page view action')
+  console.log('page view action');
  }
  function action_b( value ) {
   window.actionValue += 'b';
@@ -79,10 +116,11 @@ _inbound.hooks.addAction( 'inbound.page_view', action_a );
 
 
   //_inbound.hooks.removeAction( 'test.action' );
+if (window.jQuery) {
+  jQuery(document).ready(function($) {
+       console.log('doing action');
+       _inbound.hooks.doAction( 'test.action' );
+       console.log(window.actionValue);
 
-jQuery(document).ready(function($) {
-     console.log('doing action');
-     _inbound.hooks.doAction( 'test.action' );
-     console.log(window.actionValue);
-
- });
+   });
+ }

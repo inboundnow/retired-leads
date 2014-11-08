@@ -39,7 +39,6 @@ var InboundTotalStorage = (function (_inbound){
     return _inbound.totalStorage.impl.deleteItem(key);
   };
 
-  /* Object to hold all methods: public and private */
 
   _inbound.totalStorage.impl = {
 
