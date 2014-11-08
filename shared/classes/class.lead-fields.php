@@ -241,13 +241,17 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 			return $lead_fields;
 		}
-
-
-		/* Builds key=>label array of lead fields */
+		
+		
+		
+		/**
+		*  		Builds key=>label array of lead fields 
+		*/
 		public static function build_map_array() {
+			
 			$lead_fields = Leads_Field_Map::get_lead_fields();
-
-
+			$lead_fields = Leads_Field_Map::prioritize_lead_fields( $lead_fields );
+			
 			$field_map = array();
 			$field_map[''] = 'No Mapping'; // default empty
 			foreach ($lead_fields as $key=>$field) {
@@ -258,11 +262,31 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 			return $field_map;
 		}
+		
+		/**
+		*  Priorize Lead Fields Array
+		*  @param ARRAY $fields simplified id => label array of lead fields
+		*  @param STRING $sort_flags default = SORT_ASC
+		*/
+		public static function prioritize_lead_fields( $fields ,  $sort_flags=SORT_ASC) { 
+
+			$prioritized = array();
+			foreach ($fields as $key => $value) {
+				while (isset($prioritized[$value['priority']])) {
+					$value['priority']++;
+				}
+				$prioritized[$value['priority']] = $value;
+			}
+			
+			ksort($prioritized, $sort_flags);
+
+			return array_values($prioritized); 
+
+		}
 
 	}
 
 }
-
 
 /**
  * Add in custom lead fields
@@ -313,4 +337,3 @@ function custom_add_more_lead_fields($lead_fields) {
 
 }
 /**/
-?>

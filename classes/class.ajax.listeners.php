@@ -51,6 +51,7 @@ class CTA_Ajax_Listeners {
 		$CTA_Call_To_Action_Post_Type->clear_all_cta_stats();
 		
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 	
 	/**
@@ -65,6 +66,7 @@ class CTA_Ajax_Listeners {
 		$CTA_Call_To_Action_Post_Type->clear_cta_stats( $post_id );
 		
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 	
 	/**
@@ -79,6 +81,7 @@ class CTA_Ajax_Listeners {
 		$CTA_Call_To_Action_Post_Type->clear_cta_variation_stats( $post_id , $vid );
 
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 	
 	/**
@@ -96,6 +99,7 @@ class CTA_Ajax_Listeners {
 
 		//print_r($ctas);
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 	
 	
@@ -113,6 +117,7 @@ class CTA_Ajax_Listeners {
 
 		print $cta_id;
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 	
 	/**
@@ -152,6 +157,7 @@ class CTA_Ajax_Listeners {
 		}
 
 		header('HTTP/1.1 200 OK');
+		exit;
 	}
 		
 }
