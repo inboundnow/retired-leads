@@ -51,8 +51,18 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
+
 			include_once( INBOUDNOW_SHARED_PATH . 'tracking/store.lead.php'); // Lead Storage from landing pages
-			include_once( INBOUDNOW_SHARED_PATH . 'tracking/new.store.lead.php'); // Lead Storage from landing pages
+
+			//include_once( INBOUDNOW_SHARED_PATH . 'tracking/new.store.lead.php'); // Lead Storage from landing pages
+
+			/*
+			if (!defined('InboundAnalytics_v2')) {
+				include_once( INBOUDNOW_SHARED_PATH . 'tracking/store.lead.php'); // Lead Storage from landing pages
+			} else {
+				include_once( INBOUDNOW_SHARED_PATH . 'tracking/new.store.lead.php'); // Lead Storage from landing pages
+			}*/
+
 
 			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');	// Shared Shortcodes
 			include_once( INBOUDNOW_SHARED_PATH . 'extend/inboundnow.extend.php');
