@@ -19,7 +19,6 @@ var sharedPath = 'shared/assets/frontend/js/analytics-src/';
 var paths = {
   output : 'shared/assets/frontend/js/analytics/',
   scripts : [
-    sharedPath + 'jquery.js',
     sharedPath + 'analytics.init.js',
     sharedPath + 'analytics.hooks.js',
     sharedPath + 'analytics.utils.js',
@@ -29,6 +28,7 @@ var paths = {
     sharedPath + 'analytics.lead-tracking.js',
     sharedPath + 'analytics.page-tracking.js',
     sharedPath + 'analytics.start.js',
+    sharedPath + 'analytics.examples.js',
   ],
   test: [
     'test/spec/**/*.js'
