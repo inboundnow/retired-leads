@@ -284,6 +284,15 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 		}
 
+		/**
+		*  Gets lead field
+		*  @param $lead_id 
+		*  @param $field_key
+		*/
+		public static function get_field( $lead_id , $field_key ) {
+			return get_post_meta( $lead_id , $field_key , true);		
+		}
+
 	}
 
 }
