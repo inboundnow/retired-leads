@@ -73,7 +73,7 @@ function wp_cta_add_tracking_classes(ctas) {
 				}
 
 				var cta_variation_string = "&wp-cta-v=" + vid;
-				var newurl =  cta_reveal.home_url + "?wp_cta_redirect_" + cta_id + "=" + originalurl + cta_variation_string + string;
+				var newurl =  cta_reveal.home_url + "?wp_cta_redirect_" +cta_id + "=" +  encodeURIComponent(originalurl) + cta_variation_string + string;
 				jQuery(this).attr("href", newurl);
 			}
 		});
