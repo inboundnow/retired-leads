@@ -13,9 +13,6 @@ class CTA_Conversion_Tracking {
 	
 	public static function load_hooks() {
 		
-		/* Rewrite URLS in CTAS for click tracking */
-		add_action('wp_footer', array( __CLASS__ , 'rewrite_urls' ) , 20 );
-		
 		/*  When CTA url is clicked store the click count to the lead & redirect*/
 		add_action( 'init' , array( __CLASS__ ,  'redirect_link' ) , 11); // Click Tracking init
 		
@@ -42,65 +39,6 @@ class CTA_Conversion_Tracking {
 	}
 	
 	/**
-	* Rewrite URLs in CTAs for click tracking
-	*/
-	public static function rewrite_urls() {
-		global $post;
-		
-		if (!isset($post)) {
-			return;
-		}
-		
-		$id = $post->ID;
-		
-		if ( get_post_type( $id ) != 'wp-call-to-action') {
-			return;
-		}
-			
-		$variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : 0;
-
-		?>
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				var lead_cpt_id = jQuery.cookie("wp_lead_id");
-				var lead_email = jQuery.cookie("wp_lead_email");
-				var lead_unique_key = jQuery.cookie("wp_lead_uid");
-
-				// turn off link rewrites for custom ajax triggers
-				if (typeof (wp_cta_settings) != "undefined" && wp_cta_settings !== null) {
-					return false;
-				}
-				if (typeof (lead_cpt_id) != "undefined" && lead_cpt_id !== null) {
-				string = "&wpl_id=" + lead_cpt_id + "&l_type=wplid";
-				} else if (typeof (lead_email) != "undefined" && lead_email !== null && lead_email !== "") {
-					string = "&wpl_id=" + lead_email + "&l_type=wplemail";;
-				} else if (typeof (lead_unique_key) != "undefined" && lead_unique_key !== null && lead_unique_key !== "") {
-					string = "&wpl_id=" + lead_unique_key + "&l_type=wpluid";;
-				} else {
-					string = "";
-				}
-				var external = RegExp('^((f|ht)tps?:)?//(?!' + location.host + ')');
-				jQuery('a').not("#wpadminbar a").each(function () {
-					jQuery(this).attr("data-event-id", '<?php echo $id; ?>').attr("data-cta-varation", '<?php echo $variation;?>');
-						var orignalurl = jQuery(this).attr("href");
-						//jQuery("a[href*='http://']:not([href*='"+window.location.hostname+"'])"); // rewrite external links
-						var link_is = external.test(orignalurl);
-						if (link_is === true) {
-							base_url = window.location.origin;
-						} else {
-							base_url = orignalurl;
-						}
-						var cta_variation = "&wp-cta-v=" + jQuery(this).attr("data-cta-varation");
-						var this_id = jQuery(this).attr("data-event-id");
-						var newurl = base_url + "?wp_cta_redirect_" + this_id + "=" + orignalurl + cta_variation + string;
-						jQuery(this).attr("href", newurl);
-					});
-			});
-			</script>
-		<?php
-	}
-	
-	/**
 	*  Intercept tracked link, store click data and redirect to tracked link destination
 	*/
 	public static function redirect_link() {
@@ -114,7 +52,8 @@ class CTA_Conversion_Tracking {
 			if (!(false === $pos)) {
 				$link = substr($qs, $pos);
 				$link = str_replace('wp_cta_redirect=', '', $link); // clean url
-
+				$link = urldecode( $link );
+				
 				// Extract the ID and get the link
 				$pattern = '/wp_cta_redirect_(\d+?)\=/';
 				preg_match($pattern, $link, $matches);
