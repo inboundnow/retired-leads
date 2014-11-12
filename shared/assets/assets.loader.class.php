@@ -56,7 +56,7 @@ class Inbound_Asset_Loader {
 			      }
 			}
 			if (!defined('InboundAnalytics_v2')) {
-	  		self::load_file('funnel-tracking', 'frontend/js/page-tracking.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
+	  		self::load_file('funnel-tracking', 'frontend/js/inbound.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
 	  		} else {
 	  		self::load_file('funnel-tracking', 'frontend/js/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 	  		}
