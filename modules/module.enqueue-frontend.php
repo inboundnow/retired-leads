@@ -21,9 +21,7 @@ function wpleads_enqueuescripts_header() {
 		}
 
 		if ($form_prepopulation === "1") {
-			wp_enqueue_script('form-population', WPL_URLPATH.'js/wpl.form-population.js', array( 'jquery','jquery-cookie'));
-		} else {
-			wp_dequeue_script('form-population');
+
 		}
 
 		// Load form tracking class
