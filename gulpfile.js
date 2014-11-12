@@ -26,7 +26,7 @@ var paths = {
     sharedPath + 'analytics.events.js',
     sharedPath + 'analytics.storage.js',
     sharedPath + 'analytics.lead-tracking.js',
-    sharedPath + 'analytics.page-tracking.js',
+    sharedPath + 'analytics.page.js',
     sharedPath + 'analytics.start.js',
     sharedPath + 'analytics.examples.js',
   ],
