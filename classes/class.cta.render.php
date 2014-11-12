@@ -376,8 +376,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* load form pre-population script */
 			if (!wp_script_is('form-population','enqueue') && get_option('wp-cta-main-form-population'))	{
-				wp_register_script('form-population', WP_CTA_URLPATH . 'js/jquery.form-population.js', array( 'jquery', 'jquery-cookie'	));
-				wp_enqueue_script('form-population');
+				/* TODO Set Global Var for New Analytics */
 			}
 
 			/* Import CSS & JS from Assets folder and Enqueue */
