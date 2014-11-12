@@ -14,8 +14,19 @@ Simplify API for triggering
 // https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
 var _inboundEvents = (function (_inbound) {
 
+    /**
+     *
+     * Actions and filters List
+     * addAction( 'namespace.identifier', callback, priority )
+     * addFilter( 'namespace.identifier', callback, priority )
+     * removeAction( 'namespace.identifier' )
+     * removeFilter( 'namespace.identifier' )
+     * doAction( 'namespace.identifier', arg1, arg2, moreArgs, finalArg )
+     * applyFilters( 'namespace.identifier', content )
+     * @return {[type]} [description]
+     */
     _inbound.trigger = function(){
-        alert('triggr');
+
     };
     /*
     function log_event(category, action, label) {
@@ -42,106 +53,6 @@ var _inboundEvents = (function (_inbound) {
     }
      */
 
-    /*
-    *  add_action
-    *
-    *  This function uses _inbound.hooks to mimics WP add_action
-    *
-    *  ```js
-    *   function Inbound_Add_Action_Example(data) {
-    *       // Do stuff here.
-    *   };
-    *   // Add action to the hook
-    *   _inbound.add_action( 'name_of_action', Inbound_Add_Action_Example, 10 );
-    *   ```
-    */
-    _inbound.add_action = function() {
-     // allow multiple action parameters such as 'ready append'
-     var actions = arguments[0].split(' ');
-
-     for( k in actions ) {
-
-       // prefix action
-       arguments[0] = 'inbound.' + actions[ k ];
-
-       _inbound.hooks.addAction.apply(this, arguments);
-     }
-
-     return this;
-
-    };
-    /*
-    *  remove_action
-    *
-    *  This function uses _inbound.hooks to mimics WP remove_action
-    *
-    */
-    _inbound.remove_action = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.removeAction.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  do_action
-    *
-    *  This function uses _inbound.hooks to mimics WP do_action
-    *
-    */
-    _inbound.do_action = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.doAction.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  add_filter
-    *
-    *  This function uses _inbound.hooks to mimics WP add_filter
-    *
-    */
-    _inbound.add_filter = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.addFilter.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  remove_filter
-    *
-    *  This function uses _inbound.hooks to mimics WP remove_filter
-    *
-    */
-    _inbound.remove_filter = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-
-     _inbound.hooks.removeFilter.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  apply_filters
-    *
-    *  This function uses _inbound.hooks to mimics WP apply_filters
-    *
-    */
-    _inbound.apply_filters = function() {
-
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-
-     return _inbound.hooks.applyFilters.apply(this, arguments);
-
-    };
-
     var universalGA,
         classicGA,
         googleTagManager;
@@ -150,7 +61,12 @@ var _inboundEvents = (function (_inbound) {
       // Create cookie
       loadEvents: function() {
          // this.analyticsLoaded();
-         _inbound.Events.fireEvent('inbound_analytics_loaded', 'test', true);
+
+      },
+      loadOnReady: function(){
+
+        //_inbound.Events.fireEvent('inbound_analytics_loaded', data, ops);
+        _inbound.Events.analyticsLoaded();
       },
       /**
        * Fires Analytics Events
@@ -162,31 +78,72 @@ var _inboundEvents = (function (_inbound) {
        *
        * They trigger in that order.
        *
+       * The Event `data` can be filtered before events are triggered
+       *
        * @param  {string} eventName Name of the event
        * @param  {object} data      Data passed to external functions/triggers
        * @param  {object} options   Options for configuring events
        * @return {null}           Nothing returned
        */
       fireEvent: function(eventName, data, options){
-          // Raw Javascript Version - trigger custom function on page already seen
-          var options = options || {};
-          var bubbles = options.bubbles || true,
-          cancelable = options.cancelable || true,
-          data = data || {};
+          var data = data || {};
+          data.options = options || {};
+
+          /* defaults for JS dispatch event */
+          data.options.bubbles = data.options.bubbles || true,
+          data.options.cancelable = data.options.cancelable || true;
+
+          /* Customize Data via filter_ + "namespace" */
+          data = _inbound.apply_filters( 'filter_'+ eventName, data);
 
           var TriggerEvent = new CustomEvent(eventName, {
               detail: data,
-              bubbles: bubbles,
-              cancelable: cancelable
+              bubbles: data.options.bubbles,
+              cancelable: data.options.cancelable
             }
           );
 
-         /* 1. Raw JS window trigger */
+        // console.log('Action:' + eventName + " ran on ->", data);
+         /**
+          *  1. Trigger Pure Javascript Event
+          *
+          *  See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
+          *  for example on creating events
+          */
          window.dispatchEvent(TriggerEvent);
-         /* 2. Trigger _inbound action */
+         /**
+          *   2. Trigger _inbound action
+          */
          _inbound.do_action(eventName, data);
-         /* 3. jQuery trigger */
+         /**
+          *   3. jQuery trigger
+          */
          this.triggerJQueryEvent(eventName, data);
+
+         if(_inbound.Settings.track){
+            //analytics.track('Registered', data); segment example
+            /* Sending events to GA
+                sendEvent = function (time) {
+
+                  if (googleTagManager) {
+
+                    dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': time, 'eventValue': reportInterval, 'eventNonInteraction': nonInteraction});
+
+                  } else {
+
+                    if (universalGA) {
+                      ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+                    }
+
+                    if (classicGA) {
+                      _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+                    }
+
+                  }
+
+                };
+             */
+         }
       },
       /*
        * Determine which version of GA is being used
@@ -206,7 +163,7 @@ var _inboundEvents = (function (_inbound) {
         }
 
       },
-      triggerJQueryEvent: function(eventName, data, fireOnce){
+      triggerJQueryEvent: function(eventName, data){
         if (window.jQuery) {
             var data = data || {};
 
@@ -224,10 +181,9 @@ var _inboundEvents = (function (_inbound) {
         }
       },
       analyticsLoaded: function() {
-          var eventName = "inbound_analytics_loaded";
-          var loaded = new CustomEvent(eventName);
-          window.dispatchEvent(loaded);
-          this.triggerJQueryEvent(eventName);
+          var ops = { 'opt1': true };
+          var data = {'data': 'xyxy'};
+          this.fireEvent('inbound_analytics_loaded', data, ops);
       },
       analyticsTriggered: function() {
           var triggered = new CustomEvent("inbound_analytics_triggered");
@@ -236,7 +192,6 @@ var _inboundEvents = (function (_inbound) {
       analyticsSaved: function() {
           var page_view_saved = new CustomEvent("inbound_analytics_saved");
           window.dispatchEvent(page_view_saved);
-          console.log('Page View Saved');
           _inbound.hooks.doAction( 'inbound.page_view');
       },
       analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
@@ -281,19 +236,12 @@ var _inboundEvents = (function (_inbound) {
       },
       /* get idle times https://github.com/robflaherty/riveted/blob/master/riveted.js */
       browserTabHidden: function() {
-        /* http://www.thefutureoftheweb.com/demo/2007-05-16-detect-browser-window-focus/ */
-          var eventName = "inbound_analytics_tab_hidden";
-          var tab_hidden = new CustomEvent(eventName);
-          window.dispatchEvent(tab_hidden);
-          console.log('Tab Hidden');
-          this.triggerJQueryEvent(eventName);
+          //console.log('Tab Hidden');
+          this.fireEvent('tab_hidden');
       },
       browserTabVisible: function() {
-        var eventName = "inbound_analytics_tab_visible";
-        var tab_visible = new CustomEvent(eventName);
-        window.dispatchEvent(tab_visible);
-        console.log('Tab Visible');
-        this.triggerJQueryEvent(eventName);
+          //console.log('Tab Visible');
+          this.fireEvent('tab_visible');
       },
       /* Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
       sessionStart: function() {
