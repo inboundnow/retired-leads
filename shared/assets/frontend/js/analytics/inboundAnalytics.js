@@ -38,6 +38,7 @@ var _inbound = (function (options) {
      init: function () {
          _inbound.Utils.init();
          _inbound.PageTracking.StorePageView();
+         _inbound.PageTracking.init();
          _inbound.Events.loadEvents(settings);
      },
      DomLoaded: function(){
@@ -45,7 +46,7 @@ var _inbound = (function (options) {
         _inbound.Forms.init();
         /* set URL params */
         _inbound.Utils.setUrlParams();
-
+        _inbound.Events.loadOnReady();
         /* run form mapping for dynamically generated forms */
         setTimeout(function() {
              _inbound.Forms.init();
@@ -349,6 +350,139 @@ var _inboundHooks = (function (_inbound) {
 
 	_inbound.hooks = new EventManager();
 
+
+	/**
+	 * Event Hooks and Filters public methods
+	 */
+	 /*
+	 *  add_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_action
+	 *
+	 *  ```js
+	 *   function Inbound_Add_Action_Example(data) {
+	 *       // Do stuff here.
+	 *   };
+	 *   // Add action to the hook
+	 *   _inbound.add_action( 'name_of_action', Inbound_Add_Action_Example, 10 );
+	 *   ```
+	 */
+	 _inbound.add_action = function() {
+	  // allow multiple action parameters such as 'ready append'
+	  var actions = arguments[0].split(' ');
+
+	  for( k in actions ) {
+
+	    // prefix action
+	    arguments[0] = 'inbound.' + actions[ k ];
+
+	    _inbound.hooks.addAction.apply(this, arguments);
+	  }
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_action
+	 *
+	 *  ```js
+	 *   // Add remove action 'name_of_action'
+	 *   _inbound.remove_action( 'name_of_action');
+	 *  ```
+	 *
+	 */
+	 _inbound.remove_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.removeAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  do_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP do_action
+	 *  This is used if you want to allow for third party JS plugins to act on your functions
+	 *
+	 */
+	 _inbound.do_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.doAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  add_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_filter
+	 *
+	 *  ```js
+	 *   _inbound.add_filter( 'urlParamFilter', URL_Param_Filter, 10 );
+	 *   function URL_Param_Filter(urlParams) {
+	 *
+	 *   var params = urlParams || {};
+	 *   // check for item in object
+	 *   if(params.utm_source !== "undefined"){
+	 *     //alert('url param "utm_source" is here');
+	 *   }
+	 *
+	 *   // delete item from object
+	 *   delete params.utm_source;
+	 *
+	 *   return params;
+	 *
+	 *   }
+	 *   ```
+	 */
+	 _inbound.add_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.addFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_filter
+	 *
+	 *   ```js
+	 *   // Add remove filter 'urlParamFilter'
+	 *   _inbound.remove_action( 'urlParamFilter');
+	 *   ```
+	 *
+	 */
+	 _inbound.remove_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  _inbound.hooks.removeFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  apply_filters
+	 *
+	 *  This function uses _inbound.hooks to mimics WP apply_filters
+	 *
+	 */
+	 _inbound.apply_filters = function() {
+	  //console.log('Filter:' + arguments[0] + " ran on ->", arguments[1]);
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  return _inbound.hooks.applyFilters.apply(this, arguments);
+
+	 };
+
+
     return _inbound;
 
 })(_inbound || {});
@@ -369,7 +503,7 @@ var _inboundUtils = (function(_inbound) {
             this.polyFills();
             this.checkLocalStorage();
             this.SetUID();
-            this.getReferer();
+            this.storeReferralData();
         },
         /*! http://stackoverflow.com/questions/951791/javascript-global-error-handling */
         /* Polyfills for missing browser functionality */
@@ -648,7 +782,9 @@ var _inboundUtils = (function(_inbound) {
                 _inbound.totalStorage('inbound_url_params', params); // store cookie data
             }
 
-            _inbound.Events.fireEvent('url_params', urlParams, true);
+            var options = {'option1': 'yo', 'option2': 'woooo'};
+
+            _inbound.Events.fireEvent('url_parameters', urlParams, options);
 
         },
         getAllUrlParams: function() {
@@ -735,14 +871,20 @@ var _inboundUtils = (function(_inbound) {
             }
 
         },
-        getReferer: function() {
+        storeReferralData: function() {
             //console.log(expire_time);
-            var d = new Date();
+            var d = new Date(),
+            referrer = document.referrer || "Direct Traffic",
+            referrer_cookie = _inbound.Utils.readCookie("inbound_referral_site"),
+            original_src = _inbound.totalStorage('inbound_original_referral');
+
             d.setTime(d.getTime() + 30 * 60 * 1000);
-            var referrer_cookie = _inbound.Utils.readCookie("wp_lead_referral_site");
+
             if (typeof(referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
-                var referrer = document.referrer || "NA";
-                this.createCookie("wp_lead_referral_site", referrer, d, true); // Set cookie on page loads
+                this.createCookie("inbound_referral_site", referrer, d, true);
+            }
+            if (typeof(original_src) === "undefined" || original_src === null || original_src === "") {
+                _inbound.totalStorage('inbound_original_referral', original_src);
             }
         },
         CreateUID: function(length) {
@@ -756,12 +898,11 @@ var _inboundUtils = (function(_inbound) {
             }
             return str;
         },
-        SetUID: function() {
+        SetUID: function(leadUID) {
             /* Set Lead UID */
             if (this.readCookie("wp_lead_uid") === null) {
-                var wp_lead_uid = this.CreateUID(35);
+                var wp_lead_uid = leadUID || this.CreateUID(35);
                 this.createCookie("wp_lead_uid", wp_lead_uid);
-                _inbound.debug('Set UID');
             }
         },
         /* Count number of session visits */
@@ -966,8 +1107,7 @@ var _inboundUtils = (function(_inbound) {
             }
         },
         removeListener: function(element, eventName, listener) {
-            console.log('test');
-            console.log(listener);
+
             if (element.removeEventListener) {
                 element.removeEventListener(eventName, listener, false);
             } else if (element.detachEvent) {
@@ -975,6 +1115,86 @@ var _inboundUtils = (function(_inbound) {
             } else {
                 element["on" + eventName] = null;
             }
+        },
+        /*
+         * Throttle function borrowed from:
+         * Underscore.js 1.5.2
+         * http://underscorejs.org
+         * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+         * Underscore may be freely distributed under the MIT license.
+         */
+        throttle: function (func, wait) {
+          var context, args, result;
+          var timeout = null;
+          var previous = 0;
+          var later = function() {
+            previous = new Date;
+            timeout = null;
+            result = func.apply(context, args);
+          };
+          return function() {
+            var now = new Date;
+            if (!previous) previous = now;
+            var remaining = wait - (now - previous);
+            context = this;
+            args = arguments;
+            if (remaining <= 0) {
+              clearTimeout(timeout);
+              timeout = null;
+              previous = now;
+              result = func.apply(context, args);
+            } else if (!timeout) {
+              timeout = setTimeout(later, remaining);
+            }
+            return result;
+          };
+        },
+        checkVisibility: function() {
+              /* test out simplier script
+              function onBlur() {
+                document.body.className = 'blurred';
+              };
+              function onFocus(){
+                document.body.className = 'focused';
+              };
+
+              if (false) { // check for Internet Explorer
+                document.onfocusin = onFocus;
+                document.onfocusout = onBlur;
+              } else {
+                window.onfocus = onFocus;
+                window.onblur = onBlur;
+              }
+              */
+
+             var hidden, visibilityState, visibilityChange;
+
+              if (typeof document.hidden !== "undefined") {
+                hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+              } else if (typeof document.mozHidden !== "undefined") {
+                hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+              } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+              } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
+              } // if
+
+              var document_hidden = document[hidden];
+
+              _inbound.Utils.addListener(document, visibilityChange, function(e) {
+              //document.addEventListener(visibilityChange, function() {
+                if(document_hidden != document[hidden]) {
+                  if(document[hidden]) {
+                    // Document hidden
+                    _inbound.Events.browserTabHidden();
+                  } else {
+                    // Document shown
+                    _inbound.Events.browserTabVisible();
+                  } // if
+
+                  document_hidden = document[hidden];
+                } // if
+              });
         }
     };
 
@@ -1147,6 +1367,7 @@ var InboundForms = (function (_inbound) {
 
                     //console.log('mapping on load completed');
       },
+      /* prevent default submission temporarily */
       formListener: function(event) {
           console.log(event);
           event.preventDefault();
@@ -1170,7 +1391,7 @@ var InboundForms = (function (_inbound) {
                 form.elements[i].click();
               }
             }
-        }, 1000);
+        }, 1300);
 
       },
       saveFormData: function(form) {
@@ -1361,32 +1582,25 @@ var InboundForms = (function (_inbound) {
             'page_views': JSON.stringify(page_views),
             'post_type': post_type,
             'page_id': page_id,
-            'variation': variation
+            'variation': variation,
+            'source': utils.readCookie("inbound_referral_site")
           };
           callback = function(string){
             /* Action Example */
-            _inbound.hooks.doAction( 'inbound_form_after_submission');
+            _inbound.Events.fireEvent('after_form_submission', formData);
             alert('callback fired' + string);
             /* Set Lead cookie ID */
             utils.createCookie("wp_lead_id", string);
             _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
             _inbound.totalStorage.deleteItem('tracking_events'); // remove events
             _inbound.Forms.releaseFormSubmit(form);
-            //form.submit();
-            setTimeout(function() {
-              for (var i=0; i < form.elements.length; i++) {
-                  if (form.elements[i] === "submit") {
-                    form.elements[i].click();
-                  }
-              }
-            }, 1000);
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          //_inbound.Events.fireEvent('inbound_form_before_submission', formData, true);
-          _inbound.trigger('inbound_form_before_submission', formData, true);
+          _inbound.Events.fireEvent('before_form_submission', formData);
+          //_inbound.trigger('inbound_form_before_submission', formData, true);
 
-          utils.ajaxPost(landing_path_info.admin_url, formData, callback);
+          utils.ajaxPost(inbound_settings.admin_url, formData, callback);
       },
       rememberInputValues: function(input) {
           var name = ( input.name ) ? "inbound_" + input.name : '';
@@ -1636,8 +1850,19 @@ Simplify API for triggering
 // https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
 var _inboundEvents = (function (_inbound) {
 
+    /**
+     *
+     * Actions and filters List
+     * addAction( 'namespace.identifier', callback, priority )
+     * addFilter( 'namespace.identifier', callback, priority )
+     * removeAction( 'namespace.identifier' )
+     * removeFilter( 'namespace.identifier' )
+     * doAction( 'namespace.identifier', arg1, arg2, moreArgs, finalArg )
+     * applyFilters( 'namespace.identifier', content )
+     * @return {[type]} [description]
+     */
     _inbound.trigger = function(){
-        alert('triggr');
+
     };
     /*
     function log_event(category, action, label) {
@@ -1664,106 +1889,6 @@ var _inboundEvents = (function (_inbound) {
     }
      */
 
-    /*
-    *  add_action
-    *
-    *  This function uses _inbound.hooks to mimics WP add_action
-    *
-    *  ```js
-    *   function Inbound_Add_Action_Example(data) {
-    *       // Do stuff here.
-    *   };
-    *   // Add action to the hook
-    *   _inbound.add_action( 'name_of_action', Inbound_Add_Action_Example, 10 );
-    *   ```
-    */
-    _inbound.add_action = function() {
-     // allow multiple action parameters such as 'ready append'
-     var actions = arguments[0].split(' ');
-
-     for( k in actions ) {
-
-       // prefix action
-       arguments[0] = 'inbound.' + actions[ k ];
-
-       _inbound.hooks.addAction.apply(this, arguments);
-     }
-
-     return this;
-
-    };
-    /*
-    *  remove_action
-    *
-    *  This function uses _inbound.hooks to mimics WP remove_action
-    *
-    */
-    _inbound.remove_action = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.removeAction.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  do_action
-    *
-    *  This function uses _inbound.hooks to mimics WP do_action
-    *
-    */
-    _inbound.do_action = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.doAction.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  add_filter
-    *
-    *  This function uses _inbound.hooks to mimics WP add_filter
-    *
-    */
-    _inbound.add_filter = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-     _inbound.hooks.addFilter.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  remove_filter
-    *
-    *  This function uses _inbound.hooks to mimics WP remove_filter
-    *
-    */
-    _inbound.remove_filter = function() {
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-
-     _inbound.hooks.removeFilter.apply(this, arguments);
-
-     return this;
-
-    };
-    /*
-    *  apply_filters
-    *
-    *  This function uses _inbound.hooks to mimics WP apply_filters
-    *
-    */
-    _inbound.apply_filters = function() {
-
-     // prefix action
-     arguments[0] = 'inbound.' + arguments[0];
-
-     return _inbound.hooks.applyFilters.apply(this, arguments);
-
-    };
-
     var universalGA,
         classicGA,
         googleTagManager;
@@ -1772,7 +1897,12 @@ var _inboundEvents = (function (_inbound) {
       // Create cookie
       loadEvents: function() {
          // this.analyticsLoaded();
-         _inbound.Events.fireEvent('inbound_analytics_loaded', 'test', true);
+
+      },
+      loadOnReady: function(){
+
+        //_inbound.Events.fireEvent('inbound_analytics_loaded', data, ops);
+        _inbound.Events.analyticsLoaded();
       },
       /**
        * Fires Analytics Events
@@ -1784,31 +1914,72 @@ var _inboundEvents = (function (_inbound) {
        *
        * They trigger in that order.
        *
+       * The Event `data` can be filtered before events are triggered
+       *
        * @param  {string} eventName Name of the event
        * @param  {object} data      Data passed to external functions/triggers
        * @param  {object} options   Options for configuring events
        * @return {null}           Nothing returned
        */
       fireEvent: function(eventName, data, options){
-          // Raw Javascript Version - trigger custom function on page already seen
-          var options = options || {};
-          var bubbles = options.bubbles || true,
-          cancelable = options.cancelable || true,
-          data = data || {};
+          var data = data || {};
+          data.options = options || {};
+
+          /* defaults for JS dispatch event */
+          data.options.bubbles = data.options.bubbles || true,
+          data.options.cancelable = data.options.cancelable || true;
+
+          /* Customize Data via filter_ + "namespace" */
+          data = _inbound.apply_filters( 'filter_'+ eventName, data);
 
           var TriggerEvent = new CustomEvent(eventName, {
               detail: data,
-              bubbles: bubbles,
-              cancelable: cancelable
+              bubbles: data.options.bubbles,
+              cancelable: data.options.cancelable
             }
           );
 
-         /* 1. Raw JS window trigger */
+        // console.log('Action:' + eventName + " ran on ->", data);
+         /**
+          *  1. Trigger Pure Javascript Event
+          *
+          *  See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
+          *  for example on creating events
+          */
          window.dispatchEvent(TriggerEvent);
-         /* 2. Trigger _inbound action */
+         /**
+          *   2. Trigger _inbound action
+          */
          _inbound.do_action(eventName, data);
-         /* 3. jQuery trigger */
+         /**
+          *   3. jQuery trigger
+          */
          this.triggerJQueryEvent(eventName, data);
+
+         if(_inbound.Settings.track){
+            //analytics.track('Registered', data); segment example
+            /* Sending events to GA
+                sendEvent = function (time) {
+
+                  if (googleTagManager) {
+
+                    dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': time, 'eventValue': reportInterval, 'eventNonInteraction': nonInteraction});
+
+                  } else {
+
+                    if (universalGA) {
+                      ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+                    }
+
+                    if (classicGA) {
+                      _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+                    }
+
+                  }
+
+                };
+             */
+         }
       },
       /*
        * Determine which version of GA is being used
@@ -1828,7 +1999,7 @@ var _inboundEvents = (function (_inbound) {
         }
 
       },
-      triggerJQueryEvent: function(eventName, data, fireOnce){
+      triggerJQueryEvent: function(eventName, data){
         if (window.jQuery) {
             var data = data || {};
 
@@ -1846,10 +2017,9 @@ var _inboundEvents = (function (_inbound) {
         }
       },
       analyticsLoaded: function() {
-          var eventName = "inbound_analytics_loaded";
-          var loaded = new CustomEvent(eventName);
-          window.dispatchEvent(loaded);
-          this.triggerJQueryEvent(eventName);
+          var ops = { 'opt1': true };
+          var data = {'data': 'xyxy'};
+          this.fireEvent('inbound_analytics_loaded', data, ops);
       },
       analyticsTriggered: function() {
           var triggered = new CustomEvent("inbound_analytics_triggered");
@@ -1858,7 +2028,6 @@ var _inboundEvents = (function (_inbound) {
       analyticsSaved: function() {
           var page_view_saved = new CustomEvent("inbound_analytics_saved");
           window.dispatchEvent(page_view_saved);
-          console.log('Page View Saved');
           _inbound.hooks.doAction( 'inbound.page_view');
       },
       analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
@@ -1903,19 +2072,12 @@ var _inboundEvents = (function (_inbound) {
       },
       /* get idle times https://github.com/robflaherty/riveted/blob/master/riveted.js */
       browserTabHidden: function() {
-        /* http://www.thefutureoftheweb.com/demo/2007-05-16-detect-browser-window-focus/ */
-          var eventName = "inbound_analytics_tab_hidden";
-          var tab_hidden = new CustomEvent(eventName);
-          window.dispatchEvent(tab_hidden);
-          console.log('Tab Hidden');
-          this.triggerJQueryEvent(eventName);
+          //console.log('Tab Hidden');
+          this.fireEvent('tab_hidden');
       },
       browserTabVisible: function() {
-        var eventName = "inbound_analytics_tab_visible";
-        var tab_visible = new CustomEvent(eventName);
-        window.dispatchEvent(tab_visible);
-        console.log('Tab Visible');
-        this.triggerJQueryEvent(eventName);
+          //console.log('Tab Visible');
+          this.fireEvent('tab_visible');
       },
       /* Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
       sessionStart: function() {
@@ -2078,19 +2240,6 @@ var _inboundLeadsAPI = (function (_inbound) {
       init: function() {
 
       },
-      storeLeadData: function(){
-        if(element.addEventListener) {
-            element.addEventListener("submit", function(evt){
-                evt.preventDefault();
-                window.history.back();
-            }, true);
-        } else {
-            element.attachEvent('onsubmit', function(evt){
-                evt.preventDefault();
-                window.history.back();
-            });
-        }
-      },
       getAllLeadData: function(expire_check) {
           var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
           old_data = _inbound.totalStorage('inbound_lead_data'),
@@ -2118,12 +2267,14 @@ var _inboundLeadsAPI = (function (_inbound) {
                    console.log(expire_check);
                    console.log(old_data);
               });
-              _inbound.Utils.doAjax(data, success);
+              _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
+              //_inbound.Utils.doAjax(data, success);
           } else {
               setGlobalLeadVar(old_data); // set global lead var with localstorage data
               var lead_data_expiration = _inbound.Utils.readCookie("lead_data_expiration");
               if (lead_data_expiration === null) {
-                _inbound.Utils.doAjax(data, success);
+                //_inbound.Utils.doAjax(data, success);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                 console.log('localized data old. Pull new from DB');
               }
           }
@@ -2139,7 +2290,8 @@ var _inboundLeadsAPI = (function (_inbound) {
                     _inbound.Utils.createCookie("lead_session_list_check", true, { path: '/', expires: 1 });
                     console.log("Lists checked");
           };
-          _inbound.Utils.doAjax(data, success);
+          //_inbound.Utils.doAjax(data, success);
+          _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
       }
     };
 
@@ -2154,186 +2306,276 @@ var _inboundLeadsAPI = (function (_inbound) {
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
-
 /* Launches view tracking */
-var _inboundPageTracking = (function (_inbound) {
+var _inboundPageTracking = (function(_inbound) {
+
+    var started = false,
+      stopped = false,
+      turnedOff = false,
+      clockTime = 0,
+      startTime = new Date(),
+      clockTimer = null,
+      idleTimer = null,
+      reportInterval,
+      idleTimeout,
+      utils = _inbound.Utils;
 
     _inbound.PageTracking = {
 
-    /**
-     * Returns the pages viewed by the site visitor
-     *
-     * ```js
-     *  var pageViews = _inbound.PageTracking.getPageViews();
-     *  // returns page view object
-     * ```
-     *
-     * @return {object} page view object with page ID as key and timestamp
-     */
-    getPageViews: function () {
-        var local_store = _inbound.Utils.checkLocalStorage();
-        if(local_store){
-          var page_views = localStorage.getItem("page_views"),
-          local_object = JSON.parse(page_views);
-          if (typeof local_object =='object' && local_object) {
-            this.StorePageView();
-          }
-          return local_object;
-        }
-    },
-    StorePageView: function() {
-          var timeout = this.CheckTimeOut(),
-          page_seen_count;
-          var pageviewObj = _inbound.totalStorage('page_views');
-          if(pageviewObj === null) {
-            pageviewObj = {};
-          }
-          var current_page_id = wplft.post_id;
-          var datetime = _inbound.Utils.GetDate();
+        init: function(options) {
 
-          if (timeout) {
-              // If pageviewObj exists, do this
-              var page_seen = pageviewObj[current_page_id];
+          // Set up options and defaults
+          options = options || {};
+          reportInterval = parseInt(options.reportInterval, 10) || 10;
+          idleTimeout = parseInt(options.idleTimeout, 10) || 10;
 
-              if(typeof(page_seen) != "undefined" && page_seen !== null) {
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page Revisit Trigger */
-                  page_seen_count = pageviewObj[current_page_id].length;
-                  _inbound.Events.pageRevisit(page_seen_count);
+          // Basic activity event listeners
+          utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.trigger, 1000));
+          utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.trigger, 1000));
+          utils.addListener(window, 'mousemove', utils.throttle(_inbound.PageTracking.trigger, 1000));
+          //utils.addListener(window, 'scroll',  utils.throttle(_inbound.PageTracking.trigger, 1000));
 
-              } else {
-                  pageviewObj[current_page_id] = [];
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page First Seen Trigger */
-                  page_seen_count = 1;
-                  _inbound.Events.pageFirstView(page_seen_count);
+          // Page visibility listeners
+          _inbound.PageTracking.checkVisibility();
+
+          /* Start timer on page load */
+          this.trigger();
+
+        },
+
+        setIdle: function (reason) {
+          var reason = reason || "No Movement";
+          console.log('Activity Timeout due to ' + reason);
+          clearTimeout(_inbound.PageTracking.idleTimer);
+          _inbound.PageTracking.stopClock();
+        },
+
+        checkVisibility: function() {
+             var hidden, visibilityState, visibilityChange;
+
+              if (typeof document.hidden !== "undefined") {
+                hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+              } else if (typeof document.mozHidden !== "undefined") {
+                hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+              } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+              } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
               }
 
-              _inbound.totalStorage('page_views', pageviewObj);
+              var document_hidden = document[hidden];
+
+              _inbound.Utils.addListener(document, visibilityChange, function(e) {
+                  /*! Listen for visibility changes */
+                  if(document_hidden != document[hidden]) {
+                    if(document[hidden]) {
+                      // Document hidden
+                      _inbound.Events.browserTabHidden();
+                      _inbound.PageTracking.setIdle('browser tab switch');
+                    } else {
+                      // Document shown
+                      _inbound.Events.browserTabVisible();
+                      _inbound.PageTracking.trigger();
+                    } // if
+
+                    document_hidden = document[hidden];
+                  }
+              });
+        },
+        clock: function() {
+          clockTime += 1;
+          //console.log(clockTime);
+          if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+            // sendEvent(clockTime);
+            /*! every 10 seconds run this */
+            console.log('poll Server');
 
           }
-    },
-    CheckTimeOut: function() {
-        var PageViews = _inbound.totalStorage('page_views') || {};
-        var page_id = wplft.post_id,
-        pageviewTimeout = true, /* Default */
-        page_seen = PageViews[page_id];
-        if(typeof(page_seen) !== "undefined" && page_seen !== null) {
 
-            var time_now = _inbound.Utils.GetDate(),
-            vc = PageViews[page_id].length - 1,
-            last_view = PageViews[page_id][vc],
-            last_view_ms = new Date(last_view).getTime(),
-            time_now_ms = new Date(time_now).getTime(),
-            timeout_ms = last_view_ms + 30*1000,
-            time_check = Math.abs(last_view_ms - time_now_ms),
-            wait_time = _inbound.Settings.timeout || 30000;
+        },
+        stopClock: function() {
+          stopped = true;
+          clearTimeout(clockTimer);
+        },
 
-            _inbound.debug('Timeout Checks =',function(){
-                 console.log('Current Time is: ' + time_now);
-                 console.log('Last view is: ' + last_view);
-                 console.log("Last view milliseconds " + last_view_ms);
-                 console.log("time now milliseconds " + time_now_ms);
-                 console.log("Wait Check: " + wait_time);
-                 console.log("TIME CHECK: " + time_check);
-            });
+        restartClock: function() {
+          stopped = false;
+          console.log('Activity resumed');
+          clearTimeout(clockTimer);
+          clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+        },
 
-            //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
+        turnOff: function() {
+          _inbound.PageTracking.setIdle();
+          turnedOff = true;
+        },
 
-            if (time_check < wait_time){
-              time_left =  Math.abs((wait_time - time_check)) * 0.001;
-              pageviewTimeout = false;
-              var status = wait_time / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
+        turnOn: function () {
+          turnedOff = false;
+        },
+        /* This start only runs once */
+        startActivityMonitor: function() {
+
+          // Calculate seconds from start to first interaction
+          var currentTime = new Date();
+          var diff = currentTime - startTime;
+          console.log('time diff', diff);
+          // Set global
+          started = true;
+
+          // Send User Timing Event
+          //sendUserTiming(diff);
+
+          // Start clock
+          clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+
+        },
+
+        trigger: function (e) {
+          //console.log(e.type);
+          if (turnedOff) {
+            return;
+          }
+
+          if (!started) {
+            _inbound.PageTracking.startActivityMonitor();
+          }
+
+          if (stopped) {
+            _inbound.PageTracking.restartClock();
+          }
+
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(_inbound.PageTracking.setIdle, idleTimeout * 1000 + 100);
+        },
+
+        /**
+         * Returns the pages viewed by the site visitor
+         *
+         * ```js
+         *  var pageViews = _inbound.PageTracking.getPageViews();
+         *  // returns page view object
+         * ```
+         *
+         * @return {object} page view object with page ID as key and timestamp
+         */
+        getPageViews: function() {
+            var local_store = _inbound.Utils.checkLocalStorage();
+            if (local_store) {
+                var page_views = localStorage.getItem("page_views"),
+                    local_object = JSON.parse(page_views);
+                if (typeof local_object == 'object' && local_object) {
+                    this.StorePageView();
+                }
+                return local_object;
+            }
+        },
+        StorePageView: function() {
+            var timeout = this.CheckTimeOut(),
+                page_seen_count;
+            var pageviewObj = _inbound.totalStorage('page_views');
+            if (pageviewObj === null) {
+                pageviewObj = {};
+            }
+            var current_page_id = inbound_settings.post_id;
+            var datetime = _inbound.Utils.GetDate();
+
+            if (timeout) {
+                // If pageviewObj exists, do this
+                var page_seen = pageviewObj[current_page_id];
+
+                if (typeof(page_seen) != "undefined" && page_seen !== null) {
+                    pageviewObj[current_page_id].push(datetime);
+                    /* Page Revisit Trigger */
+                    page_seen_count = pageviewObj[current_page_id].length;
+                    _inbound.Events.pageRevisit(page_seen_count);
+
+                } else {
+                    pageviewObj[current_page_id] = [];
+                    pageviewObj[current_page_id].push(datetime);
+                    /* Page First Seen Trigger */
+                    page_seen_count = 1;
+                    _inbound.Events.pageFirstView(page_seen_count);
+                }
+
+                _inbound.totalStorage('page_views', pageviewObj);
+
+            }
+        },
+        CheckTimeOut: function() {
+            var PageViews = _inbound.totalStorage('page_views') || {},
+                page_id = inbound_settings.post_id,
+                pageviewTimeout = true,
+                /* Default */
+                page_seen = PageViews[page_id];
+            if (typeof(page_seen) !== "undefined" && page_seen !== null) {
+
+                var time_now = _inbound.Utils.GetDate(),
+                    vc = PageViews[page_id].length - 1,
+                    last_view = PageViews[page_id][vc],
+                    last_view_ms = new Date(last_view).getTime(),
+                    time_now_ms = new Date(time_now).getTime(),
+                    timeout_ms = last_view_ms + 30 * 1000,
+                    time_check = Math.abs(last_view_ms - time_now_ms),
+                    wait_time = _inbound.Settings.timeout || 30000;
+
+                _inbound.debug('Timeout Checks =', function() {
+                    console.log('Current Time is: ' + time_now);
+                    console.log('Last view is: ' + last_view);
+                    console.log("Last view milliseconds " + last_view_ms);
+                    console.log("time now milliseconds " + time_now_ms);
+                    console.log("Wait Check: " + wait_time);
+                    console.log("TIME CHECK: " + time_check);
+                });
+
+                //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
+
+                if (time_check < wait_time) {
+                    time_left = Math.abs((wait_time - time_check)) * 0.001;
+                    pageviewTimeout = false;
+                    var status = wait_time / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
+                    console.log(status);
+                } else {
+                    var status = 'Timeout Happened. Page view fired';
+                    this.firePageView();
+                    pageviewTimeout = true;
+                    _inbound.Events.analyticsTriggered();
+                }
+
+                //console.log(status);
+
             } else {
-              var status = 'Timeout Happened. Page view fired';
-              this.firePageView();
-              pageviewTimeout = true;
-              _inbound.Events.analyticsTriggered();
+                /*! Page never seen before */
+                this.firePageView();
             }
 
-            //_inbound.debug('',function(){
-                 console.log(status);
-            //});
-       } else {
-          /* Page never seen before */
-          this.firePageView();
-       }
+            return pageviewTimeout;
 
-       return pageviewTimeout;
+        },
+        firePageView: function() {
+            var lead_id = _inbound.Utils.readCookie('wp_lead_id'),
+                lead_uid = _inbound.Utils.readCookie('wp_lead_uid');
 
-    },
-    firePageView: function() {
-      var lead_id = _inbound.Utils.readCookie('wp_lead_id'),
-      lead_uid = _inbound.Utils.readCookie('wp_lead_uid');
+            if (lead_id) {
 
-      if (typeof (lead_id) !== "undefined" && lead_id !== null && lead_id !== "") {
+                _inbound.debug('Run page view ajax');
 
-        _inbound.debug('Run page view ajax');
-
-        var data = {
-                action: 'wpl_track_user',
-                wp_lead_uid: lead_uid,
-                wp_lead_id: lead_id,
-                page_id: wplft.post_id,
-                current_url: window.location.href,
-                json: '0'
-              };
-        var firePageCallback = function(user_id){
-                _inbound.Events.analyticsSaved();
-        };
-        _inbound.Utils.doAjax(data, firePageCallback);
-      }
-    },
-    tabSwitch: function() {
-        /* test out simplier script
-        function onBlur() {
-          document.body.className = 'blurred';
-        };
-        function onFocus(){
-          document.body.className = 'focused';
-        };
-
-        if (false) { // check for Internet Explorer
-          document.onfocusin = onFocus;
-          document.onfocusout = onBlur;
-        } else {
-          window.onfocus = onFocus;
-          window.onblur = onBlur;
+                var data = {
+                    action: 'wpl_track_user',
+                    wp_lead_uid: lead_uid,
+                    wp_lead_id: lead_id,
+                    page_id: inbound_settings.post_id,
+                    current_url: window.location.href,
+                    json: '0'
+                };
+                var firePageCallback = function(user_id) {
+                    _inbound.Events.analyticsSaved();
+                };
+                //_inbound.Utils.doAjax(data, firePageCallback);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+            }
         }
-        */
-
-       var hidden, visibilityState, visibilityChange;
-
-        if (typeof document.hidden !== "undefined") {
-          hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
-        } else if (typeof document.mozHidden !== "undefined") {
-          hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
-        } else if (typeof document.msHidden !== "undefined") {
-          hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
-        } else if (typeof document.webkitHidden !== "undefined") {
-          hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
-        } // if
-
-        var document_hidden = document[hidden];
-
-        _inbound.Utils.addListener(document, visibilityChange, function(e) {
-        //document.addEventListener(visibilityChange, function() {
-          if(document_hidden != document[hidden]) {
-            if(document[hidden]) {
-              // Document hidden
-              console.log('hidden');
-              _inbound.Events.browserTabHidden();
-            } else {
-              // Document shown
-              console.log('shown');
-              _inbound.Events.browserTabVisible();
-            } // if
-
-            document_hidden = document[hidden];
-          } // if
-        });
-    }
-  };
+    };
 
     return _inbound;
 
@@ -2346,9 +2588,11 @@ var _inboundPageTracking = (function (_inbound) {
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
+
+
 if (window.jQuery) {
  jQuery(document).on('inbound_analytics_loaded', function (event, data) {
-   alert('inbound_analytics_loaded');
    console.log("inbound_analytics_loaded");
  });
 }
@@ -2365,26 +2609,27 @@ if (window.jQuery) {
  _inbound.add_action( 'namespace.identifier', Inbound_Add_Action_Example, 10 );
 
 
- _inbound.add_action( 'inbound_form_before_submission', alert_form_data, 10 );
- //_inbound.remove_action( 'inbound_form_before_submission');
+ _inbound.add_action( 'before_form_submission', alert_form_data, 10 );
+ //_inbound.remove_action( 'inbound_form_before_form_submission');
 /* raw_js_trigger event trigger */
- window.addEventListener("inbound_form_before_submission", raw_js_trigger, false);
+ window.addEventListener("before_form_submission", raw_js_trigger, false);
  function raw_js_trigger(e){
      var data = e.detail;
 
-     alert('Pure Javascript inbound_form_before_submission action fire');
+     alert('Pure Javascript before_form_submission action fire');
      //alert(JSON.stringify(data));
  }
- if (window.jQuery) {
-jQuery(document).on('inbound_form_before_submission', function (event, data) {
-  console.log("inbound_form_before_submission action triggered");
-  alert('Run jQuery inbound_form_before_submission trigger');
-  //alert(JSON.stringify(data));
-});
+
+if (window.jQuery) {
+  jQuery(document).on('before_form_submission', function (event, data) {
+    console.log("before_form_submission action triggered");
+    alert('Run jQuery before_form_submission trigger');
+    //alert(JSON.stringify(data));
+  });
 }
 
 function alert_form_data(data){
-  alert('inbound inbound_form_before_submission action fire');
+  alert('inbound before_form_submission action fire');
   //alert(JSON.stringify(data));
 }
 
@@ -2417,7 +2662,7 @@ _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
     wp_lead_id = utils.readCookie("wp_lead_id"),
     expire_check = utils.readCookie("lead_session_expire"); // check for session
 
-    if (expire_check === null) {
+    if (!expire_check) {
        console.log('expired vistor. Run Processes');
       //var data_to_lookup = global-localized-vars;
       if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
@@ -2469,11 +2714,11 @@ if (window.jQuery) {
 URL param action
  */
 // Add to page
-_inbound.add_action( 'url_params', URL_Param_Function, 10 );
+_inbound.add_action( 'url_parameters', URL_Param_Function, 10 );
 // callback function
 function URL_Param_Function(urlParams){
 
-	urlParams = _inbound.apply_filters( 'urlParamFilter', urlParams);
+	//urlParams = _inbound.apply_filters( 'urlParamFilter', urlParams);
 
 	for( var param in urlParams ) {
 		var key = param;
@@ -2489,7 +2734,7 @@ function URL_Param_Function(urlParams){
 }
 
 /* Applying filters to your actions */
-_inbound.add_filter( 'urlParamFilter', URL_Param_Filter, 10 );
+_inbound.add_filter( 'filter_url_parameters', URL_Param_Filter, 10 );
 function URL_Param_Filter(urlParams) {
 
 	var params = urlParams || {};
@@ -2503,3 +2748,43 @@ function URL_Param_Filter(urlParams) {
 	return params;
 
 }
+
+/* Applying filters to your actions */
+_inbound.add_filter( 'filter_inbound_analytics_loaded', event_filter_data_example, 10);
+function event_filter_data_example(data) {
+
+	var data = data || {};
+
+	/* Add property to data */
+	data.add_this = 'additional data';
+
+	/* check for item in object */
+	if(data.opt1 === true){
+		alert('options.opt1 = true');
+	}
+
+	/* Add or modifiy option to event */
+	data.options.new_options = 'new option';
+
+	/* delete item from data */
+	delete data.utm_source;
+
+	return data;
+
+}
+
+_inbound.add_action( 'tab_hidden', Tab_Hidden_Function, 10 );
+function Tab_Hidden_Function(data){
+	//alert('NOPE! LOOK AT ME!!!!');
+}
+
+_inbound.add_action( 'tab_visible', Tab_vis1_Function, 9 );
+function Tab_vis1_Function(data){
+	//alert('Welcome back bro 1');
+}
+
+_inbound.add_action( 'tab_visible', Tab_vis_Function, 10 );
+function Tab_vis_Function(data){
+	//alert('Welcome back bro 2');
+}
+

@@ -42,6 +42,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['mapped_params'] = self::checkVal('mapped_params', $args);
 			$lead['url_params'] = self::checkVal('url_params', $args);
 			$lead['variation'] = self::checkVal('variation', $args);
+			$lead['source'] = self::checkVal('source', $args);
 			$lead['ip_address'] = self::inbound_get_ip_address();
 
 			if($lead['mapped_params']){
@@ -282,7 +283,9 @@ if (!class_exists('LeadStorage')) {
 				$referral_data[1]['datetime'] = $lead['wordpress_date_time'];
 				$referral_data[1]['original_source'] = 1;
 			}
+
 			$lead['referral_data'] = json_encode($referral_data);
+			//echo $lead['referral_data']; exit;
 			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); // Store referral object
 		}
 		/*	Loop trough lead_data array and update post meta */

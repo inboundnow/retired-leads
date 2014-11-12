@@ -251,6 +251,139 @@ var _inboundHooks = (function (_inbound) {
 
 	_inbound.hooks = new EventManager();
 
+
+	/**
+	 * Event Hooks and Filters public methods
+	 */
+	 /*
+	 *  add_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_action
+	 *
+	 *  ```js
+	 *   function Inbound_Add_Action_Example(data) {
+	 *       // Do stuff here.
+	 *   };
+	 *   // Add action to the hook
+	 *   _inbound.add_action( 'name_of_action', Inbound_Add_Action_Example, 10 );
+	 *   ```
+	 */
+	 _inbound.add_action = function() {
+	  // allow multiple action parameters such as 'ready append'
+	  var actions = arguments[0].split(' ');
+
+	  for( k in actions ) {
+
+	    // prefix action
+	    arguments[0] = 'inbound.' + actions[ k ];
+
+	    _inbound.hooks.addAction.apply(this, arguments);
+	  }
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_action
+	 *
+	 *  ```js
+	 *   // Add remove action 'name_of_action'
+	 *   _inbound.remove_action( 'name_of_action');
+	 *  ```
+	 *
+	 */
+	 _inbound.remove_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.removeAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  do_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP do_action
+	 *  This is used if you want to allow for third party JS plugins to act on your functions
+	 *
+	 */
+	 _inbound.do_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.doAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  add_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_filter
+	 *
+	 *  ```js
+	 *   _inbound.add_filter( 'urlParamFilter', URL_Param_Filter, 10 );
+	 *   function URL_Param_Filter(urlParams) {
+	 *
+	 *   var params = urlParams || {};
+	 *   // check for item in object
+	 *   if(params.utm_source !== "undefined"){
+	 *     //alert('url param "utm_source" is here');
+	 *   }
+	 *
+	 *   // delete item from object
+	 *   delete params.utm_source;
+	 *
+	 *   return params;
+	 *
+	 *   }
+	 *   ```
+	 */
+	 _inbound.add_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.addFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_filter
+	 *
+	 *   ```js
+	 *   // Add remove filter 'urlParamFilter'
+	 *   _inbound.remove_action( 'urlParamFilter');
+	 *   ```
+	 *
+	 */
+	 _inbound.remove_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  _inbound.hooks.removeFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  apply_filters
+	 *
+	 *  This function uses _inbound.hooks to mimics WP apply_filters
+	 *
+	 */
+	 _inbound.apply_filters = function() {
+	  //console.log('Filter:' + arguments[0] + " ran on ->", arguments[1]);
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  return _inbound.hooks.applyFilters.apply(this, arguments);
+
+	 };
+
+
     return _inbound;
 
 })(_inbound || {});

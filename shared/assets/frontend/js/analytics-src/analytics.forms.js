@@ -164,6 +164,7 @@ var InboundForms = (function (_inbound) {
 
                     //console.log('mapping on load completed');
       },
+      /* prevent default submission temporarily */
       formListener: function(event) {
           console.log(event);
           event.preventDefault();
@@ -187,7 +188,7 @@ var InboundForms = (function (_inbound) {
                 form.elements[i].click();
               }
             }
-        }, 1000);
+        }, 1300);
 
       },
       saveFormData: function(form) {
@@ -378,32 +379,25 @@ var InboundForms = (function (_inbound) {
             'page_views': JSON.stringify(page_views),
             'post_type': post_type,
             'page_id': page_id,
-            'variation': variation
+            'variation': variation,
+            'source': utils.readCookie("inbound_referral_site")
           };
           callback = function(string){
             /* Action Example */
-            _inbound.hooks.doAction( 'inbound_form_after_submission');
+            _inbound.Events.fireEvent('after_form_submission', formData);
             alert('callback fired' + string);
             /* Set Lead cookie ID */
             utils.createCookie("wp_lead_id", string);
             _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
             _inbound.totalStorage.deleteItem('tracking_events'); // remove events
             _inbound.Forms.releaseFormSubmit(form);
-            //form.submit();
-            setTimeout(function() {
-              for (var i=0; i < form.elements.length; i++) {
-                  if (form.elements[i] === "submit") {
-                    form.elements[i].click();
-                  }
-              }
-            }, 1000);
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          //_inbound.Events.fireEvent('inbound_form_before_submission', formData, true);
-          _inbound.trigger('inbound_form_before_submission', formData, true);
+          _inbound.Events.fireEvent('before_form_submission', formData);
+          //_inbound.trigger('inbound_form_before_submission', formData, true);
 
-          utils.ajaxPost(landing_path_info.admin_url, formData, callback);
+          utils.ajaxPost(inbound_settings.admin_url, formData, callback);
       },
       rememberInputValues: function(input) {
           var name = ( input.name ) ? "inbound_" + input.name : '';

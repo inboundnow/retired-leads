@@ -15,7 +15,7 @@ var _inboundUtils = (function(_inbound) {
             this.polyFills();
             this.checkLocalStorage();
             this.SetUID();
-            this.getReferer();
+            this.storeReferralData();
         },
         /*! http://stackoverflow.com/questions/951791/javascript-global-error-handling */
         /* Polyfills for missing browser functionality */
@@ -294,7 +294,9 @@ var _inboundUtils = (function(_inbound) {
                 _inbound.totalStorage('inbound_url_params', params); // store cookie data
             }
 
-            _inbound.Events.fireEvent('url_params', urlParams, true);
+            var options = {'option1': 'yo', 'option2': 'woooo'};
+
+            _inbound.Events.fireEvent('url_parameters', urlParams, options);
 
         },
         getAllUrlParams: function() {
@@ -381,14 +383,20 @@ var _inboundUtils = (function(_inbound) {
             }
 
         },
-        getReferer: function() {
+        storeReferralData: function() {
             //console.log(expire_time);
-            var d = new Date();
+            var d = new Date(),
+            referrer = document.referrer || "Direct Traffic",
+            referrer_cookie = _inbound.Utils.readCookie("inbound_referral_site"),
+            original_src = _inbound.totalStorage('inbound_original_referral');
+
             d.setTime(d.getTime() + 30 * 60 * 1000);
-            var referrer_cookie = _inbound.Utils.readCookie("wp_lead_referral_site");
+
             if (typeof(referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
-                var referrer = document.referrer || "NA";
-                this.createCookie("wp_lead_referral_site", referrer, d, true); // Set cookie on page loads
+                this.createCookie("inbound_referral_site", referrer, d, true);
+            }
+            if (typeof(original_src) === "undefined" || original_src === null || original_src === "") {
+                _inbound.totalStorage('inbound_original_referral', original_src);
             }
         },
         CreateUID: function(length) {
@@ -402,12 +410,11 @@ var _inboundUtils = (function(_inbound) {
             }
             return str;
         },
-        SetUID: function() {
+        SetUID: function(leadUID) {
             /* Set Lead UID */
             if (this.readCookie("wp_lead_uid") === null) {
-                var wp_lead_uid = this.CreateUID(35);
+                var wp_lead_uid = leadUID || this.CreateUID(35);
                 this.createCookie("wp_lead_uid", wp_lead_uid);
-                _inbound.debug('Set UID');
             }
         },
         /* Count number of session visits */
@@ -612,8 +619,7 @@ var _inboundUtils = (function(_inbound) {
             }
         },
         removeListener: function(element, eventName, listener) {
-            console.log('test');
-            console.log(listener);
+
             if (element.removeEventListener) {
                 element.removeEventListener(eventName, listener, false);
             } else if (element.detachEvent) {
@@ -621,6 +627,86 @@ var _inboundUtils = (function(_inbound) {
             } else {
                 element["on" + eventName] = null;
             }
+        },
+        /*
+         * Throttle function borrowed from:
+         * Underscore.js 1.5.2
+         * http://underscorejs.org
+         * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+         * Underscore may be freely distributed under the MIT license.
+         */
+        throttle: function (func, wait) {
+          var context, args, result;
+          var timeout = null;
+          var previous = 0;
+          var later = function() {
+            previous = new Date;
+            timeout = null;
+            result = func.apply(context, args);
+          };
+          return function() {
+            var now = new Date;
+            if (!previous) previous = now;
+            var remaining = wait - (now - previous);
+            context = this;
+            args = arguments;
+            if (remaining <= 0) {
+              clearTimeout(timeout);
+              timeout = null;
+              previous = now;
+              result = func.apply(context, args);
+            } else if (!timeout) {
+              timeout = setTimeout(later, remaining);
+            }
+            return result;
+          };
+        },
+        checkVisibility: function() {
+              /* test out simplier script
+              function onBlur() {
+                document.body.className = 'blurred';
+              };
+              function onFocus(){
+                document.body.className = 'focused';
+              };
+
+              if (false) { // check for Internet Explorer
+                document.onfocusin = onFocus;
+                document.onfocusout = onBlur;
+              } else {
+                window.onfocus = onFocus;
+                window.onblur = onBlur;
+              }
+              */
+
+             var hidden, visibilityState, visibilityChange;
+
+              if (typeof document.hidden !== "undefined") {
+                hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+              } else if (typeof document.mozHidden !== "undefined") {
+                hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+              } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+              } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
+              } // if
+
+              var document_hidden = document[hidden];
+
+              _inbound.Utils.addListener(document, visibilityChange, function(e) {
+              //document.addEventListener(visibilityChange, function() {
+                if(document_hidden != document[hidden]) {
+                  if(document[hidden]) {
+                    // Document hidden
+                    _inbound.Events.browserTabHidden();
+                  } else {
+                    // Document shown
+                    _inbound.Events.browserTabVisible();
+                  } // if
+
+                  document_hidden = document[hidden];
+                } // if
+              });
         }
     };
 

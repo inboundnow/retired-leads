@@ -6,9 +6,11 @@
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
+
+
 if (window.jQuery) {
  jQuery(document).on('inbound_analytics_loaded', function (event, data) {
-   alert('inbound_analytics_loaded');
    console.log("inbound_analytics_loaded");
  });
 }
@@ -25,26 +27,27 @@ if (window.jQuery) {
  _inbound.add_action( 'namespace.identifier', Inbound_Add_Action_Example, 10 );
 
 
- _inbound.add_action( 'inbound_form_before_submission', alert_form_data, 10 );
- //_inbound.remove_action( 'inbound_form_before_submission');
+ _inbound.add_action( 'before_form_submission', alert_form_data, 10 );
+ //_inbound.remove_action( 'inbound_form_before_form_submission');
 /* raw_js_trigger event trigger */
- window.addEventListener("inbound_form_before_submission", raw_js_trigger, false);
+ window.addEventListener("before_form_submission", raw_js_trigger, false);
  function raw_js_trigger(e){
      var data = e.detail;
 
-     alert('Pure Javascript inbound_form_before_submission action fire');
+     alert('Pure Javascript before_form_submission action fire');
      //alert(JSON.stringify(data));
  }
- if (window.jQuery) {
-jQuery(document).on('inbound_form_before_submission', function (event, data) {
-  console.log("inbound_form_before_submission action triggered");
-  alert('Run jQuery inbound_form_before_submission trigger');
-  //alert(JSON.stringify(data));
-});
+
+if (window.jQuery) {
+  jQuery(document).on('before_form_submission', function (event, data) {
+    console.log("before_form_submission action triggered");
+    alert('Run jQuery before_form_submission trigger');
+    //alert(JSON.stringify(data));
+  });
 }
 
 function alert_form_data(data){
-  alert('inbound inbound_form_before_submission action fire');
+  alert('inbound before_form_submission action fire');
   //alert(JSON.stringify(data));
 }
 
@@ -77,7 +80,7 @@ _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
     wp_lead_id = utils.readCookie("wp_lead_id"),
     expire_check = utils.readCookie("lead_session_expire"); // check for session
 
-    if (expire_check === null) {
+    if (!expire_check) {
        console.log('expired vistor. Run Processes');
       //var data_to_lookup = global-localized-vars;
       if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {

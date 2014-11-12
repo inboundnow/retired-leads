@@ -9,19 +9,6 @@ var _inboundLeadsAPI = (function (_inbound) {
       init: function() {
 
       },
-      storeLeadData: function(){
-        if(element.addEventListener) {
-            element.addEventListener("submit", function(evt){
-                evt.preventDefault();
-                window.history.back();
-            }, true);
-        } else {
-            element.attachEvent('onsubmit', function(evt){
-                evt.preventDefault();
-                window.history.back();
-            });
-        }
-      },
       getAllLeadData: function(expire_check) {
           var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
           old_data = _inbound.totalStorage('inbound_lead_data'),
@@ -49,12 +36,14 @@ var _inboundLeadsAPI = (function (_inbound) {
                    console.log(expire_check);
                    console.log(old_data);
               });
-              _inbound.Utils.doAjax(data, success);
+              _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
+              //_inbound.Utils.doAjax(data, success);
           } else {
               setGlobalLeadVar(old_data); // set global lead var with localstorage data
               var lead_data_expiration = _inbound.Utils.readCookie("lead_data_expiration");
               if (lead_data_expiration === null) {
-                _inbound.Utils.doAjax(data, success);
+                //_inbound.Utils.doAjax(data, success);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                 console.log('localized data old. Pull new from DB');
               }
           }
@@ -70,7 +59,8 @@ var _inboundLeadsAPI = (function (_inbound) {
                     _inbound.Utils.createCookie("lead_session_list_check", true, { path: '/', expires: 1 });
                     console.log("Lists checked");
           };
-          _inbound.Utils.doAjax(data, success);
+          //_inbound.Utils.doAjax(data, success);
+          _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
       }
     };
 

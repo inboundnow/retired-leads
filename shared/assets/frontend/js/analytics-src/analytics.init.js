@@ -37,6 +37,7 @@ var _inbound = (function (options) {
      init: function () {
          _inbound.Utils.init();
          _inbound.PageTracking.StorePageView();
+         _inbound.PageTracking.init();
          _inbound.Events.loadEvents(settings);
      },
      DomLoaded: function(){
@@ -44,7 +45,7 @@ var _inbound = (function (options) {
         _inbound.Forms.init();
         /* set URL params */
         _inbound.Utils.setUrlParams();
-
+        _inbound.Events.loadOnReady();
         /* run form mapping for dynamically generated forms */
         setTimeout(function() {
              _inbound.Forms.init();
