@@ -243,7 +243,9 @@ if ( !class_exists('Leads_Field_Map') ) {
 		}
 		
 		
-		/* Builds key=>label array of lead fields */
+		/**
+		*  	Builds key=>label array of lead fields 
+		*/
 		public static function build_map_array() {
 			$lead_fields = Leads_Field_Map::get_lead_fields();
 			
@@ -259,6 +261,16 @@ if ( !class_exists('Leads_Field_Map') ) {
 			return $field_map;
 		}
 		
+		/**
+		*  Gets lead field
+		*  @param $lead_id 
+		*  @param $field_key
+		*/
+		public static function get_field( $lead_id , $field_key ) {
+			
+			get_post_meta( $lead_id , $field_key , true);
+		
+		}
 	}
 
 }
