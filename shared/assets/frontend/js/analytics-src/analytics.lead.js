@@ -11,38 +11,34 @@ var _inboundLeadsAPI = (function (_inbound) {
       },
       getAllLeadData: function(expire_check) {
           var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
-          old_data = _inbound.totalStorage('inbound_lead_data'),
+          leadData = _inbound.totalStorage('inbound_lead_data'),
+          leadDataExpire = _inbound.Utils.readCookie("lead_data_expire");
           data = {
             action: 'inbound_get_all_lead_data',
             wp_lead_id: wp_lead_id,
           },
           success = function(returnData){
-                    var obj = JSON.parse(returnData);
-                    console.log('Got all the lead data check ');
-                    setGlobalLeadVar(obj);
-                    _inbound.totalStorage('inbound_lead_data', obj); // store lead data
+                    var leadData = JSON.parse(returnData);
+                    setGlobalLeadVar(leadData);
+                    _inbound.totalStorage('inbound_lead_data', leadData); // store lead data
+
+                    /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
+                    var d = new Date();
+                    d.setTime(d.getTime() + 30 * 60 * 1000);
+                    var expire = _inbound.Utils.addDays(d, 3);
+                    _inbound.Utils.createCookie("lead_data_expire", true, expire);
+
           };
 
-          if(!old_data) {
-            console.log("No old data");
-          }
-
-          if (expire_check === 'true'){
-            console.log("Session has not expired");
-          }
-
-          if(!old_data && expire_check === null) {
-              _inbound.debug('Go to Database',function(){
-                   console.log(expire_check);
-                   console.log(old_data);
-              });
+          if(!leadData) {
+              // Get New Lead Data from DB
               _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
-              //_inbound.Utils.doAjax(data, success);
+
           } else {
-              setGlobalLeadVar(old_data); // set global lead var with localstorage data
-              var lead_data_expiration = _inbound.Utils.readCookie("lead_data_expiration");
-              if (lead_data_expiration === null) {
-                //_inbound.Utils.doAjax(data, success);
+              // set global lead var with localstorage data
+              setGlobalLeadVar(leadData);
+              console.log('Set Global Lead Data from Localstorage');
+              if (!leadDataExpire) {
                 _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                 console.log('localized data old. Pull new from DB');
               }

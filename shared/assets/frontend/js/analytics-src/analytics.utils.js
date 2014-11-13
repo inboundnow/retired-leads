@@ -296,7 +296,7 @@ var _inboundUtils = (function(_inbound) {
 
             var options = {'option1': 'yo', 'option2': 'woooo'};
 
-            _inbound.Events.fireEvent('url_parameters', urlParams, options);
+            _inbound.trigger('url_parameters', urlParams, options);
 
         },
         getAllUrlParams: function() {
@@ -364,23 +364,17 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Set Expiration Date of Session Logging */
         SetSessionTimeout: function() {
-            var session_check = this.readCookie("lead_session_expire");
+            var session = this.readCookie("lead_session_expire");
             //console.log(session_check);
-            if (session_check === null) {
-                _inbound.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
+            if (!session) {
+                _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
             } else {
-                _inbound.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
+                _inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
             }
             var d = new Date();
             d.setTime(d.getTime() + 30 * 60 * 1000);
 
-            this.createCookie("lead_session_expire", true, d, true); // Set cookie on page loads
-            var lead_data_expiration = this.readCookie("lead_data_expiration");
-            if (lead_data_expiration === null) {
-                /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
-                var ex = this.addDays(d, 3);
-                this.createCookie("lead_data_expiration", ex, ex, true);
-            }
+            this.createCookie("lead_session_expire", true, d, true); // Set cookie on page load
 
         },
         storeReferralData: function() {
@@ -392,10 +386,10 @@ var _inboundUtils = (function(_inbound) {
 
             d.setTime(d.getTime() + 30 * 60 * 1000);
 
-            if (typeof(referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
+            if (!referrer_cookie) {
                 this.createCookie("inbound_referral_site", referrer, d, true);
             }
-            if (typeof(original_src) === "undefined" || original_src === null || original_src === "") {
+            if (!original_src) {
                 _inbound.totalStorage('inbound_original_referral', original_src);
             }
         },
@@ -412,7 +406,7 @@ var _inboundUtils = (function(_inbound) {
         },
         SetUID: function(leadUID) {
             /* Set Lead UID */
-            if (this.readCookie("wp_lead_uid") === null) {
+            if (!this.readCookie("wp_lead_uid")) {
                 var wp_lead_uid = leadUID || this.CreateUID(35);
                 this.createCookie("wp_lead_uid", wp_lead_uid);
             }
@@ -469,31 +463,6 @@ var _inboundUtils = (function(_inbound) {
             s = s.replace(/[ ]{2,}/gi, " ");
             s = s.replace(/\n /, "\n");
             return s;
-        },
-        doAjax: function(data, responseHandler, method, async) {
-            // Set the variables
-            var url = wplft.admin_url || "",
-                method = method || "POST",
-                async = async || true,
-                data = data || null,
-                action = data.action;
-
-            _inbound.debug('Ajax Processed:', function() {
-                console.log('ran ajax action: ' + action);
-            });
-            if (window.jQuery) {
-                jQuery.ajax({
-                    type: method,
-                    url: wplft.admin_url,
-                    data: data,
-                    success: responseHandler,
-                    error: function(MLHttpRequest, textStatus, errorThrown) {
-                        console.log(MLHttpRequest + ' ' + errorThrown + ' ' + textStatus);
-                        _inbound.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
-                    }
-
-                });
-            }
         },
         ajaxPolyFill: function() {
             if (typeof XMLHttpRequest !== 'undefined') {
@@ -661,52 +630,23 @@ var _inboundUtils = (function(_inbound) {
             return result;
           };
         },
-        checkVisibility: function() {
-              /* test out simplier script
-              function onBlur() {
-                document.body.className = 'blurred';
-              };
-              function onFocus(){
-                document.body.className = 'focused';
-              };
+        /*
+         * Determine which version of GA is being used
+         * "ga", "_gaq", and "dataLayer" are the possible globals
+         */
+        checkTypeofGA: function() {
+          if (typeof ga === "function") {
+            universalGA = true;
+          }
 
-              if (false) { // check for Internet Explorer
-                document.onfocusin = onFocus;
-                document.onfocusout = onBlur;
-              } else {
-                window.onfocus = onFocus;
-                window.onblur = onBlur;
-              }
-              */
+          if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+            classicGA = true;
+          }
 
-             var hidden, visibilityState, visibilityChange;
+          if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+            googleTagManager = true;
+          }
 
-              if (typeof document.hidden !== "undefined") {
-                hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
-              } else if (typeof document.mozHidden !== "undefined") {
-                hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
-              } else if (typeof document.msHidden !== "undefined") {
-                hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
-              } else if (typeof document.webkitHidden !== "undefined") {
-                hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
-              } // if
-
-              var document_hidden = document[hidden];
-
-              _inbound.Utils.addListener(document, visibilityChange, function(e) {
-              //document.addEventListener(visibilityChange, function() {
-                if(document_hidden != document[hidden]) {
-                  if(document[hidden]) {
-                    // Document hidden
-                    _inbound.Events.browserTabHidden();
-                  } else {
-                    // Document shown
-                    _inbound.Events.browserTabVisible();
-                  } // if
-
-                  document_hidden = document[hidden];
-                } // if
-              });
         }
     };
 

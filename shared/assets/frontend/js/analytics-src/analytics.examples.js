@@ -53,7 +53,7 @@ function event_filter_data_example(data) {
 	}
 
 	/* Add or modifiy option to event */
-	data.options.new_options = 'new option';
+	data.new_options = 'new option';
 
 	/* delete item from data */
 	delete data.utm_source;
@@ -67,13 +67,27 @@ function Tab_Hidden_Function(data){
 	//alert('NOPE! LOOK AT ME!!!!');
 }
 
-_inbound.add_action( 'tab_visible', Tab_vis1_Function, 9 );
-function Tab_vis1_Function(data){
-	//alert('Welcome back bro 1');
+_inbound.add_action( 'tab_visible', tab_visible_function, 9 );
+function tab_visible_function(data){
+	//alert('Welcome back to the tab');
 }
 
-_inbound.add_action( 'tab_visible', Tab_vis_Function, 10 );
+_inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
+function tab_mouseout_function(data){
+	//alert('You moused out of the tab');
+}
+
+_inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
 function Tab_vis_Function(data){
 	//alert('Welcome back bro 2');
+}
+
+window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
+function page_seen_function(e){
+    var view_count = e.detail.count;
+    console.log("This page has been seen " + e.detail.count + " times");
+    if(view_count > 10){
+      console.log("Page has been viewed more than 10 times");
+    }
 }
 

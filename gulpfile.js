@@ -25,7 +25,7 @@ var paths = {
     sharedPath + 'analytics.forms.js',
     sharedPath + 'analytics.events.js',
     sharedPath + 'analytics.storage.js',
-    sharedPath + 'analytics.lead-tracking.js',
+    sharedPath + 'analytics.lead.js',
     sharedPath + 'analytics.page.js',
     sharedPath + 'analytics.start.js',
     sharedPath + 'analytics.examples.js',
@@ -78,6 +78,7 @@ gulp.task('test', function() {
 });
 
 /* Watch Files For Changes */
+
 gulp.task('watch', function() {
     //gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['lint', 'scripts']);
     gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['default']);
@@ -92,6 +93,8 @@ gulp.task("doc", function(){
      }))
     .pipe(gulp.dest("./docs/docs"));
 });
+
+
 /* concat docs */
 gulp.task("maindoc", function(){
   gulp.src("shared/assets/frontend/js/analytics-src/*.js")
@@ -109,9 +112,19 @@ gulp.task("docs", function(){
     .pipe(gulp.dest("./docs/docs"));
 });
 
+gulp.task("generateDocs", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/analytics.events.js")
+    .pipe(markdox())
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./shared/docs"));
+});
+
 gulp.task('default', [
   'lint',
   'clean',
   'scripts',
+  'generateDocs'
   // 'test'
 ]);

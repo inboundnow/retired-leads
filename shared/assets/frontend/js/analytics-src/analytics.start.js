@@ -80,16 +80,16 @@ _inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
     wp_lead_id = utils.readCookie("wp_lead_id"),
     expire_check = utils.readCookie("lead_session_expire"); // check for session
 
-    if (!expire_check) {
+    //if (!expire_check) {
        console.log('expired vistor. Run Processes');
       //var data_to_lookup = global-localized-vars;
       if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
           /* Get InboundLeadData */
-          _inbound.LeadsAPI.getAllLeadData(expire_check);
+          _inbound.LeadsAPI.getAllLeadData();
           /* Lead list check */
           _inbound.LeadsAPI.getLeadLists();
         }
-    }
+    //}
 
   /* Set Session Timeout */
   utils.SetSessionTimeout();

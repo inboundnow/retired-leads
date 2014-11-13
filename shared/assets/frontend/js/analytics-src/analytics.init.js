@@ -36,7 +36,6 @@ var _inbound = (function (options) {
      /* Initialize individual modules */
      init: function () {
          _inbound.Utils.init();
-         _inbound.PageTracking.StorePageView();
          _inbound.PageTracking.init();
          _inbound.Events.loadEvents(settings);
      },
@@ -45,6 +44,7 @@ var _inbound = (function (options) {
         _inbound.Forms.init();
         /* set URL params */
         _inbound.Utils.setUrlParams();
+
         _inbound.Events.loadOnReady();
         /* run form mapping for dynamically generated forms */
         setTimeout(function() {
