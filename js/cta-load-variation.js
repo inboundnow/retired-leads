@@ -9,7 +9,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	/* if variation is pre-defined then immediately load variation*/
 	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {
 		/* reveal variation */
-		InboundAnalytics.debug('CTA '+cta_id+' loads variation:' + vid);
+		_inbound.debug('CTA '+cta_id+' loads variation:' + vid);
 		jQuery('.wp_cta_'+cta_id+'_variation_'+vid).show();
 
 		/* record impression  */
@@ -27,7 +27,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 
 		/* update local storage object */
 		jQuery.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
-		InboundAnalytics.debug('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
+		_inbound.debug('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
 
 	}
 	/* Poll the ajax server for the correct variation to display */
@@ -47,7 +47,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 
 				/* update local storage object */
 				jQuery.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
-				InboundAnalytics.debug('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
+				_inbound.debug('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
 			}
 		});
 	}

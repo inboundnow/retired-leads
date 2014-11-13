@@ -1,3 +1,7 @@
+/* https://gist.github.com/demisx/9512212 excample
+http://willi.am/blog/2014/08/16/gulp-automation-path-abstraction/
+
+Good example: https://gist.github.com/samuelhorn/8743217 */
 var gulp    = require('gulp'),
     karma   = require('gulp-karma'),
     jshint  = require('gulp-jshint'),
@@ -8,6 +12,7 @@ var gulp    = require('gulp'),
     plumber = require('gulp-plumber'),
     clean   = require('gulp-clean'),
     rename  = require('gulp-rename'),
+    markdox = require("gulp-markdox"),
     package = require('./package.json');
 
 var sharedPath = 'shared/assets/frontend/js/analytics-src/';
@@ -15,13 +20,15 @@ var paths = {
   output : 'shared/assets/frontend/js/analytics/',
   scripts : [
     sharedPath + 'analytics.init.js',
+    sharedPath + 'analytics.hooks.js',
     sharedPath + 'analytics.utils.js',
     sharedPath + 'analytics.forms.js',
     sharedPath + 'analytics.events.js',
     sharedPath + 'analytics.storage.js',
-    sharedPath + 'analytics.lead-tracking.js',
-    sharedPath + 'analytics.page-tracking.js',
-    sharedPath + 'analytics.load.js',
+    sharedPath + 'analytics.lead.js',
+    sharedPath + 'analytics.page.js',
+    sharedPath + 'analytics.start.js',
+    sharedPath + 'analytics.examples.js',
   ],
   test: [
     'test/spec/**/*.js'
@@ -71,16 +78,53 @@ gulp.task('test', function() {
 });
 
 /* Watch Files For Changes */
+
 gulp.task('watch', function() {
     //gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['lint', 'scripts']);
     gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['default']);
     //gulp.watch('scss/*.scss', ['sass']);
 });
 
+gulp.task("doc", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    .pipe(markdox())
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./docs/docs"));
+});
+
+
+/* concat docs */
+gulp.task("maindoc", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    .pipe(markdox())
+    .pipe(concat("main.md"))
+    .pipe(gulp.dest("./docs/docs"));
+});
+
+gulp.task("docs", function(){
+  gulp.src("shared/assets/frontend/js/analytics/inboundAnalytics.js")
+    .pipe(markdox())
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./docs/docs"));
+});
+
+gulp.task("generateDocs", function(){
+  gulp.src("shared/assets/frontend/js/analytics-src/analytics.events.js")
+    .pipe(markdox())
+    .pipe(rename({
+         extname: ".md"
+     }))
+    .pipe(gulp.dest("./shared/docs"));
+});
 
 gulp.task('default', [
   'lint',
   'clean',
   'scripts',
+  'generateDocs'
   // 'test'
 ]);

@@ -1,9 +1,7 @@
-/* Fork of jquery.total-storage.js */
-var InboundTotalStorage = (function (InboundAnalytics){
+/* LocalStorage Component */
+var InboundTotalStorage = (function (_inbound){
 
-  /* Variables I'll need throghout */
-
-  var supported, ls, mod = 'inboundAnalytics';
+  var supported, ls, mod = '_inbound';
   if ('localStorage' in window){
     try {
       ls = (typeof window.localStorage === 'undefined') ? undefined : window.localStorage;
@@ -21,29 +19,28 @@ var InboundTotalStorage = (function (InboundAnalytics){
   }
 
   /* Make the methods public */
-  InboundAnalytics.totalStorage = function(key, value, options){
-    return InboundAnalytics.totalStorage.impl.init(key, value);
+  _inbound.totalStorage = function(key, value, options){
+    return _inbound.totalStorage.impl.init(key, value);
   };
 
-  InboundAnalytics.totalStorage.setItem = function(key, value){
-    return InboundAnalytics.totalStorage.impl.setItem(key, value);
+  _inbound.totalStorage.setItem = function(key, value){
+    return _inbound.totalStorage.impl.setItem(key, value);
   };
 
-  InboundAnalytics.totalStorage.getItem = function(key){
-    return InboundAnalytics.totalStorage.impl.getItem(key);
+  _inbound.totalStorage.getItem = function(key){
+    return _inbound.totalStorage.impl.getItem(key);
   };
 
-  InboundAnalytics.totalStorage.getAll = function(){
-    return InboundAnalytics.totalStorage.impl.getAll();
+  _inbound.totalStorage.getAll = function(){
+    return _inbound.totalStorage.impl.getAll();
   };
 
-  InboundAnalytics.totalStorage.deleteItem = function(key){
-    return InboundAnalytics.totalStorage.impl.deleteItem(key);
+  _inbound.totalStorage.deleteItem = function(key){
+    return _inbound.totalStorage.impl.deleteItem(key);
   };
 
-  /* Object to hold all methods: public and private */
 
-  InboundAnalytics.totalStorage.impl = {
+  _inbound.totalStorage.impl = {
 
     init: function(key, value){
       if (typeof value != 'undefined') {
@@ -56,7 +53,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     setItem: function(key, value){
       if (!supported){
         try {
-          InboundAnalytics.Utils.createCookie(key, value);
+          _inbound.Utils.createCookie(key, value);
           return value;
         } catch(e){
           console.log('Local Storage not supported by this browser. Install the cookie plugin on your site to take advantage of the same functionality. You can get it at https://github.com/carhartl/jquery-cookie');
@@ -69,7 +66,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     getItem: function(key){
       if (!supported){
         try {
-          return this.parseResult(InboundAnalytics.Utils.readCookie(key));
+          return this.parseResult(_inbound.Utils.readCookie(key));
         } catch(e){
           return null;
         }
@@ -80,7 +77,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     deleteItem: function(key){
       if (!supported){
         try {
-          InboundAnalytics.Utils.eraseCookie(key, null);
+          _inbound.Utils.eraseCookie(key, null);
           return true;
         } catch(e){
           return false;
@@ -97,7 +94,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
           for (var i = 0; i<pairs.length; i++){
             var pair = pairs[i].split('=');
             var key = pair[0];
-            items.push({key:key, value:this.parseResult(InboundAnalytics.Utils.readCookie(key))});
+            items.push({key:key, value:this.parseResult(_inbound.Utils.readCookie(key))});
           }
         } catch(e){
           return null;
@@ -133,4 +130,4 @@ var InboundTotalStorage = (function (InboundAnalytics){
       return ret;
     }
   };
-})(InboundAnalytics || {});
+})(_inbound || {});
