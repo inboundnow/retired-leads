@@ -1,31 +1,92 @@
 /*! Inbound Analyticsv1.0.0 | (c) 2014 Inbound Now | https://github.com/inboundnow/cta */
 /**
- * Lead Tracking JS
- * http://www.inboundnow.com
- * This is the main analytics entry point
+ * # _inbound
+ *
+ * This main the _inbound class
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
  */
+
 var inbound_data = inbound_data || {};
 var _inboundOptions = _inboundOptions || {};
 /* Ensure global _gaq Google Analytics queue has been initialized. */
 var _gaq = _gaq || [];
 
-var InboundAnalytics = (function (Options) {
+var _inboundOptions = {
+  test: true,
+  //timeout: 10000
+};
 
+if(typeof wplft === "undefined"){
+  /* load dummy data for testing */
+  var url = JSON.stringify(window.location.origin);
+  var wplft = {"post_id":"4","ip_address":"67.169.95.68","wp_lead_data":{"lead_id":null,"lead_email":"sondersbob@yahoo.com","lead_uid":"8SpCl1HIZihblvoJSsXrXKmTKTOLr3CI8cu"},"admin_url":url,"track_time":"2014\/11\/05 3:40:56","post_type":"page","page_tracking":"off","search_tracking":"on","comment_tracking":"on","custom_mapping":[]};
+}
+
+var _inbound = (function (options) {
    /* Constants */
-   var debugMode = false;
+   var defaults = {
+        debugMode : false,
+        timeout: 30000,
+        formAutoTracking: true,
+        formAutoPopulation: true
+   };
 
-   var App = {
+   var Analytics = {
      /* Initialize individual modules */
      init: function () {
-         InboundAnalytics.Utils.init();
-         InboundAnalytics.PageTracking.StorePageView();
-         InboundAnalytics.Events.loadEvents();
-         InboundAnalytics.Forms.init();
+         _inbound.Utils.init();
+
+         _inbound.Utils.domReady(window, function(){
+             /* On Load Analytics Events */
+             _inbound.DomLoaded();
+
+         });
+     },
+     DomLoaded: function(){
+        _inbound.PageTracking.init();
+        /* run form mapping */
+        _inbound.Forms.init();
+        /* set URL params */
+        _inbound.Utils.setUrlParams();
+        _inbound.LeadsAPI.init();
+        /* run form mapping for dynamically generated forms */
+        setTimeout(function() {
+             _inbound.Forms.init();
+         }, 2000);
+        // might need this here:
+        _inbound.PageTracking.startSession();
+
+        _inbound.trigger('analytics_ready');
+
+     },
+     /**
+      * Merge script defaults with user options
+      * @private
+      * @param {Object} defaults Default settings
+      * @param {Object} options User options
+      * @returns {Object} Merged values of defaults and options
+      */
+     extend: function (defaults, options) {
+         var extended = {};
+         var prop;
+         for (prop in defaults) {
+             if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
+                 extended[prop] = defaults[prop];
+             }
+         }
+         for (prop in options) {
+             if (Object.prototype.hasOwnProperty.call(options, prop)) {
+                 extended[prop] = options[prop];
+             }
+         }
+         return extended;
      },
      /* Debugger Function toggled by var debugMode */
      debug: function(msg, callback){
         //if app not in debug mode, exit immediately
-        if(!debugMode || !console){return};
+        if(!settings.debugMode || !console){return};
         var msg = msg || false;
         //console.log the message
         if(msg && (typeof msg === 'string')){console.log(msg)};
@@ -37,568 +98,2211 @@ var InboundAnalytics = (function (Options) {
      }
    };
 
-  return App;
+   var settings = Analytics.extend(defaults, options);
+   /* Set globals */
+   Analytics.Settings = settings || {};
+
+  return Analytics;
 
 })(_inboundOptions);
 /**
- * Utility functions
- * @param  Object InboundAnalytics - Main JS object
- * include util functions
+ * # Hooks & Filters
+ *
+ * This file contains all of the form functions of the main _inbound object.
+ * Filters and actions are described below
+ *
+ * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
  */
-var InboundAnalyticsUtils = (function (InboundAnalytics) {
 
-    InboundAnalytics.Utils =  {
-      init: function() {
-          this.polyFills();
-          this.setUrlParams();
-          this.SetUID();
-          this.getReferer();
+var _inboundHooks = (function (_inbound) {
 
-      },
-      /* Polyfills for missing browser functionality */
-      polyFills: function() {
-           /* Console.log fix for old browsers */
-           if (!window.console) { window.console = {}; }
-           var m = [
-             "log", "info", "warn", "error", "debug", "trace", "dir", "group",
-             "groupCollapsed", "groupEnd", "time", "timeEnd", "profile", "profileEnd",
-             "dirxml", "assert", "count", "markTimeline", "timeStamp", "clear"
-           ];
-           // define undefined methods as noops to prevent errors
-           for (var i = 0; i < m.length; i++) {
-             if (!window.console[m[i]]) {
-               window.console[m[i]] = function() {};
-             }
-           }
-           /* Event trigger polyfill for IE9 and 10 */
-           (function () {
-             function CustomEvent ( event, params ) {
-               params = params || { bubbles: false, cancelable: false, detail: undefined };
-               var evt = document.createEvent( 'CustomEvent' );
-               evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-               return evt;
-              };
+	/**
+	 * # EventManager
+	 *
+	 * Actions and filters List
+	 * addAction( 'namespace.identifier', callback, priority )
+	 * addFilter( 'namespace.identifier', callback, priority )
+	 * removeAction( 'namespace.identifier' )
+	 * removeFilter( 'namespace.identifier' )
+	 * doAction( 'namespace.identifier', arg1, arg2, moreArgs, finalArg )
+	 * applyFilters( 'namespace.identifier', content )
+	 * @return {[type]} [description]
+	 */
 
-             CustomEvent.prototype = window.Event.prototype;
+	/**
+	 * Handles managing all events for whatever you plug it into. Priorities for hooks are based on lowest to highest in
+	 * that, lowest priority hooks are fired first.
+	 */
+	var EventManager = function() {
+		/**
+		 * Maintain a reference to the object scope so our public methods never get confusing.
+		 */
+		var MethodsAvailable = {
+			removeFilter : removeFilter,
+			applyFilters : applyFilters,
+			addFilter : addFilter,
+			removeAction : removeAction,
+			doAction : doAction,
+			addAction : addAction
+		};
 
-             window.CustomEvent = CustomEvent;
-           })();
-      },
-      // Create cookie
-      createCookie: function(name, value, days, custom_time) {
-          var expires = "";
-          if (days) {
-              var date = new Date();
-              date.setTime(date.getTime()+(days*24*60*60*1000));
-              expires = "; expires="+date.toGMTString();
-          }
-          if(custom_time){
-             expires = "; expires="+days.toGMTString();
-          }
-          document.cookie = name+"="+value+expires+"; path=/";
-      },
-      /* Read cookie */
-      readCookie: function(name) {
-          var nameEQ = name + "=";
-          var ca = document.cookie.split(';');
-          for(var i=0;i < ca.length;i++) {
-              var c = ca[i];
-              while (c.charAt(0) === ' ') {
-                  c = c.substring(1,c.length);
-              }
-              if (c.indexOf(nameEQ) === 0) {
-                  return c.substring(nameEQ.length,c.length);
-              }
-          }
-          return null;
-      },
-      /* Erase cookies */
-      eraseCookie: function(name) {
-          createCookie(name,"",-1);
-      },
-      /* Get All Cookies */
-      getAllCookies: function(){
-              var cookies = {};
-              if (document.cookie && document.cookie != '') {
-                  var split = document.cookie.split(';');
-                  for (var i = 0; i < split.length; i++) {
-                      var name_value = split[i].split("=");
-                      name_value[0] = name_value[0].replace(/^ /, '');
-                      cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
-                  }
-              }
-              jQuery.totalStorage('inbound_cookies', cookies); // store cookie data
-              return cookies;
-      },
-      /* Grab URL params and save */
-      setUrlParams: function() {
-          var urlParams = {},
-          local_store = this.checkLocalStorage();
+		/**
+		 * Contains the hooks that get registered with this EventManager. The array for storage utilizes a "flat"
+		 * object literal such that looking up the hook utilizes the native object literal hash.
+		 */
+		var STORAGE = {
+			actions : {},
+			filters : {}
+		};
 
-            (function () {
-              var e,
-                d = function (s) { return decodeURIComponent(s).replace(/\+/g, " "); },
-                q = window.location.search.substring(1),
-                r = /([^&=]+)=?([^&]*)/g;
+		/**
+		 * Adds an action to the event manager.
+		 *
+		 * @param action Must contain namespace.identifier
+		 * @param callback Must be a valid callback function before this action is added
+		 * @param [priority=10] Used to control when the function is executed in relation to other callbacks bound to the same hook
+		 * @param [context] Supply a value to be used for this
+		 */
+		function addAction( action, callback, priority, context ) {
+			if( typeof action === 'string' && typeof callback === 'function' ) {
+				priority = parseInt( ( priority || 10 ), 10 );
+				_addHook( 'actions', action, callback, priority, context );
+			}
 
-              while (e = r.exec(q)) {
-                if (e[1].indexOf("[") == "-1")
-                  urlParams[d(e[1])] = d(e[2]);
-                else {
-                  var b1 = e[1].indexOf("["),
-                    aN = e[1].slice(b1+1, e[1].indexOf("]", b1)),
-                    pN = d(e[1].slice(0, b1));
+			return MethodsAvailable;
+		}
 
-                  if (typeof urlParams[pN] != "object")
-                    urlParams[d(pN)] = {},
-                    urlParams[d(pN)].length = 0;
+		/**
+		 * Performs an action if it exists. You can pass as many arguments as you want to this function; the only rule is
+		 * that the first argument must always be the action.
+		 */
+		function doAction( /* action, arg1, arg2, ... */ ) {
+			var args = Array.prototype.slice.call( arguments );
+			var action = args.shift();
 
-                  if (aN)
-                    urlParams[d(pN)][d(aN)] = d(e[2]);
-                  else
-                    Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
+			if( typeof action === 'string' ) {
+				_runHook( 'actions', action, args );
+			}
 
+			return MethodsAvailable;
+		}
+
+		/**
+		 * Removes the specified action if it contains a namespace.identifier & exists.
+		 *
+		 * @param action The action to remove
+		 * @param [callback] Callback function to remove
+		 */
+		function removeAction( action, callback ) {
+			if( typeof action === 'string' ) {
+				_removeHook( 'actions', action, callback );
+			}
+
+			return MethodsAvailable;
+		}
+
+		/**
+		 * Adds a filter to the event manager.
+		 *
+		 * @param filter Must contain namespace.identifier
+		 * @param callback Must be a valid callback function before this action is added
+		 * @param [priority=10] Used to control when the function is executed in relation to other callbacks bound to the same hook
+		 * @param [context] Supply a value to be used for this
+		 */
+		function addFilter( filter, callback, priority, context ) {
+			if( typeof filter === 'string' && typeof callback === 'function' ) {
+				//console.log('add filter', filter);
+				priority = parseInt( ( priority || 10 ), 10 );
+				_addHook( 'filters', filter, callback, priority );
+			}
+
+			return MethodsAvailable;
+		}
+
+		/**
+		 * Performs a filter if it exists. You should only ever pass 1 argument to be filtered. The only rule is that
+		 * the first argument must always be the filter.
+		 */
+		function applyFilters( /* filter, filtered arg, arg2, ... */ ) {
+			var args = Array.prototype.slice.call( arguments );
+			var filter = args.shift();
+
+			if( typeof filter === 'string' ) {
+				return _runHook( 'filters', filter, args );
+			}
+
+			return MethodsAvailable;
+		}
+
+		/**
+		 * Removes the specified filter if it contains a namespace.identifier & exists.
+		 *
+		 * @param filter The action to remove
+		 * @param [callback] Callback function to remove
+		 */
+		function removeFilter( filter, callback ) {
+			if( typeof filter === 'string') {
+				_removeHook( 'filters', filter, callback );
+			}
+
+			return MethodsAvailable;
+		}
+
+		/**
+		 * Removes the specified hook by resetting the value of it.
+		 *
+		 * @param type Type of hook, either 'actions' or 'filters'
+		 * @param hook The hook (namespace.identifier) to remove
+		 * @private
+		 */
+		function _removeHook( type, hook, callback, context ) {
+			if ( !STORAGE[ type ][ hook ] ) {
+				return;
+			}
+			if ( !callback ) {
+				STORAGE[ type ][ hook ] = [];
+			} else {
+				var handlers = STORAGE[ type ][ hook ];
+				var i;
+				if ( !context ) {
+					for ( i = handlers.length; i--; ) {
+						if ( handlers[i].callback === callback ) {
+							handlers.splice( i, 1 );
+						}
+					}
+				}
+				else {
+					for ( i = handlers.length; i--; ) {
+						var handler = handlers[i];
+						if ( handler.callback === callback && handler.context === context) {
+							handlers.splice( i, 1 );
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Adds the hook to the appropriate storage container
+		 *
+		 * @param type 'actions' or 'filters'
+		 * @param hook The hook (namespace.identifier) to add to our event manager
+		 * @param callback The function that will be called when the hook is executed.
+		 * @param priority The priority of this hook. Must be an integer.
+		 * @param [context] A value to be used for this
+		 * @private
+		 */
+		function _addHook( type, hook, callback, priority, context ) {
+			var hookObject = {
+				callback : callback,
+				priority : priority,
+				context : context
+			};
+
+			// Utilize 'prop itself' : http://jsperf.com/hasownproperty-vs-in-vs-undefined/19
+			var hooks = STORAGE[ type ][ hook ];
+			if( hooks ) {
+				hooks.push( hookObject );
+				hooks = _hookInsertSort( hooks );
+			}
+			else {
+				hooks = [ hookObject ];
+			}
+
+			STORAGE[ type ][ hook ] = hooks;
+		}
+
+		/**
+		 * Use an insert sort for keeping our hooks organized based on priority. This function is ridiculously faster
+		 * than bubble sort, etc: http://jsperf.com/javascript-sort
+		 *
+		 * @param hooks The custom array containing all of the appropriate hooks to perform an insert sort on.
+		 * @private
+		 */
+		function _hookInsertSort( hooks ) {
+			var tmpHook, j, prevHook;
+			for( var i = 1, len = hooks.length; i < len; i++ ) {
+				tmpHook = hooks[ i ];
+				j = i;
+				while( ( prevHook = hooks[ j - 1 ] ) &&  prevHook.priority > tmpHook.priority ) {
+					hooks[ j ] = hooks[ j - 1 ];
+					--j;
+				}
+				hooks[ j ] = tmpHook;
+			}
+
+			return hooks;
+		}
+
+		/**
+		 * Runs the specified hook. If it is an action, the value is not modified but if it is a filter, it is.
+		 *
+		 * @param type 'actions' or 'filters'
+		 * @param hook The hook ( namespace.identifier ) to be ran.
+		 * @param args Arguments to pass to the action/filter. If it's a filter, args is actually a single parameter.
+		 * @private
+		 */
+		function _runHook( type, hook, args ) {
+			var handlers = STORAGE[ type ][ hook ];
+
+			if ( !handlers ) {
+				return (type === 'filters') ? args[0] : false;
+			}
+
+			var i = 0, len = handlers.length;
+			if ( type === 'filters' ) {
+				for ( ; i < len; i++ ) {
+					args[ 0 ] = handlers[ i ].callback.apply( handlers[ i ].context, args );
+				}
+			} else {
+				for ( ; i < len; i++ ) {
+					handlers[ i ].callback.apply( handlers[ i ].context, args );
+				}
+			}
+
+			return ( type === 'filters' ) ? args[ 0 ] : true;
+		}
+
+		// return all of the publicly available methods
+		return MethodsAvailable;
+
+	};
+
+	_inbound.hooks = new EventManager();
+
+
+	/**
+	 * Event Hooks and Filters public methods
+	 */
+	 /*
+	 *  add_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_action
+	 *
+	 *  ```js
+	 *   function Inbound_Add_Action_Example(data) {
+	 *       // Do stuff here.
+	 *   };
+	 *   // Add action to the hook
+	 *   _inbound.add_action( 'name_of_action', Inbound_Add_Action_Example, 10 );
+	 *   ```
+	 */
+	 _inbound.add_action = function() {
+	  // allow multiple action parameters such as 'ready append'
+	  var actions = arguments[0].split(' ');
+
+	  for( k in actions ) {
+
+	    // prefix action
+	    arguments[0] = 'inbound.' + actions[ k ];
+
+	    _inbound.hooks.addAction.apply(this, arguments);
+	  }
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_action
+	 *
+	 *  ```js
+	 *   // Add remove action 'name_of_action'
+	 *   _inbound.remove_action( 'name_of_action');
+	 *  ```
+	 *
+	 */
+	 _inbound.remove_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.removeAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  do_action
+	 *
+	 *  This function uses _inbound.hooks to mimics WP do_action
+	 *  This is used if you want to allow for third party JS plugins to act on your functions
+	 *
+	 */
+	 _inbound.do_action = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.doAction.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  add_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP add_filter
+	 *
+	 *  ```js
+	 *   _inbound.add_filter( 'urlParamFilter', URL_Param_Filter, 10 );
+	 *   function URL_Param_Filter(urlParams) {
+	 *
+	 *   var params = urlParams || {};
+	 *   // check for item in object
+	 *   if(params.utm_source !== "undefined"){
+	 *     //alert('url param "utm_source" is here');
+	 *   }
+	 *
+	 *   // delete item from object
+	 *   delete params.utm_source;
+	 *
+	 *   return params;
+	 *
+	 *   }
+	 *   ```
+	 */
+	 _inbound.add_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+	  _inbound.hooks.addFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  remove_filter
+	 *
+	 *  This function uses _inbound.hooks to mimics WP remove_filter
+	 *
+	 *   ```js
+	 *   // Add remove filter 'urlParamFilter'
+	 *   _inbound.remove_action( 'urlParamFilter');
+	 *   ```
+	 *
+	 */
+	 _inbound.remove_filter = function() {
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  _inbound.hooks.removeFilter.apply(this, arguments);
+
+	  return this;
+
+	 };
+	 /*
+	 *  apply_filters
+	 *
+	 *  This function uses _inbound.hooks to mimics WP apply_filters
+	 *
+	 */
+	 _inbound.apply_filters = function() {
+	  //console.log('Filter:' + arguments[0] + " ran on ->", arguments[1]);
+	  // prefix action
+	  arguments[0] = 'inbound.' + arguments[0];
+
+	  return _inbound.hooks.applyFilters.apply(this, arguments);
+
+	 };
+
+
+    return _inbound;
+
+})(_inbound || {});
+/**
+ * # _inbound UTILS
+ *
+ * This file contains all of the utility functions used by analytics
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ */
+var _inboundUtils = (function(_inbound) {
+
+    var storageSupported;
+
+    _inbound.Utils = {
+        init: function() {
+
+            this.polyFills();
+            this.checkLocalStorage();
+            this.SetUID();
+            this.storeReferralData();
+
+        },
+        /*! http://stackoverflow.com/questions/951791/javascript-global-error-handling */
+        /* Polyfills for missing browser functionality */
+        polyFills: function() {
+            /* Console.log fix for old browsers */
+            if (!window.console) {
+                window.console = {};
+            }
+            var m = [
+                "log", "info", "warn", "error", "debug", "trace", "dir", "group",
+                "groupCollapsed", "groupEnd", "time", "timeEnd", "profile", "profileEnd",
+                "dirxml", "assert", "count", "markTimeline", "timeStamp", "clear"
+            ];
+            // define undefined methods as noops to prevent errors
+            for (var i = 0; i < m.length; i++) {
+                if (!window.console[m[i]]) {
+                    window.console[m[i]] = function() {};
                 }
-              }
+            }
+            /* Event trigger polyfill for IE9 and 10
+            (function() {
+                function CustomEvent(event, params) {
+                    params = params || {
+                        bubbles: false,
+                        cancelable: false,
+                        detail: undefined
+                    };
+                    var evt = document.createEvent('CustomEvent');
+                    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+                    return evt;
+                }
+
+                CustomEvent.prototype = window.Event.prototype;
+
+                window.CustomEvent = CustomEvent;
+            })();*/
+            /* custom event for ie8+ https://gist.github.com/WebReflection/6693661 */
+            try{new CustomEvent('?');}catch(o_O){
+              /*!(C) Andrea Giammarchi -- WTFPL License*/
+              this.CustomEvent = function(
+                eventName,
+                defaultInitDict
+              ){
+
+                // the infamous substitute
+                function CustomEvent(type, eventInitDict) {
+                  var event = document.createEvent(eventName);
+                  if (type !== null) {
+                    initCustomEvent.call(
+                      event,
+                      type,
+                      (eventInitDict || (
+                        // if falsy we can just use defaults
+                        eventInitDict = defaultInitDict
+                      )).bubbles,
+                      eventInitDict.cancelable,
+                      eventInitDict.detail
+                    );
+                  } else {
+                    // no need to put the expando property otherwise
+                    // since an event cannot be initialized twice
+                    // previous case is the most common one anyway
+                    // but if we end up here ... there it goes
+                    event.initCustomEvent = initCustomEvent;
+                  }
+                  return event;
+                }
+
+                // borrowed or attached at runtime
+                function initCustomEvent(
+                  type, bubbles, cancelable, detail
+                ) {
+                  this['init' + eventName](type, bubbles, cancelable, detail);
+                  'detail' in this || (this.detail = detail);
+                }
+
+                // that's it
+                return CustomEvent;
+              }(
+                // is this IE9 or IE10 ?
+                // where CustomEvent is there
+                // but not usable as construtor ?
+                this.CustomEvent ?
+                  // use the CustomEvent interface in such case
+                  'CustomEvent' : 'Event',
+                  // otherwise the common compatible one
+                {
+                  bubbles: false,
+                  cancelable: false,
+                  detail: null
+                }
+              );
+            }
+            /* querySelectorAll polyfill for ie7+ */
+            if (!document.querySelectorAll) {
+              document.querySelectorAll = function (selectors) {
+                var style = document.createElement('style'), elements = [], element;
+                document.documentElement.firstChild.appendChild(style);
+                document._qsa = [];
+
+                style.styleSheet.cssText = selectors + '{x-qsa:expression(document._qsa && document._qsa.push(this))}';
+                window.scrollBy(0, 0);
+                style.parentNode.removeChild(style);
+
+                while (document._qsa.length) {
+                  element = document._qsa.shift();
+                  element.style.removeAttribute('x-qsa');
+                  elements.push(element);
+                }
+                document._qsa = null;
+                return elements;
+              };
+            }
+
+            if (!document.querySelector) {
+              document.querySelector = function (selectors) {
+                var elements = document.querySelectorAll(selectors);
+                return (elements.length) ? elements[0] : null;
+              };
+            }
+            /* Innertext shim for firefox https://github.com/duckinator/innerText-polyfill/blob/master/innertext.js */
+            if ( (!('innerText' in document.createElement('a'))) && ('getSelection' in window) ) {
+                HTMLElement.prototype.__defineGetter__("innerText", function() {
+                    var selection = window.getSelection(),
+                        ranges    = [],
+                        str;
+
+                    // Save existing selections.
+                    for (var i = 0; i < selection.rangeCount; i++) {
+                        ranges[i] = selection.getRangeAt(i);
+                    }
+
+                    // Deselect everything.
+                    selection.removeAllRanges();
+
+                    // Select `el` and all child nodes.
+                    // 'this' is the element .innerText got called on
+                    selection.selectAllChildren(this);
+
+                    // Get the string representation of the selected nodes.
+                    str = selection.toString();
+
+                    // Deselect everything. Again.
+                    selection.removeAllRanges();
+
+                    // Restore all formerly existing selections.
+                    for (var i = 0; i < ranges.length; i++) {
+                        selection.addRange(ranges[i]);
+                    }
+
+                    // Oh look, this is what we wanted.
+                    // String representation of the element, close to as rendered.
+                    return str;
+                })
+            }
+        },
+        /**
+         * Create cookie
+         *
+         * ```js
+         * // Creates cookie for 10 days
+         * _inbound.utils.createCookie( 'cookie_name', 'value', 10 );
+         * ```
+         *
+         * @param  {string} name        Name of cookie
+         * @param  {string} value       Value of cookie
+         * @param  {string} days        Length of storage
+         */
+        createCookie: function(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toGMTString();
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        },
+        /**
+         * Read cookie value
+         *
+         * ```js
+         * var cookie = _inbound.utils.readCookie( 'cookie_name' );
+         * console.log(cookie); // cookie value
+         * ```
+         * @param  {string} name name of cookie
+         * @return {string}      value of cookie
+         */
+        readCookie: function(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) === 0) {
+                    return c.substring(nameEQ.length, c.length);
+                }
+            }
+            return null;
+        },
+        /**
+         * Erase cookie
+         *
+         * ```js
+         * // usage:
+         * _inbound.utils.eraseCookie( 'cookie_name' );
+         * // deletes 'cookie_name' value
+         * ```
+         * @param  {string} name name of cookie
+         * @return {string}      value of cookie
+         */
+        eraseCookie: function(name) {
+            this.createCookie(name, "", -1);
+        },
+        /* Get All Cookies */
+        getAllCookies: function() {
+            var cookies = {};
+            if (document.cookie && document.cookie !== '') {
+                var split = document.cookie.split(';');
+                for (var i = 0; i < split.length; i++) {
+                    var name_value = split[i].split("=");
+                    name_value[0] = name_value[0].replace(/^ /, '');
+                    cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+                }
+            }
+            _inbound.totalStorage('inbound_cookies', cookies); // store cookie data
+            return cookies;
+        },
+        /* Grab URL params and save */
+        setUrlParams: function() {
+            var urlParams = {};
+
+            (function() {
+                var e,
+                    d = function(s) {
+                        return decodeURIComponent(s).replace(/\+/g, " ");
+                    },
+                    q = window.location.search.substring(1),
+                    r = /([^&=]+)=?([^&]*)/g;
+
+                while (e = r.exec(q)) {
+                    if (e[1].indexOf("[") == "-1")
+                        urlParams[d(e[1])] = d(e[2]);
+                    else {
+                        var b1 = e[1].indexOf("["),
+                            aN = e[1].slice(b1 + 1, e[1].indexOf("]", b1)),
+                            pN = d(e[1].slice(0, b1));
+
+                        if (typeof urlParams[pN] != "object")
+                            urlParams[d(pN)] = {},
+                            urlParams[d(pN)].length = 0;
+
+                        if (aN)
+                            urlParams[d(pN)][d(aN)] = d(e[2]);
+                        else
+                            Array.prototype.push.call(urlParams[d(pN)], d(e[2]));
+
+                    }
+                }
             })();
 
-            if (JSON) {
-                for (var k in urlParams) {
-                  if (typeof urlParams[k] == "object") {
+            /* Set Param Cookies */
+            for (var k in urlParams) {
+                if (typeof urlParams[k] == "object") {
                     for (var k2 in urlParams[k])
-                    this.createCookie(k2, urlParams[k][k2], 30);
-                  } else {
+                        this.createCookie(k2, urlParams[k][k2], 30);
+                } else {
                     this.createCookie(k, urlParams[k], 30);
-                  }
-                 }
+                }
+            }
+            /* Set Param LocalStorage */
+            if (storageSupported) {
+                var pastParams = _inbound.totalStorage('inbound_url_params') || {};
+                var params = this.mergeObjs(pastParams, urlParams);
+                _inbound.totalStorage('inbound_url_params', params); // store cookie data
             }
 
-            if(local_store){
-              var pastParams =  jQuery.totalStorage('inbound_url_params');
-              var params = this.mergeObjs(pastParams, urlParams);
-              jQuery.totalStorage('inbound_url_params', params); // store cookie data
+            var options = {'option1': 'yo', 'option2': 'woooo'};
+
+            _inbound.trigger('url_parameters', urlParams, options);
+
+        },
+        getAllUrlParams: function() {
+            var get_params = {};
+            if (storageSupported) {
+                var get_params = _inbound.totalStorage('inbound_url_params');
             }
-      },
-      getUrlParams: function(){
-          var local_store = this.checkLocalStorage(),
-          get_params = {};
-          if(local_store){
-            var get_params =  jQuery.totalStorage('inbound_url_params');
+            return get_params;
+        },
+        /* Get url param */
+        getParameterVal: function(name, string) {
+            return (RegExp(name + '=' + '(.+?)(&|$)').exec(string)||[,false])[1];
+        },
+        // Check local storage
+        // provate browsing safari fix https://github.com/marcuswestin/store.js/issues/42#issuecomment-25274685
+        checkLocalStorage: function() {
+            if ('localStorage' in window) {
+                try {
+                    ls = (typeof window.localStorage === 'undefined') ? undefined : window.localStorage;
+                    if (typeof ls == 'undefined' || typeof window.JSON == 'undefined') {
+                        storageSupported = false;
+                    } else {
+                        storageSupported = true;
+                    }
+
+                } catch (err) {
+                    storageSupported = false;
+                }
+            }
+            return storageSupported;
+            /* http://spin.atomicobject.com/2013/01/23/ios-private-browsing-localstorage/
+            var hasStorage;
+            hasStorage = function() {
+              var mod, result;
+              try {
+                mod = new Date;
+                localStorage.setItem(mod, mod.toString());
+                result = localStorage.getItem(mod) === mod.toString();
+                localStorage.removeItem(mod);
+                return result;
+              } catch (_error) {}
+            };
+             */
+        },
+        /* Add days to datetime */
+        addDays: function(myDate, days) {
+            return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
+        },
+        GetDate: function() {
+            var time_now = new Date(),
+                day = time_now.getDate() + 1;
+            year = time_now.getFullYear(),
+                hour = time_now.getHours(),
+                minutes = time_now.getMinutes(),
+                seconds = time_now.getSeconds(),
+                month = time_now.getMonth() + 1;
+            if (month < 10) {
+                month = '0' + month;
+            }
+            _inbound.debug('Current Date:', function() {
+                console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
+            });
+            var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+            return datetime;
+        },
+        /* Set Expiration Date of Session Logging. LEGACY Not in Use */
+        SetSessionTimeout: function() {
+            var session = this.readCookie("lead_session_expire");
+            //console.log(session_check);
+            if (!session) {
+                //_inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+            } else {
+                //_inbound.trigger('session_resume'); // trigger 'inbound_analytics_session_active'
+            }
+            var d = new Date();
+            d.setTime(d.getTime() + 30 * 60 * 1000);
+
+            this.createCookie("lead_session_expire", true, d, true); // Set cookie on page load
+
+        },
+        storeReferralData: function() {
+            //console.log(expire_time);
+            var d = new Date(),
+            referrer = document.referrer || "Direct Traffic",
+            referrer_cookie = _inbound.Utils.readCookie("inbound_referral_site"),
+            original_src = _inbound.totalStorage('inbound_original_referral');
+
+            d.setTime(d.getTime() + 30 * 60 * 1000);
+
+            if (!referrer_cookie) {
+                this.createCookie("inbound_referral_site", referrer, d, true);
+            }
+            if (!original_src) {
+                _inbound.totalStorage('inbound_original_referral', original_src);
+            }
+        },
+        CreateUID: function(length) {
+            var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split(''),
+                str = '';
+            if (!length) {
+                length = Math.floor(Math.random() * chars.length);
+            }
+            for (var i = 0; i < length; i++) {
+                str += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return str;
+        },
+        SetUID: function(leadUID) {
+            /* Set Lead UID */
+            if (!this.readCookie("wp_lead_uid")) {
+                var wp_lead_uid = leadUID || this.CreateUID(35);
+                this.createCookie("wp_lead_uid", wp_lead_uid);
+            }
+        },
+        /* Count number of session visits */
+        countProperties: function(obj) {
+            var count = 0;
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop))
+                    ++count;
+            }
+            return count;
+        },
+        mergeObjs: function(obj1, obj2) {
+            var obj3 = {};
+            for (var attrname in obj1) {
+                obj3[attrname] = obj1[attrname];
+            }
+            for (var attrname in obj2) {
+                obj3[attrname] = obj2[attrname];
+            }
+            return obj3;
+        },
+        hasClass: function(className, el) {
+            var hasClass = false;
+            if ('classList' in document.documentElement) {
+                var hasClass = el.classList.contains(className);
+            } else {
+                var hasClass = new RegExp('(^|\\s)' + className + '(\\s|$)').test(el.className); /* IE Polyfill */
+            }
+            return hasClass;
+        },
+        addClass: function(className, elem) {
+            if ('classList' in document.documentElement) {
+                elem.classList.add(className);
+            } else {
+                if (!this.hasClass(elem, className)) {
+                    elem.className += (elem.className ? ' ' : '') + className;
+                }
+            }
+        },
+        removeClass: function(className, elem) {
+            if ('classList' in document.documentElement) {
+
+                elem.classList.remove(className);
+            } else {
+                if (this.hasClass(elem, className)) {
+                    elem.className = elem.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
+                }
+            }
+        },
+        trim: function(s) {
+            s = s.replace(/(^\s*)|(\s*$)/gi, "");
+            s = s.replace(/[ ]{2,}/gi, " ");
+            s = s.replace(/\n /, "\n");
+            return s;
+        },
+        ajaxPolyFill: function() {
+            if (typeof XMLHttpRequest !== 'undefined') {
+                return new XMLHttpRequest();
+            }
+            var versions = [
+                "MSXML2.XmlHttp.5.0",
+                "MSXML2.XmlHttp.4.0",
+                "MSXML2.XmlHttp.3.0",
+                "MSXML2.XmlHttp.2.0",
+                "Microsoft.XmlHttp"
+            ];
+
+            var xhr;
+            for (var i = 0; i < versions.length; i++) {
+                try {
+                    xhr = new ActiveXObject(versions[i]);
+                    break;
+                } catch (e) {}
+            }
+            return xhr;
+        },
+        ajaxSendData: function(url, callback, method, data, sync) {
+            var x = this.ajaxPolyFill();
+            x.open(method, url, sync);
+            x.onreadystatechange = function() {
+                if (x.readyState == 4) {
+                    callback(x.responseText)
+                }
+            };
+            if (method == 'POST') {
+                x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            }
+            x.send(data);
+        },
+        ajaxGet: function(url, data, callback, sync) {
+            var query = [];
+            for (var key in data) {
+                query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+            }
+            this.ajaxSendData(url + '?' + query.join('&'), callback, 'GET', null, sync)
+        },
+        ajaxPost: function(url, data, callback, sync) {
+            var query = [];
+            for (var key in data) {
+                query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+            }
+            this.ajaxSendData(url, callback, 'POST', query.join('&'), sync)
+        },
+        makeRequest: function(url, data) {
+            if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+                httpRequest = new XMLHttpRequest();
+            } else if (window.ActiveXObject) { // IE
+                try {
+                    httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    try {
+                        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (e) {}
+                }
+            }
+
+            if (!httpRequest) {
+                alert('Giving up :( Cannot create an XMLHTTP instance');
+                return false;
+            }
+            httpRequest.onreadystatechange = _inbound.LeadsAPI.alertContents;
+            httpRequest.open('GET', url);
+            httpRequest.send(data);
+        },
+        domReady: function(win, fn) {
+
+            var done = false,
+                top = true,
+
+                doc = win.document,
+                root = doc.documentElement,
+
+                add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
+                rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
+                pre = doc.addEventListener ? '' : 'on',
+
+                init = function(e) {
+                    if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
+                    (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
+                    if (!done && (done = true)) fn.call(win, e.type || e);
+                },
+
+                poll = function() {
+                    try {
+                        root.doScroll('left');
+                    } catch (e) {
+                        setTimeout(poll, 50);
+                        return;
+                    }
+                    init('poll');
+                };
+
+            if (doc.readyState == 'complete') fn.call(win, 'lazy');
+            else {
+                if (doc.createEventObject && root.doScroll) {
+                    try {
+                        top = !win.frameElement;
+                    } catch (e) {}
+                    if (top) poll();
+                }
+                doc[add](pre + 'DOMContentLoaded', init, false);
+                doc[add](pre + 'readystatechange', init, false);
+                win[add](pre + 'load', init, false);
+            }
+
+        },
+        /* Cross-browser event listening  */
+        addListener: function(element, eventName, listener) {
+            //console.log(eventName);
+            //console.log(listener);
+            if (element.addEventListener) {
+                element.addEventListener(eventName, listener, false);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + eventName, listener);
+            } else {
+                element['on' + eventName] = listener;
+            }
+        },
+        removeListener: function(element, eventName, listener) {
+
+            if (element.removeEventListener) {
+                element.removeEventListener(eventName, listener, false);
+            } else if (element.detachEvent) {
+                element.detachEvent("on" + eventName, listener);
+            } else {
+                element["on" + eventName] = null;
+            }
+        },
+        /*
+         * Throttle function borrowed from:
+         * Underscore.js 1.5.2
+         * http://underscorejs.org
+         * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+         * Underscore may be freely distributed under the MIT license.
+         */
+        throttle: function (func, wait) {
+          var context, args, result;
+          var timeout = null;
+          var previous = 0;
+          var later = function() {
+            previous = new Date;
+            timeout = null;
+            result = func.apply(context, args);
+          };
+          return function() {
+            var now = new Date;
+            if (!previous) previous = now;
+            var remaining = wait - (now - previous);
+            context = this;
+            args = arguments;
+            if (remaining <= 0) {
+              clearTimeout(timeout);
+              timeout = null;
+              previous = now;
+              result = func.apply(context, args);
+            } else if (!timeout) {
+              timeout = setTimeout(later, remaining);
+            }
+            return result;
+          };
+        },
+        /*
+         * Determine which version of GA is being used
+         * "ga", "_gaq", and "dataLayer" are the possible globals
+         */
+        checkTypeofGA: function() {
+          if (typeof ga === "function") {
+            universalGA = true;
           }
-          return get_params;
+
+          if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+            classicGA = true;
+          }
+
+          if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+            googleTagManager = true;
+          }
+
+        }
+    };
+
+    return _inbound;
+
+})(_inbound || {});
+/**
+ * # Inbound Forms
+ *
+ * This file contains all of the form functions of the main _inbound object.
+ * Filters and actions are described below
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ */
+
+/* Launches form class */
+var InboundForms = (function (_inbound) {
+
+    var debugMode = false,
+    utils = _inbound.Utils,
+    no_match = [],
+    rawParams = [],
+    mappedParams = [],
+    settings = _inbound.Settings;
+
+    var FieldMapArray = [
+                        "first name",
+                        "last name",
+                        "name",
+                        "email",
+                        "e-mail",
+                        "phone",
+                        "website",
+                        "job title",
+                        "your favorite food",
+                        "company",
+                        "tele",
+                        "address",
+                        "comment"
+                        /* Adding values here maps them */
+    ];
+
+    _inbound.Forms =  {
+
+      // Init Form functions
+      init: function() {
+          _inbound.Forms.runFieldMappingFilters();
+          _inbound.Forms.assignTrackClass();
+          _inbound.Forms.formTrackInit();
       },
-      // Check local storage
-      // provate browsing safari fix https://github.com/marcuswestin/store.js/issues/42#issuecomment-25274685
-      checkLocalStorage: function() {
-        if ('localStorage' in window) {
-            try {
-              ls = (typeof window.localStorage === 'undefined') ? undefined : window.localStorage;
-              if (typeof ls == 'undefined' || typeof window.JSON == 'undefined'){
-                supported = false;
+      /**
+       * This triggers the forms.field_map filter on the mapping array.
+       * This will allow you to add or remore Items from the mapping lookup
+       *
+       * ### Example inbound.form_map_before filter
+       *
+       * This is an example of how form mapping can be filtered and
+       * additional fields can be mapped via javascript
+       *
+       * ```js
+       *  // Adding the filter function
+       *  function Inbound_Add_Filter_Example( FieldMapArray ) {
+       *    var map = FieldMapArray || [];
+       *    map.push('new lookup value');
+       *
+       *    return map;
+       *  };
+       *
+       *  // Adding the filter on dom ready
+       *  _inbound.hooks.addFilter( 'inbound.form_map_before', Inbound_Add_Filter_Example, 10 );
+       * ```
+       *
+       * @return {[type]} [description]
+       */
+      runFieldMappingFilters: function(){
+          FieldMapArray = _inbound.hooks.applyFilters( 'forms.field_map', FieldMapArray);
+          //alert(FieldMapArray);
+      },
+      debug: function(msg, callback){
+         //if app not in debug mode, exit immediately
+         if(!debugMode || !console){return};
+         var msg = msg || false;
+         //console.log the message
+         if(msg && (typeof msg === 'string')){console.log(msg)};
+
+         //execute the callback if one was passed-in
+         if(callback && (callback instanceof Function)){
+              callback();
+         };
+      },
+      formTrackInit: function(){
+
+          for(var i=0; i<window.document.forms.length; i++){
+            var trackForm = false;
+            var form = window.document.forms[i];
+            /* process forms only once */
+            if(!form.dataset.formProcessed){
+              form.dataset.formProcessed = true;
+              trackForm = this.checkTrackStatus(form);
+              // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
+              if (trackForm) {
+                this.attachFormSubmitEvent(form); /* attach form listener */
+                this.initFormMapping(form);
+              }
+            }
+          }
+      },
+      checkTrackStatus: function(form){
+          var ClassIs = form.getAttribute('class');
+          if( ClassIs !== "" && ClassIs !== null) {
+              if(ClassIs.toLowerCase().indexOf("wpl-track-me")>-1) {
+                return true;
+              } else if (ClassIs.toLowerCase().indexOf("inbound-track")>-1) {
+                return true;
               } else {
-                supported = true;
+                console.log("No form to track on this page. Please assign on in settings");
+                return false;
+              }
+          }
+      },
+      assignTrackClass: function() {
+          if(window.inbound_track_include){
+              var selectors = inbound_track_include.include.split(',');
+              console.log('add selectors ' + inbound_track_exclude.exclude);
+              this.loopClassSelectors(selectors, 'add');
+          }
+          if(window.inbound_track_exclude){
+              var selectors = inbound_track_exclude.exclude.split(',');
+              console.log('remove selectors ' + inbound_track_exclude.exclude);
+              this.loopClassSelectors(selectors, 'remove');
+          }
+      },
+      /* Loop through include/exclude items for tracking */
+      loopClassSelectors: function(selectors, action){
+          for (var i = selectors.length - 1; i >= 0; i--) {
+            selector = document.querySelector(utils.trim(selectors[i]));
+            //console.log("SELECTOR", selector);
+            if(selector) {
+                if( action === 'add'){
+                  _inbound.Utils.addClass('wpl-track-me', selector);
+                  _inbound.Utils.addClass('inbound-track', selector);
+                } else {
+                  _inbound.Utils.removeClass('wpl-track-me', selector);
+                  _inbound.Utils.removeClass('inbound-track', selector);
+                }
+            }
+          };
+      },
+      /* Map field fields on load */
+      initFormMapping: function(form) {
+                        var hiddenInputs = [];
+
+                        for (var i=0; i < form.elements.length; i++) {
+                            formInput = form.elements[i];
+
+                            if (formInput.type === 'hidden') {
+                                hiddenInputs.push(formInput);
+                                continue;
+                            }
+                            /* Map form fields */
+                            this.mapField(formInput);
+                            /* Remember visible inputs */
+                            this.rememberInputValues(formInput);
+                            /* Fill visible inputs */
+                            if(settings.formAutoPopulation){
+                              this.fillInputValues(formInput);
+                            }
+
+                        }
+                        for (var i = hiddenInputs.length - 1; i >= 0; i--) {
+                            formInput = hiddenInputs[i];
+                            this.mapField(formInput);
+                        };
+
+                    //console.log('mapping on load completed');
+      },
+      /* prevent default submission temporarily */
+      formListener: function(event) {
+          console.log(event);
+          event.preventDefault();
+          _inbound.Forms.saveFormData(event.target);
+      },
+      /* attach form listeners */
+      attachFormSubmitEvent: function (form) {
+        utils.addListener(form, 'submit', this.formListener);
+      },
+      releaseFormSubmit: function(form){
+        //console.log('remove form listener event');
+        utils.removeClass('wpl-track-me', form);
+        utils.removeListener(form, 'submit', this.formListener);
+        form.submit();
+        /* fallback if submit name="submit" */
+        setTimeout(function() {
+            for (var i=0; i < form.elements.length; i++) {
+              formInput = form.elements[i];
+              type = formInput.type || false;
+              if (type === "submit") {
+                form.elements[i].click();
+              }
+            }
+        }, 1300);
+
+      },
+      saveFormData: function(form) {
+          var inputsObject = inputsObject || {};
+          for (var i=0; i < form.elements.length; i++) {
+              this.debug('inputs obj',function(){
+                  console.log(inputsObject);
+              });
+
+              formInput = form.elements[i];
+              multiple = false;
+
+              if (formInput.name) {
+
+                  inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
+                  //inputName = inputName.replace(/-/g, "_");
+                  if (!inputsObject[inputName]) { inputsObject[inputName] = {}; }
+                  if (formInput.type) { inputsObject[inputName]['type'] = formInput.type; }
+                  if (!inputsObject[inputName]['name']) { inputsObject[inputName]['name'] = formInput.name; }
+                  if (formInput.dataset.mapFormField) {
+                    inputsObject[inputName]['map'] = formInput.dataset.mapFormField;
+                  }
+                  /*if (formInput.id) { inputsObject[inputName]['id'] = formInput.id; }
+                  if ('classList' in document.documentElement)  {
+                      if (formInput.classList) { inputsObject[inputName]['class'] = formInput.classList; }
+                  }*/
+
+                  switch (formInput.nodeName) {
+
+                      case 'INPUT':
+                          value = this.getInputValue(formInput);
+
+                          console.log(value);
+                          if (value === false) { continue; }
+                          break;
+
+                      case 'TEXTAREA':
+                          value = formInput.value;
+                          break;
+
+                      case 'SELECT':
+                          if (formInput.multiple) {
+                              values = [];
+                              multiple = true;
+
+                              for (var j = 0; j < formInput.length; j++) {
+                                  if (formInput[j].selected) {
+                                      values.push(encodeURIComponent(formInput[j].value));
+                                  }
+                              }
+
+                          } else {
+                              value = (formInput.value);
+                          }
+
+                          console.log('select val', value);
+                          break;
+                  }
+
+                  if (value) {
+                      /* inputsObject[inputName].push(multiple ? values.join(',') : encodeURIComponent(value)); */
+                      if (!inputsObject[inputName]['value']) { inputsObject[inputName]['value'] = []; }
+                      inputsObject[inputName]['value'].push(multiple ? values.join(',') : encodeURIComponent(value));
+                      var value = multiple ? values.join(',') : encodeURIComponent(value);
+
+                  }
+
+              }
+          }
+
+          //console.log('These are the raw values', inputsObject);
+          //_inbound.totalStorage('the_key', inputsObject);
+          //var inputsObject = sortInputs(inputsObject);
+
+          var matchCommon = /name|first name|last name|email|e-mail|phone|website|job title|company|tele|address|comment/;
+
+          for (var input in inputsObject) {
+              //console.log(input);
+
+              var inputValue = inputsObject[input]['value'];
+              var inputMappedField = inputsObject[input]['map'];
+              //if (matchCommon.test(input) !== false) {
+                  //console.log(input + " Matches Regex run mapping test");
+                  //var map = inputsObject[input];
+                  //console.log("MAPP", map);
+                  //mappedParams.push( input + '=' + inputsObject[input]['value'].join(',') );
+              //}
+
+              /* Add custom hook here to look for additional values */
+              if (typeof (inputValue) != "undefined" && inputValue != null && inputValue != "") {
+                  rawParams.push( input + '=' + inputsObject[input]['value'].join(',') );
+              }
+
+              if (typeof (inputMappedField) != "undefined" && inputMappedField != null && inputsObject[input]['value']) {
+                //console.log('Data ATTR', formInput.dataset.mapFormField);
+                mappedParams.push( inputMappedField + "=" + inputsObject[input]['value'].join(',') );
+                if(input === 'email'){
+                  var email = inputsObject[input]['value'].join(',');
+                  //alert(email);
+
+                }
+              }
+          }
+
+          var raw_params = rawParams.join('&');
+          console.log("Stringified Raw Form PARAMS", raw_params);
+
+
+          var mapped_params = mappedParams.join('&');
+          console.log("Stringified Mapped PARAMS", mapped_params);
+
+          /* Check Use form Email or Cookie */
+          var email = utils.getParameterVal('email', mapped_params) || utils.readCookie('wp_lead_email');
+          var fullName = utils.getParameterVal('name', mapped_params);
+          var fName = utils.getParameterVal('first_name', mapped_params);
+          var lName = utils.getParameterVal('last_name', mapped_params);
+
+          // Fallbacks for empty values
+          if (!lName && fName) {
+            var parts = decodeURI(fName).split(" ");
+            if(parts.length > 0){
+                fName = parts[0];
+                lName = parts[1];
+            }
+          }
+
+          if(fullName && !lName && !fName){
+            var parts = decodeURI(fullName).split(" ");
+            if(parts.length > 0){
+                fName = parts[0];
+                lName = parts[1];
+            }
+          }
+
+          fullName = (fName && lName) ? fName + " " + lName : fullName;
+
+          console.log(fName); // outputs email address or false
+          console.log(lName); // outputs email address or false
+          console.log(fullName); // outputs email address or false
+          //return false;
+          var page_views = _inbound.totalStorage('page_views') || {};
+          var urlParams = _inbound.totalStorage('inbound_url_params') || {};
+
+          var inboundDATA = {
+            'email': email
+          };
+          /* Get Variation ID */
+          if (typeof (landing_path_info) != "undefined") {
+            var variation = landing_path_info.variation;
+          } else if (typeof (cta_path_info) != "undefined") {
+            var variation = cta_path_info.variation;
+          } else {
+            var variation = 0;
+          }
+          var post_type = inbound_settings.post_type || 'page';
+          var page_id = inbound_settings.post_id || 0;
+          // data['wp_lead_uid'] = jQuery.cookie("wp_lead_uid") || null;
+          // data['search_data'] = JSON.stringify(jQuery.totalStorage('inbound_search')) || {};
+          search_data = {};
+          /* Filter here for raw */
+          //alert(mapped_params);
+          /**
+           * Old data model
+              var return_data = {
+                        "action": 'inbound_store_lead',
+                        "emailTo": data['email'],
+                        "first_name": data['first_name'],
+                        "last_name": data['last_name'],
+                        "phone": data['phone'],
+                        "address": data['address'],
+                        "company_name": data['company'],
+                        "page_views": data['page_views'],
+                        "form_input_values": all_form_fields,
+                        "Mapped_Data": mapped_form_data,
+                        "Search_Data": data['search_data']
+              };
+           */
+          formData = {
+            'action': 'inbound_lead_store',
+            'email': email,
+            "full_name": fullName,
+            "first_name": fName,
+            "last_name": lName,
+            'raw_params' : raw_params,
+            'mapped_params' : mapped_params,
+            'url_params': JSON.stringify(urlParams),
+            'search_data': 'test',
+            'page_views': JSON.stringify(page_views),
+            'post_type': post_type,
+            'page_id': page_id,
+            'variation': variation,
+            'source': utils.readCookie("inbound_referral_site")
+          };
+          callback = function(leadID){
+            /* Action Example */
+
+            _inbound.Events.form_after_submission(formData);
+            alert('callback fired' + leadID);
+            /* Set Lead cookie ID */
+            utils.createCookie("wp_lead_id", leadID);
+            _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
+            _inbound.totalStorage.deleteItem('tracking_events'); // remove events
+            /* Resume normal form functionality */
+            _inbound.Forms.releaseFormSubmit(form);
+
+          }
+          //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
+          _inbound.Events.form_before_submission(formData);
+          //_inbound.trigger('inbound_form_before_submission', formData, true);
+
+          utils.ajaxPost(inbound_settings.admin_url, formData, callback);
+      },
+      rememberInputValues: function(input) {
+          var name = ( input.name ) ? "inbound_" + input.name : '';
+          var type = ( input.type ) ? input.type : 'text';
+          if(type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
+              return false;
+          }
+
+          utils.addListener(input, 'change', function(e) {
+
+            if(e.target.name) {
+                /* Check for input type */
+                if(type !== "checkbox") {
+                    var value = e.target.value;
+                } else {
+                  var values = [];
+                  var checkboxes = document.querySelectorAll('input[name="'+e.target.name+'"]');
+                    for (var i = 0; i < checkboxes.length; i++) {
+                      var checked = checkboxes[i].checked;
+                      if(checked){
+                        values.push(checkboxes[i].value);
+                      }
+                      value = values.join(',');
+                    };
+                }
+            console.log(e.target.nodeName);
+            console.log('change ' + e.target.name  + " " + encodeURIComponent(value));
+
+            inputData = {
+              name: e.target.name,
+              node: e.target.nodeName.toLowerCase(),
+              type: type,
+              value: value,
+              mapping: e.target.dataset.mapFormField
+            };
+
+            _inbound.trigger('form_input_change', inputData);
+            /* Set Field Input Cookies */
+            utils.createCookie("inbound_" + e.target.name, encodeURIComponent(value));
+            // _inbound.totalStorage('the_key', FormStore);
+            /* Push to 'unsubmitted form object' */
+            }
+
+          });
+      },
+      fillInputValues: function(input){
+          var name = ( input.name ) ? "inbound_" + input.name : '';
+          var type = ( input.type ) ? input.type : 'text';
+          if(type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
+              return false;
+          }
+          if(utils.readCookie(name) && name != 'comment' ){
+
+             value = decodeURIComponent(utils.readCookie(name));
+             if(type === 'checkbox' || type === 'radio'){
+                 var checkbox_vals = value.split(',');
+                 for (var i = 0; i < checkbox_vals.length; i++) {
+                      if (input.value.indexOf(checkbox_vals[i])>-1) {
+                        input.checked = true;
+                      }
+                 }
+             } else {
+                if(value !== "undefined"){
+                  input.value = value;
+                }
+             }
+          }
+      },
+      /* Maps data attributes to fields on page load */
+      mapField: function(input) {
+
+            var input_id = input.id || false;
+            var input_name = input.name || false;
+
+            /* Loop through all match possiblities */
+            for (i = 0; i < FieldMapArray.length; i++) {
+              //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
+               var found = false;
+               var match = FieldMapArray[i];
+               var lookingFor = utils.trim(match);
+               var nice_name = lookingFor.replace(/ /g,'_');
+
+               this.debug('Names',function(){
+                   console.log("NICE NAME", nice_name);
+                   console.log('looking for match on ' + lookingFor);
+               });
+
+               /* look for name attribute match */
+               if (input_name && input_name.toLowerCase().indexOf(lookingFor)>-1) {
+                  var found = true;
+                  this.debug('FOUND name attribute',function(){
+                      console.warn('FOUND name: ' + lookingFor);
+                  });
+
+               /* look for id match */
+               } else if (input_id && input_id.toLowerCase().indexOf(lookingFor)>-1) {
+                  var found = true;
+
+                  this.debug('FOUND id:',function(){
+                      console.log('FOUND id: ' + lookingFor);
+                  });
+
+               /* Check siblings for label */
+               } else if (label = this.siblingsIsLabel(input)) {
+
+                  //var label = (label.length > 1 ? label[0] : label);
+                  //console.log('label', label);
+                  if (label[0].innerText.toLowerCase().indexOf(lookingFor)>-1) {
+                      var found = true;
+
+                      this.debug('Sibling matches single label',function(){
+                          console.log('FOUND label text: ' + lookingFor);
+                      });
+
+                  }
+                  /* Check closest li for label */
+               } else if (labelText = this.CheckParentForLabel(input)) {
+
+                  this.debug('li labels found in form',function(){
+                    console.log(labelText)
+                  });
+
+                  if (labelText.toLowerCase().indexOf(lookingFor)>-1) {
+                      var found = true;
+                  }
+
+               } else {
+
+                  this.debug('NO MATCH',function(){
+                      console.log('NO Match on ' + lookingFor + " in " + input_name);
+                  });
+
+                  no_match.push(lookingFor);
+
+               }
+
+              /* Map the field */
+              if (found) {
+                this.addDataAttr(input, nice_name);
+                this.removeArrayItem(FieldMapArray, lookingFor);
+                i--; //decrement count
               }
 
             }
-            catch (err){
-              supported = false;
-            }
-        }
-        return supported;
-        /* http://spin.atomicobject.com/2013/01/23/ios-private-browsing-localstorage/
-        var hasStorage;
-        hasStorage = function() {
-          var mod, result;
-          try {
-            mod = new Date;
-            localStorage.setItem(mod, mod.toString());
-            result = localStorage.getItem(mod) === mod.toString();
-            localStorage.removeItem(mod);
-            return result;
-          } catch (_error) {}
-        };
-         */
+
+            return inbound_data;
+
       },
-      /* Add days to datetime */
-      addDays: function(myDate,days) {
-        return new Date(myDate.getTime() + days*24*60*60*1000);
+      /* Get correct input values */
+      getInputValue: function(input) {
+                   var value = false;
+
+                   switch (input.type) {
+                       case 'radio':
+                       case 'checkbox':
+                           if (input.checked) {
+                               value = input.value;
+                               console.log("CHECKBOX VAL", value)
+                           }
+                           break;
+
+                       case 'text':
+                       case 'hidden':
+                       default:
+                           value = input.value;
+                           break;
+
+                   }
+
+                   return value;
       },
-      GetDate: function(){
-        var time_now = new Date(),
-        day = time_now.getDate() + 1;
-        year = time_now.getFullYear(),
-        hour = time_now.getHours(),
-        minutes = time_now.getMinutes(),
-        seconds = time_now.getSeconds(),
-        month = time_now.getMonth() + 1;
-        if (month < 10) { month = '0' + month; }
-        InboundAnalytics.debug('Current Date:',function(){
-            console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
-        });
-        var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
-        return datetime;
+      /* Add data-map-form-field attr to input */
+      addDataAttr: function(formInput, match){
+
+                      var getAllInputs = document.getElementsByName(formInput.name);
+                      for (var i = getAllInputs.length - 1; i >= 0; i--) {
+                          if(!formInput.dataset.mapFormField) {
+                              getAllInputs[i].dataset.mapFormField = match;
+                          }
+                      };
       },
-      /* Set Expiration Date of Session Logging */
-      SetSessionTimeout: function(){
-          var session_check = this.readCookie("lead_session_expire");
-          //console.log(session_check);
-          if(session_check === null){
-            InboundAnalytics.Events.sessionStart(); // trigger 'inbound_analytics_session_start'
+      /* Optimize FieldMapArray array for fewer lookups */
+      removeArrayItem: function(array, item){
+          if (array.indexOf) {
+            index = array.indexOf(item);
           } else {
-            InboundAnalytics.Events.sessionActive(); // trigger 'inbound_analytics_session_active'
-          }
-          var d = new Date();
-          d.setTime(d.getTime() + 30*60*1000);
-
-          this.createCookie("lead_session_expire", true, d, true); // Set cookie on page loads
-          var lead_data_expiration = this.readCookie("lead_data_expiration");
-          if (lead_data_expiration === null){
-            /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
-            var ex = this.addDays(d, 3);
-            this.createCookie("lead_data_expiration", ex, ex, true);
-          }
-
-      },
-      getReferer: function(){
-        //console.log(expire_time);
-        var d = new Date();
-        d.setTime(d.getTime() + 30*60*1000);
-        var referrer_cookie = InboundAnalytics.Utils.readCookie("wp_lead_referral_site");
-        if (typeof (referrer_cookie) === "undefined" || referrer_cookie === null || referrer_cookie === "") {
-          var referrer = document.referrer || "NA";
-          this.createCookie("wp_lead_referral_site", referrer, d, true); // Set cookie on page loads
-        }
-      },
-      CreateUID: function(length) {
-          var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split(''),
-          str = '';
-          if (! length) {
-              length = Math.floor(Math.random() * chars.length);
-          }
-          for (var i = 0; i < length; i++) {
-              str += chars[Math.floor(Math.random() * chars.length)];
-          }
-          return str;
-      },
-      SetUID:  function () {
-       /* Set Lead UID */
-
-       if(this.readCookie("wp_lead_uid") === null) {
-          var wp_lead_uid =  this.CreateUID(35);
-          this.createCookie("wp_lead_uid", wp_lead_uid );
-          InboundAnalytics.debug('Set UID');
-       }
-      },
-      /* Count number of session visits */
-      countProperties: function (obj) {
-          var count = 0;
-          for(var prop in obj) {
-              if(obj.hasOwnProperty(prop))
-                  ++count;
-          }
-          return count;
-      },
-      mergeObjs:  function(obj1,obj2){
-            var obj3 = {};
-            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-            return obj3;
-      },
-      hasClass: function(className, el) {
-          var hasClass = false;
-          if ('classList' in document.documentElement) {
-            var hasClass = el.classList.contains(className);
-          } else {
-            var hasClass = new RegExp('(^|\\s)' + className + '(\\s|$)').test(el.className); /* IE Polyfill */
-          }
-          return hasClass;
-      },
-      trim: function(s) {
-          s = s.replace(/(^\s*)|(\s*$)/gi,"");
-          s = s.replace(/[ ]{2,}/gi," ");
-          s = s.replace(/\n /,"\n"); return s;
-      },
-      doAjax: function(data, responseHandler, method, async){
-      // Set the variables
-      var url = wplft.admin_url || "",
-      method = method || "POST",
-      async = async || true,
-      data = data || null,
-      action = data.action;
-
-      InboundAnalytics.debug('Ajax Processed:',function(){
-           console.log('ran ajax action: ' + action);
-      });
-
-      jQuery.ajax({
-          type: method,
-          url: wplft.admin_url,
-          data: data,
-          success: responseHandler,
-          error: function(MLHttpRequest, textStatus, errorThrown){
-            console.log(MLHttpRequest+' '+errorThrown+' '+textStatus);
-            InboundAnalytics.Events.analyticsError(MLHttpRequest, textStatus, errorThrown);
-          }
-
-        });
-    },
-    makeRequest: function(url) {
-        if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-          httpRequest = new XMLHttpRequest();
-        } else if (window.ActiveXObject) { // IE
-          try {
-            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-          }
-          catch (e) {
-            try {
-              httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            for (index = array.length - 1; index >= 0; --index) {
+              if (array[index] === item) {
+                break;
+              }
             }
-            catch (e) {}
           }
-        }
-
-        if (!httpRequest) {
-          alert('Giving up :( Cannot create an XMLHTTP instance');
-          return false;
-        }
-        httpRequest.onreadystatechange = InboundAnalytics.LeadsAPI.alertContents;
-        httpRequest.open('GET', url);
-        httpRequest.send();
+          if (index >= 0) {
+            array.splice(index, 1);
+          }
+          console.log('removed ' + item + " from array");
+          return;
       },
-    contentLoaded: function(win, fn) {
+      /* Look for siblings that are form labels */
+      siblingsIsLabel: function(input){
+          var siblings = this.getSiblings(input);
+          var labels = [];
+          for (var i = siblings.length - 1; i >= 0; i--) {
+              if(siblings[i].nodeName.toLowerCase() === 'label'){
+                 labels.push(siblings[i]);
+              }
+          };
+          /* if only 1 label */
+          if (labels.length > 0 && labels.length < 2){
+              return labels;
+          }
 
-      var done = false, top = true,
-
-      doc = win.document, root = doc.documentElement,
-
-      add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
-      rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
-      pre = doc.addEventListener ? '' : 'on',
-
-      init = function(e) {
-        if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
-        (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
-        if (!done && (done = true)) fn.call(win, e.type || e);
+         return false;
       },
+      getChildren: function(n, skipMe){
+          var r = [];
+          var elem = null;
+          for ( ; n; n = n.nextSibling )
+             if ( n.nodeType == 1 && n != skipMe)
+                r.push( n );
+          return r;
+      },
+      getSiblings: function (n) {
+          return this.getChildren(n.parentNode.firstChild, n);
+      },
+      /* Check parent elements inside form for labels */
+      CheckParentForLabel: function(element) {
+          if(element.nodeName === 'FORM') { return null; }
+            do {
+                  var labels = element.getElementsByTagName("label");
+                  if (labels.length > 0 && labels.length < 2) {
+                      return element.getElementsByTagName("label")[0].innerText;
+                  }
 
-      poll = function() {
-        try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
-        init('poll');
-      };
+            } while(element = element.parentNode);
 
-      if (doc.readyState == 'complete') fn.call(win, 'lazy');
-      else {
-        if (doc.createEventObject && root.doScroll) {
-          try { top = !win.frameElement; } catch(e) { }
-          if (top) poll();
-        }
-        doc[add](pre + 'DOMContentLoaded', init, false);
-        doc[add](pre + 'readystatechange', init, false);
-        win[add](pre + 'load', init, false);
+            return null;
       }
 
-    },
-    /* Cross-browser event listening  */
-    addListener: function(obj, eventName, listener) {
-      if(obj.addEventListener) {
-        obj.addEventListener(eventName, listener, false);
-      } else if (obj.attachEvent) {
-        obj.attachEvent("on" + eventName, listener);
-      } else {
-        obj['on' + eventName] = listener;
-      }
+  };
+
+  return _inbound;
+
+})(_inbound || {});
+/**
+ * # Analytics Events
+ *
+ * Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ *
+ * [in]: http://www.inboundnow.com/
+ */
+
+// Add object to _inbound
+var _inboundEvents = (function (_inbound) {
+
+
+    _inbound.trigger = function(trigger, data){
+        _inbound.Events[trigger](data);
+    };
+
+    /*!
+     *
+     * Private Function that Fires & Emits Events
+     *
+     * There are three options for firing events and they trigger in this order:
+     *
+     * 1. Vanilla JS dispatch event
+     * 2. `_inbound.add_action('namespace', callback, priority)`
+     * 3. jQuery Trigger `jQuery.trigger('namespace', callback);`
+     *
+     * The Event `data` can be filtered before events are triggered
+     * with filters. Example: filter_ + "namespace"
+     *
+     * ```js
+     * // Filter Form Data before submissionsz
+     * _inbound.add_filter( 'filter_form_before_submission', event_filter_data_example, 10);
+     *
+     * function event_filter_data_example(data) {
+     *     var data = data || {};
+     *     // Do something with data
+     *     return data;
+     * }
+     * ```
+     *
+     * @param  {string} eventName Name of the event
+     * @param  {object} data      Data passed to external functions/triggers
+     * @param  {object} options   Options for configuring events
+     * @return {null}           Nothing returned
+     */
+     function fireEvent(eventName, data, options){
+        var data = data || {};
+        options = options || {};
+        //alert('ran + ' + eventName);
+        //console.log(eventName);
+        //console.log(data);
+        /*! defaults for JS dispatch event */
+        options.bubbles = options.bubbles || true,
+        options.cancelable = options.cancelable || true;
+
+        /*! Customize Data via filter_ + "namespace" */
+        data = _inbound.apply_filters( 'filter_'+ eventName, data);
+
+        var TriggerEvent = new CustomEvent(eventName, {
+            detail: data,
+            bubbles: options.bubbles,
+            cancelable: options.cancelable
+          }
+        );
+
+      // console.log('Action:' + eventName + " ran on ->", data);
+
+       /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
+       window.dispatchEvent(TriggerEvent);
+       /*!  2. Trigger _inbound action  */
+       _inbound.do_action(eventName, data);
+       /*!  3. jQuery trigger   */
+       triggerJQueryEvent(eventName, data);
+
     }
 
-  };
+    function triggerJQueryEvent(eventName, data){
+      if (window.jQuery) {
+          var data = data || {};
+          jQuery(document).trigger(eventName, data);
+      }
+    };
 
-  return InboundAnalytics;
+    var universalGA,
+        classicGA,
+        googleTagManager;
 
-})(InboundAnalytics || {});
-/**
- * Form functions
- * @param  Object InboundAnalytics - Form tracking functionality
- * @return Object - form functions
- */
-var InboundForms = (function (InboundAnalytics) {
+    _inbound.Events =  {
 
-    InboundAnalytics.Forms =  {
-      // Init Form functions
-      init: function() {
-          this.attachFormSubmitEvent();
+      /**
+       * # Event Usage
+       *
+       * Events are triggered throughout the visitors path through the site.
+       * You can hook into these custom actions and filters much like WordPress Core
+       *
+       * See below for examples
+       */
+
+      /**
+       * Adding Custom Actions
+       * ------------------
+       * You can hook into custom events throughout analytics. See the full list of available [events below](#all-events)
+       *
+       * `
+       * _inbound.add_action( 'action_name', callback, priority );
+       * `
+       *
+       * ```js
+       * // example:
+       *
+       * // Add custom function to `page_visit` event
+       * _inbound.add_action( 'page_visit', callback, 10 );
+       *
+       * // add custom callback to trigger when `page_visit` fires
+       * function callback(pageData){
+       *   var pageData =  pageData || {};
+       *   // run callback on 'page_visit' trigger
+       *   alert(pageData.title);
+       * }
+       * ```
+       *
+       * @param  {string} action_name Name of the event trigger
+       * @param  {function} callback  function to trigger when event happens
+       * @param  {int} priority   Order to trigger the event in
+       *
+       */
+
+      /**
+       * Removing Custom Actions
+       * ------------------
+       * You can hook into custom events throughout analytics. See the full list of available [events below](#all-events)
+       *
+       * `
+       * _inbound.remove_action( 'action_name');
+       * `
+       *
+       * ```js
+       * // example:
+       *
+       * _inbound.remove_action( 'page_visit');
+       * // all 'page_visit' actions have been deregistered
+       * ```
+       *
+       * @param  {string} action_name Name of the event trigger
+       *
+       */
+
+      /**
+       * # Event List
+       *
+       * Events are triggered throughout the visitors journey through the site
+       */
+
+      /**
+       * Triggers when analyics has finished loading
+       */
+      analytics_ready: function() {
+          var ops = { 'opt1': true };
+          var data = {'data': 'xyxy'};
+          fireEvent('analytics_ready', data, ops);
       },
-      formLoop: function(){
-          for(var i=0; i<window.document.forms.length; i++){
-            var form = window.document.forms[i];
-            var trackForm = InboundAnalytics.Utils.hasClass("wpl-track-me", form);
-            if (trackForm) {
-              this.attachFormSubmitEvent(form); /* attach form listener */
-
-            }
-          }
+      /**
+       *  Triggers when the browser url params are parsed. You can perform custom actions
+       *  if specific url params exist.
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'url_parameters' event
+       * _inbound.add_action( 'url_parameters', url_parameters_func_example, 10);
+       *
+       * function url_parameters_func_example(urlParams) {
+       *     var urlParams = urlParams || {};
+       *      for( var param in urlParams ) {
+       *      var key = param;
+       *      var value = urlParams[param];
+       *      }
+       *      // All URL Params
+       *      alert(JSON.stringify(urlParams));
+       *
+       *      // Check if URL parameter `utm_source` exists and matches value
+       *      if(urlParams.utm_source === "twitter") {
+       *        alert('This person is from twitter!');
+       *      }
+       * }
+       * ```
+       */
+      url_parameters: function(data){
+          fireEvent('url_parameters', data);
       },
-      formSubmit: function(form) {
-
+      /**
+       *  Triggers when session starts
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_start' event
+       * _inbound.add_action( 'session_start', session_start_func_example, 10);
+       *
+       * function session_start_func_example(data) {
+       *     var data = data || {};
+       *     // session start. Do something for new visitor
+       * }
+       * ```
+       */
+      session_start: function() {
+          console.log('');
+          fireEvent('session_start');
       },
-      mapFormValues: function(form) {
-              var inputByName = {};
-              var params = [];
-              /* test for [] array syntax */
-              var fieldNameExp = /\[([^\[]*)\]/g;
-              for (var i=0; i < form.elements.length; i++) {
-
-                formField = form.elements[i];
-                multiple = false;
-
-                if (formField.name) {
-                    /* test for [] array syntax */
-                    cleanName = formField.name.replace(fieldNameExp, "_$1");
-                    if (!inputByName[cleanName]) { inputByName[cleanName] = []; }
-
-                    switch (formField.nodeName) {
-
-                        case 'INPUT':
-                            value = this.getInputValue(formField);
-                            console.log(value);
-                            if (value === false) { continue; }
-                            break;
-
-                        case 'SELECT':
-                            if (formField.multiple) {
-                                values = [];
-                                multiple = true;
-
-                                for (var j = 0; j < formField.length; j++) {
-                                    if (formField[j].selected) {
-                                        values.push(encodeURIComponent(formField[j].value));
-                                    }
-                                }
-
-                            } else {
-                                value = (formField.value);
-                            }
-                            break;
-
-                        case 'TEXTAREA':
-                            value = formField.value;
-                            break;
-
-                    }
-
-                    if (value) {
-                        inputByName[cleanName].push(multiple ? values.join(',') : encodeURIComponent(value));
-                    }
-
-                }
-
-            }
-            var matchCommon = /name|first name|last name|email|e-mail|phone|website|job title|company|tele|address|comment/;
-            for (var inputName in inputByName) {
-                 if (matchCommon.test(inputName) !== false) {
-                    console.log(inputName + " Matches Regex");
-                    /* run mapping loop only for the matches here */
-                 }
-                 params.push( inputName + '=' + inputByName[inputName].join(',') );
-            }
-            var final_params = params.join('&');
-            console.log(final_params);
+      /**
+       * Triggers when visitor session goes idle for more than 30 minutes.
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_end' event
+       * _inbound.add_action( 'session_end', session_end_func_example, 10);
+       *
+       * function session_end_func_example(data) {
+       *     var data = data || {};
+       *     // Do something when session ends
+       *     alert("Hey! It's been 30 minutes... where did you go?");
+       * }
+       * ```
+       */
+      session_end: function(clockTime) {
+          fireEvent('session_end', clockTime);
+          console.log('Session End');
       },
-      getInputValue = function(input) {
-             var value = false;
-
-             switch (input.type) {
-                 case 'radio':
-                 case 'checkbox':
-                     if (input.checked) {
-                         value = input.value;
-                     }
-                     break;
-
-                 case 'text':
-                 case 'hidden':
-                 default:
-                     value = input.value;
-                     break;
-
-             }
-
-             return value;
-
-     },
-      /*
-      inbound_form_classes: function(forms, functionName, classes) {
-        jQuery.each(forms, function(index, id) {
-          var selector = jQuery.trim(id);
-          for (var this_class in classes) {
-            if (selector.indexOf('#')>-1) {
-              jQuery(selector)[functionName](classes[this_class]);
-              //console.log(selector);
-            } else if (selector.indexOf('.')>-1) {
-              jQuery(selector)[functionName](classes[this_class]);
-            } else {
-              jQuery("#" + selector)[functionName](classes[this_class]);
-            }
-          }
-
-        });
-      }*/
-      /* Add tracking class to forms */
-      attachFormSubmitEvent: function (form) {
-
-            console.log("The Form has the class wpl-track-me", hasClass);
-            InboundAnalytics.Utils.addListener(form, 'submit', InboundAnalytics.LeadsAPI.formSubmit );
-
+      /**
+       *  Triggers if active session is detected
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_active' event
+       * _inbound.add_action( 'session_active', session_active_func_example, 10);
+       *
+       * function session_active_func_example(data) {
+       *     var data = data || {};
+       *     // session active
+       * }
+       * ```
+       */
+      session_active: function(){
+          console.log('session currently active');
+          fireEvent('session_active');
+      },
+      /**
+       * Triggers when visitor session goes idle. Idling occurs after 60 seconds of
+       * inactivity or when the visitor switches browser tabs
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_idle' event
+       * _inbound.add_action( 'session_idle', session_idle_func_example, 10);
+       *
+       * function session_idle_func_example(data) {
+       *     var data = data || {};
+       *     // Do something when session idles
+       *     alert('Here is a special offer for you!');
+       * }
+       * ```
+       */
+      session_idle: function(clockTime){
+          fireEvent('session_idle', clockTime);
+          console.log('Session IDLE');
+      },
+      /**
+       *  Triggers when session is already active and gets resumed
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_resume' event
+       * _inbound.add_action( 'session_resume', session_resume_func_example, 10);
+       *
+       * function session_resume_func_example(data) {
+       *     var data = data || {};
+       *     // Session exists and is being resumed
+       * }
+       * ```
+       */
+      session_resume: function() {
+          fireEvent('session_resume');
+          console.log('Session Active');
+      },
+      /**
+       *  Session emitter. Runs every 10 seconds. This is a useful function for
+       *  pinging third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
+       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
+       *
+       * function session_heartbeat_func_example(data) {
+       *     var data = data || {};
+       *     // Do something with every 10 seconds
+       * }
+       * ```
+       */
+      session_heartbeat: function(clockTime) {
+          console.log(clockTime);
+          console.log(InboundLeadData);
+      },
+      /**
+       * Triggers Every Page View
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'page_visit' event
+       * _inbound.add_action( 'page_visit', page_visit_func_example, 10);
+       *
+       * function session_idle_func_example(pageData) {
+       *     var pageData = pageData || {};
+       *     if( pageData.view_count > 8 ){
+       *       alert('Wow you have been to this page more than 8 times.');
+       *     }
+       * }
+       * ```
+       */
+      page_visit: function(pageData) {
+          fireEvent('page_view', pageData);
+      },
+      /**
+       * Triggers If the visitor has never seen the page before
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'page_first_visit' event
+       * _inbound.add_action( 'page_first_visit', page_first_visit_func_example, 10);
+       *
+       * function page_first_visit_func_example(pageData) {
+       *     var pageData = pageData || {};
+       *     alert('Welcome to this page! Its the first time you have seen it')
+       * }
+       * ```
+       */
+      page_first_visit: function(pageData) {
+          fireEvent('page_first_visit');
+          console.log('First Ever Page View of this Page');
+          console.log(pageData);
+      },
+      /**
+       * Triggers If the visitor has seen the page before
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'page_revisit' event
+       * _inbound.add_action( 'page_revisit', page_revisit_func_example, 10);
+       *
+       * function page_revisit_func_example(pageData) {
+       *     var pageData = pageData || {};
+       *     alert('Welcome back to this page!');
+       *     // Show visitor special content/offer
+       * }
+       * ```
+       */
+      page_revisit: function(pageData) {
+          console.log('Page Revisit viewed ' + pageData + " times");
+          fireEvent('page_revisit', pageData);
+          console.log(pageData);
       },
 
-
-  };
-
-  return InboundAnalytics;
-
-})(InboundAnalytics || {});
-/**
- * Event functions
- * @param  Object InboundAnalytics - Main JS object
- * @return Object - include event triggers
- */
-// https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
-var InboundAnalyticsEvents = (function (InboundAnalytics) {
-
-    InboundAnalytics.Events =  {
-      // Create cookie
-      loadEvents: function() {
-          this.analyticsLoaded();
+      /**
+       *  `tab_hidden` is triggered when the visitor switches browser tabs
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function tab_hidden_function( data ) {
+       *      alert('The Tab is Hidden');
+       * };
+       *
+       *  // Hook the function up the the `tab_hidden` event
+       *  _inbound.add_action( 'tab_hidden', tab_hidden_function, 10 );
+       * ```
+       */
+      tab_hidden: function(data) {
+          console.log('Tab Hidden');
+          fireEvent('tab_hidden');
       },
-      triggerJQueryEvent: function(eventName, data){
-        if (window.jQuery) {
-            var data = data || {};
-            jQuery(document).trigger(eventName, data);
-           /* var something = (function() {
-                var executed = false;
-                return function () {
-                    if (!executed) {
-                        executed = true;
-                        console.log(eventName + " RAN");
+      /**
+       *  `tab_visible` is triggered when the visitor switches back to the sites tab
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function tab_visible_function( data ) {
+       *      alert('Welcome back to this tab!');
+       *      // trigger popup or offer special discount etc.
+       * };
+       *
+       *  // Hook the function up the the `tab_visible` event
+       *  _inbound.add_action( 'tab_visible', tab_visible_function, 10 );
+       * ```
+       */
+      tab_visible: function(data) {
+          console.log('Tab Visible');
+          fireEvent('tab_visible');
+      },
+      /**
+       *  `tab_mouseout` is triggered when the visitor mouses out of the browser window.
+       *  This is especially useful for exit popups
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function tab_mouseout_function( data ) {
+       *      alert("Wait don't Go");
+       *      // trigger popup or offer special discount etc.
+       * };
+       *
+       *  // Hook the function up the the `tab_mouseout` event
+       *  _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
+       * ```
+       */
+      tab_mouseout: function(data){
+          fireEvent('tab_mouseout');
+      },
+      /**
+       *  `form_input_change` is triggered when tracked form inputs change
+       *  You can use this to add additional validation or set conditional triggers
+       *
+       * ```js
+       * // Usage:
+       *
+       * ```
+       */
+      form_input_change: function(inputData){
+          fireEvent('form_input_change', inputData);
+      },
+      /**
+       *  `form_before_submission` is triggered before the form is submitted to the server.
+       *  You can filter the data here or send it to third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function form_before_submission_function( data ) {
+       *      var data = data || {};
+       *      // filter form data
+       * };
+       *
+       *  // Hook the function up the the `form_before_submission` event
+       *  _inbound.add_action( 'form_before_submission', form_before_submission_function, 10 );
+       * ```
+       */
+      form_before_submission: function(formData) {
+          fireEvent('form_before_submission', formData);
+      },
+      /**
+       *  `form_after_submission` is triggered after the form is submitted to the server.
+       *  You can filter the data here or send it to third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function form_after_submission_function( data ) {
+       *      var data = data || {};
+       *      // filter form data
+       * };
+       *
+       *  // Hook the function up the the `form_after_submission` event
+       *  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
+       * ```
+       */
+      form_after_submission: function(formData){
+          fireEvent('form_after_submission', formData);
+      },
+      /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 
-                    }
-                };
-            })();*/
-        }
-      },
-      analyticsLoaded: function() {
-          var eventName = "inbound_analytics_loaded";
-          var loaded = new CustomEvent(eventName);
-          window.dispatchEvent(loaded);
-          this.triggerJQueryEvent(eventName);
-      },
-      analyticsTriggered: function() {
-          var triggered = new CustomEvent("inbound_analytics_triggered");
-          window.dispatchEvent(triggered);
-      },
-      analyticsSaved: function() {
-          var page_view_saved = new CustomEvent("inbound_analytics_saved");
-          window.dispatchEvent(page_view_saved);
-          console.log('Page View Saved');
-      },
       analyticsError: function(MLHttpRequest, textStatus, errorThrown) {
           var error = new CustomEvent("inbound_analytics_error", {
             detail: {
@@ -610,74 +2314,16 @@ var InboundAnalyticsEvents = (function (InboundAnalytics) {
           window.dispatchEvent(error);
           console.log('Page Save Error');
       },
-      pageFirstView: function(page_seen_count) {
-          var page_first_view = new CustomEvent("inbound_analytics_page_first_view", {
-              detail: {
-                count: 1,
-                time: new Date(),
-              },
-              bubbles: true,
-              cancelable: true
-            }
-          );
-          window.dispatchEvent(page_first_view);
-
-          console.log('First Ever Page View of this Page');
-      },
-      pageRevisit: function(page_seen_count) {
-          var eventName = "inbound_analytics_page_revisit";
-          var data = { count: page_seen_count,
-                       time: new Date()
-                     };
-          var page_revisit = new CustomEvent(eventName, {
-              detail: data,
-              bubbles: true,
-              cancelable: true
-            }
-          );
-          window.dispatchEvent(page_revisit);
-          this.triggerJQueryEvent(eventName, data);
-          console.log('Page Revisit');
-      },
-      /* get idle times https://github.com/robflaherty/riveted/blob/master/riveted.js */
-      browserTabHidden: function() {
-        /* http://www.thefutureoftheweb.com/demo/2007-05-16-detect-browser-window-focus/ */
-          var eventName = "inbound_analytics_tab_hidden";
-          var tab_hidden = new CustomEvent(eventName);
-          window.dispatchEvent(tab_hidden);
-          console.log('Tab Hidden');
-          this.triggerJQueryEvent(eventName);
-      },
-      browserTabVisible: function() {
-        var eventName = "inbound_analytics_tab_visible";
-        var tab_visible = new CustomEvent(eventName);
-        window.dispatchEvent(tab_visible);
-        console.log('Tab Visible');
-        this.triggerJQueryEvent(eventName);
-      },
-      /* Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
-      sessionStart: function() {
-          var session_start = new CustomEvent("inbound_analytics_session_start");
-          window.dispatchEvent(session_start);
-          console.log('Session Start');
-      },
-      sessionActive: function() {
-          var session_active = new CustomEvent("inbound_analytics_session_active");
-          window.dispatchEvent(session_active);
-          console.log('Session Active');
-      },
 
   };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
-/* Fork of jquery.total-storage.js */
-var InboundTotalStorage = (function (InboundAnalytics){
+})(_inbound || {});
+/* LocalStorage Component */
+var InboundTotalStorage = (function (_inbound){
 
-  /* Variables I'll need throghout */
-
-  var supported, ls, mod = 'inboundAnalytics';
+  var supported, ls, mod = '_inbound';
   if ('localStorage' in window){
     try {
       ls = (typeof window.localStorage === 'undefined') ? undefined : window.localStorage;
@@ -695,29 +2341,28 @@ var InboundTotalStorage = (function (InboundAnalytics){
   }
 
   /* Make the methods public */
-  InboundAnalytics.totalStorage = function(key, value, options){
-    return InboundAnalytics.totalStorage.impl.init(key, value);
+  _inbound.totalStorage = function(key, value, options){
+    return _inbound.totalStorage.impl.init(key, value);
   };
 
-  InboundAnalytics.totalStorage.setItem = function(key, value){
-    return InboundAnalytics.totalStorage.impl.setItem(key, value);
+  _inbound.totalStorage.setItem = function(key, value){
+    return _inbound.totalStorage.impl.setItem(key, value);
   };
 
-  InboundAnalytics.totalStorage.getItem = function(key){
-    return InboundAnalytics.totalStorage.impl.getItem(key);
+  _inbound.totalStorage.getItem = function(key){
+    return _inbound.totalStorage.impl.getItem(key);
   };
 
-  InboundAnalytics.totalStorage.getAll = function(){
-    return InboundAnalytics.totalStorage.impl.getAll();
+  _inbound.totalStorage.getAll = function(){
+    return _inbound.totalStorage.impl.getAll();
   };
 
-  InboundAnalytics.totalStorage.deleteItem = function(key){
-    return InboundAnalytics.totalStorage.impl.deleteItem(key);
+  _inbound.totalStorage.deleteItem = function(key){
+    return _inbound.totalStorage.impl.deleteItem(key);
   };
 
-  /* Object to hold all methods: public and private */
 
-  InboundAnalytics.totalStorage.impl = {
+  _inbound.totalStorage.impl = {
 
     init: function(key, value){
       if (typeof value != 'undefined') {
@@ -730,7 +2375,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     setItem: function(key, value){
       if (!supported){
         try {
-          InboundAnalytics.Utils.createCookie(key, value);
+          _inbound.Utils.createCookie(key, value);
           return value;
         } catch(e){
           console.log('Local Storage not supported by this browser. Install the cookie plugin on your site to take advantage of the same functionality. You can get it at https://github.com/carhartl/jquery-cookie');
@@ -743,7 +2388,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     getItem: function(key){
       if (!supported){
         try {
-          return this.parseResult(InboundAnalytics.Utils.readCookie(key));
+          return this.parseResult(_inbound.Utils.readCookie(key));
         } catch(e){
           return null;
         }
@@ -754,7 +2399,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
     deleteItem: function(key){
       if (!supported){
         try {
-          InboundAnalytics.Utils.eraseCookie(key, null);
+          _inbound.Utils.eraseCookie(key, null);
           return true;
         } catch(e){
           return false;
@@ -771,7 +2416,7 @@ var InboundTotalStorage = (function (InboundAnalytics){
           for (var i = 0; i<pairs.length; i++){
             var pair = pairs[i].split('=');
             var key = pair[0];
-            items.push({key:key, value:this.parseResult(InboundAnalytics.Utils.readCookie(key))});
+            items.push({key:key, value:this.parseResult(_inbound.Utils.readCookie(key))});
           }
         } catch(e){
           return null;
@@ -807,602 +2452,612 @@ var InboundTotalStorage = (function (InboundAnalytics){
       return ret;
     }
   };
-})(InboundAnalytics || {});
+})(_inbound || {});
 /**
  * Leads API functions
- * @param  Object InboundAnalytics - Main JS object
+ * @param  Object _inbound - Main JS object
  * @return Object - include event triggers
  */
-var InboundAnalyticsLeadsAPI = (function (InboundAnalytics) {
+var _inboundLeadsAPI = (function (_inbound) {
     var httpRequest;
-    InboundAnalytics.LeadsAPI =  {
+    _inbound.LeadsAPI =  {
       init: function() {
 
+          var utils = _inbound.Utils,
+          wp_lead_uid = utils.readCookie("wp_lead_uid"),
+          wp_lead_id = utils.readCookie("wp_lead_id"),
+          expire_check = utils.readCookie("lead_session_expire"); // check for session
+
+          if (!expire_check) {
+             console.log('expired vistor. Run Processes');
+            //var data_to_lookup = global-localized-vars;
+            if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
+                /* Get InboundLeadData */
+                _inbound.LeadsAPI.getAllLeadData();
+                /* Lead list check */
+                _inbound.LeadsAPI.getLeadLists();
+              }
+          }
       },
-      storeLeadData: function(){
-        if(element.addEventListener) {
-            element.addEventListener("submit", function(evt){
-                evt.preventDefault();
-                window.history.back();
-            }, true);
-        } else {
-            element.attachEvent('onsubmit', function(evt){
-                evt.preventDefault();
-                window.history.back();
-            });
-        }
+      setGlobalLeadData: function(data){
+          InboundLeadData = data;
       },
-      inbound_map_fields: function (el, value, Obj) {
-          var formObj = [];
-          var $this = el;
-          var clean_output = value;
-          var label = $this.closest('label').text();
-          var exclude = ['credit-card']; // exlcude values from formObj
-          var inarray = jQuery.inArray(clean_output, exclude);
-          if(inarray == 0){
-            return null;
-          }
-          // Add items to formObj
-          formObj.push({
-              field_label: label,
-              field_name: $this.attr("name"),
-              field_value: $this.attr("value"),
-              field_id: $this.attr("id"),
-              field_class: $this.attr("class"),
-              field_type: $this.attr("type"),
-              match: clean_output,
-              js_selector: $this.attr("data-js-selector")
-          });
-          return formObj;
-        },
-       run_field_map_function: function (el, lookingfor) {
-         var return_form;
-         var formObj = new Array();
-         var $this = el;
-         var body = jQuery("body");
-         var input_id = $this.attr("id") || "NULL";
-         var input_name = $this.attr("name") || "NULL";
-         var this_val = $this.attr("value");
-         var array = lookingfor.split(",");
-         var array_length = array.length - 1;
-
-             // Main Loop
-             for (var i = 0; i < array.length; i++) {
-                 var clean_output = InboundAnalytics.Utils.trim(array[i]);
-                 var nice_name = clean_output.replace(/^\s+|\s+$/g,'');
-                 var nice_name = nice_name.replace(" ",'_');
-                 var in_object_already = nice_name in inbound_data;
-                 //console.log(clean_output);
-
-                 if (input_name.toLowerCase().indexOf(clean_output)>-1) {
-                   /*  Look for attr name match */
-                   var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                   InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
-                   console.log('match name: ' + clean_output);
-                   console.log(nice_name in inbound_data);
-                    if (!in_object_already) {
-                     inbound_data[nice_name] = this_val;
-                    }
-                 } else if (input_id.toLowerCase().indexOf(clean_output)>-1) {
-                  /* look for id match */
-                   var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                   InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
-                   console.log('match id: ' + clean_output);
-
-                    if (!in_object_already) {
-                      inbound_data[nice_name] = this_val;
-                    }
-
-                 } else if ($this.closest('li').children('label').length>0) {
-                  /* Look for label name match */
-                  var closest_label = $this.closest('li').children('label').html() || "NULL";
-                   if (closest_label.toLowerCase().indexOf(clean_output)>-1) {
-
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
-                     console.log($this.context);
-
-                     var exists_in_dom = body.find("[data-inbound-form-map='inbound_map_" + nice_name + "']").length;
-                     console.log(exists_in_dom);
-                     console.log('match li: ' + clean_output);
-
-                     if (!in_object_already) {
-                      inbound_data[nice_name] = this_val;
-                     }
-
-                   }
-                 } else if ($this.closest('div').children('label').length>0) {
-                  /* Look for closest div label name match */
-                  var closest_div = $this.closest('div').children('label').html() || "NULL";
-                   if (closest_div.toLowerCase().indexOf(clean_output)>-1)
-                   {
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
-                     console.log('match div: ' + clean_output);
-                     if (!in_object_already) {
-                     inbound_data[nice_name] = this_val;
-                    }
-                   }
-                 } else if ($this.closest('p').children('label').length>0) {
-                  /* Look for closest p label name match */
-                  var closest_p = $this.closest('p').children('label').html() || "NULL";
-                   if (closest_p.toLowerCase().indexOf(clean_output)>-1)
-                   {
-                     var the_map = InboundAnalytics.LeadsAPI.inbound_map_fields($this, clean_output, formObj);
-                     InboundAnalytics.LeadsAPI.add_inbound_form_class($this, clean_output);
-                     console.log('match p: ' + clean_output);
-                     if (!in_object_already) {
-                     inbound_data[nice_name] = this_val;
-                    }
-                   }
-                 } else {
-                  console.log('Need additional mapping data');
-                 }
-             }
-             return_form = the_map;
-
-         return inbound_data;
-       },
-       add_inbound_form_class: function(el, value) {
-         var value = value.replace(" ", "_");
-         var value = value.replace("-", "_");
-         el.addClass('inbound_map_value');
-         el.attr('data-inbound-form-map', 'inbound_map_' + value);
-       },
-       inbound_form_type: function(this_form) {
-        var inbound_data = inbound_data || {},
-        form_type = 'normal';
-        if ( this_form.is( ".wpl-comment-form" ) ) {
-          inbound_data['form_type'] = 'comment';
-          form_type = 'comment';
-        } else if ( this_form.is( ".wpl-search-box" ) ) {
-          var is_search = true;
-          form_type = 'search';
-          inbound_data['form_type'] = 'search';
-        } else if ( this_form.is( '.wpl-track-me-link' ) ){
-          var have_email = readCookie('wp_lead_email');
-          console.log(have_email);
-          inbound_data['form_type'] = 'link';
-          form_type = 'search';
-        }
-        return form_type;
-       },
-       grab_all_form_input_vals: function(this_form){
-        var post_values = post_values || {},
-        inbound_exclude = inbound_exclude || [],
-        form_inputs = this_form.find('input,textarea,select');
-        inbound_exclude.push('inbound_furl', 'inbound_current_page_url', 'inbound_notify', 'inbound_submitted', 'post_type', 'post_status', 's', 'inbound_form_name', 'inbound_form_id', 'inbound_form_lists');
-        var form_type = InboundAnalytics.LeadsAPI.inbound_form_type(this_form),
-        inbound_data = inbound_data || {},
-        email = inbound_data['email'] || false;
-
-        form_inputs.each(function() {
-          var $input = jQuery(this),
-          input_type = $input.attr('type'),
-          input_val = $input.val();
-          if (input_type === 'checkbox') {
-            input_checked = $input.attr("checked");
-            console.log(input_val);
-            console.log(input_checked);
-            console.log(post_values[this.name]);
-            if (input_checked === "checked"){
-            if (typeof (post_values[this.name]) != "undefined") {
-              post_values[this.name] = post_values[this.name] + "," + input_val;
-              console.log(post_values[this.name]);
-            } else {
-              post_values[this.name] = input_val;
-            }
-
-            }
-          }
-          if (jQuery.inArray(this.name, inbound_exclude) === -1 && input_type != 'checkbox'){
-             post_values[this.name] = input_val;
-          }
-          if (this.value.indexOf('@')>-1&&!email){
-            email = input_val;
-            inbound_data['email'] = email;
-          }
-          if (form_type === 'search') {
-            inbound_data['search_keyword'] = input_val.replace('"', "'");
-          }
-        });
-        var all_form_fields = JSON.stringify(post_values);
-        return all_form_fields;
-       },
-       return_mapped_values: function (this_form) {
-        // Map form fields
-        jQuery(this_form).find('input[type!="hidden"],textarea,select').each(function() {
-          console.log('run');
-          var this_input = jQuery(this);
-          var this_input_val = this_input.val();
-          if (typeof (this_input_val) != "undefined" && this_input_val != null && this_input_val != "") {
-          var inbound_data = InboundAnalytics.LeadsAPI.run_field_map_function( this_input, "name, first name, last name, email, e-mail, phone, website, job title, company, tele, address, comment");
-          }
-          return inbound_data;
-        });
-        return inbound_data;
-       },
-       inbound_form_submit: function(this_form, e) {
-        /* Define Variables */
-        var data = inbound_data || {};
-        // Dynamic JS object for passing custom values. This can be hooked into by third parties by using the below syntax.
-        var pageviewObj = jQuery.totalStorage('page_views');
-        data['page_view_count'] = InboundAnalytics.Utils.countProperties(pageviewObj);
-        data['leads_list'] = jQuery(this_form).find('#inbound_form_lists').val();
-        data['source'] = jQuery.cookie("wp_lead_referral_site") || "NA";
-        data['page_id'] = inbound_ajax.post_id;
-        data['page_views'] = JSON.stringify(pageviewObj);
-
-        // Map form fields
-        var returned_form_data = InboundAnalytics.LeadsAPI.return_mapped_values(this_form); //console.log(returned_form_data);
-        var data = InboundAnalytics.Utils.mergeObjs(data,returned_form_data); //console.log(data);
-        var this_form = jQuery(this_form);
-        // Set variables after mapping
-        data['email'] = (!data['email']) ? this_form.find('.inbound-email').val() : data['email'];
-        data['form_name'] = this_form.find('.inbound_form_name').val() || "Not Found";
-        data['form_id'] = this_form.find('.inbound_form_id').val() || "Not Found";
-        data['first_name'] = (!data['first_name']) ? data['name'] : data['first_name'];
-        data['last_name'] = data['last_name'] || '';
-        data['phone'] = data['phone'] || '';
-        data['company'] = data['company'] || '';
-        data['address'] = data['address'] || '';
-
-        // Fallbacks for values
-        data['name'] = (data['first_name'] && data['last_name']) ? data['first_name'] + " " + data['last_name'] : data['name'];
-
-        if (!data['last_name'] && data['first_name']) {
-          var parts = data['first_name'].split(" ");
-          data['first_name'] = parts[0];
-          data['last_name'] = parts[1];
-        }
-
-        /* Store form fields & exclude field values */
-        var all_form_fields = InboundAnalytics.LeadsAPI.grab_all_form_input_vals(this_form);
-        /* end Store form fields & exclude field values */
-
-        if(data['email']){
-           InboundAnalytics.Utils.createCookie("wp_lead_email", data['email'], 365); /* set email cookie */
-        }
-
-        //var variation = (typeof (landing_path_info) != "undefined") ? landing_path_info.variation : false;
-
-        if (typeof (landing_path_info) != "undefined") {
-          var variation = landing_path_info.variation;
-        } else if (typeof (cta_path_info) != "undefined") {
-          var variation = cta_path_info.variation;
-        } else {
-          var variation = 0;
-        }
-
-        data['variation'] = variation;
-        data['post_type'] = inbound_ajax.post_type;
-        data['wp_lead_uid'] = jQuery.cookie("wp_lead_uid") || null;
-        data['ip_address'] = inbound_ajax.ip_address;
-        data['search_data'] = JSON.stringify(jQuery.totalStorage('inbound_search')) || {};
-
-        var lp_check = (inbound_ajax.post_type === 'landing-page') ? 'Landing Page' : "";
-        var cta_check = (inbound_ajax.post_type === 'wp-call-to-action') ? 'Call to Action' : "";
-        var page_type = (!cta_check && !lp_check) ? inbound_ajax.post_type : lp_check + cta_check;
-
-        // jsonify data
-        var mapped_form_data = JSON.stringify(data);
-
-        var return_data = {};
-        var return_data = {
-            "action": 'inbound_store_lead',
-            "emailTo": data['email'],
-            "first_name": data['first_name'],
-            "last_name": data['last_name'],
-            "phone": data['phone'],
-            "address": data['address'],
-            "company_name": data['company'],
-            "page_views": data['page_views'],
-            "form_input_values": all_form_fields,
-            "Mapped_Data": mapped_form_data,
-            "Search_Data": data['search_data']
-        }
-        return return_data;
-      },
-      formSubmit: function (e){
-        /*if(!confirm('Are you sure?')) {
-          e.returnValue = false;
-          if(e.preventDefault) e.preventDefault();
-          return false;
-        }
-        return true;*/
-        /*var inbound_data = inbound_data || {},
-        this_form = e.target,
-        event_type = e.type,
-        is_search = false,
-        form_type = 'normal';*/
-
-        e.preventDefault(); /* Halt form processing */
-        console.log("This works");
-        var data = InboundAnalytics.LeadsAPI.inbound_form_submit(e.target, e); // big function for processing
-        console.log(data);
-        alert('Working');
-        //document.getElementById("ajaxButton").onclick = function() { makeRequest('test.html'); };
-
-        /* Final Ajax Call on Submit */
-        InboundAnalytics.LeadsAPI.makeRequest('test.html');
-      },
-       alertContents: function() {
-         if (httpRequest.readyState === 4) {
-           if (httpRequest.status === 200) {
-             alert(httpRequest.responseText);
-           } else if(xmlhttp.status == 400) {
-             alert('There was an error 400');
-           } else {
-             alert('There was a problem with the request.');
-           }
-         }
-       },
       getAllLeadData: function(expire_check) {
-          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id"),
-          old_data = jQuery.totalStorage('inbound_lead_data'),
+          var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
+          leadData = _inbound.totalStorage('inbound_lead_data'),
+          leadDataExpire = _inbound.Utils.readCookie("lead_data_expire");
           data = {
             action: 'inbound_get_all_lead_data',
             wp_lead_id: wp_lead_id,
           },
           success = function(returnData){
-                    var obj = JSON.parse(returnData);
-                    console.log('Got all the lead data check ');
-                    setGlobalLeadVar(obj);
-                    jQuery.totalStorage('inbound_lead_data', obj); // store lead data
+                    var leadData = JSON.parse(returnData);
+                    _inbound.LeadsAPI.setGlobalLeadData(leadData);
+                    _inbound.totalStorage('inbound_lead_data', leadData); // store lead data
+
+                    /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
+                    var d = new Date();
+                    d.setTime(d.getTime() + 30 * 60 * 1000);
+                    var expire = _inbound.Utils.addDays(d, 3);
+                    _inbound.Utils.createCookie("lead_data_expire", true, expire);
+
           };
 
-          if(!old_data) {
-            console.log("No old data");
-          }
+          if(!leadData) {
+              // Get New Lead Data from DB
+              _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
 
-          if (expire_check === 'true'){
-            console.log("Session has not expired");
-          }
-
-          if(!old_data && expire_check === null) {
-              InboundAnalytics.debug('Go to Database',function(){
-                   console.log(expire_check);
-                   console.log(old_data);
-              });
-              InboundAnalytics.Utils.doAjax(data, success);
           } else {
-              setGlobalLeadVar(old_data); // set global lead var with localstorage data
-              var lead_data_expiration = InboundAnalytics.Utils.readCookie("lead_data_expiration");
-              if (lead_data_expiration === null) {
-                InboundAnalytics.Utils.doAjax(data, success);
+              // set global lead var with localstorage data
+              _inbound.LeadsAPI.setGlobalLeadData(leadData);
+              console.log('Set Global Lead Data from Localstorage');
+              if (!leadDataExpire) {
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
                 console.log('localized data old. Pull new from DB');
               }
           }
 
       },
       getLeadLists: function() {
-          var wp_lead_id = InboundAnalytics.Utils.readCookie("wp_lead_id");
+          var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id");
           var data = {
                   action: 'wpl_check_lists',
                   wp_lead_id: wp_lead_id,
           };
           var success = function(user_id){
-                    jQuery.cookie("lead_session_list_check", true, { path: '/', expires: 1 });
+                    _inbound.Utils.createCookie("lead_session_list_check", true, { path: '/', expires: 1 });
                     console.log("Lists checked");
           };
-          InboundAnalytics.Utils.doAjax(data, success);
+          //_inbound.Utils.doAjax(data, success);
+          _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
       }
     };
 
-  return InboundAnalytics;
+  return _inbound;
 
-})(InboundAnalytics || {});
-var InboundAnalyticsPageTracking = (function (InboundAnalytics) {
+})(_inbound || {});
+/**
+ * # Page View Tracking
+ *
+ * Page view tracking
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
+ */
+/* Launches view tracking */
+var _inboundPageTracking = (function(_inbound) {
 
-    InboundAnalytics.PageTracking = {
+    var started = false,
+      stopped = false,
+      turnedOff = false,
+      clockTime = parseInt(_inbound.Utils.readCookie("lead_session"), 10) || 0,
+      inactiveClockTime = 0,
+      startTime = new Date(),
+      clockTimer = null,
+      inactiveClockTimer = null,
+      idleTimer = null,
+      reportInterval,
+      idleTimeout,
+      utils = _inbound.Utils,
+      Pages = _inbound.totalStorage('page_views') || {},
+      timeNow = _inbound.Utils.GetDate(),
+      id = inbound_settings.post_id || 0,
+      analyticsTimeout = _inbound.Settings.timeout || 30000;
 
-    getPageViews: function () {
-        var local_store = InboundAnalytics.Utils.checkLocalStorage();
-        if(local_store){
-          var page_views = localStorage.getItem("page_views"),
-          local_object = JSON.parse(page_views);
-          if (typeof local_object =='object' && local_object) {
-            this.StorePageView();
-          }
-          return local_object;
-        }
-    },
-    StorePageView: function() {
-          var timeout = this.CheckTimeOut();
-          var pageviewObj = jQuery.totalStorage('page_views');
-          if(pageviewObj === null) {
-            pageviewObj = {};
-          }
-          var current_page_id = wplft.post_id;
-          var datetime = InboundAnalytics.Utils.GetDate();
+    _inbound.PageTracking = {
 
-          if (timeout) {
-              // If pageviewObj exists, do this
-              var page_seen = pageviewObj[current_page_id];
+        init: function(options) {
 
-              if(typeof(page_seen) != "undefined" && page_seen !== null) {
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page Revisit Trigger */
-                  var page_seen_count = pageviewObj[current_page_id].length;
-                  InboundAnalytics.Events.pageRevisit(page_seen_count);
+          this.CheckTimeOut();
+          // Set up options and defaults
+          options = options || {};
+          reportInterval = parseInt(options.reportInterval, 10) || 10;
+          idleTimeout = parseInt(options.idleTimeout, 10) || 10;
+          idleTimeout = 10;
+          // Basic activity event listeners
+          utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.pingSession, 1000));
+          utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.pingSession, 1000));
+          utils.addListener(window, 'mousemove', utils.throttle(_inbound.PageTracking.pingSession, 1000));
+          //utils.addListener(window, 'scroll',  utils.throttle(_inbound.PageTracking.pingSession, 1000));
 
-              } else {
-                  pageviewObj[current_page_id] = [];
-                  pageviewObj[current_page_id].push(datetime);
-                  /* Page First Seen Trigger */
-                  var page_seen_count = 1;
-                  InboundAnalytics.Events.pageFirstView(page_seen_count);
+          // Page visibility listeners
+          _inbound.PageTracking.checkVisibility();
+
+          /* Start Session on page load */
+          //this.startSession();
+
+        },
+
+        setIdle: function (reason) {
+          var reason = reason || "No Movement";
+          console.log('Activity Timeout due to ' + reason);
+          clearTimeout(_inbound.PageTracking.idleTimer);
+          _inbound.PageTracking.stopClock();
+          _inbound.trigger('session_idle');
+        },
+
+        checkVisibility: function() {
+             var hidden, visibilityState, visibilityChange;
+
+              if (typeof document.hidden !== "undefined") {
+                hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+              } else if (typeof document.mozHidden !== "undefined") {
+                hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+              } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+              } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
               }
 
-              jQuery.totalStorage('page_views', pageviewObj);
+              var document_hidden = document[hidden];
+
+              _inbound.Utils.addListener(document, visibilityChange, function(e) {
+                  /*! Listen for visibility changes */
+                  if(document_hidden != document[hidden]) {
+                    if(document[hidden]) {
+                      // Document hidden
+                      _inbound.trigger('tab_hidden');
+                      _inbound.PageTracking.setIdle('browser tab switch');
+                    } else {
+                      // Document shown
+                      _inbound.trigger('tab_visible');
+                      _inbound.PageTracking.pingSession();
+                    }
+
+                    document_hidden = document[hidden];
+                  }
+              });
+        },
+        clock: function() {
+          clockTime += 1;
+          //console.log('active time', clockTime);
+
+          if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+
+            var d = new Date();
+            d.setTime(d.getTime() + 30 * 60 * 1000);
+            utils.createCookie("lead_session", clockTime, d); // Set cookie on page load
+            //var session = utils.readCookie("lead_session");
+            //console.log("SESSION SEC COUNT = " + session);
+
+            // sendEvent(clockTime);
+            /*! every 10 seconds run this */
+            console.log('Session Heartbeat every ' + reportInterval + ' secs');
+            _inbound.trigger('session_heartbeat', clockTime);
 
           }
-    },
-    CheckTimeOut: function() {
-        var PageViews = jQuery.totalStorage('page_views');
-        if(PageViews === null) {
-        var PageViews = {};
-        }
-        var page_id = wplft.post_id,
-        pageviewTimeout = true, /* Default */
-        page_seen = PageViews[page_id];
-        if(typeof(page_seen) != "undefined" && page_seen !== null) {
 
-            var time_now = InboundAnalytics.Utils.GetDate(),
-            vc = PageViews[page_id].length - 1,
-            last_view = PageViews[page_id][vc],
-            last_view_ms = new Date(last_view).getTime(),
-            time_now_ms = new Date(time_now).getTime(),
-            timeout_ms = last_view_ms + 30*1000,
-            time_check = Math.abs(last_view_ms - time_now_ms),
-            wait_time = 30000;
-
-            InboundAnalytics.debug('Timeout Checks =',function(){
-                 console.log('Current Time is: ' + time_now);
-                 console.log('Last view is: ' + last_view);
-                 console.log("Last view milliseconds " + last_view_ms);
-                 console.log("time now milliseconds " + time_now_ms);
-                 console.log("Wait Check: " + wait_time);
-                 console.log("TIME CHECK: " + time_check);
-            });
-
-            //var wait_time = Math.abs(last_view_ms - timeout_ms) // output timeout time 30sec;
-
-            if (time_check < wait_time){
-              time_left =  Math.abs((wait_time - time_check)) * .001;
-              pageviewTimeout = false;
-              var status = '30 sec timeout not done: ' + time_left + " seconds left";
-            } else {
-              var status = 'Timeout Happened. Page view fired';
-              this.firePageView();
-              pageviewTimeout = true;
-              InboundAnalytics.Events.analyticsTriggered();
+        },
+        inactiveClock: function(){
+            inactiveClockTime += 1;
+            console.log('inactive clock',inactiveClockTime);
+            /* Session timeout after 30min */
+            if (inactiveClockTime > 900) {
+              //alert('10 sec timeout')
+              // sendEvent(clockTime);
+              /*! every 10 seconds run this */
+              _inbound.trigger('session_end', InboundLeadData);
+              _inbound.Utils.eraseCookie("lead_session");
+              /* todo remove session Cookie */
+              inactiveClockTime = 0;
+              clearTimeout(inactiveClockTimer);
             }
 
-            //InboundAnalytics.debug('',function(){
-                 console.log(status);
-            //});
-       } else {
-          /* Page never seen before */
-          this.firePageView();
-       }
 
-       return pageviewTimeout;
+        },
+        stopClock: function() {
+          stopped = true;
+          clearTimeout(clockTimer);
+          clearTimeout(inactiveClockTimer);
+          inactiveClockTimer = setInterval(_inbound.PageTracking.inactiveClock, 1000);
+        },
 
-    },
-    firePageView: function() {
-      var lead_id = InboundAnalytics.Utils.readCookie('wp_lead_id'),
-      lead_uid = InboundAnalytics.Utils.readCookie('wp_lead_uid');
+        restartClock: function() {
+          stopped = false;
+          console.log('Activity resumed');
+          _inbound.trigger('session_resume');
+          /* todo add session_resume */
+          clearTimeout(clockTimer);
+          inactiveClockTime = 0;
+          clearTimeout(inactiveClockTimer);
+          clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+        },
 
-      if (typeof (lead_id) != "undefined" && lead_id != null && lead_id != "") {
+        turnOff: function() {
+          _inbound.PageTracking.setIdle();
+          turnedOff = true;
+        },
 
-        InboundAnalytics.debug('Run page view ajax');
+        turnOn: function () {
+          turnedOff = false;
+        },
+        /* This start only runs once */
+        startSession: function() {
+          /* todo add session Cookie */
+          // Calculate seconds from start to first interaction
+          var currentTime = new Date();
+          var diff = currentTime - startTime;
 
-        var data = {
-                action: 'wpl_track_user',
-                wp_lead_uid: lead_uid,
-                wp_lead_id: lead_id,
-                page_id: wplft.post_id,
-                current_url: window.location.href,
-                json: '0'
-              };
-        var firePageCallback = function(user_id){
-                InboundAnalytics.Events.analyticsSaved();
-        };
-        InboundAnalytics.Utils.doAjax(data, firePageCallback);
-      }
-    },
-    tabSwitch: function() {
-        /* test out simplier script
-        function onBlur() {
-          document.body.className = 'blurred';
-        };
-        function onFocus(){
-          document.body.className = 'focused';
-        };
+          // Set global
+          started = true;
 
-        if (false) { // check for Internet Explorer
-          document.onfocusin = onFocus;
-          document.onfocusout = onBlur;
-        } else {
-          window.onfocus = onFocus;
-          window.onblur = onBlur;
+          // Send User Timing Event
+          /* Todo session start here */
+
+          // Start clock
+          clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+          //utils.eraseCookie("lead_session");
+          var session = utils.readCookie("lead_session");
+
+          if (!session) {
+              _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+              var d = new Date();
+              d.setTime(d.getTime() + 30 * 60 * 1000);
+              _inbound.Utils.createCookie("lead_session", 1, d); // Set cookie on page load
+          } else {
+              _inbound.trigger('session_active');
+              console.log("count of secs " + session);
+              //_inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
+          }
+
+
+        },
+        resetInactiveFunc: function(){
+            inactiveClockTime = 0;
+            clearTimeout(inactiveClockTimer);
+        },
+        /* Ping Session to keep active */
+        pingSession: function (e) {
+
+
+          if (turnedOff) {
+            return;
+          }
+
+          if (!started) {
+            _inbound.PageTracking.startSession();
+          }
+
+          if (stopped) {
+            _inbound.PageTracking.restartClock();
+          }
+
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(_inbound.PageTracking.setIdle, idleTimeout * 1000 + 100);
+
+          if (typeof (e) != "undefined") {
+              if( e.type === "mousemove") {
+                  _inbound.PageTracking.mouseEvents(e);
+              }
+          }
+
+        },
+        mouseEvents: function(e){
+
+            if(e.pageY <= 5) {
+                _inbound.trigger('tab_mouseout');
+            }
+
+        },
+        /**
+         * Returns the pages viewed by the site visitor
+         *
+         * ```js
+         *  var pageViews = _inbound.PageTracking.getPageViews();
+         *  // returns page view object
+         * ```
+         *
+         * @return {object} page view object with page ID as key and timestamp
+         */
+        getPageViews: function() {
+            var local_store = _inbound.Utils.checkLocalStorage();
+            if (local_store) {
+                var page_views = localStorage.getItem("page_views"),
+                    local_object = JSON.parse(page_views);
+                if (typeof local_object == 'object' && local_object) {
+                    //this.triggerPageView();
+                }
+                return local_object;
+            }
+        },
+        isRevisit: function(Pages){
+            var revisitCheck = false;
+            var Pages = Pages || {};
+            var pageSeen = Pages[inbound_settings.post_id];
+            if (typeof(pageSeen) != "undefined" && pageSeen !== null) {
+                revisitCheck = true;
+            }
+            return revisitCheck;
+        },
+        triggerPageView: function(pageRevisit) {
+
+            var pageData = {
+              title: document.title,
+              url: document.location.href,
+              path: document.location.pathname,
+              count: 1 // default
+            };
+
+            if (pageRevisit) {
+                /* Page Revisit Trigger */
+                Pages[id].push(timeNow);
+                pageData.count = Pages[id].length;
+                _inbound.trigger('page_revisit', pageData);
+                alert('page revist')
+
+            } else {
+                /* Page First Seen Trigger */
+                Pages[id] = [];
+                Pages[id].push(timeNow);
+                _inbound.trigger('page_first_visit', pageData);
+            }
+
+            _inbound.trigger('page_visit', pageData);
+
+            _inbound.totalStorage('page_views', Pages);
+
+            this.storePageView();
+
+        },
+        CheckTimeOut: function() {
+            var pageRevisit = this.isRevisit(Pages),
+                status,
+                timeout;
+
+                /* Default */
+                if ( pageRevisit ) {
+                    var prev = Pages[id].length - 1,
+                        lastView = Pages[id][prev],
+                        timeDiff = Math.abs(new Date(lastView).getTime() - new Date(timeNow).getTime());
+
+                    timeout = timeDiff > analyticsTimeout;
+
+                    if (timeout) {
+                        status = 'Timeout Happened. Page view fired';
+                        this.triggerPageView(pageRevisit);
+                    } else {
+                        time_left = Math.abs((analyticsTimeout - timeDiff)) * 0.001;
+                        status = analyticsTimeout / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
+                    }
+
+                } else {
+                    /*! Page never seen before save view */
+                    this.triggerPageView(pageRevisit);
+                }
+
+                console.log(status);
+        },
+        storePageView: function() {
+            var leadID = _inbound.Utils.readCookie('wp_lead_id'),
+                lead_uid = _inbound.Utils.readCookie('wp_lead_uid');
+
+            if (leadID) {
+
+                var data = {
+                    action: 'wpl_track_user',
+                    wp_lead_uid: lead_uid,
+                    wp_lead_id: leadID,
+                    page_id: inbound_settings.post_id,
+                    current_url: window.location.href,
+                    json: '0'
+                };
+                var firePageCallback = function(leadID) {
+                    //_inbound.Events.page_view_saved(leadID);
+                };
+                //_inbound.Utils.doAjax(data, firePageCallback);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+            }
+        }
+        /*! GA functions
+        function log_event(category, action, label) {
+          _gaq.push(['_trackEvent', category, action, label]);
+        }
+
+        function log_click(category, link) {
+          log_event(category, 'Click', $(link).text());
         }
         */
+    };
 
-       var hidden, visibilityState, visibilityChange;
+    return _inbound;
 
-        if (typeof document.hidden !== "undefined") {
-          hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
-        } else if (typeof document.mozHidden !== "undefined") {
-          hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
-        } else if (typeof document.msHidden !== "undefined") {
-          hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
-        } else if (typeof document.webkitHidden !== "undefined") {
-          hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
-        } // if
-
-        var document_hidden = document[hidden];
-
-        document.addEventListener(visibilityChange, function() {
-          if(document_hidden != document[hidden]) {
-            if(document[hidden]) {
-              // Document hidden
-              console.log('hidden');
-              InboundAnalytics.Events.browserTabHidden();
-            } else {
-              // Document shown
-              console.log('shown');
-              InboundAnalytics.Events.browserTabVisible();
-            } // if
-
-            document_hidden = document[hidden];
-          } // if
-        });
-    }
-  }
-
-    return InboundAnalytics;
-
-})(InboundAnalytics || {});
+})(_inbound || {});
 /**
- * Init Inbound Analytics
- * - initializes analytics
+ * # Start
+ *
+ * Runs init functions
+ *
+ * @author David Wells <david@inboundnow.com>
+ * @version 0.0.1
  */
 
- var InboundLeadData = jQuery.totalStorage('inbound_lead_data') || null;
- function setGlobalLeadVar(retString){
-     InboundLeadData = retString;
+
+/* Initialize _inbound */
+ _inbound.init();
+
+/* Set Global Lead Data */
+InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
+
+
+
+/*
+URL param action
+ */
+// Add to page
+_inbound.add_action( 'url_parameters', URL_Param_Function, 10 );
+// callback function
+function URL_Param_Function(urlParams){
+
+	//urlParams = _inbound.apply_filters( 'urlParamFilter', urlParams);
+
+	for( var param in urlParams ) {
+		var key = param;
+		var value = urlParams[param];
+	}
+
+	//alert(JSON.stringify(urlParams));
+
+	/* Check if URL parameter exists and matches value */
+	if(urlParams.test === "true") {
+		alert('url param true is true');
+	}
+}
+
+/* Applying filters to your actions */
+_inbound.add_filter( 'filter_url_parameters', URL_Param_Filter, 10 );
+function URL_Param_Filter(urlParams) {
+
+	var params = urlParams || {};
+	/* check for item in object */
+	if(params.utm_source !== "undefined"){
+		//alert('its here');
+	}
+	/* delete item from object */
+	delete params.utm_source;
+
+	return params;
+
+}
+
+/* Applying filters to your actions */
+_inbound.add_filter( 'filter_inbound_analytics_loaded', event_filter_data_example, 10);
+function event_filter_data_example(data) {
+
+	var data = data || {};
+
+	/* Add property to data */
+	data.add_this = 'additional data';
+
+	/* check for item in object */
+	if(data.opt1 === true){
+		alert('options.opt1 = true');
+	}
+
+	/* Add or modifiy option to event */
+	data.new_options = 'new option';
+
+	/* delete item from data */
+	delete data.utm_source;
+
+	return data;
+
+}
+
+_inbound.add_action( 'tab_hidden', Tab_Hidden_Function, 10 );
+function Tab_Hidden_Function(data){
+	//alert('NOPE! LOOK AT ME!!!!');
+}
+
+_inbound.add_action( 'tab_visible', tab_visible_function, 9 );
+function tab_visible_function(data){
+	//alert('Welcome back to the tab');
+}
+
+_inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
+function tab_mouseout_function(data){
+	alert('You moused out of the tab');
+}
+
+_inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
+function Tab_vis_Function(data){
+	//alert('Welcome back bro 2');
+}
+
+_inbound.add_action( 'page_revisit', page_revisit_Function, 10 );
+function page_revisit_Function(data){
+	alert('Welcome page_revisit');
+}
+
+window.addEventListener("page_revisit", page_seen_function, false);
+function page_seen_function(e){
+    var view_count = e.detail.count;
+    console.log("This page has been seen " + e.detail.count + " times");
+    if(view_count > 10){
+      console.log("Page has been viewed more than 10 times");
+    }
+}
+
+_inbound.add_action( 'session_start', session_start_func, 10 );
+function session_start_func(data){
+	//alert('Session starting Now');
+}
+
+_inbound.add_action( 'session_resume', session_resume_func, 10 );
+function session_resume_func(data){
+	//alert('Session Resume');
+}
+
+
+
+_inbound.add_action( 'session_init', session_end_func, 10 );
+function session_end_func(data){
+	//alert('Session session_end');
+}
+
+
+_inbound.add_action( 'session_end', session_end_func, 10 );
+function session_end_func(data){
+	//alert('Session session_end');
+}
+
+_inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
+function analytics_ready_func(data){
+	//alert('analytics_ready');
+}
+
+_inbound.add_action( 'form_input_change', form_input_change_func, 10 );
+function form_input_change_func(inputData){
+	var inputData = inputData || {};
+	console.log(inputData); // View input data object
+	console.log(inputData.node + '[name="'+inputData.name+'"]');
+	jQuery(inputData.node + '[name="'+inputData.name+'"]')
+	.animate({
+	    opacity: 0.50,
+	    left: "+=50",
+	  }, 1000, function() {
+	    jQuery(this).css('color', 'green');
+	});
+}
+
+/* Jquery Examples */
+
+ _inbound.add_action( 'form_before_submission', alert_form_data, 10 );
+ function alert_form_data( data ){
+ 		alert(JSON.stringify(data));
+ }
+ //_inbound.remove_action( 'inbound_form_form_before_submission');
+/* raw_js_trigger event trigger */
+ window.addEventListener("form_before_submission", raw_js_trigger, false);
+ function raw_js_trigger(e){
+     var data = e.detail;
+     alert('Pure Javascript form_before_submission action fire');
+     //alert(JSON.stringify(data));
  }
 
- InboundAnalytics.init(); // run analytics
+if (window.jQuery) {
+  jQuery(document).on('form_before_submission', function (event, data) {
 
- /* run on ready */
- jQuery(document).ready(function($) {
-   //record non conversion status
-   var in_u = InboundAnalytics.Utils,
-   wp_lead_uid = in_u.readCookie("wp_lead_uid"),
-   wp_lead_id = in_u.readCookie("wp_lead_id"),
-   expire_check = in_u.readCookie("lead_session_expire"); // check for session
+    	alert('Run jQuery form_before_submission trigger');
 
-   if (expire_check === null) {
-      console.log('expired vistor. Run Processes');
-     //var data_to_lookup = global-localized-vars;
-     if (typeof (wp_lead_id) != "undefined" && wp_lead_id != null && wp_lead_id != "") {
-         /* Get InboundLeadData */
-         InboundAnalytics.LeadsAPI.getAllLeadData(expire_check);
-         /* Lead list check */
-         InboundAnalytics.LeadsAPI.getLeadLists();
-       }
-   }
-
- //window.addEventListener('load',function(){
- //    InboundAnalytics.LeadsAPI.attachSubmitEvent(window,InboundAnalytics.LeadsAPI.formSubmit);
- //}, false);
-
- in_u.contentLoaded(window, InboundAnalytics.LeadsAPI.attachFormSubmitEvent);
-
- /* Set Session Timeout */
- in_u.SetSessionTimeout();
-
- });
+  });
+}

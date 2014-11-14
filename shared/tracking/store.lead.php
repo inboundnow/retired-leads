@@ -77,7 +77,7 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
 /**
  *	This method needs to be rebuilt
  */
-function inbound_store_lead( $args = array( ) ) {
+function inbound_store_lead( $args = array( ) , $return = false ) {
 	global $user_ID, $wpdb;
 	
 	if (!is_array($args)) {
@@ -361,7 +361,7 @@ function inbound_store_lead( $args = array( ) ) {
 		do_action('wpl_store_lead_post', $lead_data );
 		do_action('lp_store_lead_post', $lead_data );
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && !$return ) {
 
 			echo $lead_id;
 			die();
@@ -436,7 +436,7 @@ function inbound_update_common_meta($lead_data)
  */
 function inbound_update_geolocation_data( $lead_data ) {
 
-	$ip_addresses = get_post_meta( $post->ID , 'wpleads_ip_address', true );
+	$ip_addresses = get_post_meta( $lead_data['lead_id'] , 'wpleads_ip_address', true );
 	$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
 	
 	if (!$ip_addresses) {
@@ -556,11 +556,11 @@ function inbound_load_tracking_cookie( $user_login, $user) {
 			
 			$uid = get_post_meta( $results->post->ID , 'wp_leads_uid' , true );
 			
-			if (!$uid) {
-				return;
-			}
-			
-			setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
+			if ($uid) {
+				setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
+			}			
+		
+			setcookie( 'wp_lead_id' , $results->post->ID , time() + (20 * 365 * 24 * 60 * 60),'/');
 			return;
 		}
 	}
@@ -572,8 +572,8 @@ add_action('wp_login', 'inbound_load_tracking_cookie', 10, 2);
 *  @returns STRING ip address
 */
 function inbound_get_ip_address() {
-	if($_SERVER["HTTP_X_FORWARDED_FOR"]) {
-		if($_SERVER["HTTP_CLIENT_IP"]) {
+	if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+		if(isset($_SERVER["HTTP_CLIENT_IP"])) {
 			$proxy = $_SERVER["HTTP_CLIENT_IP"];
 		} else {
 			$proxy = $_SERVER["REMOTE_ADDR"];
@@ -581,7 +581,7 @@ function inbound_get_ip_address() {
 
 		$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 	} else {
-		if($_SERVER["HTTP_CLIENT_IP"]) {
+		if(isset($_SERVER["HTTP_CLIENT_IP"])) {
 			$ip = $_SERVER["HTTP_CLIENT_IP"];
 		} else {
 			$ip = $_SERVER["REMOTE_ADDR"];
