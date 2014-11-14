@@ -38,21 +38,23 @@ var _inbound = (function (options) {
      init: function () {
          _inbound.Utils.init();
          _inbound.PageTracking.init();
-         _inbound.Events.loadEvents(settings);
      },
      DomLoaded: function(){
         /* run form mapping */
         _inbound.Forms.init();
         /* set URL params */
         _inbound.Utils.setUrlParams();
-
-        _inbound.Events.loadOnReady();
+        _inbound.LeadsAPI.init();
         /* run form mapping for dynamically generated forms */
         setTimeout(function() {
              _inbound.Forms.init();
          }, 2000);
-     },
+        // might need this here:
+        _inbound.PageTracking.startSession();
 
+        _inbound.trigger('analytics_ready');
+
+     },
      /**
       * Merge script defaults with user options
       * @private
@@ -102,6 +104,8 @@ var _inbound = (function (options) {
  *
  * This file contains all of the form functions of the main _inbound object.
  * Filters and actions are described below
+ *
+ * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
  *
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
@@ -513,10 +517,12 @@ var _inboundUtils = (function(_inbound) {
 
     _inbound.Utils = {
         init: function() {
+
             this.polyFills();
             this.checkLocalStorage();
             this.SetUID();
             this.storeReferralData();
+
         },
         /*! http://stackoverflow.com/questions/951791/javascript-global-error-handling */
         /* Polyfills for missing browser functionality */
@@ -730,7 +736,7 @@ var _inboundUtils = (function(_inbound) {
          * @return {string}      value of cookie
          */
         eraseCookie: function(name) {
-            createCookie(name, "", -1);
+            this.createCookie(name, "", -1);
         },
         /* Get All Cookies */
         getAllCookies: function() {
@@ -863,14 +869,14 @@ var _inboundUtils = (function(_inbound) {
             var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
             return datetime;
         },
-        /* Set Expiration Date of Session Logging */
+        /* Set Expiration Date of Session Logging. LEGACY Not in Use */
         SetSessionTimeout: function() {
             var session = this.readCookie("lead_session_expire");
             //console.log(session_check);
             if (!session) {
-                _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+                //_inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
             } else {
-                _inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
+                //_inbound.trigger('session_resume'); // trigger 'inbound_analytics_session_active'
             }
             var d = new Date();
             d.setTime(d.getTime() + 30 * 60 * 1000);
@@ -1244,12 +1250,15 @@ var InboundForms = (function (_inbound) {
           for(var i=0; i<window.document.forms.length; i++){
             var trackForm = false;
             var form = window.document.forms[i];
-
-            trackForm = this.checkTrackStatus(form);
-            // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
-            if (trackForm) {
-              this.attachFormSubmitEvent(form); /* attach form listener */
-              this.initFormMapping(form);
+            /* process forms only once */
+            if(!form.dataset.formProcessed){
+              form.dataset.formProcessed = true;
+              trackForm = this.checkTrackStatus(form);
+              // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
+              if (trackForm) {
+                this.attachFormSubmitEvent(form); /* attach form listener */
+                this.initFormMapping(form);
+              }
             }
           }
       },
@@ -1541,7 +1550,7 @@ var InboundForms = (function (_inbound) {
           callback = function(leadID){
             /* Action Example */
 
-            _inbound.Events.after_form_submission(formData);
+            _inbound.Events.form_after_submission(formData);
             alert('callback fired' + leadID);
             /* Set Lead cookie ID */
             utils.createCookie("wp_lead_id", leadID);
@@ -1552,7 +1561,7 @@ var InboundForms = (function (_inbound) {
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          _inbound.Events.before_form_submission(formData);
+          _inbound.Events.form_before_submission(formData);
           //_inbound.trigger('inbound_form_before_submission', formData, true);
 
           utils.ajaxPost(inbound_settings.admin_url, formData, callback);
@@ -1581,7 +1590,18 @@ var InboundForms = (function (_inbound) {
                       value = values.join(',');
                     };
                 }
+            console.log(e.target.nodeName);
             console.log('change ' + e.target.name  + " " + encodeURIComponent(value));
+
+            inputData = {
+              name: e.target.name,
+              node: e.target.nodeName.toLowerCase(),
+              type: type,
+              value: value,
+              mapping: e.target.dataset.mapFormField
+            };
+
+            _inbound.trigger('form_input_change', inputData);
             /* Set Field Input Cookies */
             utils.createCookie("inbound_" + e.target.name, encodeURIComponent(value));
             // _inbound.totalStorage('the_key', FormStore);
@@ -1800,22 +1820,12 @@ var InboundForms = (function (_inbound) {
  * [in]: http://www.inboundnow.com/
  */
 
-// https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
 var _inboundEvents = (function (_inbound) {
 
 
     _inbound.trigger = function(trigger, data){
         _inbound.Events[trigger](data);
     };
-    /*!
-    function log_event(category, action, label) {
-      _gaq.push(['_trackEvent', category, action, label]);
-    }
-
-    function log_click(category, link) {
-      log_event(category, 'Click', $(link).text());
-    }
-    */
 
     /*!
      *
@@ -1832,7 +1842,7 @@ var _inboundEvents = (function (_inbound) {
      *
      * ```js
      * // Filter Form Data before submissionsz
-     * _inbound.add_filter( 'filter_before_form_submission', event_filter_data_example, 10);
+     * _inbound.add_filter( 'filter_form_before_submission', event_filter_data_example, 10);
      *
      * function event_filter_data_example(data) {
      *     var data = data || {};
@@ -1849,6 +1859,7 @@ var _inboundEvents = (function (_inbound) {
      function fireEvent(eventName, data, options){
         var data = data || {};
         options = options || {};
+        //alert('ran + ' + eventName);
         //console.log(eventName);
         //console.log(data);
         /*! defaults for JS dispatch event */
@@ -1888,15 +1899,15 @@ var _inboundEvents = (function (_inbound) {
         googleTagManager;
 
     _inbound.Events =  {
-      // Create cookie
-      loadEvents: function() {
-         // this.analyticsLoaded();
 
-      },
-      loadOnReady: function(){
-            _inbound.Events.analyticsLoaded();
-      },
-      /* # Event Usage */
+      /**
+       * # Event Usage
+       *
+       * Events are triggered throughout the visitors path through the site.
+       * You can hook into these custom actions and filters much like WordPress Core
+       *
+       * See below for examples
+       */
 
       /**
        * Adding Custom Actions
@@ -1910,11 +1921,14 @@ var _inboundEvents = (function (_inbound) {
        * ```js
        * // example:
        *
+       * // Add custom function to `page_visit` event
        * _inbound.add_action( 'page_visit', callback, 10 );
        *
-       * // add custom callback
-       * function callback(data){
+       * // add custom callback to trigger when `page_visit` fires
+       * function callback(pageData){
+       *   var pageData =  pageData || {};
        *   // run callback on 'page_visit' trigger
+       *   alert(pageData.title);
        * }
        * ```
        *
@@ -1951,13 +1965,12 @@ var _inboundEvents = (function (_inbound) {
        */
 
       /**
-       * Triggers when the browser url params are parsed. You can perform custom actions
-       * if specific url params exist.
+       * Triggers when analyics has finished loading
        */
-      analytics_loaded: function() {
+      analytics_ready: function() {
           var ops = { 'opt1': true };
           var data = {'data': 'xyxy'};
-          fireEvent('analytics_loaded', data, ops);
+          fireEvent('analytics_ready', data, ops);
       },
       /**
        *  Triggers when the browser url params are parsed. You can perform custom actions
@@ -1994,56 +2007,57 @@ var _inboundEvents = (function (_inbound) {
        * ```js
        * // Usage:
        *
-       * // Add session_start_func_example function to 'session_start' event
+       * // Add function to 'session_start' event
        * _inbound.add_action( 'session_start', session_start_func_example, 10);
        *
        * function session_start_func_example(data) {
+       *     var data = data || {};
+       *     // session start. Do something for new visitor
+       * }
+       * ```
+       */
+      session_start: function() {
+          console.log('');
+          fireEvent('session_start');
+      },
+      /**
+       * Triggers when visitor session goes idle for more than 30 minutes.
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_end' event
+       * _inbound.add_action( 'session_end', session_end_func_example, 10);
+       *
+       * function session_end_func_example(data) {
+       *     var data = data || {};
+       *     // Do something when session ends
+       *     alert("Hey! It's been 30 minutes... where did you go?");
+       * }
+       * ```
+       */
+      session_end: function(clockTime) {
+          fireEvent('session_end', clockTime);
+          console.log('Session End');
+      },
+      /**
+       *  Triggers if active session is detected
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_active' event
+       * _inbound.add_action( 'session_active', session_active_func_example, 10);
+       *
+       * function session_active_func_example(data) {
        *     var data = data || {};
        *     // session active
        * }
        * ```
        */
-      session_start: function() {
-          console.log('Session Start');
-          fireEvent('session_start');
-      },
-      /**
-       *  Triggers when session is already active
-       *
-       * ```js
-       * // Usage:
-       *
-       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
-       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
-       *
-       * function session_heartbeat_func_example(data) {
-       *     var data = data || {};
-       *     // Do something with every 10 seconds
-       * }
-       * ```
-       */
-      session_active: function() {
+      session_active: function(){
+          console.log('session currently active');
           fireEvent('session_active');
-          console.log('Session Active');
-      },
-      /**
-       *  Session emitter. Runs every 10 seconds. This is a useful function for
-       *  pinging third party services
-       *
-       * ```js
-       * // Usage:
-       *
-       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
-       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
-       *
-       * function session_heartbeat_func_example(data) {
-       *     var data = data || {};
-       *     // Do something with every 10 seconds
-       * }
-       * ```
-       */
-      session_heartbeat: function() {
-          console.log(InboundLeadData);
       },
       /**
        * Triggers when visitor session goes idle. Idling occurs after 60 seconds of
@@ -2062,16 +2076,49 @@ var _inboundEvents = (function (_inbound) {
        * }
        * ```
        */
-      session_idle: function(){
-          fireEvent('session_idle');
+      session_idle: function(clockTime){
+          fireEvent('session_idle', clockTime);
           console.log('Session IDLE');
       },
-
-      session_end: function() {
-          fireEvent('session_end');
-          console.log('Session End');
+      /**
+       *  Triggers when session is already active and gets resumed
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_resume' event
+       * _inbound.add_action( 'session_resume', session_resume_func_example, 10);
+       *
+       * function session_resume_func_example(data) {
+       *     var data = data || {};
+       *     // Session exists and is being resumed
+       * }
+       * ```
+       */
+      session_resume: function() {
+          fireEvent('session_resume');
+          console.log('Session Active');
       },
-      /* Page Visit Events */
+      /**
+       *  Session emitter. Runs every 10 seconds. This is a useful function for
+       *  pinging third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
+       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
+       *
+       * function session_heartbeat_func_example(data) {
+       *     var data = data || {};
+       *     // Do something with every 10 seconds
+       * }
+       * ```
+       */
+      session_heartbeat: function(clockTime) {
+          console.log(clockTime);
+          console.log(InboundLeadData);
+      },
       /**
        * Triggers Every Page View
        *
@@ -2194,27 +2241,56 @@ var _inboundEvents = (function (_inbound) {
           fireEvent('tab_mouseout');
       },
       /**
-       *  `before_form_submission` is triggered before the form is submitted to the server.
+       *  `form_input_change` is triggered when tracked form inputs change
+       *  You can use this to add additional validation or set conditional triggers
+       *
+       * ```js
+       * // Usage:
+       *
+       * ```
+       */
+      form_input_change: function(inputData){
+          fireEvent('form_input_change', inputData);
+      },
+      /**
+       *  `form_before_submission` is triggered before the form is submitted to the server.
        *  You can filter the data here or send it to third party services
        *
        * ```js
        * // Usage:
        *
        * // Adding the callback
-       * function before_form_submission_function( data ) {
+       * function form_before_submission_function( data ) {
        *      var data = data || {};
        *      // filter form data
        * };
        *
-       *  // Hook the function up the the `before_form_submission` event
-       *  _inbound.add_action( 'before_form_submission', before_form_submission_function, 10 );
+       *  // Hook the function up the the `form_before_submission` event
+       *  _inbound.add_action( 'form_before_submission', form_before_submission_function, 10 );
        * ```
        */
-      before_form_submission: function(formData) {
-          fireEvent('before_form_submission', formData);
+      form_before_submission: function(formData) {
+          fireEvent('form_before_submission', formData);
       },
-      after_form_submission: function(formData){
-          fireEvent('after_form_submission', formData);
+      /**
+       *  `form_after_submission` is triggered after the form is submitted to the server.
+       *  You can filter the data here or send it to third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function form_after_submission_function( data ) {
+       *      var data = data || {};
+       *      // filter form data
+       * };
+       *
+       *  // Hook the function up the the `form_after_submission` event
+       *  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
+       * ```
+       */
+      form_after_submission: function(formData){
+          fireEvent('form_after_submission', formData);
       },
       /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 
@@ -2378,6 +2454,24 @@ var _inboundLeadsAPI = (function (_inbound) {
     _inbound.LeadsAPI =  {
       init: function() {
 
+          var utils = _inbound.Utils,
+          wp_lead_uid = utils.readCookie("wp_lead_uid"),
+          wp_lead_id = utils.readCookie("wp_lead_id"),
+          expire_check = utils.readCookie("lead_session_expire"); // check for session
+
+          if (!expire_check) {
+             console.log('expired vistor. Run Processes');
+            //var data_to_lookup = global-localized-vars;
+            if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
+                /* Get InboundLeadData */
+                _inbound.LeadsAPI.getAllLeadData();
+                /* Lead list check */
+                _inbound.LeadsAPI.getLeadLists();
+              }
+          }
+      },
+      setGlobalLeadData: function(data){
+          InboundLeadData = data;
       },
       getAllLeadData: function(expire_check) {
           var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
@@ -2389,7 +2483,7 @@ var _inboundLeadsAPI = (function (_inbound) {
           },
           success = function(returnData){
                     var leadData = JSON.parse(returnData);
-                    setGlobalLeadVar(leadData);
+                    _inbound.LeadsAPI.setGlobalLeadData(leadData);
                     _inbound.totalStorage('inbound_lead_data', leadData); // store lead data
 
                     /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
@@ -2406,7 +2500,7 @@ var _inboundLeadsAPI = (function (_inbound) {
 
           } else {
               // set global lead var with localstorage data
-              setGlobalLeadVar(leadData);
+              _inbound.LeadsAPI.setGlobalLeadData(leadData);
               console.log('Set Global Lead Data from Localstorage');
               if (!leadDataExpire) {
                 _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
@@ -2447,9 +2541,11 @@ var _inboundPageTracking = (function(_inbound) {
     var started = false,
       stopped = false,
       turnedOff = false,
-      clockTime = 0,
+      clockTime = parseInt(_inbound.Utils.readCookie("lead_session"), 10) || 0,
+      inactiveClockTime = 0,
       startTime = new Date(),
       clockTimer = null,
+      inactiveClockTimer = null,
       idleTimer = null,
       reportInterval,
       idleTimeout,
@@ -2467,8 +2563,8 @@ var _inboundPageTracking = (function(_inbound) {
           // Set up options and defaults
           options = options || {};
           reportInterval = parseInt(options.reportInterval, 10) || 10;
-          idleTimeout = parseInt(options.idleTimeout, 10) || 60;
-
+          idleTimeout = parseInt(options.idleTimeout, 10) || 10;
+          idleTimeout = 10;
           // Basic activity event listeners
           utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.pingSession, 1000));
           utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.pingSession, 1000));
@@ -2479,7 +2575,7 @@ var _inboundPageTracking = (function(_inbound) {
           _inbound.PageTracking.checkVisibility();
 
           /* Start Session on page load */
-          this.startSession();
+          //this.startSession();
 
         },
 
@@ -2517,7 +2613,7 @@ var _inboundPageTracking = (function(_inbound) {
                       // Document shown
                       _inbound.trigger('tab_visible');
                       _inbound.PageTracking.pingSession();
-                    } // if
+                    }
 
                     document_hidden = document[hidden];
                   }
@@ -2525,25 +2621,56 @@ var _inboundPageTracking = (function(_inbound) {
         },
         clock: function() {
           clockTime += 1;
-          //console.log(clockTime);
+          //console.log('active time', clockTime);
+
           if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+
+            var d = new Date();
+            d.setTime(d.getTime() + 30 * 60 * 1000);
+            utils.createCookie("lead_session", clockTime, d); // Set cookie on page load
+            //var session = utils.readCookie("lead_session");
+            //console.log("SESSION SEC COUNT = " + session);
+
             // sendEvent(clockTime);
             /*! every 10 seconds run this */
             console.log('Session Heartbeat every ' + reportInterval + ' secs');
-            _inbound.trigger('session_heartbeat', InboundLeadData);
+            _inbound.trigger('session_heartbeat', clockTime);
 
           }
+
+        },
+        inactiveClock: function(){
+            inactiveClockTime += 1;
+            console.log('inactive clock',inactiveClockTime);
+            /* Session timeout after 30min */
+            if (inactiveClockTime > 900) {
+              //alert('10 sec timeout')
+              // sendEvent(clockTime);
+              /*! every 10 seconds run this */
+              _inbound.trigger('session_end', InboundLeadData);
+              _inbound.Utils.eraseCookie("lead_session");
+              /* todo remove session Cookie */
+              inactiveClockTime = 0;
+              clearTimeout(inactiveClockTimer);
+            }
+
 
         },
         stopClock: function() {
           stopped = true;
           clearTimeout(clockTimer);
+          clearTimeout(inactiveClockTimer);
+          inactiveClockTimer = setInterval(_inbound.PageTracking.inactiveClock, 1000);
         },
 
         restartClock: function() {
           stopped = false;
           console.log('Activity resumed');
+          _inbound.trigger('session_resume');
+          /* todo add session_resume */
           clearTimeout(clockTimer);
+          inactiveClockTime = 0;
+          clearTimeout(inactiveClockTimer);
           clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
         },
 
@@ -2557,7 +2684,7 @@ var _inboundPageTracking = (function(_inbound) {
         },
         /* This start only runs once */
         startSession: function() {
-
+          /* todo add session Cookie */
           // Calculate seconds from start to first interaction
           var currentTime = new Date();
           var diff = currentTime - startTime;
@@ -2570,10 +2697,29 @@ var _inboundPageTracking = (function(_inbound) {
 
           // Start clock
           clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+          //utils.eraseCookie("lead_session");
+          var session = utils.readCookie("lead_session");
 
+          if (!session) {
+              _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+              var d = new Date();
+              d.setTime(d.getTime() + 30 * 60 * 1000);
+              _inbound.Utils.createCookie("lead_session", 1, d); // Set cookie on page load
+          } else {
+              _inbound.trigger('session_active');
+              console.log("count of secs " + session);
+              //_inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
+          }
+
+
+        },
+        resetInactiveFunc: function(){
+            inactiveClockTime = 0;
+            clearTimeout(inactiveClockTimer);
         },
         /* Ping Session to keep active */
         pingSession: function (e) {
+
 
           if (turnedOff) {
             return;
@@ -2640,7 +2786,7 @@ var _inboundPageTracking = (function(_inbound) {
               title: document.title,
               url: document.location.href,
               path: document.location.pathname,
-              view_count: 1 // default
+              count: 1 // default
             };
 
             if (pageRevisit) {
@@ -2712,6 +2858,15 @@ var _inboundPageTracking = (function(_inbound) {
                 _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
             }
         }
+        /*! GA functions
+        function log_event(category, action, label) {
+          _gaq.push(['_trackEvent', category, action, label]);
+        }
+
+        function log_click(category, link) {
+          log_event(category, 'Click', $(link).text());
+        }
+        */
     };
 
     return _inbound;
@@ -2726,126 +2881,17 @@ var _inboundPageTracking = (function(_inbound) {
  * @version 0.0.1
  */
 
+/* Initialize _inbound */
+ _inbound.init();
 
+/* Set Global Lead Data */
+InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
 
-if (window.jQuery) {
- jQuery(document).on('inbound_analytics_loaded', function (event, data) {
-   console.log("inbound_analytics_loaded");
- });
-}
- var Inbound_Add_Filter_Example = function( array ) {
-  console.log('filter ran');
-  var map = array || [];
-  map.push('tehdhshs');
-  return map;
- };
- var Inbound_Add_Action_Example = function() {
-          console.log('callback triggered');
-          //jQuery('form').css('color', 'red');
-  };
- _inbound.add_action( 'namespace.identifier', Inbound_Add_Action_Example, 10 );
-
-
- _inbound.add_action( 'before_form_submission', alert_form_data, 10 );
- //_inbound.remove_action( 'inbound_form_before_form_submission');
-/* raw_js_trigger event trigger */
- window.addEventListener("before_form_submission", raw_js_trigger, false);
- function raw_js_trigger(e){
-     var data = e.detail;
-
-     alert('Pure Javascript before_form_submission action fire');
-     //alert(JSON.stringify(data));
- }
-
-if (window.jQuery) {
-  jQuery(document).on('before_form_submission', function (event, data) {
-    console.log("before_form_submission action triggered");
-    alert('Run jQuery before_form_submission trigger');
-    //alert(JSON.stringify(data));
-  });
-}
-
-function alert_form_data(data){
-  alert('inbound before_form_submission action fire');
-  //alert(JSON.stringify(data));
-}
-
-function DOIT(){
-  alert('DO IT');
-}
-
-
-_inbound.hooks.addAction( 'inbound_form_submission', DOIT, 10 );
-
-
- _inbound.init(); // analytics init
-
- var InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
- function setGlobalLeadVar(retString){
-     InboundLeadData = retString;
- }
-
- _inbound.Utils.domReady(window, function(){
-    /* Filter Example */
-    _inbound.hooks.addFilter( 'inbound.form_map_before', Inbound_Add_Filter_Example, 10 );
+_inbound.Utils.domReady(window, function(){
     /* On Load Analytics Events */
     _inbound.DomLoaded();
-    /* Action Example */
-    _inbound.do_action( 'namespace.identifier');
-
-
-    var utils = _inbound.Utils,
-    wp_lead_uid = utils.readCookie("wp_lead_uid"),
-    wp_lead_id = utils.readCookie("wp_lead_id"),
-    expire_check = utils.readCookie("lead_session_expire"); // check for session
-
-    //if (!expire_check) {
-       console.log('expired vistor. Run Processes');
-      //var data_to_lookup = global-localized-vars;
-      if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
-          /* Get InboundLeadData */
-          _inbound.LeadsAPI.getAllLeadData();
-          /* Lead list check */
-          _inbound.LeadsAPI.getLeadLists();
-        }
-    //}
-
-  /* Set Session Timeout */
-  utils.SetSessionTimeout();
 
 });
-
-
-
- function action_a( value ) {
-  window.actionValue += 'a';
-  console.log('page view action');
- }
- function action_b( value ) {
-  window.actionValue += 'b';
-  //alert('priority 2')
- }
- function action_c( value ) {
-  window.actionValue += 'c';
-  //alert('priority 8')
- }
- window.actionValue = '';
-
-_inbound.hooks.addAction( 'inbound.page_view', action_a );
-//_inbound.hooks.addAction( 'test.action', action_c, 8 );
-//_inbound.hooks.addAction( 'test.action', action_b, 2 );
-
-
-
-  //_inbound.hooks.removeAction( 'test.action' );
-if (window.jQuery) {
-  jQuery(document).ready(function($) {
-       console.log('doing action');
-       _inbound.hooks.doAction( 'test.action' );
-       console.log(window.actionValue);
-
-   });
- }
 
 /*
 URL param action
@@ -2922,7 +2968,7 @@ function tab_visible_function(data){
 
 _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
 function tab_mouseout_function(data){
-	//alert('You moused out of the tab');
+	alert('You moused out of the tab');
 }
 
 _inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
@@ -2939,3 +2985,67 @@ function page_seen_function(e){
     }
 }
 
+_inbound.add_action( 'session_start', session_start_func, 10 );
+function session_start_func(data){
+	//alert('Session starting Now');
+}
+
+_inbound.add_action( 'session_resume', session_resume_func, 10 );
+function session_resume_func(data){
+	//alert('Session Resume');
+}
+
+
+
+_inbound.add_action( 'session_init', session_end_func, 10 );
+function session_end_func(data){
+	alert('Session session_end');
+}
+
+
+_inbound.add_action( 'session_end', session_end_func, 10 );
+function session_end_func(data){
+	alert('Session session_end');
+}
+
+_inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
+function analytics_ready_func(data){
+	alert('analytics_ready');
+}
+
+_inbound.add_action( 'form_input_change', form_input_change_func, 10 );
+function form_input_change_func(inputData){
+	var inputData = inputData || {};
+	console.log(inputData); // View input data object
+	console.log(inputData.node + '[name="'+inputData.name+'"]');
+	jQuery(inputData.node + '[name="'+inputData.name+'"]')
+	.animate({
+	    opacity: 0.50,
+	    left: "+=50",
+	  }, 1000, function() {
+	    jQuery(this).css('color', 'green');
+	});
+}
+
+/* Jquery Examples */
+
+ _inbound.add_action( 'form_before_submission', alert_form_data, 10 );
+ function alert_form_data( data ){
+ 		alert(JSON.stringify(data));
+ }
+ //_inbound.remove_action( 'inbound_form_form_before_submission');
+/* raw_js_trigger event trigger */
+ window.addEventListener("form_before_submission", raw_js_trigger, false);
+ function raw_js_trigger(e){
+     var data = e.detail;
+     alert('Pure Javascript form_before_submission action fire');
+     //alert(JSON.stringify(data));
+ }
+
+if (window.jQuery) {
+  jQuery(document).on('form_before_submission', function (event, data) {
+
+    	alert('Run jQuery form_before_submission trigger');
+
+  });
+}

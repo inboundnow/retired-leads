@@ -37,21 +37,23 @@ var _inbound = (function (options) {
      init: function () {
          _inbound.Utils.init();
          _inbound.PageTracking.init();
-         _inbound.Events.loadEvents(settings);
      },
      DomLoaded: function(){
         /* run form mapping */
         _inbound.Forms.init();
         /* set URL params */
         _inbound.Utils.setUrlParams();
-
-        _inbound.Events.loadOnReady();
+        _inbound.LeadsAPI.init();
         /* run form mapping for dynamically generated forms */
         setTimeout(function() {
              _inbound.Forms.init();
          }, 2000);
-     },
+        // might need this here:
+        _inbound.PageTracking.startSession();
 
+        _inbound.trigger('analytics_ready');
+
+     },
      /**
       * Merge script defaults with user options
       * @private

@@ -12,10 +12,12 @@ var _inboundUtils = (function(_inbound) {
 
     _inbound.Utils = {
         init: function() {
+
             this.polyFills();
             this.checkLocalStorage();
             this.SetUID();
             this.storeReferralData();
+
         },
         /*! http://stackoverflow.com/questions/951791/javascript-global-error-handling */
         /* Polyfills for missing browser functionality */
@@ -229,7 +231,7 @@ var _inboundUtils = (function(_inbound) {
          * @return {string}      value of cookie
          */
         eraseCookie: function(name) {
-            createCookie(name, "", -1);
+            this.createCookie(name, "", -1);
         },
         /* Get All Cookies */
         getAllCookies: function() {
@@ -362,14 +364,14 @@ var _inboundUtils = (function(_inbound) {
             var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
             return datetime;
         },
-        /* Set Expiration Date of Session Logging */
+        /* Set Expiration Date of Session Logging. LEGACY Not in Use */
         SetSessionTimeout: function() {
             var session = this.readCookie("lead_session_expire");
             //console.log(session_check);
             if (!session) {
-                _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+                //_inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
             } else {
-                _inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
+                //_inbound.trigger('session_resume'); // trigger 'inbound_analytics_session_active'
             }
             var d = new Date();
             d.setTime(d.getTime() + 30 * 60 * 1000);

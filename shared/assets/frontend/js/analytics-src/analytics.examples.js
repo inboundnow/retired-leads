@@ -74,7 +74,7 @@ function tab_visible_function(data){
 
 _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
 function tab_mouseout_function(data){
-	//alert('You moused out of the tab');
+	alert('You moused out of the tab');
 }
 
 _inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
@@ -91,3 +91,67 @@ function page_seen_function(e){
     }
 }
 
+_inbound.add_action( 'session_start', session_start_func, 10 );
+function session_start_func(data){
+	//alert('Session starting Now');
+}
+
+_inbound.add_action( 'session_resume', session_resume_func, 10 );
+function session_resume_func(data){
+	//alert('Session Resume');
+}
+
+
+
+_inbound.add_action( 'session_init', session_end_func, 10 );
+function session_end_func(data){
+	alert('Session session_end');
+}
+
+
+_inbound.add_action( 'session_end', session_end_func, 10 );
+function session_end_func(data){
+	alert('Session session_end');
+}
+
+_inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
+function analytics_ready_func(data){
+	alert('analytics_ready');
+}
+
+_inbound.add_action( 'form_input_change', form_input_change_func, 10 );
+function form_input_change_func(inputData){
+	var inputData = inputData || {};
+	console.log(inputData); // View input data object
+	console.log(inputData.node + '[name="'+inputData.name+'"]');
+	jQuery(inputData.node + '[name="'+inputData.name+'"]')
+	.animate({
+	    opacity: 0.50,
+	    left: "+=50",
+	  }, 1000, function() {
+	    jQuery(this).css('color', 'green');
+	});
+}
+
+/* Jquery Examples */
+
+ _inbound.add_action( 'form_before_submission', alert_form_data, 10 );
+ function alert_form_data( data ){
+ 		alert(JSON.stringify(data));
+ }
+ //_inbound.remove_action( 'inbound_form_form_before_submission');
+/* raw_js_trigger event trigger */
+ window.addEventListener("form_before_submission", raw_js_trigger, false);
+ function raw_js_trigger(e){
+     var data = e.detail;
+     alert('Pure Javascript form_before_submission action fire');
+     //alert(JSON.stringify(data));
+ }
+
+if (window.jQuery) {
+  jQuery(document).on('form_before_submission', function (event, data) {
+
+    	alert('Run jQuery form_before_submission trigger');
+
+  });
+}

@@ -12,9 +12,11 @@ var _inboundPageTracking = (function(_inbound) {
     var started = false,
       stopped = false,
       turnedOff = false,
-      clockTime = 0,
+      clockTime = parseInt(_inbound.Utils.readCookie("lead_session"), 10) || 0,
+      inactiveClockTime = 0,
       startTime = new Date(),
       clockTimer = null,
+      inactiveClockTimer = null,
       idleTimer = null,
       reportInterval,
       idleTimeout,
@@ -32,8 +34,8 @@ var _inboundPageTracking = (function(_inbound) {
           // Set up options and defaults
           options = options || {};
           reportInterval = parseInt(options.reportInterval, 10) || 10;
-          idleTimeout = parseInt(options.idleTimeout, 10) || 60;
-
+          idleTimeout = parseInt(options.idleTimeout, 10) || 10;
+          idleTimeout = 10;
           // Basic activity event listeners
           utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.pingSession, 1000));
           utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.pingSession, 1000));
@@ -44,7 +46,7 @@ var _inboundPageTracking = (function(_inbound) {
           _inbound.PageTracking.checkVisibility();
 
           /* Start Session on page load */
-          this.startSession();
+          //this.startSession();
 
         },
 
@@ -82,7 +84,7 @@ var _inboundPageTracking = (function(_inbound) {
                       // Document shown
                       _inbound.trigger('tab_visible');
                       _inbound.PageTracking.pingSession();
-                    } // if
+                    }
 
                     document_hidden = document[hidden];
                   }
@@ -90,25 +92,56 @@ var _inboundPageTracking = (function(_inbound) {
         },
         clock: function() {
           clockTime += 1;
-          //console.log(clockTime);
+          //console.log('active time', clockTime);
+
           if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+
+            var d = new Date();
+            d.setTime(d.getTime() + 30 * 60 * 1000);
+            utils.createCookie("lead_session", clockTime, d); // Set cookie on page load
+            //var session = utils.readCookie("lead_session");
+            //console.log("SESSION SEC COUNT = " + session);
+
             // sendEvent(clockTime);
             /*! every 10 seconds run this */
             console.log('Session Heartbeat every ' + reportInterval + ' secs');
-            _inbound.trigger('session_heartbeat', InboundLeadData);
+            _inbound.trigger('session_heartbeat', clockTime);
 
           }
+
+        },
+        inactiveClock: function(){
+            inactiveClockTime += 1;
+            console.log('inactive clock',inactiveClockTime);
+            /* Session timeout after 30min */
+            if (inactiveClockTime > 900) {
+              //alert('10 sec timeout')
+              // sendEvent(clockTime);
+              /*! every 10 seconds run this */
+              _inbound.trigger('session_end', InboundLeadData);
+              _inbound.Utils.eraseCookie("lead_session");
+              /* todo remove session Cookie */
+              inactiveClockTime = 0;
+              clearTimeout(inactiveClockTimer);
+            }
+
 
         },
         stopClock: function() {
           stopped = true;
           clearTimeout(clockTimer);
+          clearTimeout(inactiveClockTimer);
+          inactiveClockTimer = setInterval(_inbound.PageTracking.inactiveClock, 1000);
         },
 
         restartClock: function() {
           stopped = false;
           console.log('Activity resumed');
+          _inbound.trigger('session_resume');
+          /* todo add session_resume */
           clearTimeout(clockTimer);
+          inactiveClockTime = 0;
+          clearTimeout(inactiveClockTimer);
           clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
         },
 
@@ -122,7 +155,7 @@ var _inboundPageTracking = (function(_inbound) {
         },
         /* This start only runs once */
         startSession: function() {
-
+          /* todo add session Cookie */
           // Calculate seconds from start to first interaction
           var currentTime = new Date();
           var diff = currentTime - startTime;
@@ -135,10 +168,29 @@ var _inboundPageTracking = (function(_inbound) {
 
           // Start clock
           clockTimer = setInterval(_inbound.PageTracking.clock, 1000);
+          //utils.eraseCookie("lead_session");
+          var session = utils.readCookie("lead_session");
 
+          if (!session) {
+              _inbound.trigger('session_start'); // trigger 'inbound_analytics_session_start'
+              var d = new Date();
+              d.setTime(d.getTime() + 30 * 60 * 1000);
+              _inbound.Utils.createCookie("lead_session", 1, d); // Set cookie on page load
+          } else {
+              _inbound.trigger('session_active');
+              console.log("count of secs " + session);
+              //_inbound.trigger('session_active'); // trigger 'inbound_analytics_session_active'
+          }
+
+
+        },
+        resetInactiveFunc: function(){
+            inactiveClockTime = 0;
+            clearTimeout(inactiveClockTimer);
         },
         /* Ping Session to keep active */
         pingSession: function (e) {
+
 
           if (turnedOff) {
             return;
@@ -205,7 +257,7 @@ var _inboundPageTracking = (function(_inbound) {
               title: document.title,
               url: document.location.href,
               path: document.location.pathname,
-              view_count: 1 // default
+              count: 1 // default
             };
 
             if (pageRevisit) {
@@ -277,6 +329,15 @@ var _inboundPageTracking = (function(_inbound) {
                 _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
             }
         }
+        /*! GA functions
+        function log_event(category, action, label) {
+          _gaq.push(['_trackEvent', category, action, label]);
+        }
+
+        function log_click(category, link) {
+          log_event(category, 'Click', $(link).text());
+        }
+        */
     };
 
     return _inbound;

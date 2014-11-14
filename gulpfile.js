@@ -100,7 +100,7 @@ gulp.task("maindoc", function(){
   gulp.src("shared/assets/frontend/js/analytics-src/*.js")
     .pipe(markdox())
     .pipe(concat("main.md"))
-    .pipe(gulp.dest("./docs/docs"));
+    .pipe(gulp.dest("./shared/docs"));
 });
 
 gulp.task("docs", function(){

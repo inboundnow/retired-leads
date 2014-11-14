@@ -88,12 +88,15 @@ var InboundForms = (function (_inbound) {
           for(var i=0; i<window.document.forms.length; i++){
             var trackForm = false;
             var form = window.document.forms[i];
-
-            trackForm = this.checkTrackStatus(form);
-            // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
-            if (trackForm) {
-              this.attachFormSubmitEvent(form); /* attach form listener */
-              this.initFormMapping(form);
+            /* process forms only once */
+            if(!form.dataset.formProcessed){
+              form.dataset.formProcessed = true;
+              trackForm = this.checkTrackStatus(form);
+              // var trackForm = _inbound.Utils.hasClass("wpl-track-me", form);
+              if (trackForm) {
+                this.attachFormSubmitEvent(form); /* attach form listener */
+                this.initFormMapping(form);
+              }
             }
           }
       },
@@ -385,7 +388,7 @@ var InboundForms = (function (_inbound) {
           callback = function(leadID){
             /* Action Example */
 
-            _inbound.Events.after_form_submission(formData);
+            _inbound.Events.form_after_submission(formData);
             alert('callback fired' + leadID);
             /* Set Lead cookie ID */
             utils.createCookie("wp_lead_id", leadID);
@@ -396,7 +399,7 @@ var InboundForms = (function (_inbound) {
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          _inbound.Events.before_form_submission(formData);
+          _inbound.Events.form_before_submission(formData);
           //_inbound.trigger('inbound_form_before_submission', formData, true);
 
           utils.ajaxPost(inbound_settings.admin_url, formData, callback);
@@ -425,7 +428,18 @@ var InboundForms = (function (_inbound) {
                       value = values.join(',');
                     };
                 }
+            console.log(e.target.nodeName);
             console.log('change ' + e.target.name  + " " + encodeURIComponent(value));
+
+            inputData = {
+              name: e.target.name,
+              node: e.target.nodeName.toLowerCase(),
+              type: type,
+              value: value,
+              mapping: e.target.dataset.mapFormField
+            };
+
+            _inbound.trigger('form_input_change', inputData);
             /* Set Field Input Cookies */
             utils.createCookie("inbound_" + e.target.name, encodeURIComponent(value));
             // _inbound.totalStorage('the_key', FormStore);

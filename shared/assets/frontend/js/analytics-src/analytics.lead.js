@@ -8,6 +8,24 @@ var _inboundLeadsAPI = (function (_inbound) {
     _inbound.LeadsAPI =  {
       init: function() {
 
+          var utils = _inbound.Utils,
+          wp_lead_uid = utils.readCookie("wp_lead_uid"),
+          wp_lead_id = utils.readCookie("wp_lead_id"),
+          expire_check = utils.readCookie("lead_session_expire"); // check for session
+
+          if (!expire_check) {
+             console.log('expired vistor. Run Processes');
+            //var data_to_lookup = global-localized-vars;
+            if (typeof (wp_lead_id) !== "undefined" && wp_lead_id !== null && wp_lead_id !== "") {
+                /* Get InboundLeadData */
+                _inbound.LeadsAPI.getAllLeadData();
+                /* Lead list check */
+                _inbound.LeadsAPI.getLeadLists();
+              }
+          }
+      },
+      setGlobalLeadData: function(data){
+          InboundLeadData = data;
       },
       getAllLeadData: function(expire_check) {
           var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id"),
@@ -19,7 +37,7 @@ var _inboundLeadsAPI = (function (_inbound) {
           },
           success = function(returnData){
                     var leadData = JSON.parse(returnData);
-                    setGlobalLeadVar(leadData);
+                    _inbound.LeadsAPI.setGlobalLeadData(leadData);
                     _inbound.totalStorage('inbound_lead_data', leadData); // store lead data
 
                     /* Set 3 day timeout for checking DB for new lead data for Lead_Global var */
@@ -36,7 +54,7 @@ var _inboundLeadsAPI = (function (_inbound) {
 
           } else {
               // set global lead var with localstorage data
-              setGlobalLeadVar(leadData);
+              _inbound.LeadsAPI.setGlobalLeadData(leadData);
               console.log('Set Global Lead Data from Localstorage');
               if (!leadDataExpire) {
                 _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);

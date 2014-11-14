@@ -2,6 +2,8 @@
 
 <!-- Start shared/assets/frontend/js/analytics-src/analytics.events.js -->
 
+## _inboundEvents
+
 # Analytics Events
 
 Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]
@@ -12,6 +14,11 @@ Version: 0.0.1
 [in]: http://www.inboundnow.com/
 
 # Event Usage
+
+Events are triggered throughout the visitors path through the site.
+You can hook into these custom actions and filters much like WordPress Core
+
+See below for examples
 
 Adding Custom Actions
 ------------------
@@ -24,11 +31,14 @@ _inbound.add_action( 'action_name', callback, priority );
 ```js
 // example:
 
+// Add custom function to `page_visit` event
 _inbound.add_action( 'page_visit', callback, 10 );
 
-// add custom callback
-function callback(data){
+// add custom callback to trigger when `page_visit` fires
+function callback(pageData){
+  var pageData =  pageData || {};
   // run callback on 'page_visit' trigger
+  alert(pageData.title);
 }
 ```
 
@@ -61,10 +71,9 @@ _inbound.remove_action( 'page_visit');
 
 Events are triggered throughout the visitors journey through the site
 
-## analytics_loaded()
+## analytics_ready()
 
-Triggers when the browser url params are parsed. You can perform custom actions
-if specific url params exist.
+Triggers when analyics has finished loading
 
 ## url_parameters()
 
@@ -100,45 +109,45 @@ Triggers when session starts
 ```js
 // Usage:
 
-// Add session_start_func_example function to 'session_start' event
+// Add function to 'session_start' event
 _inbound.add_action( 'session_start', session_start_func_example, 10);
 
 function session_start_func_example(data) {
     var data = data || {};
-    // session active
+    // session start. Do something for new visitor
+}
+```
+
+## session_end()
+
+Triggers when visitor session goes idle for more than 30 minutes.
+
+```js
+// Usage:
+
+// Add function to 'session_end' event
+_inbound.add_action( 'session_end', session_end_func_example, 10);
+
+function session_end_func_example(data) {
+    var data = data || {};
+    // Do something when session ends
+    alert("Hey! It's been 30 minutes... where did you go?");
 }
 ```
 
 ## session_active()
 
-Triggers when session is already active
+Triggers if active session is detected
 
 ```js
 // Usage:
 
-// Add session_heartbeat_func_example function to 'session_heartbeat' event
-_inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
+// Add function to 'session_active' event
+_inbound.add_action( 'session_active', session_active_func_example, 10);
 
-function session_heartbeat_func_example(data) {
+function session_active_func_example(data) {
     var data = data || {};
-    // Do something with every 10 seconds
-}
-```
-
-## session_heartbeat()
-
-Session emitter. Runs every 10 seconds. This is a useful function for
- pinging third party services
-
-```js
-// Usage:
-
-// Add session_heartbeat_func_example function to 'session_heartbeat' event
-_inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
-
-function session_heartbeat_func_example(data) {
-    var data = data || {};
-    // Do something with every 10 seconds
+    // session active
 }
 ```
 
@@ -160,7 +169,38 @@ function session_idle_func_example(data) {
 }
 ```
 
-Page Visit Events
+## session_resume()
+
+Triggers when session is already active and gets resumed
+
+```js
+// Usage:
+
+// Add function to 'session_resume' event
+_inbound.add_action( 'session_resume', session_resume_func_example, 10);
+
+function session_resume_func_example(data) {
+    var data = data || {};
+    // Session exists and is being resumed
+}
+```
+
+## session_heartbeat()
+
+Session emitter. Runs every 10 seconds. This is a useful function for
+ pinging third party services
+
+```js
+// Usage:
+
+// Add session_heartbeat_func_example function to 'session_heartbeat' event
+_inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
+
+function session_heartbeat_func_example(data) {
+    var data = data || {};
+    // Do something with every 10 seconds
+}
+```
 
 ## page_visit()
 
@@ -264,22 +304,50 @@ function tab_mouseout_function( data ) {
  _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
 ```
 
-## before_form_submission()
+## form_input_change()
 
-`before_form_submission` is triggered before the form is submitted to the server.
+`form_input_change` is triggered when tracked form inputs change
+ You can use this to add additional validation or set conditional triggers
+
+```js
+// Usage:
+
+```
+
+## form_before_submission()
+
+`form_before_submission` is triggered before the form is submitted to the server.
  You can filter the data here or send it to third party services
 
 ```js
 // Usage:
 
 // Adding the callback
-function before_form_submission_function( data ) {
+function form_before_submission_function( data ) {
      var data = data || {};
      // filter form data
 };
 
- // Hook the function up the the `before_form_submission` event
- _inbound.add_action( 'before_form_submission', before_form_submission_function, 10 );
+ // Hook the function up the the `form_before_submission` event
+ _inbound.add_action( 'form_before_submission', form_before_submission_function, 10 );
+```
+
+## form_after_submission()
+
+`form_after_submission` is triggered after the form is submitted to the server.
+ You can filter the data here or send it to third party services
+
+```js
+// Usage:
+
+// Adding the callback
+function form_after_submission_function( data ) {
+     var data = data || {};
+     // filter form data
+};
+
+ // Hook the function up the the `form_after_submission` event
+ _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
 ```
 
 <!-- End shared/assets/frontend/js/analytics-src/analytics.events.js -->

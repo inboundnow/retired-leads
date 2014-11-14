@@ -4,6 +4,8 @@
  * This file contains all of the form functions of the main _inbound object.
  * Filters and actions are described below
  *
+ * Forked from https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
+ *
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */

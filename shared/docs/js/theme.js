@@ -18,6 +18,16 @@
         $code.after($q);
       }
     });
+
+    jQuery('#event-list-list a').each(function(){
+        var text = $(this).text().replace("()", "");
+        $(this).text(text);
+        var head = text.replace(/_/g, "-");
+        var heading = $('#event-list-' + head).text().replace("()", "")
+        $('#event-list-' + head).text(heading);
+        console.log('#event-list-' + heading);
+    });
+
   });
 
 })(jQuery);

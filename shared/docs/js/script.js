@@ -241,3 +241,10 @@
     }
   };
 })(jQuery);
+
+/* Custom */
+jQuery(document).ready(function($) {
+
+
+ });
+

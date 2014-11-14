@@ -9,22 +9,12 @@
  * [in]: http://www.inboundnow.com/
  */
 
-// https://github.com/carldanley/WP-JS-Hooks/blob/master/src/event-manager.js
 var _inboundEvents = (function (_inbound) {
 
 
     _inbound.trigger = function(trigger, data){
         _inbound.Events[trigger](data);
     };
-    /*!
-    function log_event(category, action, label) {
-      _gaq.push(['_trackEvent', category, action, label]);
-    }
-
-    function log_click(category, link) {
-      log_event(category, 'Click', $(link).text());
-    }
-    */
 
     /*!
      *
@@ -41,7 +31,7 @@ var _inboundEvents = (function (_inbound) {
      *
      * ```js
      * // Filter Form Data before submissionsz
-     * _inbound.add_filter( 'filter_before_form_submission', event_filter_data_example, 10);
+     * _inbound.add_filter( 'filter_form_before_submission', event_filter_data_example, 10);
      *
      * function event_filter_data_example(data) {
      *     var data = data || {};
@@ -58,6 +48,7 @@ var _inboundEvents = (function (_inbound) {
      function fireEvent(eventName, data, options){
         var data = data || {};
         options = options || {};
+        //alert('ran + ' + eventName);
         //console.log(eventName);
         //console.log(data);
         /*! defaults for JS dispatch event */
@@ -97,15 +88,15 @@ var _inboundEvents = (function (_inbound) {
         googleTagManager;
 
     _inbound.Events =  {
-      // Create cookie
-      loadEvents: function() {
-         // this.analyticsLoaded();
 
-      },
-      loadOnReady: function(){
-            _inbound.Events.analyticsLoaded();
-      },
-      /* # Event Usage */
+      /**
+       * # Event Usage
+       *
+       * Events are triggered throughout the visitors path through the site.
+       * You can hook into these custom actions and filters much like WordPress Core
+       *
+       * See below for examples
+       */
 
       /**
        * Adding Custom Actions
@@ -119,11 +110,14 @@ var _inboundEvents = (function (_inbound) {
        * ```js
        * // example:
        *
+       * // Add custom function to `page_visit` event
        * _inbound.add_action( 'page_visit', callback, 10 );
        *
-       * // add custom callback
-       * function callback(data){
+       * // add custom callback to trigger when `page_visit` fires
+       * function callback(pageData){
+       *   var pageData =  pageData || {};
        *   // run callback on 'page_visit' trigger
+       *   alert(pageData.title);
        * }
        * ```
        *
@@ -160,13 +154,12 @@ var _inboundEvents = (function (_inbound) {
        */
 
       /**
-       * Triggers when the browser url params are parsed. You can perform custom actions
-       * if specific url params exist.
+       * Triggers when analyics has finished loading
        */
-      analytics_loaded: function() {
+      analytics_ready: function() {
           var ops = { 'opt1': true };
           var data = {'data': 'xyxy'};
-          fireEvent('analytics_loaded', data, ops);
+          fireEvent('analytics_ready', data, ops);
       },
       /**
        *  Triggers when the browser url params are parsed. You can perform custom actions
@@ -203,56 +196,57 @@ var _inboundEvents = (function (_inbound) {
        * ```js
        * // Usage:
        *
-       * // Add session_start_func_example function to 'session_start' event
+       * // Add function to 'session_start' event
        * _inbound.add_action( 'session_start', session_start_func_example, 10);
        *
        * function session_start_func_example(data) {
+       *     var data = data || {};
+       *     // session start. Do something for new visitor
+       * }
+       * ```
+       */
+      session_start: function() {
+          console.log('');
+          fireEvent('session_start');
+      },
+      /**
+       * Triggers when visitor session goes idle for more than 30 minutes.
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_end' event
+       * _inbound.add_action( 'session_end', session_end_func_example, 10);
+       *
+       * function session_end_func_example(data) {
+       *     var data = data || {};
+       *     // Do something when session ends
+       *     alert("Hey! It's been 30 minutes... where did you go?");
+       * }
+       * ```
+       */
+      session_end: function(clockTime) {
+          fireEvent('session_end', clockTime);
+          console.log('Session End');
+      },
+      /**
+       *  Triggers if active session is detected
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_active' event
+       * _inbound.add_action( 'session_active', session_active_func_example, 10);
+       *
+       * function session_active_func_example(data) {
        *     var data = data || {};
        *     // session active
        * }
        * ```
        */
-      session_start: function() {
-          console.log('Session Start');
-          fireEvent('session_start');
-      },
-      /**
-       *  Triggers when session is already active
-       *
-       * ```js
-       * // Usage:
-       *
-       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
-       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
-       *
-       * function session_heartbeat_func_example(data) {
-       *     var data = data || {};
-       *     // Do something with every 10 seconds
-       * }
-       * ```
-       */
-      session_active: function() {
+      session_active: function(){
+          console.log('session currently active');
           fireEvent('session_active');
-          console.log('Session Active');
-      },
-      /**
-       *  Session emitter. Runs every 10 seconds. This is a useful function for
-       *  pinging third party services
-       *
-       * ```js
-       * // Usage:
-       *
-       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
-       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
-       *
-       * function session_heartbeat_func_example(data) {
-       *     var data = data || {};
-       *     // Do something with every 10 seconds
-       * }
-       * ```
-       */
-      session_heartbeat: function() {
-          console.log(InboundLeadData);
       },
       /**
        * Triggers when visitor session goes idle. Idling occurs after 60 seconds of
@@ -271,16 +265,49 @@ var _inboundEvents = (function (_inbound) {
        * }
        * ```
        */
-      session_idle: function(){
-          fireEvent('session_idle');
+      session_idle: function(clockTime){
+          fireEvent('session_idle', clockTime);
           console.log('Session IDLE');
       },
-
-      session_end: function() {
-          fireEvent('session_end');
-          console.log('Session End');
+      /**
+       *  Triggers when session is already active and gets resumed
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add function to 'session_resume' event
+       * _inbound.add_action( 'session_resume', session_resume_func_example, 10);
+       *
+       * function session_resume_func_example(data) {
+       *     var data = data || {};
+       *     // Session exists and is being resumed
+       * }
+       * ```
+       */
+      session_resume: function() {
+          fireEvent('session_resume');
+          console.log('Session Active');
       },
-      /* Page Visit Events */
+      /**
+       *  Session emitter. Runs every 10 seconds. This is a useful function for
+       *  pinging third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Add session_heartbeat_func_example function to 'session_heartbeat' event
+       * _inbound.add_action( 'session_heartbeat', session_heartbeat_func_example, 10);
+       *
+       * function session_heartbeat_func_example(data) {
+       *     var data = data || {};
+       *     // Do something with every 10 seconds
+       * }
+       * ```
+       */
+      session_heartbeat: function(clockTime) {
+          console.log(clockTime);
+          console.log(InboundLeadData);
+      },
       /**
        * Triggers Every Page View
        *
@@ -403,27 +430,56 @@ var _inboundEvents = (function (_inbound) {
           fireEvent('tab_mouseout');
       },
       /**
-       *  `before_form_submission` is triggered before the form is submitted to the server.
+       *  `form_input_change` is triggered when tracked form inputs change
+       *  You can use this to add additional validation or set conditional triggers
+       *
+       * ```js
+       * // Usage:
+       *
+       * ```
+       */
+      form_input_change: function(inputData){
+          fireEvent('form_input_change', inputData);
+      },
+      /**
+       *  `form_before_submission` is triggered before the form is submitted to the server.
        *  You can filter the data here or send it to third party services
        *
        * ```js
        * // Usage:
        *
        * // Adding the callback
-       * function before_form_submission_function( data ) {
+       * function form_before_submission_function( data ) {
        *      var data = data || {};
        *      // filter form data
        * };
        *
-       *  // Hook the function up the the `before_form_submission` event
-       *  _inbound.add_action( 'before_form_submission', before_form_submission_function, 10 );
+       *  // Hook the function up the the `form_before_submission` event
+       *  _inbound.add_action( 'form_before_submission', form_before_submission_function, 10 );
        * ```
        */
-      before_form_submission: function(formData) {
-          fireEvent('before_form_submission', formData);
+      form_before_submission: function(formData) {
+          fireEvent('form_before_submission', formData);
       },
-      after_form_submission: function(formData){
-          fireEvent('after_form_submission', formData);
+      /**
+       *  `form_after_submission` is triggered after the form is submitted to the server.
+       *  You can filter the data here or send it to third party services
+       *
+       * ```js
+       * // Usage:
+       *
+       * // Adding the callback
+       * function form_after_submission_function( data ) {
+       *      var data = data || {};
+       *      // filter form data
+       * };
+       *
+       *  // Hook the function up the the `form_after_submission` event
+       *  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
+       * ```
+       */
+      form_after_submission: function(formData){
+          fireEvent('form_after_submission', formData);
       },
       /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 
