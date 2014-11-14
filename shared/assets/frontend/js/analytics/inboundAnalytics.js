@@ -37,9 +37,15 @@ var _inbound = (function (options) {
      /* Initialize individual modules */
      init: function () {
          _inbound.Utils.init();
-         _inbound.PageTracking.init();
+
+         _inbound.Utils.domReady(window, function(){
+             /* On Load Analytics Events */
+             _inbound.DomLoaded();
+
+         });
      },
      DomLoaded: function(){
+        _inbound.PageTracking.init();
         /* run form mapping */
         _inbound.Forms.init();
         /* set URL params */
@@ -208,7 +214,7 @@ var _inboundHooks = (function (_inbound) {
 		 */
 		function addFilter( filter, callback, priority, context ) {
 			if( typeof filter === 'string' && typeof callback === 'function' ) {
-				console.log('add filter', filter);
+				//console.log('add filter', filter);
 				priority = parseInt( ( priority || 10 ), 10 );
 				_addHook( 'filters', filter, callback, priority );
 			}
@@ -853,20 +859,21 @@ var _inboundUtils = (function(_inbound) {
             return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
         },
         GetDate: function() {
-            var time_now = new Date(),
-                day = time_now.getDate() + 1;
-            year = time_now.getFullYear(),
-                hour = time_now.getHours(),
-                minutes = time_now.getMinutes(),
-                seconds = time_now.getSeconds(),
-                month = time_now.getMonth() + 1;
-            if (month < 10) {
-                month = '0' + month;
-            }
-            _inbound.debug('Current Date:', function() {
-                console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
-            });
-            var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+            var timeNow = new Date(),
+                d = timeNow.getDate(),
+                dPre = (d < 10) ? "0" : "",
+                y = timeNow.getFullYear(),
+                h = timeNow.getHours(),
+                hPre = (h < 10) ? "0" : "",
+                min = timeNow.getMinutes(),
+                minPre = (min < 10) ? "0" : "",
+                sec = timeNow.getSeconds(),
+                secPre = (sec < 10) ? "0" : "",
+                m = timeNow.getMonth() + 1,
+                mPre = (m < 10) ? "0" : "";
+
+            var datetime = y + '/' + mPre+m + "/" + dPre+d + " " + hPre+h + ":" + minPre+min + ":" + secPre+sec;
+            /* format 2014/11/13 18:22:02 */
             return datetime;
         },
         /* Set Expiration Date of Session Logging. LEGACY Not in Use */
@@ -964,6 +971,9 @@ var _inboundUtils = (function(_inbound) {
                     elem.className = elem.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
                 }
             }
+        },
+        removeElement: function (el) {
+           el.parentNode.removeChild(el);
         },
         trim: function(s) {
             s = s.replace(/(^\s*)|(\s*$)/gi, "");
@@ -1278,10 +1288,12 @@ var InboundForms = (function (_inbound) {
       assignTrackClass: function() {
           if(window.inbound_track_include){
               var selectors = inbound_track_include.include.split(',');
+              console.log('add selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'add');
           }
           if(window.inbound_track_exclude){
               var selectors = inbound_track_exclude.exclude.split(',');
+              console.log('remove selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'remove');
           }
       },
@@ -1334,13 +1346,65 @@ var InboundForms = (function (_inbound) {
           console.log(event);
           event.preventDefault();
           _inbound.Forms.saveFormData(event.target);
+          document.body.style.cursor = "wait";
       },
       /* attach form listeners */
       attachFormSubmitEvent: function (form) {
         utils.addListener(form, 'submit', this.formListener);
+        var email_input = document.querySelector('.inbound-email');
+        utils.addListener(email_input, 'blur', this.mailCheck);
+      },
+      ignoreFields: function(input) {
+
+          var ignore_field = false,
+          label = "",
+          value = "";
+
+          // Ignore any fields with labels that indicate a credit card field
+          if ( label.toLowerCase().indexOf('credit card') != -1 || label.toLowerCase().indexOf('card number') != -1 ) {
+              ignore_field = true;
+          }
+
+
+          if ( label.toLowerCase().indexOf('expiration') != -1 || label.toLowerCase().indexOf('expiry') != -1) {
+              ignore_field = true;
+          }
+
+
+          if ( label.toLowerCase() == 'month' || label.toLowerCase() == 'mm' || label.toLowerCase() == 'yy' || label.toLowerCase() == 'yyyy' || label.toLowerCase() == 'year' ) {
+            ignore_field = true;
+          }
+
+
+          if ( label.toLowerCase().indexOf('cvv') != -1 || label.toLowerCase().indexOf('cvc') != -1 || label.toLowerCase().indexOf('secure code') != -1 || label.toLowerCase().indexOf('security code') != -1 ) {
+            ignore_field = true;
+          }
+
+
+          if ( value.toLowerCase() == 'visa' || value.toLowerCase() == 'mastercard' || value.toLowerCase() == 'american express' || value.toLowerCase() == 'amex' || value.toLowerCase() == 'discover' ) {
+              ignore_field = true;
+          }
+
+          // Check if value has integers, strip out spaces, then ignore anything with a credit card length (>16) or an expiration/cvv length (<5)
+          var int_regex = new RegExp("/^[0-9]+$/");
+          if ( int_regex.test(value) ) {
+            var value_no_spaces = value.replace(' ', '');
+
+              if ( this.isInt(value_no_spaces) && value_no_spaces.length >= 16 ) {
+                  ignore_field = true;
+              }
+
+          }
+
+          return ignore_field;
+
+      },
+      isInt: function ( n ) {
+          return typeof n== "number" && isFinite(n) && n%1===0;
       },
       releaseFormSubmit: function(form){
         //console.log('remove form listener event');
+        document.body.style.cursor = "default";
         utils.removeClass('wpl-track-me', form);
         utils.removeListener(form, 'submit', this.formListener);
         form.submit();
@@ -1550,12 +1614,19 @@ var InboundForms = (function (_inbound) {
           callback = function(leadID){
             /* Action Example */
 
-            _inbound.Events.form_after_submission(formData);
-            alert('callback fired' + leadID);
+
+            console.log('Lead Created with ID: ' + leadID);
+            leadID = parseInt(leadID, 10);
+            formData.leadID = leadID;
             /* Set Lead cookie ID */
-            utils.createCookie("wp_lead_id", leadID);
-            _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
-            _inbound.totalStorage.deleteItem('tracking_events'); // remove events
+            if(leadID){
+              utils.createCookie("wp_lead_id", leadID);
+              _inbound.totalStorage.deleteItem('page_views'); // remove pageviews
+              _inbound.totalStorage.deleteItem('tracking_events'); // remove events
+            }
+
+            _inbound.trigger('form_after_submission', formData);
+
             /* Resume normal form functionality */
             _inbound.Forms.releaseFormSubmit(form);
 
@@ -1651,6 +1722,10 @@ var InboundForms = (function (_inbound) {
                    console.log("NICE NAME", nice_name);
                    console.log('looking for match on ' + lookingFor);
                });
+
+               // Check if input has an attached lable using for= tag
+               //var $laxbel = $("label[for='" + $element.attr('id') + "']").text();
+               var labxel = 'label[for="'+input_id+'"]';
 
                /* look for name attribute match */
                if (input_name && input_name.toLowerCase().indexOf(lookingFor)>-1) {
@@ -1802,9 +1877,221 @@ var InboundForms = (function (_inbound) {
             } while(element = element.parentNode);
 
             return null;
+      },
+      /* Validate Common Email addresses */
+      mailCheck: function(){
+          var email_input = document.querySelector('.inbound-email');
+          if(email_input) {
+            //
+            utils.addListener(email_input, 'blur', this.mailCheck);
+
+            Mailcheck.run({
+              email: document.querySelector('.inbound-email').value,
+              suggested: function(suggestion) {
+                // callback code
+
+                var suggest = document.querySelector('.email_suggestion');
+                if(suggest) {
+                  utils.removeElement(suggest);
+                }
+                var el = document.createElement("span");
+                el.innerHTML = "<span class=\"email_suggestion\">Did you mean <b><i id='email_correction' style='cursor: pointer;' title=\"click to update\">" + suggestion.full + "</b></i>?</span>";
+                email_input.parentNode.insertBefore(el, email_input.nextSibling);
+                var update = document.getElementById('email_correction');
+                utils.addListener(update, 'click', function() {
+                      email_input.value = update.innerHTML;
+                      update.parentNode.parentNode.innerHTML = "Fixed!";
+                });
+              },
+              empty: function() {
+                //$(".email_suggestion").html("No Suggestions :(");
+              }
+            });
+          }
       }
 
   };
+    /* Mailcheck */
+    if (typeof Mailcheck === "undefined") {
+        var Mailcheck = {
+          domainThreshold: 1,
+          topLevelThreshold: 3,
+
+          defaultDomains: ["yahoo.com", "google.com", "hotmail.com", "gmail.com", "me.com", "aol.com", "mac.com",
+            "live.com", "comcast.net", "googlemail.com", "msn.com", "hotmail.co.uk", "yahoo.co.uk",
+            "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "outlook.com", "icloud.com"],
+
+          defaultTopLevelDomains: ["co.jp", "co.uk", "com", "net", "org", "info", "edu", "gov", "mil", "ca"],
+
+          run: function(opts) {
+            opts.domains = opts.domains || Mailcheck.defaultDomains;
+            opts.topLevelDomains = opts.topLevelDomains || Mailcheck.defaultTopLevelDomains;
+            opts.distanceFunction = opts.distanceFunction || Mailcheck.sift3Distance;
+
+            var defaultCallback = function(result){ return result };
+            var suggestedCallback = opts.suggested || defaultCallback;
+            var emptyCallback = opts.empty || defaultCallback;
+
+            var result = Mailcheck.suggest(Mailcheck.encodeEmail(opts.email), opts.domains, opts.topLevelDomains, opts.distanceFunction);
+
+            return result ? suggestedCallback(result) : emptyCallback()
+          },
+
+          suggest: function(email, domains, topLevelDomains, distanceFunction) {
+            email = email.toLowerCase();
+
+            var emailParts = this.splitEmail(email);
+
+            var closestDomain = this.findClosestDomain(emailParts.domain, domains, distanceFunction, this.domainThreshold);
+
+            if (closestDomain) {
+              if (closestDomain != emailParts.domain) {
+                // The email address closely matches one of the supplied domains; return a suggestion
+                return { address: emailParts.address, domain: closestDomain, full: emailParts.address + "@" + closestDomain };
+              }
+            } else {
+              // The email address does not closely match one of the supplied domains
+              var closestTopLevelDomain = this.findClosestDomain(emailParts.topLevelDomain, topLevelDomains, distanceFunction, this.topLevelThreshold);
+              if (emailParts.domain && closestTopLevelDomain && closestTopLevelDomain != emailParts.topLevelDomain) {
+                // The email address may have a mispelled top-level domain; return a suggestion
+                var domain = emailParts.domain;
+                closestDomain = domain.substring(0, domain.lastIndexOf(emailParts.topLevelDomain)) + closestTopLevelDomain;
+                return { address: emailParts.address, domain: closestDomain, full: emailParts.address + "@" + closestDomain };
+              }
+            }
+            /* The email address exactly matches one of the supplied domains, does not closely
+             * match any domain and does not appear to simply have a mispelled top-level domain,
+             * or is an invalid email address; do not return a suggestion.
+             */
+            return false;
+          },
+
+          findClosestDomain: function(domain, domains, distanceFunction, threshold) {
+            threshold = threshold || this.topLevelThreshold;
+            var dist;
+            var minDist = 99;
+            var closestDomain = null;
+
+            if (!domain || !domains) {
+              return false;
+            }
+            if(!distanceFunction) {
+              distanceFunction = this.sift3Distance;
+            }
+
+            for (var i = 0; i < domains.length; i++) {
+              if (domain === domains[i]) {
+                return domain;
+              }
+              dist = distanceFunction(domain, domains[i]);
+              if (dist < minDist) {
+                minDist = dist;
+                closestDomain = domains[i];
+              }
+            }
+
+            if (minDist <= threshold && closestDomain !== null) {
+              return closestDomain;
+            } else {
+              return false;
+            }
+          },
+
+          sift3Distance: function(s1, s2) {
+            // sift3: http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
+            if (s1 == null || s1.length === 0) {
+              if (s2 == null || s2.length === 0) {
+                return 0;
+              } else {
+                return s2.length;
+              }
+            }
+
+            if (s2 == null || s2.length === 0) {
+              return s1.length;
+            }
+
+            var c = 0;
+            var offset1 = 0;
+            var offset2 = 0;
+            var lcs = 0;
+            var maxOffset = 5;
+
+            while ((c + offset1 < s1.length) && (c + offset2 < s2.length)) {
+              if (s1.charAt(c + offset1) == s2.charAt(c + offset2)) {
+                lcs++;
+              } else {
+                offset1 = 0;
+                offset2 = 0;
+                for (var i = 0; i < maxOffset; i++) {
+                  if ((c + i < s1.length) && (s1.charAt(c + i) == s2.charAt(c))) {
+                    offset1 = i;
+                    break;
+                  }
+                  if ((c + i < s2.length) && (s1.charAt(c) == s2.charAt(c + i))) {
+                    offset2 = i;
+                    break;
+                  }
+                }
+              }
+              c++;
+            }
+            return (s1.length + s2.length) /2 - lcs;
+          },
+
+          splitEmail: function(email) {
+            var parts = email.trim().split("@");
+
+            if (parts.length < 2) {
+              return false;
+            }
+
+            for (var i = 0; i < parts.length; i++) {
+              if (parts[i] === "") {
+                return false;
+              }
+            }
+
+            var domain = parts.pop();
+            var domainParts = domain.split(".");
+            var tld = "";
+
+            if (domainParts.length == 0) {
+              // The address does not have a top-level domain
+              return false;
+            } else if (domainParts.length == 1) {
+              // The address has only a top-level domain (valid under RFC)
+              tld = domainParts[0];
+            } else {
+              // The address has a domain and a top-level domain
+              for (var i = 1; i < domainParts.length; i++) {
+                tld += domainParts[i] + ".";
+              }
+              if (domainParts.length >= 2) {
+                tld = tld.substring(0, tld.length - 1);
+              }
+            }
+
+            return {
+              topLevelDomain: tld,
+              domain: domain,
+              address: parts.join("@")
+            }
+          },
+
+          // Encode the email address to prevent XSS but leave in valid
+          // characters, following this official spec:
+          // http://en.wikipedia.org/wiki/Email_address#Syntax
+          encodeEmail: function(email) {
+            var result = encodeURI(email);
+            result = result.replace("%20", " ").replace("%25", "%").replace("%5E", "^")
+                           .replace("%60", "`").replace("%7B", "{").replace("%7C", "|")
+                           .replace("%7D", "}");
+            return result;
+          }
+        }
+      } // End Mailcheck
+
 
   return _inbound;
 
@@ -1820,11 +2107,13 @@ var InboundForms = (function (_inbound) {
  * [in]: http://www.inboundnow.com/
  */
 
+// Add object to _inbound
 var _inboundEvents = (function (_inbound) {
 
 
     _inbound.trigger = function(trigger, data){
         _inbound.Events[trigger](data);
+
     };
 
     /*!
@@ -2290,7 +2579,9 @@ var _inboundEvents = (function (_inbound) {
        * ```
        */
       form_after_submission: function(formData){
+
           fireEvent('form_after_submission', formData);
+
       },
       /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 
@@ -2552,7 +2843,7 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
-      id = inbound_settings.post_id || 0,
+      id = inbound_settings.post_id || window.location.href,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 
     _inbound.PageTracking = {
@@ -2774,7 +3065,7 @@ var _inboundPageTracking = (function(_inbound) {
         isRevisit: function(Pages){
             var revisitCheck = false;
             var Pages = Pages || {};
-            var pageSeen = Pages[inbound_settings.post_id];
+            var pageSeen = Pages[id];
             if (typeof(pageSeen) != "undefined" && pageSeen !== null) {
                 revisitCheck = true;
             }
@@ -2794,6 +3085,7 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
+                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */
@@ -2875,11 +3167,12 @@ var _inboundPageTracking = (function(_inbound) {
 /**
  * # Start
  *
- * Runs init functions and runs the domReady functions
+ * Runs init functions
  *
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
 
 /* Initialize _inbound */
  _inbound.init();
@@ -2887,11 +3180,7 @@ var _inboundPageTracking = (function(_inbound) {
 /* Set Global Lead Data */
 InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
 
-_inbound.Utils.domReady(window, function(){
-    /* On Load Analytics Events */
-    _inbound.DomLoaded();
 
-});
 
 /*
 URL param action
@@ -2968,7 +3257,7 @@ function tab_visible_function(data){
 
 _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
 function tab_mouseout_function(data){
-	alert('You moused out of the tab');
+	console.log('You moused out of the tab');
 }
 
 _inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
@@ -2976,7 +3265,12 @@ function Tab_vis_Function(data){
 	//alert('Welcome back bro 2');
 }
 
-window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
+_inbound.add_action( 'page_revisit', page_revisit_Function, 10 );
+function page_revisit_Function(data){
+	console.log('Welcome page_revisit');
+}
+
+window.addEventListener("page_revisit", page_seen_function, false);
 function page_seen_function(e){
     var view_count = e.detail.count;
     console.log("This page has been seen " + e.detail.count + " times");
@@ -2999,18 +3293,18 @@ function session_resume_func(data){
 
 _inbound.add_action( 'session_init', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 
 _inbound.add_action( 'session_end', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 _inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
 function analytics_ready_func(data){
-	alert('analytics_ready');
+	//alert('analytics_ready');
 }
 
 _inbound.add_action( 'form_input_change', form_input_change_func, 10 );
@@ -3018,34 +3312,39 @@ function form_input_change_func(inputData){
 	var inputData = inputData || {};
 	console.log(inputData); // View input data object
 	console.log(inputData.node + '[name="'+inputData.name+'"]');
-	jQuery(inputData.node + '[name="'+inputData.name+'"]')
+	/*jQuery(inputData.node + '[name="'+inputData.name+'"]')
 	.animate({
 	    opacity: 0.50,
 	    left: "+=50",
 	  }, 1000, function() {
 	    jQuery(this).css('color', 'green');
-	});
+	});*/
+}
+
+_inbound.add_action( 'form_after_submission', form_after_submission_func, 10 );
+function form_after_submission_func( data ){
+		alert('do this');
 }
 
 /* Jquery Examples */
 
  _inbound.add_action( 'form_before_submission', alert_form_data, 10 );
  function alert_form_data( data ){
- 		alert(JSON.stringify(data));
+ 		console.log(JSON.stringify(data));
  }
  //_inbound.remove_action( 'inbound_form_form_before_submission');
 /* raw_js_trigger event trigger */
  window.addEventListener("form_before_submission", raw_js_trigger, false);
  function raw_js_trigger(e){
      var data = e.detail;
-     alert('Pure Javascript form_before_submission action fire');
+     console.log('Pure Javascript form_before_submission action fire');
      //alert(JSON.stringify(data));
  }
 
 if (window.jQuery) {
   jQuery(document).on('form_before_submission', function (event, data) {
 
-    	alert('Run jQuery form_before_submission trigger');
+    	console.log('Run jQuery form_before_submission trigger');
 
   });
 }

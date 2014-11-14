@@ -23,7 +23,7 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
-      id = inbound_settings.post_id || 0,
+      id = inbound_settings.post_id || window.location.href,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 
     _inbound.PageTracking = {
@@ -245,7 +245,7 @@ var _inboundPageTracking = (function(_inbound) {
         isRevisit: function(Pages){
             var revisitCheck = false;
             var Pages = Pages || {};
-            var pageSeen = Pages[inbound_settings.post_id];
+            var pageSeen = Pages[id];
             if (typeof(pageSeen) != "undefined" && pageSeen !== null) {
                 revisitCheck = true;
             }
@@ -265,6 +265,7 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
+                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */

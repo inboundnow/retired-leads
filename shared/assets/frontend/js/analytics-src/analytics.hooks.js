@@ -107,7 +107,7 @@ var _inboundHooks = (function (_inbound) {
 		 */
 		function addFilter( filter, callback, priority, context ) {
 			if( typeof filter === 'string' && typeof callback === 'function' ) {
-				console.log('add filter', filter);
+				//console.log('add filter', filter);
 				priority = parseInt( ( priority || 10 ), 10 );
 				_addHook( 'filters', filter, callback, priority );
 			}

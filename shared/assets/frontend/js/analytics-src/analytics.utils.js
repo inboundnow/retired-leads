@@ -348,20 +348,21 @@ var _inboundUtils = (function(_inbound) {
             return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
         },
         GetDate: function() {
-            var time_now = new Date(),
-                day = time_now.getDate() + 1;
-            year = time_now.getFullYear(),
-                hour = time_now.getHours(),
-                minutes = time_now.getMinutes(),
-                seconds = time_now.getSeconds(),
-                month = time_now.getMonth() + 1;
-            if (month < 10) {
-                month = '0' + month;
-            }
-            _inbound.debug('Current Date:', function() {
-                console.log(year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds);
-            });
-            var datetime = year + '/' + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+            var timeNow = new Date(),
+                d = timeNow.getDate(),
+                dPre = (d < 10) ? "0" : "",
+                y = timeNow.getFullYear(),
+                h = timeNow.getHours(),
+                hPre = (h < 10) ? "0" : "",
+                min = timeNow.getMinutes(),
+                minPre = (min < 10) ? "0" : "",
+                sec = timeNow.getSeconds(),
+                secPre = (sec < 10) ? "0" : "",
+                m = timeNow.getMonth() + 1,
+                mPre = (m < 10) ? "0" : "";
+
+            var datetime = y + '/' + mPre+m + "/" + dPre+d + " " + hPre+h + ":" + minPre+min + ":" + secPre+sec;
+            /* format 2014/11/13 18:22:02 */
             return datetime;
         },
         /* Set Expiration Date of Session Logging. LEGACY Not in Use */
@@ -459,6 +460,9 @@ var _inboundUtils = (function(_inbound) {
                     elem.className = elem.className.replace(new RegExp('(^|\\s)*' + className + '(\\s|$)*', 'g'), '');
                 }
             }
+        },
+        removeElement: function (el) {
+           el.parentNode.removeChild(el);
         },
         trim: function(s) {
             s = s.replace(/(^\s*)|(\s*$)/gi, "");

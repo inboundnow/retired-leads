@@ -9,11 +9,13 @@
  * [in]: http://www.inboundnow.com/
  */
 
+// Add object to _inbound
 var _inboundEvents = (function (_inbound) {
 
 
     _inbound.trigger = function(trigger, data){
         _inbound.Events[trigger](data);
+
     };
 
     /*!
@@ -479,7 +481,9 @@ var _inboundEvents = (function (_inbound) {
        * ```
        */
       form_after_submission: function(formData){
+
           fireEvent('form_after_submission', formData);
+
       },
       /*! Scrol depth https://github.com/robflaherty/jquery-scrolldepth/blob/master/jquery.scrolldepth.js */
 
