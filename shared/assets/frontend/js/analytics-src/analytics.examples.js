@@ -74,7 +74,8 @@ function tab_visible_function(data){
 
 _inbound.add_action( 'tab_mouseout', tab_mouseout_function, 10 );
 function tab_mouseout_function(data){
-	console.log('You moused out of the tab');
+	//alert('You moused out of the tab');
+	document.body.style.background = 'red';
 }
 
 _inbound.add_action( 'page_first_visit', Tab_vis_Function, 10 );
