@@ -1255,7 +1255,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			(!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
 
-			echo '<body style="background-color:transparent;">';
+			echo '<body style="backgorund-image:none;background-color:transparent;">';
 			echo '<div id="cta-preview-container" style="margin:auto;">';
 			if ( isset($_GET['post_id'] ) || isset($_GET['wp-cta-variation-id']) ) {
 				echo do_shortcode('[cta id="'.$cta_id.'" vid="'.$_GET['wp-cta-variation-id'].'"]');

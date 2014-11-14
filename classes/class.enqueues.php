@@ -238,9 +238,6 @@ class CTA_Enqueues {
 
 		if(isset(self::$scripts_queue)) {
 			foreach ( self::$scripts_queue as $handle ) {
-				/*if ($handle=='acf-input') {
-					continue;
-				}*/
 			    wp_enqueue_script( $handle );
 			}
 		}

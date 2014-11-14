@@ -30,7 +30,8 @@ class CTA_Activation {
 	}
 	
 	public static function activate_plugin() {
-	
+		global $wpdb;
+		
 		/* Update DB Markers for Plugin */
 		self::store_version_data();
 		
@@ -39,6 +40,9 @@ class CTA_Activation {
 		
 		/* Activate shared components */
 		self::activate_shared();
+		
+		/* Flush permalinks */
+		flush_rewrite_rules();
 	}
 	
 	/**
@@ -162,7 +166,7 @@ class CTA_Activation {
 									__( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
 									__( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
 								),
-					'solultion' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
+					'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
 				)
 			);
 		} 
@@ -176,7 +180,7 @@ class CTA_Activation {
 									__( 'WordPress Version' , 'landing-pages' ) => $wp_version,
 									__( 'Required WordPress Version' , 'landing-pages' ) => self::$version_wp
 								),
-					'solultion' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
+					'solution' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
 				)
 			);			
 		}
@@ -190,7 +194,7 @@ class CTA_Activation {
 									__( 'Calls to Action Version' , 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
 									__( 'Required Calls to Action Version' , 'landing-pages' ) => self::$version_lp
 								),
-					'solultion' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
+					'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
 				)
 			);			
 		}
@@ -204,7 +208,7 @@ class CTA_Activation {
 									__( 'Leads Version' , 'landing-pages' ) => WPL_CURRENT_VERSION,
 									__( 'Required Leads Version' , 'landing-pages' ) => self::$version_leads
 								),
-					'solultion' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_leads )
+					'solution' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_leads )
 				)
 			);			
 		}
