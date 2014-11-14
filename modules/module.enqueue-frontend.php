@@ -24,17 +24,5 @@ function wpleads_enqueuescripts_header() {
 
 		}
 
-		// Load form tracking class
-		$inbound_track_include = get_option( 'wpl-main-tracking-ids', 1);
-		if (!empty($inbound_track_include) && $inbound_track_include != "") {
-			wp_enqueue_script('wpl-assign-class', WPL_URLPATH . 'js/wpl.assign-class.js', array( 'jquery'));
-			wp_localize_script( 'wpl-assign-class', 'inbound_track_include', array( 'include' =>  $inbound_track_include ) );
-		}
-		$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
-		if (!empty($inbound_track_exclude) && $inbound_track_exclude != "") {
-			wp_enqueue_script('wpl-assign-class', WPL_URLPATH . 'js/wpl.assign-class.js', array( 'jquery'));
-			wp_localize_script( 'wpl-assign-class', 'inbound_track_exclude', array( 'exclude' =>  $inbound_track_exclude ) );
-		}
-
 	}
 }
