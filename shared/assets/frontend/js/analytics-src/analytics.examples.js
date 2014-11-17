@@ -141,7 +141,7 @@ function form_input_change_func(inputData){
 
 _inbound.add_action( 'form_after_submission', form_after_submission_func, 10 );
 function form_after_submission_func( data ){
-		alert('do this');
+		console.log('do this');
 }
 
 /* Jquery Examples */

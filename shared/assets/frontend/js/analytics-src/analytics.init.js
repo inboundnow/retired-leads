@@ -85,6 +85,8 @@ var _inbound = (function (options) {
      /* Debugger Function toggled by var debugMode */
      debug: function(msg, callback){
         //if app not in debug mode, exit immediately
+        // check for hash
+        var doDebug = document.location.hash.indexOf("#indebug") > -1;
         if(!settings.debugMode || !console){return};
         var msg = msg || false;
         //console.log the message

@@ -23,7 +23,7 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
-      id = inbound_settings.post_id || window.location.href,
+      id = inbound_settings.post_id || window.location.pathname,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 
     _inbound.PageTracking = {
@@ -265,7 +265,6 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
-                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */

@@ -86,6 +86,8 @@ var _inbound = (function (options) {
      /* Debugger Function toggled by var debugMode */
      debug: function(msg, callback){
         //if app not in debug mode, exit immediately
+        // check for hash
+        var doDebug = document.location.hash.indexOf("#indebug") > -1;
         if(!settings.debugMode || !console){return};
         var msg = msg || false;
         //console.log the message
@@ -2843,7 +2845,7 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
-      id = inbound_settings.post_id || window.location.href,
+      id = inbound_settings.post_id || window.location.pathname,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 
     _inbound.PageTracking = {
@@ -3085,7 +3087,6 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
-                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */
@@ -3324,7 +3325,7 @@ function form_input_change_func(inputData){
 
 _inbound.add_action( 'form_after_submission', form_after_submission_func, 10 );
 function form_after_submission_func( data ){
-		alert('do this');
+		console.log('do this');
 }
 
 /* Jquery Examples */
