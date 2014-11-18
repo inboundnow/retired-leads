@@ -188,7 +188,10 @@ if (!class_exists('LeadStorage')) {
 			foreach ($mappedData as $key => $value) {
 				update_post_meta($lead['id'], $key, $value);
 				/* Old convention with wpleads_ prefix */
-				update_post_meta($lead['id'], 'wpleads_'.$key, $value);
+				if( !strstr($key,'wpleads_') ) {
+					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
+				}
+
 				/* old convention
 				//print_r($mappedData); wp_die();
 
