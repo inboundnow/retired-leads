@@ -276,13 +276,34 @@ if (!class_exists('LeadStorage')) {
 		/* Store Lead Referral Source Data */
 		static function storeReferralData($lead) {
 			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
+
+			// Parse referral for additional data
+			include_once('sources/Snowplow/RefererParser/INBOUND_Parser.php');
+			include_once('sources/Snowplow/RefererParser/INBOUND_Referer.php');
+			include_once('sources/Snowplow/RefererParser/INBOUND_Medium.php');
+			// intialized the parser class
+			$parser = new INBOUND_Parser();
+			//$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', '');
+			$referer = $parser->parse($lead['source']);
+
+		    if ( $referer->isKnown() ) {
+		        $ref_type = $referer->getMedium();
+
+		    } else {
+		    	// check if ref exists
+		    	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
+
+		    }
+
 			$referral_data = json_decode($referral_data,true);
 			if (is_array($referral_data)){
 				$r_count = count($referral_data) + 1;
 				$referral_data[$r_count]['source'] = $lead['source'];
+				$referral_data[$r_count]['type'] = $ref_type;
 				$referral_data[$r_count]['datetime'] = $lead['wordpress_date_time'];
 			} else {
 				$referral_data[1]['source'] = $lead['source'];
+				$referral_data[1]['type'] = $ref_type;
 				$referral_data[1]['datetime'] = $lead['wordpress_date_time'];
 				$referral_data[1]['original_source'] = 1;
 			}
@@ -290,6 +311,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['referral_data'] = json_encode($referral_data);
 			//echo $lead['referral_data']; exit;
 			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); // Store referral object
+			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); // Store referral object
 		}
 		/*	Loop trough lead_data array and update post meta */
 		static function inbound_update_common_meta($lead) {
