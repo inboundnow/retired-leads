@@ -7,6 +7,7 @@
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+/* Finish Exclusions for CC */
 
 /* Launches form class */
 var InboundForms = (function (_inbound) {
@@ -128,6 +129,8 @@ var InboundForms = (function (_inbound) {
       /* Loop through include/exclude items for tracking */
       loopClassSelectors: function(selectors, action){
           for (var i = selectors.length - 1; i >= 0; i--) {
+
+            //if(selectors[i] match . or # )
             selector = document.querySelector(utils.trim(selectors[i]));
             //console.log("SELECTOR", selector);
             if(selector) {
@@ -359,6 +362,12 @@ var InboundForms = (function (_inbound) {
 
           /* Check Use form Email or Cookie */
           var email = utils.getParameterVal('email', mapped_params) || utils.readCookie('wp_lead_email');
+
+          /* Legacy Email map */
+          if(!email) {
+            email = utils.getParameterVal('wpleads_email_address', mapped_params);
+          }
+
           var fullName = utils.getParameterVal('name', mapped_params);
           var fName = utils.getParameterVal('first_name', mapped_params);
           var lName = utils.getParameterVal('last_name', mapped_params);
