@@ -109,7 +109,9 @@ display: inline-block;
 padding-right: 10px;
 text-align: right;
 }
-
+#inbound-form-wrapper .label-inbound-label-inline input {
+display: inline-block;
+}
 .inbound-label.inbound-input-radio {
     display: block;
 }
