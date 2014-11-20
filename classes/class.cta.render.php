@@ -850,7 +850,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 				$meta = $selected_cta['meta'][$vid];
-				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 				$custom_css = CTA_Variations::get_variation_custom_css ( $selected_cta['id'] , $vid );
@@ -907,7 +906,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				/* Print Cusom CSS */
 				$inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
 
-				$custom_js = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-js'.$suffix, true);
+				$custom_js = CTA_Variations::get_variation_custom_js ( $selected_cta['id'] , $vid );
+
 				if (!stristr($custom_css,'<script'))
 				{
 					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
