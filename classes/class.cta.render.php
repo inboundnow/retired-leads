@@ -297,16 +297,24 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		public function enqueue_cta_js_css() {
 			/* Get Variation Selection Nature */
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
+			self::$instance->lite_ajax = get_option('wp-cta-main-use-lite-ajax-mode' , 0 );
 
 			$post_id = self::$instance->obj_id;
 
-			/* Setup determin variation gloabl function */
+			/* Setup determine variation global function */
 			if ( isset( $_GET['wp-cta-variation-id'] ) ) {
 				self::$instance->selected_cta['id'] = null;
 			}
 
+			/* determine ajax url */
+			if (self::$instance->lite_ajax) {
+				$ajax_url = WP_CTA_URLPATH.'classes/class.ajax.get-variation.php';
+			} else {
+				$ajax_url =  admin_url( 'admin-ajax.php' );
+			}
+			
 			wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'classes/class.ajax.get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
+			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
 
 
 			if ( self::$instance->cta_content_placement === 'popup') {

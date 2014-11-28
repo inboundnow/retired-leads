@@ -40,6 +40,10 @@ class CTA_Ajax_Listeners {
 		/* Adds listener to save CTA post meta */
 		add_action( 'wp_ajax_nopriv_wp_wp_call_to_action_meta_save', array( __CLASS__ , 'save_meta' ) );
 		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array( __CLASS__ , 'save_meta' ) );
+		
+		/* Adds listener to serve next cta variation in line & update markers */
+		add_action( 'wp_ajax_nopriv_cta_get_variation', array( __CLASS__ , 'serve_varition' ) );
+		add_action( 'wp_ajax_cta_get_variation', array( __CLASS__ , 'serve_varition' ) );
 	}
 	
 	/**
@@ -158,6 +162,84 @@ class CTA_Ajax_Listeners {
 
 		header('HTTP/1.1 200 OK');
 		exit;
+	}
+	
+	/**
+	*  Get current variation for CTA
+	*/
+	public static function serve_varition() {
+
+		/* Make Sure the right GET param is attached to continue */
+		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) ) {
+			echo 0;
+			exit;
+		} else 	{
+			$cta_id = $_GET['cta_id'];
+		}
+
+		$variations = get_post_meta( $cta_id , 'wp-cta-variations' , true);
+		$variations_array = json_decode( $variations , true );
+		$variation_marker = get_post_meta( $cta_id , '_cta_ab_variation_marker' , true );
+
+		if (!is_numeric($variation_marker)) {
+			$variation_marker = 0;
+		}
+
+		/* get array of live variations */
+		if ($variations_array) 	{
+			foreach ($variations_array as $vid => $variation ) 	{
+				if (!isset($variation['status']) || $variation['status'] == 'active'  ){
+					$live_variations[] = $vid;
+				}
+			}
+		}
+		
+		/* if no live variation return 0 */
+		if (!$live_variations) {
+			echo 0;
+			exit;
+		}
+
+		/* if only one live variation return the vid */
+		if (count($live_variations)==1) {
+			echo $this->live_variations[0];
+			exit;
+		}
+
+		/* flip keys with values*/
+		$keys_as_values = array_flip($live_variations);
+		reset($keys_as_values);
+
+		/* get vid current position */
+		if (!isset($keys_as_values[$variation_marker]))	{
+			$variation_marker = reset($keys_as_values);
+		}
+
+		$i = 0;
+		if ( key($keys_as_values) != $variation_marker)	{
+			while ((next($keys_as_values) != $variation_marker )){
+				if ($i>100) {
+					break;
+				}
+				$i++;
+			}
+		}
+
+
+		$key = next($keys_as_values);
+		$variation_marker = $live_variations[$key];
+		
+
+		if (!$variation_marker) {
+			$variation_marker = reset($keys_as_values);
+		}
+
+
+		update_post_meta( $cta_id ,  '_cta_ab_variation_marker', $variation_marker);
+		echo $variation_marker;
+		exit;
+
+	
 	}
 		
 }
