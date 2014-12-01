@@ -748,8 +748,10 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			$url = site_url();
 			$default = WPL_URLPATH . '/images/gravatar_default_150.jpg';
 
-			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( self::$mapped_fields['wpleads_email_address']['value'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-			$gravatar2 = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( self::$mapped_fields['wpleads_email_address']['value'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
+			$http = (is_ssl()) ? 'https://' : 'http://';
+		
+			$gravatar = $http . "www.gravatar.com/avatar/" . md5( strtolower( trim( self::$mapped_fields['wpleads_email_address']['value'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+			$gravatar2 = $http . "www.gravatar.com/avatar/" . md5( strtolower( trim( self::$mapped_fields['wpleads_email_address']['value'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size_small;
 
 			if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 				$gravatar = $default;

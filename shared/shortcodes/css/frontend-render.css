@@ -34,6 +34,7 @@ padding-right: 5px;
 }
 #inbound_form_submit {
     text-transform: none;
+    cursor: pointer;
 }
 /* global fixes */
 .inbound-field {
@@ -875,6 +876,7 @@ a.inbound-button, a.inbound-button.inbound-special-class{
 }
 input[type=submit].inbound-button, button.inbound-button{
     -webkit-appearance:none;
+    cursor: pointer;
 }
 .inbound-button.black{
     background-color: #4A4845;

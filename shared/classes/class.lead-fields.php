@@ -3,12 +3,12 @@
 if ( !class_exists('Leads_Field_Map') ) {
 
 	class Leads_Field_Map {
-		
-		static $field_map;	
-		
+
+		static $field_map;
+
 		/* Define Default Lead Fields */
 		public static function get_lead_fields() {
-		
+
 			$lead_fields = array(
 				array(
 					'label' => __( 'First Name' , 'leads' ) ,
@@ -87,32 +87,32 @@ if ( !class_exists('Leads_Field_Map') ) {
 					'key'  => 'wpleads_zip',
 					'priority' => 110,
 					'type'  => 'text'
-					),	
+					),
 
 				array(
 					'label' => __( 'Country' , 'leads' ) ,
 					'key'  => 'wpleads_country_code',
 					'priority' => 120,
 					'type'  => 'text'
-					),		
+					),
 				array(
 					'label' => __( 'Billing First Name' , 'leads' ) ,
 					'key'  => 'wpleads_billing_first_name',
 					'priority' => 130,
 					'type'  => 'text'
-					),		
+					),
 				array(
 					'label' => __( 'Billing Last Name' , 'leads' ) ,
 					'key'  => 'wpleads_billing_last_name',
 					'priority' => 120,
 					'type'  => 'text'
-					),		
+					),
 				array(
 					'label' => __( 'Billing Company' , 'leads' ) ,
 					'key'  => 'wpleads_billing_company_name',
 					'priority' => 120,
 					'type'  => 'text'
-					),	
+					),
 				array(
 					'label' => __( 'Billing Address' , 'leads' ) ,
 					'key'  => 'wpleads_billing_address_line_1',
@@ -142,14 +142,14 @@ if ( !class_exists('Leads_Field_Map') ) {
 					'key'  => 'wpleads_billing_zip',
 					'priority' => 180,
 					'type'  => 'text'
-					),	
+					),
 
 				array(
 					'label' => __( 'Billing Country' , 'leads' ) ,
 					'key'  => 'wpleads_billing_country_code',
 					'priority' => 190,
 					'type'  => 'text'
-					),			
+					),
 				array(
 					'label' => __( 'Shipping First Name' , 'leads' ) ,
 					'key'  => 'wpleads_shipping_first_name',
@@ -161,13 +161,13 @@ if ( !class_exists('Leads_Field_Map') ) {
 					'key'  => 'wpleads_shipping_last_name',
 					'priority' => 210,
 					'type'  => 'text'
-					),	
+					),
 				array(
 					'label' => __( 'Shipping Company Name' , 'leads' ) ,
 					'key'  => 'wpleads_shipping_company_name',
 					'priority' => 210,
 					'type'  => 'text'
-					),			
+					),
 				array(
 					'label' => __( 'Shipping Address' , 'leads' ) ,
 					'key'  => 'wpleads_shipping_address_line_1',
@@ -237,18 +237,20 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 			);
 
-			$lead_fields = apply_filters('wp_leads_add_lead_field',$lead_fields);
+			$lead_fields = apply_filters( 'wp_leads_add_lead_field' , $lead_fields );
 
 			return $lead_fields;
 		}
 		
 		
+		
 		/**
-		*  	Builds key=>label array of lead fields 
+		*  		Builds key=>label array of lead fields 
 		*/
 		public static function build_map_array() {
-			$lead_fields = Leads_Field_Map::get_lead_fields();
 			
+			$lead_fields = Leads_Field_Map::get_lead_fields();
+			$lead_fields = Leads_Field_Map::prioritize_lead_fields( $lead_fields );
 			
 			$field_map = array();
 			$field_map[''] = 'No Mapping'; // default empty
@@ -257,24 +259,43 @@ if ( !class_exists('Leads_Field_Map') ) {
 					$key = $field['key'];
 					$field_map[$key] = $label;
 			}
-			
+
 			return $field_map;
 		}
 		
+		/**
+		*  Priorize Lead Fields Array
+		*  @param ARRAY $fields simplified id => label array of lead fields
+		*  @param STRING $sort_flags default = SORT_ASC
+		*/
+		public static function prioritize_lead_fields( $fields ,  $sort_flags=SORT_ASC) { 
+
+			$prioritized = array();
+			foreach ($fields as $key => $value) {
+				while (isset($prioritized[$value['priority']])) {
+					$value['priority']++;
+				}
+				$prioritized[$value['priority']] = $value;
+			}
+			
+			ksort($prioritized, $sort_flags);
+
+			return array_values($prioritized); 
+
+		}
+
 		/**
 		*  Gets lead field
 		*  @param $lead_id 
 		*  @param $field_key
 		*/
 		public static function get_field( $lead_id , $field_key ) {
-			
-			get_post_meta( $lead_id , $field_key , true);
-		
+			return get_post_meta( $lead_id , $field_key , true);		
 		}
+
 	}
 
 }
-
 
 /**
  * Add in custom lead fields
@@ -286,7 +307,7 @@ if ( !class_exists('Leads_Field_Map') ) {
  * type: type of user area. 'text' or 'textarea'
  */
 
-/**
+/*
 add_filter('wp_leads_add_lead_field', 'custom_add_more_lead_fields', 10, 1);
 function custom_add_more_lead_fields($lead_fields) {
 
@@ -325,4 +346,3 @@ function custom_add_more_lead_fields($lead_fields) {
 
 }
 /**/
-?>

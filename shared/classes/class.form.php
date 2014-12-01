@@ -111,15 +111,13 @@ class Inbound_Forms {
 		$form_width = ($width != "") ? $width_output : '';
 
 		//if (!preg_match_all("/(.?)\[(inbound_field)\b(.*?)(?:(\/))?\](?:(.+?)\[\/inbound_field\])?(.?)/s", $content, $matches)) {
-		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches))
-		{
+		if (!preg_match_all('/(.?)\[(inbound_field)(.*?)\]/s',$content, $matches)) {
+
 			return '';
 
-		}
-		else
-		{
-			for($i = 0; $i < count($matches[0]); $i++)
-			{
+		} else {
+
+			for($i = 0; $i < count($matches[0]); $i++) {
 				$matches[3][$i] = shortcode_parse_atts($matches[3][$i]);
 			}
 			//print_r($matches[3]);
@@ -129,7 +127,7 @@ class Inbound_Forms {
 
 
 			$form = '<div id="inbound-form-wrapper" class="">';
-			$form .= '<form class="inbound-now-form wpl-track-me" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
+			$form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
 			$main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
 			for($i = 0; $i < count($matches[0]); $i++)
 			{
@@ -143,16 +141,11 @@ class Inbound_Forms {
 
 				$placeholder_use = ($field_placeholder != "") ? $field_placeholder : $label;
 
-				if ($field_placeholder != "")
-				{
+				if ($field_placeholder != "") {
 					$form_placeholder = "placeholder='".$placeholder_use."'";
-				}
-				else if (isset($form_labels) && $form_labels === "placeholder")
-				{
+				} else if (isset($form_labels) && $form_labels === "placeholder") {
 					$form_placeholder = "placeholder='".$placeholder_use."'";
-				}
-				else
-				{
+				} else {
 					$form_placeholder = "";
 				}
 
@@ -170,6 +163,7 @@ class Inbound_Forms {
 					$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
 				}
 
+				$data_mapping_attr = ($map_field != "") ? ' data-map-form-field="'.$map_field.'" ' : '';
 
 				/* Map Common Fields */
 				(preg_match( '/Email|e-mail|email/i', $label, $email_input)) ? $email_input = " inbound-email" : $email_input = "";
@@ -318,7 +312,7 @@ class Inbound_Forms {
 					if ($type === 'hidden' && $dynamic_value != "") {
 						$fill_value = $dynamic_value;
 					}
-					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'" '.$req.'/>';
+					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.' '.$req.'/>';
 				}
 				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
@@ -337,7 +331,7 @@ class Inbound_Forms {
 						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
+			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
 			$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 			$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -780,7 +774,7 @@ class Inbound_Forms {
 			//print_r($_POST);
 			foreach ( $_POST as $field => $value ) {
 
-				if ( get_magic_quotes_gpc() ) {
+				if ( get_magic_quotes_gpc() && is_string($value) ) {
 					$value = stripslashes( $value );
 				}
 
@@ -793,17 +787,6 @@ class Inbound_Forms {
 					}
 				}
 
-				if (preg_match( '/(?<!((last |last_)))name(?!\=)/im', $field) && !isset($form_post_data['wpleads_first_name'])) {
-					$field = "wpleads_first_name";
-				}
-
-				if (preg_match( '/(?<!((first)))(last name|last_name|last)(?!\=)/im', $field) && !isset($form_post_data['wpleads_last_name'])) {
-					$field = "wpleads_last_name";
-				}
-
-				if (preg_match( '/Phone|phone number|telephone/i', $field)) {
-					$field = "wpleads_work_phone";
-				}
 
 				$form_post_data[$field] = (!is_array($value)) ?  strip_tags( $value ) : $value;
 

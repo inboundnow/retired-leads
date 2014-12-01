@@ -8,7 +8,7 @@ if (!defined('INBOUND_CLASS_URL'))
     define('INBOUND_CLASS_URL', plugin_dir_url(__FILE__));
 
   //update_option( 'inbound_global_dequeue', "" );
-  /**
+  /*
   $global_array = get_option( 'inbound_global_dequeue' );
   print_r($global_array);
   /**/
@@ -396,7 +396,7 @@ display: inline-block;}
              echo "</div>";
 
              // This will control the dequing
-             /**
+             /*
              foreach ($scripts_queued as $key => $value) {
               //echo $key . $value;
               if (!in_array($value, $white_list_scripts)){

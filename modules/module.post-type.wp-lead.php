@@ -71,9 +71,11 @@ function wpleads_custom_columns( $column, $post_id ) {
 		$size = 50;
 		$url = site_url();
 		$default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
-		$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+		
+		$http = (is_ssl()) ? 'https://' : 'http://';
+		$gravatar = $http . "www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
-	/*
+	    /*
 		Super expensive call. Need more elegant solution
 	 	$response = get_headers($gravatar);
 		if ($response[0] === "HTTP/1.0 302 Found"){
