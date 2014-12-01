@@ -72,8 +72,7 @@ function wpleads_custom_columns( $column, $post_id ) {
 		$url = site_url();
 		$default = WPL_URLPATH . '/images/gravatar_default_50.jpg'; // doesn't work for some sites
 		
-		$http = (is_ssl()) ? 'https://' : 'http://';
-		$gravatar = $http . "www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+		$gravatar = "//www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		$extra_image = get_post_meta( $post_id , 'lead_main_image', true );
 	    /*
 		Super expensive call. Need more elegant solution
@@ -83,7 +82,7 @@ function wpleads_custom_columns( $column, $post_id ) {
 		} else {
 			$gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 		}
-	*/
+		*/
 		// Fix for localhost view
 		if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
 		    $gravatar = $default;
