@@ -2,8 +2,6 @@
 
 <!-- Start shared/assets/frontend/js/analytics-src/analytics.events.js -->
 
-## _inboundEvents
-
 # Analytics Events
 
 Events are triggered throughout the visitors journey through the site. See more on [Inbound Now][in]

@@ -9,6 +9,7 @@
  * [in]: http://www.inboundnow.com/
  */
 
+// Add object to _inbound
 var _inboundEvents = (function (_inbound) {
 
 

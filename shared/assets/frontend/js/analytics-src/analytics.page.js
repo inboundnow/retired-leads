@@ -265,6 +265,7 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
+                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */

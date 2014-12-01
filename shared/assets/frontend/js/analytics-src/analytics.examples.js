@@ -82,7 +82,12 @@ function Tab_vis_Function(data){
 	//alert('Welcome back bro 2');
 }
 
-window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
+_inbound.add_action( 'page_revisit', page_revisit_Function, 10 );
+function page_revisit_Function(data){
+	alert('Welcome page_revisit');
+}
+
+window.addEventListener("page_revisit", page_seen_function, false);
 function page_seen_function(e){
     var view_count = e.detail.count;
     console.log("This page has been seen " + e.detail.count + " times");
@@ -105,18 +110,18 @@ function session_resume_func(data){
 
 _inbound.add_action( 'session_init', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 
 _inbound.add_action( 'session_end', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 _inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
 function analytics_ready_func(data){
-	alert('analytics_ready');
+	//alert('analytics_ready');
 }
 
 _inbound.add_action( 'form_input_change', form_input_change_func, 10 );

@@ -37,9 +37,15 @@ var _inbound = (function (options) {
      /* Initialize individual modules */
      init: function () {
          _inbound.Utils.init();
-         _inbound.PageTracking.init();
+
+         _inbound.Utils.domReady(window, function(){
+             /* On Load Analytics Events */
+             _inbound.DomLoaded();
+
+         });
      },
      DomLoaded: function(){
+        _inbound.PageTracking.init();
         /* run form mapping */
         _inbound.Forms.init();
         /* set URL params */
@@ -208,7 +214,7 @@ var _inboundHooks = (function (_inbound) {
 		 */
 		function addFilter( filter, callback, priority, context ) {
 			if( typeof filter === 'string' && typeof callback === 'function' ) {
-				console.log('add filter', filter);
+				//console.log('add filter', filter);
 				priority = parseInt( ( priority || 10 ), 10 );
 				_addHook( 'filters', filter, callback, priority );
 			}
@@ -1278,10 +1284,12 @@ var InboundForms = (function (_inbound) {
       assignTrackClass: function() {
           if(window.inbound_track_include){
               var selectors = inbound_track_include.include.split(',');
+              console.log('add selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'add');
           }
           if(window.inbound_track_exclude){
               var selectors = inbound_track_exclude.exclude.split(',');
+              console.log('remove selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'remove');
           }
       },
@@ -1820,6 +1828,7 @@ var InboundForms = (function (_inbound) {
  * [in]: http://www.inboundnow.com/
  */
 
+// Add object to _inbound
 var _inboundEvents = (function (_inbound) {
 
 
@@ -2794,6 +2803,7 @@ var _inboundPageTracking = (function(_inbound) {
                 Pages[id].push(timeNow);
                 pageData.count = Pages[id].length;
                 _inbound.trigger('page_revisit', pageData);
+                alert('page revist')
 
             } else {
                 /* Page First Seen Trigger */
@@ -2875,11 +2885,12 @@ var _inboundPageTracking = (function(_inbound) {
 /**
  * # Start
  *
- * Runs init functions and runs the domReady functions
+ * Runs init functions
  *
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
 
 /* Initialize _inbound */
  _inbound.init();
@@ -2887,11 +2898,7 @@ var _inboundPageTracking = (function(_inbound) {
 /* Set Global Lead Data */
 InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
 
-_inbound.Utils.domReady(window, function(){
-    /* On Load Analytics Events */
-    _inbound.DomLoaded();
 
-});
 
 /*
 URL param action
@@ -2976,7 +2983,12 @@ function Tab_vis_Function(data){
 	//alert('Welcome back bro 2');
 }
 
-window.addEventListener("inbound_analytics_page_revisit", page_seen_function, false);
+_inbound.add_action( 'page_revisit', page_revisit_Function, 10 );
+function page_revisit_Function(data){
+	alert('Welcome page_revisit');
+}
+
+window.addEventListener("page_revisit", page_seen_function, false);
 function page_seen_function(e){
     var view_count = e.detail.count;
     console.log("This page has been seen " + e.detail.count + " times");
@@ -2999,18 +3011,18 @@ function session_resume_func(data){
 
 _inbound.add_action( 'session_init', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 
 _inbound.add_action( 'session_end', session_end_func, 10 );
 function session_end_func(data){
-	alert('Session session_end');
+	//alert('Session session_end');
 }
 
 _inbound.add_action( 'analytics_ready', analytics_ready_func, 10 );
 function analytics_ready_func(data){
-	alert('analytics_ready');
+	//alert('analytics_ready');
 }
 
 _inbound.add_action( 'form_input_change', form_input_change_func, 10 );

@@ -36,9 +36,15 @@ var _inbound = (function (options) {
      /* Initialize individual modules */
      init: function () {
          _inbound.Utils.init();
-         _inbound.PageTracking.init();
+
+         _inbound.Utils.domReady(window, function(){
+             /* On Load Analytics Events */
+             _inbound.DomLoaded();
+
+         });
      },
      DomLoaded: function(){
+        _inbound.PageTracking.init();
         /* run form mapping */
         _inbound.Forms.init();
         /* set URL params */

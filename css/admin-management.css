@@ -1,6 +1,9 @@
 div.wrap { width:100%; display: none;
 margin: 0px 20px 0 2px;
 }
+.media-upload-form div.error, .wrap div.error, .wrap div.updated {
+display: none;
+}
 #lead-tag-filter, .action { display: none;}
 
 #filters, #actions { position:relative; margin-top:15px;}

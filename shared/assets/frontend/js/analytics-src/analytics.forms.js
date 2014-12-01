@@ -116,10 +116,12 @@ var InboundForms = (function (_inbound) {
       assignTrackClass: function() {
           if(window.inbound_track_include){
               var selectors = inbound_track_include.include.split(',');
+              console.log('add selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'add');
           }
           if(window.inbound_track_exclude){
               var selectors = inbound_track_exclude.exclude.split(',');
+              console.log('remove selectors ' + inbound_track_exclude.exclude);
               this.loopClassSelectors(selectors, 'remove');
           }
       },

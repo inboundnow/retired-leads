@@ -879,4 +879,7 @@ code .comment {
   position: relative;
   z-index: 1;
 }
+.level-3 {
+  display:none;
+}
 
