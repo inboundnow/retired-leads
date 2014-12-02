@@ -1028,8 +1028,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			(self::$instance->is_preview) ? $display = 'none' : $display = 'none';
 
 			/* Pepare Container Margins if Available */
-			(isset($selected_cta['margin_top'])) ? $margin_top : $margin_top = '0px';
-			(isset($selected_cta['margin_bottom'])) ? $margin_botom : $margin_bottom = '0px';
+			$margin_top = (isset($selected_cta['margin-top'])) ? $selected_cta['margin-top'] : '0';
+			$margin_bottom = (isset($selected_cta['margin-bottom'])) ? $selected_cta['margin-bottom'] : '0';
 
 			/* discover the shortest variation height */
 			foreach ($selected_cta['variations'] as $vid => $variation )
@@ -1051,7 +1051,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$cta_container_class = "wp_cta_container cta_outer_container";
 			$cta_container_class =	apply_filters('wp_cta_container_class', $cta_container_class , $selected_cta['id'] );
 
-			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top};margin-bottom:{$margin_bottom};position:relative;' >";
+			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top}px;margin-bottom:{$margin_bottom}px;position:relative;' >";
 
 
 			$width_array = array();
