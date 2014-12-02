@@ -39,6 +39,7 @@ if (!class_exists('LeadStorage')) {
 			$lead['page_id'] = self::checkVal('page_id', $args);
 			$lead['page_views'] = self::checkVal('page_views', $args);
 			$lead['raw_params'] = self::checkVal('raw_params', $args);
+
 			$lead['mapped_params'] = self::checkVal('mapped_params', $args);
 			$lead['url_params'] = self::checkVal('url_params', $args);
 			$lead['variation'] = self::checkVal('variation', $args);
@@ -364,6 +365,53 @@ if (!class_exists('LeadStorage')) {
 			$ip_addresses = json_encode( $ip_addresses );
 
 			update_post_meta( $lead['id'], 'wpleads_ip_address', $ip_addresses );
+		}
+		static function storeRawFormData($lead){
+			/* Raw Form Values Store */
+			if ($lead_data['form_input_values']) {
+				$raw_post_data = get_post_meta($$lead['id'],'wpleads_raw_post_data', true);
+				$a1 = json_decode( $raw_post_data, true );
+				$a2 = json_decode( stripslashes($lead_data['form_input_values']), true );
+				$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
+				$lead_mapping_fields = Leads_Field_Map::build_map_array();
+
+				foreach ($a2 as $key=>$value)
+				{
+					if (array_key_exists( $key , $exclude_array )) {
+						unset($a2[$key]);
+						continue;
+					}
+					if (preg_match("/\[\]/", $key)) {
+						$key = str_replace("[]", "", $key); // fix array value keys
+					}
+					if (array_key_exists($key, $lead_mapping_fields)) {
+						update_post_meta( $lead_id, $key, $value );
+					}
+
+					if (stristr($key,'company'))
+					{
+						update_post_meta( $lead_id, 'wpleads_company_name', $value );
+					}
+					else if (stristr($key,'website'))
+					{
+						$websites = get_post_meta( $lead_id, 'wpleads_websites', $value );
+						if(is_array($websites)) {
+							$array_websites = explode(';',$websites);
+						}
+						$array_websites[] = $value;
+						$websites = implode(';',$array_websites);
+						update_post_meta( $lead_id, 'wpleads_websites', $websites );
+					}
+				}
+				// Merge form fields if exist
+				if (is_array($a1)) {
+					$new_raw_post_data = array_merge_recursive( $a1, $a2 );
+				} else {
+					$new_raw_post_data = $a2;
+				}
+				$new_raw_post_data = json_encode( $new_raw_post_data );
+				update_post_meta( $lead_id,'wpleads_raw_post_data', $new_raw_post_data );
+			}
 		}
 		static function inbound_check_lead_name( $lead ) {
 

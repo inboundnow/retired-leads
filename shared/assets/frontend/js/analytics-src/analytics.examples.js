@@ -142,6 +142,7 @@ function form_input_change_func(inputData){
 _inbound.add_action( 'form_after_submission', form_after_submission_func, 10 );
 function form_after_submission_func( data ){
 		console.log('do this');
+		// alert(JSON.stringify(data));
 }
 
 /* Jquery Examples */
@@ -156,7 +157,7 @@ function form_after_submission_func( data ){
  function raw_js_trigger(e){
      var data = e.detail;
      console.log('Pure Javascript form_before_submission action fire');
-     //alert(JSON.stringify(data));
+     alert(JSON.stringify(data.raw_params));
  }
 
 if (window.jQuery) {

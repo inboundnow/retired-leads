@@ -263,6 +263,11 @@ var InboundForms = (function (_inbound) {
 
               if (formInput.name) {
 
+                  if (formInput.dataset.ignoreFormField) {
+                     console.log('ignore ' + formInput.name);
+                     continue;
+                  }
+
                   inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
                   //inputName = inputName.replace(/-/g, "_");
                   if (!inputsObject[inputName]) { inputsObject[inputName] = {}; }
@@ -448,6 +453,8 @@ var InboundForms = (function (_inbound) {
             'variation': variation,
             'source': utils.readCookie("inbound_referral_site")
           };
+          alert(JSON.stringify(raw_params));
+          return false;
           callback = function(leadID){
             /* Action Example */
 
@@ -469,7 +476,8 @@ var InboundForms = (function (_inbound) {
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          _inbound.Events.form_before_submission(formData);
+          //_inbound.Events.form_before_submission(formData);
+          _inbound.trigger('form_before_submission', formData);
           //_inbound.trigger('inbound_form_before_submission', formData, true);
 
           utils.ajaxPost(inbound_settings.admin_url, formData, callback);
