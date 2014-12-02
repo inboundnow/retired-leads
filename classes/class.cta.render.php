@@ -297,16 +297,24 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		public function enqueue_cta_js_css() {
 			/* Get Variation Selection Nature */
 			self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
+			self::$instance->lite_ajax = get_option('wp-cta-main-use-lite-ajax-mode' , 0 );
 
 			$post_id = self::$instance->obj_id;
 
-			/* Setup determin variation gloabl function */
+			/* Setup determine variation global function */
 			if ( isset( $_GET['wp-cta-variation-id'] ) ) {
 				self::$instance->selected_cta['id'] = null;
 			}
 
+			/* determine ajax url */
+			if (self::$instance->lite_ajax) {
+				$ajax_url = WP_CTA_URLPATH.'classes/class.ajax.get-variation.php';
+			} else {
+				$ajax_url =  admin_url( 'admin-ajax.php' );
+			}
+			
 			wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => WP_CTA_URLPATH.'classes/class.ajax.get-variation.php' , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
+			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
 
 
 			if ( self::$instance->cta_content_placement === 'popup') {
@@ -850,7 +858,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 
 				$meta = $selected_cta['meta'][$vid];
-				($vid<1) ? $suffix = '' : $suffix = '-'.$vid;
 
 				$template_slug = $selected_cta['meta'][$vid]['wp-cta-selected-template-'.$vid];
 				$custom_css = CTA_Variations::get_variation_custom_css ( $selected_cta['id'] , $vid );
@@ -907,7 +914,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				/* Print Cusom CSS */
 				$inline_content .= '<style type="text/css" id="wp_cta_css_custom_'.$selected_cta['id'].'_'.$vid.'" class="wp_cta_css_'.$selected_cta['id'].' '.$css_styleblock_class.'">'.$custom_css.' '.$dynamic_css.'</style>';
 
-				$custom_js = get_post_meta( $selected_cta['id'] , 'wp-cta-custom-js'.$suffix, true);
+				$custom_js = CTA_Variations::get_variation_custom_js ( $selected_cta['id'] , $vid );
+
 				if (!stristr($custom_css,'<script'))
 				{
 					$inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
@@ -1020,8 +1028,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			(self::$instance->is_preview) ? $display = 'none' : $display = 'none';
 
 			/* Pepare Container Margins if Available */
-			(isset($selected_cta['margin_top'])) ? $margin_top : $margin_top = '0px';
-			(isset($selected_cta['margin_bottom'])) ? $margin_botom : $margin_bottom = '0px';
+			$margin_top = (isset($selected_cta['margin-top'])) ? $selected_cta['margin-top'] : '0';
+			$margin_bottom = (isset($selected_cta['margin-bottom'])) ? $selected_cta['margin-bottom'] : '0';
 
 			/* discover the shortest variation height */
 			foreach ($selected_cta['variations'] as $vid => $variation )
@@ -1043,7 +1051,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			$cta_container_class = "wp_cta_container cta_outer_container";
 			$cta_container_class =	apply_filters('wp_cta_container_class', $cta_container_class , $selected_cta['id'] );
 
-			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top};margin-bottom:{$margin_bottom};position:relative;' >";
+			$cta_template = "<div id='wp_cta_".$selected_cta['id']."_container' class='{$cta_container_class}' style='margin-top:{$margin_top}px;margin-bottom:{$margin_bottom}px;position:relative;' >";
 
 
 			$width_array = array();

@@ -62,6 +62,14 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					'options' => null
 				),			
 				array(
+					'id'	=> 'use-lite-ajax-mode',
+					'label' => __( 'Enable fast ajax.' , 'cta' ),
+					'description' => __( 'Enabling this setting may improve server performance. Currently not compatible with Multi-site.' , 'cta' ),
+					'type'	=> 'radio',
+					'default'	=> '1',
+					'options' => array( 0 => 'Off' , 1 => 'On' )
+				),				
+				array(
 					'id'	=> 'disable-ajax-variation-discovery',
 					'label' => __( 'Disable Split Testing.' , 'cta' ),
 					'description' => __( 'Enabling this setting may improve server performance at the loss of split testing. Only version A will be displayed for every CTA.' , 'cta' ),
@@ -107,8 +115,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			
 			echo '<h2 class="nav-tab-wrapper">';
 
-			foreach (self::$core_settings	as $key => $data)
-			{
+			foreach (self::$core_settings	as $key => $data) 	{
 				?>
 				<a	id='tabs-<?php echo $key; ?>' class="wp-cta-nav-tab nav-tab nav-tab-special<?php echo $active_tab == $key ? '-active' : '-inactive'; ?>"><?php echo $data['label']; ?></a>
 				<?php
@@ -150,7 +157,8 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						<input type='hidden' name='cmd' value='_s-xclick'>
 						<input type='hidden' name='hosted_button_id' value='GKQ2BR3RKB3YQ'>
 						<input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'>
-						<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'></form>
+						<img alt='' border='0' src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif' width='1' height='1'>
+					</form>
 						<small>
 						<?php _e( 'Spare some change? Buy us a coffee/beer.<strong> We appreciate your continued support.</strong>' , 'cta' ); ?>
 						</small>
@@ -175,10 +183,9 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			self::get_core_settings();
 
 			self::inline_js();
-			self::save_settings();
-			
-			self::display_navigation();
+			self::save_settings();			
 			self::display_sidebar();
+			self::display_navigation();
 			
 			foreach ( self::$core_settings as $key => $data)
 			{

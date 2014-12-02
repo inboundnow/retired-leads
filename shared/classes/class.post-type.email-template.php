@@ -247,7 +247,7 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 						'wp_user_password' => stripslashes($plaintext_pass),
 						'wp_user_nicename' => stripslashes($user->nice_name),
 						'wp_user_displayname' => stripslashes($user->display_name),
-						'wp_user_gravatar_url' => 'http://www.gravatar.com/avatar/00000000000000000000000000000000',
+						'wp_user_gravatar_url' => '//www.gravatar.com/avatar/00000000000000000000000000000000',
 					),
 					/* lead data */
 					array(

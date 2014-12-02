@@ -64,6 +64,8 @@ class CTA_Enqueues {
 		/* Add edit cta pills to rendered calls to action */
 		if ( current_user_can( 'manage_options' )) {
 			wp_enqueue_script('frontend-cta-admin', WP_CTA_URLPATH . 'js/admin/frontend-admin-cta.js');
+			wp_localize_script( 'frontend-cta-admin', 'ctafrontend', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
 		}
 
 	}
