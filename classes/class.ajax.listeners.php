@@ -202,7 +202,7 @@ class CTA_Ajax_Listeners {
 
 		/* if only one live variation return the vid */
 		if (count($live_variations)==1) {
-			echo $this->live_variations[0];
+			echo $live_variations[0];
 			exit;
 		}
 
