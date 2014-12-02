@@ -115,15 +115,17 @@ var InboundForms = (function (_inbound) {
           }
       },
       assignTrackClass: function() {
-          if(window.inbound_track_include){
-              var selectors = inbound_track_include.include.split(',');
-              console.log('add selectors ' + inbound_track_exclude.exclude);
-              this.loopClassSelectors(selectors, 'add');
-          }
-          if(window.inbound_track_exclude){
-              var selectors = inbound_track_exclude.exclude.split(',');
-              console.log('remove selectors ' + inbound_track_exclude.exclude);
-              this.loopClassSelectors(selectors, 'remove');
+          if (window.inbound_settings) {
+            if(inbound_settings.inbound_track_include){
+                var selectors = inbound_settings.inbound_track_include.split(',');
+                console.log('add selectors ' + inbound_settings.inbound_track_include);
+                this.loopClassSelectors(selectors, 'add');
+            }
+            if(inbound_settings.inbound_track_exclude){
+                var selectors = inbound_settings.inbound_track_exclude.split(',');
+                console.log('remove selectors ' + inbound_settings.inbound_track_exclude);
+                this.loopClassSelectors(selectors, 'remove');
+            }
           }
       },
       /* Loop through include/exclude items for tracking */
