@@ -23,6 +23,12 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
+      /*!
+      Todo: Use UTC offset
+      var x = new Date();
+      var currentTime = x.getTimezoneOffset() / 60;
+      console.log(currentTime) // gets UTC offset
+      */
       id = inbound_settings.post_id || window.location.pathname,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 

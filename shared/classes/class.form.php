@@ -186,7 +186,7 @@ class Inbound_Forms {
 					$show_labels = false;
 				}
 
-				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$field_container_class.'">';
+				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
 				if ($show_labels && $form_labels != "bottom" || $type === "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
@@ -333,8 +333,8 @@ class Inbound_Forms {
 			// End Loop
 
 			$current_page =  "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$submit_bg.$submit_color.$image_button.'">
-						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
+			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="'.$submit_bg.$submit_color.$image_button.'">
+						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
 			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
@@ -721,19 +721,9 @@ class Inbound_Forms {
 			$content = apply_filters('the_content', $content);
 			$content = str_replace(']]>', ']]&gt;', $content);
 
-			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-				<html>
-				<head>
-					<meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
-				</head>
-				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
-					<table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
-					<tr>';
+			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" /></head><body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0"><table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0"><tr>';
 			$confirm_email_message .= $content;
-			$confirm_email_message .= '</tr>
-							</table>
-						</body>
-						</html>';
+			$confirm_email_message .= '</tr></table></body></html>';
 		}
 
 

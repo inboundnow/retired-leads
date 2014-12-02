@@ -1096,6 +1096,9 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Cross-browser event listening  */
         addListener: function(element, eventName, listener) {
+            if(!element){
+                return;
+            }
             //console.log(eventName);
             //console.log(listener);
             if (element.addEventListener) {
@@ -1437,6 +1440,11 @@ var InboundForms = (function (_inbound) {
 
               if (formInput.name) {
 
+                  if (formInput.dataset.ignoreFormField) {
+                     console.log('ignore ' + formInput.name);
+                     continue;
+                  }
+
                   inputName = formInput.name.replace(/\[([^\[]*)\]/g, "%5B%5D$1");
                   //inputName = inputName.replace(/-/g, "_");
                   if (!inputsObject[inputName]) { inputsObject[inputName] = {}; }
@@ -1622,6 +1630,8 @@ var InboundForms = (function (_inbound) {
             'variation': variation,
             'source': utils.readCookie("inbound_referral_site")
           };
+          alert(JSON.stringify(raw_params));
+          return false;
           callback = function(leadID){
             /* Action Example */
 
@@ -1643,7 +1653,8 @@ var InboundForms = (function (_inbound) {
 
           }
           //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-          _inbound.Events.form_before_submission(formData);
+          //_inbound.Events.form_before_submission(formData);
+          _inbound.trigger('form_before_submission', formData);
           //_inbound.trigger('inbound_form_before_submission', formData, true);
 
           utils.ajaxPost(inbound_settings.admin_url, formData, callback);
@@ -2854,6 +2865,12 @@ var _inboundPageTracking = (function(_inbound) {
       utils = _inbound.Utils,
       Pages = _inbound.totalStorage('page_views') || {},
       timeNow = _inbound.Utils.GetDate(),
+      /*!
+      Todo: Use UTC offset
+      var x = new Date();
+      var currentTime = x.getTimezoneOffset() / 60;
+      console.log(currentTime) // gets UTC offset
+      */
       id = inbound_settings.post_id || window.location.pathname,
       analyticsTimeout = _inbound.Settings.timeout || 30000;
 
@@ -3335,6 +3352,7 @@ function form_input_change_func(inputData){
 _inbound.add_action( 'form_after_submission', form_after_submission_func, 10 );
 function form_after_submission_func( data ){
 		console.log('do this');
+		// alert(JSON.stringify(data));
 }
 
 /* Jquery Examples */
@@ -3349,7 +3367,7 @@ function form_after_submission_func( data ){
  function raw_js_trigger(e){
      var data = e.detail;
      console.log('Pure Javascript form_before_submission action fire');
-     //alert(JSON.stringify(data));
+     alert(JSON.stringify(data.raw_params));
  }
 
 if (window.jQuery) {

@@ -583,6 +583,9 @@ var _inboundUtils = (function(_inbound) {
         },
         /* Cross-browser event listening  */
         addListener: function(element, eventName, listener) {
+            if(!element){
+                return;
+            }
             //console.log(eventName);
             //console.log(listener);
             if (element.addEventListener) {
