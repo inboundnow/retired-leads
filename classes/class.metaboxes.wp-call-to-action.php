@@ -717,7 +717,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			echo '<span id="cta_shortcode_form" style="display:none; font-size: 13px;margin-left: 15px;">
 				'. __('Variation Shortcode' , 'cta' ) .': <input type="text" style="width: 200px;" class="regular-text code short-shortcode-input" readonly="readonly" id="shortcode" name="shortcode" value=\'[cta id="'.$post->ID.'" vid="'.$vid.'"]\'>
-				<div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the WordPress editor on any given page' , 'cta' ) .'"></div></span>';
+				<div class="wp_cta_tooltip" style="margin-left: 0px;" title="'. __( 'You can copy and paste this shortcode into any page or post to render this call to action. You can also insert CTAs from the WordPress editor on any given page. To enable variation rotation remove the vid= attribute.' , 'cta' ) .'"></div></span>';
 			
 		}
 		
