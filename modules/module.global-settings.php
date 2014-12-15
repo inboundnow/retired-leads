@@ -20,7 +20,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'exclude-tracking-ids',
 			'label' => __('IDs or Classes of forms <u>NOT</u> to track' , 'leads' ),
-			'description' => __("<p>Enter in a value found in a HTML form's id attribute to turn off tracking.</p>" , 'leads' ),
+			'description' => __("Enter in a value found in a HTML form's id attribute to turn off tracking." , 'leads' ),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
@@ -28,7 +28,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'form-prepopulation',
 			'label' => __('Form prepopulation' , 'leads' ),
-			'description' => __("<p>WordPress Leads records submitted field data for leads and will attempt to prepopulate forms with the last inputted data. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'description' => __("WordPress Leads records submitted field data for leads and will attempt to prepopulate forms with the last inputted data. Disabling this will turn this feature off." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -36,7 +36,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'page-view-tracking',
 			'label' => __('Page View Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues.</p>" , 'leads' ),
+			'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -44,7 +44,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'search-tracking',
 			'label' => __('Search Query Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'description' => __("WordPress Leads records searches made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -52,7 +52,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'comment-tracking',
 			'label' => __('Comment Tracking' , 'leads' ),
-			'description' => __("<p>WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off.</p>" , 'leads' ),
+			'description' => __("WordPress Leads records comments made by leads and appends them to their lead record. Disabling this will turn this feature off." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -60,7 +60,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'enable-dashboard',
 			'label' => __('Show Lead/List Data in Dashboard' , 'leads' ),
-			'description' => __("<p>Turn this on to show graphical and list data about lead collection in WP Dashboard.</p>" , 'leads' ),
+			'description' => __("Turn this on to show graphical and list data about lead collection in WP Dashboard." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -68,7 +68,7 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'disable-widgets',
 			'label' => __('Disable Default WordPress Dashboard Widgets' , 'leads' ),
-			'description' => __("<p>This turns off some default widgets on the wordpress dashboard.</p>" , 'leads' ),
+			'description' => __("This turns off some default widgets on the wordpress dashboard." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -76,15 +76,15 @@ function wpleads_get_global_settings() {
 		array(
 			'id'  => 'extra-lead-data',
 			'label' => __('Full Contact API Key' , 'leads' ),
-			'description' => sprintf( __("<p>Enter your Full contact API key. If you don't have one. Grab a free one here: %s </p>" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
+			'description' => sprintf( __("Enter your Full contact API key. If you don't have one. Grab a free one here: %s" , 'leads' ) , "<a href='https://www.fullcontact.com/developer/pricing/' target='_blank'>" , "</a>"),
 			'type'  => 'text',
 			'default'  => '',
 			'options' => null
 		),
 		array(
 			'id'  => 'inbound_compatibility_mode',
-			'label' => __('Turn on compability mode' , 'leads' ),
-			'description' => __("<p>This option turns on compability mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts.</p>" , 'leads' ),
+			'label' => __('Turn on compatibility mode' , 'leads' ),
+			'description' => __("This option turns on compatibility mode for the inbound now plugins. This is typically used if you are experiencing bugs caused by third party plugin conflicts." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -93,7 +93,7 @@ function wpleads_get_global_settings() {
 			'id'  => 'inbound_email_replace_core_template',
 			'option_name'  => 'inbound_email_replace_core_template',
 			'label' => __('Replace WordPress Email Templates with Inbound Now Email Templates' , 'leads' ),
-			'description' => __("<p>This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language.</p>" , 'leads' ),
+			'description' => __("This option replaces frequently used core WordPress email templates with Inbound Now templates that are editable within the Leads->Email Templates area. If your website is set to a a language besides English it may be best to turn this off until test strings have been translated for your language." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '1',
 			'options' => array('1'=>'On','0'=>'Off')
@@ -102,7 +102,7 @@ function wpleads_get_global_settings() {
 			'id'  => 'inbound_forms_enable_akismet',
 			'option_name'  => 'inbound_forms_enable_akismet',
 			'label' => __('Run form submissions through Akismet if akismet is enabled.' , 'leads' ),
-			'description' => __("<p>Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions.</p>" , 'leads' ),
+			'description' => __("Enabling this option will tell Leads to run form submissions through akismet to prevent spam submissions." , 'leads' ),
 			'type'  => 'radio',
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')

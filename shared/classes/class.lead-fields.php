@@ -237,7 +237,7 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 			);
 
-			$lead_fields = apply_filters('wp_leads_add_lead_field',$lead_fields);
+			$lead_fields = apply_filters( 'wp_leads_add_lead_field' , $lead_fields );
 
 			return $lead_fields;
 		}

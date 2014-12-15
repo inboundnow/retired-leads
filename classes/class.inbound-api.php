@@ -462,7 +462,6 @@ if (!class_exists('Inbound_API')) {
 		 * @return int 
 		 */
 		public static function get_results_per_page() {
-
 			return isset( $_REQUEST['results_per_page'] ) ? $_REQUEST['results_per_page'] : self::$results_per_page;
 		}
 
@@ -712,7 +711,7 @@ if (!class_exists('Inbound_API')) {
 			if (isset($params['meta_query'])) {
 				$args['meta_query'] = self::validate_parameter( $params['meta_query'] , 'meta_query',  'array'  );
 			} 
-			
+
 			/* Run Query */
 			$results = new WP_Query( $args );
 			
@@ -721,6 +720,11 @@ if (!class_exists('Inbound_API')) {
 				$message['message'] = __( 'No leads were found given this query.' , 'leads' ) ;
 				self::$data = $message;
 				self::output( 401 );
+			}
+			
+			/* Secret mod to return results without additional data */
+			if ( isset($params['fields']) && $params['fields'] == 'ids' ) {
+				return $results;
 			}
 			
 			/* Get meta data for each result */
@@ -738,15 +742,24 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public static function leads_prepare_defaults( $params ) {
 			
-			 $args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'email' , 'string'  ) : '';
-			 $args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']) , 'ID' , 'integer'  ) : '';
-			 $args['posts_per_page'] = self::get_results_per_page();
-			 $args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']) , 'page' , 'integer' ) : 1 ;
-			 $args['orderby'] = (isset($params['orderby'])) ?  $params['orderby'] : 'date' ;
-			 $args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'] , 'order_by' , 'string' ) : 'DESC' ;
-			 $args['post_type'] = 'wp-lead';
+			$args['s'] = (isset($params['email'])) ? self::validate_parameter( $params['email'] , 'email' , 'string'  ) : '';
+			$args['p'] = (isset($params['ID'])) ? self::validate_parameter( intval($params['ID']) , 'ID' , 'integer'  ) : '';
+			$args['posts_per_page'] = isset($params['results_per_page']) ? $params['results_per_page'] :  self::get_results_per_page();
+			$args['paged'] = (isset($params['page'])) ? self::validate_parameter( intval($params['page']) , 'page' , 'integer' ) : 1 ;
+			$args['orderby'] = (isset($params['orderby'])) ?  $params['orderby'] : 'date' ;
+			
+			if (isset($params['fields'])) {
+				$args['fields'] = $params['fields'];
+			}			
+			
+			
+			if ($params['orderby'] != 'rand') {
+				$args['order'] = (isset($params['order'])) ? self::validate_parameter( $params['order'] , 'order_by' , 'string' ) : 'DESC' ;
+			}
+			
+			$args['post_type'] = 'wp-lead';
 
-			 return $args;
+			return $args;
 		}
 		
 		/**
