@@ -272,18 +272,23 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			if (!isset($geodata)) {
 				$geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$ip_address);
-				$geodata = unserialize(  $geodata['body'] );
+				if(!is_wp_error($geodata)){
+					$geodata = unserialize(  $geodata['body'] );
+				}
 			}
 
-			if (!is_array($geodata)) {
+			if (!is_array($geodata) || is_wp_error($geodata) ) {
+				echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 				return;
 			}
-
-			$latitude = $geodata['geoplugin_latitude'];
-			$longitude = $geodata['geoplugin_longitude'];
+			if($ip_address === "127.0.0.1") {
+					echo "<h3>".__('Last conversion detected from localhost' , 'leads')."</h3>";
+			}
+			$latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
+			$longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
 
 			?>
-			<div >
+			<div>
 				<div class="inside" style='margin-left:-8px;text-align:left;'>
 					<div id='last-conversion-box'>
 						<div id='lead-geo-data-area'>
@@ -319,7 +324,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 										<iframe width="278" height="276" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;q='.$latitude.','.$longitude.'&amp;aq=&amp;output=embed&amp;z=11"></iframe>
 										</div>';
 							}
-						}else {
+						} else {
 							echo "<h2>".__('No Geo data collected' , 'leads')."</h2>";
 						}
 						?>
@@ -333,8 +338,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		/**
 		*	Save meta data
 		*/
-		public static function save_data( $post_id )
-		{
+		public static function save_data( $post_id ) {
 			global $post;
 
 			if ( !isset( $post ) || $post->post_type != 'wp-lead' ) {
@@ -348,19 +352,19 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			/* lead status */
 			if (isset($_POST['wp_lead_status'])) {
-				update_post_meta( $post_id, 'wp_lead_status', $_POST[ $key ] );
+				update_post_meta( $post_id, 'wp_lead_status', $_POST['wp_lead_status'] );
 			}
 
 			/* Loop through mappable fields and save data */
 			$Leads_Field_Map = new Leads_Field_Map();
 			$wpleads_user_fields = $Leads_Field_Map->get_lead_fields();
 
-			foreach ($wpleads_user_fields as $key=>$field)
-			{
+			foreach ($wpleads_user_fields as $key=>$field) {
 
 				$old = get_post_meta($post_id, $field['key'], true);
-				if (isset($_POST[$field['key']]))
-				{
+
+				if (isset($_POST[$field['key']])) {
+
 					$new = $_POST[$field['key']];
 
 					if (is_array($new))	{
@@ -368,9 +372,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 						array_filter($new);
 						$new = implode(';',$new);
 						update_post_meta($post_id, $field['key'], $new);
-					}
-					else if (isset($new) && $new != $old )
-					{
+
+					} else if (isset($new) && $new != $old ) {
+
 						update_post_meta($post_id, $field['key'], $new);
 
 						if ($field['key']=='wpleads_email_address') {
@@ -378,9 +382,10 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 							wp_update_post($args);
 						}
 
-					}
-					else if ('' == $new && $old) {
+					} else if ('' == $new && $old) {
+
 						delete_post_meta($post_id, $field['key'], $old);
+
 					}
 				}
 			}
@@ -395,12 +400,15 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			}
 
 			if ( $hook == 'post-new.php' ) {
+
 			}
 
 			if ( $hook == 'post.php' ) {
+
 			}
 
 			if ($hook == 'post-new.php' || $hook == 'post.php') {
+
 			}
 		}
 

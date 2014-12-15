@@ -288,7 +288,7 @@ function wpl_admin_posts_meta_filter( $query ) {
 				$query->query_vars['meta_value'] = $_GET['lead-email'];
 			}
 	}
-	
+
 	// Redirect clicks from lead emails to lead profiles.
 	add_action('admin_init', 'wp_lead_redirect_with_email');
 	function wp_lead_redirect_with_email() {
@@ -458,12 +458,9 @@ function wp_leads_raw_form_map_save()
 // Ajax Auto mark lead as read on first page view
 add_action( 'wp_ajax_nopriv_wp_leads_auto_mark_as_read', 'wp_leads_auto_mark_as_read' );
 add_action( 'wp_ajax_wp_leads_auto_mark_as_read', 'wp_leads_auto_mark_as_read' );
-function wp_leads_auto_mark_as_read()
-{
+function wp_leads_auto_mark_as_read(){
 	global $wpdb;
-	if ( !wp_verify_nonce( $_POST['nonce'], "wp-lead-map-nonce")) {
-		 exit("Wrong nonce");
-	}
+
 	//$mapped_field = $_POST['mapped_field'];
 	$newrules = "Read";
 	$post_id = mysql_real_escape_string($_POST['page_id']);
@@ -536,9 +533,9 @@ add_action('load-edit.php', 'wpleads_bulk_action');
 function wpleads_bulk_action() {
 	// ...
 	if (isset($_REQUEST['post_type'])&&$_REQUEST['post_type']=='wp-lead'&&isset($_REQUEST['post'])) {
-		
+
 		global $Inbound_Leads;
-		
+
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
 		$action = $wp_list_table->current_action();
 
