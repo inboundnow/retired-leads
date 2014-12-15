@@ -99,9 +99,14 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		public function setup_globals() {
 			global $wp_query;
 
-			self::$instance->obj = $wp_query->get_queried_object();
-			self::$instance->obj_id = $wp_query->get_queried_object_id();
-
+			/* running these on paged renders causes pagniation to break */
+			if ( get_query_var('page') < 1 ) {
+				self::$instance->obj = $wp_query->get_queried_object();
+				self::$instance->obj_id = $wp_query->get_queried_object_id();
+			} else {
+				$paged = 1;
+			}
+			
 			if (!isset(self::$instance->obj)) {
 				self::$instance->obj = new stdClass();
 				self::$instance->obj->post_type = 'none';
@@ -111,6 +116,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 				case is_home():
 					self::$instance->obj_nature = 'home';
 					BREAK;
+				case $paged:
+					self::$instance->obj_nature = 'paged';
 				case is_front_page():
 					self::$instance->obj_nature = 'home';
 					BREAK;
