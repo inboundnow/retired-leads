@@ -103,8 +103,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			if ( get_query_var('page') < 1 ) {
 				self::$instance->obj = $wp_query->get_queried_object();
 				self::$instance->obj_id = $wp_query->get_queried_object_id();
+				$paged = false;
 			} else {
-				$paged = 1;
+				$paged = true;
 			}
 			
 			if (!isset(self::$instance->obj)) {
