@@ -17,6 +17,9 @@ padding: 0px;
 #poststuff {
 	display: none;
 }
+#wplead_metabox_main.postbox {
+	box-shadow: none !important;
+}
 .lead-comment-div p {
 	margin-top: 0px;
 }

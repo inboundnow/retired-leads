@@ -1560,7 +1560,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				}
 				else
 				{
-					echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
+					//echo "<span id='wpl-message-none'>". __( 'No raw data found!' ,'leads') ."</span>";
 				}
 
 				?>
