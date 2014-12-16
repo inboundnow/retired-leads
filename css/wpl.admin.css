@@ -308,6 +308,9 @@ h2 .nav-tab {
 	font-size: 13px;
 	margin: 0;
 }
+.wpl-raw-data-tr:last-of-type {
+	border-bottom: none;
+}
 #all-lead-history .recent-conversion-item {
 	border-bottom: none;
 }
