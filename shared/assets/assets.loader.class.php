@@ -55,13 +55,14 @@ class Inbound_Asset_Loader {
 			          wp_dequeue_script( $handle );
 			      }
 			}
-			if (!defined('InboundAnalytics_v2')) {
+			/*if (!defined('InboundAnalytics_v2')) {
 	  		self::load_file('funnel-tracking', 'frontend/js/inbound.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
 	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'inbound_ajax', self::localize_lead_data());
 	  		} else {
+	  			*/
 
 	  		self::load_file('funnel-tracking', 'frontend/js/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
-	  		}
+	  		/* } */
 
 	  		if (is_array($store)) {
 		  		foreach ( $store as $handle ) {
