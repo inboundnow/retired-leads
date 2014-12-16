@@ -884,11 +884,11 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 					'label'=> __( 'Comments' , 'leads' ),
 					'count' => self::get_comment_count()
 				),
-				array(
+				/*array(
 					'id'=>'lead-searches',
 					'label'=> __( 'Searches' , 'leads' ),
 					'count' => self::get_search_count()
-				),
+				),*/
 				array(
 					'id'=>'lead-tracked-links',
 					'label'=> __( 'Custom Events' , 'leads' ),
@@ -1243,7 +1243,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			self::activity_navigation();
 			self::activity_conversions();
 			self::activity_comments();
-			self::activity_searches();
+			//self::activity_searches();
 			self::activity_pageviews();
 			self::activity_custom_events();
 
@@ -1284,12 +1284,15 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$new_array = array();
 			$loop = 0;
-
 			// Combine and loop through all page view objects
 			foreach(self::$page_views as $key=>$val)
 			{
 				foreach(self::$page_views[$key] as $test){
 						$new_array[$loop]['page'] = $key;
+						$test = preg_replace('/\\//', "-", $test);
+						if(!strstr($test, "UTC")) {
+							$test .= " UTC";
+						}
 						$new_array[$loop]['date'] = $test;
 						$loop++;
 				}
@@ -1297,7 +1300,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 
 			$new_array = array_merge($c_array, $new_array); // Merge conversion and page view json objects
 
-			//uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse' ) ); // Date sort
+
+			uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse' ) ); // Date sort
 
 
 			$new_key_array = array();
@@ -1307,6 +1311,8 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				$new_key_array[ $num ] = $val;
 				$num++;
 			}
+
+			//uasort($new_key_array, array( __CLASS__ , 'datetime_sort_reverse' ) ); // Date sort
 
 
 			$new_loop = 1;

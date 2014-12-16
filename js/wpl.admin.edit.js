@@ -45,6 +45,10 @@ jQuery(document).ready(function($) {
 	  }
 	});
 
+	var rawData = jQuery("#postcustom");
+	rawData.show();
+	jQuery("#raw-data-display").append(rawData);
+
 	jQuery('#wplead_list_category-add-toggle').hide();
 
 	jQuery('.row-actions').each(function() {
