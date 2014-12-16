@@ -8,14 +8,44 @@
 if (!class_exists('LeadStorage')) {
 	class LeadStorage {
 		static $mapped_fields;
+		static $is_ajax;
 
+		/**
+		*	Initialize class
+		*/
 		static function init() {
+			/* determines if in ajax mode */
+			self::set_mode();
+			
+			/* sets up ajax listeners */
 			add_action('wp_ajax_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
 			add_action('wp_ajax_nopriv_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
-			//add_action( 'inboundnow_store_lead_pre_filter_data',  array(__CLASS__, 'inbound_check_lead_name'), 10 , 1);
+			
+			/* filters name data to build a more comprehensive data set */
+			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10 , 1);
 		}
 
-		static function inbound_lead_store($args = array()) {
+		/**
+		*	Checks if running in ajax mode
+		*/
+		static function set_mode( $mode = 'auto' ) {
+			switch( $mode ) {
+				case 'auto':
+					self::$is_ajax =	( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;
+					BREAK;
+				case 'ajax':
+					self::$is_ajax = true;
+					BREAK;
+				case 'return':
+					self::$is_ajax = false;
+					BREAK;
+			}
+		}
+
+		/**
+		*	Stores lead
+		*/
+		static function inbound_lead_store( $args ) {
 			global $user_ID, $wpdb;
 			if (!is_array($args)) { $args = array(); }
 
@@ -32,28 +62,27 @@ if (!class_exists('LeadStorage')) {
 			$time = current_time( 'timestamp', 0 );
 			$lead['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 
-			$lead['email'] = str_replace("%40", "@", self::checkVal('email', $args));
-			$lead['name'] = str_replace("%20", " ", self::checkVal('full_name', $args));
-			$lead['first_name'] = str_replace("%20", "", self::checkVal('first_name', $args));
-			$lead['last_name'] = str_replace("%20", "", self::checkVal('last_name', $args));
-			$lead['page_id'] = self::checkVal('page_id', $args);
-			$lead['page_views'] = self::checkVal('page_views', $args);
-			$lead['raw_params'] = self::checkVal('raw_params', $args);
+			$lead['email'] = str_replace("%40", "@", self::check_val('email', $args));
+			$lead['name'] = str_replace("%20", " ", self::check_val('full_name', $args));
+			$lead['first_name'] = str_replace("%20", "", self::check_val('first_name', $args));
+			$lead['last_name'] = str_replace("%20", "", self::check_val('last_name', $args));
+			$lead['page_id'] = self::check_val('page_id', $args);
+			$lead['page_views'] = self::check_val('page_views', $args);
+			$lead['raw_params'] = self::check_val('raw_params', $args);
 
-			$lead['mapped_params'] = self::checkVal('mapped_params', $args);
-			$lead['url_params'] = self::checkVal('url_params', $args);
-			$lead['variation'] = self::checkVal('variation', $args);
-			$lead['source'] = self::checkVal('source', $args);
-			$lead['ip_address'] = self::inbound_get_ip_address();
+			$lead['mapped_params'] = self::check_val('mapped_params', $args);
+			$lead['url_params'] = self::check_val('url_params', $args);
+			$lead['variation'] = self::check_val('variation', $args);
+			$lead['source'] = self::check_val('source', $args);
+			$lead['ip_address'] = self::lookup_ip_address();
 
 			if($lead['mapped_params']){
 				parse_str($lead['mapped_params'], $mappedData);
-
 			} else {
 				$mappedData = array();
 			}
 
-			$mappedData = self::fixMapping($mappedData, $lead);
+			$mappedData = self::improve_mapping($mappedData, $lead);
 
 			$lead['lead_lists'] = (array_key_exists('inbound_form_lists', $mappedData)) ? explode(",", $mappedData['inbound_form_lists']) : false;
 			//print_r($lead['lead_lists']); wp_die();
@@ -66,7 +95,7 @@ if (!class_exists('LeadStorage')) {
 			if ( (isset($lead['email']) && !empty($lead['email']) && strstr($lead['email'] ,'@'))) {
 
 
-				$leadExists = self::lookupLeadByEmail($lead['email']);
+				$leadExists = self::lookup_lead_by_email($lead['email']);
 				//print_r($leadExists); wp_die();
 				/* Update Lead if Exists else Create New Lead */
 				if ( $leadExists ) {
@@ -75,10 +104,11 @@ if (!class_exists('LeadStorage')) {
 					do_action('wpleads_existing_lead_update', $lead);
 				} else {
 				/* Create new lead if one doesnt exist */
-					$lead['id'] = self::createNewLead($lead);
+					$lead['id'] = self::store_new_lead($lead);
 				}
+				
 				/* do everything else for lead storage */
-				self::inbound_update_common_meta($lead);
+				self::update_common_meta($lead);
 
 				do_action('wpleads_after_conversion_lead_insert', $lead['id']); // action hook on all lead inserts
 
@@ -91,27 +121,27 @@ if (!class_exists('LeadStorage')) {
 				/* Store page views for people with ajax tracking off */
 				$ajax_tracking_off = false; // get_option
 				if($lead['page_views'] && $ajax_tracking_off ) {
-					self::storePageViews($lead);
+					self::store_page_views($lead);
 				}
 
 				/* Store Mapped Form Data */
 				if(!empty($mappedData)){
-					self::storeMappedData($lead, $mappedData);
+					self::store_mapped_data($lead, $mappedData);
 				}
 
 				/* Store past search history */
 				if(isset($lead['search_data'])){
-					self::storeSearchHistory($lead);
+					self::store_search_history($lead);
 				}
 
 				/* Store ConversionData */
 				if ( isset($lead['page_id']) ) {
-					self::storeConversionData($lead);
+					self::store_conversion_data($lead);
 				}
 
 				/* Store Lead Source */
 				if ( isset($lead['source']) ) {
-					self::storeReferralData($lead);
+					self::store_referral_data($lead);
 				}
 
 				/* Store URL Params */
@@ -121,17 +151,16 @@ if (!class_exists('LeadStorage')) {
 					if(is_array($param_array)){
 
 					}
-
 				}
 
 				/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
 				if (isset($lead['post_type']) && $lead['post_type'] == 'landing-page' || isset($lead['post_type']) && $lead['post_type'] == 'wp-call-to-action') {
-					self::storeConversionStats($lead);
+					self::store_conversion_stats($lead);
 				}
 
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
-					self::storeGeolocationData($lead);
+					self::store_geolocation_data($lead);
 				}
 
 				//setcookie('wp_lead_id' , $lead['id'], time() + (20 * 365 * 24 * 60 * 60),'/');
@@ -141,7 +170,7 @@ if (!class_exists('LeadStorage')) {
 				do_action('wpl_store_lead_post', $lead );
 				do_action('lp_store_lead_post', $lead );
 
-				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				if ( self::$is_ajax ) {
 					echo $lead['id'];
 					die();
 				} else {
@@ -149,7 +178,11 @@ if (!class_exists('LeadStorage')) {
 				}
 			}
 		}
-		static function createNewLead($lead){
+
+		/**
+		*	Creates new lead in wp-lead post type
+		*/
+		static function store_new_lead($lead){
 			/* Create New Lead */
 			$post = array(
 				'post_title'		=> $lead['email'],
@@ -170,7 +203,11 @@ if (!class_exists('LeadStorage')) {
 			do_action('wpleads_new_lead_insert', $lead ); // action hook on new leads only
 			return $id;
 		}
-		static function storePageViews($lead){
+
+		/**
+		*	Updates pages viewed object
+		*/
+		static function store_page_views($lead){
 			$page_view_data = get_post_meta( $lead['id'], 'page_views', TRUE );
 			$page_view_data = json_decode($page_view_data,true);
 
@@ -185,7 +222,11 @@ if (!class_exists('LeadStorage')) {
 			}
 			update_post_meta($lead['id'], 'page_views', $page_views );
 		}
-		static function storeMappedData($lead, $mappedData){
+
+		/**
+		*	Prefixes keys with wpleads_ if key is not prepended with wpleads_
+		*/
+		static function store_mapped_data($lead, $mappedData){
 			foreach ($mappedData as $key => $value) {
 				update_post_meta($lead['id'], $key, $value);
 				/* Old convention with wpleads_ prefix */
@@ -206,7 +247,11 @@ if (!class_exists('LeadStorage')) {
 				//$mappedData = json_decode(stripslashes($lead['mapped_params']), true );
 			}
 		}
-		static function storeSearchHistory($lead){
+
+		/**
+		*	Updates search history object
+		*/
+		static function store_search_history($lead){
 				$search = $lead['search_data'];
 				$search_data = get_post_meta( $lead['id'], 'wpleads_search_data', TRUE );
 				$search_data = json_decode($search_data,true);
@@ -231,8 +276,10 @@ if (!class_exists('LeadStorage')) {
 				$search_data = json_encode($search_data);
 				update_post_meta($lead['id'], 'wpleads_search_data', $search_data); // Store search object
 		}
-		/* update conversion object */
-		static function storeConversionData( $lead ) {
+		/**
+		*		updates conversion data object
+		*/
+		static function store_conversion_data( $lead ) {
 
 				$conversion_data = get_post_meta( $lead['id'], 'wpleads_conversion_data', TRUE );
 				$conversion_data = json_decode($conversion_data,true);
@@ -256,8 +303,10 @@ if (!class_exists('LeadStorage')) {
 				update_post_meta($lead['id'], 'wpleads_conversion_data', $lead['conversion_data']);// Store conversion obj
 
 		}
-		/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
-		static function storeConversionStats($lead){
+		/**
+		*			Store Conversion Data to LANDING PAGE/CTA DATA
+		*/
+		static function store_conversion_stats($lead){
 			$page_conversion_data = get_post_meta( $lead['page_id'], 'inbound_conversion_data', TRUE );
 			$page_conversion_data = json_decode($page_conversion_data,true);
 			$version = ($lead['variation'] != 'default') ? $lead['variation'] : '0';
@@ -274,8 +323,11 @@ if (!class_exists('LeadStorage')) {
 			$page_conversion_data = json_encode($page_conversion_data);
 			update_post_meta($lead['page_id'], 'inbound_conversion_data', $page_conversion_data);
 		}
-		/* Store Lead Referral Source Data */
-		static function storeReferralData($lead) {
+
+		/**
+		*	Stores referral data
+		*/
+		static function store_referral_data($lead) {
 			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
 
 			// Parse referral for additional data
@@ -287,14 +339,14 @@ if (!class_exists('LeadStorage')) {
 			//$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', '');
 			$referer = $parser->parse($lead['source']);
 
-		    if ( $referer->isKnown() ) {
-		        $ref_type = $referer->getMedium();
+			 if ( $referer->isKnown() ) {
+					$ref_type = $referer->getMedium();
 
-		    } else {
-		    	// check if ref exists
-		    	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
+			 } else {
+			 	// check if ref exists
+			 	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
 
-		    }
+			 }
 
 			$referral_data = json_decode($referral_data,true);
 			if (is_array($referral_data)){
@@ -314,9 +366,14 @@ if (!class_exists('LeadStorage')) {
 			update_post_meta($lead['id'], 'wpleads_referral_data', $lead['referral_data']); // Store referral object
 			update_post_meta($lead['id'], 'wpleads_referral_type', $ref_type); // Store referral object
 		}
-		/*	Loop trough lead_data array and update post meta */
-		static function inbound_update_common_meta($lead) {
 
+		/**
+		*		Loop trough lead_data array and update post meta
+		*/
+		static function update_common_meta($lead) {
+
+			print_r($lead);
+			
 			if (!empty($lead['user_ID'])) {
 				/* Update user_ID if exists */
 				update_post_meta( $lead['id'], 'wpleads_wordpress_user_id', $lead['user_ID'] );
@@ -327,19 +384,28 @@ if (!class_exists('LeadStorage')) {
 				update_post_meta( $lead['id'], 'wp_leads_uid', $lead['wp_lead_uid'] );
 			}
 
-			/* Update mappable fields */
+			/* Update email address */
+			if (!empty($lead['email'])) {
+				update_post_meta( $lead['id'], 'wplead_email_address', $lead['email'] );
+			}
+			
+			/* Update mappable fields that have a value associated with them */
 			$lead_fields = Leads_Field_Map::build_map_array();
 			foreach ( $lead_fields as $key => $value ) {
-				if (isset($lead_data[$key])) {
-					update_post_meta( $lead['id'], $key, $lead_data[$key] );
+				$shortkey = str_replace('wpleads_' , '' , $key );
+				if (isset($lead[$shortkey])) {
+					echo $key . ':' . $lead[$shortkey] . "\r\n";
+					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
+			exit;
 		}
+
 		/**
 		 *	Connects to geoplugin.net and gets data on IP address and sets it into historical log
 		 *	@param ARRAY $lead_data
 		 */
-		static function storeGeolocationData( $lead ) {
+		static function store_geolocation_data( $lead ) {
 
 			$ip_addresses = get_post_meta( $lead['id'], 'wpleads_ip_address', true );
 			$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
@@ -366,7 +432,11 @@ if (!class_exists('LeadStorage')) {
 
 			update_post_meta( $lead['id'], 'wpleads_ip_address', $ip_addresses );
 		}
-		static function storeRawFormData($lead){
+
+		/**
+		*	Updates raw form data object
+		*/
+		static function store_raw_form_data($lead){
 			/* Raw Form Values Store */
 			if ($lead_data['form_input_values']) {
 				$raw_post_data = get_post_meta($$lead['id'],'wpleads_raw_post_data', true);
@@ -413,11 +483,15 @@ if (!class_exists('LeadStorage')) {
 				update_post_meta( $lead_id,'wpleads_raw_post_data', $new_raw_post_data );
 			}
 		}
-		static function inbound_check_lead_name( $lead ) {
+
+		/**
+		*	Parses & improves lead name
+		*/
+		static function improve_lead_name( $lead ) {
 
 			/* if last name empty and full name present */
-			if ( empty($lead['last_name']) && $lead['full_name'] ) {
-				$parts = explode(' ' , $lead['full_name']);
+			if ( empty($lead['last_name']) && $lead['name'] ) {
+				$parts = explode(' ' , $lead['name']);
 
 				/* Set first name */
 				$lead['first_name'] = $parts[0];
@@ -440,9 +514,18 @@ if (!class_exists('LeadStorage')) {
 				}
 			}
 
+			/* set full name */
+			if (!$lead['name'] && $lead['first_name'] && $lead['last_name'] ) {
+				$lead['name'] = $lead['first_name'] .' '. $lead['last_name'];
+			}
+
 			return $lead;
 		}
-		static function fixMapping($mappedData, $lead) {
+
+		/**
+		*	Uses mapped data if not programatically set
+		*/
+		static function improve_mapping($mappedData, $lead) {
 			$arr = $mappedData;
 			/* Set names if not mapped */
 			$arr['first_name'] = (!isset($arr['first_name'])) ? $lead['first_name'] : $arr['first_name'];
@@ -451,7 +534,11 @@ if (!class_exists('LeadStorage')) {
 
 			return $arr;
 		}
-		static function lookupLeadByEmail($email){
+
+		/**
+		*	Search lead by email
+		*/
+		static function lookup_lead_by_email($email){
 			global $wpdb;
 			$query = $wpdb->prepare(
 				'SELECT ID FROM ' . $wpdb->posts . '
@@ -469,7 +556,7 @@ if (!class_exists('LeadStorage')) {
 
 		}
 
-		static function checkVal($key, $args) {
+		static function check_val($key, $args) {
 			$val = (isset($args[$key])) ? $args[$key] : false;
 			return $val;
 		}
@@ -487,7 +574,11 @@ if (!class_exists('LeadStorage')) {
 			}
 			return $arr1;
 		}
-		static function inbound_get_ip_address() {
+
+		/**
+		*	Discover session IP address
+		*/
+		static function lookup_ip_address() {
 			if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 				if(isset($_SERVER["HTTP_CLIENT_IP"])) {
 					$proxy = $_SERVER["HTTP_CLIENT_IP"];
@@ -509,3 +600,44 @@ if (!class_exists('LeadStorage')) {
 
 	LeadStorage::init();
 }
+
+/**
+* Legacy function used by some extensions
+* @param ARRAY $args legacy dataset of mapped lead fields
+* @param BOOL $return set to true to disable printing of lead id
+*/
+function inbound_store_lead( $args , $return = true	) {
+	global $user_ID, $wpdb;
+
+	if (!is_array($args)) {
+		$args = array();
+	}
+
+	/* Mergs $args with POST request for support of ajax and direct calls */
+	$args = array_merge( $args , $_POST );
+
+	/* wpleads_email_address becomes wpleads_email */
+	$args['email'] = $args['wpleads_email_address'];
+
+	/* loop through and remove wpleads_ (we will add them back in the new method ) */
+	foreach ($args as $key => $value) {
+		$newkey = str_replace( 'wpleads_' , '' , $key );
+		unset($args[$key]);
+		$args[$newkey] = $value;
+	}
+
+	/* Send data through new method */
+	$Leads = new LeadStorage();
+	if ($return) {
+		$Leads->set_mode('return');
+	} else {		
+		$Leads->set_mode('ajax');
+	}
+	
+	$lead_id = $Leads::inbound_lead_store( $args );
+
+	return $lead_id;
+
+
+}
+
