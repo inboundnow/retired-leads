@@ -55,10 +55,13 @@ var _inboundLeadsAPI = (function(_inbound) {
             } else {
                 // set global lead var with localstorage data
                 _inbound.LeadsAPI.setGlobalLeadData(leadData);
-                console.log('Set Global Lead Data from Localstorage');
+                _inbound.deBugger('lead', 'Set Global Lead Data from Localstorage');
+
                 if (!leadDataExpire) {
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
-                    console.log('localized data old. Pull new from DB');
+                    //console.log('Set Global Lead Data from Localstorage');
+                     _inbound.deBugger('lead', 'localized data old. Pull new from DB');
+                    //console.log('localized data old. Pull new from DB');
                 }
             }
 
@@ -74,7 +77,8 @@ var _inboundLeadsAPI = (function(_inbound) {
                     path: '/',
                     expires: 1
                 });
-                console.log("Lists checked");
+                _inbound.deBugger('lead', "Lists checked");
+                //console.log("Lists checked");
             };
             //_inbound.Utils.doAjax(data, success);
             _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);

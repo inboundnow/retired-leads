@@ -1313,7 +1313,10 @@ var InboundForms = (function(_inbound) {
                 } else if (ClassIs.toLowerCase().indexOf("inbound-track") > -1) {
                     return true;
                 } else {
-                    _inbound.deBugger('forms', "No form to track on this page. Please assign on in settings");
+                    cb = function(){
+                        console.log(form);
+                    }
+                    _inbound.deBugger('forms', "This form not tracked. Please assign on in settings...", cb);
                     return false;
                 }
             }
@@ -1471,7 +1474,7 @@ var InboundForms = (function(_inbound) {
                 if (formInput.name) {
 
                     if (formInput.dataset.ignoreFormField) {
-                        console.log('ignore ' + formInput.name);
+                        _inbound.deBugger('forms', 'ignore ' + formInput.name);
                         continue;
                     }
 
@@ -1499,7 +1502,7 @@ var InboundForms = (function(_inbound) {
                         case 'INPUT':
                             value = this.getInputValue(formInput);
 
-                            console.log(value);
+
                             if (value === false) {
                                 continue;
                             }
@@ -1527,6 +1530,9 @@ var InboundForms = (function(_inbound) {
                             console.log('select val', value);
                             break;
                     }
+
+                    _inbound.deBugger('forms', 'Input Value = ' + value);
+
 
                     if (value) {
                         /* inputsObject[inputName].push(multiple ? values.join(',') : encodeURIComponent(value)); */
@@ -1576,11 +1582,10 @@ var InboundForms = (function(_inbound) {
             }
 
             var raw_params = rawParams.join('&');
-            console.log("Stringified Raw Form PARAMS", raw_params);
-
+            _inbound.deBugger('forms', "Stringified Raw Form PARAMS: " + raw_params);
 
             var mapped_params = mappedParams.join('&');
-            console.log("Stringified Mapped PARAMS", mapped_params);
+             _inbound.deBugger('forms', "Stringified Mapped PARAMS" + mapped_params);
 
             /* Check Use form Email or Cookie */
             var email = utils.getParameterVal('email', mapped_params) || utils.readCookie('wp_lead_email');
@@ -1613,9 +1618,10 @@ var InboundForms = (function(_inbound) {
 
             fullName = (fName && lName) ? fName + " " + lName : fullName;
 
-            console.log(fName); // outputs email address or false
-            console.log(lName); // outputs email address or false
-            console.log(fullName); // outputs email address or false
+            _inbound.deBugger('forms', "fName = " + fName);
+            _inbound.deBugger('forms', "lName = " + lName);
+            _inbound.deBugger('forms', "fullName = " + fullName);
+
             //return false;
             var page_views = _inbound.totalStorage('page_views') || {};
             var urlParams = _inbound.totalStorage('inbound_url_params') || {};
@@ -1674,8 +1680,7 @@ var InboundForms = (function(_inbound) {
             callback = function(leadID) {
                 /* Action Example */
 
-
-                console.log('Lead Created with ID: ' + leadID);
+                _inbound.deBugger('forms', 'Lead Created with ID: ' + leadID);
                 leadID = parseInt(leadID, 10);
                 formData.leadID = leadID;
                 /* Set Lead cookie ID */
@@ -1779,29 +1784,26 @@ var InboundForms = (function(_inbound) {
                 var lookingFor = utils.trim(match);
                 var nice_name = lookingFor.replace(/ /g, '_');
 
-                this.debug('Names', function() {
-                    console.log("NICE NAME", nice_name);
-                    console.log('looking for match on ' + lookingFor);
-                });
+
+                //console.log("NICE NAME", nice_name);
+                //console.log('looking for match on ' + lookingFor);
+                //_inbound.deBugger('forms', 'looking for match on ' + lookingFor + " nice_name= " + nice_name);
 
                 // Check if input has an attached lable using for= tag
                 //var $laxbel = $("label[for='" + $element.attr('id') + "']").text();
-                var labxel = 'label[for="' + input_id + '"]';
+                //var labxel = 'label[for="' + input_id + '"]';
 
                 /* look for name attribute match */
                 if (input_name && input_name.toLowerCase().indexOf(lookingFor) > -1) {
-                    var found = true;
-                    this.debug('FOUND name attribute', function() {
-                        console.warn('FOUND name: ' + lookingFor);
-                    });
+
+                    found = true;
+                    _inbound.deBugger('forms', 'Found matching name attribute for -> ' + lookingFor);
 
                     /* look for id match */
                 } else if (input_id && input_id.toLowerCase().indexOf(lookingFor) > -1) {
-                    var found = true;
 
-                    this.debug('FOUND id:', function() {
-                        console.log('FOUND id: ' + lookingFor);
-                    });
+                    found = true;
+                     _inbound.deBugger('forms', 'Found matching ID attribute for ->' + lookingFor);
 
                     /* Check siblings for label */
                 } else if (label = this.siblingsIsLabel(input)) {
@@ -1809,30 +1811,25 @@ var InboundForms = (function(_inbound) {
                     //var label = (label.length > 1 ? label[0] : label);
                     //console.log('label', label);
                     if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
-                        var found = true;
 
-                        this.debug('Sibling matches single label', function() {
-                            console.log('FOUND label text: ' + lookingFor);
-                        });
+                        found = true;
+                        _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
 
                     }
                     /* Check closest li for label */
                 } else if (labelText = this.CheckParentForLabel(input)) {
 
-                    this.debug('li labels found in form', function() {
-                        console.log(labelText)
-                    });
+                     //console.log(labelText)
 
                     if (labelText.toLowerCase().indexOf(lookingFor) > -1) {
-                        var found = true;
+                        found = true;
+                         _inbound.deBugger('forms', 'Found Matching parent label for -> ' + lookingFor);
+
                     }
 
                 } else {
-
-                    this.debug('NO MATCH', function() {
-                        console.log('NO Match on ' + lookingFor + " in " + input_name);
-                    });
-
+                    /* no match found */
+                    //_inbound.deBugger('forms', 'NO Match on ' + lookingFor + " in " + input_name);
                     no_match.push(lookingFor);
 
                 }
@@ -1858,7 +1855,7 @@ var InboundForms = (function(_inbound) {
                 case 'checkbox':
                     if (input.checked) {
                         value = input.value;
-                        console.log("CHECKBOX VAL", value)
+                        //console.log("CHECKBOX VAL", value)
                     }
                     break;
 
@@ -1896,7 +1893,7 @@ var InboundForms = (function(_inbound) {
             if (index >= 0) {
                 array.splice(index, 1);
             }
-            _inbound.deBugger('forms', 'removed ' + item + " from array");
+            //_inbound.deBugger('forms', 'removed ' + item + " from array");
             //console.log('removed ' + item + " from array");
             return;
         },
@@ -2880,10 +2877,13 @@ var _inboundLeadsAPI = (function(_inbound) {
             } else {
                 // set global lead var with localstorage data
                 _inbound.LeadsAPI.setGlobalLeadData(leadData);
-                console.log('Set Global Lead Data from Localstorage');
+                _inbound.deBugger('lead', 'Set Global Lead Data from Localstorage');
+
                 if (!leadDataExpire) {
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
-                    console.log('localized data old. Pull new from DB');
+                    //console.log('Set Global Lead Data from Localstorage');
+                     _inbound.deBugger('lead', 'localized data old. Pull new from DB');
+                    //console.log('localized data old. Pull new from DB');
                 }
             }
 
@@ -2899,7 +2899,8 @@ var _inboundLeadsAPI = (function(_inbound) {
                     path: '/',
                     expires: 1
                 });
-                console.log("Lists checked");
+                _inbound.deBugger('lead', "Lists checked");
+                //console.log("Lists checked");
             };
             //_inbound.Utils.doAjax(data, success);
             _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);

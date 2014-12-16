@@ -97,7 +97,7 @@ if (!class_exists('Inbound_Feedback')) {
 		if ( ! self::$add_feedback || ! is_admin()) {
 			return;
 		}
-		
+
 		$screen = get_current_screen();
 
 		$show_array = array(
@@ -117,7 +117,7 @@ if (!class_exists('Inbound_Feedback')) {
 			"wp-call-to-action_page_wp_cta_manage_templates",
 			"wp-call-to-action_page_wp_cta_global_settings"
 		);
-		
+
 		$lp_page_array = array(
 			"edit-landing-page",
 			"landing-page_page_lp_global_settings",
@@ -125,14 +125,14 @@ if (!class_exists('Inbound_Feedback')) {
 			"landing-page_page_lp_manage_templates",
 			"edit-landing_page_category"
 		);
-		
+
 		$leads_page_array = array(
 			"wp-lead",
 			"edit-wp-lead",
 			"edit-list",
 			"wp-lead_page_wpleads_global_settings",
 		);
-		
+
 		$cta_page_array = array(
 			"edit-wp-call-to-action",
 			"wp-call-to-action",
@@ -140,11 +140,11 @@ if (!class_exists('Inbound_Feedback')) {
 			"wp-call-to-action_page_wp_cta_manage_templates",
 			"wp-call-to-action_page_wp_cta_global_settings"
 		);
-		
+
 		if (!in_array($screen->id, $show_array)) {
-				return; 
+				return;
 		}
-	
+
 		$plugin_name = "Inbound Now Marketing Plugins"; // default
 		if (in_array($screen->id, $lp_page_array)) {
 			$plugin_name = "Landing Pages plugin";
@@ -160,7 +160,7 @@ if (!class_exists('Inbound_Feedback')) {
 	<div class="inbound-close-fb">close</div>
 			<div id="lp-slide-toggle">
 			<header id="header" class='inbound-customhead'>
-			<img src="<?php echo INBOUDNOW_SHARED_URLPATH . 'assets/admin/images/inbound-now-logo.png';?>" width="315px">
+			<a href="http://www.inboundnow.com" target="_blank" title="Visit Inbound Now"><img src="<?php echo INBOUDNOW_SHARED_URLPATH . 'assets/admin/images/inbound-now-logo.png';?>" width="315px"></a>
 			<h3 class="main-feedback-header" >We love hearing from You!</h3>
 			<h4>Please leave your <strong>idea/feature request</strong> to make the <?php echo $plugin_name;?> better below!</h4>
 			</header>
