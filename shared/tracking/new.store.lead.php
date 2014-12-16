@@ -16,11 +16,11 @@ if (!class_exists('LeadStorage')) {
 		static function init() {
 			/* determines if in ajax mode */
 			self::set_mode();
-			
+
 			/* sets up ajax listeners */
 			add_action('wp_ajax_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
 			add_action('wp_ajax_nopriv_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
-			
+
 			/* filters name data to build a more comprehensive data set */
 			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10 , 1);
 		}
@@ -106,7 +106,7 @@ if (!class_exists('LeadStorage')) {
 				/* Create new lead if one doesnt exist */
 					$lead['id'] = self::store_new_lead($lead);
 				}
-				
+
 				/* do everything else for lead storage */
 				self::update_common_meta($lead);
 
@@ -373,7 +373,7 @@ if (!class_exists('LeadStorage')) {
 		static function update_common_meta($lead) {
 
 			print_r($lead);
-			
+
 			if (!empty($lead['user_ID'])) {
 				/* Update user_ID if exists */
 				update_post_meta( $lead['id'], 'wpleads_wordpress_user_id', $lead['user_ID'] );
@@ -388,7 +388,7 @@ if (!class_exists('LeadStorage')) {
 			if (!empty($lead['email'])) {
 				update_post_meta( $lead['id'], 'wplead_email_address', $lead['email'] );
 			}
-			
+
 			/* Update mappable fields that have a value associated with them */
 			$lead_fields = Leads_Field_Map::build_map_array();
 			foreach ( $lead_fields as $key => $value ) {
@@ -606,38 +606,40 @@ if (!class_exists('LeadStorage')) {
 * @param ARRAY $args legacy dataset of mapped lead fields
 * @param BOOL $return set to true to disable printing of lead id
 */
-function inbound_store_lead( $args , $return = true	) {
-	global $user_ID, $wpdb;
+if (!function_exists('inbound_store_lead')) {
+	function inbound_store_lead( $args , $return = true	) {
+		global $user_ID, $wpdb;
 
-	if (!is_array($args)) {
-		$args = array();
+		if (!is_array($args)) {
+			$args = array();
+		}
+
+		/* Mergs $args with POST request for support of ajax and direct calls */
+		$args = array_merge( $args , $_POST );
+
+		/* wpleads_email_address becomes wpleads_email */
+		$args['email'] = $args['wpleads_email_address'];
+
+		/* loop through and remove wpleads_ (we will add them back in the new method ) */
+		foreach ($args as $key => $value) {
+			$newkey = str_replace( 'wpleads_' , '' , $key );
+			unset($args[$key]);
+			$args[$newkey] = $value;
+		}
+
+		/* Send data through new method */
+		$Leads = new LeadStorage();
+		if ($return) {
+			$Leads->set_mode('return');
+		} else {
+			$Leads->set_mode('ajax');
+		}
+
+		$lead_id = $Leads::inbound_lead_store( $args );
+
+		return $lead_id;
+
+
 	}
-
-	/* Mergs $args with POST request for support of ajax and direct calls */
-	$args = array_merge( $args , $_POST );
-
-	/* wpleads_email_address becomes wpleads_email */
-	$args['email'] = $args['wpleads_email_address'];
-
-	/* loop through and remove wpleads_ (we will add them back in the new method ) */
-	foreach ($args as $key => $value) {
-		$newkey = str_replace( 'wpleads_' , '' , $key );
-		unset($args[$key]);
-		$args[$newkey] = $value;
-	}
-
-	/* Send data through new method */
-	$Leads = new LeadStorage();
-	if ($return) {
-		$Leads->set_mode('return');
-	} else {		
-		$Leads->set_mode('ajax');
-	}
-	
-	$lead_id = $Leads::inbound_lead_store( $args );
-
-	return $lead_id;
-
-
 }
 
