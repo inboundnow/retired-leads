@@ -31,15 +31,6 @@ jQuery(".lead").append('"' + clean + '" => "' + toTitleCase(new_name) + '", ');
 	$lead_mapping_fields = Leads_Field_Map::build_map_array();
 	$lead_list_names = get_transient( 'inbound-list-names' );
 
-    add_filter( 'excerpt_length', 'inbound_excerpt_length' );
-	if (!function_exists('inbound_excerpt_length')) {
-		function inbound_excerpt_length( $length ) {
-	        $custom = '';
-	        return ( $custom != '' ? $custom : 40 );
-	    }
-    }
-
-
 	/* Global Inbound Now Shortcodes */
 	require_once ('shortcodes/forms.php'); // Form Builder
 	require_once ('shortcodes/column.php'); // Columned Layouts

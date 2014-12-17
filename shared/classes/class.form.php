@@ -186,18 +186,17 @@ class Inbound_Forms {
 					$show_labels = false;
 				}
 
-				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$field_container_class.'">';
+				$form .= '<div class="inbound-field '.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
-				if ($show_labels && $form_labels != "bottom" || $type === "radio")
-				{
+				if ($show_labels && $form_labels != "bottom" || $type === "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
 
 				if ($type === 'textarea') {
-					$form .=	'<textarea placeholder="'.$placeholder_use.'" class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="in_'.$field_name.'" '.$req.'/></textarea>';
-				}
-				else if ($type === 'dropdown')
-				{
+					$form .=	'<textarea placeholder="'.$placeholder_use.'" class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="'.$field_name.'" '.$req.'/></textarea>';
+
+				} else if ($type === 'dropdown') {
+
 					$dropdown_fields = array();
 					$dropdown = $matches[3][$i]['dropdown'];
 					$dropdown_fields = explode(",", $dropdown);
@@ -229,9 +228,9 @@ class Inbound_Forms {
 						$form .= '<option value="'.$key.'">'. utf8_encode($value) .'</option>';
 					}
 					$form .= '</select>';
-				}
-				else if ($type === 'date-selector')
-				{
+
+				} else if ($type === 'date-selector') {
+
 					$m = date('m');
 					$d = date('d');
 					$y = date('Y');
@@ -261,21 +260,21 @@ class Inbound_Forms {
 					$form .= '	</select>';
 					$form .= '</div>';
 
-				}
-				else if ($type === 'radio')
-				{
+				} else if ($type === 'radio') {
+
 					$radio_fields = array();
 					$radio = $matches[3][$i]['radio'];
 					$radio_fields = explode(",", $radio);
 					// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 
-					foreach ($radio_fields as $key => $value)
-					{
+					foreach ($radio_fields as $key => $value) {
 						$radio_val_trimmed =	trim($value);
 						$radio_val =	strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
 						$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
 					}
+
 				} else if ($type === 'checkbox') {
+
 					$checkbox_fields = array();
 
 					$checkbox = $matches[3][$i]['checkbox'];
@@ -292,19 +291,25 @@ class Inbound_Forms {
 						$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" '.$required_id.'>'.$checkbox_val_trimmed.'<br>';
 					}
 				} else if ($type === 'html-block') {
+
 					$html = $matches[3][$i]['html'];
 					//echo $html;
 					$form .= "<div class={$field_input_class}>";
 					$form .= do_shortcode(html_entity_decode($html));
 					$form .= "</div>";
+
 				} else if ($type === 'divider') {
+
 					$divider = $matches[3][$i]['divider_options'];
 					//echo $html;
 					$form .= "<div class='inbound-form-divider {$field_input_class}'>" . $divider . "<hr></div>";
+
 				} else if ($type === 'editor') {
 					//wp_editor(); // call wp editor
 				} else if ($type === 'honeypot') {
+
 					$form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
+
 				} else {
 					$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 					$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
@@ -312,8 +317,9 @@ class Inbound_Forms {
 					if ($type === 'hidden' && $dynamic_value != "") {
 						$fill_value = $dynamic_value;
 					}
-					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$formatted_label.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.' '.$req.'/>';
+					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.' '.$req.'/>';
 				}
+
 				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
 					$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
 				}
@@ -327,8 +333,8 @@ class Inbound_Forms {
 			// End Loop
 
 			$current_page =  "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" style="'.$submit_bg.$submit_color.$image_button.'">
-						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input type="hidden" name="inbound_submitted" value="1">';
+			$form .= '<div class="inbound-field '.$main_layout.' inbound-submit-area"><button type="submit" class="inbound-button-submit inbound-submit-action" value="'.$submit_button.'" name="send" id="inbound_form_submit" data-ignore-form-field="true" style="'.$submit_bg.$submit_color.$image_button.'">
+						'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
 					// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
 			$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
@@ -415,215 +421,7 @@ class Inbound_Forms {
 			return;
 
 		echo '<script type="text/javascript">
-		if (typeof Mailcheck === "undefined") {
-			var Mailcheck = {
-			  domainThreshold: 1,
-			  topLevelThreshold: 3,
 
-			  defaultDomains: ["yahoo.com", "google.com", "hotmail.com", "gmail.com", "me.com", "aol.com", "mac.com",
-			    "live.com", "comcast.net", "googlemail.com", "msn.com", "hotmail.co.uk", "yahoo.co.uk",
-			    "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "outlook.com", "icloud.com"],
-
-			  defaultTopLevelDomains: ["co.jp", "co.uk", "com", "net", "org", "info", "edu", "gov", "mil", "ca"],
-
-			  run: function(opts) {
-			    opts.domains = opts.domains || Mailcheck.defaultDomains;
-			    opts.topLevelDomains = opts.topLevelDomains || Mailcheck.defaultTopLevelDomains;
-			    opts.distanceFunction = opts.distanceFunction || Mailcheck.sift3Distance;
-
-			    var defaultCallback = function(result){ return result };
-			    var suggestedCallback = opts.suggested || defaultCallback;
-			    var emptyCallback = opts.empty || defaultCallback;
-
-			    var result = Mailcheck.suggest(Mailcheck.encodeEmail(opts.email), opts.domains, opts.topLevelDomains, opts.distanceFunction);
-
-			    return result ? suggestedCallback(result) : emptyCallback()
-			  },
-
-			  suggest: function(email, domains, topLevelDomains, distanceFunction) {
-			    email = email.toLowerCase();
-
-			    var emailParts = this.splitEmail(email);
-
-			    var closestDomain = this.findClosestDomain(emailParts.domain, domains, distanceFunction, this.domainThreshold);
-
-			    if (closestDomain) {
-			      if (closestDomain != emailParts.domain) {
-			        // The email address closely matches one of the supplied domains; return a suggestion
-			        return { address: emailParts.address, domain: closestDomain, full: emailParts.address + "@" + closestDomain };
-			      }
-			    } else {
-			      // The email address does not closely match one of the supplied domains
-			      var closestTopLevelDomain = this.findClosestDomain(emailParts.topLevelDomain, topLevelDomains, distanceFunction, this.topLevelThreshold);
-			      if (emailParts.domain && closestTopLevelDomain && closestTopLevelDomain != emailParts.topLevelDomain) {
-			        // The email address may have a mispelled top-level domain; return a suggestion
-			        var domain = emailParts.domain;
-			        closestDomain = domain.substring(0, domain.lastIndexOf(emailParts.topLevelDomain)) + closestTopLevelDomain;
-			        return { address: emailParts.address, domain: closestDomain, full: emailParts.address + "@" + closestDomain };
-			      }
-			    }
-			    /* The email address exactly matches one of the supplied domains, does not closely
-			     * match any domain and does not appear to simply have a mispelled top-level domain,
-			     * or is an invalid email address; do not return a suggestion.
-			     */
-			    return false;
-			  },
-
-			  findClosestDomain: function(domain, domains, distanceFunction, threshold) {
-			    threshold = threshold || this.topLevelThreshold;
-			    var dist;
-			    var minDist = 99;
-			    var closestDomain = null;
-
-			    if (!domain || !domains) {
-			      return false;
-			    }
-			    if(!distanceFunction) {
-			      distanceFunction = this.sift3Distance;
-			    }
-
-			    for (var i = 0; i < domains.length; i++) {
-			      if (domain === domains[i]) {
-			        return domain;
-			      }
-			      dist = distanceFunction(domain, domains[i]);
-			      if (dist < minDist) {
-			        minDist = dist;
-			        closestDomain = domains[i];
-			      }
-			    }
-
-			    if (minDist <= threshold && closestDomain !== null) {
-			      return closestDomain;
-			    } else {
-			      return false;
-			    }
-			  },
-
-			  sift3Distance: function(s1, s2) {
-			    // sift3: http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
-			    if (s1 == null || s1.length === 0) {
-			      if (s2 == null || s2.length === 0) {
-			        return 0;
-			      } else {
-			        return s2.length;
-			      }
-			    }
-
-			    if (s2 == null || s2.length === 0) {
-			      return s1.length;
-			    }
-
-			    var c = 0;
-			    var offset1 = 0;
-			    var offset2 = 0;
-			    var lcs = 0;
-			    var maxOffset = 5;
-
-			    while ((c + offset1 < s1.length) && (c + offset2 < s2.length)) {
-			      if (s1.charAt(c + offset1) == s2.charAt(c + offset2)) {
-			        lcs++;
-			      } else {
-			        offset1 = 0;
-			        offset2 = 0;
-			        for (var i = 0; i < maxOffset; i++) {
-			          if ((c + i < s1.length) && (s1.charAt(c + i) == s2.charAt(c))) {
-			            offset1 = i;
-			            break;
-			          }
-			          if ((c + i < s2.length) && (s1.charAt(c) == s2.charAt(c + i))) {
-			            offset2 = i;
-			            break;
-			          }
-			        }
-			      }
-			      c++;
-			    }
-			    return (s1.length + s2.length) /2 - lcs;
-			  },
-
-			  splitEmail: function(email) {
-			    var parts = email.trim().split("@");
-
-			    if (parts.length < 2) {
-			      return false;
-			    }
-
-			    for (var i = 0; i < parts.length; i++) {
-			      if (parts[i] === "") {
-			        return false;
-			      }
-			    }
-
-			    var domain = parts.pop();
-			    var domainParts = domain.split(".");
-			    var tld = "";
-
-			    if (domainParts.length == 0) {
-			      // The address does not have a top-level domain
-			      return false;
-			    } else if (domainParts.length == 1) {
-			      // The address has only a top-level domain (valid under RFC)
-			      tld = domainParts[0];
-			    } else {
-			      // The address has a domain and a top-level domain
-			      for (var i = 1; i < domainParts.length; i++) {
-			        tld += domainParts[i] + ".";
-			      }
-			      if (domainParts.length >= 2) {
-			        tld = tld.substring(0, tld.length - 1);
-			      }
-			    }
-
-			    return {
-			      topLevelDomain: tld,
-			      domain: domain,
-			      address: parts.join("@")
-			    }
-			  },
-
-			  // Encode the email address to prevent XSS but leave in valid
-			  // characters, following this official spec:
-			  // http://en.wikipedia.org/wiki/Email_address#Syntax
-			  encodeEmail: function(email) {
-			    var result = encodeURI(email);
-			    result = result.replace("%20", " ").replace("%25", "%").replace("%5E", "^")
-			                   .replace("%60", "`").replace("%7B", "{").replace("%7C", "|")
-			                   .replace("%7D", "}");
-			    return result;
-			  }
-			};
-
-			// Export the mailcheck object if we"re in a CommonJS env (e.g. Node).
-			// Modeled off of Underscore.js.
-			if (typeof module !== "undefined" && module.exports) {
-			    module.exports = Mailcheck;
-			}
-
-			if (typeof window !== "undefined" && window.jQuery) {
-			  (function($){
-			    $.fn.mailcheck = function(opts) {
-			      var self = this;
-			      if (opts.suggested) {
-			        var oldSuggested = opts.suggested;
-			        opts.suggested = function(result) {
-			          oldSuggested(self, result);
-			        };
-			      }
-
-			      if (opts.empty) {
-			        var oldEmpty = opts.empty;
-			        opts.empty = function() {
-			          oldEmpty.call(null, self);
-			        };
-			      }
-
-			      opts.email = this.val();
-			      Mailcheck.run(opts);
-			    }
-			  })(jQuery);
-			};
-		}
 			jQuery(document).ready(function($){
 
 			jQuery("form").submit(function(e) {
@@ -637,25 +435,7 @@ class Inbound_Forms {
 				    }
 				});
 			});
-			$(".inbound-email").on("blur", function(event) {
-			  //console.log("event ", event);
-			  //console.log("this ", $(this));
-			  var that = $(this);
-			  $(this).mailcheck({
 
-			    suggested: function(element, suggestion) {
-			      // callback code
-			      console.log("suggestion ", suggestion.full);
-			      $(".email_suggestion").remove();
-			      var insert = "<span class=\"email_suggestion\">Did you mean <b><i>" + suggestion.full + "</b></i>?</span>";
-			      $(that).after(insert);
-			    },
-			    empty: function(element) {
-			      // callback code
-			      $(".email_suggestion").html("No Suggestions :(");
-			    }
-			  });
-			});
 			jQuery("#inbound_form_submit br").remove(); // remove br tags
 			function validateEmail(email) {
 
@@ -941,19 +721,9 @@ class Inbound_Forms {
 			$content = apply_filters('the_content', $content);
 			$content = str_replace(']]>', ']]&gt;', $content);
 
-			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-				<html>
-				<head>
-					<meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" />
-				</head>
-				<body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0">
-					<table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0">
-					<tr>';
+			$confirm_email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html;' . get_option('blog_charset') . '" /></head><body style="margin: 0px; background-color: #F4F3F4; font-family: Helvetica, Arial, sans-serif; font-size:12px;" text="#444444" bgcolor="#F4F3F4" link="#21759B" alink="#21759B" vlink="#21759B" marginheight="0" topmargin="0" marginwidth="0" leftmargin="0"><table cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" border="0"><tr>';
 			$confirm_email_message .= $content;
-			$confirm_email_message .= '</tr>
-							</table>
-						</body>
-						</html>';
+			$confirm_email_message .= '</tr></table></body></html>';
 		}
 
 

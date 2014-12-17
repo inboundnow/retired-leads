@@ -133,7 +133,7 @@ class Inbound_Email_Template_Shortcodes {
 		  'default' => 'mm'
 		), $atts ) );
 
-		return "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+		return "//www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 
 	}
 }
