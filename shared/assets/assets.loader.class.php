@@ -168,7 +168,7 @@ class Inbound_Asset_Loader {
 		$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 		$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 		$wordpress_date_time = date("Y/m/d G:i:s", $time);
-		$inbound_track_include = get_option( 'wpl-main-tracking-ids', 1);
+		$inbound_track_include = get_option( 'wpl-main-tracking-ids');
 		$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
 		$inbound_localized_data = array('post_id' => $post_id,
 										'ip_address' => $ip_address,

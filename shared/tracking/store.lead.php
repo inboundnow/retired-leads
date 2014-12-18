@@ -79,14 +79,14 @@ add_action('wp_ajax_nopriv_inbound_store_lead', 'inbound_store_lead' ,10 , 1);
  */
 function inbound_store_lead( $args = array( ) , $return = false ) {
 	global $user_ID, $wpdb;
-	
+
 	if (!is_array($args)) {
 		$args = array();
 	}
-	
+
 	/* Mergs $args with POST request for support of ajax and direct calls */
 	$args = array_merge( $args , $_POST );
-	
+
 	/* Grab form values */
 	$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
 	$lead_data['user_ID'] = $user_ID;
@@ -94,7 +94,7 @@ function inbound_store_lead( $args = array( ) , $return = false ) {
 	$lead_data['wpleads_email_address'] = (isset($args['emailTo'])) ? $args['emailTo'] : false;
 	$lead_data['page_views'] = (isset($args['page_views'])) ?	$args['page_views'] : false;
 	$lead_data['form_input_values'] = (isset($args['form_input_values'])) ? $args['form_input_values'] : false; // raw post data
-	
+
 	/* Attempt to populate lead data through mappped fields */
 	$lead_data['Mapped_Data'] = (isset($args['Mapped_Data'] )) ? $args['Mapped_Data'] : false; // mapped data
 	($lead_data['Mapped_Data']) ? $mapped_data = json_decode(stripslashes($lead_data['Mapped_Data']), true ) : $mapped_data = array(); // mapped data array
@@ -134,7 +134,7 @@ function inbound_store_lead( $args = array( ) , $return = false ) {
 	$lead_data = apply_filters( 'inboundnow_store_lead_pre_filter_data' , $lead_data , $args);
 
 	do_action('inbound_store_lead_pre' , $lead_data , $args ); // Global lead storage action hook
-	
+
 	/* bail if spam */
 	if (apply_filters( 'inbound_check_if_spam' , false ,	$lead_data )) {
 		exit;
@@ -407,7 +407,7 @@ function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 
 
 /**
- *	Loop trough lead_data array and update post meta 
+ *	Loop trough lead_data array and update post meta
  */
 function inbound_update_common_meta($lead_data)
 {
@@ -415,12 +415,12 @@ function inbound_update_common_meta($lead_data)
 	if (!empty($lead_data['user_ID'])) {
 		update_post_meta( $lead_data['lead_id'], 'wpleads_wordpress_user_id', $lead_data['user_ID'] );
 	}
-	
+
 	/* Update wp_lead_uid if exist */
 	if (!empty($lead_data['wp_lead_uid'])) {
 		update_post_meta( $lead_data['lead_id'], 'wp_leads_uid', $lead_data['wp_lead_uid'] );
 	}
-	
+
 	/* Update mappable fields */
 	$lead_fields = Leads_Field_Map::build_map_array();
 	foreach ( $lead_fields as $key => $value ) {
@@ -432,20 +432,20 @@ function inbound_update_common_meta($lead_data)
 
 /**
  *	Connects to geoplugin.net and gets data on IP address and sets it into historical log
- *	@param ARRAY $lead_data 
+ *	@param ARRAY $lead_data
  */
 function inbound_update_geolocation_data( $lead_data ) {
 
 	$ip_addresses = get_post_meta( $lead_data['lead_id'] , 'wpleads_ip_address', true );
 	$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
-	
+
 	if (!$ip_addresses) {
 		$ip_addresses = array();
 	}
-	
+
 	$new_record[ $lead_data['ip_address'] ]['ip_address'] = $lead_data['ip_address'];
-	
-	
+
+
 	/* ignore for local environments */
 	if ($lead_data['ip_address']!= "127.0.0.1"){ // exclude localhost
 		$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead_data['ip_address']);
@@ -453,12 +453,12 @@ function inbound_update_geolocation_data( $lead_data ) {
 			$geo_array = @unserialize( $response['body'] );
 			$new_record[ $lead_data['ip_address'] ]['geodata'] = $geo_array;
 		}
-		
+
 	}
-	
+
 	$ip_addresses = array_merge( $new_record , $ip_addresses );
 	$ip_addresses = json_encode( $ip_addresses );
-	
+
 	update_post_meta( $lead_data['lead_id'], 'wpleads_ip_address', $ip_addresses );
 }
 
@@ -481,14 +481,14 @@ function inbound_json_array_merge( $arr1, $arr2 ) {
 
 
 /**
-* Loop through field map looking for key matches in array 
-* @param ARRAY $lead_data 
-* @param ARRAY $args 
-* @returns ARRAY $lead_data 
+* Loop through field map looking for key matches in array
+* @param ARRAY $lead_data
+* @param ARRAY $args
+* @returns ARRAY $lead_data
 */
 function inbound_search_args_for_mapped_data( $lead_data , $args ) {
 	$lead_fields = Leads_Field_Map::build_map_array();
-	
+
 	foreach ($lead_fields as $key => $label) {
 		if (isset($args[$key]) && !empty($args[$key])) {
 			$lead_data[$key] = $args[$key];
@@ -507,26 +507,26 @@ function inbound_check_lead_name( $lead_data ) {
 	/* if last name empty and full name present */
 	if ( empty($lead_data['wpleads_last_name']) && $lead_data['wpleads_full_name'] ) {
 		$parts = explode(' ' , $lead_data['wpleads_full_name']);
-		
+
 		/* Set first name */
 		$lead_data['wpleads_first_name'] = $parts[0];
-		
+
 		/* Set last name */
 		if (isset($parts[1])) {
 			$lead_data['wpleads_last_name'] = $parts[1];
 		}
-	} 
+	}
 	/* if last name empty and first name present */
 	else if (empty($lead_data['wpleads_last_name']) && $lead_data['wpleads_first_name'] ) {
 		$parts = explode(' ' , $lead_data['wpleads_first_name']);
-		
+
 		/* Set First Name */
 		$lead_data['wpleads_first_name'] = $parts[0];
-		
+
 		/* Set Last Name */
 		if (isset($parts[1])) {
 			$lead_data['wpleads_last_name'] = $parts[1];
-		}	
+		}
 	}
 
 	return $lead_data;
@@ -537,29 +537,29 @@ add_action( 'inboundnow_store_lead_pre_filter_data' , 'inbound_check_lead_name' 
  *	Loads correct lead UID during a login
  */
 function inbound_load_tracking_cookie( $user_login, $user) {
-	
+
 	if (!isset($user->data->user_email)) {
 		return;
 	}
-	
+
 	global $wp_query;
-	
+
 	/* search leads cpt for record containing email & get UID */
 	$results = new WP_Query( array( 'post_type' => 'wp-lead' , 's' => $user->data->user_email ) );
-	
+
 	if (!$results) {
 		return;
 	}
-	
+
 	if ( $results->have_posts() ) {
 		while ( $results->have_posts() ) {
-			
+
 			$uid = get_post_meta( $results->post->ID , 'wp_leads_uid' , true );
-			
+
 			if ($uid) {
 				setcookie( 'wp_lead_uid' , $uid , time() + (20 * 365 * 24 * 60 * 60),'/');
-			}			
-		
+			}
+
 			setcookie( 'wp_lead_id' , $results->post->ID , time() + (20 * 365 * 24 * 60 * 60),'/');
 			return;
 		}
@@ -587,6 +587,6 @@ function inbound_get_ip_address() {
 			$ip = $_SERVER["REMOTE_ADDR"];
 		}
 	}
-	
+
 	return $ip;
 }
