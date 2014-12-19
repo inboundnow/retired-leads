@@ -272,12 +272,28 @@
 					'std' => '0',
 					'class' => '',
 				),
+				'exclude_tracking' => array(
+					'name' => __('Exclude Tracking? <span class="small-optional-text">(optional)</span>', 'leads'),
+					'checkbox_text' => __('Check to exclude this form field from being tracked. Note this will not store in your Database', 'leads'),
+					'desc' => '',
+					'type' => 'checkbox',
+					'std' => '0',
+					'class' => 'advanced',
+				),
 				'helper' => array(
 					'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  'leads'),
 					'desc' => __('<span class="show-advanced-fields">Show advanced fields</span>',  'leads'),
 					'type' => 'helper-block',
 					'std' => '',
 					'class' => '',
+				),
+				'map_to' => array(
+							'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
+							'desc' => __('Map this field to Leads Value', 'leads'),
+							'type' => 'select',
+							'options' => $lead_mapping_fields,
+							'std' => 'none',
+							'class' => 'advanced exclude',
 				),
 				'placeholder' => array(
 					'name' => __('Field Placeholder <span class="small-optional-text">(optional)</span>',  'leads'),
@@ -316,17 +332,9 @@
 					'placeholder' => 'enter dynamic url parameter example: utm_campaign ',
 					'class' => 'advanced',
 					//'reveal_on' => 'hidden' // on select choice show this
-				),
-				'map_to' => array(
-							'name' => __('Map Field To  <span class="small-optional-text">(optional)</span>', 'leads'),
-							'desc' => __('Map this field to Leads Value', 'leads'),
-							'type' => 'select',
-							'options' => $lead_mapping_fields,
-							'std' => 'none',
-							'class' => 'advanced exclude',
-				),
+				)
 			),
-			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
+			'shortcode' => '[inbound_field label="{{label}}" type="{{field_type}}" description="{{description}}" required="{{required}}" exclude_tracking={{exclude_tracking}} dropdown="{{dropdown_options}}" radio="{{radio_options}}"  checkbox="{{checkbox_options}}" placeholder="{{placeholder}}" field_container_class="{{field_container_class}}"  field_input_class="{{field_input_class}}" html="{{html_block_options}}" dynamic="{{hidden_input_options}}" default="{{default_value}}" map_to="{{map_to}}" divider_options="{{divider_options}}"]',
 			'clone' => __('Add Another Field',  'leads' )
 		),
 		'shortcode' => '[inbound_form name="{{form_name}}" lists="{{lists_hidden}}" redirect="{{redirect}}" notify="{{notify}}" notify_subject="{{notify_subject}}" layout="{{layout}}" font_size="{{font-size}}"  labels="{{labels}}" icon="{{icon}}" submit="{{submit}}" submit="{{submit}}" submit_colors="{{submit-colors}}" submit_text_color="{{submit-text-color}}" submit_bg_color="{{submit-bg-color}}" width="{{width}}"]{{child}}[/inbound_form]',

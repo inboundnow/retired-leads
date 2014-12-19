@@ -25,7 +25,7 @@
         var head = text.replace(/_/g, "-");
         var heading = $('#event-list-' + head).text().replace("()", "")
         $('#event-list-' + head).text(heading);
-        console.log('#event-list-' + heading);
+        //console.log('#event-list-' + heading);
     });
 
   });

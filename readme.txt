@@ -68,6 +68,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.2.3 =
+* Added form field exclusions
+
 = 2.2.2 =
 * See changelog here: https://github.com/inboundnow/cta/issues?q=is%3Aclosed+is%3Aissue+label%3Av2.2.2
 
