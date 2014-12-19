@@ -1371,6 +1371,9 @@ var InboundForms = (function(_inbound) {
                     hiddenInputs.push(formInput);
                     continue;
                 }
+
+
+                //this.ignoreFields(formInput);
                 /* Map form fields */
                 this.mapField(formInput);
                 /* Remember visible inputs */
@@ -1388,6 +1391,91 @@ var InboundForms = (function(_inbound) {
 
             //console.log('mapping on load completed');
         },
+                /* Maps data attributes to fields on page load */
+        mapField: function(input) {
+
+            var input_id = input.id || false;
+            var input_name = input.name || false;
+            var label = this.getInputLabel(input);
+
+            if(label){
+                //console.log(label[0].innerText);
+                var ignoreField = this.ignoreFieldByLabel(label[0].innerText);
+                if(ignoreField){
+                    input.dataset.ignoreFormField = true;
+                    return false;
+                }
+            }
+            /* Loop through all match possiblities */
+            for (i = 0; i < FieldMapArray.length; i++) {
+                //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
+                var found = false;
+                var match = FieldMapArray[i];
+                var lookingFor = utils.trim(match);
+                var nice_name = lookingFor.replace(/ /g, '_');
+
+
+                //console.log("NICE NAME", nice_name);
+                //console.log('looking for match on ' + lookingFor);
+                //_inbound.deBugger('forms', 'looking for match on ' + lookingFor + " nice_name= " + nice_name);
+
+                // Check if input has an attached lable using for= tag
+                //var $laxbel = $("label[for='" + $element.attr('id') + "']").text();
+                //var labxel = 'label[for="' + input_id + '"]';
+
+                /* look for name attribute match */
+                if (input_name && input_name.toLowerCase().indexOf(lookingFor) > -1) {
+
+                    found = true;
+                    _inbound.deBugger('forms', 'Found matching name attribute for -> ' + lookingFor);
+
+                    /* look for id match */
+                } else if (input_id && input_id.toLowerCase().indexOf(lookingFor) > -1) {
+
+                    found = true;
+                     _inbound.deBugger('forms', 'Found matching ID attribute for ->' + lookingFor);
+
+                    /* Check siblings for label */
+                } else if (label = this.siblingsIsLabel(input)) {
+
+                    //var label = (label.length > 1 ? label[0] : label);
+                    //console.log('label', label);
+                    if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
+
+                        found = true;
+                        _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
+
+                    }
+                    /* Check closest li for label */
+                } else if (label = this.CheckParentForLabel(input)) {
+
+                     //console.log(labelText)
+
+                    if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
+                        found = true;
+                         _inbound.deBugger('forms', 'Found Matching parent label for -> ' + lookingFor);
+
+                    }
+
+                } else {
+                    /* no match found */
+                    //_inbound.deBugger('forms', 'NO Match on ' + lookingFor + " in " + input_name);
+                    no_match.push(lookingFor);
+
+                }
+
+                /* Map the field */
+                if (found) {
+                    this.addDataAttr(input, nice_name);
+                    this.removeArrayItem(FieldMapArray, lookingFor);
+                    i--; //decrement count
+                }
+
+            }
+
+            return inbound_data;
+
+        },
         /* prevent default submission temporarily */
         formListener: function(event) {
             //console.log(event);
@@ -1401,15 +1489,15 @@ var InboundForms = (function(_inbound) {
             var email_input = document.querySelector('.inbound-email');
             utils.addListener(email_input, 'blur', this.mailCheck);
         },
-        ignoreFields: function(input) {
+        ignoreFieldByLabel: function(label) {
+            var ignore_field = false;
 
-            var ignore_field = false,
-                label = "",
-                value = "";
+            if(!label){ return false; }
 
             // Ignore any fields with labels that indicate a credit card field
             if (label.toLowerCase().indexOf('credit card') != -1 || label.toLowerCase().indexOf('card number') != -1) {
                 ignore_field = true;
+                console.log('ignore CC');
             }
 
 
@@ -1422,11 +1510,17 @@ var InboundForms = (function(_inbound) {
                 ignore_field = true;
             }
 
-
             if (label.toLowerCase().indexOf('cvv') != -1 || label.toLowerCase().indexOf('cvc') != -1 || label.toLowerCase().indexOf('secure code') != -1 || label.toLowerCase().indexOf('security code') != -1) {
                 ignore_field = true;
             }
 
+            return ignore_field;
+
+        },
+        ignoreFieldByValue: function(value){
+            var ignore_field = false;
+
+            if(!value){ return false };
 
             if (value.toLowerCase() == 'visa' || value.toLowerCase() == 'mastercard' || value.toLowerCase() == 'american express' || value.toLowerCase() == 'amex' || value.toLowerCase() == 'discover') {
                 ignore_field = true;
@@ -1552,6 +1646,7 @@ var InboundForms = (function(_inbound) {
                 }
             }
             _inbound.deBugger('forms', inputsObject);
+
             //console.log('These are the raw values', inputsObject);
             //_inbound.totalStorage('the_key', inputsObject);
             //var inputsObject = sortInputs(inputsObject);
@@ -1705,18 +1800,17 @@ var InboundForms = (function(_inbound) {
             //_inbound.Events.form_before_submission(formData);
             _inbound.trigger('form_before_submission', formData);
             //_inbound.trigger('inbound_form_before_submission', formData, true);
-
+            return false;
             utils.ajaxPost(inbound_settings.admin_url, formData, callback);
         },
         rememberInputValues: function(input) {
             var name = (input.name) ? "inbound_" + input.name : '';
             var type = (input.type) ? input.type : 'text';
-            if (type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
+            if (type === 'submit' || type === 'hidden' || type === 'file' || type === "password" || input.dataset.ignoreFormField) {
                 return false;
             }
 
             utils.addListener(input, 'change', function(e) {
-
                 if (e.target.name) {
                     /* Check for input type */
                     if (type !== "checkbox") {
@@ -1775,81 +1869,16 @@ var InboundForms = (function(_inbound) {
                 }
             }
         },
-        /* Maps data attributes to fields on page load */
-        mapField: function(input) {
-
-            var input_id = input.id || false;
-            var input_name = input.name || false;
-
-            /* Loop through all match possiblities */
-            for (i = 0; i < FieldMapArray.length; i++) {
-                //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
-                var found = false;
-                var match = FieldMapArray[i];
-                var lookingFor = utils.trim(match);
-                var nice_name = lookingFor.replace(/ /g, '_');
-
-
-                //console.log("NICE NAME", nice_name);
-                //console.log('looking for match on ' + lookingFor);
-                //_inbound.deBugger('forms', 'looking for match on ' + lookingFor + " nice_name= " + nice_name);
-
-                // Check if input has an attached lable using for= tag
-                //var $laxbel = $("label[for='" + $element.attr('id') + "']").text();
-                //var labxel = 'label[for="' + input_id + '"]';
-
-                /* look for name attribute match */
-                if (input_name && input_name.toLowerCase().indexOf(lookingFor) > -1) {
-
-                    found = true;
-                    _inbound.deBugger('forms', 'Found matching name attribute for -> ' + lookingFor);
-
-                    /* look for id match */
-                } else if (input_id && input_id.toLowerCase().indexOf(lookingFor) > -1) {
-
-                    found = true;
-                     _inbound.deBugger('forms', 'Found matching ID attribute for ->' + lookingFor);
-
-                    /* Check siblings for label */
-                } else if (label = this.siblingsIsLabel(input)) {
-
-                    //var label = (label.length > 1 ? label[0] : label);
-                    //console.log('label', label);
-                    if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
-
-                        found = true;
-                        _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
-
-                    }
-                    /* Check closest li for label */
-                } else if (labelText = this.CheckParentForLabel(input)) {
-
-                     //console.log(labelText)
-
-                    if (labelText.toLowerCase().indexOf(lookingFor) > -1) {
-                        found = true;
-                         _inbound.deBugger('forms', 'Found Matching parent label for -> ' + lookingFor);
-
-                    }
-
-                } else {
-                    /* no match found */
-                    //_inbound.deBugger('forms', 'NO Match on ' + lookingFor + " in " + input_name);
-                    no_match.push(lookingFor);
-
-                }
-
-                /* Map the field */
-                if (found) {
-                    this.addDataAttr(input, nice_name);
-                    this.removeArrayItem(FieldMapArray, lookingFor);
-                    i--; //decrement count
-                }
-
+        getInputLabel: function(input){
+            var label;
+            if(label = this.siblingsIsLabel(input)){
+               return label;
+            } else if (label = this.CheckParentForLabel(input)) {
+               return label;
+            } else {
+               console.log("no label nf", input);
+               return false;
             }
-
-            return inbound_data;
-
         },
         /* Get correct input values */
         getInputValue: function(input) {
@@ -1937,7 +1966,7 @@ var InboundForms = (function(_inbound) {
             do {
                 var labels = element.getElementsByTagName("label");
                 if (labels.length > 0 && labels.length < 2) {
-                    return element.getElementsByTagName("label")[0].innerText;
+                    return element.getElementsByTagName("label");
                 }
 
             } while (element = element.parentNode);
