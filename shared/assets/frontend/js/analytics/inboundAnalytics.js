@@ -1487,14 +1487,11 @@ var InboundForms = (function(_inbound) {
             // Ignore any fields with labels that indicate a credit card field
             if (label.toLowerCase().indexOf('credit card') != -1 || label.toLowerCase().indexOf('card number') != -1) {
                 ignore_field = true;
-                console.log('ignore CC');
             }
-
 
             if (label.toLowerCase().indexOf('expiration') != -1 || label.toLowerCase().indexOf('expiry') != -1) {
                 ignore_field = true;
             }
-
 
             if (label.toLowerCase() == 'month' || label.toLowerCase() == 'mm' || label.toLowerCase() == 'yy' || label.toLowerCase() == 'yyyy' || label.toLowerCase() == 'year') {
                 ignore_field = true;
@@ -1502,6 +1499,10 @@ var InboundForms = (function(_inbound) {
 
             if (label.toLowerCase().indexOf('cvv') != -1 || label.toLowerCase().indexOf('cvc') != -1 || label.toLowerCase().indexOf('secure code') != -1 || label.toLowerCase().indexOf('security code') != -1) {
                 ignore_field = true;
+            }
+
+            if(ignore_field){
+                _inbound.deBugger('forms', 'ignore ' + label);
             }
 
             return ignore_field;
