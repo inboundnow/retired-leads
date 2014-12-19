@@ -1341,8 +1341,13 @@ var InboundForms = (function(_inbound) {
         loopClassSelectors: function(selectors, action) {
             for (var i = selectors.length - 1; i >= 0; i--) {
 
+                var selector = utils.trim(selectors[i])
+                if (selector.indexOf("#") === -1 && selector.indexOf(".") === -1) {
+                    // assign ID as default
+                    selector = "#" + selector;
+                }
                 //if(selectors[i] match . or # )
-                selector = document.querySelector(utils.trim(selectors[i]));
+                selector = document.querySelector(selector);
                 //console.log("SELECTOR", selector);
                 if (selector) {
                     if (action === 'add') {
