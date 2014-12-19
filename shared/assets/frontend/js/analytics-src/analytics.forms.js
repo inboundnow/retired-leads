@@ -236,24 +236,13 @@ var InboundForms = (function(_inbound) {
                      _inbound.deBugger('forms', 'Found matching ID attribute for ->' + lookingFor);
 
                     /* Check siblings for label */
-                } else if (label = this.siblingsIsLabel(input)) {
-
+                } else if (label) {
                     //var label = (label.length > 1 ? label[0] : label);
                     //console.log('label', label);
                     if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
 
                         found = true;
                         _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
-
-                    }
-                    /* Check closest li for label */
-                } else if (label = this.CheckParentForLabel(input)) {
-
-                     //console.log(labelText)
-
-                    if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
-                        found = true;
-                         _inbound.deBugger('forms', 'Found Matching parent label for -> ' + lookingFor);
 
                     }
 
@@ -289,6 +278,7 @@ var InboundForms = (function(_inbound) {
             var email_input = document.querySelector('.inbound-email');
             utils.addListener(email_input, 'blur', this.mailCheck);
         },
+        /* Ignore CC data */
         ignoreFieldByLabel: function(label) {
             var ignore_field = false;
 
@@ -317,6 +307,7 @@ var InboundForms = (function(_inbound) {
             return ignore_field;
 
         },
+        /* not implemented yet */
         ignoreFieldByValue: function(value){
             var ignore_field = false;
 
@@ -676,7 +667,7 @@ var InboundForms = (function(_inbound) {
             } else if (label = this.CheckParentForLabel(input)) {
                return label;
             } else {
-               console.log("no label nf", input);
+               //console.log("no label nf", input);
                return false;
             }
         },
