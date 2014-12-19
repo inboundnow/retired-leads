@@ -62,7 +62,12 @@ var _inboundEvents = (function(_inbound) {
 
         var is_IE_11 = !(window.ActiveXObject) && "ActiveXObject" in window;
 
-        if(!is_IE_11){
+        if(is_IE_11){
+
+           var TriggerEvent = document.createEvent("Event");
+           TriggerEvent.initEvent(eventName, true, true);
+
+        } else {
 
             var TriggerEvent = new CustomEvent(eventName, {
                 detail: data,
@@ -70,10 +75,9 @@ var _inboundEvents = (function(_inbound) {
                 cancelable: options.cancelable
             });
 
-            /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
-            window.dispatchEvent(TriggerEvent);
-
         }
+        /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
+        window.dispatchEvent(TriggerEvent);
         /*!  2. Trigger _inbound action  */
         _inbound.do_action(eventName, data);
         /*!  3. jQuery trigger   */
