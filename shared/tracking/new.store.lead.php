@@ -372,7 +372,7 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function update_common_meta($lead) {
 
-			print_r($lead);
+			//print_r($lead);
 
 			if (!empty($lead['user_ID'])) {
 				/* Update user_ID if exists */
@@ -398,7 +398,7 @@ if (!class_exists('LeadStorage')) {
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
-			exit;
+			//exit;
 		}
 
 		/**

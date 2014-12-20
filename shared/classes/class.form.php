@@ -154,6 +154,8 @@ class Inbound_Forms {
 				$field_input_class = (isset($matches[3][$i]['field_input_class'])) ? $matches[3][$i]['field_input_class'] : '';
 				$required = (isset($matches[3][$i]['required'])) ? $matches[3][$i]['required'] : '0';
 				$req = ($required === '1') ? 'required' : '';
+				$exclude_tracking = (isset($matches[3][$i]['exclude_tracking'])) ? $matches[3][$i]['exclude_tracking'] : '0';
+				$et_output = ($exclude_tracking === '1') ? ' data-ignore-form-field="true"' : '';
 				$req_label = ($required === '1') ? '<span class="inbound-required">*</span>' : '';
 				$map_field = (isset($matches[3][$i]['map_to'])) ? $matches[3][$i]['map_to'] : '';
 				if ($map_field != "") {
@@ -193,7 +195,7 @@ class Inbound_Forms {
 				}
 
 				if ($type === 'textarea') {
-					$form .=	'<textarea placeholder="'.$placeholder_use.'" class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="'.$field_name.'" '.$req.'/></textarea>';
+					$form .=	'<textarea placeholder="'.$placeholder_use.'" class="inbound-input inbound-input-textarea '.$field_input_class.'" name="'.$field_name.'" id="'.$field_name.'" '.$data_mapping_attr.$et_output.' '.$req.'/></textarea>';
 
 				} else if ($type === 'dropdown') {
 
@@ -201,7 +203,7 @@ class Inbound_Forms {
 					$dropdown = $matches[3][$i]['dropdown'];
 					$dropdown_fields = explode(",", $dropdown);
 
-					$form .= '<select name="'. $field_name .'" class="'.$field_input_class.'"  '.$req.'>';
+					$form .= '<select name="'. $field_name .'" class="'.$field_input_class.'"'.$data_mapping_attr.$et_output.' '.$req.'>';
 
 					if ($placeholder_use) {
 						$form .= '<option value="" disabled selected>'.str_replace( '%3F' , '?' , $placeholder_use).'</option>';
@@ -317,7 +319,7 @@ class Inbound_Forms {
 					if ($type === 'hidden' && $dynamic_value != "") {
 						$fill_value = $dynamic_value;
 					}
-					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.' '.$req.'/>';
+					$form .=	'<input class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" type="'.$type.'"'.$data_mapping_attr.$et_output.' '.$req.'/>';
 				}
 
 				if ($show_labels && $form_labels === "bottom" && $type != "radio") {
