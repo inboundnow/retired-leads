@@ -592,7 +592,7 @@ var InboundForms = (function(_inbound) {
             //_inbound.Events.form_before_submission(formData);
             _inbound.trigger('form_before_submission', formData);
             //_inbound.trigger('inbound_form_before_submission', formData, true);
-            return false;
+
             utils.ajaxPost(inbound_settings.admin_url, formData, callback);
         },
         rememberInputValues: function(input) {
