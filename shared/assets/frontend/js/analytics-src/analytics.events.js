@@ -60,20 +60,30 @@ var _inboundEvents = (function(_inbound) {
         /*! Customize Data via filter_ + "namespace" */
         data = _inbound.apply_filters('filter_' + eventName, data);
 
-        var TriggerEvent = new CustomEvent(eventName, {
-            detail: data,
-            bubbles: options.bubbles,
-            cancelable: options.cancelable
-        });
+        var is_IE_11 = !(window.ActiveXObject) && "ActiveXObject" in window;
 
-        // console.log('Action:' + eventName + " ran on ->", data);
+        if(is_IE_11){
 
+           var TriggerEvent = document.createEvent("Event");
+           TriggerEvent.initEvent(eventName, true, true);
+
+        } else {
+
+            var TriggerEvent = new CustomEvent(eventName, {
+                detail: data,
+                bubbles: options.bubbles,
+                cancelable: options.cancelable
+            });
+
+        }
         /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
         window.dispatchEvent(TriggerEvent);
         /*!  2. Trigger _inbound action  */
         _inbound.do_action(eventName, data);
         /*!  3. jQuery trigger   */
         triggerJQueryEvent(eventName, data);
+
+        // console.log('Action:' + eventName + " ran on ->", data);
 
     }
 
