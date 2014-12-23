@@ -394,7 +394,6 @@ if (!class_exists('LeadStorage')) {
 			foreach ( $lead_fields as $key => $value ) {
 				$shortkey = str_replace('wpleads_' , '' , $key );
 				if (isset($lead[$shortkey])) {
-					echo $key . ':' . $lead[$shortkey] . "\r\n";
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
