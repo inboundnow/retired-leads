@@ -43,11 +43,11 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 			 },
 			 success: function(vid) {
 				/* update local storage variable */
-				loaded_ctas[cta_id] = vid;
+				loaded_ctas[cta_id] = vid.trim();
 
 				/* update local storage object */
 				jQuery.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
-				_inbound.debug('WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas));
+				_inbound.deBugger( 'cta', 'WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas) );
 			}
 		});
 	}
