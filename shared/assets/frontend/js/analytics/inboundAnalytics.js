@@ -129,7 +129,6 @@ var _inbound = (function(options) {
 
     return Analytics;
 
-})(_inboundOptions);
 /**
  * # Hooks & Filters
  *
@@ -533,7 +532,6 @@ var _inboundHooks = (function (_inbound) {
 
     return _inbound;
 
-})(_inbound || {});
 /**
  * # _inbound UTILS
  *
@@ -1197,7 +1195,6 @@ var _inboundUtils = (function(_inbound) {
 
     return _inbound;
 
-})(_inbound || {});
 /**
  * # Inbound Forms
  *
@@ -2206,7 +2203,6 @@ var InboundForms = (function(_inbound) {
 
     return _inbound;
 
-})(_inbound || {});
 /**
  * # Analytics Events
  *
@@ -2735,7 +2731,6 @@ var _inboundEvents = (function(_inbound) {
 
     return _inbound;
 
-})(_inbound || {});
 /* LocalStorage Component */
 var InboundTotalStorage = (function (_inbound){
 
@@ -2868,7 +2863,6 @@ var InboundTotalStorage = (function (_inbound){
       return ret;
     }
   };
-})(_inbound || {});
 /**
  * Leads API functions
  * @param  Object _inbound - Main JS object
@@ -2952,6 +2946,12 @@ var _inboundLeadsAPI = (function(_inbound) {
                 //console.log("Lists checked");
             };
             //_inbound.Utils.doAjax(data, success);
+            _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
+        }
+    };
+
+    return _inbound;
+
             _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, success);
         }
     };
@@ -3313,13 +3313,6 @@ var _inboundPageTracking = (function(_inbound) {
 
         function log_click(category, link) {
           log_event(category, 'Click', $(link).text());
-        }
-        */
-    };
-
-    return _inbound;
-
-})(_inbound || {});
 /**
  * # Start
  *
@@ -3328,6 +3321,14 @@ var _inboundPageTracking = (function(_inbound) {
  * @author David Wells <david@inboundnow.com>
  * @version 0.0.1
  */
+
+
+/* Initialize _inbound */
+ _inbound.init();
+
+/* Set Global Lead Data */
+InboundLeadData = _inbound.totalStorage('inbound_lead_data') || null;
+
 
 
 /* Initialize _inbound */
