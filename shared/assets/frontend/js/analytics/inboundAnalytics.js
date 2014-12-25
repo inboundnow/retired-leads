@@ -1380,7 +1380,10 @@ var InboundForms = (function(_inbound) {
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
                 if (settings.formAutoPopulation) {
-                    this.fillInputValues(formInput);
+					var className = (form.className) ? form.className : '';
+					if ( className.indexOf('nopopulate') == -1  ) {
+						this.fillInputValues(formInput);
+					}
                 }
 
             }
@@ -1841,9 +1844,11 @@ var InboundForms = (function(_inbound) {
         fillInputValues: function(input) {
             var name = (input.name) ? "inbound_" + input.name : '';
             var type = (input.type) ? input.type : 'text';
-            if (type === 'submit' || type === 'hidden' || type === 'file' || type === "password") {
+
+            if (type === 'submit' || type === 'hidden' || type === 'file' || type === "password" ) {
                 return false;
             }
+			
             if (utils.readCookie(name) && name != 'comment') {
 
                 value = decodeURIComponent(utils.readCookie(name));
