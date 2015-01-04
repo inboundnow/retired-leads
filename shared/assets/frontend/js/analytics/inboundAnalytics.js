@@ -2729,7 +2729,7 @@ var _inboundEvents = (function(_inbound) {
             });
             window.dispatchEvent(error);
             console.log('Page Save Error');
-        },
+        }
 
     };
 
@@ -2904,7 +2904,7 @@ var _inboundLeadsAPI = (function(_inbound) {
                 leadDataExpire = _inbound.Utils.readCookie("lead_data_expire");
             data = {
                 action: 'inbound_get_all_lead_data',
-                wp_lead_id: wp_lead_id,
+                wp_lead_id: wp_lead_id
             },
             success = function(returnData) {
                 var leadData = JSON.parse(returnData);

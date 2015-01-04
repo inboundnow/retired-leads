@@ -520,7 +520,7 @@ var _inboundEvents = (function(_inbound) {
             });
             window.dispatchEvent(error);
             console.log('Page Save Error');
-        },
+        }
 
     };
 

@@ -33,7 +33,7 @@ var _inboundLeadsAPI = (function(_inbound) {
                 leadDataExpire = _inbound.Utils.readCookie("lead_data_expire");
             data = {
                 action: 'inbound_get_all_lead_data',
-                wp_lead_id: wp_lead_id,
+                wp_lead_id: wp_lead_id
             },
             success = function(returnData) {
                 var leadData = JSON.parse(returnData);
@@ -70,7 +70,7 @@ var _inboundLeadsAPI = (function(_inbound) {
             var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id");
             var data = {
                 action: 'wpl_check_lists',
-                wp_lead_id: wp_lead_id,
+                wp_lead_id: wp_lead_id
             };
             var success = function(user_id) {
                 _inbound.Utils.createCookie("lead_session_list_check", true, {
