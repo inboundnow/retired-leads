@@ -13,6 +13,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
     markdox = require("gulp-markdox"),
+    phplint = require('phplint').lint,
     package = require('./package.json');
 
 var sharedPath = 'shared/assets/frontend/js/analytics-src/';
@@ -44,6 +45,23 @@ var banner = [
     ' */',
     '\n'
 ].join('');
+
+
+gulp.task('phplint', function(cb) {
+    //phplint(['src/**/*.php'], {
+    phplint(['wordpress-cta.php'], {
+        limit: 10
+    }, function(err, stdout, stderr) {
+        if (err) {
+            console.log(err);
+            cb(err);
+            process.exit(1);
+        }
+        cb();
+    });
+});
+
+gulp.task('test', ['phplint']);
 
 gulp.task('scripts', ['clean'], function() {
     return gulp.src(paths.scripts)
