@@ -340,8 +340,21 @@ var InboundForms = (function(_inbound) {
             document.body.style.cursor = "default";
             utils.removeClass('wpl-track-me', form);
             utils.removeListener(form, 'submit', this.formListener);
+            var formClass = form.getAttribute('class');
+            if (formClass !== "" && formClass !== null) {
+                /* If contact form 7 do this */
+                if (formClass.toLowerCase().indexOf("wpcf7-form") != -1) {
+                    //alert('release')
+                    setTimeout(function() {
+                       document.body.style.cursor = "default";
+                    }, 300);
+                    return true;
+                }
+            }
+
             form.submit();
             /* fallback if submit name="submit" */
+
             setTimeout(function() {
                 for (var i = 0; i < form.elements.length; i++) {
                     formInput = form.elements[i];
@@ -350,7 +363,7 @@ var InboundForms = (function(_inbound) {
                         form.elements[i].click();
                     }
                 }
-            }, 1300);
+            }, 2000);
 
         },
         saveFormData: function(form) {

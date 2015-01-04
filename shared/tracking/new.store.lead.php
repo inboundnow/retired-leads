@@ -154,7 +154,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store Conversion Data to LANDING PAGE/CTA DATA	*/
-				if (isset($lead['post_type']) && $lead['post_type'] == 'landing-page' || isset($lead['post_type']) && $lead['post_type'] == 'wp-call-to-action') {
+				if (isset($lead['page_id'])) {
 					self::store_conversion_stats($lead);
 				}
 
@@ -276,6 +276,7 @@ if (!class_exists('LeadStorage')) {
 				$search_data = json_encode($search_data);
 				update_post_meta($lead['id'], 'wpleads_search_data', $search_data); // Store search object
 		}
+		
 		/**
 		*		updates conversion data object
 		*/
@@ -304,10 +305,10 @@ if (!class_exists('LeadStorage')) {
 
 		}
 		/**
-		*			Store Conversion Data to LANDING PAGE/CTA DATA
+		*	Store Conversion Data to LANDING PAGE/CTA DATA
 		*/
 		static function store_conversion_stats($lead){
-			$page_conversion_data = get_post_meta( $lead['page_id'], 'inbound_conversion_data', TRUE );
+			$page_conversion_data = get_post_meta( $lead['page_id'], '_inbound_conversion_data', TRUE );
 			$page_conversion_data = json_decode($page_conversion_data,true);
 			$version = ($lead['variation'] != 'default') ? $lead['variation'] : '0';
 			if (is_array($page_conversion_data)) {
@@ -321,7 +322,7 @@ if (!class_exists('LeadStorage')) {
 				$page_conversion_data[1]['datetime'] = $lead['wordpress_date_time'];
 			}
 			$page_conversion_data = json_encode($page_conversion_data);
-			update_post_meta($lead['page_id'], 'inbound_conversion_data', $page_conversion_data);
+			update_post_meta($lead['page_id'], '_inbound_conversion_data', $page_conversion_data);
 		}
 
 		/**
@@ -394,7 +395,6 @@ if (!class_exists('LeadStorage')) {
 			foreach ( $lead_fields as $key => $value ) {
 				$shortkey = str_replace('wpleads_' , '' , $key );
 				if (isset($lead[$shortkey])) {
-					echo $key . ':' . $lead[$shortkey] . "\r\n";
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
 			}
