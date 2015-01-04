@@ -26,14 +26,6 @@ function wpleads_get_global_settings() {
 			'options' => null
 		),
 		array(
-			'id'  => 'form-prepopulation',
-			'label' => __('Form prepopulation' , 'leads' ),
-			'description' => __("WordPress Leads records submitted field data for leads and will attempt to prepopulate forms with the last inputted data. Disabling this will turn this feature off." , 'leads' ),
-			'type'  => 'radio',
-			'default'  => '1',
-			'options' => array('1'=>'On','0'=>'Off')
-		),
-		array(
 			'id'  => 'page-view-tracking',
 			'label' => __('Page View Tracking' , 'leads' ),
 			'description' => __("WordPress Leads automatically tracks page views of converted leads. This is extremely valuable lead intelligence and will help with your sales follow ups. However with great power comes great resposibility, this extra tracking can cause problems on high high traffic sites. You can turn off tracking if you see any issues." , 'leads' ),
