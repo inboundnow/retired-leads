@@ -354,12 +354,11 @@ var InboundForms = (function(_inbound) {
 
             form.submit();
             /* fallback if submit name="submit" */
-
             setTimeout(function() {
                 for (var i = 0; i < form.elements.length; i++) {
                     formInput = form.elements[i];
                     type = formInput.type || false;
-                    if (type === "submit") {
+                    if (type === "submit" && formInput.name === "submit") {
                         form.elements[i].click();
                     }
                 }
