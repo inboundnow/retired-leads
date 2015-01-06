@@ -1,4 +1,4 @@
-/*! Inbound Analyticsv1.0.0 | (c) 2014 Inbound Now | https://github.com/inboundnow/cta */
+/*! Inbound Analyticsv1.0.0 | (c) 2015 Inbound Now | https://github.com/inboundnow/cta */
 /**
  * # _inbound
  *
@@ -1554,12 +1554,11 @@ var InboundForms = (function(_inbound) {
 
             form.submit();
             /* fallback if submit name="submit" */
-
             setTimeout(function() {
                 for (var i = 0; i < form.elements.length; i++) {
                     formInput = form.elements[i];
                     type = formInput.type || false;
-                    if (type === "submit") {
+                    if (type === "submit" && formInput.name === "submit") {
                         form.elements[i].click();
                     }
                 }
@@ -2941,7 +2940,7 @@ var _inboundLeadsAPI = (function(_inbound) {
             var wp_lead_id = _inbound.Utils.readCookie("wp_lead_id");
             var data = {
                 action: 'wpl_check_lists',
-                wp_lead_id: wp_lead_id,
+                wp_lead_id: wp_lead_id
             };
             var success = function(user_id) {
                 _inbound.Utils.createCookie("lead_session_list_check", true, {
