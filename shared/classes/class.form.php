@@ -631,13 +631,19 @@ if (!class_exists('Inbound_Forms')) {
 				/* Look for Custom Subject Line ,	Fall Back on Default */
 				$subject = (isset($form_meta_data['inbound_notify_email_subject'])) ? $form_meta_data['inbound_notify_email_subject'] :	$template['subject'];
 
-				/* Discover From Email Address */
+				/* Discover From Email Address
+				// causing spam filter to trigger.
 				foreach ($form_post_data as $key => $value) {
 					if (preg_match('/email|e-mail/i', $key)) {
 						$from_email = $form_post_data[$key];
 					}
-				}
-
+				}*/
+				$domain = get_option( 'siteurl');
+				$domain = str_replace('http://', '', $domain);
+				$domain = str_replace('https://', '', $domain);
+				$domain = str_replace('www', '', $domain);
+				$email_default = 'wordpress@' . $domain;
+				$from_email = get_option( 'admin_email' , $email_default );
 				$from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
 
 				/* Prepare Additional Data For Token Engine */
@@ -1090,7 +1096,7 @@ if (!class_exists('Inbound_Forms')) {
 			);
 		}
 
-	}		
+	}
 
 	Inbound_Forms::init();
 }
