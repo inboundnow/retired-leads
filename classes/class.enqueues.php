@@ -125,8 +125,10 @@ class CTA_Enqueues {
 		/* Enqueue timepicker support */
 		wp_enqueue_style('jquery-timepicker-css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.css');
 		wp_enqueue_style('jquery-datepicker-base.css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');
-
-
+		
+		/* Enqueue select2 support */
+		wp_enqueue_script('select2', WP_CTA_URLPATH . 'js/select2.min.js');
+		
 		/* Enqueue CSS rules for wp-call-to-action post type */
 		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'css/admin-wp-cta-cpt-only-style.css');
 
