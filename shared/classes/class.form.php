@@ -634,12 +634,17 @@ if (!class_exists('Inbound_Forms')) {
 				/* Discover From Email Address */
 				foreach ($form_post_data as $key => $value) {
 					if (preg_match('/email|e-mail/i', $key)) {
-						$from_email = $form_post_data[$key];
+						$reply_to_email = $form_post_data[$key];
 					}
 				}
-
+				$domain = get_option( 'siteurl');
+				$domain = str_replace('http://', '', $domain);
+				$domain = str_replace('https://', '', $domain);
+				$domain = str_replace('www', '', $domain);
+				$email_default = 'wordpress@' . $domain;
+				$from_email = get_option( 'admin_email' , $email_default );
 				$from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
-
+				$reply_to_email = (isset($reply_to_email)) ? $reply_to_email : $from_email;
 				/* Prepare Additional Data For Token Engine */
 				$form_post_data['redirect_message'] = (isset($form_post_data['inbound_redirect']) && $form_post_data['inbound_redirect'] != "") ? "They were redirected to " . $form_post_data['inbound_redirect'] : '';
 
@@ -653,6 +658,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
 				$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
+				$headers = "Reply-To: ".$reply_to_email . "\r\n";
 				$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
 
 				foreach ($to_address as $key => $recipient) {
@@ -1090,7 +1096,7 @@ if (!class_exists('Inbound_Forms')) {
 			);
 		}
 
-	}		
+	}
 
 	Inbound_Forms::init();
 }

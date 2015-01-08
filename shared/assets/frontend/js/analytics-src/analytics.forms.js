@@ -75,18 +75,19 @@ var InboundForms = (function(_inbound) {
         debug: function(msg, callback) {
             //if app not in debug mode, exit immediately
             if (!debugMode || !console) {
-                return
-            };
+                return;
+            }
+
             var msg = msg || false;
             //console.log the message
             if (msg && (typeof msg === 'string')) {
-                console.log(msg)
-            };
+                console.log(msg);
+            }
 
             //execute the callback if one was passed-in
             if (callback && (callback instanceof Function)) {
                 callback();
-            };
+            }
         },
         formTrackInit: function() {
 
@@ -113,9 +114,7 @@ var InboundForms = (function(_inbound) {
                 } else if (ClassIs.toLowerCase().indexOf("inbound-track") > -1) {
                     return true;
                 } else {
-                    cb = function(){
-                        console.log(form);
-                    }
+                    cb = function() { console.log(form); };
                     _inbound.deBugger('forms', "This form not tracked. Please assign on in settings...", cb);
                     return false;
                 }
@@ -158,7 +157,7 @@ var InboundForms = (function(_inbound) {
                         _inbound.Utils.removeClass('inbound-track', selector);
                     }
                 }
-            };
+            }
         },
         /* Map field fields on load */
         initFormMapping: function(form) {
@@ -172,7 +171,6 @@ var InboundForms = (function(_inbound) {
                     continue;
                 }
 
-
                 //this.ignoreFields(formInput);
                 /* Map form fields */
                 this.mapField(formInput);
@@ -184,10 +182,12 @@ var InboundForms = (function(_inbound) {
                 }
 
             }
-            for (var i = hiddenInputs.length - 1; i >= 0; i--) {
-                formInput = hiddenInputs[i];
+
+            /* loop hidden inputs */
+            for (var n = hiddenInputs.length - 1; n >= 0; n--) {
+                formInput = hiddenInputs[n];
                 this.mapField(formInput);
-            };
+            }
 
             //console.log('mapping on load completed');
         },
@@ -241,8 +241,8 @@ var InboundForms = (function(_inbound) {
                     //console.log('label', label);
                     if (label[0].innerText.toLowerCase().indexOf(lookingFor) > -1) {
 
-                        found = true;
-                        _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
+                    found = true;
+                    _inbound.deBugger('forms', 'Found matching sibling label for -> ' + lookingFor);
 
                     }
 
@@ -312,7 +312,7 @@ var InboundForms = (function(_inbound) {
         ignoreFieldByValue: function(value){
             var ignore_field = false;
 
-            if(!value){ return false };
+            if(!value){ return false; }
 
             if (value.toLowerCase() == 'visa' || value.toLowerCase() == 'mastercard' || value.toLowerCase() == 'american express' || value.toLowerCase() == 'amex' || value.toLowerCase() == 'discover') {
                 ignore_field = true;
@@ -354,12 +354,11 @@ var InboundForms = (function(_inbound) {
 
             form.submit();
             /* fallback if submit name="submit" */
-
             setTimeout(function() {
                 for (var i = 0; i < form.elements.length; i++) {
                     formInput = form.elements[i];
                     type = formInput.type || false;
-                    if (type === "submit") {
+                    if (type === "submit" && formInput.name === "submit") {
                         form.elements[i].click();
                     }
                 }
@@ -830,14 +829,14 @@ var InboundForms = (function(_inbound) {
                 opts.distanceFunction = opts.distanceFunction || Mailcheck.sift3Distance;
 
                 var defaultCallback = function(result) {
-                    return result
+                    return result;
                 };
                 var suggestedCallback = opts.suggested || defaultCallback;
                 var emptyCallback = opts.empty || defaultCallback;
 
                 var result = Mailcheck.suggest(Mailcheck.encodeEmail(opts.email), opts.domains, opts.topLevelDomains, opts.distanceFunction);
 
-                return result ? suggestedCallback(result) : emptyCallback()
+                return result ? suggestedCallback(result) : emptyCallback();
             },
 
             suggest: function(email, domains, topLevelDomains, distanceFunction) {
@@ -910,15 +909,15 @@ var InboundForms = (function(_inbound) {
 
             sift3Distance: function(s1, s2) {
                 // sift3: http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
-                if (s1 == null || s1.length === 0) {
-                    if (s2 == null || s2.length === 0) {
+                if (s1 === null || s1.length === 0) {
+                    if (s2 === null || s2.length === 0) {
                         return 0;
                     } else {
                         return s2.length;
                     }
                 }
 
-                if (s2 == null || s2.length === 0) {
+                if (s2 === null || s2.length === 0) {
                     return s1.length;
                 }
 
@@ -967,7 +966,7 @@ var InboundForms = (function(_inbound) {
                 var domainParts = domain.split(".");
                 var tld = "";
 
-                if (domainParts.length == 0) {
+                if (domainParts.length === 0) {
                     // The address does not have a top-level domain
                     return false;
                 } else if (domainParts.length == 1) {
@@ -987,7 +986,7 @@ var InboundForms = (function(_inbound) {
                     topLevelDomain: tld,
                     domain: domain,
                     address: parts.join("@")
-                }
+                };
             },
 
             // Encode the email address to prevent XSS but leave in valid
@@ -1000,7 +999,7 @@ var InboundForms = (function(_inbound) {
                     .replace("%7D", "}");
                 return result;
             }
-        }
+        };
     } // End Mailcheck
 
 
