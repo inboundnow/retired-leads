@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Call to action, Calls to Action, CTA, inbound marketing, call outs, ad management, split testing, a b test, a b testing, a/b test, a/b testing, popups, email list, landing page, pop up, list building, inbound now, wp-call-to-actions, cpa, click tracking, ad placement, banner ads, slide in call outs, fly ins, like to download, social media share buttons
 Requires at least: 3.8
 Tested up to: 4.1
-Stable Tag: 2.2.5
+Stable Tag: 2.2.6
 
 Create Calls to Action for your WordPress site. Monitor and improve conversion rates, run A/B split tests, customize your own CTA templates and more.
 
@@ -31,7 +31,7 @@ http://www.youtube.com/watch?v=-qaYgwV7p-8
 * Track conversion rates on your calls to action for continual optimization.
 * Easily clone existing calls to action and run A/B Split tests on variations.
 * Gather lead intelligence and track lead activity with <a href="http://wordpress.org/plugins/leads/screenshots/">WordPress Leads</a>
-* Easily implement your own custom call to action design or use our library of custom call to action designs.
+* Easily implement your own custom call to action design or use our library of custom call to action designs
 
 
 = Developers & Designers =
@@ -68,6 +68,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.2.6 =
+* Fix double lead notification email
+
 = 2.2.5 =
 * Fixed double email submission on contact form 7
 
