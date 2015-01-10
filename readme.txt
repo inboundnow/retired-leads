@@ -31,7 +31,7 @@ http://www.youtube.com/watch?v=-qaYgwV7p-8
 * Track conversion rates on your calls to action for continual optimization.
 * Easily clone existing calls to action and run A/B Split tests on variations.
 * Gather lead intelligence and track lead activity with <a href="http://wordpress.org/plugins/leads/screenshots/">WordPress Leads</a>
-* Easily implement your own custom call to action design or use our library of custom call to action designs.
+* Easily implement your own custom call to action design or use our library of custom call to action designs
 
 
 = Developers & Designers =
