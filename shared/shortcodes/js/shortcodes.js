@@ -625,11 +625,16 @@
 							alert("Please Insert a Form Name!");
 							jQuery("#inbound_shortcode_form_name").addClass('need-value').focus();
 						} else {
-				        jQuery.ajax({
-				            type: 'POST',
-				            url: ajaxurl,
-				            context: this,
-				            data: {
+						function killBadGuys(str) {
+							if (typeof str === 'string') {
+								if(str.indexOf('<script') != -1){
+									return 'bad';
+								} else {
+									return 'good';
+								}
+							}
+						}
+						var payload = {
 				                action: 'inbound_form_save',
 				                name: form_name,
 				                shortcode: shortcode_value,
@@ -646,7 +651,23 @@
 				                email_contents: email_contents,
 				                redirect_value: redirect_value,
 				                nonce: shortcode_nonce_val
-				            },
+				        };
+
+				        for (var key in payload) {
+				        	//console.log( payload[key] );
+				        	var test = killBadGuys( payload[key] );
+				        	console.log(test);
+				        	console.log(payload[key]);
+				        	if( test === "bad") {
+				        		return false;
+				        	}
+				        }
+				        console.log('run');
+				        jQuery.ajax({
+				            type: 'POST',
+				            url: ajaxurl,
+				            context: this,
+				            data: payload,
 
 				            success: function (data) {
 				                var self = this;
@@ -964,7 +985,7 @@
 		    wp = retString;
 		}
 		jQuery(document).ready( function() {
-			var wp = wp || {}; 
+			var wp = wp || {};
 			setTimeout(function() {
 			    setGlobalwp(wp);
 			}, 300);
