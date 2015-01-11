@@ -68,6 +68,9 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.2.7 =
+* security update
+
 = 2.2.6 =
 * Fix double lead notification email
 
