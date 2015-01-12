@@ -129,6 +129,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.inbound-api.api-key-generation.php');
 				require_once('classes/class.inbound-api.api-keys-table.php');
 				require_once('classes/class.admin-notices.php');
+				require_once('classes/class.branching.php');
 
 			} else {
 				/* Frontend Includes */
