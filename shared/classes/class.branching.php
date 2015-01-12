@@ -89,17 +89,17 @@ if ( !class_exists('Inbound_Branching')	) {
 		*/
 		public static function generate_version_toggle() {
 			if ( self::$branch == 'svn' ) {
-				$class = "switch-versions button-primary primary";
+				$class = "switch-versions";
 				$switch_to = "git";
-				$title = __( 'Switch to beta mode' , 'inbound-pro' );
-				$button_text = __( 'Enable Beta Mode' , 'inbound-pro' );
+				$title = __( 'Switch to lastest development release. Warning this should not be performed on a live site.' , 'inbound-pro' );
+				$button_text = __( 'Switch to latest git' , 'inbound-pro' );
 			} else {
-				$class = "switch-versions button-primary primary";
+				$class = "switch-versions";
 				$switch_to = "svn";
 				$title = __( 'Switch to latest stable release.' , 'inbound-pro' );
-				$button_text = __( 'Disable Beta' , 'inbound-pro' );
+				$button_text = __( 'Switch to latest svn' , 'inbound-pro' );
 			}
-			return '<span class="'.$class.'" id="'.self::$plugin.'-toggle" data-branch="'.$switch_to.'" data-plugin="'.self::$plugin.'" title="'.$title.'">'. $button_text .' <div class="spinner" id="spinner-'.self::$plugin.'-toggle"></span></div>';
+			return '<a href="#" class="'.$class.'" id="'.self::$plugin.'-toggle" data-branch="'.$switch_to.'" data-plugin="'.self::$plugin.'" title="'.$title.'">'. $button_text .'</a> <div class="spinner" id="spinner-'.self::$plugin.'-toggle"></span></div>';
 		}
 		
 		/**
@@ -134,16 +134,18 @@ if ( !class_exists('Inbound_Branching')	) {
 				
 				jQuery( '.switch-versions' ).on( 'click' , function() {
 					
-					var result = confirm("<?php _e('Are you sure you want toggle beta mode on/off.' , 'inbound-pro' ); ?>");
-					
-					if (!result) {
-						return;
-					}
 					
 					/* get download url */
 					var branch = jQuery( '#' + this.id ).data( 'branch' );
 					var plugin = jQuery( '#' + this.id ).data( 'plugin' );
 
+					var result = confirm("<?php _e('Switching branches on a live site should be avoided. Are you sure you would like to switch filesets?' , 'inbound-pro' ); ?>");
+					
+					if (!result) {
+						return;
+					}
+					
+					
 					/* toggle spinner */
 					jQuery('#spinner-'+this.id).show();
 					
@@ -191,10 +193,7 @@ if ( !class_exists('Inbound_Branching')	) {
 			}
 			
 			body .toggle .switch-versions {
-				vertical-align:top;
-				font-size:10px;
-				height:23px;
-				line-height:21px;
+				
 			}
 			</style>
 			<?php
