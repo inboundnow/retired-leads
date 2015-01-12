@@ -536,7 +536,7 @@ if (!function_exists('inbound_form_delete_transient')) {
 if (!function_exists('inbound_form_save')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
+	//add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
 
 	function inbound_form_save()
 	{
@@ -677,7 +677,7 @@ if (!function_exists('inbound_forms_default_content')) {
 /* 	Shortcode moved to shared form class */
 if (!function_exists('inbound_form_get_data')) {
 	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-	add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
+	//add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 
 	function inbound_form_get_data()
 	{
@@ -711,7 +711,7 @@ if (!function_exists('inbound_form_get_data')) {
 if (!function_exists('inbound_form_auto_publish')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
-	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
+	//add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
 
 	function inbound_form_auto_publish()
 	{
