@@ -821,7 +821,7 @@ var InboundForms = (function(_inbound) {
                 "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "outlook.com", "icloud.com"
             ],
 
-            defaultTopLevelDomains: ["co.jp", "co.uk", "com", "net", "org", "info", "edu", "gov", "mil", "ca"],
+            defaultTopLevelDomains: ["co.jp", "co.uk", "com", "net", "org", "info", "edu", "gov", "mil", "ca", "de"],
 
             run: function(opts) {
                 opts.domains = opts.domains || Mailcheck.defaultDomains;
