@@ -355,7 +355,8 @@
 							            context: this,
 							            data: {
 							                action: 'inbound_form_get_data',
-							                form_id: form_id
+							                form_id: form_id,
+							                nonce: inbound_shortcodes.inbound_shortcode_nonce
 							            },
 
 							            success: function (data) {

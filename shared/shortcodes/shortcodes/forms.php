@@ -536,11 +536,16 @@ if (!function_exists('inbound_form_delete_transient')) {
 if (!function_exists('inbound_form_save')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_save', 'inbound_form_save');
-	add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
+	//add_action('wp_ajax_nopriv_inbound_form_save', 'inbound_form_save');
 
-	function inbound_form_save()
-	{
+	function inbound_form_save() {
+
 		global $user_ID, $wpdb;
+		$check_nonce = wp_verify_nonce( $_POST['nonce'], 'inbound-shortcode-nonce' );
+		if( !$check_nonce ) {
+			//echo json_encode("Found");
+			exit;
+		}
 	    // Post Values
 	    $form_name = (isset( $_POST['name'] )) ? $_POST['name'] : "";
 	    $shortcode = (isset( $_POST['shortcode'] )) ? $_POST['shortcode'] : "";
@@ -677,7 +682,7 @@ if (!function_exists('inbound_forms_default_content')) {
 /* 	Shortcode moved to shared form class */
 if (!function_exists('inbound_form_get_data')) {
 	add_action('wp_ajax_inbound_form_get_data', 'inbound_form_get_data');
-	add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
+	//add_action('wp_ajax_nopriv_inbound_form_get_data', 'inbound_form_get_data');
 
 	function inbound_form_get_data()
 	{
@@ -686,6 +691,11 @@ if (!function_exists('inbound_form_get_data')) {
 
 	    if (isset( $_POST['form_id'])&&!empty( $_POST['form_id']))
 	    {
+	    	$check_nonce = wp_verify_nonce( $_POST['nonce'], 'inbound-shortcode-nonce' );
+			if( !$check_nonce ) {
+				//echo json_encode("Found");
+				exit;
+			}
 
 	        $form_settings_data = get_post_meta( $post_ID, 'inbound_form_settings', TRUE );
 	        $field_count = get_post_meta( $post_ID, 'inbound_form_field_count', TRUE );
@@ -711,7 +721,7 @@ if (!function_exists('inbound_form_get_data')) {
 if (!function_exists('inbound_form_auto_publish')) {
 	/* 	Shortcode moved to shared form class */
 	add_action('wp_ajax_inbound_form_auto_publish', 'inbound_form_auto_publish');
-	add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
+	//add_action('wp_ajax_nopriv_inbound_form_auto_publish', 'inbound_form_auto_publish');
 
 	function inbound_form_auto_publish()
 	{
