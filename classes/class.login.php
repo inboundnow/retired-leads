@@ -52,4 +52,5 @@ if (!class_exists('Inbound_Login')) {
 
 	}
 	
+	$GLOBALS['Inbound_Login'] = new Inbound_Login;
 }
