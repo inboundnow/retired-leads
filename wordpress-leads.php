@@ -77,7 +77,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				echo wp_kses_post( $html_message );
 			}
 		}
-		/* END PHP VERSION CHECKS */
+
 		/**
 		 * Main Inbound_Leads_Plugin Instance
 		 *
@@ -89,7 +89,9 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			self::load_text_domain_init();
 		}
 
-		/* Setup plugin constants */
+		/**
+		*  	Setup plugin constants 
+		*/
 		private static function define_constants() {
 			define('WPL_CURRENT_VERSION', '1.5.7' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
@@ -103,7 +105,9 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			define('WPL_UPLOADS_URLPATH', $uploads['baseurl'].'/leads/' );
 		}
 
-		/* Include required files */
+		/**
+		*  Include required files 
+		*/
 		private static function includes() {
 
 			if ( is_admin() ) {
@@ -130,6 +134,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.inbound-api.api-keys-table.php');
 				require_once('classes/class.admin-notices.php');
 				require_once('classes/class.branching.php');
+				require_once('classes/class.login.php');
 
 			} else {
 				/* Frontend Includes */
@@ -140,6 +145,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.metaboxes.email-template.php');
 				require_once('classes/class.wordpress-core.email.php');
 				require_once('classes/class.inbound-api.php');
+				require_once('classes/class.login.php');
 
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
@@ -151,7 +157,9 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 			//require_once INBOUND_NOW_PATH . 'includes/install.php';
 		}
 
-		/* Load Shared Files */
+		/**
+		*  Load Shared Files
+		*/
 		private static function load_shared_files() {
 			require_once('shared/classes/class.load-shared.php');
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
