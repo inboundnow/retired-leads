@@ -437,7 +437,7 @@ if (!class_exists('Inbound_Forms')) {
                     {
                         jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
 alert("';
-echo _e('Oops! Looks like you have not filled out all of the required fields!','cta');
+ _e('Oops! Looks like you have not filled out all of the required fields!','cta');
 echo '");
                         e.preventDefault();
 						e.stopImmediatePropagation();    
@@ -446,7 +446,7 @@ echo '");
 						if(!jQuery(this).prop("required")){
 						} else if (!jQuery(this).val()) {
 						alert("';
-echo _e('Oops! Looks like you have not filled out all of the required fields!','cta');
+ _e('Oops! Looks like you have not filled out all of the required fields!','cta');
 echo '");
 						e.preventDefault();
 						e.stopImmediatePropagation();
