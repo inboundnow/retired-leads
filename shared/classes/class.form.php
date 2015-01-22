@@ -436,18 +436,15 @@ if (!class_exists('Inbound_Forms')) {
                     if(jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
                     {
                         jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
-alert("';
- _e('Oops! Looks like you have not filled out all of the required fields!','cta');
-echo '");
+						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'cta' ) .'");
                         e.preventDefault();
 						e.stopImmediatePropagation();    
                     }
 					jQuery(this).find("input").each(function(){
 						if(!jQuery(this).prop("required")){
 						} else if (!jQuery(this).val()) {
-						alert("';
- _e('Oops! Looks like you have not filled out all of the required fields!','cta');
-echo '");
+						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'cta' ) .'");
+                       
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						return false;
