@@ -17,16 +17,17 @@ class CTA_Conversion_Tracking {
 		add_action( 'init' , array( __CLASS__ ,  'redirect_link' ) , 11); // Click Tracking init
 		
 		/* Track form submissions related to call to actions a conversions */
-		add_action('inbound_store_lead_pre' , array( __CLASS__ , 'set_form_submission_conversion' ) , 20 , 1 );
+		add_action('inboundnow_store_lead_pre_filter_data' , array( __CLASS__ , 'set_form_submission_conversion' ) , 20 , 1 );
 	}
 
 	/**
 	*  Listens for tracked form submissions embedded in calls to actions & incrememnt conversions
 	*/
 	public static function set_form_submission_conversion( $data ) {
-		$raw_post_values = json_decode( stripslashes($data['form_input_values']) , true);
+		
+		parse_str($data['raw_params'] , $raw_post_values );
 
-		if (!isset($raw_post_values['wp_cta_id'])) {
+		if (!isset($raw_post_values)) {
 			return;
 		}
 		
