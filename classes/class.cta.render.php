@@ -232,7 +232,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 					$cta_obj[$cta_id]['meta'][$vid]['wp-cta-selected-template-'.$vid] = $template_slug;
 
 					/* determin where template exists for asset loading	*/
-					if (file_exists(WP_CTA_PATH.'templates/'.$template_slug.'/index.php')) {
+					if (file_exists( WP_CTA_PATH.'templates/'.$template_slug )) {
 						$cta_obj[$cta_id]['templates'][$vid]['path'] = WP_CTA_PATH.'templates/'.$template_slug.'/';
 						$cta_obj[$cta_id]['templates'][$vid]['urlpath'] = WP_CTA_URLPATH.'templates/'.$template_slug.'/';
 					} else {
@@ -311,7 +311,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* Setup determine variation global function */
 			if ( isset( $_GET['wp-cta-variation-id'] ) ) {
-				self::$instance->selected_cta['id'] = null;
+				self::$instance->selected_cta['id'] =  $_GET['wp-cta-variation-id'];
 			}
 
 			/* determine ajax url */
