@@ -67,7 +67,7 @@ var _inboundEvents = (function(_inbound) {
            var TriggerEvent = document.createEvent("Event");
            TriggerEvent.initEvent(eventName, true, true);
 
-        } else {
+        } else if( typeof CustomEvent === 'function') {
 
             var TriggerEvent = new CustomEvent(eventName, {
                 detail: data,
@@ -75,6 +75,8 @@ var _inboundEvents = (function(_inbound) {
                 cancelable: options.cancelable
             });
 
+        } else {
+            var TriggerEvent = false;
         }
         /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
         window.dispatchEvent(TriggerEvent);

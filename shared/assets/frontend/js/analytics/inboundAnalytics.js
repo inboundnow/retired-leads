@@ -1055,16 +1055,19 @@ var _inboundUtils = (function(_inbound) {
         },
         ajaxSendData: function(url, callback, method, data, sync) {
             var x = this.ajaxPolyFill();
-            x.open(method, url, sync);
-            x.onreadystatechange = function() {
-                if (x.readyState == 4) {
-                    callback(x.responseText)
-                }
-            };
-            if (method == 'POST') {
-                x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            }
-            x.send(data);
+            /* timeout for safari idiocy */
+            setTimeout(function() {
+              x.open(method, url, sync);
+              x.onreadystatechange = function() {
+                  if (x.readyState == 4) {
+                      callback(x.responseText)
+                  }
+              };
+              if (method == 'POST') {
+                  x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+              }
+              x.send(data);
+            }, 100);
         },
         ajaxGet: function(url, data, callback, sync) {
             var query = [];
@@ -2301,7 +2304,7 @@ var _inboundEvents = (function(_inbound) {
            var TriggerEvent = document.createEvent("Event");
            TriggerEvent.initEvent(eventName, true, true);
 
-        } else {
+        } else if( typeof CustomEvent === 'function') {
 
             var TriggerEvent = new CustomEvent(eventName, {
                 detail: data,
@@ -2309,6 +2312,8 @@ var _inboundEvents = (function(_inbound) {
                 cancelable: options.cancelable
             });
 
+        } else {
+            var TriggerEvent = false;
         }
         /*! 1. Trigger Pure Javascript Event See: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events for example on creating events */
         window.dispatchEvent(TriggerEvent);
