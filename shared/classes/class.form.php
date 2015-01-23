@@ -187,7 +187,7 @@ if (!class_exists('Inbound_Forms')) {
 					if ($type === "hidden" || $type === "honeypot" || $type === "html-block" || $type === "divider") {
 						$show_labels = false;
 					}
-                    // added by kirit dholakiya for validation of multiple checkbox 
+                    // added by kirit dholakiya for validation of multiple checkbox
                     $div_chk_req = '';
                     if($type=='checkbox' && $required=='1')
                     {
@@ -344,7 +344,7 @@ if (!class_exists('Inbound_Forms')) {
 							'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
 						// <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />-->
 
-				$form .= '<input type="hidden" name="inbound_form_name" class="inbound_form_name" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
+				$form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
 				$form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
 				$form = preg_replace('/<br class="inbr".\/>/', '', $form); // remove editor br tags
 
@@ -438,13 +438,13 @@ if (!class_exists('Inbound_Forms')) {
                         jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
 						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'cta' ) .'");
                         e.preventDefault();
-						e.stopImmediatePropagation();    
+						e.stopImmediatePropagation();
                     }
 					jQuery(this).find("input").each(function(){
 						if(!jQuery(this).prop("required")){
 						} else if (!jQuery(this).val()) {
 						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'cta' ) .'");
-                       
+
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						return false;
@@ -509,7 +509,7 @@ if (!class_exists('Inbound_Forms')) {
 
 			/* replace core tokens */
 			$content = str_replace('{{site-name}}', get_bloginfo( 'name' ) , $content);
-			//$content = str_replace('{{form-name}}', $form_data['inbound_form_name']		, $content);
+			//$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content);
 
 			foreach ($form_data as $key => $value) {
 				$token_key = str_replace('_','-', $key);
