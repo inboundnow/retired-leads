@@ -187,12 +187,13 @@ if (!class_exists('Inbound_Forms')) {
 					if ($type === "hidden" || $type === "honeypot" || $type === "html-block" || $type === "divider") {
 						$show_labels = false;
 					}
-                    // added by kirit dholakiya for validation of multiple checkbox
-                    $div_chk_req = '';
-                    if($type=='checkbox' && $required=='1')
-                    {
-                        $div_chk_req =' checkbox-required ';
-                    }
+			                
+			                // added by kirit dholakiya for validation of multiple checkbox
+			                $div_chk_req = '';
+			                if($type=='checkbox' && $required=='1') {
+			                        $div_chk_req =' checkbox-required ';
+			                }
+			                
 					$form .= '<div class="inbound-field '.$div_chk_req.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
 					if ($show_labels && $form_labels != "bottom" || $type === "radio") {
@@ -286,14 +287,10 @@ if (!class_exists('Inbound_Forms')) {
 
 						$checkbox = $matches[3][$i]['checkbox'];
 						$checkbox_fields = explode(",", $checkbox);
-						// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 						foreach ($checkbox_fields as $key => $value) {
 							$value = html_entity_decode($value);
 							$checkbox_val_trimmed =	strip_tags(trim($value));
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
-
-
-						//'.$required_id.' remvoed from above line by kirit dholakiya on 20 - january -2015
 
 							$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
 						}
