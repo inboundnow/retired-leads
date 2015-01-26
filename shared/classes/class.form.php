@@ -161,7 +161,7 @@ if (!class_exists('Inbound_Forms')) {
 					if ($map_field != "") {
 						$field_name = $map_field;
 					} else {
-						$label = self::santize_inputs($label);
+						//$label = self::santize_inputs($label);
 						$field_name = strtolower(str_replace(array(' ','_'),'-',$label));
 					}
 
@@ -188,16 +188,16 @@ if (!class_exists('Inbound_Forms')) {
 						$show_labels = false;
 					}
 			                
-			                // added by kirit dholakiya for validation of multiple checkbox
-			                $div_chk_req = '';
-			                if($type=='checkbox' && $required=='1') {
-			                        $div_chk_req =' checkbox-required ';
-			                }
+					// added by kirit dholakiya for validation of multiple checkbox
+					$div_chk_req = '';
+					if($type=='checkbox' && $required=='1') {
+							$div_chk_req =' checkbox-required ';
+					}
 			                
 					$form .= '<div class="inbound-field '.$div_chk_req.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
 					if ($show_labels && $form_labels != "bottom" || $type === "radio") {
-						$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . $matches[3][$i]['label'] . $req_label . '</label>';
+						$form .= '<label for="'. $field_name .'" class="inbound-label '.$formatted_label.' '.$form_labels_class.' inbound-input-'.$type.'" style="'.$font_size.'">' . html_entity_decode($matches[3][$i]['label']) . $req_label . '</label>';
 					}
 
 					if ($type === 'textarea') {
@@ -430,7 +430,7 @@ if (!class_exists('Inbound_Forms')) {
 
 				jQuery("form").submit(function(e) {
 				    // added below condition for check any of checkbox checked or not by kirit dholakiya
-                    if(jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
+                    if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
                     {
                         jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
 						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'cta' ) .'");
