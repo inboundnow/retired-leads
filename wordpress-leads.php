@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.5.8
+Version: 1.5.9
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
 Domain Path: lang
