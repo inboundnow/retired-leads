@@ -500,7 +500,7 @@ var InboundForms = (function(_inbound) {
             }
 
             var fullName = utils.getParameterVal('name', mapped_params);
-            var fName = utils.getParameterVal('first_name', mapped_params) || "NA";
+            var fName = utils.getParameterVal('first_name', mapped_params);
             var lName = utils.getParameterVal('last_name', mapped_params);
 
             // Fallbacks for empty values
@@ -521,6 +521,8 @@ var InboundForms = (function(_inbound) {
             }
 
             fullName = (fName && lName) ? fName + " " + lName : fullName;
+
+            if(!fName) { fName = "NA"; }
 
             _inbound.deBugger('forms', "fName = " + fName);
             _inbound.deBugger('forms', "lName = " + lName);
