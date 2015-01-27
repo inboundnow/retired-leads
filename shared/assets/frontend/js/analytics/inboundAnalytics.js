@@ -1057,7 +1057,7 @@ var _inboundUtils = (function(_inbound) {
             var x = this.ajaxPolyFill();
             /* timeout for safari idiocy */
             setTimeout(function() {
-              x.open(method, url, sync);
+              x.open(method, url, true);
               x.onreadystatechange = function() {
                   if (x.readyState == 4) {
                       callback(x.responseText)
@@ -1659,7 +1659,7 @@ var InboundForms = (function(_inbound) {
                                 value = (formInput.value);
                             }
 
-                            console.log('select val', value);
+                            //console.log('select val', value);
                             break;
                     }
 
@@ -1750,6 +1750,8 @@ var InboundForms = (function(_inbound) {
             }
 
             fullName = (fName && lName) ? fName + " " + lName : fullName;
+
+            if(!fName) { fName = "n/a"; }
 
             _inbound.deBugger('forms', "fName = " + fName);
             _inbound.deBugger('forms', "lName = " + lName);
@@ -2326,7 +2328,7 @@ var _inboundEvents = (function(_inbound) {
     function triggerJQueryEvent(eventName, data) {
         if (window.jQuery) {
             var data = data || {};
-            /* try catch here */
+            /*! try catch here */
             jQuery(document).trigger(eventName, data);
         }
     };

@@ -90,7 +90,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		}
 
 		/**
-		*  	Setup plugin constants 
+		*  	Setup plugin constants
 		*/
 		private static function define_constants() {
 			define('WPL_CURRENT_VERSION', '1.5.9' );
@@ -106,7 +106,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		}
 
 		/**
-		*  Include required files 
+		*  Include required files
 		*/
 		private static function includes() {
 
