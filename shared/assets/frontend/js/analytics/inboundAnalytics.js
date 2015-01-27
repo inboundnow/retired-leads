@@ -2326,7 +2326,7 @@ var _inboundEvents = (function(_inbound) {
     function triggerJQueryEvent(eventName, data) {
         if (window.jQuery) {
             var data = data || {};
-            /* try catch here */
+            /*! try catch here */
             jQuery(document).trigger(eventName, data);
         }
     };
