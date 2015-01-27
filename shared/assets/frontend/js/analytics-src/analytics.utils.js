@@ -521,7 +521,7 @@ var _inboundUtils = (function(_inbound) {
             var x = this.ajaxPolyFill();
             /* timeout for safari idiocy */
             setTimeout(function() {
-              x.open(method, url, sync);
+              x.open(method, url, true);
               x.onreadystatechange = function() {
                   if (x.readyState == 4) {
                       callback(x.responseText)

@@ -430,7 +430,7 @@ var InboundForms = (function(_inbound) {
                                 value = (formInput.value);
                             }
 
-                            console.log('select val', value);
+                            //console.log('select val', value);
                             break;
                     }
 
@@ -521,6 +521,8 @@ var InboundForms = (function(_inbound) {
             }
 
             fullName = (fName && lName) ? fName + " " + lName : fullName;
+
+            if(!fName) { fName = "n/a"; }
 
             _inbound.deBugger('forms', "fName = " + fName);
             _inbound.deBugger('forms', "lName = " + lName);
