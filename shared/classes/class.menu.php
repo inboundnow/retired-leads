@@ -20,7 +20,7 @@ if (!class_exists('Inbound_Menu')) {
 			}
 
 			self::$add_menu = true;
-			self::$go_button = '<input type="submit" value="' . __( 'GO', 'leads' ) . '" class="inbound-search-go"  /></form>';
+			self::$go_button = '<input type="submit" value="' . __( 'GO', 'cta' ) . '" class="inbound-search-go"  /></form>';
 			self::$inboundnow_menu_key = 'inbound-admin-bar';
 			self::$inboundnow_menu_secondary_group_key = 'inbound-secondary';
 			self::hooks();
@@ -36,7 +36,7 @@ if (!class_exists('Inbound_Menu')) {
 			/* Add Parent Nav Menu - Inbound Marketing*/
 			$wp_admin_bar->add_menu( array(
 				'id'    => self::$inboundnow_menu_key,
-				'title' => __( ' Marketing', 'leads' ),
+				'title' => __( ' Marketing', 'cta' ),
 				'href'  => "",
 				'meta'  => array( 'class' => 'inbound-nav-marketing', 'title' => 'Inbound Marketing Admin' )
 			) );
@@ -129,46 +129,46 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Lead Parent */
 			$menu_items[ $leads_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
-				'title'  => __( 'Leads', 'leads' ),
+				'title'  => __( 'Leads', 'cta' ),
 				'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
-				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'cta' ) )
 			);
 
 			/* 1.1 - Leads search form */
-			$leads_search_text = __( 'Search All Leads' , 'leads' );
+			$leads_search_text = __( 'Search All Leads' , 'cta' );
 			$menu_items['inbound-leads-search'] = array(
 				'parent' => $leads_key,
 				'title' => '<form id="inbound-menu-form" method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
-				<input id="search-inbound-menu" type="text" placeholder="' . $leads_search_text . '" onblur="this.value=(this.value==\'\') ? \'' . $leads_search_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $leads_search_text . '\') ? \'\' : this.value;" value="' . $leads_search_text . '" name="s" value="' . esc_attr( 'Search Leads', 'leads' ) . '" class="text inbound-search-input" />
+				<input id="search-inbound-menu" type="text" placeholder="' . $leads_search_text . '" onblur="this.value=(this.value==\'\') ? \'' . $leads_search_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $leads_search_text . '\') ? \'\' : this.value;" value="' . $leads_search_text . '" name="s" value="' . esc_attr( 'Search Leads', 'cta' ) . '" class="text inbound-search-input" />
 				<input type="hidden" name="post_type" value="wp-lead" />
 				<input type="hidden" name="post_status" value="all" />
 				' . self::$go_button ,
 				'href'   => false,
-				'meta'   => array( 'target' => '', 'title' => _x( 'Search Leads', 'Translators: For the tooltip', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => _x( 'Search Leads', 'Translators: For the tooltip', 'cta' ) )
 			);
 
 			/* 1.2 - View All Leads */
 			$menu_items['inbound-leads-view'] = array(
 				'parent' => $leads_key,
-				'title'  => __( 'View All Leads', 'leads' ),
+				'title'  => __( 'View All Leads', 'cta' ),
 				'href'   => admin_url( 'edit.php?post_type=wp-lead' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'cta' ) )
 			);
 
 			/* 1.3 - View Lead Lists */
 			$menu_items['inbound-leads-list'] = array(
 				'parent' => $leads_key,
-				'title'  => __( 'View Lead Lists', 'leads' ),
+				'title'  => __( 'View Lead Lists', 'cta' ),
 				'href'   => admin_url( 'edit-tags.php?taxonomy=wplead_list_category&post_type=wp-lead' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'View Lead Lists', 'cta' ) )
 			);
 
 			/* 1.4 - Create New Lead */
 			$menu_items['inbound-leads-add'] = array(
 				'parent' => $leads_key,
-				'title'  => __( 'Create New Lead', 'leads' ),
+				'title'  => __( 'Create New Lead', 'cta' ),
 				'href'   => admin_url( 'post-new.php?post_type=wp-lead' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'Add new lead', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'Add new lead', 'cta' ) )
 			);
 
 			return $menu_items;
@@ -187,42 +187,42 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Calls to Action */
 			$menu_items[ $cta_key ] = array(
 			  'parent' => self::$inboundnow_menu_key,
-			  'title'  => __( 'Call to Actions', 'leads' ),
+			  'title'  => __( 'Call to Actions', 'cta' ),
 			  'href'   => admin_url( 'edit.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'cta' ) )
 			);
 
 			/* 1.1 - View Calls to Action */
 			$menu_items['inbound-cta-view'] = array(
 			  'parent' => $cta_key,
-			  'title'  => __( 'View Calls to Action List', 'leads' ),
+			  'title'  => __( 'View Calls to Action List', 'cta' ),
 			  'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'cta' ) )
 			);
 
 			/* 1.2 - Add Calls to Action */
 			$menu_items['inbound-cta-add'] = array(
 			  'parent' => $cta_key,
-			  'title'  => __( 'Add New Call to Action', 'leads' ),
+			  'title'  => __( 'Add New Call to Action', 'cta' ),
 			  'href'   => admin_url( 'post-new.php?post_type=wp-call-to-action' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'cta' ) )
 			);
 
 			/* 1.3 - Calls to Action Categories */
 			$menu_items['inbound-cta-categories'] = array(
 				'parent' => $cta_key,
-				'title'  => __( 'Categories', 'leads' ),
+				'title'  => __( 'Categories', 'cta' ),
 				'href'   => admin_url( 'edit-tags.php?taxonomy=wp_call_to_action_category&post_type=wp-call-to-action' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Categories', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Categories', 'cta' ) )
 			);
 
 			/* 1.4 - Settings */
 			if ( current_user_can( 'manage_options' )) {
 				$menu_items['inbound-cta-settings'] = array(
 					'parent' => $cta_key,
-					'title'  => __( 'Settings', 'leads' ),
+					'title'  => __( 'Settings', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Manage Call to Action Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Manage Call to Action Settings', 'cta' ) )
 				);
 			}
 
@@ -243,42 +243,42 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Landing Pages */
 			$menu_items[ $landing_pages_key ] = array(
 				  'parent' => self::$inboundnow_menu_key,
-				  'title'  => __( 'Landing Pages', 'leads' ),
+				  'title'  => __( 'Landing Pages', 'cta' ),
 				  'href'   => admin_url( 'edit.php?post_type=landing-page' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'leads' ) )
+				  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'cta' ) )
 			);
 
 			/* 1.1 - View Landing Pages */
 			$menu_items['inbound-landingpages-view'] = array(
 			  'parent' => $landing_pages_key,
-			  'title'  => __( 'View Landing Pages List', 'leads' ),
+			  'title'  => __( 'View Landing Pages List', 'cta' ),
 			  'href'   => admin_url( 'edit.php?post_type=landing-page' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'View All Landing Pages', 'cta' ) )
 			);
 
 			/* 1.2 - Add New Landing Pages */
 			$menu_items['inbound-landingpages-add'] = array(
 			  'parent' => $landing_pages_key,
-			  'title'  => __( 'Add New Landing Page', 'leads' ),
+			  'title'  => __( 'Add New Landing Page', 'cta' ),
 			  'href'   => admin_url( 'post-new.php?post_type=landing-page' ),
-			  'meta'   => array( 'target' => '', 'title' => __( 'Add new Landing Page', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'Add new Landing Page', 'cta' ) )
 			);
 
 			/* 1.3 - Landing Pages Categories */
 			$menu_items['inbound-landingpages-categories'] = array(
 				'parent' => $landing_pages_key,
-				'title'  => __( 'Categories', 'leads' ),
+				'title'  => __( 'Categories', 'cta' ),
 				'href'   => admin_url( 'edit-tags.php?taxonomy=landing_page_category&post_type=landing-page' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Categories', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Categories', 'cta' ) )
 			);
 
 			/* 1.4 - Landing Pages Settings */
 			if ( current_user_can( 'manage_options' )) {
 				$menu_items['inbound-landingpages-settings'] = array(
 					'parent' => $landing_pages_key,
-					'title'  => __( 'Settings', 'leads' ),
+					'title'  => __( 'Settings', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=landing-page&page=lp_global_settings' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Manage Landing Page Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Manage Landing Page Settings', 'cta' ) )
 				);
 			}
 
@@ -298,17 +298,17 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Manage Forms  */
 			$menu_items[ $forms_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
-				'title'  => __( 'Manage Forms', 'leads' ),
+				'title'  => __( 'Manage Forms', 'cta' ),
 				'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
-				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Forms', 'cta' ) )
 			);
 
 			/* 1.1 - View All Forms */
 			$menu_items['inbound-forms-view'] = array(
 				  'parent' => $forms_key,
-				  'title'  => __( 'View All Forms', 'leads' ),
+				  'title'  => __( 'View All Forms', 'cta' ),
 				  'href'   => admin_url( 'edit.php?post_type=inbound-forms' ),
-				  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'leads' ) )
+				  'meta'   => array( 'target' => '', 'title' => __( 'View All Forms', 'cta' ) )
 			);
 
 			/* 1.1.x Get Forms and List */
@@ -326,9 +326,9 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1.2 - Create New Form */
 			$menu_items['inbound-forms-add'] = array(
 				'parent' => $forms_key,
-				'title'  => __( 'Create New Form', 'leads' ),
+				'title'  => __( 'Create New Form', 'cta' ),
 				'href'   => admin_url( 'post-new.php?post_type=inbound-forms' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'Add new call to action', 'cta' ) )
 			);
 
 			return $menu_items;
@@ -345,26 +345,26 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Manage Templates */
 			$menu_items[ $templates_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
-				'title'  => __( 'Manage Templates', 'leads' ),
+				'title'  => __( 'Manage Templates', 'cta' ),
 				'href'   => "",
-				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Templates', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Templates', 'cta' ) )
 			);
 
 			/* 1.1 - Get More Templates */
 			$menu_items['inbound-gettemplates'] = array(
 				'parent' => $templates_key,
-				'title'  => __( 'Download More Templates', 'leads' ),
+				'title'  => __( 'Download More Templates', 'cta' ),
 				'href'   => "http://www.inboundnow.com/market",
-				'meta'   => array( 'target' => '', 'title' => __( 'Download More Templates', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => __( 'Download More Templates', 'cta' ) )
 			);
 
 			/* 1.1 - Landing Page Templates */
 			if (isset(self::$load_landingpages)) {
 				$menu_items['inbound-landingpagetemplates'] = array(
 					'parent' => $templates_key,
-					'title'  => __( 'Landing Page Templates', 'leads' ),
+					'title'  => __( 'Landing Page Templates', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=landing-page&page=lp_manage_templates' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Templates', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Templates', 'cta' ) )
 				);
 			}
 
@@ -372,9 +372,9 @@ if (!class_exists('Inbound_Menu')) {
 			if (isset(self::$load_callstoaction)) {
 				$menu_items['inbound-ctatemplates'] = array(
 					'parent' => $templates_key,
-					'title'  => __( 'Call to Action Templates', 'leads' ),
+					'title'  => __( 'Call to Action Templates', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_manage_templates' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Call to Action Templates', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Call to Action Templates', 'cta' ) )
 				);
 			}
 
@@ -388,36 +388,36 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Global Settings */
 			$menu_items[ $settings_key ] = array(
 				'parent' => self::$inboundnow_menu_key,
-				'title'  => __( 'Global Settings', 'leads' ),
+				'title'  => __( 'Global Settings', 'cta' ),
 				'href'   => "",
-				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Settings', 'leads' ) )
+				'meta'   => array( 'target' => '', 'title' => _x( 'Manage Settings', 'cta' ) )
 			);
 
 			/* 1.1 - Call to Action Settings */
 			if (self::$load_callstoaction) {
 				$menu_items['inbound-ctasettings'] = array(
 					'parent' => $settings_key,
-					'title'  => __( 'Call to Action Settings', 'leads' ),
+					'title'  => __( 'Call to Action Settings', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Call to Action Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Call to Action Settings', 'cta' ) )
 				);
 			}
 
 			if (self::$load_landingpages) {
 				$menu_items['inbound-landingpagesettings'] = array(
 					'parent' => $settings_key,
-					'title'  => __( 'Landing Page Settings', 'leads' ),
+					'title'  => __( 'Landing Page Settings', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=landing-page&page=lp_global_settings' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Landing Page Settings', 'cta' ) )
 				);
 			}
 
 			if (self::$load_leads) {
 				$menu_items['inbound-leadssettings'] = array(
 					'parent' => $settings_key,
-					'title'  => __( 'Lead Settings', 'leads' ),
+					'title'  => __( 'Lead Settings', 'cta' ),
 					'href'   => admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Lead Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Lead Settings', 'cta' ) )
 				);
 			}
 
@@ -431,9 +431,9 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Analytics */
 			$menu_items[ $analytics_key ] = array(
 			  'parent' => self::$inboundnow_menu_key,
-			  'title'  => __( 'Analytics (coming soon)', 'leads' ),
+			  'title'  => __( 'Analytics (coming soon)', 'cta' ),
 			  'href'   => '#',
-			  'meta'   => array( 'target' => '', 'title' => __( 'Analytics (coming soon)', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => __( 'Analytics (coming soon)', 'cta' ) )
 			);
 
 			return $menu_items;
@@ -446,9 +446,9 @@ if (!class_exists('Inbound_Menu')) {
 			if (function_exists( 'is_plugin_active' ) && is_plugin_active('wordpress-seo/wp-seo.php')) {
 				$menu_items[ $seo_key ] = array(
 					'parent' => self::$inboundnow_menu_key,
-					'title'  => __( 'SEO by Yoast', 'leads' ),
+					'title'  => __( 'SEO by Yoast', 'cta' ),
 					'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
-					'meta'   => array( 'target' => '', 'title' => __( 'Manage SEO Settings', 'leads' ) )
+					'meta'   => array( 'target' => '', 'title' => __( 'Manage SEO Settings', 'cta' ) )
 				);
 			}
 
@@ -462,30 +462,30 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Support Form */
 			$secondary_menu_items[ $support_key ] = array(
 				'parent' => self::$inboundnow_menu_secondary_group_key,
-				'title'  => __( 'Support Forum', 'leads' ),
+				'title'  => __( 'Support Forum', 'cta' ),
 				'href'   => 'https://www.inboundnow.com/support/',
-				'meta'   => array( 'target' => '_blank' , 'title' => __( 'Support Forum', 'leads' ) )
+				'meta'   => array( 'target' => '_blank' , 'title' => __( 'Support Forum', 'cta' ) )
 			);
 
 			/* 1 - Documentation */
 			$secondary_menu_items['inbound-docs'] = array(
 				'parent' => self::$inboundnow_menu_secondary_group_key,
-				'title'  => __( 'Documentation', 'leads' ),
+				'title'  => __( 'Documentation', 'cta' ),
 				'href'   => 'http://docs.inboundnow.com/',
-				'meta'   => array( 'title' => __( 'Documentation', 'leads' ) )
+				'meta'   => array( 'title' => __( 'Documentation', 'cta' ) )
 			);
 
 			/* 1 - Doc Search */
-			$search_docs_text = __( 'Search Docs', 'leads' );
+			$search_docs_text = __( 'Search Docs', 'cta' );
 
 			$secondary_menu_items['inbound-docs-searchform'] = array(
 			  'parent' => self::$inboundnow_menu_secondary_group_key,
 			  'title' => '<form method="get" id="inbound-menu-form" action="http://www.inboundnow.com/support/search/?action=bbp-search-request" class=" " target="_blank">
-			  <input id="search-inbound-menu" type="text" placeholder="' . $search_docs_text . '" onblur="this.value=(this.value==\'\') ? \'' . $search_docs_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $search_docs_text . '\') ? \'\' : this.value;" value="' . $search_docs_text . '" name="bbp_search" value="' . esc_attr( 'Search Docs', 'leads' ) . '" class="text inbound-search-input" />
+			  <input id="search-inbound-menu" type="text" placeholder="' . $search_docs_text . '" onblur="this.value=(this.value==\'\') ? \'' . $search_docs_text . '\' : this.value;" onfocus="this.value=(this.value==\'' . $search_docs_text . '\') ? \'\' : this.value;" value="' . $search_docs_text . '" name="bbp_search" value="' . esc_attr( 'Search Docs', 'cta' ) . '" class="text inbound-search-input" />
 			  <input type="hidden" name="post_type[]" value="docs" />
 			  <input type="hidden" name="post_type[]" value="page" />' . self::$go_button,
 			  'href'   => false,
-			  'meta'   => array( 'target' => '', 'title' => _x( 'Search Docs', 'Translators: For the tooltip', 'leads' ) )
+			  'meta'   => array( 'target' => '', 'title' => _x( 'Search Docs', 'Translators: For the tooltip', 'cta' ) )
 			);
 
 			return $secondary_menu_items;
@@ -498,41 +498,41 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Inbound Now Plugin HQ */
 			$secondary_menu_items[ $hq_key ] = array(
 			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title'  => __( 'Inbound Now Plugin HQ', 'leads' ),
+			  'title'  => __( 'Inbound Now Plugin HQ', 'cta' ),
 			  'href'   => 'https://www.inboundnow.com/',
-			  'meta'   => array( 'title' => __( 'Inbound Now Plugin HQ', 'leads' ) )
+			  'meta'   => array( 'title' => __( 'Inbound Now Plugin HQ', 'cta' ) )
 			);
 
 			/* 1.1 - GitHub Link */
 			$secondary_menu_items['inbound-sites-dev'] = array(
 				'parent' => $hq_key,
-				'title'  => __( 'GitHub Repository Developer Center', 'leads' ),
+				'title'  => __( 'GitHub Repository Developer Center', 'cta' ),
 				'href'   => 'https://github.com/inboundnow',
-				'meta'   => array( 'title' => __( 'GitHub Repository Developer Center', 'leads' ) )
+				'meta'   => array( 'title' => __( 'GitHub Repository Developer Center', 'cta' ) )
 			);
 
 			/* 1.2 - Offical Blog */
 			$secondary_menu_items['inbound-sites-blog'] = array(
 				'parent' => $hq_key,
-				'title'  => __( 'Official Blog', 'leads' ),
+				'title'  => __( 'Official Blog', 'cta' ),
 				'href'   => 'https://www.inboundnow.com/blog/',
-				'meta'   => array( 'title' => __( 'Official Blog', 'leads' ) )
+				'meta'   => array( 'title' => __( 'Official Blog', 'cta' ) )
 			);
 
 			/* 1.3 - My Account */
 			$secondary_menu_items['inboundsitesaccount'] = array(
 				'parent' => $hq_key,
-				'title'  => __( 'My Account', 'leads' ),
+				'title'  => __( 'My Account', 'cta' ),
 				'href'   => 'https://www.inboundnow.com/marketplace/account/',
-				'meta'   => array( 'title' => __( 'My Account', 'leads' ) )
+				'meta'   => array( 'title' => __( 'My Account', 'cta' ) )
 			);
 
 			/* 1.3.1 - Purchase History */
 			$secondary_menu_items['inboundsitesaccount-history'] = array(
 				'parent' => 'inboundsitesaccount',
-				'title'  => __( 'Purchase History', 'leads' ),
+				'title'  => __( 'Purchase History', 'cta' ),
 				'href'   => 'https://www.inboundnow.com/marketplace/account/purchase-history/',
-				'meta'   => array( 'title' => __( 'Purchase History', 'leads' ) )
+				'meta'   => array( 'title' => __( 'Purchase History', 'cta' ) )
 			);
 
 			return $secondary_menu_items;
@@ -545,7 +545,7 @@ if (!class_exists('Inbound_Menu')) {
 			/* 1 - Debug Tools */
 			$secondary_menu_items[ $debug_key ] = array(
 			  'parent' => self::$inboundnow_menu_secondary_group_key,
-			  'title'  => __( '<span style="color:#fff;font-size: 13px;margin-top: -1px;display: inline-block;">Debug Tools</span>', 'leads' ),
+			  'title'  => __( '<span style="color:#fff;font-size: 13px;margin-top: -1px;display: inline-block;">Debug Tools</span>', 'cta' ),
 			  'href'   => "#",
 			  'meta'   => ""
 			);
@@ -571,17 +571,17 @@ if (!class_exists('Inbound_Menu')) {
 			 /* 1.1 - Check for JS Errors */
 			$secondary_menu_items['inbound-debug-checkjs'] = array(
 			  'parent' => $debug_key,
-			  'title'  => __( 'Check for Javascript Errors', 'leads' ),
+			  'title'  => __( 'Check for Javascript Errors', 'cta' ),
 			  'href'   => $actual_link_two,
-			  'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'leads' ) )
+			  'meta'   => array( 'title' =>  __( 'Click here to check javascript errors on this page', 'cta' ) )
 			);
 
 			/* 1.2 - Check for JS Errors */
 			$secondary_menu_items['inbound-debug-turnoffscripts'] = array(
 			  'parent' => $debug_key,
-			  'title'  => __( 'Remove Javascript Errors', 'leads' ),
+			  'title'  => __( 'Remove Javascript Errors', 'cta' ),
 			  'href'   => $actual_link,
-			  'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'leads' ) )
+			  'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'cta' ) )
 			);
 
 			return apply_filters('inbound_menu_debug' , $secondary_menu_items , $debug_key );

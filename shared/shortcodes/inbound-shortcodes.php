@@ -635,7 +635,7 @@ class Inbound_Shortcodes {
 		<div id="cpt-form-shortcode"><?php echo $popup;?></div>
 		<div id="cpt-form-serialize-default"><?php echo $form_serialize;?></div>
 		<div id="form-leads-list">
-			<h2><?php _e( 'Form Conversions' , 'leads' ); ?></h2>
+			<h2><?php _e( 'Form Conversions' , 'cta' ); ?></h2>
 			<ol id="form-lead-ul">
 				<?php
 
@@ -644,17 +644,17 @@ class Inbound_Shortcodes {
 					$lead_conversion_list = json_decode($lead_conversion_list,true);
 					foreach ($lead_conversion_list as $key => $value) {
 						$email = $lead_conversion_list[$key]['email'];
-						echo '<li><a title="'.__( 'View this Lead' , 'leads' ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
+						echo '<li><a title="'.__( 'View this Lead' , 'cta' ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
 					}
 
 				} else {
-					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'leads' ) .'</span>';
+					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'cta' ) .'</span>';
 				}
 				?>
 			</ol>
 		</div>
 		<div id="inbound-email-response">
-			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , 'leads' ); ?></h2>
+			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , 'cta' ); ?></h2>
 			<?php
 			$values = get_post_custom( $post->ID );
 			$selected = isset( $values['inbound_email_send_notification'] ) ? esc_attr( $values['inbound_email_send_notification'][0] ) : "";
@@ -681,9 +681,9 @@ class Inbound_Shortcodes {
 				?>
 				<div	style='display:block; overflow: auto;'>
 					<div id=''>
-						<label for="inbound_email_send_notification_template"><?php _e( 'Select Response Email Template' , 'leads' ); ?></label>
+						<label for="inbound_email_send_notification_template"><?php _e( 'Select Response Email Template' , 'cta' ); ?></label>
 						<select name="inbound_email_send_notification_template" id="inbound_email_send_notification_template">
-							<option value='custom' <?php	selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , 'leads' ); ?></option>
+							<option value='custom' <?php	selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , 'cta' ); ?></option>
 							<?php
 
 							foreach ($email_templates as $id => $label) {

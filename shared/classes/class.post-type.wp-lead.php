@@ -77,20 +77,20 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register lead lists */
 			$list_labels = array(
-				'name'						=> __( 'Lead Lists', 'leads' ),
-				'singular_name'				=> __( 'Lead List', 'leads' ),
-				'search_items'				=> __( 'Search Lead Lists' , 'leads' ),
-				'popular_items'				=> __( 'Popular Lead Lists' , 'leads' ),
-				'all_items'					=> __( 'All Lead Lists' , 'leads' ),
+				'name'						=> __( 'Lead Lists', 'cta' ),
+				'singular_name'				=> __( 'Lead List', 'cta' ),
+				'search_items'				=> __( 'Search Lead Lists' , 'cta' ),
+				'popular_items'				=> __( 'Popular Lead Lists' , 'cta' ),
+				'all_items'					=> __( 'All Lead Lists' , 'cta' ),
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
-				'edit_item'					=> __( 'Edit Lead List' , 'leads' ),
+				'edit_item'					=> __( 'Edit Lead List' , 'cta' ),
 				'update_item'				=> __( 'Update Lead List' , 'leads'	),
 				'add_new_item'				=> __( 'Add New Lead List' , 'leads'	),
 				'new_item_name'				=> __( 'New Lead List' , 'leads'	),
 				'separate_items_with_commas' => __( 'Separate Lead Lists with commas' , 'leads'	),
 				'add_or_remove_items'		=> __( 'Add or remove Lead Lists' , 'leads'	),
-				'choose_from_most_used'		=> __( 'Choose from the most used lead List' , 'leads' ),
+				'choose_from_most_used'		=> __( 'Choose from the most used lead List' , 'cta' ),
 				'not_found'					=> __( 'No Lead Lists found.' , 'leads'	),
 				'menu_name'					=> __( 'Lead Lists' , 'leads'	),
 			);
@@ -98,7 +98,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$list_args = array(
 				'hierarchical'			=> true,
 				'labels'				=> $list_labels,
-				'singular_label'		=> __( 'List Management' , 'leads' ),
+				'singular_label'		=> __( 'List Management' , 'cta' ),
 				'show_ui'				=> true,
 				'show_in_menu'			=> true,
 				'show_in_nav_menus'		=> false,
@@ -335,12 +335,12 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* id is required */
 			if (!isset($id)) {
-				return array( 'error' => __( 'must include an id parameter' , 'leads' ) );
+				return array( 'error' => __( 'must include an id parameter' , 'cta' ) );
 			}
 
 			wp_delete_term( $id , 'wplead_list_category' );
 			
-			return array( 'message' => __( 'lead list deleted' , 'leads' ) );
+			return array( 'message' => __( 'lead list deleted' , 'cta' ) );
 		}
 
 		/**
@@ -416,7 +416,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			}
 
 			if (!is_plugin_active('leads/wordpress-leads.php')) {
-				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , 'leads' );
+				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , 'cta' );
 			}
 		}
 
@@ -443,7 +443,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$count = $query->post_count;
 
-			return sprintf( __( '%d leads' , 'leads' ) , $count );
+			return sprintf( __( '%d leads' , 'cta' ) , $count );
 
 		}
 
