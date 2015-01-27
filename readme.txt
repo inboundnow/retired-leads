@@ -84,6 +84,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+= 1.5.9 =
+* Better required field validation for checkboxes
+
 = 1.5.8 =
 * Even more security updates! Security for the win!
 
