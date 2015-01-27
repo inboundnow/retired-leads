@@ -27,8 +27,8 @@ class CTA_Conversion_Tracking {
 		
 		parse_str($data['raw_params'] , $raw_post_values );
 
-		if (!isset($raw_post_values)) {
-			return;
+		if (!isset($raw_post_values['wp_cta_id']) || !$raw_post_values['wp_cta_id'] ) {
+			return $data;
 		}
 		
 		$cta_id = $raw_post_values['wp_cta_id'];
