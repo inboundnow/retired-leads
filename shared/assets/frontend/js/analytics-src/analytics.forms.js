@@ -522,7 +522,7 @@ var InboundForms = (function(_inbound) {
 
             fullName = (fName && lName) ? fName + " " + lName : fullName;
 
-            if(!fName) { fName = "NA"; }
+            if(!fName) { fName = "n/a"; }
 
             _inbound.deBugger('forms', "fName = " + fName);
             _inbound.deBugger('forms', "lName = " + lName);
