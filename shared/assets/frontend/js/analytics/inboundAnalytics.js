@@ -1057,7 +1057,7 @@ var _inboundUtils = (function(_inbound) {
             var x = this.ajaxPolyFill();
             /* timeout for safari idiocy */
             setTimeout(function() {
-              x.open(method, url, sync);
+              x.open(method, url, true);
               x.onreadystatechange = function() {
                   if (x.readyState == 4) {
                       callback(x.responseText)
@@ -1729,7 +1729,7 @@ var InboundForms = (function(_inbound) {
             }
 
             var fullName = utils.getParameterVal('name', mapped_params);
-            var fName = utils.getParameterVal('first_name', mapped_params);
+            var fName = utils.getParameterVal('first_name', mapped_params) || "NA";
             var lName = utils.getParameterVal('last_name', mapped_params);
 
             // Fallbacks for empty values

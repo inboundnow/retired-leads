@@ -500,7 +500,7 @@ var InboundForms = (function(_inbound) {
             }
 
             var fullName = utils.getParameterVal('name', mapped_params);
-            var fName = utils.getParameterVal('first_name', mapped_params);
+            var fName = utils.getParameterVal('first_name', mapped_params) || "NA";
             var lName = utils.getParameterVal('last_name', mapped_params);
 
             // Fallbacks for empty values
