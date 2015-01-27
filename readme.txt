@@ -68,6 +68,10 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.2.9 =
+* Conversion tracking bug fixed for CTAs
+* Safari ajax bug fix
+
 = 2.2.8 =
 * Even more security updates! Security for the win!
 
