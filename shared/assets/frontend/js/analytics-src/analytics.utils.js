@@ -519,16 +519,19 @@ var _inboundUtils = (function(_inbound) {
         },
         ajaxSendData: function(url, callback, method, data, sync) {
             var x = this.ajaxPolyFill();
-            x.open(method, url, sync);
-            x.onreadystatechange = function() {
-                if (x.readyState == 4) {
-                    callback(x.responseText)
-                }
-            };
-            if (method == 'POST') {
-                x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            }
-            x.send(data);
+            /* timeout for safari idiocy */
+            setTimeout(function() {
+              x.open(method, url, true);
+              x.onreadystatechange = function() {
+                  if (x.readyState == 4) {
+                      callback(x.responseText)
+                  }
+              };
+              if (method == 'POST') {
+                  x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+              }
+              x.send(data);
+            }, 100);
         },
         ajaxGet: function(url, data, callback, sync) {
             var query = [];
