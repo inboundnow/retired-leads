@@ -1,0 +1,52 @@
+{
+  "name": "cta",
+  "version": "1.0.0",
+  "description": "call to action plugin",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://davidwells@github.com/inboundnow/cta.git"
+  },
+  "keywords": [
+    "cta",
+    "calls",
+    "to",
+    "action"
+  ],
+  "author": "Inbound Now",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/inboundnow/cta/issues"
+  },
+  "homepage": "https://github.com/inboundnow/cta",
+  "dependencies": {},
+  "devDependencies": {
+    "karma-chrome-launcher": "^0.1.5",
+    "phplint": "~1.0.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-qunit": "^0.5.2",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "gulp": "^3.8.5",
+    "gulp-clean": "^0.2.4",
+    "gulp-concat": "~2.1.7",
+    "gulp-header": "^1.0.2",
+    "gulp-jshint": "^1.6.1",
+    "gulp-karma": "0.0.4",
+    "gulp-markdox": "^0.1.0",
+    "gulp-plumber": "~0.6.2",
+    "gulp-rename": "~1.1.0",
+    "gulp-uglify": "~0.3.0",
+    "jshint-stylish": "^0.2.0",
+    "karma": "^0.12.16",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-jasmine": "~0.2.0",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-spec-reporter": "0.0.13"
+  }
+}
