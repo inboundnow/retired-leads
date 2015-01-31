@@ -15,7 +15,6 @@
 						'std' => 'none',
 						'class' => 'main-form-settings',
 			),
-			/*
 			'helper-block-one' => array(
 					'name' => __('Name Name Name',  'leads'),
 					'desc' => __('<span class="switch-to-form-builder button">Build a New Form</span>',  'leads'),
@@ -23,7 +22,6 @@
 					'std' => '',
 					'class' => 'helper-div',
 			),
-			*/
 			'form_name' => array(
 				'name' => __('Form Name<span class="small-required-text">*</span>', 'leads'),
 				'desc' => __('This is not shown to visitors', 'leads'),
