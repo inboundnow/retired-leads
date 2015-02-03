@@ -6,13 +6,14 @@ function inbound_media_button() {
 	global $pagenow, $typenow, $wp_version;
 	$output = '';
 
-	$shortcodes = array('forms' => 'Build a Form',
-						'quick-forms' => 'Insert Existing Form',
-						'button' => 'Build a Button',
-						'call-to-action' => "Call to action Shortcodes",
-						'social-share' => 'Social Share',
-						'lists' => 'Insert Icon List',
-						'columns' => 'Insert Columns' );
+	$shortcodes = array(	
+		'quick-forms' => 'Insert Existing Form',
+		'button' => 'Build a Button',
+		'call-to-action' => "Call to action Shortcodes",
+		'social-share' => 'Social Share',
+		'lists' => 'Insert Icon List',
+		'columns' => 'Insert Columns' 
+	);
 
 	/** Only run in post/page creation and edit screens */
 	if ( in_array( $pagenow, array( 'post.php', 'page.php', 'post-new.php', 'post-edit.php' ) ) ) {
