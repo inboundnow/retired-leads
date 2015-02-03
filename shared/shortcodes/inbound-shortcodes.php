@@ -98,7 +98,7 @@ class Inbound_Shortcodes {
 			if (is_plugin_active('cta/calls-to-action.php')) {
 				array_push($plugins_loaded, "cta");
 			}
-			if (is_plugin_active('leads/wordpress-leads.php')) {
+			if (is_plugin_active('leads/leads.php')) {
 				array_push($plugins_loaded, "leads");
 			}
 
