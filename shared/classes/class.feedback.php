@@ -24,7 +24,7 @@ if (!class_exists('Inbound_Feedback')) {
 		global $wp_admin_bar;
 		// CHECK FOR ACTIVE PLUGINS
 		$leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/wordpress-leads.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/leads.php')) {
 			$leads_status = TRUE;
 			$leads_version_number = defined( 'WPL_CURRENT_VERSION' ) ? 'v' . WPL_CURRENT_VERSION : '';
 		}
@@ -33,7 +33,7 @@ if (!class_exists('Inbound_Feedback')) {
 			$landing_page_version_number = defined( 'LANDINGPAGES_CURRENT_VERSION' ) ? 'v' . LANDINGPAGES_CURRENT_VERSION : '';
 
 		}
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/calls-to-action.php')) {
 			$cta_status = TRUE;
 			$cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
 		}

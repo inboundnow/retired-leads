@@ -71,7 +71,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Installation ==
 
-1. Upload `wordpress-leads` folder to the `/wp-content/plugins/` directory
+1. Upload `leads` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==

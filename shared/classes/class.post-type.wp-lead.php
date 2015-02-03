@@ -415,7 +415,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				return;
 			}
 
-			if (!is_plugin_active('leads/wordpress-leads.php')) {
+			if (!is_plugin_active('leads/leads.php')) {
 				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , 'cta' );
 			}
 		}

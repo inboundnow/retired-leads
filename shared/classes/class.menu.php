@@ -118,7 +118,7 @@ if (!class_exists('Inbound_Menu')) {
 
 		public static function load_leads( $menu_items ) {
 			/* Check if Leads Active */
-			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('leads/wordpress-leads.php')) {
+			if (function_exists( 'is_plugin_active' ) && !is_plugin_active('leads/leads.php')) {
 				return $menu_items;
 			}
 
