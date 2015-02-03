@@ -25,9 +25,11 @@ class Inbound_Asset_Loader {
 		/* Frontent and Backend Files */
 		self::load_file('jquery-cookie', 'global/js/jquery.cookie.js', array( 'jquery' ));
 		self::load_file('jquery-total-storage', 'global/js/jquery.total-storage.min.js', array( 'jquery' ));
-		if(is_user_logged_in()){
-		  self::load_file('inbound-admin', 'admin/css/global-inbound-admin.css');
-		}
+		
+		/* This CSS which was used to add styling to the class.menu.php file has been disabled and moved to Inbound Pro */
+		//if(is_user_logged_in()){
+		  //self::load_file('inbound-admin', 'admin/css/global-inbound-admin.css');
+		//}
 
 		/* Conditionals for admin or frontend */
 		if(is_admin()) {

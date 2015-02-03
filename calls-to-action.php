@@ -193,5 +193,12 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		Inbound_Calls_To_Action_Plugin::fail_php_version();
 	}
 
+	
+	/**
+	*  Checks if Calls to Action plugin is active
+	*/
+	function cta_check_active() {
+		return 1;
+	}
 
 }

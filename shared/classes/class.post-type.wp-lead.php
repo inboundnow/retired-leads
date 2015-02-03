@@ -35,7 +35,8 @@ if ( !class_exists('Inbound_Leads') ) {
 		*	Register wp-lead post type
 		*/
 		public static function register_post_type() {
-			$lead_active = get_option( 'Leads_Activated' ); // Check if leads is activated
+		
+			$lead_active = ( defined('WPL_CURRENT_VERSION') ) ? true : false ; // Check if leads is activated
 
 			$labels = array(
 				'name' => _x('Leads', 'post type general name'),
@@ -82,20 +83,20 @@ if ( !class_exists('Inbound_Leads') ) {
 			
 			/* Register lead lists */
 			$list_labels = array(
-				'name'						=> __( 'Lead Lists', 'cta' ),
-				'singular_name'				=> __( 'Lead List', 'cta' ),
-				'search_items'				=> __( 'Search Lead Lists' , 'cta' ),
-				'popular_items'				=> __( 'Popular Lead Lists' , 'cta' ),
-				'all_items'					=> __( 'All Lead Lists' , 'cta' ),
+				'name'						=> __( 'Lead Lists', 'inbound-pro' ),
+				'singular_name'				=> __( 'Lead List', 'inbound-pro' ),
+				'search_items'				=> __( 'Search Lead Lists' , 'inbound-pro' ),
+				'popular_items'				=> __( 'Popular Lead Lists' , 'inbound-pro' ),
+				'all_items'					=> __( 'All Lead Lists' , 'inbound-pro' ),
 				'parent_item'				=> null,
 				'parent_item_colon'			=> null,
-				'edit_item'					=> __( 'Edit Lead List' , 'cta' ),
+				'edit_item'					=> __( 'Edit Lead List' , 'inbound-pro' ),
 				'update_item'				=> __( 'Update Lead List' , 'leads'	),
 				'add_new_item'				=> __( 'Add New Lead List' , 'leads'	),
 				'new_item_name'				=> __( 'New Lead List' , 'leads'	),
 				'separate_items_with_commas' => __( 'Separate Lead Lists with commas' , 'leads'	),
 				'add_or_remove_items'		=> __( 'Add or remove Lead Lists' , 'leads'	),
-				'choose_from_most_used'		=> __( 'Choose from the most used lead List' , 'cta' ),
+				'choose_from_most_used'		=> __( 'Choose from the most used lead List' , 'inbound-pro' ),
 				'not_found'					=> __( 'No Lead Lists found.' , 'leads'	),
 				'menu_name'					=> __( 'Lead Lists' , 'leads'	),
 			);
@@ -103,7 +104,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$list_args = array(
 				'hierarchical'			=> true,
 				'labels'				=> $list_labels,
-				'singular_label'		=> __( 'List Management' , 'cta' ),
+				'singular_label'		=> __( 'List Management' , 'inbound-pro' ),
 				'show_ui'				=> true,
 				'show_in_menu'			=> true,
 				'show_in_nav_menus'		=> false,
@@ -340,12 +341,12 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* id is required */
 			if (!isset($id)) {
-				return array( 'error' => __( 'must include an id parameter' , 'cta' ) );
+				return array( 'error' => __( 'must include an id parameter' , 'inbound-pro' ) );
 			}
 
 			wp_delete_term( $id , 'wplead_list_category' );
 			
-			return array( 'message' => __( 'lead list deleted' , 'cta' ) );
+			return array( 'message' => __( 'lead list deleted' , 'inbound-pro' ) );
 		}
 
 		/**
@@ -422,7 +423,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			}
 
 			if (!is_plugin_active('leads/leads.php')) {
-				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , 'cta' );
+				_e( 'WordPress Leads is not currently installed/activated to view and manage leads please turn it on.' , 'inbound-pro' );
 			}
 		}
 
@@ -449,7 +450,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			$count = $query->post_count;
 
-			return sprintf( __( '%d leads' , 'cta' ) , $count );
+			return sprintf( __( '%d leads' , 'inbound-pro' ) , $count );
 
 		}
 

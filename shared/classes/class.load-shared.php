@@ -42,7 +42,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');	// Mirrored forms
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	// Inbound Marketing Menu
+			//include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	/* Moved to PRO */
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');	// Inbound Feedback Form
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.debug.php');	// Inbound Debug & Scripts Class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.compatibility.php');	// Inbound Compatibility Class

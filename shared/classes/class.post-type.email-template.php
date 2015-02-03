@@ -51,15 +51,15 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			$labels = array(
 				'name' => __('Email Templates', 'leads'),
-				'singular_name' => __( 'Email Templates', 'cta' ),
-				'add_new' => __( 'Add New Email Templates', 'cta' ),
-				'add_new_item' => __( 'Create New Email Templates' , 'cta' ),
-				'edit_item' => __( 'Edit Email Templates' , 'cta' ),
-				'new_item' => __( 'New Email Templates' , 'cta' ),
-				'view_item' => __( 'View Email Templates' , 'cta' ),
-				'search_items' => __( 'Search Email Templates' , 'cta' ),
-				'not_found' =>	__( 'Nothing found' , 'cta' ),
-				'not_found_in_trash' => __( 'Nothing found in Trash' , 'cta' ),
+				'singular_name' => __( 'Email Templates', 'inbound-pro' ),
+				'add_new' => __( 'Add New Email Templates', 'inbound-pro' ),
+				'add_new_item' => __( 'Create New Email Templates' , 'inbound-pro' ),
+				'edit_item' => __( 'Edit Email Templates' , 'inbound-pro' ),
+				'new_item' => __( 'New Email Templates' , 'inbound-pro' ),
+				'view_item' => __( 'View Email Templates' , 'inbound-pro' ),
+				'search_items' => __( 'Search Email Templates' , 'inbound-pro' ),
+				'not_found' =>	__( 'Nothing found' , 'inbound-pro' ),
+				'not_found_in_trash' => __( 'Nothing found in Trash' , 'inbound-pro' ),
 				'parent_item_colon' => ''
 			);
 
@@ -106,9 +106,9 @@ if ( !class_exists('Inbound_Email_Templates_Post_Type') ) {
 
 			$cols = array(
 				"cb" => "<input type=\"checkbox\" />",
-				"title" => __( 'Email Templates' , 'cta' ),
-				"category" => __( 'Category' , 'cta' ),
-				"description" => __( 'Description' , 'cta' )
+				"title" => __( 'Email Templates' , 'inbound-pro' ),
+				"category" => __( 'Category' , 'inbound-pro' ),
+				"description" => __( 'Description' , 'inbound-pro' )
 			);
 
 			$cols = apply_filters('email_template_change_columns',$cols);
@@ -302,9 +302,9 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 			self::create_template( array(
 				'id' => 'token-test',
 				'title' => __( 'Token Testing' , 'leads') ,
-				'subject' => __( 'Token Testing Template - {{site-name}}', 'cta' ) ,
+				'subject' => __( 'Token Testing Template - {{site-name}}', 'inbound-pro' ) ,
 				'body' => $inbound_email_templates['token-test'],
-				'description' => __( 'Designed for testing & debugging tokens.' , 'cta' ) ,
+				'description' => __( 'Designed for testing & debugging tokens.' , 'inbound-pro' ) ,
 				'email_template_category' => 'inbound-core'
 			));
 			
@@ -312,39 +312,39 @@ Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 			self::create_template( array(
 				'id' => 'inbound-new-lead-notification',
 				'title' => __( 'New Lead Notification' , 'leads') ,
-				'subject' => __( '{{site-name}} - {{form-name}} - New Lead Conversion', 'cta' ) ,
+				'subject' => __( '{{site-name}} - {{form-name}} - New Lead Conversion', 'inbound-pro' ) ,
 				'body' => $inbound_email_templates['inbound-new-lead-notification'],
-				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , 'cta' ) ,
+				'description' => __( 'Designed for notifying administrator of new lead conversion when an Inbound Form is submitted.' , 'inbound-pro' ) ,
 				'email_template_category' => 'inbound-core'
 			));
 
 			/* New User Account Notification - Create WP Core Template for New User Notifications */
 			self::create_template( array(
 				'id' => 'wp-new-user-notification',
-				'title' => __( 'New User Signup Notification' , 'cta' ),
-				'subject' => __( 'Your New Account - {{site-name}}' , 'cta' ),
+				'title' => __( 'New User Signup Notification' , 'inbound-pro' ),
+				'subject' => __( 'Your New Account - {{site-name}}' , 'inbound-pro' ),
 				'body' => $inbound_email_templates['wp-new-user-notification'],
-				'description' => __( 'WordPress core template for notifying	new users of their	created accounts.' , 'cta' ),
+				'description' => __( 'WordPress core template for notifying	new users of their	created accounts.' , 'inbound-pro' ),
 				'email_template_category' => 'wordpress-core'
 			));
 			
 			/* New Comment Notifications - Create WP Core Template for Post Author Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-post-author',
-				'title' => __( 'New Comment Notification' , 'cta' ),
-				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , 'cta' ),
+				'title' => __( 'New Comment Notification' , 'inbound-pro' ),
+				'subject' => __( 'New Comment Posted - {{wp-post-title}} - {{site-name}}' , 'inbound-pro' ),
 				'body' => $inbound_email_templates['wp-notify-post-author'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments.' , 'cta' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments.' , 'inbound-pro' ),
 				'email_template_category' => 'wordpress-core'
 			));
 			
 			/* Comment Moderation Notifications - Create WP Core Template for Comment Moderation Notifications */
 			self::create_template( array(
 				'id' => 'wp-notify-moderator',
-				'title' => __( 'New Comment Moderation' , 'cta' ),
-				'subject' => __( 'Moderate Comment - {{wp-post-title}} - {{site-name}}' , 'cta' ),
+				'title' => __( 'New Comment Moderation' , 'inbound-pro' ),
+				'subject' => __( 'Moderate Comment - {{wp-post-title}} - {{site-name}}' , 'inbound-pro' ),
 				'body' => $inbound_email_templates['wp-notify-moderator'],
-				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , 'cta' ),
+				'description' => __( 'WordPress core template for notifying post authors of new comments that need moderating.' , 'inbound-pro' ),
 				'email_template_category' => 'wordpress-core'
 			));
 		
