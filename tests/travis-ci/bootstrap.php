@@ -10,7 +10,7 @@
 // Activates this plugin in WordPress so it can be tested.
 $GLOBALS['wp_tests_options'] = array(
   'active_plugins' => array( 
-	'cta/wordpress-cta.php',
+	'cta/calls-to-action.php',
 	'leads/wordpress-leads.php',
 	'landing-pages/landing-pages.php'
    ),

@@ -95,7 +95,7 @@ class Inbound_Shortcodes {
 				array_push($plugins_loaded, "landing-pages");
 			}
 
-			if (is_plugin_active('cta/wordpress-cta.php')) {
+			if (is_plugin_active('cta/calls-to-action.php')) {
 				array_push($plugins_loaded, "cta");
 			}
 			if (is_plugin_active('leads/wordpress-leads.php')) {

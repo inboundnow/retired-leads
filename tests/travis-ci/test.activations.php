@@ -32,7 +32,7 @@ class Tests_Activation extends WP_UnitTestCase {
 	* Ensure that the Calls to Action has been installed and activated.
 	*/
 	function test_cta_activated() {
-		$this->assertTrue( is_plugin_active( 'cta/wordpress-cta.php' ) );
+		$this->assertTrue( is_plugin_active( 'cta/calls-to-action.php' ) );
 	}
 	
 }

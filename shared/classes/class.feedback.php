@@ -33,7 +33,7 @@ if (!class_exists('Inbound_Feedback')) {
 			$landing_page_version_number = defined( 'LANDINGPAGES_CURRENT_VERSION' ) ? 'v' . LANDINGPAGES_CURRENT_VERSION : '';
 
 		}
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/wordpress-cta.php')) {
+		if (function_exists( 'is_plugin_active' ) && is_plugin_active('cta/calls-to-action.php')) {
 			$cta_status = TRUE;
 			$cta_number = defined( 'WP_CTA_CURRENT_VERSION' ) ? 'v' . WP_CTA_CURRENT_VERSION : '';
 		}

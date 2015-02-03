@@ -49,7 +49,7 @@ var banner = [
 
 gulp.task('phplint', function(cb) {
     //phplint(['src/**/*.php'], {
-    phplint(['wordpress-cta.php'], {
+    phplint(['calls-to-action.php'], {
         limit: 10
     }, function(err, stdout, stderr) {
         if (err) {
