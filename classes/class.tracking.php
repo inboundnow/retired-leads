@@ -37,6 +37,8 @@ class CTA_Conversion_Tracking {
 		$lp_conversions = get_post_meta( $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, true );
 		$lp_conversions++;
 		update_post_meta(  $cta_id , 'wp-cta-ab-variation-conversions-'.$vid, $lp_conversions );
+		
+		return $data;
 	}
 	
 	/**

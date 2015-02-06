@@ -61,7 +61,7 @@ if ( !class_exists('Inbound_Leads') ) {
 				'menu_icon' => INBOUDNOW_SHARED_URLPATH . 'assets/global/images/leads.png',
 				'capability_type' => 'post',
 				'hierarchical' => false,
-				'menu_position' => null,
+				'menu_position' => 31,
 				'supports' => array('custom-fields','thumbnail')
 			);
 
