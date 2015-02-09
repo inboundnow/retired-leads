@@ -42,7 +42,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');	// Mirrored forms
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	// Inbound Marketing Menu
+			//include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	/* Moved to PRO */
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');	// Inbound Feedback Form
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.debug.php');	// Inbound Debug & Scripts Class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.compatibility.php');	// Inbound Compatibility Class
@@ -54,23 +54,13 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.options-api.php');
 
-			//include_once( INBOUDNOW_SHARED_PATH . 'tracking/store.lead.php'); // Lead Storage from landing pages
-
-			include_once( INBOUDNOW_SHARED_PATH . 'tracking/new.store.lead.php'); // Lead Storage from landing pages
-
-			/*
-			if (!defined('InboundAnalytics_v2')) {
-				include_once( INBOUDNOW_SHARED_PATH . 'tracking/store.lead.php'); // Lead Storage from landing pages
-			} else {
-				include_once( INBOUDNOW_SHARED_PATH . 'tracking/new.store.lead.php'); // Lead Storage from landing pages
-			}*/
-
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-storage.php'); // Lead Storage from landing pages
 
 			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');	// Shared Shortcodes
-			include_once( INBOUDNOW_SHARED_PATH . 'extend/inboundnow.extend.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'extend/inboundnow.global-settings.php'); // Inboundnow Global Settings
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php'); // Inboundnow Global Settings
 			include_once( INBOUDNOW_SHARED_PATH . 'metaboxes/template.metaboxes.php');	// Shared Shortcodes
-			include_once( INBOUDNOW_SHARED_PATH . 'functions/global.shared.functions.php'); // Global Shared Utility functions
+			include_once( INBOUDNOW_SHARED_PATH . 'legacy/functions.php'); // Global Shared Utility functions
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');	// Load Shared CSS and JS Assets
 
 			self::load_legacy_elements();

@@ -223,7 +223,7 @@
 					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __('Choice 1, Choice 2, Choice 3' , 'cta' ),
+					'placeholder' => __('Choice 1, Choice 2, Choice 3' , 'inbound-pro' ),
 					'reveal_on' => 'dropdown' // on select choice show this
 				),
 				'radio_options' => array(
@@ -239,7 +239,7 @@
 					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __( 'Choice 1, Choice 2, Choice 3', 'cta' ),
+					'placeholder' => __( 'Choice 1, Choice 2, Choice 3', 'inbound-pro' ),
 					'reveal_on' => 'checkbox' // on select choice show this
 				),
 				'html_block_options' => array(

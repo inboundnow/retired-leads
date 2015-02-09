@@ -19,15 +19,12 @@ class Inbound_Asset_Loader {
 	 * public facing site.
 	 *
 	 * Example:
-	 * self::load_file('SCRIPT-ID', 'frontend/js/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
+	 * self::load_file('SCRIPT-ID',  INBOUDNOW_SHARED_PATH . 'assets/js/frontend/path-in-shared-assets.js', 'localized_var_name', $localized_array_values, $dependancies_array );
 	 */
 	static function register_scripts_and_styles() {
 		/* Frontent and Backend Files */
-		self::load_file('jquery-cookie', 'global/js/jquery.cookie.js', array( 'jquery' ));
-		self::load_file('jquery-total-storage', 'global/js/jquery.total-storage.min.js', array( 'jquery' ));
-		if(is_user_logged_in()){
-		  self::load_file('inbound-admin', 'admin/css/global-inbound-admin.css');
-		}
+		self::load_file('jquery-cookie', INBOUDNOW_SHARED_PATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+		self::load_file('jquery-total-storage', INBOUDNOW_SHARED_PATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 
 		/* Conditionals for admin or frontend */
 		if(is_admin()) {
@@ -38,13 +35,12 @@ class Inbound_Asset_Loader {
 			/* Target Specific screen with // echo $screen->id; */
 
 			if ( $screen->id == 'wp-call-to-action') {
-				self::load_file('image-picker-js', 'admin/js/image-picker.js');
-				self::load_file('image-picker-css', 'admin/css/image-picker.css');
+				self::load_file('image-picker-js', INBOUDNOW_SHARED_PATH .'assets/js/admin/image-picker.js');
+				self::load_file('image-picker-css', INBOUDNOW_SHARED_PATH .  'assets/css/admin/image-picker.css');
 			}
 			/* Metabox CSS */
-			self::load_file('inbound-metaboxes', 'admin/css/inbound-metaboxes.css');
+			self::load_file('inbound-metaboxes', 'assets/css/admin/inbound-metaboxes.css');
 
-	  		//self::load_file('script-test', 'admin/js/test.js');
 		} else {
 
 			global $wp_scripts;
@@ -55,25 +51,15 @@ class Inbound_Asset_Loader {
 			          wp_dequeue_script( $handle );
 			      }
 			}
-			/*if (!defined('InboundAnalytics_v2')) {
-	  		self::load_file('funnel-tracking', 'frontend/js/inbound.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'wplft', self::localize_lead_data());
-	  		self::load_file('store-lead-ajax', 'frontend/js/store.lead.ajax.js', array( 'jquery','jquery-cookie', 'jquery-total-storage'), 'inbound_ajax', self::localize_lead_data());
-	  		} else {
-	  			*/
-
-	  		self::load_file('funnel-tracking', 'frontend/js/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
-	  		/* } */
+		
+			self::load_file('funnel-tracking', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
 	  		if (is_array($store)) {
 		  		foreach ( $store as $handle ) {
 		  		    wp_enqueue_script( $handle );
 		  		}
 	  		}
-	  		/* Target Specific post type with
-	  		if ( is_singular( 'landing-page' ) ) {
 
-	  		} */
-			//self::load_file('test-css', 'frontend/css/test.css');
 		}
 	} // end register_scripts_and_styles
 
@@ -86,11 +72,11 @@ class Inbound_Asset_Loader {
 	 * @deps 			js dependancies by name example 'jquery'
 	 * @localize_var 	the localized variable name
 	 */
-	static function load_file($name, $file_name, $deps = array(), $localize_var = null, $localize_array = array()) {
+	static function load_file($name, $path, $deps = array(), $localize_var = null, $localize_array = array()) {
 		$is_script = false;
 		$deps = (empty($deps)) ? array() : $deps;
-    	$url = INBOUDNOW_SHARED_URLPATH . 'assets/' . $file_name;
-    	$file = INBOUDNOW_SHARED_PATH . 'assets/' . $file_name;
+    	$url = INBOUDNOW_SHARED_URLPATH . $path;
+    	$file = INBOUDNOW_SHARED_PATH . $path;
 
     	$file_type = strpos($file_name, '.js');
     	if (!(false === $file_type)) { $is_script = true; }
