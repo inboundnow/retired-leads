@@ -220,7 +220,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								else{
 									?>
 									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-									<span class="installation_item_message"><?php _e( "Gravity Forms requires PHP 5 or above." , "cta"); ?></span>
+									<span class="installation_item_message"><?php _e( "Inbound Now requires PHP 5 or above." , "cta"); ?></span>
 									<?php
 								}
 							?>
@@ -241,7 +241,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								else{
 									?>
 									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
-									<span class="installation_item_message"><?php _e( "Gravity Forms requires MySQL 5 or above." , "cta"); ?></span>
+									<span class="installation_item_message"><?php _e( "Inbound Now requires MySQL 5 or above." , "cta"); ?></span>
 									<?php
 								}
 							?>

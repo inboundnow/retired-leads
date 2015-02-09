@@ -261,6 +261,6 @@ class INBOUND_Parser
     private static function createDefaultConfigReader()
     {
         //TODO FIX WITH GLOBAL SHARED CONSTANT
-        return new INBOUND_JsonConfigReader(WP_CTA_PATH . 'shared/tracking/sources/referers.json');
+        return new INBOUND_JsonConfigReader( INBOUDNOW_SHARED_PATH . '/includes/referers.json');
     }
 }

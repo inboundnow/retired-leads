@@ -1,6 +1,6 @@
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.events.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.events.js -->
 
 # Analytics Events
 
@@ -282,12 +282,12 @@ function before_form_submission_function( data ) {
  _inbound.add_action( 'before_form_submission', before_form_submission_function, 10 );
 ```
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.events.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.events.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.examples.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.examples.js -->
 
 URL param action
 
@@ -313,12 +313,12 @@ Add or modifiy option to event
 
 delete item from data
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.examples.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.examples.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.forms.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.forms.js -->
 
 # Inbound Forms
 
@@ -472,12 +472,12 @@ if only 1 label
 
 Check parent elements inside form for labels
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.forms.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.forms.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.hooks.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.hooks.js -->
 
 ## _inboundHooks
 
@@ -687,12 +687,12 @@ apply_filters
 
  This function uses _inbound.hooks to mimics WP apply_filters
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.hooks.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.hooks.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.init.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.init.js -->
 
 ## inbound_data
 
@@ -749,12 +749,12 @@ Debugger Function toggled by var debugMode
 
 Set globals
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.init.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.init.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.lead.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.lead.js -->
 
 ## _inboundLeadsAPI
 
@@ -772,12 +772,12 @@ Leads API functions
 
 Set 3 day timeout for checking DB for new lead data for Lead_Global var
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.lead.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.lead.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.page.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.page.js -->
 
 # Page View Tracking
 
@@ -822,12 +822,12 @@ Page First Seen Trigger
 
 Default
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.page.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.page.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.start.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.start.js -->
 
 # Start
 
@@ -851,12 +851,12 @@ Lead list check
 
 Set Session Timeout
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.start.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.start.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.storage.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.storage.js -->
 
 ## InboundTotalStorage
 
@@ -866,12 +866,12 @@ LocalStorage Component
 
 Make the methods public
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.storage.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.storage.js -->
 
 
 
 
-<!-- Start shared/assets/frontend/js/analytics-src/analytics.utils.js -->
+<!-- Start shared/assets/js/frontend/analytics-src/analytics.utils.js -->
 
 ## _inboundUtils
 
@@ -1025,5 +1025,5 @@ Underscore may be freely distributed under the MIT license.
 Determine which version of GA is being used
 "ga", "_gaq", and "dataLayer" are the possible globals
 
-<!-- End shared/assets/frontend/js/analytics-src/analytics.utils.js -->
+<!-- End shared/assets/js/frontend/analytics-src/analytics.utils.js -->
 

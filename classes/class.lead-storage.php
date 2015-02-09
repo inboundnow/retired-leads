@@ -163,19 +163,16 @@ if (!class_exists('LeadStorage')) {
 					self::store_geolocation_data($lead);
 				}
 
-				//setcookie('wp_lead_id' , $lead['id'], time() + (20 * 365 * 24 * 60 * 60),'/');
-
-				do_action('inbound_store_lead_post', $lead );
-				do_action('wp_cta_store_lead_post', $lead );
-				do_action('wpl_store_lead_post', $lead );
-				do_action('lp_store_lead_post', $lead );
-
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
-					die();
+					header('HTTP/1.1 200 OK');
+					do_action('inbound_store_lead_post', $lead );
+					exit;
 				} else {
+					do_action('inbound_store_lead_post', $lead );
 					return $lead['id'];
 				}
+
 			}
 		}
 
@@ -332,9 +329,9 @@ if (!class_exists('LeadStorage')) {
 			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
 
 			// Parse referral for additional data
-			include_once('sources/Snowplow/RefererParser/INBOUND_Parser.php');
-			include_once('sources/Snowplow/RefererParser/INBOUND_Referer.php');
-			include_once('sources/Snowplow/RefererParser/INBOUND_Medium.php');
+			include_once( INBOUDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
+			include_once( INBOUDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
+			include_once(INBOUDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
 			// intialized the parser class
 			$parser = new INBOUND_Parser();
 			//$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', '');

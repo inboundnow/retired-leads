@@ -67,8 +67,8 @@ class Inbound_Shortcodes {
 			}
 
 			wp_enqueue_script('jquery' );
-			wp_enqueue_script('jquery-cookie', INBOUDNOW_SHARED_URLPATH . 'assets/global/js/jquery.cookie.js', array( 'jquery' ));
-			wp_enqueue_script('jquery-total-storage', INBOUDNOW_SHARED_URLPATH . 'assets/global/js/jquery.total-storage.min.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-cookie', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-total-storage', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 			wp_enqueue_style('inbound-shortcodes', INBOUDNOW_SHARED_URLPATH . 'shortcodes/css/shortcodes.css');
 			wp_enqueue_script('jquery-ui-sortable' );
 			wp_enqueue_script('inbound-shortcodes-plugins', INBOUDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js');
@@ -99,7 +99,8 @@ class Inbound_Shortcodes {
 				array_push($plugins_loaded, "cta");
 			}
 			if (is_plugin_active('leads/leads.php')) {
-				array_push($plugins_loaded, "leads");
+				//array_push($plugins_loaded, "leads");
+				//array_push($plugins_loaded, "leads");
 			}
 
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
@@ -247,7 +248,7 @@ class Inbound_Shortcodes {
 			<a style="position: absolute; font-size: 13px; top: 0px; right: 30px; color:red;" href="'.$url.'&inbound_shortcode_ignore=0">
 			Sounds good! Dismiss this
 			</a>
-			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUDNOW_SHARED_URLPATH . 'assets/' ..'global/images/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
+			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUDNOW_SHARED_URLPATH . 'assets/' ..'images/global/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
 			</div>';
 			echo "<style type='text/css'>.mce_Inbound_ShortcodesButton { background-color: yellow; }</style>";
 
