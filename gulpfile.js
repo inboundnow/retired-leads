@@ -13,7 +13,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
     markdox = require("gulp-markdox"),
-    phplint = require('phplint').lint,
+    //phplint = require('phplint').lint,
     package = require('./package.json');
 
 var sharedPath = 'shared/assets/frontend/js/analytics-src/';
@@ -47,19 +47,20 @@ var banner = [
 ].join('');
 
 
-gulp.task('phplint', function(cb) {
+
+//gulp.task('phplint', function(cb) {
     //phplint(['src/**/*.php'], {
-    phplint(['calls-to-action.php'], {
-        limit: 10
-    }, function(err, stdout, stderr) {
-        if (err) {
-            console.log(err);
-            cb(err);
-            process.exit(1);
-        }
-        cb();
-    });
-});
+ //   phplint(['calls-to-action.php'], {
+//        limit: 10
+ //   }, function(err, stdout, stderr) {
+ //       if (err) {
+   //         console.log(err);
+  ////          cb(err);
+   //         process.exit(1);
+   //     }
+   //     cb();
+  //  });
+//});
 
 gulp.task('test', ['phplint']);
 
