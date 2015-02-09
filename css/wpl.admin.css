@@ -713,7 +713,7 @@ content: "";
 
 #left-sidebar {
 	float: left;
-
+	width:25%;
 }
 
 #lead_image {
