@@ -22,8 +22,7 @@ if (!class_exists('Inbound_Forms')) {
 		}
 
 		/* Create Longer shortcode for [inbound_form] */
-		static function inbound_forms_create( $atts, $content = null )
-		{
+		static function inbound_forms_create( $atts, $content = null ) {
 
 			global $post;
 
@@ -348,7 +347,11 @@ if (!class_exists('Inbound_Forms')) {
 				return $form;
 			}
 		}
-		static function santize_inputs($content){
+		
+		/**
+		*  Sanitizes form inputs 
+		*/
+		static function santize_inputs($content) {
 			// Strip HTML Tags
 			$clear = strip_tags($content);
 			// Clean up things like &amp;
@@ -363,9 +366,11 @@ if (!class_exists('Inbound_Forms')) {
 			$clear = trim($clear);
 			return $clear;
 		}
-		/* Create shorter shortcode for [inbound_forms] */
-		static function inbound_short_form_create( $atts, $content = null )
-		{
+		
+		/**
+		*  Create shorter shortcode for [inbound_forms]
+		*/
+		static function inbound_short_form_create( $atts, $content = null ) {
 			extract(shortcode_atts(array(
 				'id' => '',
 			), $atts));
@@ -407,19 +412,26 @@ if (!class_exists('Inbound_Forms')) {
 			return do_shortcode( $shortcode );
 		}
 
-		/* Enqueue JS & CSS */
+		/**
+		*  Enqueue JS & CSS 
+		*/
 		static function register_script() {
 			wp_enqueue_style( 'inbound-shortcodes' );
 		}
 
-		// only call enqueue once
+		/**
+		* Needs more documentation
+		*/
 		static function print_script() {
-			if ( ! self::$add_script )
-			return;
+			if ( ! self::$add_script ) {
+				return;
+			}
 			wp_enqueue_style( 'inbound-shortcodes' );
 		}
 
-		// move to file
+		/**
+		*  Needs more documentation
+		*/
 		static function inline_my_script() {
 			if ( ! self::$add_script )
 				return;
@@ -502,6 +514,9 @@ if (!class_exists('Inbound_Forms')) {
 				</style>";
 		}
 
+		/**
+		*  Replaces tokens in automated email
+		*/
 		public static function replace_tokens( $content , $form_data = null , $form_meta_data = null ) {
 
 			/* replace core tokens */
@@ -517,7 +532,10 @@ if (!class_exists('Inbound_Forms')) {
 
 			return $content;
 		}
-		// Save Form Conversion to Form CPT
+		
+		/**
+		*  Stores conversion activity into form metadata
+		*/
 		static function store_form_stats($form_id, $email) {
 
 				//$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
@@ -544,7 +562,10 @@ if (!class_exists('Inbound_Forms')) {
 				}
 
 		}
-		/* Perform Actions After a Form Submit */
+		
+		/**
+		*  Perform Actions After a Form Submit 
+		*/
 		static function do_actions(){
 
 			if(isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') {
@@ -606,7 +627,9 @@ if (!class_exists('Inbound_Forms')) {
 
 		}
 
-		/* Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List */
+		/**
+		*  Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List 
+		*/
 		public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
 
 			if ( $template = self::get_new_lead_email_template()) {
@@ -680,7 +703,9 @@ if (!class_exists('Inbound_Forms')) {
 
 		}
 
-		/* Sends An Email to Lead After Conversion */
+		/**
+		*  Sends An Email to Lead After Conversion
+		*/
 		public static function send_conversion_lead_notification( $form_post_data , $form_meta_data ) {
 
 
@@ -767,7 +792,9 @@ if (!class_exists('Inbound_Forms')) {
 
 		}
 
-		/* Get Email Template for New Lead Notification */
+		/**
+		*  Get Email Template for New Lead Notification 
+		*/
 		static function get_new_lead_email_template( ) {
 
 			$email_template = array();
@@ -788,7 +815,9 @@ if (!class_exists('Inbound_Forms')) {
 			return $email_template;
 		}
 
-		/* Get Email Template by ID */
+		/**
+		*  Get Email Template by ID 
+		*/
 		public static function get_email_template( $ID ) {
 
 			$email_template = array();
@@ -1107,6 +1136,19 @@ if (!class_exists('Inbound_Forms')) {
 			);
 		}
 
+		/**
+		*  Gets dataset of form settings by form id
+		*/
+		public static function get_form_settings( $form_id ) {
+
+			$meta = get_post_meta( $form_id );
+			
+			foreach ($meta as $key => $value ) {
+				$meta[ $key ] = $value[0];
+			}
+			
+			return $meta;
+		}
 	}
 
 	Inbound_Forms::init();
