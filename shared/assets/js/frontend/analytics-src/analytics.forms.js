@@ -552,7 +552,7 @@ var InboundForms = (function(_inbound) {
             /* Filter here for raw */
             //alert(mapped_params);
             /**
-           * Old data model
+			* Old data model
               var return_data = {
                         "action": 'inbound_store_lead',
                         "emailTo": data['email'],
@@ -566,7 +566,7 @@ var InboundForms = (function(_inbound) {
                         "Mapped_Data": mapped_form_data,
                         "Search_Data": data['search_data']
               };
-           */
+			*/
             formData = {
                 'action': 'inbound_lead_store',
                 'email': email,
@@ -603,10 +603,8 @@ var InboundForms = (function(_inbound) {
                 _inbound.Forms.releaseFormSubmit(form);
 
             }
-            //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-            //_inbound.Events.form_before_submission(formData);
+
             _inbound.trigger('form_before_submission', formData);
-            //_inbound.trigger('inbound_form_before_submission', formData, true);
 
             utils.ajaxPost(inbound_settings.admin_url, formData, callback);
         },
