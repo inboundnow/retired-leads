@@ -1164,6 +1164,9 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			return $content;
 		}
 
+		/**
+		*  Determines if cta is set to display in dynamic widget placeholder and if it is then redners it inside the appropriate hook
+		*/
 		function add_cta_to_dynamic_content()
 		{
 			if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off') {
@@ -1177,11 +1180,17 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 		}
 
+		/**
+		*  Renders shortcode in wp_cta_cta_dynamic_widget action hook
+		*/
 		function render_widget()
 		{
 			echo do_shortcode(self::$instance->cta_template);
 		}
 
+		/**
+		*  This method processes the [cta] shortcode
+		*/
 		function process_shortcode_cta( $atts )
 		{
 			extract(shortcode_atts(array(
