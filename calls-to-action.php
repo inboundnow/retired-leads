@@ -137,7 +137,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.customizer.php');
 					include_once('classes/class.tracking.php');
 					include_once('classes/class.branching.php');
-
+					include_once('shared/classes/class.magic.php');
 					BREAK;
 
 				case false :
@@ -155,6 +155,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
+					include_once('shared/classes/class.magic.php');
 
 					BREAK;
 			endswitch;
@@ -193,7 +194,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		Inbound_Calls_To_Action_Plugin::fail_php_version();
 	}
 
-	
+
 	/**
 	*  Checks if Calls to Action plugin is active
 	*/
