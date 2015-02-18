@@ -59,28 +59,28 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 ## Screenshots ##
 
 ### 1. Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action ###
-![Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action](//ps.w.org/cta/assets/screenshot-1.jpg)
+![Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action](http://plugins.svn.wordpress.org/cta/assets/screenshot-1.jpg)
 
 ### 2. Create Popup Calls to action and capture more emails ###
-![Create Popup Calls to action and capture more emails](//ps.w.org/cta/assets/screenshot-2.jpg)
+![Create Popup Calls to action and capture more emails](http://plugins.svn.wordpress.org/cta/assets/screenshot-2.jpg)
 
 ### 3. Easy to use templates ###
-![Easy to use templates](//ps.w.org/cta/assets/screenshot-3.jpg)
+![Easy to use templates](http://plugins.svn.wordpress.org/cta/assets/screenshot-3.jpg)
 
 ### 4. Visual fronted editing to see live changes on the fly ###
-![Visual fronted editing to see live changes on the fly](//ps.w.org/cta/assets/screenshot-4.jpg)
+![Visual fronted editing to see live changes on the fly](http://plugins.svn.wordpress.org/cta/assets/screenshot-4.jpg)
 
 ### 5. Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want. ###
-![Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.](//ps.w.org/cta/assets/screenshot-5.jpg)
+![Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.](http://plugins.svn.wordpress.org/cta/assets/screenshot-5.jpg)
 
 ### 6. Track conversion rates and continuously improve your marketing ###
-![Track conversion rates and continuously improve your marketing](//ps.w.org/cta/assets/screenshot-6.jpg)
+![Track conversion rates and continuously improve your marketing](http://plugins.svn.wordpress.org/cta/assets/screenshot-6.jpg)
 
 ### 7. Easy placement within pages/posts/custom post types ###
-![Easy placement within pages/posts/custom post types](//ps.w.org/cta/assets/screenshot-7.jpg)
+![Easy placement within pages/posts/custom post types](http://plugins.svn.wordpress.org/cta/assets/screenshot-7.jpg)
 
 ### 8. Global placements via your sites sidebar ###
-![Global placements via your sites sidebar](//ps.w.org/cta/assets/screenshot-8.jpg)
+![Global placements via your sites sidebar](http://plugins.svn.wordpress.org/cta/assets/screenshot-8.jpg)
 
 
 ## Changelog ##
