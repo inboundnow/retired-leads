@@ -67,8 +67,8 @@ class Inbound_Shortcodes {
 			}
 
 			wp_enqueue_script('jquery' );
-			wp_enqueue_script('jquery-cookie', INBOUDNOW_SHARED_URLPATH . 'assets/global/js/jquery.cookie.js', array( 'jquery' ));
-			wp_enqueue_script('jquery-total-storage', INBOUDNOW_SHARED_URLPATH . 'assets/global/js/jquery.total-storage.min.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-cookie', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+			wp_enqueue_script('jquery-total-storage', INBOUDNOW_SHARED_URLPATH . 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 			wp_enqueue_style('inbound-shortcodes', INBOUDNOW_SHARED_URLPATH . 'shortcodes/css/shortcodes.css');
 			wp_enqueue_script('jquery-ui-sortable' );
 			wp_enqueue_script('inbound-shortcodes-plugins', INBOUDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js');
@@ -99,7 +99,8 @@ class Inbound_Shortcodes {
 				array_push($plugins_loaded, "cta");
 			}
 			if (is_plugin_active('leads/leads.php')) {
-				array_push($plugins_loaded, "leads");
+				//array_push($plugins_loaded, "leads");
+				//array_push($plugins_loaded, "leads");
 			}
 
 			wp_localize_script( 'inbound-shortcodes-plugins', 'inbound_load', array( 'image_dir' => INBOUDNOW_SHARED_URLPATH . 'shortcodes/', 'inbound_plugins' => $plugins_loaded, 'pop_title' => 'Insert Shortcode' ));
@@ -247,7 +248,7 @@ class Inbound_Shortcodes {
 			<a style="position: absolute; font-size: 13px; top: 0px; right: 30px; color:red;" href="'.$url.'&inbound_shortcode_ignore=0">
 			Sounds good! Dismiss this
 			</a>
-			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUDNOW_SHARED_URLPATH . 'assets/' ..'global/images/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
+			Looks like you haven\'t clicked the <img style="vertical-align: bottom;" src="'.INBOUDNOW_SHARED_URLPATH . 'assets/' ..'images/global/shortcodes-blue.png"> button <span style="background:yellow">(highlighted in yellow)</span> in the content editor below. There are some great shortcodes for you to use!
 			</div>';
 			echo "<style type='text/css'>.mce_Inbound_ShortcodesButton { background-color: yellow; }</style>";
 
@@ -635,7 +636,7 @@ class Inbound_Shortcodes {
 		<div id="cpt-form-shortcode"><?php echo $popup;?></div>
 		<div id="cpt-form-serialize-default"><?php echo $form_serialize;?></div>
 		<div id="form-leads-list">
-			<h2><?php _e( 'Form Conversions' , 'cta' ); ?></h2>
+			<h2><?php _e( 'Form Conversions' , 'inbound-pro' ); ?></h2>
 			<ol id="form-lead-ul">
 				<?php
 
@@ -644,17 +645,17 @@ class Inbound_Shortcodes {
 					$lead_conversion_list = json_decode($lead_conversion_list,true);
 					foreach ($lead_conversion_list as $key => $value) {
 						$email = $lead_conversion_list[$key]['email'];
-						echo '<li><a title="'.__( 'View this Lead' , 'cta' ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
+						echo '<li><a title="'.__( 'View this Lead' , 'inbound-pro' ) .'" href="'.esc_url( admin_url( add_query_arg( array( 'post_type' => 'wp-lead', 'lead-email-redirect' => $email ), 'edit.php' ) ) ).'">'.$lead_conversion_list[$key]['email'].'</a></li>';
 					}
 
 				} else {
-					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'cta' ) .'</span>';
+					echo '<span id="no-conversions">'. __( 'No Conversions Yet!' , 'inbound-pro' ) .'</span>';
 				}
 				?>
 			</ol>
 		</div>
 		<div id="inbound-email-response">
-			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , 'cta' ); ?></h2>
+			<h2><?php _e( 'Set Email Response to Send to the person filling out the form' , 'inbound-pro' ); ?></h2>
 			<?php
 			$values = get_post_custom( $post->ID );
 			$selected = isset( $values['inbound_email_send_notification'] ) ? esc_attr( $values['inbound_email_send_notification'][0] ) : "";
@@ -681,9 +682,9 @@ class Inbound_Shortcodes {
 				?>
 				<div	style='display:block; overflow: auto;'>
 					<div id=''>
-						<label for="inbound_email_send_notification_template"><?php _e( 'Select Response Email Template' , 'cta' ); ?></label>
+						<label for="inbound_email_send_notification_template"><?php _e( 'Select Response Email Template' , 'inbound-pro' ); ?></label>
 						<select name="inbound_email_send_notification_template" id="inbound_email_send_notification_template">
-							<option value='custom' <?php	selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , 'cta' ); ?></option>
+							<option value='custom' <?php	selected( 'custom' , $email_template); ?>><?php _e( 'Do not use a premade email template' , 'inbound-pro' ); ?></option>
 							<?php
 
 							foreach ($email_templates as $id => $label) {

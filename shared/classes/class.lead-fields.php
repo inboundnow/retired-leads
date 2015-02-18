@@ -11,225 +11,225 @@ if ( !class_exists('Leads_Field_Map') ) {
 
 			$lead_fields = array(
 				array(
-					'label' => __( 'First Name' , 'cta' ) ,
+					'label' => __( 'First Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_first_name',
 					'priority' => 20,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Last Name' , 'cta' ) ,
+					'label' => __( 'Last Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_last_name',
 					'priority' => 30,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Email' , 'cta' ) ,
+					'label' => __( 'Email' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_email_address',
 					'priority' => 40,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Website' , 'cta' ) ,
+					'label' => __( 'Website' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_website',
 					'priority' => 50,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Job Title' , 'cta' ) ,
+					'label' => __( 'Job Title' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_job_title',
 					'priority' => 60,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Company Name' , 'cta' ) ,
+					'label' => __( 'Company Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_company_name',
 					'priority' => 70,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Mobile Phone' , 'cta' ) ,
+					'label' => __( 'Mobile Phone' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_mobile_phone',
 					'priority' => 80,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Work Phone' , 'cta' ) ,
+					'label' => __( 'Work Phone' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_work_phone',
 					'priority' => 90,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Address' , 'cta' ) ,
+					'label' => __( 'Address' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_address_line_1',
 					'priority' => 100,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Address Continued' , 'cta' ) ,
+					'label' => __( 'Address Continued' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_address_line_2',
 					'priority' => 110,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'City' , 'cta' ) ,
+					'label' => __( 'City' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_city',
 					'priority' => 120,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'State/Region' , 'cta' ) ,
+					'label' => __( 'State/Region' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_region_name',
 					'priority' => 130,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Zip-code' , 'cta' ) ,
+					'label' => __( 'Zip-code' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_zip',
 					'priority' => 140,
 					'type'  => 'text'
 					),
 
 				array(
-					'label' => __( 'Country' , 'cta' ) ,
+					'label' => __( 'Country' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_country_code',
 					'priority' => 150,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing First Name' , 'cta' ) ,
+					'label' => __( 'Billing First Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_first_name',
 					'priority' => 160,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing Last Name' , 'cta' ) ,
+					'label' => __( 'Billing Last Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_last_name',
 					'priority' => 120,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing Company' , 'cta' ) ,
+					'label' => __( 'Billing Company' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_company_name',
 					'priority' => 170,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing Address' , 'cta' ) ,
+					'label' => __( 'Billing Address' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_address_line_1',
 					'priority' => 180,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing Address Continued' , 'cta' ) ,
+					'label' => __( 'Billing Address Continued' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_address_line_2',
 					'priority' => 190,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing City' , 'cta' ) ,
+					'label' => __( 'Billing City' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_city',
 					'priority' => 200,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing State/Region' , 'cta' ) ,
+					'label' => __( 'Billing State/Region' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_region_name',
 					'priority' => 210,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Billing Zip-code' , 'cta' ) ,
+					'label' => __( 'Billing Zip-code' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_zip',
 					'priority' => 220,
 					'type'  => 'text'
 					),
 
 				array(
-					'label' => __( 'Billing Country' , 'cta' ) ,
+					'label' => __( 'Billing Country' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_billing_country_code',
 					'priority' => 230,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping First Name' , 'cta' ) ,
+					'label' => __( 'Shipping First Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_first_name',
 					'priority' => 240,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Last Name' , 'cta' ) ,
+					'label' => __( 'Shipping Last Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_last_name',
 					'priority' => 250,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Company Name' , 'cta' ) ,
+					'label' => __( 'Shipping Company Name' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_company_name',
 					'priority' => 260,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Address' , 'cta' ) ,
+					'label' => __( 'Shipping Address' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_address_line_1',
 					'priority' => 270,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Address Continued' , 'cta' ) ,
+					'label' => __( 'Shipping Address Continued' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_address_line_2',
 					'priority' => 280,
 					'type'  => 'text'
 					),
 					array(
-					'label' => __( 'Shipping City' , 'cta' ) ,
+					'label' => __( 'Shipping City' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_city',
 					'priority' => 290,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping State/Region' , 'cta' ) ,
+					'label' => __( 'Shipping State/Region' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_region_name',
 					'priority' => 300,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Zip-code' , 'cta' ) ,
+					'label' => __( 'Shipping Zip-code' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_zip',
 					'priority' => 310,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Shipping Country' , 'cta' ) ,
+					'label' => __( 'Shipping Country' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_shipping_country_code',
 					'priority' => 320,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Related Websites' , 'cta' ) ,
+					'label' => __( 'Related Websites' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_websites',
 					'priority' => 330,
 					'type'  => 'links'
 					),
 				array(
-					'label' => __( 'Notes' , 'cta' ) ,
+					'label' => __( 'Notes' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_notes',
 					'priority' => 340,
 					'type'  => 'textarea'
 					),
 				array(
-					'label' => __( 'Twitter Account' , 'cta' ) ,
+					'label' => __( 'Twitter Account' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_social_youtube',
 					'priority' => 350,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Youtube Account' , 'cta' ) ,
+					'label' => __( 'Youtube Account' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_social_youtube',
 					'priority' => 360,
 					'type'  => 'text'
 					),
 				array(
-					'label' => __( 'Facebook Account' , 'cta' ) ,
+					'label' => __( 'Facebook Account' , 'inbound-pro' ) ,
 					'key'  => 'wpleads_social_facebook',
 					'priority' => 370,
 					'type'  => 'text'
@@ -313,25 +313,25 @@ function custom_add_more_lead_fields($lead_fields) {
 
  $new_fields =  array(
  					array(
-				        'label' => __( 'Style' , 'cta' ) ,
+				        'label' => __( 'Style' , 'inbound-pro' ) ,
 				        'key'  => 'wpleads_style',
 				        'priority' => 1,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => __( 'Lead Source' , 'cta' ) ,
+				        'label' => __( 'Lead Source' , 'inbound-pro' ) ,
 				        'key'  => 'wpleads_lead_source',
 				        'priority' => 19,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => __( 'New Field' , 'cta' ) ,
+				        'label' => __( 'New Field' , 'inbound-pro' ) ,
 				        'key'  => 'wpleads_lead_source',
 				        'priority' => 19,
 				        'type'  => 'text'
 				        ),
  					array(
-				        'label' => __( 'Description' , 'cta' ) ,
+				        'label' => __( 'Description' , 'inbound-pro' ) ,
 				        'key'  => 'wpleads_description',
 				        'priority' => 19,
 				        'type'  => 'textarea'
