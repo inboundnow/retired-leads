@@ -59,28 +59,28 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 ## Screenshots ##
 
 ### 1. Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action ###
-![Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action](http://s.wordpress.org/extend/plugins/cta/screenshot-1.png)
+![Convert more web traffic with calls to action to drive the visitor into a landing page or capture their email address right in the call to action](//ps.w.org/cta/assets/screenshot-1.jpg)
 
 ### 2. Create Popup Calls to action and capture more emails ###
-![Create Popup Calls to action and capture more emails](http://s.wordpress.org/extend/plugins/cta/screenshot-2.png)
+![Create Popup Calls to action and capture more emails](//ps.w.org/cta/assets/screenshot-2.jpg)
 
 ### 3. Easy to use templates ###
-![Easy to use templates](http://s.wordpress.org/extend/plugins/cta/screenshot-3.png)
+![Easy to use templates](//ps.w.org/cta/assets/screenshot-3.jpg)
 
 ### 4. Visual fronted editing to see live changes on the fly ###
-![Visual fronted editing to see live changes on the fly](http://s.wordpress.org/extend/plugins/cta/screenshot-4.png)
+![Visual fronted editing to see live changes on the fly](//ps.w.org/cta/assets/screenshot-4.jpg)
 
 ### 5. Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want. ###
-![Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.](http://s.wordpress.org/extend/plugins/cta/screenshot-5.png)
+![Choose from a ton of pre-made templates, use your existing design, or design your own call to action template. The system is a framework that allows for as many templates as you want.](//ps.w.org/cta/assets/screenshot-5.jpg)
 
 ### 6. Track conversion rates and continuously improve your marketing ###
-![Track conversion rates and continuously improve your marketing](http://s.wordpress.org/extend/plugins/cta/screenshot-6.png)
+![Track conversion rates and continuously improve your marketing](//ps.w.org/cta/assets/screenshot-6.jpg)
 
 ### 7. Easy placement within pages/posts/custom post types ###
-![Easy placement within pages/posts/custom post types](http://s.wordpress.org/extend/plugins/cta/screenshot-7.png)
+![Easy placement within pages/posts/custom post types](//ps.w.org/cta/assets/screenshot-7.jpg)
 
 ### 8. Global placements via your sites sidebar ###
-![Global placements via your sites sidebar](http://s.wordpress.org/extend/plugins/cta/screenshot-8.png)
+![Global placements via your sites sidebar](//ps.w.org/cta/assets/screenshot-8.jpg)
 
 
 ## Changelog ##
