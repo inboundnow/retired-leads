@@ -44,7 +44,7 @@ module.exports = function(grunt) {
       tasks: ['jshint', 'qunit']
     },
     wp_readme_to_markdown: {
-      your_target: {
+      cta: {
           files: {
             'readme.md': 'readme.txt'
           },
