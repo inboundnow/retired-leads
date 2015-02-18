@@ -42,7 +42,14 @@ module.exports = function(grunt) {
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint', 'qunit']
-    }
+    },
+    wp_readme_to_markdown: {
+      your_target: {
+          files: {
+            'readme.md': 'readme.txt'
+          },
+      },
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -50,9 +57,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-wp-readme-to-markdown');
 
   grunt.registerTask('test', ['jshint', 'qunit']);
 
-  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+  grunt.registerTask('default', ['wp_readme_to_markdown']);
 
 };

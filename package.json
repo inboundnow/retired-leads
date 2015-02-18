@@ -2,7 +2,7 @@
   "name": "cta",
   "version": "1.0.0",
   "description": "call to action plugin",
-  "main": "Gruntfile.js",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "test"
   },
@@ -24,14 +24,7 @@
   "homepage": "https://github.com/inboundnow/cta",
   "dependencies": {},
   "devDependencies": {
-    "karma-chrome-launcher": "^0.1.5",
-    "phplint": "~1.0.0",
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-qunit": "^0.5.2",
-    "grunt-contrib-uglify": "^0.6.0",
-    "grunt-contrib-watch": "^0.6.1",
+    "grunt-wp-readme-to-markdown": "^0.8.0",
     "gulp": "^3.8.5",
     "gulp-clean": "^0.2.4",
     "gulp-concat": "~2.1.7",
