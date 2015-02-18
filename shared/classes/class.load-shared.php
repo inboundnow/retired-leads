@@ -59,7 +59,6 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');	// Shared Shortcodes
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php'); // Inboundnow Global Settings
-			include_once( INBOUDNOW_SHARED_PATH . 'metaboxes/template.metaboxes.php');	// Shared Shortcodes
 			include_once( INBOUDNOW_SHARED_PATH . 'legacy/functions.php'); // Global Shared Utility functions
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');	// Load Shared CSS and JS Assets
 

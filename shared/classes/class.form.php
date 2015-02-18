@@ -433,61 +433,70 @@ if (!class_exists('Inbound_Forms')) {
 		*  Needs more documentation
 		*/
 		static function inline_my_script() {
-			if ( ! self::$add_script )
+			if ( ! self::$add_script ) {
 				return;
+			}
 
 			echo '<script type="text/javascript">
 
 				jQuery(document).ready(function($){
 
-				jQuery("form").submit(function(e) {
-				    // added below condition for check any of checkbox checked or not by kirit dholakiya
-                    if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
-                    {
-                        jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
-						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
-                        e.preventDefault();
-						e.stopImmediatePropagation();
-                    }
-					jQuery(this).find("input").each(function(){
-						if(!jQuery(this).prop("required")){
-						} else if (!jQuery(this).val()) {
-						alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
+					jQuery("form").submit(function(e) {
 
-						e.preventDefault();
-						e.stopImmediatePropagation();
-						return false;
+						// added below condition for check any of checkbox checked or not by kirit dholakiya
+						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
+						{
+							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
+							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
+							e.preventDefault();
+							e.stopImmediatePropagation();
+						}
+						jQuery(this).find("input").each(function(){
+							if(!jQuery(this).prop("required")){
+							} else if (!jQuery(this).val()) {
+							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
+
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							return false;
+							}
+						});
+					});
+
+					jQuery("#inbound_form_submit br").remove(); // remove br tags
+					function validateEmail(email) {
+
+						var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+						return re.test(email);
+					}
+					var parent_redirect = parent.window.location.href;
+					jQuery("#inbound_parent_page").val(parent_redirect);
+
+
+					// validate email
+					jQuery("input.inbound-email").on("change keyup", function (e) {
+						var email = $(this).val();
+						$(".email_suggestion").remove();
+						if (validateEmail(email)) {
+							$(this).css("color", "green");
+							$(this).addClass("valid-email");
+							$(this).removeClass("invalid-email");
+						} else {
+							$(this).css("color", "red");
+							$(this).addClass("invalid-email");
+							$(this).removeClass("valid-email");
+						}
+						if($(this).hasClass("valid-email")) {
+							$(this).parent().parent().find("#inbound_form_submit").removeAttr("disabled");
 						}
 					});
-				});
-
-				jQuery("#inbound_form_submit br").remove(); // remove br tags
-				function validateEmail(email) {
-
-					var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-					return re.test(email);
-				}
-				var parent_redirect = parent.window.location.href;
-				jQuery("#inbound_parent_page").val(parent_redirect);
-
-
-			// validate email
-				$("input.inbound-email").on("change keyup", function (e) {
-					var email = $(this).val();
-					$(".email_suggestion").remove();
-					if (validateEmail(email)) {
-						$(this).css("color", "green");
-						$(this).addClass("valid-email");
-						$(this).removeClass("invalid-email");
-					} else {
-						$(this).css("color", "red");
-						$(this).addClass("invalid-email");
-						$(this).removeClass("valid-email");
-					}
-					if($(this).hasClass("valid-email")) {
-						$(this).parent().parent().find("#inbound_form_submit").removeAttr("disabled");
-					}
-				});
+				
+					/* Trims whitespace on advancing to the next input */
+					jQuery("input[type=\'text\']").on("blur" , function() {
+						var value = jQuery.trim( $(this).val() );
+						jQuery(this).val( value );			
+					})
+				
 
 				});
 				</script>';
@@ -676,6 +685,18 @@ if (!class_exists('Inbound_Forms')) {
 				$domain = str_replace('https://', '', $domain);
 				$domain = str_replace('www', '', $domain);
 				$email_default = 'wordpress@' . $domain;
+				
+				/* Leave here for now 
+				switch( get_option('inbound_forms_enable_akismet' , 'noreply' ) ) {
+					case 'noreply':
+						BREAK;
+					
+					case 'lead':
+					
+						BREAK;
+				}
+				*/
+				
 				$from_email = get_option( 'admin_email' , $email_default );
 				$from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
 				$reply_to_email = (isset($reply_to_email)) ? $reply_to_email : $from_email;
