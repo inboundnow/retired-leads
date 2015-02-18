@@ -135,6 +135,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				require_once('classes/class.admin-notices.php');
 				require_once('classes/class.branching.php');
 				require_once('classes/class.login.php');
+				include_once('shared/classes/class.magic.php');
 
 			} else {
 				/* Frontend Includes */
@@ -150,6 +151,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
 				require_once('modules/module.tracking.php');
+				include_once('shared/classes/class.magic.php');
 
 
 			}
