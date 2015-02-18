@@ -1,6 +1,9 @@
 <?php
 /**
  * Fixes jQuery and Javascript issues from popping up
+ *
+ * Usage: When using jQuery: use InboundQuery instead of jQuery / $
+ *
  */
 if ( ! class_exists( 'Inbound_Magic' ) ) {
 

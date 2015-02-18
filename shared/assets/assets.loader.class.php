@@ -40,6 +40,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 				/* Metabox CSS */
 				self::enqueue_shared_file('inbound-metaboxes', 'assets/css/admin/inbound-metaboxes.css');
+				self::enqueue_shared_file('inbound-global-styles', 'assets/css/admin/global-inbound-admin.css');
 
 			} else {
 
@@ -51,7 +52,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 						  wp_dequeue_script( $handle );
 					  }
 				}
-			
+
 				self::enqueue_shared_file('funnel-tracking', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
 				if (is_array($store)) {
@@ -95,7 +96,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 			}
 
-		} 
+		}
 
 		/* Global Specific localize functions */
 		static function localize_lead_data() {
