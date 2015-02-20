@@ -215,9 +215,20 @@ if (!class_exists('Inbound_Forms')) {
 						}
 
 						foreach ($dropdown_fields as $key => $value) {
-							//$drop_val_trimmed =	trim($value);
-							//$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
-							$form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
+							$drop_val_trimmed =	trim($value);
+							$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
+							
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+							
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<option value="'. trim(str_replace('"', '\"' , $dropdown_val)) .'">'. $drop_val_trimmed .'</option>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<option value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</option>';
+							}
 						}
 						$form .= '</select>';
 
@@ -275,9 +286,21 @@ if (!class_exists('Inbound_Forms')) {
 						// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 
 						foreach ($radio_fields as $key => $value) {
-							$radio_val_trimmed =	trim($value);
-							$radio_val =	strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
-							$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
+							$radio_val_trimmed = trim($value);
+							$radio_val = strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
+							
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+							
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</span>';
+							}
+							
 						}
 
 					} else if ($type === 'checkbox') {
@@ -291,7 +314,17 @@ if (!class_exists('Inbound_Forms')) {
 							$checkbox_val_trimmed =	strip_tags(trim($value));
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
 
-							$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+							
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'" >'. trim($option[0]) .'<br>';
+							}	
 						}
 					} else if ($type === 'html-block') {
 
