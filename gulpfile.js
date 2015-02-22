@@ -16,9 +16,9 @@ var gulp = require('gulp'),
     //phplint = require('phplint').lint,
     package = require('./package.json');
 
-var sharedPath = 'shared/assets/frontend/js/analytics-src/';
+var sharedPath = 'shared/assets/js/frontend/analytics-src/';
 var paths = {
-    output: 'shared/assets/frontend/js/analytics/',
+    output: 'shared/assets/js/frontend/analytics/',
     scripts: [
         sharedPath + 'analytics.init.js',
         sharedPath + 'analytics.hooks.js',
