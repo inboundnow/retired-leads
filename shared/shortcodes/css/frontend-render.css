@@ -1076,3 +1076,21 @@ color: #717171;
 -khtml-box-shadow: inset 0px 2px 3px #aaa, 0px 1px 0 #B5B5B5;
 box-shadow: inset 0px 2px 3px #AAA, 0px 1px 0 #B5B5B5;
 }
+.inbound_email_suggestion {
+    font-size: 13px;
+    padding-top: 0px;
+    margin-top: 0px;
+    display: block;
+    font-style: italic;
+}
+input.inbound-invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
+                    -moz-box-shadow: 0 0 6px #f8b9b7;
+                    box-shadow: 0 0 6px #F8B9B7;
+                    color: #B94A48;
+                    border-color: #E9322D;}
+input.inbound-valid-email {-webkit-box-shadow: 0 0 6px #B7F8BA;
+            -moz-box-shadow: 0 0 6px #f8b9b7;
+            box-shadow: 0 0 6px #98D398;
+            color: #008000;
+            border-color: #008000;
+}

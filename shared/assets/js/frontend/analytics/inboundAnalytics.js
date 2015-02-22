@@ -1406,11 +1406,11 @@ var InboundForms = (function(_inbound) {
                 /* Remember visible inputs */
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
-                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) { 
+                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) {
                     this.fillInputValues(formInput);
-                } 
+                }
 
-            } 
+            }
 
             /* loop hidden inputs */
             for (var n = hiddenInputs.length - 1; n >= 0; n--) {
@@ -2019,12 +2019,12 @@ var InboundForms = (function(_inbound) {
                     suggested: function(suggestion) {
                         // callback code
 
-                        var suggest = document.querySelector('.email_suggestion');
+                        var suggest = document.querySelector('.inbound_email_suggestion');
                         if (suggest) {
                             utils.removeElement(suggest);
                         }
                         var el = document.createElement("span");
-                        el.innerHTML = "<span class=\"email_suggestion\">Did you mean <b><i id='email_correction' style='cursor: pointer;' title=\"click to update\">" + suggestion.full + "</b></i>?</span>";
+                        el.innerHTML = "<span class=\"inbound_email_suggestion\">Did you mean <b><i id='email_correction' style='cursor: pointer;' title=\"click to update\">" + suggestion.full + "</b></i>?</span>";
                         email_input.parentNode.insertBefore(el, email_input.nextSibling);
                         var update = document.getElementById('email_correction');
                         utils.addListener(update, 'click', function() {
@@ -2033,7 +2033,7 @@ var InboundForms = (function(_inbound) {
                         });
                     },
                     empty: function() {
-                        //$(".email_suggestion").html("No Suggestions :(");
+                        //$(".inbound_email_suggestion").html("No Suggestions :(");
                     }
                 });
             }

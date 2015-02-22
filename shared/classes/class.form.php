@@ -508,19 +508,20 @@ if (!class_exists('Inbound_Forms')) {
 
 					// validate email
 					InboundQuery("input.inbound-email").on("change keyup", function (e) {
-						var email = $(this).val();
-						InboundQuery(".email_suggestion").remove();
+						var $this = InboundQuery(this);
+						var email = $this.val();
+						InboundQuery(".inbound_email_suggestion").remove();
 						if (validateEmail(email)) {
-							$(this).css("color", "green");
-							$(this).addClass("valid-email");
-							$(this).removeClass("invalid-email");
+							$this.css("color", "green");
+							$this.addClass("inbound-valid-email");
+							$this.removeClass("inbound-invalid-email");
 						} else {
-							$(this).css("color", "red");
-							$(this).addClass("invalid-email");
-							$(this).removeClass("valid-email");
+							$this.css("color", "red");
+							$this.addClass("inbound-invalid-email");
+							$this.removeClass("inbound-valid-email");
 						}
-						if($(this).hasClass("valid-email")) {
-							$(this).parent().parent().find("#inbound_form_submit").removeAttr("disabled");
+						if($this.hasClass("inbound-valid-email")) {
+							$this.parent().parent().find("#inbound_form_submit").removeAttr("disabled");
 						}
 					});
 
@@ -534,26 +535,6 @@ if (!class_exists('Inbound_Forms')) {
 				});
 				</script>';
 
-			echo "<style type='text/css'>
-			/* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
-			.email_suggestion {
-				font-size: 13px;
-				padding-top: 0px;
-				margin-top: 0px;
-				display: block;
-				font-style: italic;
-			}
-			input.invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
-								-moz-box-shadow: 0 0 6px #f8b9b7;
-								box-shadow: 0 0 6px #F8B9B7;
-								color: #B94A48;
-								border-color: #E9322D;}
-			input.valid-email {-webkit-box-shadow: 0 0 6px #B7F8BA;
-						-moz-box-shadow: 0 0 6px #f8b9b7;
-						box-shadow: 0 0 6px #98D398;
-						color: #008000;
-						border-color: #008000;}
-				</style>";
 		}
 
 		/**
