@@ -39,17 +39,19 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			if ( preg_match( $patternFrontEnd, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
 			}
 			/* match external google lib */
 			if ( preg_match( $externalPattern, $content ) ) {
 				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
 			}
 
 			if ( preg_match( $patternAdmin, $content ) ) {
 				$content = preg_replace( $patternAdmin, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
 			}
 
-			return $content;
 		}
 		/**
 		 * Flushes the buffer
