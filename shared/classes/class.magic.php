@@ -31,6 +31,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 */
 		public static function buffer_callback( $content ) {
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
+			$externalPattern = "#/jquery.min.js'></script>#";
 			$patternAdmin = "#load-scripts.php\?([^']+)'></script>#";
 			$content = "<script>/* before anything */</script>" . $content;
 			//window.onerror=function(o,n,l){return console.log(o),console.log(n),console.log(l),!0};
@@ -38,6 +39,10 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			if ( preg_match( $patternFrontEnd, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
+			}
+			/* match external google lib */
+			if ( preg_match( $externalPattern, $content ) ) {
+				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
 			}
 
 			if ( preg_match( $patternAdmin, $content ) ) {
