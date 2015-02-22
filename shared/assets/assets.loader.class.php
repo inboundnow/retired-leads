@@ -3,7 +3,6 @@
 Inbound Scripts and CSS Enqueue
 */
 
-
 if (!class_exists('Inbound_Asset_Loader')) {
 	class Inbound_Asset_Loader {
 		static $load_assets;
@@ -28,7 +27,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
 
-				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+				//self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
 				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
 				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
