@@ -23,8 +23,9 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		    if ( ! get_user_meta($user_id, 'inbound_translate_ignore') ) {
 
 		             echo '<div class="updated">
-		             	<h2>Help Translate Inbound Now Marketing Plugins and get free access to a pro account</h2>
-		                 <p>We are looking for translators with knowledge, experience, and interest to translate three WordPress plugins made by Inbound Now, and to make updates or corrections to existing translations.</p>
+		             	<h2>Help Translate Inbound Now Marketing Plugins & get free access to a pro account</h2>
+		                 <p style="width:80%;">Want to get free access to all <a href="http://www.inboundnow.com/market/" target="_blank">inbound now pro addons and templates</a>?</p>
+		                 <p style="width:80%;">Help translate Inbound Now\'s marketing plugins to your native langauge!</p>
 		                 <a class="button button-primary button-large" href="http://www.inboundnow.com/translate-inbound-now/" target="_blank">Help Translate the plugins</a>
 		                 <a class="button button-large" href="?inbound_translate_ignore=0">No Thanks</a>
 		             <br><br></div>';
