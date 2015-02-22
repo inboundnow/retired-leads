@@ -613,7 +613,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 				),
 				array(
 					'id'=>'wpleads_lead_tab_conversions',
-					'label'=> __( 'Conversion Paths' , 'leads' )
+					'label'=> __( 'Conversion Path' , 'leads' )
 				),
 				array(
 					'id'=>'wpleads_lead_tab_raw_form_data',
