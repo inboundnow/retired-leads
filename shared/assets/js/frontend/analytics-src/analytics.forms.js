@@ -177,11 +177,11 @@ var InboundForms = (function(_inbound) {
                 /* Remember visible inputs */
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
-                if (settings.formAutoPopulation) {
+                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) { 
                     this.fillInputValues(formInput);
-                }
+                } 
 
-            }
+            } 
 
             /* loop hidden inputs */
             for (var n = hiddenInputs.length - 1; n >= 0; n--) {
