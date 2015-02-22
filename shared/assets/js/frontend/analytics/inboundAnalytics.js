@@ -1406,7 +1406,7 @@ var InboundForms = (function(_inbound) {
                 /* Remember visible inputs */
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
-                if (settings.formAutoPopulation) {
+                if (settings.formAutoPopulation ) {
                     this.fillInputValues(formInput);
                 }
 
