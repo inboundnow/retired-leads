@@ -23,12 +23,12 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		 */
 		static function register_scripts_and_styles() {
 			/* Frontent and Backend Files */
-			self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
-			self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
+
 
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
-
+				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
 				$screen = get_current_screen();
 
