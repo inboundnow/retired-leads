@@ -43,9 +43,9 @@ function wp_cta_add_tracking_classes(ctas) {
 
 
 		/* add click tracking - get lead cookies */
-		var lead_cpt_id = InboundQuery.cookie("wp_lead_id");
-		var lead_email = InboundQuery.cookie("wp_lead_email");
-		var lead_unique_key = InboundQuery.cookie("wp_lead_uid");
+		var lead_cpt_id = _inbound.Utils.readCookie("wp_lead_id");
+		var lead_email = _inbound.Utils.readCookie("wp_lead_email");
+		var lead_unique_key = _inbound.Utils.readCookie("wp_lead_uid");
 
 
 		/* add click tracking  - setup lead data for click event tracking */
