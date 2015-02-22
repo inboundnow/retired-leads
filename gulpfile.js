@@ -71,7 +71,7 @@ gulp.task('scripts', ['clean'], function() {
         .pipe(header(banner, {
             package: package
         }))
-        .pipe(gulp.dest('shared/assets/frontend/js/analytics/'))
+        .pipe(gulp.dest('shared/assets/js/frontend/analytics/'))
         .pipe(rename({
             suffix: '.min'
         }))
@@ -79,7 +79,7 @@ gulp.task('scripts', ['clean'], function() {
         .pipe(header(banner, {
             package: package
         }))
-        .pipe(gulp.dest('shared/assets/frontend/js/analytics/'));
+        .pipe(gulp.dest('shared/assets/js/frontend/analytics/'));
 });
 
 gulp.task('lint', function() {
@@ -111,13 +111,13 @@ gulp.task('test', function() {
 /* Watch Files For Changes */
 
 gulp.task('watch', function() {
-    //gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['lint', 'scripts']);
-    gulp.watch('shared/assets/frontend/js/analytics-src/*.js', ['default']);
+    //gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['lint', 'scripts']);
+    gulp.watch('shared/assets/js/frontend/analytics-src/*.js', ['default']);
     //gulp.watch('scss/*.scss', ['sass']);
 });
 
 gulp.task("doc", function() {
-    gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    gulp.src("shared/assets/js/frontend/analytics-src/*.js")
         .pipe(markdox())
         .pipe(rename({
             extname: ".md"
@@ -128,14 +128,14 @@ gulp.task("doc", function() {
 
 /* concat docs */
 gulp.task("maindoc", function() {
-    gulp.src("shared/assets/frontend/js/analytics-src/*.js")
+    gulp.src("shared/assets/js/frontend/analytics-src/*.js")
         .pipe(markdox())
         .pipe(concat("main.md"))
         .pipe(gulp.dest("./shared/docs"));
 });
 
 gulp.task("docs", function() {
-    gulp.src("shared/assets/frontend/js/analytics/inboundAnalytics.js")
+    gulp.src("shared/assets/js/frontend/analytics/inboundAnalytics.js")
         .pipe(markdox())
         .pipe(rename({
             extname: ".md"
@@ -144,7 +144,7 @@ gulp.task("docs", function() {
 });
 
 gulp.task("generateDocs", function() {
-    gulp.src("shared/assets/frontend/js/analytics-src/analytics.events.js")
+    gulp.src("shared/assets/js/frontend/analytics-src/analytics.events.js")
         .pipe(markdox())
         .pipe(rename({
             extname: ".md"

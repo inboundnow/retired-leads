@@ -179,7 +179,7 @@ var InboundForms = (function(_inbound) {
                 /* Fill visible inputs */
                 if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) { 
                     this.fillInputValues(formInput);
-                }
+                } 
 
             } 
 

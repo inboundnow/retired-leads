@@ -1,6 +1,6 @@
 
 
-<!-- Start shared\assets\frontend\js\analytics-src\analytics.events.js -->
+<!-- Start shared\assets\js\frontend\analytics-src\analytics.events.js -->
 
 # Analytics Events
 
@@ -348,5 +348,5 @@ function form_after_submission_function( data ) {
  _inbound.add_action( 'form_after_submission', form_after_submission_function, 10 );
 ```
 
-<!-- End shared\assets\frontend\js\analytics-src\analytics.events.js -->
+<!-- End shared\assets\js\frontend\analytics-src\analytics.events.js -->
 
