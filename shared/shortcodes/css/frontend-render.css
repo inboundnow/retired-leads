@@ -211,18 +211,18 @@ vertical-align: top;
 
 /* Social Icons
  * ----------------------------------------------------- */
-ul.social-links{
+ul.inboundnow-social-links{
     list-style: none;
     margin: 0;
     padding: 0;
 }
-ul.social-links li{
+ul.inboundnow-social-links li{
     display: inline-block;
     list-style: none;
     margin: 0;
     padding: 7px 0;
 }
-ul.social-links li a{
+ul.inboundnow-social-links li a{
     background: #f2f2f2;
     border: 1px solid #EBEBEA;
     -webkit-border-radius: 2px;
@@ -236,20 +236,20 @@ ul.social-links li a{
     color: #696763;
     margin: 0px 1px;
 }
-ul.social-links li a:hover{
+ul.inboundnow-social-links li a:hover{
     background-color: #c8232b;
     border-color: rgba(0,0,0,0.2);
     color: #fff;
 }
-#footer-wrapper ul.social-links{
+#footer-wrapper ul.inboundnow-social-links{
     float: right;
 }
-#footer-wrapper ul.social-links li a{
+#footer-wrapper ul.inboundnow-social-links li a{
     background-color: #4A4845;
     border: none;
     color: #9C9A96;
 }
-#footer-wrapper ul.social-links li a:hover{
+#footer-wrapper ul.inboundnow-social-links li a:hover{
     background-color: #c8232b;
     color: #fff;
 }
