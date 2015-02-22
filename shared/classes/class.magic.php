@@ -13,10 +13,10 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			/* determines if in ajax mode */
 			if(is_admin()) {
 				add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-			} else {
-				add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
 				add_action( 'admin_footer', array( __CLASS__ , 'end_buffer'), -9999 );
+			} else {
+				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
+				add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
 			}
 
 		}
@@ -31,6 +31,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 */
 		public static function buffer_callback( $content ) {
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
+			$externalPattern = "#/jquery.min.js'></script>#";
 			$patternAdmin = "#load-scripts.php\?([^']+)'></script>#";
 			$content = "<script>/* before anything */</script>" . $content;
 			//window.onerror=function(o,n,l){return console.log(o),console.log(n),console.log(l),!0};
@@ -38,13 +39,19 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			if ( preg_match( $patternFrontEnd, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
+			}
+			/* match external google lib */
+			if ( preg_match( $externalPattern, $content ) ) {
+				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
 			}
 
 			if ( preg_match( $patternAdmin, $content ) ) {
 				$content = preg_replace( $patternAdmin, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
 			}
 
-			return $content;
 		}
 		/**
 		 * Flushes the buffer

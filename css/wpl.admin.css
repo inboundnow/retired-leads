@@ -464,7 +464,6 @@ h2 .nav-tab {
 	display: inline-block;
 	max-height: 15px;
 	max-width: 70%;
-	overflow: hidden;
 	vertical-align: top;
 }
 

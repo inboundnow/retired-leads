@@ -186,13 +186,13 @@ if (!class_exists('Inbound_Forms')) {
 					if ($type === "hidden" || $type === "honeypot" || $type === "html-block" || $type === "divider") {
 						$show_labels = false;
 					}
-			                
+
 					// added by kirit dholakiya for validation of multiple checkbox
 					$div_chk_req = '';
 					if($type=='checkbox' && $required=='1') {
 							$div_chk_req =' checkbox-required ';
 					}
-			                
+
 					$form .= '<div class="inbound-field '.$div_chk_req.$main_layout.' label-'.$form_labels_class.' '.$form_labels_class.' '.$field_container_class.'">';
 
 					if ($show_labels && $form_labels != "bottom" || $type === "radio") {
@@ -215,9 +215,20 @@ if (!class_exists('Inbound_Forms')) {
 						}
 
 						foreach ($dropdown_fields as $key => $value) {
-							//$drop_val_trimmed =	trim($value);
-							//$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
-							$form .= '<option value="'. trim(str_replace('"', '\"' , $value)) .'">'. $value .'</option>';
+							$drop_val_trimmed =	trim($value);
+							$dropdown_val = strtolower(str_replace(array(' ','_'),'-',$drop_val_trimmed));
+
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<option value="'. trim(str_replace('"', '\"' , $dropdown_val)) .'">'. $drop_val_trimmed .'</option>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<option value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</option>';
+							}
 						}
 						$form .= '</select>';
 
@@ -275,9 +286,21 @@ if (!class_exists('Inbound_Forms')) {
 						// $clean_radio = str_replace(array(' ','_'),'-',$value) // clean leading spaces. finish
 
 						foreach ($radio_fields as $key => $value) {
-							$radio_val_trimmed =	trim($value);
-							$radio_val =	strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
-							$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
+							$radio_val_trimmed = trim($value);
+							$radio_val = strtolower(str_replace(array(' ','_'),'-',$radio_val_trimmed));
+
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. $radio_val .'">'. $radio_val_trimmed .'</span>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<span class="radio-'.$main_layout.' radio-'.$form_labels_class.' '.$field_input_class.'"><input type="radio" name="'. $field_name .'" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'">'. trim($option[0]) .'</span>';
+							}
+
 						}
 
 					} else if ($type === 'checkbox') {
@@ -291,7 +314,17 @@ if (!class_exists('Inbound_Forms')) {
 							$checkbox_val_trimmed =	strip_tags(trim($value));
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
 
-							$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
+							//check for label-value separator (pipe)
+							$pos = strrpos($value, "|");
+
+							//if not found, use standard replacement (lowercase and spaces become dashes)
+							if ($pos === false) {
+								$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. $checkbox_val .'" >'.$checkbox_val_trimmed.'<br>';
+							} else {
+								//otherwise left side of separator is label, right side is value
+								$option = explode("|", $value);
+								$form .= '<input class="checkbox-'.$main_layout.' checkbox-'.$form_labels_class.' '.$field_input_class.'" type="checkbox" name="'. $field_name .'[]" value="'. trim(str_replace('"', '\"' , trim($option[1]))) .'" >'. trim($option[0]) .'<br>';
+							}
 						}
 					} else if ($type === 'html-block') {
 
@@ -347,9 +380,9 @@ if (!class_exists('Inbound_Forms')) {
 				return $form;
 			}
 		}
-		
+
 		/**
-		*  Sanitizes form inputs 
+		*  Sanitizes form inputs
 		*/
 		static function santize_inputs($content) {
 			// Strip HTML Tags
@@ -366,7 +399,7 @@ if (!class_exists('Inbound_Forms')) {
 			$clear = trim($clear);
 			return $clear;
 		}
-		
+
 		/**
 		*  Create shorter shortcode for [inbound_forms]
 		*/
@@ -413,7 +446,7 @@ if (!class_exists('Inbound_Forms')) {
 		}
 
 		/**
-		*  Enqueue JS & CSS 
+		*  Enqueue JS & CSS
 		*/
 		static function register_script() {
 			wp_enqueue_style( 'inbound-shortcodes' );
@@ -436,24 +469,24 @@ if (!class_exists('Inbound_Forms')) {
 			if ( ! self::$add_script ) {
 				return;
 			}
-
+			/* TODO remove this */
 			echo '<script type="text/javascript">
 
-				jQuery(document).ready(function($){
+				InboundQuery(document).ready(function($){
 
-					jQuery("form").submit(function(e) {
+					InboundQuery("form").submit(function(e) {
 
 						// added below condition for check any of checkbox checked or not by kirit dholakiya
-						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
+						if( InboundQuery(\'.checkbox-required\')[0] && InboundQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
 						{
-							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
+							InboundQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
 							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
 							e.preventDefault();
 							e.stopImmediatePropagation();
 						}
-						jQuery(this).find("input").each(function(){
-							if(!jQuery(this).prop("required")){
-							} else if (!jQuery(this).val()) {
+						InboundQuery(this).find("input").each(function(){
+							if(!InboundQuery(this).prop("required")){
+							} else if (!InboundQuery(this).val()) {
 							alert("' . __( 'Oops! Looks like you have not filled out all of the required fields!' , 'inbound-pro' ) .'");
 
 							e.preventDefault();
@@ -463,64 +496,45 @@ if (!class_exists('Inbound_Forms')) {
 						});
 					});
 
-					jQuery("#inbound_form_submit br").remove(); // remove br tags
+					InboundQuery("#inbound_form_submit br").remove(); // remove br tags
 					function validateEmail(email) {
 
 						var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 						return re.test(email);
 					}
 					var parent_redirect = parent.window.location.href;
-					jQuery("#inbound_parent_page").val(parent_redirect);
+					InboundQuery("#inbound_parent_page").val(parent_redirect);
 
 
 					// validate email
-					jQuery("input.inbound-email").on("change keyup", function (e) {
-						var email = $(this).val();
-						$(".email_suggestion").remove();
+					InboundQuery("input.inbound-email").on("change keyup", function (e) {
+						var $this = InboundQuery(this);
+						var email = $this.val();
+						InboundQuery(".inbound_email_suggestion").remove();
 						if (validateEmail(email)) {
-							$(this).css("color", "green");
-							$(this).addClass("valid-email");
-							$(this).removeClass("invalid-email");
+							$this.css("color", "green");
+							$this.addClass("inbound-valid-email");
+							$this.removeClass("inbound-invalid-email");
 						} else {
-							$(this).css("color", "red");
-							$(this).addClass("invalid-email");
-							$(this).removeClass("valid-email");
+							$this.css("color", "red");
+							$this.addClass("inbound-invalid-email");
+							$this.removeClass("inbound-valid-email");
 						}
-						if($(this).hasClass("valid-email")) {
-							$(this).parent().parent().find("#inbound_form_submit").removeAttr("disabled");
+						if($this.hasClass("inbound-valid-email")) {
+							$this.parent().parent().find("#inbound_form_submit").removeAttr("disabled");
 						}
 					});
-				
+
 					/* Trims whitespace on advancing to the next input */
-					jQuery("input[type=\'text\']").on("blur" , function() {
-						var value = jQuery.trim( $(this).val() );
-						jQuery(this).val( value );			
+					InboundQuery("input[type=\'text\']").on("blur" , function() {
+						var value = InboundQuery.trim( $(this).val() );
+						InboundQuery(this).val( value );
 					})
-				
+
 
 				});
 				</script>';
 
-			echo "<style type='text/css'>
-			/* Add button style options http://medleyweb.com/freebies/50-super-sleek-css-button-style-snippets/ */
-			.email_suggestion {
-				font-size: 13px;
-				padding-top: 0px;
-				margin-top: 0px;
-				display: block;
-				font-style: italic;
-			}
-			input.invalid-email {-webkit-box-shadow: 0 0 6px #F8B9B7;
-								-moz-box-shadow: 0 0 6px #f8b9b7;
-								box-shadow: 0 0 6px #F8B9B7;
-								color: #B94A48;
-								border-color: #E9322D;}
-			input.valid-email {-webkit-box-shadow: 0 0 6px #B7F8BA;
-						-moz-box-shadow: 0 0 6px #f8b9b7;
-						box-shadow: 0 0 6px #98D398;
-						color: #008000;
-						border-color: #008000;}
-				</style>";
 		}
 
 		/**
@@ -541,7 +555,7 @@ if (!class_exists('Inbound_Forms')) {
 
 			return $content;
 		}
-		
+
 		/**
 		*  Stores conversion activity into form metadata
 		*/
@@ -571,9 +585,9 @@ if (!class_exists('Inbound_Forms')) {
 				}
 
 		}
-		
+
 		/**
-		*  Perform Actions After a Form Submit 
+		*  Perform Actions After a Form Submit
 		*/
 		static function do_actions(){
 
@@ -637,7 +651,7 @@ if (!class_exists('Inbound_Forms')) {
 		}
 
 		/**
-		*  Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List 
+		*  Sends Notification of New Lead Conversion to Admin & Others Listed on the Form Notification List
 		*/
 		public static function send_conversion_admin_notification( $form_post_data , $form_meta_data ) {
 
@@ -685,18 +699,18 @@ if (!class_exists('Inbound_Forms')) {
 				$domain = str_replace('https://', '', $domain);
 				$domain = str_replace('www', '', $domain);
 				$email_default = 'wordpress@' . $domain;
-				
-				/* Leave here for now 
+
+				/* Leave here for now
 				switch( get_option('inbound_forms_enable_akismet' , 'noreply' ) ) {
 					case 'noreply':
 						BREAK;
-					
+
 					case 'lead':
-					
+
 						BREAK;
 				}
 				*/
-				
+
 				$from_email = get_option( 'admin_email' , $email_default );
 				$from_email = apply_filters( 'inbound_admin_notification_from_email' , $from_email );
 				$reply_to_email = (isset($reply_to_email)) ? $reply_to_email : $from_email;
@@ -814,7 +828,7 @@ if (!class_exists('Inbound_Forms')) {
 		}
 
 		/**
-		*  Get Email Template for New Lead Notification 
+		*  Get Email Template for New Lead Notification
 		*/
 		static function get_new_lead_email_template( ) {
 
@@ -837,7 +851,7 @@ if (!class_exists('Inbound_Forms')) {
 		}
 
 		/**
-		*  Get Email Template by ID 
+		*  Get Email Template by ID
 		*/
 		public static function get_email_template( $ID ) {
 
@@ -1163,11 +1177,11 @@ if (!class_exists('Inbound_Forms')) {
 		public static function get_form_settings( $form_id ) {
 
 			$meta = get_post_meta( $form_id );
-			
+
 			foreach ($meta as $key => $value ) {
 				$meta[ $key ] = $value[0];
 			}
-			
+
 			return $meta;
 		}
 	}
