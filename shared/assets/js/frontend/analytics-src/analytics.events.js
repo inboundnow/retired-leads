@@ -87,10 +87,10 @@ var _inboundEvents = (function(_inbound) {
     }
 
     function triggerJQueryEvent(eventName, data) {
-        if (window.jQuery) {
+        if (window.InboundQuery) {
             var data = data || {};
             /*! try catch here */
-            jQuery(document).trigger(eventName, data);
+            InboundQuery(document).trigger(eventName, data);
         }
     };
 
