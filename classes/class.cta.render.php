@@ -70,9 +70,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			/* Enqueue CTA js * css */
 			add_action('wp_enqueue_scripts' , array( $this , 'enqueue_cta_js_css') , 10 );
 
-			/* Add Final CTA Loading Js */
-			add_action('wp_footer', array( $this , 'reveal_loaded_ctas' ) , 19);
-
 			/* Apply custom JS & CSS for CTA */
 			add_action('wp_head', array( $this , 'load_custom_js_css') );
 
@@ -107,7 +104,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			} else {
 				$paged = true;
 			}
-			
+
 			if (!isset(self::$instance->obj)) {
 				self::$instance->obj = new stdClass();
 				self::$instance->obj->post_type = 'none';
@@ -320,8 +317,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			} else {
 				$ajax_url =  admin_url( 'admin-ajax.php' );
 			}
-			
-			wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-load-variation.js', array('jquery') , true );
+
+			wp_enqueue_script('cta-load-variation', WP_CTA_URLPATH.'js/cta-variation.js', array('jquery') , true );
 			wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
 
 
@@ -431,12 +428,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 		}
 
-		public function reveal_loaded_ctas() {
-			/* determin variation */
-			wp_enqueue_script('cta-reveal-variation', WP_CTA_URLPATH.'js/cta-reveal-variation.js', array('jquery') , true );
-			wp_localize_script( 'cta-reveal-variation', 'cta_reveal', array( 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() ) );
 
-		}
 
 		/* Replaced tokens in call to action template with values */
 		public function replace_template_variables( $selected_cta , $template , $vid ) {
