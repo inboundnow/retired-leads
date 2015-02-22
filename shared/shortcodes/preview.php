@@ -68,7 +68,7 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Pr
 <?php // FIX THESE AND ROLL SHARE TRACKING INTO SHARED
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'funnel-tracking' , $final_path . 'shared/assets/js/frontend/analytics/inboundAnalytics.js');
+		wp_enqueue_script( 'inbound-analytics' , $final_path . 'shared/assets/js/frontend/analytics/inboundAnalytics.js');
 		$inbound_localized_data = array('post_id' => 'test',
 										'ip_address' => 'test',
 										'wp_lead_data' => 'test',
@@ -82,7 +82,7 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Pr
 										'inbound_track_exclude' => 'test',
 										'inbound_track_include' => 'test'
 										);
-		wp_localize_script( 'funnel-tracking' , 'inbound_settings', $inbound_localized_data);
+		wp_localize_script( 'inbound-analytics' , 'inbound_settings', $inbound_localized_data);
 		wp_head();
 ?>
 <style type="text/css">

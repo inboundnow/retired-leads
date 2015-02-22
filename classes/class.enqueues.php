@@ -80,10 +80,10 @@ class CTA_Enqueues {
 
 		/* Enqueues general & unorganized admin stylings */
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'css/admin-style.css');
-		
+
 		/* Enqueue select2 support */
 		wp_enqueue_script('select2', WP_CTA_URLPATH . 'js/select2.min.js');
-		
+
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
 		self::frontend_editor_enqueues( $hook );
@@ -128,7 +128,7 @@ class CTA_Enqueues {
 		/* Enqueue timepicker support */
 		wp_enqueue_style('jquery-timepicker-css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/jquery.timepicker.css');
 		wp_enqueue_style('jquery-datepicker-base.css', WP_CTA_URLPATH . 'js/libraries/jquery-datepicker/lib/base.css');
-		
+
 		/* Enqueue CSS rules for wp-call-to-action post type */
 		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'css/admin-wp-cta-cpt-only-style.css');
 
@@ -212,7 +212,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker.css');
 		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'css/customizer.frontend.css');
 		wp_dequeue_script('form-population');
-		wp_dequeue_script('funnel-tracking');
+		wp_dequeue_script('inbound-analytics');
 		wp_enqueue_script('jquery-easing', WP_CTA_URLPATH . 'js/jquery.easing.min.js');
 	}
 

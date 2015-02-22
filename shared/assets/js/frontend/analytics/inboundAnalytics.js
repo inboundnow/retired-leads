@@ -45,7 +45,6 @@ var _inbound = (function(options) {
                 _inbound.Forms.init();
             }, 2000);
 
-
             _inbound.trigger('analytics_ready');
 
         },
@@ -3011,8 +3010,9 @@ var _inboundPageTracking = (function(_inbound) {
         reportInterval,
         idleTimeout,
         utils = _inbound.Utils,
-        Pages = _inbound.totalStorage('page_views') || {},
         timeNow = _inbound.Utils.GetDate(),
+        lsType = (typeof wp !== "undefined") ? 'admin_page_views' : 'page_views',
+        Pages = _inbound.totalStorage(lsType) || {},
         /*!
           Todo: Use UTC offset
           var x = new Date();
@@ -3025,7 +3025,10 @@ var _inboundPageTracking = (function(_inbound) {
     _inbound.PageTracking = {
 
         init: function(options) {
-
+            //console.log('type', lsType);
+            if(lsType !== 'page_views') {
+                return false; // in admin
+            }
             this.CheckTimeOut();
             // Set up options and defaults
             options = options || {};
@@ -3240,7 +3243,7 @@ var _inboundPageTracking = (function(_inbound) {
         getPageViews: function() {
             var local_store = _inbound.Utils.checkLocalStorage();
             if (local_store) {
-                var page_views = localStorage.getItem("page_views"),
+                var page_views = localStorage.getItem(lsType),
                     local_object = JSON.parse(page_views);
                 if (typeof local_object == 'object' && local_object) {
                     //this.triggerPageView();
@@ -3281,7 +3284,7 @@ var _inboundPageTracking = (function(_inbound) {
 
             _inbound.trigger('page_visit', pageData);
 
-            _inbound.totalStorage('page_views', Pages);
+            _inbound.totalStorage(lsType, Pages);
 
             this.storePageView();
 

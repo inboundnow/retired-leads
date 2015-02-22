@@ -27,6 +27,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
+
+				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+
 				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
 				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
@@ -52,8 +55,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 						  wp_dequeue_script( $handle );
 					  }
 				}
-
-				self::enqueue_shared_file('funnel-tracking', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+				/* unminified source available */
+				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
 				if (is_array($store)) {
 					foreach ( $store as $handle ) {
@@ -169,7 +172,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 											'custom_mapping' => $custom_map_values,
 											'inbound_track_exclude' => $inbound_track_exclude,
 											'inbound_track_include' => $inbound_track_include
-											);
+			);
 
 			return $inbound_localized_data;
 		} // end localize lead data
