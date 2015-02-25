@@ -189,6 +189,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 	if ( Inbound_Calls_To_Action_Plugin::is_valid_php_version() ) {
 		// Get Inbound Now Running
 		$GLOBALS['Inbound_Calls_To_Action_Plugin'] = new Inbound_Calls_To_Action_Plugin;
+
 	} else {
 		// Show Fail
 		Inbound_Calls_To_Action_Plugin::fail_php_version();
