@@ -43,7 +43,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			// Inbound forms class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');
-			//include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	/* Moved to PRO */
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');	/* Moved to PRO */
 			// Inbound Feedback Form
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
 			// Inbound Debug & Scripts Class
