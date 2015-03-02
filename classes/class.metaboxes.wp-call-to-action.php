@@ -804,16 +804,9 @@ if (!class_exists('CTA_Metaboxes')) {
 			
 			?>
 			<script>
-			jQuery(document).ready(function() {
+			InboundQuery(document).ready(function() {
 				
-				/* Removes wp_content wysiwyg */
-				jQuery('#postdivrich').hide();
 				
-				/* Removes Permalink edit option */
-				jQuery('#edit-slug-box').hide();
-				
-				/* Removes handle from templates option box */
-				jQuery('#postbox-container-2 .handlediv').hide();
 				
 			});
 			</script>
