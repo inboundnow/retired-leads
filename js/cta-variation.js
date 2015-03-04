@@ -114,6 +114,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	}
 	/* Poll the ajax server for the correct variation to display */
 	else {
+		
 		InboundQuery.ajax({
 			 type: "GET",
 			 url: cta_variation.ajax_url,
@@ -124,26 +125,30 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 				'cta_id' : cta_id
 			 },
 			 success: function(vid) {
+			
 				/* update local storage variable */
 				loaded_ctas[cta_id] = vid.trim();
 
 				/* update local storage object */
 				_inbound.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
+	
 				_inbound.deBugger( 'cta', 'WP CTA Load Object Updated:' + JSON.stringify(loaded_ctas) );
 			}
 		});
 	}
 }
 
-InboundQuery(document).ready(function($) {
-	/* reset local storage variable every page load */
-	_inbound.totalStorage.deleteItem('wp_cta_loaded'); // remove pageviews
+/* reset local storage variable every page load */
+_inbound.totalStorage.deleteItem('wp_cta_loaded'); 
 
+InboundQuery(document).ready(function($) {
+	
 	if (cta_variation.cta_id) {
 		wp_cta_load_variation( cta_variation.cta_id , null , cta_variation.disable_ajax );
 	}
 
 	var ctas = localStorage.getItem('wp_cta_loaded');
+
 	if(ctas){
 		var loaded_ctas = JSON.parse(localStorage.getItem('wp_cta_loaded'));
 	} else {

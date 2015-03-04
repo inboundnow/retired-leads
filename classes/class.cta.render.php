@@ -218,6 +218,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
 						continue;
 					}
+					
+
 
 					if ( $variation['status'] == 'paused' && !isset($_GET['wp-cta-variation-id']) ) {
 						unset($cta_obj[$cta_id]['variations'][$vid]);
@@ -250,6 +252,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* return one cta out of list of available ctas */
 			$key = array_rand($cta_obj);
+			
 			return $cta_obj[$key];
 
 
@@ -1230,9 +1233,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			}
 
 			$script =	"<script>";
-			$script .= "	jQuery(document).ready(function($) {";
-			$script .= "		wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
-			$script .= "	});";
+			$script .= "	wp_cta_load_variation( '" .$cta_id ."' , '" .$variation_id ."' , '".self::$instance->disable_ajax ."' )";
 			$script .= "</script>";
 
 			if ($return) {
