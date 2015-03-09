@@ -67,8 +67,10 @@ class CTA_Conversion_Tracking {
 				if ( strstr( $link , '?http')) {
                     $parts = explode('?http' , $link );
                     array_shift($output);
-                    $link = add_query_arg(  $output , $parts[0] );
-                 }
+                    $link = 'http' . $parts[1];
+                    $link = urldecode($link);
+
+                }
 				 
 				// If lead post id exists
 				if ($type === 'wplid') {
