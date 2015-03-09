@@ -53,6 +53,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			// {{token}} Replacement Engine
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
