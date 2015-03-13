@@ -160,6 +160,5 @@ InboundQuery(document).ready(function($) {
 
 	/* Record Impressions */
 	wp_cta_record_impressions(ctas);
-
-
+	
 });
