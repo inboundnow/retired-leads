@@ -286,15 +286,7 @@ if (!class_exists('CTA_Metaboxes')) {
 					<div class='bab-varation-header'>
 							<span class='bab-variation-name'>Variation <span class='bab-stat-letter'><?php echo $CTA_Variations->vid_to_letter( $post->ID , $vid); ?></span>
 							<?php
-							if( $status == 'paused' )
-							{
-							?>
-								<span class='is-paused'><?php _e( '(Paused)' , 'cta' ); ?></span>
-							<?php
-							}
-
-							do_action('wp_cta_print_variation_status_note' , $status );
-
+							echo "<span class='' style='font-size:10px;font-style:italic;padding-left:10px;'>". $status ."</span>";
 							?>
 							</span>
 
@@ -496,8 +488,6 @@ if (!class_exists('CTA_Metaboxes')) {
 							// radio
 							case 'radio':
 								foreach ($field['options'] as $value=>$label) {
-									//echo $meta.":".$field_id;
-									//echo "<br>";
 									echo '<input type="radio" name="'.$field_id.'" id="'.$field_id.'" value="'.$value.'" ',$meta==$value ? ' checked="checked"' : '','/>';
 									echo '<label for="'.$value.'">&nbsp;&nbsp;'.$label.'</label> &nbsp;&nbsp;&nbsp;&nbsp;';
 								}
