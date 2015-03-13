@@ -179,7 +179,7 @@ var _inboundUtils = (function(_inbound) {
          *
          * ```js
          * // Creates cookie for 10 days
-         * _inbound.utils.createCookie( 'cookie_name', 'value', 10 );
+         * _inbound.Utils.createCookie( 'cookie_name', 'value', 10 );
          * ```
          *
          * @param  {string} name        Name of cookie
@@ -199,7 +199,7 @@ var _inboundUtils = (function(_inbound) {
          * Read cookie value
          *
          * ```js
-         * var cookie = _inbound.utils.readCookie( 'cookie_name' );
+         * var cookie = _inbound.Utils.readCookie( 'cookie_name' );
          * console.log(cookie); // cookie value
          * ```
          * @param  {string} name name of cookie
@@ -224,7 +224,7 @@ var _inboundUtils = (function(_inbound) {
          *
          * ```js
          * // usage:
-         * _inbound.utils.eraseCookie( 'cookie_name' );
+         * _inbound.Utils.eraseCookie( 'cookie_name' );
          * // deletes 'cookie_name' value
          * ```
          * @param  {string} name name of cookie
