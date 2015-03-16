@@ -3,7 +3,6 @@
 Inbound Scripts and CSS Enqueue
 */
 
-
 if (!class_exists('Inbound_Asset_Loader')) {
 	class Inbound_Asset_Loader {
 		static $load_assets;
@@ -23,12 +22,15 @@ if (!class_exists('Inbound_Asset_Loader')) {
 		 */
 		static function register_scripts_and_styles() {
 			/* Frontent and Backend Files */
-			self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
-			self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
+
 
 			/* Conditionals for admin or frontend */
 			if(is_admin()) {
 
+				//self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+
+				self::enqueue_shared_file('jquery-cookie', 'assets/js/global/jquery.cookie.js', array( 'jquery' ));
+				self::enqueue_shared_file('jquery-total-storage', 'assets/js/global/jquery.total-storage.min.js', array( 'jquery' ));
 				$inbound_now_screens = Inbound_Compatibility::return_inbound_now_screens(); // list of inbound now screens
 				$screen = get_current_screen();
 
@@ -40,6 +42,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 				/* Metabox CSS */
 				self::enqueue_shared_file('inbound-metaboxes', 'assets/css/admin/inbound-metaboxes.css');
+				self::enqueue_shared_file('inbound-global-styles', 'assets/css/admin/global-inbound-admin.css');
 
 			} else {
 
@@ -51,8 +54,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 						  wp_dequeue_script( $handle );
 					  }
 				}
-			
-				self::enqueue_shared_file('funnel-tracking', 'assets/js/frontend/analytics/inboundAnalytics.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
+				
+				/* unminified source available */
+				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
 				if (is_array($store)) {
 					foreach ( $store as $handle ) {
@@ -95,7 +99,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 				}
 			}
 
-		} 
+		}
 
 		/* Global Specific localize functions */
 		static function localize_lead_data() {
@@ -168,7 +172,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 											'custom_mapping' => $custom_map_values,
 											'inbound_track_exclude' => $inbound_track_exclude,
 											'inbound_track_include' => $inbound_track_include
-											);
+			);
 
 			return $inbound_localized_data;
 		} // end localize lead data

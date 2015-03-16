@@ -190,10 +190,10 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		// Show Failure message
 		Inbound_Leads_Plugin::fail_php_version();
 	}
+	
+	/* method to see if leads is active */
+	function wpleads_check_active() {
+		return true;
+	}
 
-}
-
-// Legacy function
-function wpleads_check_active() {
-	return true;
 }

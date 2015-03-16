@@ -45,7 +45,6 @@ var _inbound = (function(options) {
                 _inbound.Forms.init();
             }, 2000);
 
-
             _inbound.trigger('analytics_ready');
 
         },
@@ -715,7 +714,7 @@ var _inboundUtils = (function(_inbound) {
          *
          * ```js
          * // Creates cookie for 10 days
-         * _inbound.utils.createCookie( 'cookie_name', 'value', 10 );
+         * _inbound.Utils.createCookie( 'cookie_name', 'value', 10 );
          * ```
          *
          * @param  {string} name        Name of cookie
@@ -735,7 +734,7 @@ var _inboundUtils = (function(_inbound) {
          * Read cookie value
          *
          * ```js
-         * var cookie = _inbound.utils.readCookie( 'cookie_name' );
+         * var cookie = _inbound.Utils.readCookie( 'cookie_name' );
          * console.log(cookie); // cookie value
          * ```
          * @param  {string} name name of cookie
@@ -760,7 +759,7 @@ var _inboundUtils = (function(_inbound) {
          *
          * ```js
          * // usage:
-         * _inbound.utils.eraseCookie( 'cookie_name' );
+         * _inbound.Utils.eraseCookie( 'cookie_name' );
          * // deletes 'cookie_name' value
          * ```
          * @param  {string} name name of cookie
@@ -1406,11 +1405,11 @@ var InboundForms = (function(_inbound) {
                 /* Remember visible inputs */
                 this.rememberInputValues(formInput);
                 /* Fill visible inputs */
-                if (settings.formAutoPopulation) {
+                if (settings.formAutoPopulation && !_inbound.Utils.hasClass( "nopopulate", form ) ) { 
                     this.fillInputValues(formInput);
-                }
+                } 
 
-            }
+            } 
 
             /* loop hidden inputs */
             for (var n = hiddenInputs.length - 1; n >= 0; n--) {
@@ -1781,7 +1780,7 @@ var InboundForms = (function(_inbound) {
             /* Filter here for raw */
             //alert(mapped_params);
             /**
-           * Old data model
+			* Old data model
               var return_data = {
                         "action": 'inbound_store_lead',
                         "emailTo": data['email'],
@@ -1795,7 +1794,7 @@ var InboundForms = (function(_inbound) {
                         "Mapped_Data": mapped_form_data,
                         "Search_Data": data['search_data']
               };
-           */
+			*/
             formData = {
                 'action': 'inbound_lead_store',
                 'email': email,
@@ -1832,10 +1831,8 @@ var InboundForms = (function(_inbound) {
                 _inbound.Forms.releaseFormSubmit(form);
 
             }
-            //_inbound.LeadsAPI.makeRequest(landing_path_info.admin_url);
-            //_inbound.Events.form_before_submission(formData);
+
             _inbound.trigger('form_before_submission', formData);
-            //_inbound.trigger('inbound_form_before_submission', formData, true);
 
             utils.ajaxPost(inbound_settings.admin_url, formData, callback);
         },
@@ -2327,10 +2324,10 @@ var _inboundEvents = (function(_inbound) {
     }
 
     function triggerJQueryEvent(eventName, data) {
-        if (window.jQuery) {
+        if (window.InboundQuery) {
             var data = data || {};
             /*! try catch here */
-            jQuery(document).trigger(eventName, data);
+            InboundQuery(document).trigger(eventName, data);
         }
     };
 
@@ -3013,8 +3010,9 @@ var _inboundPageTracking = (function(_inbound) {
         reportInterval,
         idleTimeout,
         utils = _inbound.Utils,
-        Pages = _inbound.totalStorage('page_views') || {},
         timeNow = _inbound.Utils.GetDate(),
+        lsType = (typeof wp !== "undefined") ? 'admin_page_views' : 'page_views',
+        Pages = _inbound.totalStorage(lsType) || {},
         /*!
           Todo: Use UTC offset
           var x = new Date();
@@ -3027,7 +3025,10 @@ var _inboundPageTracking = (function(_inbound) {
     _inbound.PageTracking = {
 
         init: function(options) {
-
+            //console.log('type', lsType);
+            if(lsType !== 'page_views') {
+                return false; // in admin
+            }
             this.CheckTimeOut();
             // Set up options and defaults
             options = options || {};
@@ -3242,7 +3243,7 @@ var _inboundPageTracking = (function(_inbound) {
         getPageViews: function() {
             var local_store = _inbound.Utils.checkLocalStorage();
             if (local_store) {
-                var page_views = localStorage.getItem("page_views"),
+                var page_views = localStorage.getItem(lsType),
                     local_object = JSON.parse(page_views);
                 if (typeof local_object == 'object' && local_object) {
                     //this.triggerPageView();
@@ -3283,7 +3284,7 @@ var _inboundPageTracking = (function(_inbound) {
 
             _inbound.trigger('page_visit', pageData);
 
-            _inbound.totalStorage('page_views', Pages);
+            _inbound.totalStorage(lsType, Pages);
 
             this.storePageView();
 

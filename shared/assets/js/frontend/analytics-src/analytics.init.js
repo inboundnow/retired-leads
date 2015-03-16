@@ -44,7 +44,6 @@ var _inbound = (function(options) {
                 _inbound.Forms.init();
             }, 2000);
 
-
             _inbound.trigger('analytics_ready');
 
         },

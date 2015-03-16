@@ -84,8 +84,11 @@ if (!class_exists('LeadStorage')) {
 
 			$mappedData = self::improve_mapping($mappedData, $lead);
 
-			$lead['lead_lists'] = (array_key_exists('inbound_form_lists', $mappedData)) ? explode(",", $mappedData['inbound_form_lists']) : false;
-			//print_r($lead['lead_lists']); wp_die();
+			/* prepate lead lists */
+			$lead['lead_lists'] = (isset($args['lead_lists'])) ? $args['lead_lists'] : null;
+			if ( !$lead['lead_lists'] && array_key_exists('inbound_form_lists', $mappedData) ) {
+				$lead['lead_lists'] = explode(",", $mappedData['inbound_form_lists']);
+			}
 
 			/* Look for direct key matches & clean up $lead_data */
 			$lead = apply_filters( 'inboundnow_store_lead_pre_filter_data', $lead, $args);
@@ -525,11 +528,10 @@ if (!class_exists('LeadStorage')) {
 		static function improve_mapping($mappedData, $lead) {
 			$arr = $mappedData;
 			/* Set names if not mapped */
-			$arr['first_name'] = (!isset($arr['first_name'])) ? $lead['first_name'] : $arr['first_name'];
-			$arr['last_name'] = (!isset($arr['last_name'])) ? $lead['last_name'] : $arr['last_name'];
-			/* Add filter and preg matches here */
+			$mappedData['first_name'] = (!isset($mappedData['first_name'])) ? $lead['first_name'] : $mappedData['first_name'];
+			$mappedData['last_name'] = (!isset($mappedData['last_name'])) ? $lead['last_name'] : $mappedData['last_name'];
 
-			return $arr;
+			return $mappedData;
 		}
 
 		/**
@@ -631,7 +633,12 @@ if (!function_exists('inbound_store_lead')) {
 		} else {
 			$Leads->set_mode('ajax');
 		}
-
+		
+		/* prepare lead lists as array */
+		if (isset($args['lead_lists']) && !is_array($args['lead_lists'])) {
+			$args['lead_lists'] = explode(',',$args['lead_lists']); 
+		} 
+		
 		$lead_id = $Leads::inbound_lead_store( $args );
 
 		return $lead_id;

@@ -99,6 +99,17 @@ function wpleads_get_global_settings() {
 			'default'  => '0',
 			'options' => array('1'=>'On','0'=>'Off')
 		)
+		/*
+		,array(
+			'id'  => 'inbound_lead_notification_reply',
+			'option_name'  => 'inbound_lead_notification_reply',
+			'label' => __('Lead notification "Reply To" email address' , 'leads' ),
+			'description' => __( "You can set the 'new lead' notification email's reply-to address to be a dummy no-reply email address or the lead's email address. The latter sometimes experiences spam-box issues so we've defaulted the reply-to email to be a dummy one: wordpress@yourdomain.com." , 'leads' ),
+			'type'  => 'dropdown',
+			'default'  => '0',
+			'options' => array( 'noreply' => __( 'Generated Noreply Email' , 'leads' ) , 'lead'=> __( 'Use the Lead\'s Email Address' , 'leads' ) )
+		)
+		*/
 	);
 
 	/* Setup License Keys Tab */

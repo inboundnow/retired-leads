@@ -78,7 +78,7 @@
 			'lists' => array(
 				'name' => __('Add to List(s)', 'leads'),
 				'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
-				'type' => 'multiselect',
+				'type' => 'leadlists',
 				'options' => $lead_list_names,
 				'class' => 'main-form-settings',
 			),
@@ -220,26 +220,26 @@
 
 				'dropdown_options' => array(
 					'name' => __('Dropdown choices',  'leads'),
-					'desc' => __('Enter Your Dropdown Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Dropdown Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __('Choice 1, Choice 2, Choice 3' , 'inbound-pro' ),
+					'placeholder' => __('Choice 1|a, Choice 2, Choice 3' , 'cta' ),
 					'reveal_on' => 'dropdown' // on select choice show this
 				),
 				'radio_options' => array(
 					'name' => __('Radio Choices',  'leads'),
-					'desc' => __('Enter Your Radio Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Radio Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => 'Choice 1, Choice 2',
+					'placeholder' => 'Choice 1|a, Choice 2',
 					'reveal_on' => 'radio' // on select choice show this
 				),
 				'checkbox_options' => array(
 					'name' => __('Checkbox choices',  'leads'),
-					'desc' => __('Enter Your Checkbox Options. Separate by commas.',  'leads'),
+					'desc' => __('Enter Your Checkbox Options. Separate by commas. You may also use label|value to have a different value than the label stored.',  'leads'),
 					'type' => 'text',
 					'std' => '',
-					'placeholder' => __( 'Choice 1, Choice 2, Choice 3', 'inbound-pro' ),
+					'placeholder' => __( 'Choice 1|a, Choice 2, Choice 3', 'cta' ),
 					'reveal_on' => 'checkbox' // on select choice show this
 				),
 				'html_block_options' => array(
