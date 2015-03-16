@@ -335,7 +335,7 @@ color:green;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.lead-spinner.leads-done {
+.lead-spinner.leads-done, .lead-spinner.leads-done:before {
 	-webkit-animation: none;
 	-moz-animation: none;
 	-o-animation:none;
