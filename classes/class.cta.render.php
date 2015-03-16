@@ -1083,7 +1083,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 			global $post;
 
 			if (!isset($post)) {
-				return;
+				return $content;
 			}
 
 			if ( !self::$instance->selected_cta || self::$instance->cta_content_placement =='off' ) {
