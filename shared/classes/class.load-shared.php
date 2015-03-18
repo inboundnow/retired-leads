@@ -73,6 +73,8 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 			// Load Notifications
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
+			// Load Magic
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.magic.php');
 
 
 			self::load_legacy_elements();
