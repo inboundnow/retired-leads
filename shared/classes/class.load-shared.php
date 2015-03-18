@@ -43,7 +43,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
 			// Inbound forms class
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');
-			//include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menu.php');	/* Moved to PRO */
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');	/* Moved to PRO */
 			// Inbound Feedback Form
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
 			// Inbound Debug & Scripts Class
@@ -53,6 +53,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			// {{token}} Replacement Engine
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
@@ -72,6 +73,8 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 			// Load Notifications
 			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
+			// Load Magic
+			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.magic.php');
 
 
 			self::load_legacy_elements();

@@ -1,5 +1,13 @@
 InboundQuery(document).ready(function($) {
-
+	
+	/* Removes wp_content wysiwyg */
+	InboundQuery('#postdivrich').hide();
+	
+	/* Removes Permalink edit option */
+	InboundQuery('#edit-slug-box').hide();
+	
+	/* Removes handle from templates option box */
+	InboundQuery('#postbox-container-2 .handlediv').hide();
 
 	/* Check to See if cookies are on */
 	var cookies = (typeof (InboundQuery.cookie) != "undefined" ? true : false); // Check for InboundQuery Cookie

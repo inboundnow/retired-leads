@@ -239,7 +239,8 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				$field['default'] = '';
 			}
 
-			$final['value'] = (!empty($meta)) ? $meta : $field['default'];
+			$final['value'] = ( !empty($meta) || is_numeric( $meta ) ) ? $meta : $field['default'];
+
 			$meta_class = (isset($field['class'])) ? " " . $field['class'] : '';
 			$dynamic_hide = (isset($field['reveal_on'])) ? ' inbound-hidden-row' : '';
 			$reveal_on = (isset($field['reveal_on'])) ? ' reveal-' . $field['reveal_on'] : '';
@@ -288,7 +289,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 						break;
 					// checkbox
 					case 'checkbox':
-						echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$final['value'] ? ' checked="checked"' : '','/>
+						echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ' , $final['value'] ? ' checked="checked"' : '','/>
 								<label for="'.$field['id'].'">'.$field['description'].'</label>';
 						break;
 					// radio

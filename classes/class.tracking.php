@@ -63,6 +63,15 @@ class CTA_Conversion_Tracking {
 				$link = preg_replace($pattern, '', $link);
 				$event_id = $matches[1]; // Event ID
 
+				/* mod for links that have been dressed twice for some reason in isolated circumstances */
+				if ( strstr( $link , '?http')) {
+                    $parts = explode('?http' , $link );
+                    array_shift($output);
+                    $link = 'http' . $parts[1];
+                    $link = urldecode($link);
+
+                }
+				 
 				// If lead post id exists
 				if ($type === 'wplid') {
 					$lead_ID = $lead_id;

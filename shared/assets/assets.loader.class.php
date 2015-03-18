@@ -54,6 +54,7 @@ if (!class_exists('Inbound_Asset_Loader')) {
 						  wp_dequeue_script( $handle );
 					  }
 				}
+				
 				/* unminified source available */
 				self::enqueue_shared_file('inbound-analytics', 'assets/js/frontend/analytics/inboundAnalytics.min.js', array( 'jquery' ), 'inbound_settings', self::localize_lead_data());
 
