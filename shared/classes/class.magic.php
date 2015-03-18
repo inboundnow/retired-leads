@@ -5,6 +5,7 @@
  * Usage: When using jQuery: use InboundQuery instead of jQuery / $
  *
  */
+
 if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 	class Inbound_Magic {
@@ -13,10 +14,10 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			/* determines if in ajax mode */
 			if(is_admin()) {
 				add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-				add_action( 'admin_footer', array( __CLASS__ , 'end_buffer'), -9999 );
+				add_action( 'admin_head', array( __CLASS__ , 'end_buffer'), -9999 );
 			} else {
 				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
-				add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
+				add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
 			}
 
 		}

@@ -78,7 +78,7 @@
 			'lists' => array(
 				'name' => __('Add to List(s)', 'leads'),
 				'desc' => __('Add the converting lead to 1 or more lead lists', 'leads'),
-				'type' => 'multiselect',
+				'type' => 'leadlists',
 				'options' => $lead_list_names,
 				'class' => 'main-form-settings',
 			),

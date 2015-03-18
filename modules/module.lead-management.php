@@ -617,7 +617,7 @@ function lead_management_admin_screen() {
 
 			<div id="controls">';
 			lead_management_drop_down();
-		echo '
+			echo '
 			</div>
 				' . $filter . '
 				<div id="lead-action-triggers">
