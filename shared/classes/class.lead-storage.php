@@ -54,6 +54,13 @@ if (!class_exists('LeadStorage')) {
 				$args = array_merge( $args, $_POST );
 			}
 
+			/* sanitise inputs */
+			foreach ($args as $key=>$value) {
+				if (is_string($value)) {
+					$args[$key] = strip_tags( $value , '<p><br><b><span><i><strong>');
+				}
+			}
+			
 			$lead = array();
 			if(isset($user_ID)){
 				$lead['user_ID'] = $user_ID;

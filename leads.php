@@ -151,7 +151,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				/* load frontend */
 				require_once('modules/module.enqueue-frontend.php');
 				require_once('modules/module.tracking.php');
-				include_once('shared/classes/class.magic.php');
 
 
 			}
