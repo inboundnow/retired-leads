@@ -1188,7 +1188,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 			/* account for preview mode  */
 			$vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : $vid;
-			
+
 			$script = self::$instance->load_shortcode_variation_js( $id , $vid , true );
 
 
@@ -1210,8 +1210,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		* @param BOOL $return If set to true will return instead of print
 		* @return STRING $script javascript code
 		*/
-		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false )
-		{
+		function load_shortcode_variation_js( $cta_id , $variation_id = null , $return = false ) {
 
 			if ( !isset(self::$instance->disable_ajax) ) {
 				self::$instance->disable_ajax = get_option('wp-cta-main-disable-ajax-variation-discovery' , 0 );
@@ -1392,14 +1391,14 @@ if (!function_exists('inbound_template_brightness')) {
 					0 => array(255-(255-$col[0])/15, 255-(255-$col[1])/15, 255-(255-$col[2])/15)
 					);
 
-			($format === 'hex') ? $sign = "#" : $sign = '';
-			$return_scheme = array();
-			foreach ($color_scheme_array as $key => $val) {
+				($format === 'hex') ? $sign = "#" : $sign = '';
+				$return_scheme = array();
+				foreach ($color_scheme_array as $key => $val) {
 
-				$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
-			    $return_scheme[$key] = $each_color_return;
+					$each_color_return =	$sign.sprintf("%02X%02X%02X", $val[0], $val[1], $val[2]);
+					$return_scheme[$key] = $each_color_return;
 
-			}
+				}
 				//return $closest;
 				if(isset($_GET['color_scheme'])) {
 					foreach ($return_scheme as $key => $hex_value) {

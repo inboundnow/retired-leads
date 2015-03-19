@@ -175,10 +175,10 @@ class CTA_Ajax_Listeners {
 			$cta_id = $_GET['cta_id'];
 		}
 
-		$variations = get_post_meta( $cta_id , 'wp-cta-variations' , true);
+		$variations = get_post_meta( $_GET['cta_id'] , 'wp-cta-variations' , true);
 		$variations_array = json_decode( $variations , true );
-		$variation_marker = get_post_meta( $cta_id , '_cta_ab_variation_marker' , true );
-
+		$variation_marker = get_post_meta( $_GET['cta_id'] , '_cta_ab_variation_marker' , true );
+		
 		if (!is_numeric($variation_marker)) {
 			$variation_marker = 0;
 		}
@@ -233,7 +233,7 @@ class CTA_Ajax_Listeners {
 		}
 
 
-		update_post_meta( $cta_id ,  '_cta_ab_variation_marker', $variation_marker);
+		update_post_meta( $_GET['cta_id'] ,  '_cta_ab_variation_marker', $variation_marker);
 		echo $variation_marker;
 		exit;
 

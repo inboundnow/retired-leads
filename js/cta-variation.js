@@ -84,13 +84,9 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 	
 	/* Preload wp_cta_loaded storage object into variable */
 	var loaded_ctas = _inbound.totalStorage('wp_cta_loaded');
-	if (loaded_ctas != null) {
-		var loaded_ctas = JSON.parse(loaded_ctas);
-	} else {
+	if (loaded_ctas == null) {
 		var loaded_ctas = {};
 	}
-	
-
 
 	/* if variation is pre-defined then immediately load variation*/
 	if ( typeof vid != 'undefined' && vid != null && vid != '' ) {
@@ -100,7 +96,7 @@ function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
 
 		/* record impression  */
 		loaded_ctas[cta_id] = vid;
-		wp_cta_record_impressions( loaded_ctas );
+		_inbound.totalStorage('wp_cta_loaded', loaded_ctas); // store cta data
 
 		/* add tracking classes */
 		wp_cta_add_tracking_classes( loaded_ctas );
