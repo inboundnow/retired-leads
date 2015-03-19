@@ -155,7 +155,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.cta.render.php');
 					include_once('modules/module.utils.php');
 					include_once('classes/class.customizer.php');
-					include_once('shared/classes/class.magic.php');
 
 					BREAK;
 			endswitch;
