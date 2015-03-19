@@ -32,18 +32,24 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 */
 		public static function buffer_callback( $content ) {
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
+			$patternFrontTwo = "#wp-includes/js/jquery/jquery\.js'></script>#";
 			$externalPattern = "#/jquery.min.js'></script>#";
 			$patternAdmin = "#load-scripts.php\?([^']+)'></script>#";
-			$content = "<script>/* before anything */</script>" . $content;
+			$content = "<!-- /* This Site's marketing is powered by InboundNow.com */ -->" . $content;
 			//window.onerror=function(o,n,l){return console.log(o),console.log(n),console.log(l),!0};
 
 			if ( preg_match( $patternFrontEnd, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
 				$content = preg_replace( $patternFrontEnd, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
-			}
-			/* match external google lib */
-			if ( preg_match( $externalPattern, $content ) ) {
+
+			} else if ( preg_match( $patternFrontTwo, $content ) ) {
+				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
+			$content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
+				return $content;
+
+			} else if ( preg_match( $externalPattern, $content ) ) {
+				/* match external google lib */
 				$content = preg_replace( $externalPattern, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
 			}
@@ -52,6 +58,8 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 				$content = preg_replace( $patternAdmin, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
 			}
+
+			//return $content;
 
 		}
 		/**
