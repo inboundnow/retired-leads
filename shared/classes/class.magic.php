@@ -58,7 +58,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 * Flushes the buffer
 		 */
 		public static function end_buffer() {
-			ob_end_flush();
+			@ob_end_flush();
 		}
 
 	}
