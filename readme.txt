@@ -87,11 +87,12 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 = 1.6.2 =
 * Debugging release issues with 1.8.1
+* security update
 
 = 1.6.1 =
 * Fixes issue with using Form Name and First Name when no name field is present in Inbound Now Forms
-* Required Fields no longer allow empty spaces as values. 
-* Restored way to disable field pre-population 
+* Required Fields no longer allow empty spaces as values.
+* Restored way to disable field pre-population
 * Improvement helps with checkbox required field validation
 * For detailed list of changes see [here](https://github.com/inboundnow/leads/issues?q=label%3A1.6.1+is%3Aclosed)
 
