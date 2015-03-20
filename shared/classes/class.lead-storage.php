@@ -231,7 +231,7 @@ if (!class_exists('LeadStorage')) {
 				
 				/* sanitise inputs */	
 				if (is_string($value)) {					
-					$value = strip_tags( $value , '<p><br><b><span><i><strong>');
+					$value = strip_tags( $value );
 				}				
 			
 				update_post_meta($lead['id'], $key, $value);
