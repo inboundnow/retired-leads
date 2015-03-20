@@ -1,6 +1,8 @@
-/* Record Impressions For Each Variation in CTA Object
-* @param JSON ctas : a json string of {'cta':'vid'}
-*/
+/** 
+ *  Record Impressions For Each Variation in CTA Object
+ *
+ * @param JSON ctas : a json string of {'cta':'vid'}
+ */
 function wp_cta_record_impressions(ctas) {
 
 	/* Add Impressions to loaded varations*/
@@ -22,9 +24,10 @@ function wp_cta_record_impressions(ctas) {
 
 }
 
-/* Adds Tracking Classes to Links and Forms to CTAs
-* @param OBJECT ctas : object containing {'cta','vid'}
-*/
+/**
+ *   Adds Tracking Classes to Links and Forms to CTAs
+ * @param OBJECT ctas : object containing {'cta','vid'}
+ */
 function wp_cta_add_tracking_classes(ctas) {
 	InboundQuery.each( ctas,  function(cta_id,vid) {
 		var vid = ctas[cta_id];
