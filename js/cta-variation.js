@@ -84,10 +84,10 @@ function wp_cta_add_tracking_classes(ctas) {
 }
 
 function wp_cta_load_variation( cta_id, vid, disable_ajax ) {
-	
+
 	/* Preload wp_cta_loaded storage object into variable */
 	var loaded_ctas = _inbound.totalStorage('wp_cta_loaded');
-	if (loaded_ctas == null) {
+	if (loaded_ctas === null) {
 		var loaded_ctas = {};
 	}
 
@@ -152,20 +152,15 @@ InboundQuery(document).ready(function($) {
 		}
 
 		var ctas = _inbound.totalStorage('wp_cta_loaded');
-		
-		switch (typeof ctas) {
-			case 'object':			
-				break;
-			case 'undefined':
-				return false;
-		}
-		
+
+		if(ctas === null || ctas === "undefined") { return false; }
+
 		/* Add Tracking Classes & Reveal CTAs */
 		wp_cta_add_tracking_classes(ctas);
-		
+
 		/* Record Impressions */
 		wp_cta_record_impressions(ctas);
-		
+
 	} , 1 );
 
 });
