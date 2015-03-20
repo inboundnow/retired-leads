@@ -13,15 +13,16 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 		static function init() {
 			/* determines if in ajax mode */
-			if(is_admin()) {
+			if( is_admin() ) {
 				add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
 				add_action( 'admin_head', array( __CLASS__ , 'end_buffer'), -9999 );
 			} else {
+				
 				add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'start_buffer'), -9999 );
 				include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-				// check for plugin using plugin name
+				
+				/* check for plugin using plugin name */
 				if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-				  //plugin is activated
 				  add_action( 'wp_footer', array( __CLASS__ , 'end_buffer'), -9999 );
 				} else {
 				  add_action( 'wp_head', array( __CLASS__ , 'end_buffer'), -9999 );
@@ -31,10 +32,13 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 		}
 
-		/* Fix JavaScript Conflicts in WordPress */
+		/**
+		*  Start Buffer
+		*/
 		public static function start_buffer() {
 			ob_start( array( 'Inbound_Magic', 'buffer_callback' ) );
 		}
+		
 		/**
 		 * Collects the buffer, and injects a `jQueryWP` JS object as a
 		 * copy of `jQuery`, so that dumb themes and plugins can't hurt it
@@ -55,7 +59,7 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 
 			} else if ( preg_match( $patternFrontTwo, $content ) ) {
 				//InboundQuery = (typeof jQuery !== "undefined") ? jQuery : false;
-			$content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
+				$content = preg_replace( $patternFrontTwo, '$0<script>InboundQuery = jQuery;</script>', $content );
 				return $content;
 
 			} else if ( preg_match( $externalPattern, $content ) ) {
@@ -72,16 +76,20 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 			//return $content;
 
 		}
+		
 		/**
 		 * Flushes the buffer
 		 */
 		public static function end_buffer() {
+			
 			if (self::$end_buffer_fired) {
 				return;
 			}
 
-			ob_end_flush();
-
+			if (ob_get_level()) {
+				ob_end_flush();
+			}
+			
 			self::$end_buffer_fired = true;
 		}
 
