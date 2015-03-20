@@ -169,7 +169,7 @@ class CTA_Ajax_Listeners {
 
 		/* Make Sure the right GET param is attached to continue */
 		if ( !isset($_GET['cta_id']) || !is_numeric($_GET['cta_id']) ) {
-			echo 0;
+			echo 'x';
 			exit;
 		} else 	{
 			$cta_id = $_GET['cta_id'];
@@ -194,7 +194,7 @@ class CTA_Ajax_Listeners {
 		
 		/* if no live variation return 0 */
 		if (!$live_variations) {
-			echo 0;
+			echo 'x';
 			exit;
 		}
 
