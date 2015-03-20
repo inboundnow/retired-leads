@@ -34,7 +34,6 @@ if ( ! class_exists( 'Inbound_Magic' ) ) {
 		 * copy of `jQuery`, so that dumb themes and plugins can't hurt it
 		 */
 		public static function buffer_callback( $content ) {
-			//echo 'contenthere' . $content;
 
 			$patternFrontEnd = "#wp-includes/js/jquery/jquery\.js\?ver=([^']+)'></script>#";
 			$patternFrontTwo = "#wp-includes/js/jquery/jquery\.js'></script>#";
