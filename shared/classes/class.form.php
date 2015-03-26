@@ -128,7 +128,7 @@ if (!class_exists('Inbound_Forms')) {
 				$form = '<div id="inbound-form-wrapper" class="">';
 				$form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
 				$main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
-				
+
 				for($i = 0; $i < count($matches[0]); $i++)	{
 
 					$label = (isset($matches[3][$i]['label'])) ? $matches[3][$i]['label'] : '';
@@ -353,7 +353,7 @@ if (!class_exists('Inbound_Forms')) {
 						if ($type === 'hidden' && $dynamic_value != "") {
 							$fill_value = $dynamic_value;
 						}
-						
+
 						$input_type = ( $email_input ) ? 'email' : 'text';
 						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 					} else {
@@ -729,6 +729,11 @@ if (!class_exists('Inbound_Forms')) {
 				$subject = $Inbound_Templating_Engine->replace_tokens( $subject, array($form_post_data, $form_meta_data));
 				$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
 
+				/* Fix broken HTML tags from wp_mail garbage */
+				// $body = ' < td > < / td > ';
+				$body = preg_replace("/ \>/", ">", $body);
+				$body = preg_replace("/\/ /", "/", $body);
+				$body = preg_replace("/\< /", "<", $body);
 
 				$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
 				$headers = "Reply-To: ".$reply_to_email . "\r\n";
