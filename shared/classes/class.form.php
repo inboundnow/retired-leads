@@ -330,7 +330,7 @@ if (!class_exists('Inbound_Forms')) {
 						$checkbox = $matches[3][$i]['checkbox'];
 						$checkbox_fields = explode(",", $checkbox);
 						foreach ($checkbox_fields as $key => $value) {
-		
+
 							$value = html_entity_decode($value);
 							$checkbox_val_trimmed =	trim($value);
 							$checkbox_val =	strtolower(str_replace(array(' ','_'),'-',$checkbox_val_trimmed));
@@ -751,17 +751,26 @@ if (!class_exists('Inbound_Forms')) {
 				$body = $Inbound_Templating_Engine->replace_tokens( $template['body'] , array($form_post_data, $form_meta_data )	);
 
 				/* Fix broken HTML tags from wp_mail garbage */
-				// $body = ' < td > < / td > ';
+				// $body = '<tbody> <t body> <tb ody > <tbo dy> <tbod y> < t d class = "test" > < / td > ';
 				$body = preg_replace("/ \>/", ">", $body);
 				$body = preg_replace("/\/ /", "/", $body);
 				$body = preg_replace("/\< /", "<", $body);
+				$body = preg_replace("/\= /", "=", $body);
+				$body = preg_replace("/ \=/", "=", $body);
+				$body = preg_replace("/t d/", "td", $body);
+				$body = preg_replace("/t r/", "tr", $body);
+				$body = preg_replace("/t h/", "th", $body);
+				$body = preg_replace("/t body/", "tbody", $body);
+				$body = preg_replace("/tb ody/", "tbody", $body);
+				$body = preg_replace("/tbo dy/", "tbody", $body);
+				$body = preg_replace("/tbod y/", "tbody", $body);
 
 				$headers = 'From: '. $from_name .' <'. $from_email .'>' . "\r\n";
 				$headers = "Reply-To: ".$reply_to_email . "\r\n";
 				$headers = apply_filters( 'inbound_lead_notification_email_headers' , $headers );
 
 				foreach ($to_address as $key => $recipient) {
-					$result = wp_mail( $recipient , $subject , $body , $headers );
+					$result = wp_mail( $recipient, $subject, $body, $headers );
 				}
 
 			}
