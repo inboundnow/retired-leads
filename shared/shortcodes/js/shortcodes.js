@@ -125,7 +125,7 @@ var InboundShortcodes = {
 			focusFirst: false,
 			onAdd: row_add_callback
 		});
-		
+
 		jQuery("body").on('click', '.child-clone-row', function () {
 			var exlcude_id = jQuery(this).attr('id');
 			console.log(exlcude_id);
@@ -702,7 +702,7 @@ var InboundShortcodes = {
 						} else {
 							// set correct ID for insert
 							if(cookies){
-							var insert_to = _inbound.Utils.readCookie( 'inbound_shortcode_editor_name');
+							var insert_to = jQuery.cookie( 'inbound_shortcode_editor_name');
 							} else {
 							var insert_to = 'content';
 							}
@@ -909,7 +909,7 @@ var InboundShortcodes = {
 						output_cleaned = fixed_insert_val.replace(/[a-zA-Z0-9_]*=""/g, ""); // remove empty shortcode fields
 						}
 						// set correct ID for insert
-						var insert_to = _inbound.Utils.readCookie( 'inbound_shortcode_editor_name');
+						var insert_to = jQuery.cookie( 'inbound_shortcode_editor_name');
 
 						if (insert_to === null || insert_to === "") {
 							var insert_to = 'content';
@@ -1022,11 +1022,11 @@ jQuery(document).ready( function() {
 		}, 500);
 
 	});
-	
+
 	jQuery("body").on('click', '.inbound-shortcodes-insert-two', function () {
 		InboundShortcodes.insert_shortcode();
 	});
-	
+
 	// Shortcode editor insert fix
 	jQuery("body").on('mouseenter', '.mceAction.mce_InboundShortcodesButton, .mceOpen.mce_InboundShortcodesButton', function () {
 
@@ -1040,7 +1040,7 @@ jQuery(document).ready( function() {
 
 			console.log(editor_name);
 
-			_inbound.Utils.createCookie( 'inbound_shortcode_editor_name', editor_name );
+			jQuery.cookie( 'inbound_shortcode_editor_name', editor_name );
 		}
 	);
 	if (InboundShortcodes.getUrlVar("reload") === 'true') {
