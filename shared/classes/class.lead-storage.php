@@ -99,7 +99,7 @@ if (!class_exists('LeadStorage')) {
 
 
 				$leadExists = self::lookup_lead_by_email($lead['email']);
-				//print_r($leadExists); wp_die();
+
 				/* Update Lead if Exists else Create New Lead */
 				if ( $leadExists ) {
 					$lead['id'] = $leadExists;
@@ -227,17 +227,25 @@ if (!class_exists('LeadStorage')) {
 		*	Prefixes keys with wpleads_ if key is not prepended with wpleads_
 		*/
 		static function store_mapped_data($lead, $mappedData){
-			foreach ($mappedData as $key => $value) {
 
+			foreach ($mappedData as $key => $value) {
+				
+				if (!$value) {
+					continue;
+				}
+				
 				/* sanitise inputs */
 				if (is_string($value)) {
 					$value = strip_tags( $value );
 				}
 
 				update_post_meta($lead['id'], $key, $value);
+				
 				/* Old convention with wpleads_ prefix */
 				if( !strstr($key,'wpleads_') ) {
 					update_post_meta($lead['id'], 'wpleads_'.$key, $value);
+				} else {
+					update_post_meta($lead['id'], $key, $value);
 				}
 
 			}
@@ -453,8 +461,7 @@ if (!class_exists('LeadStorage')) {
 						update_post_meta( $lead_id, $key, $value );
 					}
 
-					if (stristr($key,'company'))
-					{
+					if (stristr($key,'company')) {
 						update_post_meta( $lead_id, 'wpleads_company_name', $value );
 					}
 					else if (stristr($key,'website'))
@@ -521,12 +528,22 @@ if (!class_exists('LeadStorage')) {
 		*	Uses mapped data if not programatically set
 		*/
 		static function improve_mapping($mappedData, $lead) {
-			$arr = $mappedData;
+			
+			/* remove instances of wpleads_ */
+			$newMap = array();
+			foreach ($mappedData as $key=>$value) {
+				$key = str_replace('wpleads_','',$key);
+				$newMap[$key] = $value;
+			}
+			
 			/* Set names if not mapped */
-			$mappedData['first_name'] = (!isset($mappedData['first_name'])) ? $lead['first_name'] : $mappedData['first_name'];
-			$mappedData['last_name'] = (!isset($mappedData['last_name'])) ? $lead['last_name'] : $mappedData['last_name'];
-
-			return $mappedData;
+			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
+			$newMap['last_name'] = (!isset($newMap['last_name'])) ? $lead['last_name'] : $newMap['last_name'];
+			
+			/* improve mapped names */
+			$newMap = self::improve_lead_name( $newMap );
+			
+			return $newMap;
 		}
 
 		/**
