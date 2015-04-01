@@ -138,7 +138,7 @@ if (!class_exists('LeadStorage')) {
 				}
 
 				/* Store ConversionData */
-				if ( isset($lead['page_id']) ) {
+				if ( isset($lead['page_id']) && $lead['page_id']  ) {
 					self::store_conversion_data($lead);
 				}
 
@@ -349,7 +349,6 @@ if (!class_exists('LeadStorage')) {
 			 } else {
 			 	// check if ref exists
 			 	$ref_type = ($lead['source'] === "Direct Traffic") ? 'Direct Traffic' : 'referral';
-
 			 }
 
 			$referral_data = json_decode($referral_data,true);
@@ -659,3 +658,40 @@ if (!function_exists('inbound_store_lead')) {
 	}
 }
 
+
+/**
+*  Legacy functions for adding conversion to lead profile
+*  @param INT $lead_id
+*  @param ARRAY dataset of lead informaiton
+*/
+if (!function_exists('inbound_add_conversion_to_lead')) {
+	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
+	
+		
+		if ( $lead_data['page_id'] ) {
+			$time = current_time( 'timestamp', 0 ); // Current wordpress time from settings
+			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
+			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
+			$conversion_data = json_decode($conversion_data,true);
+			$variation = $lead_data['variation'];
+			
+			if ( is_array($conversion_data)) {
+				$c_count = count($conversion_data) + 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+			} else {
+				$c_count = 1;
+				$conversion_data[$c_count]['id'] = $lead_data['page_id'];
+				$conversion_data[$c_count]['variation'] = $variation;
+				$conversion_data[$c_count]['datetime'] = $lead_data['wordpress_date_time'];
+				$conversion_data[$c_count]['first_time'] = 1;
+			}
+			
+			$lead_data['conversion_data'] = json_encode($conversion_data);
+			update_post_meta($lead_id,'wpleads_conversion_count', $c_count); // Store conversions count
+			update_post_meta($lead_id, 'wpleads_conversion_data', $lead_data['conversion_data']); // Store conversion object
+		
+		}
+	}
+}
