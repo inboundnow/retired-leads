@@ -1216,7 +1216,7 @@ if (!class_exists('Inbound_Forms')) {
 		public static function get_form_settings( $form_id ) {
 
 			$meta = get_post_meta( $form_id );
-
+			$meta = ($meta) ? $meta : array();
 			foreach ($meta as $key => $value ) {
 				$meta[ $key ] = $value[0];
 			}
