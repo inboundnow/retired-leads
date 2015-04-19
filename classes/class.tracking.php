@@ -27,6 +27,13 @@ class CTA_Conversion_Tracking {
 	*  Listens for tracked masked link processing 
 	*/
 	public static function track_link( $args ) {
+		
+		$do_not_track = apply_filters('inbound_analytics_stop_track' , false );
+
+		if ( $do_not_track ) {
+			return;
+		}
+				
 		self::store_click_data( $args['cta_id'] , $args['vid'] );
 		if (isset($args['id'])) {
 			self::store_click_data_to_lead(  $args['cta_id'] , $args['id'] , 'clicked-link' );
