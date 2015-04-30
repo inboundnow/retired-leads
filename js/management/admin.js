@@ -1,14 +1,29 @@
 jQuery(document).ready(function($) {
 
-
+	/* fade wrap in */
 	jQuery(".wrap").fadeIn(1000);
 
+	/* initiate table sorter */
 	var table = jQuery("#lead-manage-table").length;
 	if (table > 0) {
 		new Tablesort(document.getElementById('lead-manage-table'));
 	}
-
-	// Drag and drop functionality
+	
+	/* hide/reveal date range selector */
+	jQuery("body").on('change', '#relation', function () {
+ 		var value = jQuery(this).val();
+		switch( value ) {			
+			case 'all':
+				jQuery('.custom-range').hide();
+				break;
+			case 'custom':
+				jQuery('.custom-range').show();
+				break;
+		}
+	});
+	
+	
+	/* initiate selectable */
 	jQuery( "#the-list" ).selectable({
 	  //appendTo: "#the-list",
 	  cancel: "a, i, .lead-email",

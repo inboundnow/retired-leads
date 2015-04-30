@@ -18,6 +18,13 @@ if (!class_exists('Leads_Manager')) {
 		static $orderby;
 		static $orderbys;
 		static $orderbys_flip;
+		static $range; 
+		static $month_start; 
+		static $month_end; 
+		static $day_start; 
+		static $day_end; 
+		static $year_start; 
+		static $year_end; 
 		static $num; /* number of leads affected */
 		static $on;
 		static $what;
@@ -79,7 +86,14 @@ if (!class_exists('Leads_Manager')) {
 			self::$paged = empty($_REQUEST['paged']) ? 1 : intval($_REQUEST['paged']);
 			self::$orderby = (isset($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : '';
 			self::$order = (isset($_REQUEST['order'])) ? strtoupper($_REQUEST['order']) : 'ASC';
-			
+			self::$range = (isset($_REQUEST['range'])) ? $_REQUEST['range'] : 'all';
+			self::$month_start = (isset($_REQUEST['month_start'])) ? $_REQUEST['month_start'] : date('m');
+			self::$month_end = (isset($_REQUEST['month_end'])) ? $_REQUEST['month_end'] : date('m');
+			self::$day_start = (isset($_REQUEST['day_start'])) ? $_REQUEST['day_start'] : '1';
+			self::$day_end = (isset($_REQUEST['day_end'])) ? $_REQUEST['day_end'] : date('d');
+			self::$year_start = (isset($_REQUEST['year_start'])) ? $_REQUEST['year_start'] : date('Y');
+			self::$year_end = (isset($_REQUEST['year_end'])) ? $_REQUEST['year_end'] : date('Y');
+
 			/* set ordering vars */
 			self::$orderbys = array(
 				__( 'Date First Created' , 'leads' ) => 'date',
@@ -255,6 +269,22 @@ if (!class_exists('Leads_Manager')) {
 									<option value="OR" <?php echo ( self::$relation == 'OR' ? ' selected="selected"' : 'test' ); ?>><?php _e('Match Any' , 'leads' ); ?></option>
 
 							</select>
+						</div>	
+						<div id="inbound-filter">
+							<div class="filter-label">
+								<label for="date-range"><?php _e( 'Date Range:' , 'leads' ); ?></label>
+							</div>
+							<select name="range" id="relation">
+									<option value="all" <?php echo ( self::$range == 'all' ? ' selected="selected"' : '' ); ?>><?php _e('All Time' , 'leads' ); ?></option>
+									<option value="custom" <?php echo ( self::$range == 'custom' ? ' selected="selected"' : '' ); ?>><?php _e('Custom Range' , 'leads' ); ?></option>
+							</select>
+						</div>	
+						<div id="inbound-filter" class="custom-range" style="<?php echo ( self::$range == 'all' ? 'display:none' : '' ) ?>">
+							<div class="filter-label"><label for="orderby"></label></div>
+							<?php 
+								self::build_date_select();
+							?>
+							</div>
 						</div>					
 					</div>
 					<div id="bottom-filters">
@@ -363,7 +393,7 @@ if (!class_exists('Leads_Manager')) {
 			
 			/* if no posts show message */
 			if ( empty(self::$query->posts) ) {
-				echo '<p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>';
+				echo '<br><p>'. __('No posts matched that criteria, sorry! Try again with something different.' , 'leads' ) .'</p>';
 				return;
 			}
 
@@ -609,6 +639,27 @@ if (!class_exists('Leads_Manager')) {
 		}
 		
 		/**
+		*  Get array of months
+		*/
+		public static function get_months() {
+			return array(
+				"1" => __( 'Jan' , 'leads' ),
+				"2" => __( 'Feb' , 'leads' ),
+				"3" => __( 'Mar' , 'leads' ),
+				"4" => __( 'Apr' , 'leads' ),
+				"5" => __( 'May' , 'leads' ),
+				"6" => __( 'Jun' , 'leads' ),
+				"7" => __( 'Jul' , 'leads' ),
+				"8" => __( 'Aug' , 'leads' ),
+				"9" => __( 'Sep' , 'leads' ),
+				"10" => __( 'Oct' , 'leads' ),
+				"11" => __( 'Nov' , 'leads' ),
+				"12" => __( 'Dec' , 'leads' )
+			);
+		}
+		
+		
+		/**
 		*  Build query
 		*/
 		public static function build_query() {
@@ -660,9 +711,29 @@ if (!class_exists('Leads_Manager')) {
 			if (count($tax_query)>1) {
 				$args['tax_query'] = $tax_query;
 			}
+			
+			/* Look for and build date query */
+			if ($_REQUEST['range'] == 'custom') {
+				$args['date_query'] = array(
+					array(
+						'after'     => array(
+							'year'  => $_REQUEST['year_start'],
+							'month' => $_REQUEST['month_start'],
+							'day'   => $_REQUEST['day_start']
+						),
+						'before'    => array(
+							'year'  => $_REQUEST['year_end'],
+							'month' => $_REQUEST['month_end'],
+							'day'   => $_REQUEST['day_end']
+						),
+						'inclusive' => true,
+					)
+				);
+				
+			}
 
 			// Add tag to query
-			if ((isset($_REQUEST['t'])) && $_REQUEST['t'] != "" ){
+			if (isset($_REQUEST['t']) && $_REQUEST['t'] != "" ){
 				$args['tag'] = $_REQUEST['t'];
 			}
 			
@@ -674,6 +745,62 @@ if (!class_exists('Leads_Manager')) {
 			
 		}
 		
+		
+		/**
+		*  Display Date Selection Input
+		*/
+		public static function build_date_select() {
+			$months = self::get_months();
+			$years = range(date('Y'), 2000);
+			?>
+			<div id="leads-date-range-options" style="">
+				<select id="leads-graphs-month-start" name="month_start">
+					<?php
+					foreach ($months as $val => $label ) {
+						echo '<option value="'.$val.'" '.( self::$month_start == $val ? 'selected="selected"' : '' ) .'>'.$label.'</option>';
+					}
+					?>
+				</select>
+				<select id="leads-graphs-day-start" name="day_start">
+					<?php
+					for ($i=0;$i<31;$i++) {
+						echo '<option value="'.$i.'" '.( self::$day_start == $i ? 'selected="selected"' : '' ) .'>'.$i.'</option>';
+					}
+					?>
+				</select>
+				<select id="leads-graphs-year-start" name="year_start">
+					<?php
+					foreach ($years as $year ) {
+						echo '<option value="'.$year.'" '.( self::$year_start == $year ? 'selected="selected"' : '' ) .'>'.$year.'</option>';
+					}
+					?>
+				</select>
+				<span><?php _e( 'To' , 'leads' ); ?>&nbsp;</span>
+				<select id="leads-graphs-month-end" name="month_end">
+					<?php
+					foreach ($months as $val => $label ) {
+						echo '<option value="'.$val.'" '.( self::$month_end == $val ? 'selected="selected"' : '' ) .'>'.$label.'</option>';
+					}
+					?>
+				</select>
+				<select id="leads-graphs-day-end" name="day_end">
+					<?php
+					for ($i=0;$i<31;$i++) {
+						echo '<option value="'.$i.'" '.( self::$day_end == $i ? 'selected="selected"' : '' ) .'>'.$i.'</option>';
+					}
+					?>
+				</select>
+				</select>
+				<select id="leads-graphs-year-end" name="year_end">
+					<?php
+					foreach ($years as $year ) {
+						echo '<option value="'.$year.'" '.( self::$year_end == $year ? 'selected="selected"' : '' ) .'>'.$year.'</option>';
+					}
+					?>
+				</select>
+			</div>
+			<?php
+		}
 		
 		
 		/**
@@ -718,6 +845,9 @@ if (!class_exists('Leads_Manager')) {
 		public static function perform_actions() {
 			global $Inbound_Leads;
 
+			$static_vars = self::getStaticProperties();
+			
+			print_r($static_vars);exit;
 			if ( !current_user_can('level_9') ){
 				die ( __('User does not have admin level permissions.') );
 			}
@@ -777,6 +907,7 @@ if (!class_exists('Leads_Manager')) {
 				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=".self::$num);
 				die;
 			}
+			
 			/* We've been told to tag these posts */
 			elseif ( !empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags']) ) {
 				$tags = $_REQUEST['tags'];
@@ -787,6 +918,7 @@ if (!class_exists('Leads_Manager')) {
 				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids");
 				die;
 			}
+			
 			/* We've been told to untag these posts */
 			elseif ( !empty($_REQUEST['untag']) ) {
 				$tags = explode(',', $_REQUEST['tags']);
@@ -797,10 +929,8 @@ if (!class_exists('Leads_Manager')) {
 					$existing = wp_get_post_tags($id);
 					$new = array();
 
-					foreach ( (array) $existing as $_tag )
-					{
-						foreach ( (array) $tags as $tag )
-						{
+					foreach ( (array) $existing as $_tag ) {
+						foreach ( (array) $tags as $tag ) {
 							if ( $_tag->name != $tag ) {
 								$new[] = $_tag->name;
 							}
@@ -815,8 +945,7 @@ if (!class_exists('Leads_Manager')) {
 			}
 			/* Delete selected leads */
 			elseif ( !empty($_REQUEST['delete_leads']) ) {
-				foreach ( (array) $_REQUEST['ids'] as $id )
-				{
+				foreach ( (array) $_REQUEST['ids'] as $id ) {
 					$id = intval($id);
 					wp_delete_post( $id, true);
 				}
@@ -838,9 +967,11 @@ if (!class_exists('Leads_Manager')) {
 
 				$fh = @fopen( 'php://output', 'w' );
 
-				//get all keys
+				/* get all meta keys */
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					$this_lead_data = get_post_custom($post_id);
+					$post = get_post( $post_id );
+				
 					unset($this_lead_data['page_views']);
 					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
 					unset($this_lead_data['wpleads_referral_data']);
@@ -851,34 +982,55 @@ if (!class_exists('Leads_Manager')) {
 						$lead_meta_pairs[$key] = $key;
 					}
 				}
+				
+				/* get all taxonomies */
+				$taxonomies = get_object_taxonomies( 'wp-lead', 'objects' );
 
-				// Add a header row if it hasn't been added yet
+				foreach ($taxonomies as $tax=>$taxonomy) {
+					$lead_meta_pairs[$tax] = $taxonomy->labels->singular_name;
+				}
+				
+
+				/* Add a header row if it hasn't been added yet */
 				fputcsv($fh, array_keys($lead_meta_pairs));
 				$headerDisplayed = true;
 
-
-
+				/* loop through records */
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					unset($this_row_data);
 
 					$this_lead_data = get_post_custom($post_id);
-					unset($this_lead_data['page_views']);
-					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
-					unset($this_lead_data['wpleads_referral_data']);
-					unset($this_lead_data['wpleads_conversion_data']);
-					unset($this_lead_data['wpleads_raw_post_data']);
-
+					
+					/* loop through cols and see if lead contains meta value for given key */
 					foreach ($lead_meta_pairs as $key => $val) {
-
+						
 						if (isset($this_lead_data[$key])) {
 							$val = $this_lead_data[$key];
-							if (is_array($val))
+							if (is_array($val)) {
 								$val = implode(';',$val);
+							}
 						} else {
 							$val = "";
 						}
 
 						$this_row_data[$key] = 	$val;
+					}
+					
+					/* loop through taxonomy and see if this lead has taxonomy associations */
+					foreach ($taxonomies as $tax=>$taxonomy) {
+						$terms = wp_get_post_terms( $post_id, $tax, $args );
+						
+						if (!$terms) {
+							continue;
+						}
+						
+						$terms_array = array();
+						
+						foreach ($terms as $t ) {
+							$terms_array[] = $t->slug;
+						}
+						
+						$this_row_data[$tax] = ( isset($terms_array) ) ?  implode( ',' , $terms_array ) : '';
 					}
 
 					fputcsv($fh, $this_row_data , apply_filters('leads_csv_delimiter' , ',' ) );
