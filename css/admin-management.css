@@ -11,7 +11,7 @@ div.wrap {
 }
 
 .media-upload-form div.error, .wrap div.error, .wrap div.updated {
-	//display: none;
+
 }
 #lead-tag-filter, #lead-keyword-filter, .action { 
 	display: none;

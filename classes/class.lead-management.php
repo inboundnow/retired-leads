@@ -667,7 +667,7 @@ if (!class_exists('Leads_Manager')) {
 				self::$query = null;
 				return;
 			}
-			
+
 			/* set default args */
 			$args = array(
 				'post_type' => 'wp-lead',
@@ -844,10 +844,12 @@ if (!class_exists('Leads_Manager')) {
 		*/
 		public static function perform_actions() {
 			global $Inbound_Leads;
-
-			$static_vars = self::getStaticProperties();
 			
-			print_r($static_vars);exit;
+			$referrer = $_REQUEST['_wp_http_referer'];
+			$params = explode( '?' , $referrer );
+			
+			parse_str( $params[1] , $params );
+			
 			if ( !current_user_can('level_9') ){
 				die ( __('User does not have admin level permissions.') );
 			}
@@ -888,13 +890,12 @@ if (!class_exists('Leads_Manager')) {
 			/* We've been told to tag these posts with the given category. */
 			if ( !empty($_REQUEST['add']) )	{
 
-				foreach ( $_REQUEST['ids'] as $id )
-				{
+				foreach ( $_REQUEST['ids'] as $id ) {
 					$fid = intval($id);
 					$Inbound_Leads->add_lead_to_list( $fid, $list_id ); // add to list
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=".self::$num.$query);
+				wp_redirect( add_query_arg( $params ,  $get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=".self::$num.$query ) );
 				die;
 			}
 			/* We've been told to remove these posts from the given category. */
@@ -904,7 +905,7 @@ if (!class_exists('Leads_Manager')) {
 					$Inbound_Leads->remove_lead_from_list( intval($id) , $list_id );
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=".self::$num);
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=".self::$num ) );
 				die;
 			}
 			
@@ -915,7 +916,7 @@ if (!class_exists('Leads_Manager')) {
 				foreach ( (array) $_REQUEST['ids'] as $id )	{
 					$Inbound_Leads->add_tag_to_lead( intval($id) , explode( ',' , $tags ) );
 				}
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=".self::$num.$query."&on=$pass_ids" ) );
 				die;
 			}
 			
@@ -940,7 +941,7 @@ if (!class_exists('Leads_Manager')) {
 				}
 
 				$tags = join(', ', $tags);
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query" ) );
 				die;
 			}
 			/* Delete selected leads */
@@ -950,7 +951,7 @@ if (!class_exists('Leads_Manager')) {
 					wp_delete_post( $id, true);
 				}
 
-				wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query");
+				wp_redirect( add_query_arg( $params , get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query" ) );
 				die;
 
 			}
