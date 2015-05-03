@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 1.6.4
+Version: 1.6.5
 Author URI: http://www.inboundnow.com/
 Text Domain: leads
 Domain Path: lang
@@ -14,74 +14,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 	final class Inbound_Leads_Plugin {
 
-		/* START PHP VERSION CHECKS */
-		/**
-		 * Admin notices, collected and displayed on proper action
-		 *
-		 * @var array
-		 */
-		public static $notices = array();
 
-		/**
-		 * Whether the current PHP version meets the minimum requirements
-		 *
-		 * @return bool
-		 */
-		public static function is_valid_php_version() {
-			return version_compare( PHP_VERSION, '5.3', '>=' );
-		}
-
-		/**
-		 * Invoked when the PHP version check fails. Load up the translations and
-		 * add the error message to the admin notices
-		 */
-		static function fail_php_version() {
-			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
-			$plugin_url = admin_url( 'plugins.php' );
-			self::notice( __( 'Leads requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'leads' ) );
-		}
-
-		/**
-		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
-		 *
-		 * @param string $message
-		 * @param bool $is_error
-		 * @return void
-		 */
-		public static function notice( $message, $is_error = true ) {
-			if ( defined( 'WP_CLI' ) ) {
-				$message = strip_tags( $message );
-				if ( $is_error ) {
-					WP_CLI::warning( $message );
-				} else {
-					WP_CLI::success( $message );
-				}
-			} else {
-				// Trigger admin notices
-				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
-
-				self::$notices[] = compact( 'message', 'is_error' );
-			}
-		}
-
-		/**
-		 * Show an error or other message in the WP Admin
-		 *
-		 * @action all_admin_notices
-		 * @return void
-		 */
-		public static function admin_notices() {
-			foreach ( self::$notices as $notice ) {
-				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
-				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
-				echo wp_kses_post( $html_message );
-			}
-		}
-
-		/**
-		 * Main Inbound_Leads_Plugin Instance
-		 *
-		*/
 		public function __construct() {
 			self::define_constants();
 			self::includes();
@@ -90,10 +23,10 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		}
 
 		/**
-		*  	Setup plugin constants
+		*  Setup plugin constants
 		*/
 		private static function define_constants() {
-			define('WPL_CURRENT_VERSION', '1.6.4' );
+			define('WPL_CURRENT_VERSION', '1.6.5' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -164,7 +97,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 		/**
 		* Hook method to load correct text domain
-		*
 		*/
 		private static function load_text_domain_init() {
 			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
@@ -176,6 +108,72 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		public static function load_text_domain() {
 			load_plugin_textdomain( 'leads' , false , WPL_SLUG . '/lang/' );
 		}
+
+		/* START PHP VERSION CHECKS */
+		/**
+		 * Admin notices, collected and displayed on proper action
+		 *
+		 * @var array
+		 */
+		public static $notices = array();
+
+		/**
+		 * Whether the current PHP version meets the minimum requirements
+		 *
+		 * @return bool
+		 */
+		public static function is_valid_php_version() {
+			return version_compare( PHP_VERSION, '5.3', '>=' );
+		}
+
+		/**
+		 * Invoked when the PHP version check fails. Load up the translations and
+		 * add the error message to the admin notices
+		 */
+		static function fail_php_version() {
+			//add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain_init' ) );
+			$plugin_url = admin_url( 'plugins.php' );
+			self::notice( __( 'Leads requires PHP version 5.3+ to run. Your version '.PHP_VERSION.' is not high enough.<br><u>Please contact your hosting provider</u> to upgrade your PHP Version.<br>The plugin is NOT Running. You can disable this warning message by <a href="'.$plugin_url.'">deactivating the plugin</a>', 'leads' ) );
+		}
+
+		/**
+		 * Handle notice messages according to the appropriate context (WP-CLI or the WP Admin)
+		 *
+		 * @param string $message
+		 * @param bool $is_error
+		 * @return void
+		 */
+		public static function notice( $message, $is_error = true ) {
+			if ( defined( 'WP_CLI' ) ) {
+				$message = strip_tags( $message );
+				if ( $is_error ) {
+					WP_CLI::warning( $message );
+				} else {
+					WP_CLI::success( $message );
+				}
+			} else {
+				// Trigger admin notices
+				add_action( 'all_admin_notices', array( __CLASS__, 'admin_notices' ) );
+
+				self::$notices[] = compact( 'message', 'is_error' );
+			}
+		}
+
+		/**
+		 * Show an error or other message in the WP Admin
+		 *
+		 * @action all_admin_notices
+		 * @return void
+		 */
+		public static function admin_notices() {
+			foreach ( self::$notices as $notice ) {
+				$class_name   = empty( $notice['is_error'] ) ? 'updated' : 'error';
+				$html_message = sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), wpautop( $notice['message'] ) );
+				echo wp_kses_post( $html_message );
+			}
+		}
+		/* End PHP VERSION CHECKS */
+
 	}
 
 	/* Initiate Plugin */
@@ -187,7 +185,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		Inbound_Leads_Plugin::fail_php_version();
 	}
 
-	/* method to see if leads is active */
+	/* method to see if leads is active. Legacy */
 	function wpleads_check_active() {
 		return true;
 	}

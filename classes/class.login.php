@@ -4,22 +4,18 @@
 *  Adds activity that happens during a user login
 */
 if (!class_exists('Inbound_Login')) {
-	
+
 	class Inbound_Login {
-		
+
 		public function __construct() {
-			self::load_hooks();
+
+			add_action('wp_login', array( __CLASS__ , 'load_tracking_cookies' ) , 10, 2);
+
 		}
 
-		public static function load_hooks() {
-			
-			add_action('wp_login', array( __CLASS__ , 'load_tracking_cookies' ) , 10, 2);
-		
-		}		
-		
 		/**
 		 *	Loads correct lead UID during a login
-		 */
+		*/
 		public static function load_tracking_cookies( $user_login, $user) {
 
 			if (!isset($user->data->user_email)) {
@@ -51,6 +47,6 @@ if (!class_exists('Inbound_Login')) {
 		}
 
 	}
-	
+
 	$GLOBALS['Inbound_Login'] = new Inbound_Login;
 }

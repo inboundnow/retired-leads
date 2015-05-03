@@ -1,24 +1,23 @@
 <?php
 
-/* Public methods in this class will be run at least once during plugin activation script. */ 
+/* Public methods in this class will be run at least once during plugin activation script. */
 /* Updater methods fired are stored in transient to prevent repeat processing */
 
 if ( !class_exists('Leads_Activation_Update_Routines') ) {
 
 	class Leads_Activation_Update_Routines {
-		
-		
+
 		/**
 		* @introduced: 1.5.1
-		* @migration-type: db modification 
+		* @migration-type: db modification
 		* @mirgration: creates wp_inbound_link_tracking table
 		*/
 		public static function create_link_tracking_table() {
 			global $wpdb;
 
 
-			$table_name = $wpdb->prefix . "inbound_tracked_links"; 
-		   
+			$table_name = $wpdb->prefix . "inbound_tracked_links";
+
 			$charset_collate = '';
 
 			if ( ! empty( $wpdb->charset ) ) {
@@ -40,7 +39,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			dbDelta( $sql );
 
 		}
-		
+
 		/**
 		* @introduced: 1.1.0
 		* @migration-type: meta key update
@@ -51,7 +50,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		*/
 		public static function migrate_meta_keys() {
 			global $wpdb;
-			
+
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_conversion_count' where meta_key = 'wpl-lead-conversion-count'");
 
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_page_view_count' where meta_key = 'wpl-lead-page-view-count'");
@@ -59,7 +58,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			$wpdb->query("update {$wpdb->prefix}postmeta set meta_key = 'wpleads_raw_post_data' where meta_key = 'wpl-lead-raw-post-data'");
 
 		}
-		
+
 
 	}
 

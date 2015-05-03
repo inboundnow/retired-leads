@@ -14,29 +14,29 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 			if (!$toggle) {
 				return false;
 			}
-			
+
 			self::load_hooks();
-			
+
 		}
-		
+
 		public static function load_hooks() {
-			
+
 			/* New User Notifications */
-			add_action( 'wp_new_user_notification' , array( __CLASS__ , 'new_user_notification' ) , 2 , 2 );	
-			
+			add_action( 'wp_new_user_notification' , array( __CLASS__ , 'new_user_notification' ) , 2 , 2 );
+
 			/* Comment Notifications  */
 			add_filter( 'comment_notification_subject' , array( __CLASS__ , 'notify_postauthor' ) , 20 , 2 );
 			add_filter( 'comment_notification_text' , array( __CLASS__ , 'notify_postauthor' ) , 20 , 2 );
-			
+
 			/* Moderator Notifications */
 			add_filter( 'comment_moderation_subject' , array( __CLASS__ , 'notify_moderator' ) , 20 , 2 );
 			add_filter( 'comment_moderation_text' , array( __CLASS__ , 'notify_moderator' ) , 20 , 2 );
-			
+
 		}
-		
+
 		/* Get Email Template By meta_value $template_name where meta_key is _inbound_template_id */
 		public static function get_template( $template_name ) {
-		
+
 			$email_template = array();
 
 			$templates = get_posts(array(
@@ -53,33 +53,33 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 			}
 
 			return $email_template;
-			
+
 		}
-		
+
 		/* Sets the Email Content Type to Use HTML */
 		public static function set_email_type() {
 			add_filter( 'wp_mail_content_type', array( __CLASS__ , 'email_type' ));
 		}
-		
+
 		public static function email_type() {
 			return 'text/html';
 		}
-		
+
 		/* Notify New User of Account Details */
 		public static function new_user_notification( $user_id , $plaintext_pass ) {
-			
+
 			self::set_email_type();
-			
+
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
-			
+
 			$template = self::get_template( 'wp-new-user-notification' );
-			
+
 			$user = new WP_User($user_id);
-			
+
 			if ( !$plaintext_pass ) {
 				$plaintext_pass = __( '<i>hidden</h1>' , 'leads' );
 			}
-			
+
 			$args = array(
 				array(
 					'wp_user_id' => $user_id,
@@ -92,26 +92,26 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					'wp_user_display_name' => stripslashes($user->display_name)
 				)
 			);
-			
+
 			$subject = apply_filters('inbound_email_new_user_notification_subject' , $Inbound_Templating_Engine->replace_tokens( $template['subject'] , $args  ) );
 			$body = apply_filters('inbound_email_new_user_notification_body' , $Inbound_Templating_Engine->replace_tokens( $template['body'] , $args  ) );
-			
+
 			wp_mail( stripslashes($user->user_email) , $subject , $body );
-				 
+
 		}
-		
+
 		/* Notify Post/Comment Author of new Post */
 		public static function notify_postauthor( $template , $comment_id ) {
 
 			$comment = get_comment( $comment_id );
-			
+
 			if ( empty( $comment ) ) {
                 return false;
 			}
-	
+
 	        $post    = get_post( $comment->comment_post_ID );
 			$author  = get_userdata( $post->post_author );
-			
+
 			/* Ignore Pingbacks & Trackbacks */
 			switch ( $comment->comment_type ) {
 				case 'trackback':
@@ -121,21 +121,21 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					return $template;
 					break;
 			}
-	
+
 			/* Sets Email Type as HTML */
 			self::set_email_type();
-			
+
 			/* Get Template Array */
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 			$template_array = self::get_template( 'wp-notify-post-author' );
-			
+
 			/* Discover if Subject or Body Template is Needed */
 			if (current_filter() == 'comment_notification_subject') {
 				$template = $template_array['subject'];
 			} else if (current_filter() == 'comment_notification_text' ) {
 				$template = $template_array['body'];
 			}
-			
+
 
 			$args = array(
 				/* Comment Data */
@@ -172,25 +172,25 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					'wp_user_displayname' => stripslashes($author->display_name)
 				)
 			);
-			
+
 			/* Replace Tokens */
 			$template = $Inbound_Templating_Engine->replace_tokens( $template , $args  );
-			
-			return $template;				 
-		}	
-		
+
+			return $template;
+		}
+
 		/* Notify Moderator of new Comment */
 		public static function notify_moderator( $template , $comment_id ) {
 
 			$comment = get_comment( $comment_id );
-			
+
 			if ( empty( $comment ) ) {
                 return false;
 			}
-	
+
 	        $post    = get_post( $comment->comment_post_ID );
 			$author  = get_userdata( $post->post_author );
-			
+
 			/* Ignore Pingbacks & Trackbacks */
 			switch ( $comment->comment_type ) {
 				case 'trackback':
@@ -200,21 +200,21 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					return $template;
 					break;
 			}
-	
+
 			/* Sets Email Type as HTML */
 			self::set_email_type();
-			
+
 			/* Get Template Array */
 			$Inbound_Templating_Engine = Inbound_Templating_Engine();
 			$template_array = self::get_template( 'wp-notify-moderator' );
-			
+
 			/* Discover if Subject or Body Template is Needed */
 			if (current_filter() == 'comment_moderation_subject') {
 				$template = $template_array['subject'];
 			} else if (current_filter() == 'comment_moderation_text' ) {
 				$template = $template_array['body'];
 			}
-			
+
 
 			$args = array(
 				/* Comment Data */
@@ -250,13 +250,13 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 					'wp_user_displayname' => stripslashes($author->display_name)
 				)
 			);
-			
+
 			/* Replace Tokens */
 			$template = $Inbound_Templating_Engine->replace_tokens( $template , $args  );
-			
-			return $template;				 
+
+			return $template;
 		}
-		
+
 
 	}
 
@@ -267,12 +267,11 @@ if ( !class_exists( 'Inbound_WP_Core_Email_Templates' ) ) {
 	/* Overwrite Core Pluggable Functions With Our Own If Template Replacement is Enabled */
 	if (!function_exists('wp_new_user_notification')) {
 		if (get_option('inbound_email_replace_core_template' , '1' )) {
-			function wp_new_user_notification( $user_id , $plaintext_pass = null ) {			
+			function wp_new_user_notification( $user_id , $plaintext_pass = null ) {
 				do_action( 'wp_new_user_notification' , $user_id , $plaintext_pass);
 			}
 		}
-	}	
+	}
 
-	
+
 }
-

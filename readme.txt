@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
 Requires at least: 3.8
 Tested up to: 4.1
-Stable Tag: 1.6.4
+Stable Tag: 1.6.5
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -85,6 +85,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
+= 1.6.5 =
+* Fix for lead conversions not tracking on certain B variations
+
 = 1.6.4 =
 * Adding support for Inbound Attachments extension
 * Bug fixes and general improvements.
@@ -92,7 +95,6 @@ We built Lead Management as a framework! You can use our extendable framework to
 = 1.6.3 =
 * Fixing white screen of death issues with other plugin conflicts
 * Improvements on NoConflict jQuery Class
-
 
 = 1.6.2 =
 * Debugging release issues with 1.8.1

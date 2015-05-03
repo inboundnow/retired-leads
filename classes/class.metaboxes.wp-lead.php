@@ -13,7 +13,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 		static $comments;
 		static $searches;
 		static $custom_events;
-		
+
 		/**
 		*  Initialize Class
 		*/
@@ -440,6 +440,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			$time_diff = array();
 
 			$diff = abs(strtotime($date2) - strtotime($date1));
+			//echo $diff; //exit;
 			$years = floor($diff / (365*60*60*24));
 			$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
 			$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
@@ -1611,7 +1612,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Leads' ) ) {
 			}
 
 			foreach ( self::$mapped_fields as $field) {
-			
+
 				$id = strtolower($field['key']);
 				echo '<tr class="'.$id.'">
 					<th class="wpleads-th" ><label for="'.$id.'">'.$field['label'].':</label></th>

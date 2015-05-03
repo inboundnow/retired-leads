@@ -38,7 +38,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  
+		*
 		*/
 		public static function load_variables() {
 			global $post;
@@ -49,9 +49,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 			self::$is_core_template = get_post_meta( $post->ID , 'inbound_is_core', true );
 		}
-		
+
 		/**
-		*  
+		*
 		*/
 		public static function define_metaboxes() {
 			global $post;
@@ -123,9 +123,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 			);
 
 		}
-		
+
 		/**
-		*  
+		*
 		*/
 		public static function display_markup() {
 			global $post;
@@ -154,7 +154,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  
+		*
 		*/
 		public static function display_restore_template() {
 			global $Inbound_Email_Templates_Post_Type, $post;
@@ -206,7 +206,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  
+		*
 		*/
 		public static function display_form_submission_tokens() {
 
@@ -227,9 +227,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 			<?php
 		}
-		
+
 		/**
-		*  
+		*
 		*/
 		public static function display_user_tokens() {
 
@@ -249,7 +249,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  
+		*
 		*/
 		public static function display_comment_tokens() {
 
@@ -269,9 +269,9 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 			<?php
 		}
-		
+
 		/**
-		*  
+		*
 		*/
 		public static function save_markup( $post_id ) {
 			global $post;
@@ -308,7 +308,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  
+		*
 		*/
 		public static function change_title_text( $text, $post ) {
 			if ($post->post_type==self::$post_type) {
@@ -320,7 +320,7 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 
 
 		/**
-		*  Enqueue Admin Scripts 
+		*  Enqueue Admin Scripts
 		*/
 		public static function enqueue_admin_scripts( $hook ) {
 			global $post;
@@ -340,15 +340,15 @@ if ( !class_exists( 'Inbound_Metaboxes_Email_Templates' ) ) {
 		}
 
 		/**
-		*  Print Admin Scripts 
+		*  Print Admin Scripts
 		*/
 		public static function print_admin_scripts() {
 			global $post;
-			
+
 			if ( ! function_exists( 'get_current_screen' ) ) {
 				return;
 			}
-			
+
 			$screen = get_current_screen();
 
 			if ( isset($screen) && $screen->base != 'post' && $screen->post_type !='email-template' ) {
