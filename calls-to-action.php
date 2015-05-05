@@ -97,7 +97,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 		/**
 		 *  Loads components shared between Inbound Now plugins
-		 *
 		 */
 		private static function load_shared_files() {
 			require_once('shared/classes/class.load-shared.php');
@@ -106,7 +105,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 		/**
 		*  Loads the correct .mo file for this plugin
-		*
 		*/
 		private static function load_text_domain_init() {
 			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
