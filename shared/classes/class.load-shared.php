@@ -58,17 +58,17 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 
 			/* load admin only */
-			if (is_admin()) {	
+			if (is_admin()) {
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');	
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');		
+				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
 				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
 				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
 				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
 			}
-			
+
 		}
 
 
