@@ -99,7 +99,11 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		 *  Loads components shared between Inbound Now plugins
 		 */
 		private static function load_shared_files() {
-			require_once('shared/classes/class.load-shared.php');
+			if (file_exists('shared/classes/class.load-shared.php')) {
+				require_once('shared/classes/class.load-shared.php');
+			} else {
+				require_once(WP_PLUGIN_DIR . '/_inbound-pro/core/shared/classes/class.load-shared.php');
+			}
 			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
 		}
 

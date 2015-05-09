@@ -79,7 +79,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_path() {
-			if ( defined('WP_CTA_PATH') ) {
+			if(defined('INBOUND_PRO_PATH')) {
+				return INBOUND_PRO_PATH . 'core/shared/';
+			} else if( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
 				return LANDINGPAGES_PATH . '/shared/';
@@ -95,7 +97,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_urlpath() {
-			if ( defined('WP_CTA_URLPATH') ) {
+			if ( defined('INBOUND_PRO_URLPATH') ) {
+				return INBOUND_PRO_URLPATH . 'core/shared/';
+			} else if ( defined('WP_CTA_URLPATH') ) {
 				return WP_CTA_URLPATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_URLPATH') ) {
 				return LANDINGPAGES_URLPATH . '/shared/';
