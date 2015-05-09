@@ -91,7 +91,11 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*/
 		private static function load_shared_files() {
 			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
-				require_once('shared/classes/class.load-shared.php');
+				if (file_exists('shared/classes/class.load-shared.php')) {
+					require_once('shared/classes/class.load-shared.php');
+				} else {
+					require_once(WP_PLUGIN_DIR . '/_inbound-pro/core/shared/classes/class.load-shared.php');
+				}
 				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 3 );
 			}
 		}
