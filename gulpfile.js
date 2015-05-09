@@ -12,6 +12,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
+    copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
     //phplint = require('phplint').lint,
     package = require('./package.json');
@@ -150,6 +151,13 @@ gulp.task("generateDocs", function() {
             extname: ".md"
         }))
         .pipe(gulp.dest("./shared/docs"));
+});
+
+gulp.task('copy', function () {
+        //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
+        //    base: 'other'
+        //}).pipe(gulp.dest('build'));
+        return gulp.src(['**']).pipe(gulp.dest('../_inbound-pro/core/cta'));
 });
 
 gulp.task('default', [
