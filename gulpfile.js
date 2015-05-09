@@ -152,13 +152,14 @@ gulp.task("generateDocs", function() {
         }))
         .pipe(gulp.dest("./shared/docs"));
 });
-
-gulp.task('copy', function () {
-        //return gulp.src(['some/other/folders/src/public/**/*', 'some/other/folders/src/vendor/**/*'], {
-        //    base: 'other'
-        //}).pipe(gulp.dest('build'));
-        return gulp.src(['**']).pipe(gulp.dest('../_inbound-pro/core/cta'));
+gulp.task('sync-lp', function () {
+        return gulp.src(['./shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
 });
+gulp.task('sync-leads', function () {
+        return gulp.src(['./shared/**']).pipe(gulp.dest('../leads/shared/'));
+});
+
+gulp.task('sync', ['sync-lp', 'sync-leads']);
 
 gulp.task('default', [
     'lint',
