@@ -153,15 +153,15 @@ gulp.task("generateDocs", function() {
         .pipe(gulp.dest("./shared/docs"));
 });
 
-
+/* sync shared folders with `sudo gulp sync` */
+gulp.task('sync', ['sync-lp', 'sync-leads']);
 gulp.task('sync-lp', function () {
         return gulp.src(['./shared/**']).pipe(gulp.dest('../landing-pages/shared/'));
 });
 gulp.task('sync-leads', function () {
         return gulp.src(['./shared/**']).pipe(gulp.dest('../leads/shared/'));
 });
-/* sync shared folders with `sudo gulp sync` */
-gulp.task('sync', ['sync-lp', 'sync-leads']);
+/* end sync */
 
 gulp.task('default', [
     'lint',
