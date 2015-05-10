@@ -3,6 +3,7 @@
 /deploy.sh
 *.bat
 *.exe
+*.ini
 
 # OS generated files #
 ######################
