@@ -17,14 +17,18 @@ class InboundUseTracking {
     public static function  count_pro_extensions( $settings ) {
         /* check for premium plugins */
         $extensions =  apply_filters( 'inbound_settings/extend' , array()) ;
-        return count($extensions);
+        if (isset($extensions['inbound-pro-settings'])) {
+            return count($extensions['inbound-pro-settings']);
+        } else {
+            return 0;
+        }
     }
 
 
     /**
      * Counts extensions by totaling settings groups added to the Inbound Pro Extensions settings area.
      */
-    public static function  count_non_core_themes( $settings ) {
+    public static function  count_non_core_templates( $settings ) {
 
         /* count templates in landing pages uploads folder */
         if( is_defined('LANDINGPAGES_UPLOADS_PATH') ) {
