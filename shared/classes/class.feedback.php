@@ -342,46 +342,46 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
  </style>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-					jQuery("body").on('click', '#inbound-automation-footer', function () {
+            jQuery("body").on('click', '#inbound-automation-footer', function () {
 
-					jQuery("#lp-slide-toggle").slideToggle();
-					jQuery("#lp-open-close").toggleClass("lp-options-up");
+            jQuery("#lp-slide-toggle").slideToggle();
+            jQuery("#lp-open-close").toggleClass("lp-options-up");
 
-					jQuery("#footer").toggleClass("lp-options-on");
-					});
-					jQuery("body").on('click', '.inbound-close-fb', function () {
-					jQuery("#lp-slide-toggle").slideToggle();
-						});
-					jQuery("body").on('submit', '#inbound-feedback', function (e) {
-					e.preventDefault(); // halt normal form
-					var feedback = jQuery('#inbound-feedback-message').val();
-					var email = jQuery('#inbound-feedback-email-field').val();
-					if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
-						jQuery.ajax({
-						type: 'POST',
-						url: ajaxurl,
-						timeout: 10000,
-						data: {
-							feedback : feedback,
-							email: email,
-							page: document.title,
-							plugin: "<?php echo $plugin_name;?>",
-							action: 'send_inbound_feedback'
-						},
-						success: function(user_id){
-							console.log('feedback sent');
-							$(".inbound-customhead").hide();
-							$("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
-							},
-						error: function(MLHttpRequest, textStatus, errorThrown){
-							//alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
+            jQuery("#footer").toggleClass("lp-options-on");
+            });
+            jQuery("body").on('click', '.inbound-close-fb', function () {
+            jQuery("#lp-slide-toggle").slideToggle();
+                });
+            jQuery("body").on('submit', '#inbound-feedback', function (e) {
+            e.preventDefault(); // halt normal form
+            var feedback = jQuery('#inbound-feedback-message').val();
+            var email = jQuery('#inbound-feedback-email-field').val();
+            if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
+                jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                timeout: 10000,
+                data: {
+                    feedback : feedback,
+                    email: email,
+                    page: document.title,
+                    plugin: "<?php echo $plugin_name;?>",
+                    action: 'send_inbound_feedback'
+                },
+                success: function(user_id){
+                    console.log('feedback sent');
+                    $(".inbound-customhead").hide();
+                    $("#inbound-feedback").html('<h1>Thank You for your feedback!</h1><h3>Our team is hard at work to improve things for you!</h3>');
+                    },
+                error: function(MLHttpRequest, textStatus, errorThrown){
+                    //alert(MLHttpRequest+' '+errorThrown+' '+textStatus); // debug
 
-							}
-						});
-						} else {
-						$("#lp-slide-toggle textarea").css('border', 'red');
-						}
-					});
+                    }
+                });
+                } else {
+                $("#lp-slide-toggle textarea").css('border', 'red');
+                }
+            });
 	});
 
 	</script>
