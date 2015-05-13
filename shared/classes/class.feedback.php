@@ -99,7 +99,19 @@ if (!class_exists('Inbound_Feedback')) {
 		return $count;
 	}
 	public static function get_stats($type) {
-
+		/*
+		$payload = { e: 'pageview',
+		  t: '2015-05-13T00:17:49.650Z',
+		  kv:
+		   { url: 'http://localhost:8080/',
+		     name: '',
+		     referrer: '',
+		     id: '781cad1f-7d7b-4493-8ec3-2b2de17c2ef1',
+		     ip: '::1',
+		     origin: 'localhost:8080',
+		     page: 'http://localhost:8080/',
+		     useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36' } }
+		 */
 	}
 	public static function ispro($type) {
 
