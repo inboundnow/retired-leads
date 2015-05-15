@@ -367,7 +367,51 @@ if (!class_exists('Inbound_Forms')) {
 
 						$form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
 
+					} else if ($type === 'datetime-local')  {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+
+						$form .=	'<input type="datetime-local" class="inbound-input inbound-input-datetime-local '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+
+					} else if ($type === 'url')  {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+
+						$form .=	'<input type="url" class="inbound-input inbound-input-url '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+
+					} else if ($type === 'tel')  {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+
+						$form .=	'<input type="tel" class="inbound-input inbound-input-tel '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+
+					} else if ($type === 'email')  {
+
+						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
+						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
+						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+						if ($type === 'hidden' && $dynamic_value != "") {
+							$fill_value = $dynamic_value;
+						}
+						$form .=	'<input type="email" class="inbound-input inbound-input-email '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+
 					} else if ($type === 'text')  {
+
 						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
 						$dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
@@ -377,6 +421,7 @@ if (!class_exists('Inbound_Forms')) {
 
 						$input_type = ( $email_input ) ? 'email' : 'text';
 						$form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+
 					} else {
 						$form = apply_filters('inbound_form_custom_field', $form, $matches[3][$i] , $form_id );
 					}
