@@ -490,7 +490,6 @@ if (!class_exists('LeadStorage')) {
 		*	Parses & improves lead name
 		*/
 		static function improve_lead_name( $lead ) {
-
             /* */
             $lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
 
