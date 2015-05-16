@@ -198,8 +198,6 @@
 					'type' => 'select',
 					'options' => array(
 						"text" => __('Single Line Text' , INBOUNDNOW_TEXT_DOMAIN ),
-                        'email' => __( 'Email' , INBOUNDNOW_TEXT_DOMAIN ),
-                        'tel' => __( 'Telephone' , INBOUNDNOW_TEXT_DOMAIN ),
 						'textarea' => __('Paragraph Field' , INBOUNDNOW_TEXT_DOMAIN ),
 						'dropdown' => __('Dropdown - Custom' , INBOUNDNOW_TEXT_DOMAIN ),
 						'dropdown_countries' => __('Dropdown - Countries' , INBOUNDNOW_TEXT_DOMAIN ),
@@ -209,15 +207,19 @@
 						'divider' => __('Divider' , INBOUNDNOW_TEXT_DOMAIN ),
 						'date-selector' => __('Date Dropdown Selection' , INBOUNDNOW_TEXT_DOMAIN ),
                         'date' => __('Date Picker Field' , INBOUNDNOW_TEXT_DOMAIN ),
-                        'datetime-local' => __('Date Time Pick Selector Field' , INBOUNDNOW_TEXT_DOMAIN ),
 						'range' => __('Range Field' , INBOUNDNOW_TEXT_DOMAIN ),
 						'time' => __('Time Pick Field' , INBOUNDNOW_TEXT_DOMAIN ),
-                        "url" => __('URL' , INBOUNDNOW_TEXT_DOMAIN ),
 						'hidden' => __('Hidden Field' , INBOUNDNOW_TEXT_DOMAIN ),
 						'honeypot' => __('Anti Spam Honey Pot' , INBOUNDNOW_TEXT_DOMAIN ),
-						//'file_upload' => __('File Upload' , INBOUNDNOW_TEXT_DOMAIN ),
-						//'editor' => __('HTML Editor' ,'leads'),
-						//'multi-select' => __('multi-select' ,  'leads')
+                        /*
+                        'url' => __('URL' , INBOUNDNOW_TEXT_DOMAIN ),
+                        'email' => __( 'Email' , INBOUNDNOW_TEXT_DOMAIN ),
+                        'tel' => __( 'Telephone' , INBOUNDNOW_TEXT_DOMAIN ),
+                        'datetime-local' => __('Date Time Pick Selector Field' , INBOUNDNOW_TEXT_DOMAIN ),
+						'file_upload' => __('File Upload' , INBOUNDNOW_TEXT_DOMAIN ),
+						'editor' => __('HTML Editor' ,'leads'),
+						'multi-select' => __('multi-select' ,  'leads')
+                        */
 						),
 					'std' => ''
 				),

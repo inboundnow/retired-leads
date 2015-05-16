@@ -410,7 +410,7 @@ if (!class_exists('Inbound_Forms')) {
 						}
 						$form .=	'<input type="email" class="inbound-input inbound-input-email '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
-					} else if ($type === 'rnge')  {
+					} else if ($type === 'range')  {
 
 						$hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
 						$fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
