@@ -336,9 +336,9 @@ if (!class_exists('LeadStorage')) {
 			$referral_data = get_post_meta( $lead['id'], 'wpleads_referral_data', TRUE );
 
 			// Parse referral for additional data
-			include_once( INBOUDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
-			include_once( INBOUDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
-			include_once(INBOUDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
+			include_once( INBOUNDNOW_SHARED_PATH. 'assets/includes/Snowplow/RefererParser/INBOUND_Parser.php');
+			include_once( INBOUNDNOW_SHARED_PATH .'assets/includes/Snowplow/RefererParser/INBOUND_Referer.php');
+			include_once(INBOUNDNOW_SHARED_PATH . 'assets/includes/Snowplow/RefererParser/INBOUND_Medium.php');
 			// intialized the parser class
 			$parser = new INBOUND_Parser();
 			//$array = array('http://google.com', 'http://twitter.com', 'http://tumblr.com?query=test', '');
@@ -490,7 +490,6 @@ if (!class_exists('LeadStorage')) {
 		*	Parses & improves lead name
 		*/
 		static function improve_lead_name( $lead ) {
-
             /* */
             $lead['name'] = (isset($lead['name'])) ? $lead['name'] : '';
 
@@ -532,12 +531,21 @@ if (!class_exists('LeadStorage')) {
 		*/
 		static function improve_mapping($mappedData, $lead) {
 
+            /* check to see if there are any mapped values arriving through inbound_store_lead */
+            $fields = Leads_Field_Map::build_map_array();
+
+            foreach ($fields as $key => $label ) {
+                if( isset( $lead[ $key ]) && !isset($mappedData[$key]) ) {
+                    $mappedData[$key] =  $lead[ $key ];
+                }
+            }
+
 			/* remove instances of wpleads_ */
 			$newMap = array();
 			foreach ($mappedData as $key=>$value) {
 				$key = str_replace('wpleads_','',$key);
 				$newMap[$key] = $value;
-			}
+            }
 
 			/* Set names if not mapped */
 			$newMap['first_name'] = (!isset($newMap['first_name'])) ? $lead['first_name'] : $newMap['first_name'];
