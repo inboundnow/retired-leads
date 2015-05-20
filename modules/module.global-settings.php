@@ -1,6 +1,40 @@
 <?php
 
 
+/**
+ * Add action links in Plugins table
+ */
+add_filter( 'plugin_action_links_leads/leads.php', 'leads_plugin_action_links' );
+function leads_plugin_action_links( $links ) {
+
+	return array_merge(
+		array(
+			'settings' => '<a href="' . admin_url( 'edit.php?post_type=wp-lead&page=wpleads_global_settings' ) . '">' . __( 'Settings', 'ts-fab' ) . '</a>'
+		),
+		$links
+	);
+
+}
+
+/**
+ * Add meta links in Plugins table
+ */
+
+add_filter( 'plugin_row_meta', 'leads_plugin_meta_links', 10, 2 );
+function leads_plugin_meta_links( $links, $file ) {
+
+	$plugin = 'leads/leads.php';
+
+	// create link
+	if ( $file == $plugin ) {
+		return array_merge(
+			$links,
+			array( '<a href="http://www.inboundnow.com/membership-packages/">Upgrade to Pro</a>' )
+		);
+	}
+	return $links;
+}
+
 /*SETUP NAVIGATION AND DISPLAY ELEMENTS*/
 function wpleads_get_global_settings() {
 	// Setup navigation and display elements
