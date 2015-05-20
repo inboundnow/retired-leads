@@ -1,6 +1,10 @@
 <?php
 /* Inbound Now Menu Class */
-
+// - Ajax call
+// - get data
+// - callback /api?params
+// - return json
+// - store transient
 if (!class_exists('Inbound_Feedback')) {
 	class Inbound_Feedback {
 	static $add_feedback;
@@ -90,6 +94,72 @@ if (!class_exists('Inbound_Feedback')) {
 
 		}
 	}
+
+
+	public static function feedback_callback() {
+		$domain = "$_SERVER[HTTP_HOST]";
+		$lead_count = self::get_count('wp-lead');
+		$lp_count = self::get_count('landing-pages');
+		$cta_count = self::get_count('cta');
+		//echo $domain; exit;
+		$url = "http://localhost:8080/api/test"; // localhost
+
+		$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => array( 'site' => $domain,
+									 'cta' => $cta_count,
+									 'lp' => $lp_count,
+									 'leads' => $lp_count )
+				    )
+				);
+
+		if ( is_wp_error( $response ) ) {
+		   $error_message = $response->get_error_message();
+		   echo "Something went wrong: $error_message";
+		} else {
+		   //echo 'Response:<pre>';
+		   $json = $response['body'];
+		   //print_r( $response['body'] );
+		   $array = json_decode($json, true);
+		   //print_r($array);
+		   if(isset($array['error'])) {
+		   		echo $array['error']; exit;
+		   }
+
+		  if(isset($array['handshake'])) {
+		  	$valid = $array['handshake'];
+		  }
+
+		  // set transient here
+
+		   //print_r( $response );
+		   //echo '</pre>';
+		   //exit;
+		}
+	}
+	public static function get_count($type) {
+		global $wpdb;
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE (post_status = 'publish' AND post_type = '".$type."')");
+		if (0 < $count) {
+			$count = number_format($count);
+		}
+		return $count;
+	}
+	public static function get_stats($type) {
+
+	}
+	public static function ispro($type) {
+
+	}
+	public static function sp($type) {
+
+	}
+
 	static function show_feedback() {
 		if ( ! self::$add_feedback || ! is_admin()) {
 			return;
@@ -324,21 +394,23 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
  </style>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-					jQuery("body").on('click', '#inbound-automation-footer', function () {
+			jQuery("body").on('click', '#inbound-automation-footer', function () {
 
-					jQuery("#lp-slide-toggle").slideToggle();
-					jQuery("#lp-open-close").toggleClass("lp-options-up");
+				jQuery("#lp-slide-toggle").slideToggle();
+				jQuery("#lp-open-close").toggleClass("lp-options-up");
+				jQuery("#footer").toggleClass("lp-options-on");
+			});
 
-					jQuery("#footer").toggleClass("lp-options-on");
-					});
-					jQuery("body").on('click', '.inbound-close-fb', function () {
-					jQuery("#lp-slide-toggle").slideToggle();
-						});
-					jQuery("body").on('submit', '#inbound-feedback', function (e) {
-					e.preventDefault(); // halt normal form
-					var feedback = jQuery('#inbound-feedback-message').val();
-					var email = jQuery('#inbound-feedback-email-field').val();
-					if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
+			jQuery("body").on('click', '.inbound-close-fb', function () {
+				jQuery("#lp-slide-toggle").slideToggle();
+			});
+
+			jQuery("body").on('submit', '#inbound-feedback', function (e) {
+				e.preventDefault(); // halt normal form
+				var feedback = jQuery('#inbound-feedback-message').val();
+				var email = jQuery('#inbound-feedback-email-field').val();
+
+				if (typeof (feedback) != "undefined" && feedback != null && feedback != "") {
 						jQuery.ajax({
 						type: 'POST',
 						url: ajaxurl,
@@ -360,10 +432,10 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}
 
 							}
 						});
-						} else {
-						$("#lp-slide-toggle textarea").css('border', 'red');
-						}
-					});
+				} else {
+					$("#lp-slide-toggle textarea").css('border', 'red');
+				}
+			});
 	});
 
 	</script>
