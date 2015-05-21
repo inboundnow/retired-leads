@@ -46,6 +46,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
 				/* Load CSS Template Parser */
 				require_once(WP_CTA_PATH.'lib/Sabberworm/load-css-parse.php');
+274
 
 				/* load cta template data */
 				$CTA_Load_Extensions = CTA_Load_Extensions();
@@ -271,7 +272,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 		*/
 		public static function prepare_tracked_links( $variation_html , $selected_cta , $vid ) {
 			$doc = new DOMDocument();
-			$doc->loadHTML( $variation_html );
+			@$doc->loadHTML( $variation_html );
 
 			foreach($doc->getElementsByTagName('a') as $anchor) {
 
