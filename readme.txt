@@ -4,10 +4,10 @@ Contributors: David Wells, Hudson Atwell
 Donate link: mailto:marketplace@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools,customer relationship management, contact management, landing page leads, extendable
+Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
 Tested up to: 4.1
-Stable Tag: 1.6.5
+Stable Tag: 1.6.6
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -84,6 +84,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+
+= 1.6.6 =
+* Security Patch
 
 = 1.6.5 =
 * Fix for lead conversions not tracking on certain B variations

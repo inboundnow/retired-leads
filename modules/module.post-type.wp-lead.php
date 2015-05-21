@@ -50,7 +50,7 @@ function wpleads_change_columns( $cols ) {
 	    "status" => __( 'Status' , 'leads' ),
 		'conversion-count' => __( 'Conversion Count' , 'leads' ),
 		"page-views" => __( 'Total Page Views' , 'leads' ),
-		"date" => +__( ' Created ' , 'leads' )
+		"date" => __( 'Created' , 'leads' )
 	);
 	$cols = array_merge($cols, $cols_merge);
 	return $cols;
