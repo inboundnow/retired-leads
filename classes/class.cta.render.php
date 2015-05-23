@@ -532,7 +532,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 if (!stristr($custom_css,'<script'))
                 {
-                    $inline_content .= '<script type="text/javascript" id="wp_cta_js_custom">jQuery(document).ready(function($) {
+                    $inline_content .= '<script type="text/javascript">jQuery(document).ready(function($) {
 					'.$custom_js.' });</script>';
                 }
                 else

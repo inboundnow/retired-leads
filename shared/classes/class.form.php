@@ -125,7 +125,7 @@ if (!class_exists('Inbound_Forms')) {
                 $form_id = strtolower(str_replace(array(' ','_'),'-',$clean_form_id));
 
 
-                $form = '<div id="inbound-form-wrapper" class="">';
+                $form = '<div id="inbound-form-wrapper" class="inbound-form-wrapper">';
                 $form .= '<form class="inbound-now-form wpl-track-me inbound-track" method="post" id="'.$form_id.'" action="" style="'.$form_width.'">';
                 $main_layout = ($form_layout != "") ? 'inbound-'.$form_layout : 'inbound-normal';
 
