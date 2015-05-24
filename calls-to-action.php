@@ -62,9 +62,9 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 					include_once('classes/class.clone-post.php');
 					include_once('classes/class.cta.variations.php');
 					include_once('classes/class.widget.static.php');
-					include_once('classes/class.widget.dynamic.php');
-					include_once('classes/class.cta.render.php');
+					include_once('classes/class.widget.dynamic.php');					
 					include_once('classes/class.load-extensions.php');
+					include_once('classes/class.cta.render.php');
 					include_once('classes/class.metaboxes.global.php');
 					include_once('classes/class.templates.list-table.php');
 					include_once('classes/class.templates.manage.php');
