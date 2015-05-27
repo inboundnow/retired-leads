@@ -60,7 +60,7 @@ if (!class_exists('Inbound_Forms')) {
             $form_labels = $labels;
             $form_labels_class = (isset($form_labels)) ? "inbound-label-".$form_labels : 'inbound-label-inline';
             $submit_button = ($submit != "") ? $submit : 'Submit';
-            $icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . '" font-awesome fa"></i>' : '';
+            $icon_insert = ($icon != "" && $icon != 'none') ? '<i class="fa-'. $icon . ' font-awesome fa"></i>' : '';
 
             // Set submit button colors
             if(isset($submit_colors) && $submit_colors === 'on'){
