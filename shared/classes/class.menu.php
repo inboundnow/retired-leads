@@ -24,18 +24,18 @@ if (!class_exists('Inbound_Menu')) {
 			self::$inboundnow_menu_key = 'inbound-admin-bar';
 			self::$inboundnow_menu_secondary_group_key = 'inbound-secondary';
 			self::hooks();
-			
+
 		}
-		
-		
+
+
 		/**
 		*  Loads Hooks & Filters
 		*/
 		public static function hooks() {
-			
+
 			/* load main hook */
 			add_action( 'admin_bar_menu', array( __CLASS__ , 'load_inboundnow_menu' ), 98);
-			
+
 			/* add filters here */
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
 			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_landingpages') , 10 );
@@ -54,7 +54,7 @@ if (!class_exists('Inbound_Menu')) {
 			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_debug') , 10 );
 		}
 
-		
+
 		/**
 		*  Loads the inbound now menu into the admin_bar_menu hook
 		*/
@@ -151,7 +151,7 @@ if (!class_exists('Inbound_Menu')) {
 			);
 
 			/* 1.1 - Leads search form */
-			$leads_search_text = __( 'Search All Leads' , 'inbound-pro' );
+			$leads_search_text = __( 'Search All Leads' , INBOUNDNOW_TEXT_DOMAIN );
 			$menu_items['inbound-leads-search'] = array(
 				'parent' => $leads_key,
 				'title' => '<form id="inbound-menu-form" method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
@@ -308,7 +308,7 @@ if (!class_exists('Inbound_Menu')) {
 
 			return $menu_items;
 		}
-		
+
 		/**
 		*  Loads Email Menu Items
 		*/
@@ -318,9 +318,9 @@ if (!class_exists('Inbound_Menu')) {
 			if (!function_exists('mailer_check_active')) {
 				return  $menu_items;
 			}
-			
+
 			$mailer_key = 'inbound-mailer';
-			
+
 			/* 1 - Inbound Mailer Component */
 			$menu_items[ $mailer_key ] = array(
 				  'parent' => self::$inboundnow_menu_key,
@@ -347,7 +347,7 @@ if (!class_exists('Inbound_Menu')) {
 
 			return $menu_items;
 		}
-		
+
 		/**
 		*  Loads Automation Menu Items
 		*/

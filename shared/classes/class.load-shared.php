@@ -11,7 +11,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 */
 		public static function init() {
 			/* Bail if shared files already loaded */
-			if (defined('INBOUDNOW_SHARED')) {
+			if (defined('INBOUNDNOW_SHARED')) {
 				return;
 			}
 
@@ -26,10 +26,12 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function load_constants() {
-			define( 'INBOUDNOW_SHARED' , 'loaded' );
-			define( 'INBOUDNOW_SHARED_PATH' , self::get_shared_path() );
-			define( 'INBOUDNOW_SHARED_URLPATH' , self::get_shared_urlpath() );
-			define( 'INBOUDNOW_SHARED_FILE' , self::get_shared_file() );
+			define( 'INBOUNDNOW_SHARED' , 'loaded' );
+			define( 'INBOUNDNOW_SHARED_PATH' , self::get_shared_path() );
+			define( 'INBOUNDNOW_SHARED_URLPATH' , self::get_shared_urlpath() );
+			define( 'INBOUNDNOW_SHARED_FILE' , self::get_shared_file() );
+			define( 'INBOUNDNOW_TEXT_DOMAIN' , self::get_text_domain() );
+
 		}
 
 		/**
@@ -38,37 +40,37 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 */
 		public static function load_files() {
 
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.form.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.debug.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.compatibility.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.options-api.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.ajax.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'legacy/functions.php');
-			include_once( INBOUDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.wp-lead.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.post-type.email-template.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.form.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.menus.adminbar.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.debug.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.compatibility.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.templating-engine.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.email-template.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.shortcodes.cookie-values.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-fields.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-forms.akismet.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.options-api.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.lead-storage.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.ajax.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'legacy/functions.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
 
 			/* load admin only */
-			if (is_admin()) {	
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.licensing.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.master-license.php');	
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.branching.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.welcome.php');		
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.feedback.php');
-				include_once( INBOUDNOW_SHARED_PATH . 'classes/class.notifications.php');
-				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
-				require_once( INBOUDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
+			if (is_admin()) {
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.licensing.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.master-license.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.branching.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.welcome.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.feedback.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.notifications.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
 			}
-			
+
 		}
 
 
@@ -79,7 +81,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_path() {
-			if ( defined('WP_CTA_PATH') ) {
+			if(defined('INBOUND_PRO_PATH')) {
+				return INBOUND_PRO_PATH . 'core/shared/';
+			} else if( defined('WP_CTA_PATH') ) {
 				return WP_CTA_PATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_PATH') ) {
 				return LANDINGPAGES_PATH . '/shared/';
@@ -95,7 +99,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function get_shared_urlpath() {
-			if ( defined('WP_CTA_URLPATH') ) {
+			if ( defined('INBOUND_PRO_URLPATH') ) {
+				return INBOUND_PRO_URLPATH . 'core/shared/';
+			} else if ( defined('WP_CTA_URLPATH') ) {
 				return WP_CTA_URLPATH . 'shared/';
 			} else if (	defined('LANDINGPAGES_URLPATH') ) {
 				return LANDINGPAGES_URLPATH . '/shared/';
@@ -120,6 +126,23 @@ if (!class_exists('Inbound_Load_Shared')) {
 			}
 		}
 
+        /**
+         *  Returns the correct text domain
+         *
+         *  @return text domain
+         *
+         */
+        public static function get_text_domain() {
+            if(defined('INBOUND_PRO_PATH')) {
+                return 'inbound-pro';
+            } else if( defined('WP_CTA_PATH') ) {
+                return 'cta';
+            } else if (	defined('LANDINGPAGES_PATH') ) {
+                return 'landing-pages';
+            } else if (	defined('WPL_PATH') ) {
+                return 'leads';
+            }
+        }
 		/**
 		*  Hooks shared activation rules into admin_init
 		*/

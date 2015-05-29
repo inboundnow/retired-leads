@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Creates Global Settings 
+ * Creates Global Settings
  *
  * @package	Calls To Action
  * @subpackage	Global Settings
@@ -10,37 +10,39 @@
 if ( !class_exists('CTA_Global_Settings') ) {
 
 	class CTA_Global_Settings {
-	
+
 		static $core_settings;
 		static $active_tab;
-		
+
 		/**
 		*	Initializes class
 		*/
 		public function __construct() {
 			self::add_hooks();
 		}
-		
+
 		/**
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
 			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
+			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array( __CLASS__ , 'plugin_action_links' ));
 		}
-		
+
 		/**
 		*	Load CSS & JS
 		*/
 		public static function enqueue_scripts() {
 			$screen = get_current_screen();
-			
+
 			if ( ( isset($screen) && $screen->base != 'wp-call-to-action_page_wp_cta_global_settings' ) ){
 				return;
 			}
-			
+
 			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
 		}
-	
+
+
 		/**
 		*	Get global setting data
 		*/
@@ -60,7 +62,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					'default'	=> __( '<h4>CTA Core Settings</h4>' , 'cta' ),
 					'description' => "<a id='clear-cta-cookies' class='button'>".__( 'Clear & Reset all Call to Action Cookies' , 'cta' ) ."</a><div class='wp_cta_tooltip tool_radio' title='". __( 'This will reset all CTA cookies to make popups work again etc. For testing purposes.' , 'cta' ) ."'></div>",
 					'options' => null
-				),			
+				),
 				array(
 					'id'	=> 'use-lite-ajax-mode',
 					'label' => __( 'Enable fast ajax.' , 'cta' ),
@@ -68,7 +70,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					'type'	=> 'radio',
 					'default'	=> '1',
 					'options' => array( 0 => 'Off' , 1 => 'On' )
-				),				
+				),
 				array(
 					'id'	=> 'disable-ajax-variation-discovery',
 					'label' => __( 'Disable Split Testing.' , 'cta' ),
@@ -90,21 +92,34 @@ if ( !class_exists('CTA_Global_Settings') ) {
 
 			$wp_cta_global_settings = apply_filters('wp_cta_define_global_settings',$wp_cta_global_settings);
 
-			
+
 			self::$core_settings = $wp_cta_global_settings;
-			
+
 		}
-		
+		/**
+		 * Add action links in Plugins table
+		 */
+
+		public static function plugin_action_links( $links ) {
+
+			return array_merge(
+				array(
+					'settings' => '<a href="' . admin_url( 'edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' ) . '">' . __( 'Settings', 'ts-fab' ) . '</a>'
+				),
+				$links
+			);
+
+		}
 		/**
 		*	Displays nav tabs
 		*/
 		public static function display_navigation() {
-			
+
 			self::$active_tab = 'wp-cta-main';
 			if (isset($_REQUEST['open-tab'])) {
 				self::$active_tab = $_REQUEST['open-tab'];
 			}
-			
+
 			echo '<h2 class="nav-tab-wrapper">';
 
 			foreach (self::$core_settings	as $key => $data) 	{
@@ -113,20 +128,20 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				<?php
 			}
 			echo "</h2>";
-			
+
 			echo "<form action='edit.php?post_type=wp-call-to-action&page=wp_cta_global_settings' method='POST'>
 			<input type='hidden' name='nature' value='wp-cta-global-settings-save'>
 			<input type='hidden' name='open-tab' id='id-open-tab' value='". self::$active_tab ."'>";
-			
+
 		}
-		
-		
+
+
 		/**
 		*	Display sidebar
 		*/
 		public static function display_sidebar() {
 			?>
-			
+
 			<div class='wp-cta-settings-tab-sidebar'>
 				<div class='wp-cta-sidebar-settings'>
 					<h2 style='font-size:17px;'>
@@ -165,27 +180,27 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			</div>
 			<?php
 		}
-	
+
 		/**
 		*	Display global settings
 		*/
 		public static function display_global_settings()	{
 			global $wpdb;
-			
+
 			self::get_core_settings();
 
 			self::inline_js();
-			self::save_settings();			
+			self::save_settings();
 			self::display_sidebar();
 			self::display_navigation();
-			
+
 			foreach ( self::$core_settings as $key => $data)
 			{
 				if (isset($data['settings'])) {
 					self::render_setting($key , $data['settings']);
 				}
 			}
-			
+
 
 			echo '<div style="float:left;padding-left:9px;padding-top:20px;">
 					<input type="submit" value="Save Settings" tabindex="5" id="wp-cta-button-create-new-group-open" class="button-primary" >
@@ -273,9 +288,9 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			</div>
 		<?php
 		}
-		
-		
-		/** 
+
+
+		/**
 		*	Renders setting field
 		*	@param STRING $key tab key
 		*	@param ARRAY $custom_fields field settings
@@ -344,9 +359,9 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							case 'license-key':
 								$license_status = self::check_license_status($field);
 								$master_key = get_option('inboundnow_master_license_key' , '');
-							
+
 								if ($master_key)
-								{							
+								{
 									$field['value'] = $master_key;
 									$input_type = 'hidden';
 								}
@@ -354,7 +369,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								{
 									$input_type = 'text';
 								}
-								
+
 								echo '<input type="hidden" name="wp_cta_license_status-'.$field['slug'].'" id="'.$field['id'].'" value="'.$license_status.'" size="30" />
 								<input type="'.$input_type.'" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
 
@@ -366,7 +381,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								{
 									echo '<div class="wp_cta_license_status_invalid">Invalid</div>';
 								}
-								
+
 								echo '<div class="wp_cta_tooltip tool_text" title="'.$field['description'].'"></div>';
 								break;
 							case 'text':
@@ -385,7 +400,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								break;
 							// media
 								case 'media':
-								
+
 								echo '<label for="upload_image">';
 								echo '<input name="'.$field['id'].'"	id="'.$field['id'].'" type="text" size="36" name="upload_image" value="'.$field['value'].'" />';
 								echo '<input class="upload_image_button" id="uploader_'.$field['id'].'" type="button" value="Upload Image" />';
@@ -450,13 +465,13 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				echo '</td></tr>';
 			} // end foreach
 			echo '</table>'; // end table
-		}	
-		
-		/** 
+		}
+
+		/**
 		*	Renders supporting JS
 		*/
 		public static function inline_js() {
-				
+
 			?>
 			<script type='text/javascript'>
 				jQuery(document).ready(function($) {
@@ -477,10 +492,10 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					};
 
 					jQuery("body").on('click', '#clear-cta-cookies', function () {
-						
+
 						jQuery.removeCookie('wp_cta_global', { path: '/' }); // remove global cookie
 						var cta_cookies = getCookieByMatch(/^wp_cta_\d+=/);
-						var length = cta_cookies.length, 
+						var length = cta_cookies.length,
 							element = null;
 						for (var i = 0; i < length; i++) {
 							element = cta_cookies[i];
@@ -490,7 +505,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						}
 
 					});
-				
+
 					jQuery('.wp-cta-nav-tab').live('click', function() {
 						var this_id = this.id.replace('tabs-','');
 						//alert(this_id);
@@ -505,15 +520,15 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				});
 			</script>
 			<?php
-			
+
 		}
-		
-		
+
+
 		/**
 		*	Checks the license status of istalled extensions
 		*/
 		public static function check_license_status($field)	{
-	
+
 			$date = date("Y-m-d");
 			$cache_date = get_option($field['id']."-expire");
 			$license_status = get_option('wp_cta_license_status-'.$field['slug']);
@@ -536,7 +551,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			if ( is_wp_error( $response ) ) {
 				return false;
 			}
-			
+
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 			if( $license_data->license == 'valid' ) {
@@ -548,7 +563,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				return 'invalid';
 			}
 		}
-		
+
 		/**
 		*	Listens for POST & saves settings changes
 		*/
@@ -557,8 +572,8 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			if (!isset($_POST['nature'])) {
 				return;
 			}
-			
-			
+
+
 			self::get_core_settings();
 
 
@@ -567,7 +582,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				if (!isset(self::$core_settings[$key]['settings'])) {
 					continue;
 				}
-				
+
 				$tab_settings = self::$core_settings[$key]['settings'];
 
 				// loop through fields and save the data
@@ -619,19 +634,19 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						if ($field['type']=='license-key')
 						{
 							$master_key = get_option('inboundnow_master_license_key' , '');
-							if ($master_key) 
+							if ($master_key)
 							{
 								$bool = update_option($field['id'], $master_key );
 							}
 							else
 							{
 								update_option($field['id'], '' );
-							}	
+							}
 						}
 						else
 						{
 							$bool = update_option($field['id'],$field['default']);
-						}	
+						}
 					}
 					else
 					{
@@ -672,15 +687,15 @@ if ( !class_exists('CTA_Global_Settings') ) {
 					}
 
 					do_action('wp_cta_save_global_settings',$field);
-				} 
+				}
 
 			}
-		
+
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	*	Loads CTA_Global_Settings on admin_init
 	*/

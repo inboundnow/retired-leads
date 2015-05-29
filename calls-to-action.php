@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.3.4
+Version: 2.3.7
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -13,6 +13,110 @@ Domain Path: lang
 if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 
 	final class Inbound_Calls_To_Action_Plugin {
+
+		/**
+		* Main Inbound_Calls_To_Action_Plugin Instance
+		*/
+		public function __construct() {
+			self::define_constants();
+			self::includes();
+			self::load_shared_files();
+			self::load_text_domain_init();
+		}
+
+		/*
+		* Setup plugin constants
+		*
+		*/
+		private static function define_constants() {
+
+			define('WP_CTA_CURRENT_VERSION', '2.3.7' );
+			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
+			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
+			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
+			define('WP_CTA_FILE', __FILE__ );
+
+			$uploads = wp_upload_dir();
+			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
+			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
+			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/market/' );
+
+		}
+
+		/* Include required plugin files */
+		private static function includes() {
+
+			switch (is_admin()) :
+				case true :
+					/* loads admin files */
+					include_once('classes/class.activation.php');
+					include_once('classes/class.activation.database-routines.php');
+					include_once('classes/class.post-type.wp-call-to-action.php');
+					include_once('classes/class.extension.wp-lead.php');
+					include_once('classes/class.extension.wordpress-seo.php');
+					include_once('classes/class.metaboxes.wp-call-to-action.php');
+					include_once('classes/class.menus.php');
+					include_once('classes/class.ajax.listeners.php');
+					include_once('classes/class.enqueues.php');
+					include_once('classes/class.global-settings.php');
+					include_once('classes/class.clone-post.php');
+					include_once('classes/class.cta.variations.php');
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');					
+					include_once('classes/class.load-extensions.php');
+					include_once('classes/class.cta.render.php');
+					include_once('classes/class.metaboxes.global.php');
+					include_once('classes/class.templates.list-table.php');
+					include_once('classes/class.templates.manage.php');
+					include_once('modules/module.utils.php');
+					include_once('classes/class.customizer.php');
+					include_once('classes/class.tracking.php');
+					include_once('classes/class.branching.php');
+
+					BREAK;
+
+				case false :
+					/* load front-end files */
+					include_once('classes/class.load-extensions.php');
+					include_once('classes/class.post-type.wp-call-to-action.php');
+					include_once('classes/class.extension.wp-lead.php');
+					include_once('classes/class.extension.wordpress-seo.php');
+					include_once('classes/class.enqueues.php');
+					include_once('classes/class.tracking.php');
+					include_once('classes/class.ajax.listeners.php');
+					include_once('classes/class.widget.static.php');
+					include_once('classes/class.widget.dynamic.php');
+					include_once('classes/class.cta.variations.php');
+					include_once('classes/class.cta.render.php');
+					include_once('modules/module.utils.php');
+					include_once('classes/class.customizer.php');
+
+					BREAK;
+			endswitch;
+		}
+
+		/**
+		 *  Loads components shared between Inbound Now plugins
+		 */
+		private static function load_shared_files() {
+            if (defined('INBOUND_PRO_PATH')) {
+                include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
+            } else {
+                require_once('shared/classes/class.load-shared.php');
+            }
+			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
+		}
+
+		/**
+		*  Loads the correct .mo file for this plugin
+		*/
+		private static function load_text_domain_init() {
+			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
+		}
+
+		public static function load_text_domain() {
+			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
+		}
 
 		/* START PHP VERSION CHECKS */
 		/**
@@ -78,108 +182,6 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 			}
 		}
 		/* END PHP VERSION CHECKS */
-
-		/**
-		* Main Inbound_Calls_To_Action_Plugin Instance
-		*/
-		public function __construct() {
-			self::define_constants();
-			self::includes();
-			self::load_shared_files();
-			self::load_text_domain_init();
-		}
-
-		/*
-		* Setup plugin constants
-		*
-		*/
-		private static function define_constants() {
-
-			define('WP_CTA_CURRENT_VERSION', '2.3.4' );
-			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
-			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
-			define('WP_CTA_FILE', __FILE__ );
-
-			$uploads = wp_upload_dir();
-			define('WP_CTA_UPLOADS_PATH', $uploads['basedir'].'/calls-to-action/templates/' );
-			define('WP_CTA_UPLOADS_URLPATH', $uploads['baseurl'].'/calls-to-action/templates/' );
-			define('WP_CTA_STORE_URL', 'http://www.inboundnow.com/market/' );
-
-		}
-
-		/* Include required plugin files */
-		private static function includes() {
-
-			switch (is_admin()) :
-				case true :
-					/* loads admin files */
-					include_once('classes/class.activation.php');
-					include_once('classes/class.activation.database-routines.php');
-					include_once('classes/class.post-type.wp-call-to-action.php');
-					include_once('classes/class.extension.wp-lead.php');
-					include_once('classes/class.extension.wordpress-seo.php');
-					include_once('classes/class.metaboxes.wp-call-to-action.php');
-					include_once('classes/class.menus.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('classes/class.enqueues.php');
-					include_once('classes/class.global-settings.php');
-					include_once('classes/class.clone-post.php');
-					include_once('classes/class.cta.variations.php');
-					include_once('classes/class.widget.static.php');
-					include_once('classes/class.widget.dynamic.php');
-					include_once('classes/class.cta.render.php');
-					include_once('classes/class.load-extensions.php');
-					include_once('classes/class.metaboxes.global.php');
-					include_once('classes/class.templates.list-table.php');
-					include_once('classes/class.templates.manage.php');
-					include_once('modules/module.utils.php');
-					include_once('classes/class.customizer.php');
-					include_once('classes/class.tracking.php');
-					include_once('classes/class.branching.php');
-
-					BREAK;
-
-				case false :
-					/* load front-end files */
-					include_once('classes/class.load-extensions.php');
-					include_once('classes/class.post-type.wp-call-to-action.php');
-					include_once('classes/class.extension.wp-lead.php');
-					include_once('classes/class.extension.wordpress-seo.php');
-					include_once('classes/class.enqueues.php');
-					include_once('classes/class.tracking.php');
-					include_once('classes/class.ajax.listeners.php');
-					include_once('classes/class.widget.static.php');
-					include_once('classes/class.widget.dynamic.php');
-					include_once('classes/class.cta.variations.php');
-					include_once('classes/class.cta.render.php');
-					include_once('modules/module.utils.php');
-					include_once('classes/class.customizer.php');
-
-					BREAK;
-			endswitch;
-		}
-
-		/**
-		 *  Loads components shared between Inbound Now plugins
-		 *
-		 */
-		private static function load_shared_files() {
-			require_once('shared/classes/class.load-shared.php');
-			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
-		}
-
-		/**
-		*  Loads the correct .mo file for this plugin
-		*
-		*/
-		private static function load_text_domain_init() {
-			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
-		}
-
-		public static function load_text_domain() {
-			load_plugin_textdomain( 'cta' , false , WP_CTA_SLUG . '/lang/' );
-		}
 
 
 	}
