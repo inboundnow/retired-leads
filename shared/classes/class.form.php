@@ -720,10 +720,12 @@ if (!class_exists('Inbound_Forms')) {
                 if ( !apply_filters( 'inbound_check_if_spam' , false ,  $form_post_data ) ) {
                     self::send_conversion_admin_notification($form_post_data , $form_meta_data);
                     self::send_conversion_lead_notification($form_post_data , $form_meta_data);
+					 
+					 /* hook runs after form actions are completed and before page redirect */
+					do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
                 }
 
-                /* hook runs after form actions are completed and before page redirect */
-                do_action('inboundnow_form_submit_actions', $form_post_data, $form_meta_data);
+              
 
                 /* redirect now */
                 if ($redirect != "") {
