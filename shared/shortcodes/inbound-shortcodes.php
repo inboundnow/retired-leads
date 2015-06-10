@@ -758,7 +758,12 @@ class Inbound_Shortcodes {
 							<?php if( $shortcode->no_preview ) : ?>
 								<div id="inbound-shortcodes-nopreview"><?php _e('Shortcode has no preview', 'leads'); ?></div>
 							<?php else :
-								$post_id = html_entity_decode( $_GET['post'] ); ?>
+							    if ( isset($_REQUEST['post']) ) {
+								    $post_id = html_entity_decode( $_REQUEST['post'] );
+                                } else {
+                                    $post_id = 0;
+                                }
+                                ?>
 								<iframe src='<?php echo INBOUNDNOW_SHARED_URLPATH . 'shortcodes/'; ?>preview.php?sc=&post=<?php echo $post_id; ?>' width="285" scrollbar='true' frameborder="0" id="inbound-shortcodes-preview"></iframe>
 							<?php endif; ?>
 						</div>
