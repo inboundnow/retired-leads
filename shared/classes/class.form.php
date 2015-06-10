@@ -415,7 +415,9 @@ if (!class_exists('Inbound_Forms')) {
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
-                      
+                        if ($type === 'hidden' && $dynamic_value != "") {
+                            $fill_value = $dynamic_value;
+                        }
                         $form .=	'<input type="range" class="inbound-input inbound-input-range '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'text')  {
@@ -423,19 +425,12 @@ if (!class_exists('Inbound_Forms')) {
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                        if ($type === 'hidden' && $dynamic_value != "") {
+                            $fill_value = $dynamic_value;
+                        }
 
                         $input_type = ( $email_input ) ? 'email' : 'text';
                         $form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
-
-                    } else if ($type === 'hidden')  {
-
-                        $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
-                        $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
-                        if ( $dynamic_value ) {
-                            $fill_value = $dynamic_value;
-                        }
-                        $form .=	'<input type="hidden" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else {
                         $form = apply_filters('inbound_form_custom_field', $form, $matches[3][$i] , $form_id );
