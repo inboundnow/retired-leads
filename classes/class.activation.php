@@ -258,7 +258,6 @@ if ( !class_exists('CTA_Activation') ) {
             }
 
             flush_rewrite_rules( true );
-            generate_rewrite_rules( true );
             delete_option( 'wp_cta_flush_permalinks' );
         }
 
