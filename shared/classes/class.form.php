@@ -850,6 +850,11 @@ if (!class_exists('Inbound_Forms')) {
                 return;
             }
 
+            /* Listen for Inbound Mailer takeover */
+            if (apply_filters('inbound-forms/email-reponse-hijack' , false, $form_meta_data , $form_post_data ) ) {
+                return;
+            }
+
             /* Get Lead Email Address */
             $lead_email = false;
             foreach ($form_post_data as $key => $value) {
@@ -878,6 +883,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $Inbound_Templating_Engine = Inbound_Templating_Engine();
             $form_id = $form_meta_data['post_id']; //This is page id or post id
+
             /* Rebuild Form Meta Data to Load Single Values	*/
             foreach( $form_meta_data as $key => $value ) {
                 $form_meta_data[$key] = $value[0];
@@ -894,8 +900,9 @@ if (!class_exists('Inbound_Forms')) {
             $confirm_email_message .= '</tr></table></body></html>';
 
 
-            $confirm_subject  = apply_filters( 'inbound_email_response/subject' , $confirm_subject , $form_meta_data );
-            $confirm_email_message  = apply_filters( 'inbound_email_response/body' , $confirm_email_message , $form_meta_data);
+
+            $confirm_subject  = apply_filters( 'inbound_email_response/subject' , $confirm_subject , $form_meta_data , $form_post_data );
+            $confirm_email_message  = apply_filters( 'inbound_email_response/body' , $confirm_email_message , $form_meta_data , $form_post_data );
 
             $confirm_subject = $Inbound_Templating_Engine->replace_tokens( $confirm_subject, array($form_post_data, $form_meta_data ));
 
