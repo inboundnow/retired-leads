@@ -419,7 +419,7 @@ if (!class_exists('LeadStorage')) {
 			/* ignore for local environments */
 			if ($lead['ip_address']!= "127.0.0.1"){ // exclude localhost
 				$response = wp_remote_get('http://www.geoplugin.net/php.gp?ip='.$lead['ip_address']);
-				if ( isset($response['body']) ) {
+				if ( !is_wp_error($response) &&  isset($response['body'])  ) {
 					$geo_array = @unserialize($response['body']);
 					$new_record[ $lead['ip_address'] ]['geodata'] = $geo_array;
 				}
