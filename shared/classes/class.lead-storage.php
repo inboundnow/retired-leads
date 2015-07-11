@@ -163,7 +163,7 @@ if (!class_exists('LeadStorage')) {
 
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
-                    update_post_meta( $lead['id'], 'wpleads_ip_address', $ip_addresses );
+                    update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] ); 
 					//self::store_geolocation_data($lead);
 				}
 
