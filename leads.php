@@ -54,7 +54,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'classes/class.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.settings.php');
 				include_once( WPL_PATH . 'classes/class.dashboard.php');
-				include_once( WPL_PATH . 'modules/module.tracking.php');
+				include_once( WPL_PATH . 'classes/class.tracking.php');
 				include_once( WPL_PATH . 'modules/module.enqueue-admin.php');
 				include_once( WPL_PATH . 'classes/class.admin-notices.php');
 				include_once( WPL_PATH . 'classes/class.branching.php');
@@ -66,7 +66,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'classes/class.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
 				include_once( WPL_PATH . 'modules/module.enqueue-frontend.php');
-				include_once( WPL_PATH . 'modules/module.tracking.php');
+				include_once( WPL_PATH . 'classes/class.tracking.php');
 
 			}
 

@@ -38,7 +38,7 @@ if (!class_exists('Inbound_Ajax')) {
 		}
 
 		/**
-		*
+		* Ajax listener for lead tracking
 		*/
 		public static function track_lead() {
 
@@ -52,16 +52,16 @@ if (!class_exists('Inbound_Ajax')) {
 			(isset(	$_POST['current_url'] )) ? $lead_data['current_url'] = $_POST['current_url'] : $lead_data['current_url'] = 'notfound';
 
 			/* update lead data */
-			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {
-				wp_leads_update_page_view_obj($lead_data);
+			if(isset($_POST['wp_lead_id']) && class_exists('Leads_Tracking') ) {
+				Leads_Tracking::update_page_views_object($lead_data);
 			}
 
 			/* update content data */
 			do_action( 'lp_record_impression' , $lead_data['page_id'] , $_POST['post_type'] ,  $_POST['variation_id'] );
 
 			/* set lead list cookies */
-			if ( function_exists('wp_leads_set_current_lists') && isset( $_POST['wp_lead_id']) && !empty( $_POST['wp_lead_id']) ) {
-				wp_leads_set_current_lists( $_POST['wp_lead_id'] );
+			if ( class_exists('Leads_Tracking') && isset( $_POST['wp_lead_id']) && !empty( $_POST['wp_lead_id']) ) {
+				Leads_Tracking::cookie_lead_lists( $_POST['wp_lead_id'] );
 			}
 
 			die();
