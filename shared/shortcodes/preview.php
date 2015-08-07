@@ -85,81 +85,72 @@ $horiz = "<h2 title='Open preview in new tab' class='open_new_tab'>Horizontal Pr
 		wp_localize_script( 'inbound-analytics' , 'inbound_settings', $inbound_localized_data);
 		wp_head();
 ?>
-		<style type="text/css">
-			html {
-				margin: 0 !important;
-			}
+<style type="text/css">
+html {margin: 0 !important;}
+body {padding: 30px 15px;
+background:#fff;
+padding-top: 5px;}
+.bottom-insert-button {
+position: fixed;
+bottom: 5px;
+left: 10%;
+text-align: center;
+margin: auto;
+width: 80%;
+display: inline-block;
+text-decoration: none;
+font-size: 17px;
+line-height: 23px;
+height: 24px;
+margin: 0;
+padding: 0 10px 1px;
+cursor: pointer;
+border-width: 1px;
+border-style: solid;
+-webkit-border-radius: 3px;
+-webkit-appearance: none;
+border-radius: 3px;
+white-space: nowrap;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
 
-			body {
-				padding: 30px 15px;
-				background: #fff;
-				padding-top: 5px;
-			}
+background-color: #21759B;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#2A95C5),to(#21759B));
+background-image: -webkit-linear-gradient(top,#2A95C5,#21759B);
+background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+background-image: linear-gradient(to bottom,#2A95C5,#21759B);
+border-color: #21759B;
+border-bottom-color: #1E6A8D;
+-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+color: #FFF;
+text-decoration: none;
+text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 
-			.bottom-insert-button {
-				position: fixed;
-				bottom: 5px;
-				left: 10%;
-				text-align: center;
-				margin: auto;
-				width: 80%;
-				display: inline-block;
-				text-decoration: none;
-				font-size: 17px;
-				line-height: 23px;
-				height: 24px;
-				margin: 0;
-				padding: 0 10px 1px;
-				cursor: pointer;
-				border-width: 1px;
-				border-style: solid;
-				-webkit-border-radius: 3px;
-				-webkit-appearance: none;
-				border-radius: 3px;
-				white-space: nowrap;
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
-				box-sizing: border-box;
-
-				background-color: #21759B;
-				background-image: -webkit-gradient(linear, left top, left bottom, from(#2A95C5), to(#21759B));
-				background-image: -webkit-linear-gradient(top, #2A95C5, #21759B);
-				background-image: -moz-linear-gradient(top, #2a95c5, #21759b);
-				background-image: -ms-linear-gradient(top, #2a95c5, #21759b);
-				background-image: -o-linear-gradient(top, #2a95c5, #21759b);
-				background-image: linear-gradient(to bottom, #2A95C5, #21759B);
-				border-color: #21759B;
-				border-bottom-color: #1E6A8D;
-				-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
-				box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
-				color: #FFF;
-				text-decoration: none;
-				text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-
-			}
-
-			.disclaimer {
-				top: 0px;
-				display: inline-block;
-				margin-bottom: 20px;
-				font-size: 11px;
-				display: none;
-			}
-
-			.open_new_tab {
-				color: #2465D8;
-				margin-bottom: 15px;
-				cursor: pointer;
-				font-size: 12px;
-				text-align: center;
-				margin-top: 0px;
-				display: none;
-			}
-
-			#close-preview-window {
-				float: right;
-				display: none;
-			}
+}
+.disclaimer {
+top: 0px;
+display: inline-block;
+margin-bottom: 20px;
+font-size: 11px;
+display: none;
+}
+.open_new_tab {
+color: #2465D8;
+margin-bottom: 15px;
+cursor: pointer;
+font-size: 12px;
+text-align: center;
+margin-top: 0px;
+display: none;
+}
+#close-preview-window {
+	float: right;
+	display: none;
+}
 <?php if (preg_match("/social_share/i", $shortcode)) {
 echo "body {
 padding: 10px 0px !important;
