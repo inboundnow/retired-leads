@@ -62,7 +62,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 				$query_string .= $key . '=' . urlencode( wp_unslash( (string) $data ) ) . '&';
 			}
 
-			if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0+
+			if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { /* Akismet v3.0+ */
 				$response = Akismet::http_post( $query_string, 'comment-check' );
 			} else {
 				$response = akismet_http_post( $query_string, $akismet_api_host,
@@ -80,7 +80,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 		/* Get Akismet API key */
 		public static function get_api_key() {
 
-			if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0+
+			if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { /* Akismet v3.0+ */
 				return (bool) Akismet::get_api_key();
 			}
 
@@ -103,7 +103,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 
 			$params = array(
 				'comment_author' => $first_name . ' ' . $last_name,
-				//'comment_author' => 'spamcheck-test-123',
+				/*'comment_author' => 'spamcheck-test-123', */
 				'comment_author_email' => $email_address,
 				'comment_content' => $content
 			);
