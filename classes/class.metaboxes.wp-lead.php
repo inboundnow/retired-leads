@@ -377,23 +377,46 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
         /* Enqueue Admin Scripts */
         public static function enqueue_admin_scripts($hook) {
-            global $post;
+           global $post;
 
-            if (!isset($post) || $post->post_type != 'wp-lead') {
-                return;
+            $post_type = isset($post) ? get_post_type( $post ) : null;
+
+            $screen = get_current_screen();
+
+            if ($screen->id == 'wp-lead') {
+
+                wp_enqueue_script('wpleads-edit', WPL_URLPATH.'assets/js/wpl.admin.edit.js', array('jquery'));
+                wp_enqueue_script('tinysort', WPL_URLPATH.'assets/js/jquery.tinysort.js', array('jquery'));
+                wp_enqueue_script('tag-cloud', WPL_URLPATH.'assets/js/jquery.tagcloud.js', array('jquery'));
+                wp_localize_script( 'wpleads-edit', 'wp_lead_map', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_lead_map_nonce' => wp_create_nonce('wp-lead-map-nonce') ) );
+
+                if (isset($_GET['small_lead_preview'])) {
+                    wp_enqueue_style('wpleads-popup-css', WPL_URLPATH.'assets/css/wpl.popup.css');
+                    wp_enqueue_script('wpleads-popup-js', WPL_URLPATH.'assets/js/wpl.popup.js', array('jquery'));
+                }
+
+                wp_enqueue_style('wpleads-admin-edit-css', WPL_URLPATH.'assets/css/wpl.edit-lead.css');
+
+                //Tool tip js
+                wp_enqueue_script('jquery-qtip', WPL_URLPATH. 'assets/js/jquery-qtip/jquery.qtip.min.js');
+                wp_enqueue_script('wpl-load-qtip', WPL_URLPATH. 'assets/js/jquery-qtip/load.qtip.js');
+                wp_enqueue_style('qtip-css', WPL_URLPATH. 'assets/css/jquery.qtip.min.css'); //Tool tip css
+                wp_enqueue_style('wpleads-admin-css', WPL_URLPATH.'assets/css/wpl.admin.css');
+
+
             }
 
-            if ($hook == 'post-new.php') {
-
+            if ( $hook == 'post-new.php' ) {
+                wp_enqueue_script('wpleads-create-new-lead', WPL_URLPATH. 'assets/js/wpl.add-new.js');
             }
 
-            if ($hook == 'post.php') {
-
+            if ( $hook == 'post.php' ) {
+                if (isset($_GET['small_lead_preview'])) {
+                    wp_enqueue_style('wpleads-popup-css', WPL_URLPATH.'assets/css/wpl.popup.css');
+                }
+                wp_enqueue_style('wpleads-admin-edit-css', WPL_URLPATH.'assets/css/wpl.edit-lead.css');
             }
 
-            if ($hook == 'post-new.php' || $hook == 'post.php') {
-
-            }
         }
 
         /* Print Admin Scripts */
