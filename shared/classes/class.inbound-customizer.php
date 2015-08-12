@@ -25,59 +25,45 @@ class Inbound_Customizer {
 
 
         /* Load only on iframe container window */
-        if (isset($_GET['inbound_iframe_preview_window']))   {
-            /* Enqueue Scripts  */
-            add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_iframe_preview' ));
-
+        if (isset($_GET['inbound_preview']))   {
+            /* Enqueue preview window css */
+            wp_enqueue_style('inbound_iframe_preview_css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
             /* Loads Preview Iframe in wp_head */
-            add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
+            add_action('wp_head', array( __CLASS__ , 'iframe_preview_window_header' ) );
         }
 
         /* Load customizer launch */
-        if (isset($_GET['cta-template-customize']) && $_GET['cta-template-customize']=='on') {
+        if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer'] === 'true') {
             add_filter('wp_head', array( __CLASS__ , 'launch_customizer' ) );
         }
 
-        /* Load only on cta settings page when it customizer mode */
-        if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
-            /* Enqueue Scripts  */
-            add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_settings_scripts' ));
+        /* Load only when customizer customizer mode is on */
+        if (isset($_GET['inbound-frontend-edit']) && $_GET['inbound-frontend-edit'] === 'true') {
+            add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_editor_scripts' ));
 
         }
 
-        if (isset($_GET['live-preview-area'])) {
-            /* Enqueue Scripts  */
-            add_action( 'wp_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_iframe_scripts' ));
+        if (isset($_GET['inbound_editor_preview'])) {
+            show_admin_bar( false );
+            wp_enqueue_style('inbound-preview-iframe-styles', INBOUNDNOW_SHARED_URLPATH . 'css/iframe-preview.css');
+
         }
 
     }
+    /* loads in admin when customizer on */
+    public static function enqueue_editor_scripts() {
 
-    public static function enqueue_iframe_preview() {
-
-        /* Enqueue preview window css */
-        wp_enqueue_style('inbound_iframe_preview_css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
-
-    }
-
-    public static function enqueue_preview_iframe_scripts() {
-        show_admin_bar( false );
-        /*wp_register_script('inbound-customizer-load-js', WP_CTA_URLPATH . 'js/iframe-preview.js', array('jquery'));
-        wp_enqueue_script('inbound-customizer-load-js');*/
-        wp_enqueue_style('cta-preview-iframe-styles', INBOUNDNOW_SHARED_URLPATH . 'css/iframe-preview.css');
-    }
-
-
-    public static function enqueue_settings_scripts() {
-        //show_admin_bar( false ); // doesnt work
         $screen = get_current_screen();
-        wp_enqueue_style('cta-customizer-admin', INBOUNDNOW_SHARED_URLPATH . 'assets/css/new-customizer-admin.css');
+        wp_enqueue_style('inbound-customizer-editor-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/new-customizer-admin.css');
         if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
             return;
         }
-        wp_enqueue_script('cta-frontend-editor-js', INBOUNDNOW_SHARED_URLPATH . 'js/customizer.save.js');
-        wp_enqueue_script('cta-customizer-admin', INBOUNDNOW_SHARED_URLPATH . 'js/admin/new-customizer-admin.js');
+        /* TODO combine and rewrite */
+        wp_enqueue_script('inbound-customizer-editor-js', INBOUNDNOW_SHARED_URLPATH . 'js/customizer.save.js');
+        wp_enqueue_script('inbound-customizer-editor-admin', INBOUNDNOW_SHARED_URLPATH . 'js/admin/new-customizer-admin.js');
 
     }
+    /* TODO @Hudson Standardize meta data across A/B testing post types */
     public static function get_post_variations($id, $post_type) {
             $variations = json_decode( get_post_meta( $id ,'inbound-variations', true) , true );
             $variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active' ) );
@@ -93,85 +79,52 @@ class Inbound_Customizer {
 
             return $variations;
     }
-    /* Adds CTA Preview Iframe */
-    public static function load_preview_iframe() {
-        global $CTA_Variations;
-
-        $wp_cta_variation = (isset($_GET['variation-id'])) ? $_GET['variation-id'] : '0';
-        $post_id = $_GET['post_id'];
-        $post_type = get_post_type($post_id);
-        $variations = self::get_post_variations( $post_id, $post_type );
-
-        ?>
-
-        <link rel="stylesheet" href="<?php echo INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-ab-testing.css';?>" />
-        <style type="text/css">
-
-        #variation-list {
-            position: absolute;
-            top: 0px;
-            left:0px;
-            padding-left: 5px;
-        }
-        #variation-list h3 {
-            text-decoration: none;
-            border-bottom: none;
-        }
-        #variation-list div {
-            display: inline-block;
-        }
-        #current_variation_id, #current-post-id {
-            display: none !important;
-        }
-
-        <?php if ($post_type_is !== "wp-call-to-action") {
-                echo "#variation-list {display:none !important;}";
-            }
-        ?>
-        </style>
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                var current_page = jQuery("#current_variation_id").text();
-                // reload the iframe preview page (for option toggles)
-                jQuery('.variation-wp-cta').on('click', function (event) {
-                    varaition_is = jQuery(this).attr("id");
-                    var original_url = jQuery(parent.document).find("#TB_iframeContent").attr("src");
-                    var current_id = jQuery("#current-post-id").text();
-                    someURL = original_url;
-
-                    splitURL = someURL.split('?');
-                    someURL = splitURL[0];
-                    new_url = someURL + "?wp-cta-variation-id=" + varaition_is + "&wp_cta_iframe_window=on&post_id=" + current_id;
-                    //console.log(new_url);
-                    jQuery(parent.document).find("#TB_iframeContent").attr("src", new_url);
-                });
-
-             });
-            </script>
-        <?php
-        echo "<span id='current-post-id'>$cta_id</span>";
-
-        echo '</div>';
+    /* Adds code to Preview Iframe head tag */
+    public static function iframe_preview_window_header() {
+        /* load custom variation toggles */
 
     }
 
+    public static function add_hidden_inputs() {
+        global $post, $CTA_Variations;
+
+        if ( !$post || $post->post_type != 'wp-call-to-action' ) {
+            return;
+        }
+
+        /*  Add hidden param for visual editor */
+        if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+            echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
+        }
+
+        /* Get current variation id */
+        $vid = CTA_Variations::get_current_variation_id();
+
+        /* Add variation status */
+        $variations_status = $CTA_Variations->get_variation_status( $post->ID , $vid );
+        echo '<input type="hidden" name="wp-cta-variation-status['.$vid.']" value = "'.$variations_status .'">';
+
+        /* Add variation id */
+        echo '<input type="hidden" name="wp-cta-variation-id" id="open_variation" value = "'.$vid .'">';
+
+        /* Add call to action permalink */
+    }
 
     public static function launch_customizer() {
 
         global $post;
 
         $page_id = $post->ID;
-        $permalink = get_permalink( $page_id );
+        $permalink = get_permalink($page_id);
 
-        $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-        $wp_cta_variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
+        $random_string = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
+        $variation_id = (isset($_GET['variation-id'])) ? $_GET['variation-id'] : '0';
 
-        $params = '?wp-cta-variation-id='.$wp_cta_variation.'&cache_bust='.$randomString.'&live-preview-area='.$randomString;
+        $params = '?wp-cta-variation-id='.$variation_id.'&cache_bust='.$random_string.'&live-preview-area='.$random_string;
 
-        $preview_link = add_query_arg( array(  'cache_bust' => $randomString , 'live-preview-area' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
-        $preview_link = apply_filters( 'wp_cta_customizer_preview_link' , $preview_link );
+        $preview_link = add_query_arg( array(  'cache_bust' => $random_string , 'live-preview-area' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
+        $preview_link = apply_filters( 'wp_cta_customizer_preview_link', $preview_link );
 
-        $admin_url = admin_url();
         $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
         wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
