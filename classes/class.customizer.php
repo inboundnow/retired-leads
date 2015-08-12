@@ -58,7 +58,8 @@ class CTA_Customizer {
 	public static function add_hidden_inputs() {
 
 		/* Add hidden param for visual editor */
-		if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+		if((isset($_REQUEST['frontend']) && $_REQUEST['frontend'] === 'true')
+			|| isset($_GET['frontend']) && $_GET['frontend'] === 'true' ) {
 			echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
 		}
 	}
