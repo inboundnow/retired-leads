@@ -711,10 +711,11 @@ if (!class_exists('CTA_Metaboxes')) {
 				return;
 			}
 
-			/* Add hidden param for visual editor */
+			/* Moved to customizer
+			Add hidden param for visual editor
 			if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
 				echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
-			}
+			}*/
 
 			/* Get current variation id */
 			$vid = CTA_Variations::get_current_variation_id();
