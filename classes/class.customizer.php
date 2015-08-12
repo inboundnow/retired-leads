@@ -53,7 +53,7 @@ class CTA_Customizer {
 	public static function enqueue_preview_container_scripts() {
 
 		/* Enqueue customizer CSS */
-		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'css/customizer-ab-testing.css');
+		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
 
 	}
 
@@ -67,7 +67,7 @@ class CTA_Customizer {
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
 		$screen = get_current_screen();
-		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
 		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
 			return;
 		}
@@ -87,7 +87,7 @@ class CTA_Customizer {
 		$post_type_is = get_post_type($cta_id);
 		?>
 
-		<link rel="stylesheet" href="<?php echo WP_CTA_URLPATH . 'css/customizer-ab-testing.css';?>" />
+		<link rel="stylesheet" href="<?php echo WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css';?>" />
 		<style type="text/css">
 
 		#variation-list {
@@ -157,7 +157,7 @@ class CTA_Customizer {
 		$admin_url = admin_url();
 		$customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
-		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'css/customizer-ab-testing.css');
+		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
 		?>
 
 		<style type="text/css">

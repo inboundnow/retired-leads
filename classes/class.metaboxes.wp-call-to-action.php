@@ -769,7 +769,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				return;
 			}
 
-			wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'css/admin-ab-testing.css');
+			wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
 		}
 
 		/**

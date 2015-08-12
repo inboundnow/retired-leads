@@ -34,7 +34,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			/* Load assets for Templates listing page */
 			if ( ( isset($screen) && $screen->base == 'wp-call-to-action_page_wp_cta_manage_templates' ) ){
-				wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'css/admin-templates.css');
+				wp_enqueue_style('wp-cta-css-templates', WP_CTA_URLPATH . 'assets/css/admin-templates.css');
 				wp_enqueue_script('wp-cta-js-templates', WP_CTA_URLPATH . 'js/admin/admin.templates.js');
 			}
 

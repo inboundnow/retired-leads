@@ -401,7 +401,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             if (self::$instance->cta_content_placement === 'slideout') {
                 wp_enqueue_script('scroll-js',WP_CTA_URLPATH . 'js/libraries/scroll.js', array( 'jquery', 'jquery-cookie', 'jquery-total-storage'));
                 // load common cta styles
-                wp_enqueue_style('scroll-cta-css', WP_CTA_URLPATH . 'css/scroll-cta.css');
+                wp_enqueue_style('scroll-cta-css', WP_CTA_URLPATH . 'assets/css/scroll-cta.css');
                 $slide_out_placement = get_post_meta($post_id, 'wp_cta_slide_out_alignment', TRUE);
                 $reveal_on = get_post_meta($post_id, 'wp_cta_slide_out_reveal', TRUE);
                 $reveal_element = get_post_meta($post_id, 'wp_cta_slide_out_element', TRUE);
