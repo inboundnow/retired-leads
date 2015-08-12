@@ -39,15 +39,28 @@ class CTA_Customizer {
 		/* Load only on cta settings page when it customizer mode */
 		if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
 			/* Enqueue Scripts  */
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_settings_scripts' ));
+			add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_settings_scripts' ));
 
 		}
+
 
 		if (isset($_GET['live-preview-area'])) {
 			/* Enqueue Scripts  */
-			add_action( 'wp_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_iframe_scripts' ));
+			add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_preview_iframe_scripts'));
 		}
 
+		/* Add hidden inputs */
+		add_action( 'edit_form_after_title', array(__CLASS__, 'add_hidden_inputs'));
+
+	}
+
+	/* Keep frontend True on post save */
+	public static function add_hidden_inputs() {
+
+		/* Add hidden param for visual editor */
+		if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+			echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
+		}
 	}
 
 	public static function enqueue_preview_container_scripts() {
