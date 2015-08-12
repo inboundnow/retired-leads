@@ -59,15 +59,16 @@ class CTA_Customizer {
 
 	public static function enqueue_preview_iframe_scripts() {
 		show_admin_bar( false );
-		wp_register_script('lp-customizer-load-js', WP_CTA_URLPATH . 'js/customizer.load.js', array('jquery'));
-		wp_enqueue_script('lp-customizer-load-js');
+		/*wp_register_script('inbound-customizer-load-js', WP_CTA_URLPATH . 'js/iframe-preview.js', array('jquery'));
+		wp_enqueue_script('inbound-customizer-load-js');*/
+		wp_enqueue_style('cta-preview-iframe-styles', WP_CTA_URLPATH . 'css/iframe-preview.css');
 	}
 
 
 	public static function enqueue_settings_scripts() {
 		//show_admin_bar( false ); // doesnt work
 		$screen = get_current_screen();
-		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
+		//wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'css/new-customizer-admin.css');
 		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
 			return;
 		}
