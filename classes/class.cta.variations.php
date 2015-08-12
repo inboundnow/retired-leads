@@ -79,8 +79,8 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			$current_variation_id = CTA_Variations::get_current_variation_id();
 
 			/* enqueue and localize scripts */
-			//wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'css/admin-ab-testing.css');
-			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'js/admin/admin.post-edit-ab-testing.js', array( 'jquery' ));
+			//wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
+			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array( 'jquery' ));
 			//wp_localize_script( 'wp-cta-ab-testing-admin-js', 'variation', array( 'pid' => $_GET['post'], 'vid' => $current_variation_id	, 'new_variation' => $new_variation	, 'variations'=> $variations	));
 
 		}

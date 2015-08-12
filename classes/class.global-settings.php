@@ -39,7 +39,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 				return;
 			}
 
-			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'css/admin-global-settings.css');
+			wp_enqueue_style('wp-cta-css-global-settings-here', WP_CTA_URLPATH . 'assets/css/admin-global-settings.css');
 		}
 
 

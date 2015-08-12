@@ -1334,12 +1334,14 @@ if (!class_exists('Inbound_API')) {
 			global $wp_query , $wpdb , $Inbound_Leads;
 
 			/* Check for inbound-api var. Get out if not present */
-			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) ) {
+			if ( ! isset( $wp_query->query_vars[ self::$tracking_endpoint ] ) && ( isset($_SERVER["REQUEST_URI"]) && !strstr($_SERVER["REQUEST_URI"] , self::$tracking_endpoint.'/' ) )) {
 				return;
 			}
 
+			/* discover token */
+			$token = ( isset($wp_query->query_vars[ self::$tracking_endpoint ]) ) ? $wp_query->query_vars[ self::$tracking_endpoint ] : str_replace( '/'.self::$tracking_endpoint.'/' , '' , $_SERVER["REQUEST_URI"] );
+
 			/* Pull record from database */
-			$token = $wp_query->query_vars[ self::$tracking_endpoint ];
 			$table_name = $wpdb->prefix . "inbound_tracked_links";
 			$profiles = $wpdb->get_results("SELECT * FROM {$table_name} where `token` = '{$token}' ;");
 

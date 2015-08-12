@@ -59,7 +59,7 @@ class CTA_Enqueues {
 		}
 
 		/* Loads alignment definitions */
-		wp_enqueue_style('cta-css', WP_CTA_URLPATH . 'css/cta-load.css');
+		wp_enqueue_style('cta-css', WP_CTA_URLPATH . 'assets/css/cta-load.css');
 
 		/* Add edit cta pills to rendered calls to action */
 		if ( current_user_can( 'manage_options' )) {
@@ -79,7 +79,7 @@ class CTA_Enqueues {
 		self::dequeue_3rd_party_scripts();
 
 		/* Enqueues general & unorganized admin stylings */
-		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'css/admin-style.css');
+		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		/* Enqueue select2 support */
 		wp_enqueue_script('select2', WP_CTA_URLPATH . 'js/select2.min.js');
@@ -116,10 +116,10 @@ class CTA_Enqueues {
 		wp_dequeue_script('jquery-qtip');
 		wp_enqueue_script('jquery-qtip', WP_CTA_URLPATH . 'js/libraries/jquery-qtip/jquery.qtip.min.js');
 		wp_enqueue_script('load-qtip', WP_CTA_URLPATH . 'js/libraries/jquery-qtip/load.qtip.js', array('jquery-qtip'));
-		wp_enqueue_style('qtip-css', WP_CTA_URLPATH . 'css/jquery.qtip.min.css');
+		wp_enqueue_style('qtip-css', WP_CTA_URLPATH . 'assets/css/jquery.qtip.min.css');
 
 		/* Enqueue CSS rules for wp-call-to-action post type */
-		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'css/admin-wp-cta-cpt-only-style.css');
+		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css');
 
 		/* Enqueues support for clear stat buttons */
 		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'js/ajax.clearstats.js', array( 'jquery' ) );
@@ -133,7 +133,7 @@ class CTA_Enqueues {
 		/* enqueue scripts and styles for CTA listing page */
 		if ( $screen->id == 'edit-wp-call-to-action') {
 			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
-			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'css/admin-wp-call-to-action-list.css');
+			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'assets/css/admin-wp-call-to-action-list.css');
 			wp_admin_css('thickbox');
 			add_thickbox();
 		}
@@ -162,13 +162,13 @@ class CTA_Enqueues {
 
 		/* Enqueue scripts & styles for cta edit page alone */
 		if ($hook == 'post.php') {
-			wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . 'css/admin-post-edit.css');
+			wp_enqueue_style('admin-post-edit-css', WP_CTA_URLPATH . 'assets/css/admin-post-edit.css');
 		}
 
 		/* Enqueue scripts & styles for cta creation page alone */
 		if ( $hook == 'post-new.php'){
 			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'js/admin/admin.post-new.js', array('jquery'), '1.0', true );
-			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'css/admin-post-new.css');
+			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'assets/css/admin-post-new.css');
 		}
 	}
 
@@ -188,7 +188,7 @@ class CTA_Enqueues {
 		wp_admin_css('thickbox');
 		add_thickbox();
 
-		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'css/admin-style.css');
+		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
 		wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ) );
@@ -199,7 +199,7 @@ class CTA_Enqueues {
 		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker-1.1.6.min.css');
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker.css');
-		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'css/customizer.frontend.css');
+		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'assets/css/customizer.frontend.css');
 		wp_dequeue_script('form-population');
 		wp_dequeue_script('inbound-analytics');
 		wp_enqueue_script('jquery-easing', WP_CTA_URLPATH . 'js/jquery.easing.min.js');
