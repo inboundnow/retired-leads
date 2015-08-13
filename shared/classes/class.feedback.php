@@ -21,11 +21,11 @@ if (!class_exists('Inbound_Feedback')) {
 		global $wp_admin_bar;
 		/* CHECK FOR ACTIVE PLUGINS */
 		$leads_status = FALSE; $landing_page_status = FALSE; $cta_status = FALSE;
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('leads/leads.php')) {
+		if (function_exists('is_plugin_active') && is_plugin_active('leads/leads.php')) {
 			$leads_status = TRUE;
 			$leads_version_number = defined( 'WPL_CURRENT_VERSION' ) ? 'v' . WPL_CURRENT_VERSION : '';
 		}
-		if (function_exists( 'is_plugin_active' ) && is_plugin_active('landing-pages/landing-pages.php')) {
+		if (function_exists('is_plugin_active') && is_plugin_active('landing-pages/landing-pages.php')) {
 			$landing_page_status = TRUE;
 			$landing_page_version_number = defined( 'LANDINGPAGES_CURRENT_VERSION' ) ? 'v' . LANDINGPAGES_CURRENT_VERSION : '';
 

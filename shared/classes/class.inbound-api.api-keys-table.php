@@ -8,10 +8,10 @@
  * @since       2.0
  */
 
-// Exit if accessed directly
+/* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-// Load WP_List_Table if not loaded
+/* Load WP_List_Table if not loaded */
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
@@ -44,11 +44,11 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		public function __construct() {
 			global $status, $page;
 
-			// Set parent defaults
+			/* Set parent defaults */
 			parent::__construct( array(
-				'singular'  => __( 'API Key', INBOUNDNOW_TEXT_DOMAIN ),     // Singular name of the listed records
-				'plural'    => __( 'API Keys', INBOUNDNOW_TEXT_DOMAIN ),    // Plural name of the listed records
-				'ajax'      => false                       // Does this table support ajax?
+				'singular'  => __( 'API Key', INBOUNDNOW_TEXT_DOMAIN ),     /* Singular name of the listed records */
+				'plural'    => __( 'API Keys', INBOUNDNOW_TEXT_DOMAIN ),    /* Plural name of the listed records */
+				'ajax'      => false                       /* Does this table support ajax? */
 			) );
 
 			$this->inline_js();
@@ -159,7 +159,7 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		 * @return void
 		 */
 		public function bulk_actions( $which = '' ) {
-			// These aren't really bulk actions but this outputs the markup in the right place
+			/* These aren't really bulk actions but this outputs the markup in the right place */
 			static $inbound_api_is_bottom;
 
 			if( $inbound_api_is_bottom ) {
@@ -249,8 +249,8 @@ if (!class_exists('Inbound_API_Keys_Table')) {
 		public function prepare_items() {
 			$columns = $this->get_columns();
 
-			$hidden = array(); // No hidden columns
-			$sortable = array(); // Not sortable... for now
+			$hidden = array(); /* No hidden columns */
+			$sortable = array(); /* Not sortable... for now */
 
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
