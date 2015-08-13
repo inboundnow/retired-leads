@@ -74,7 +74,7 @@ class CTA_Customizer {
 		show_admin_bar( false );
 		/*wp_register_script('inbound-customizer-load-js', WP_CTA_URLPATH . 'assets/js/iframe-preview.js', array('jquery'));
 		wp_enqueue_script('inbound-customizer-load-js');*/
-		wp_enqueue_style('cta-preview-iframe-styles', WP_CTA_URLPATH . 'css/iframe-preview.css');
+		wp_enqueue_style('cta-preview-iframe-styles', WP_CTA_URLPATH . 'assets/css/iframe-preview.css');
 	}
 
 
