@@ -45,7 +45,7 @@ class Inbound_Customizer {
 
         if (isset($_GET['inbound_editor_preview'])) {
             show_admin_bar( false );
-            wp_enqueue_style('inbound-preview-iframe-styles', INBOUNDNOW_SHARED_URLPATH . 'css/iframe-preview.css');
+            wp_enqueue_style('inbound-preview-iframe-styles', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
 
         }
 
