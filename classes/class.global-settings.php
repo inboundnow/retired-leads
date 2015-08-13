@@ -221,12 +221,12 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare(phpversion(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( "Inbound Now requires PHP 5 or above." , "cta"); ?></span>
 									<?php
 								}
@@ -242,12 +242,12 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare($wpdb->db_version(), '5.0.0', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( "Inbound Now requires MySQL 5 or above." , "cta"); ?></span>
 									<?php
 								}
@@ -263,12 +263,12 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							<?php
 								if(version_compare(get_bloginfo("version"), '3.3', '>')){
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/tick.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/tick.png"/>
 									<?php
 								}
 								else{
 									?>
-									<img src="<?php echo WP_CTA_URLPATH;?>/images/cross.png"/>
+									<img src="<?php echo WP_CTA_URLPATH;?>assets/images/cross.png"/>
 									<span class="installation_item_message"><?php _e( 'landing pages requires version X or higher' , 'cta' ) ?></span>
 									<?php
 								}

@@ -59,7 +59,7 @@ class CTA_Customizer {
 
 	public static function enqueue_preview_iframe_scripts() {
 		show_admin_bar( false );
-		wp_register_script('lp-customizer-load-js', WP_CTA_URLPATH . 'js/customizer.load.js', array('jquery'));
+		wp_register_script('lp-customizer-load-js', WP_CTA_URLPATH . 'assets/js/customizer.load.js', array('jquery'));
 		wp_enqueue_script('lp-customizer-load-js');
 	}
 
@@ -71,8 +71,8 @@ class CTA_Customizer {
 		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
 			return;
 		}
-		wp_enqueue_script('cta-frontend-editor-js', WP_CTA_URLPATH . 'js/customizer.save.js');
-		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'js/admin/new-customizer-admin.js');
+		wp_enqueue_script('cta-frontend-editor-js', WP_CTA_URLPATH . 'assets/js/customizer.save.js');
+		wp_enqueue_script('cta-customizer-admin', WP_CTA_URLPATH . 'assets/js/admin/new-customizer-admin.js');
 
 	}
 
