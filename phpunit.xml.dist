@@ -1,8 +1,8 @@
-<phpunit bootstrap="tests/phpunit/bootstrap.php" backupGlobals="false" colors="true">
+<phpunit bootstrap="assets/tests/phpunit/bootstrap.php" backupGlobals="false" colors="true">
     <testsuites>
         <!-- Default test suite to run all tests -->
         <testsuite>
-            <directory prefix="test." suffix=".php">tests/phpunit/</directory>
+            <directory prefix="test." suffix=".php">assets/tests/phpunit/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
