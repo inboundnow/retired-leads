@@ -47,7 +47,20 @@ var banner = [
     '\n'
 ].join('');
 
+var postcss = require('gulp-postcss'),
+    processors = [
+        require('postcss-mixins'),
+        require('postcss-simple-vars'),
+        require('postcss-nested'),
+        require('autoprefixer-core')({ browsers: ['last 2 versions', '> 2%'] })
+    ];
 
+gulp.task('css', function() {
+  return gulp.src('./shared/assets/preCSS/test.css')
+    .pipe(postcss(processors))
+    .pipe(gulp.dest('./shared/assets/css/'));
+    console.log('go');
+});
 
 //gulp.task('phplint', function(cb) {
     //phplint(['src/**/*.php'], {
