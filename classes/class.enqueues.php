@@ -63,7 +63,7 @@ class CTA_Enqueues {
 
 		/* Add edit cta pills to rendered calls to action */
 		if ( current_user_can( 'manage_options' )) {
-			wp_enqueue_script('frontend-cta-admin', WP_CTA_URLPATH . 'js/admin/frontend-admin-cta.js');
+			wp_enqueue_script('frontend-cta-admin', WP_CTA_URLPATH . 'assets/js/admin/frontend-admin-cta.js');
 			wp_localize_script( 'frontend-cta-admin', 'ctafrontend', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
 		}
@@ -82,7 +82,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		/* Enqueue select2 support */
-		wp_enqueue_script('select2', WP_CTA_URLPATH . 'js/select2.min.js');
+		wp_enqueue_script('select2', WP_CTA_URLPATH . 'assets/js/select2.min.js');
 
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
@@ -108,31 +108,31 @@ class CTA_Enqueues {
 		wp_enqueue_script(array('jquery', 'jqueryui', 'editor', 'thickbox', 'media-upload'));
 
 		/* Enqueue jpicker for color selectors  */
-		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'js/libraries/jpicker/jpicker-1.1.6.min.js');
-		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
-		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker-1.1.6.min.css');
+		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js');
+		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/' ));
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css');
 
 		/* Enqueue qtip support */
 		wp_dequeue_script('jquery-qtip');
-		wp_enqueue_script('jquery-qtip', WP_CTA_URLPATH . 'js/libraries/jquery-qtip/jquery.qtip.min.js');
-		wp_enqueue_script('load-qtip', WP_CTA_URLPATH . 'js/libraries/jquery-qtip/load.qtip.js', array('jquery-qtip'));
+		wp_enqueue_script('jquery-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/jquery.qtip.min.js');
+		wp_enqueue_script('load-qtip', WP_CTA_URLPATH . 'assets/lib/jquery-qtip/load.qtip.js', array('jquery-qtip'));
 		wp_enqueue_style('qtip-css', WP_CTA_URLPATH . 'assets/css/jquery.qtip.min.css');
 
 		/* Enqueue CSS rules for wp-call-to-action post type */
 		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css');
 
 		/* Enqueues support for clear stat buttons */
-		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'js/ajax.clearstats.js', array( 'jquery' ) );
+		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
 		wp_localize_script( 'wp-cta-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'wp_call_to_action_clear_nonce' => wp_create_nonce('wp-call-to-action-clear-nonce') ) );
 
 		/*  Enqueue supporting js for Global Settings page */
 		if (isset($_GET['page']) && $_GET['page'] === 'wp_cta_global_settings') {
-			wp_enqueue_script('cta-settings-js', WP_CTA_URLPATH . 'js/admin/admin.global-settings.js');
+			wp_enqueue_script('cta-settings-js', WP_CTA_URLPATH . 'assets/js/admin/admin.global-settings.js');
 		}
 
 		/* enqueue scripts and styles for CTA listing page */
 		if ( $screen->id == 'edit-wp-call-to-action') {
-			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'js/admin/admin.wp-call-to-action-list.js');
+			wp_enqueue_script('wp-call-to-action-list', WP_CTA_URLPATH . 'assets/js/admin/admin.wp-call-to-action-list.js');
 			wp_enqueue_style('wp-call-to-action-list-css', WP_CTA_URLPATH.'assets/css/admin-wp-call-to-action-list.css');
 			wp_admin_css('thickbox');
 			add_thickbox();
@@ -145,11 +145,11 @@ class CTA_Enqueues {
 			add_filter( 'wp_default_editor', array( __CLASS__ , 'set_default_editor_mode' ) );/* force visual editor to open in text mode */
 
 			/* Enqueue UI assisting js */
-			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
+			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
 			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ) );
 
 			/* Enqueue supportive js for template switching */
-			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'js/admin/admin.metaboxes.js');
+			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js');
 			$template_data = $CTAExtensions->definitions;
 			$template_data = json_encode($template_data);
 			$template = get_post_meta($post->ID, 'wp-cta-selected-template', true);
@@ -167,7 +167,7 @@ class CTA_Enqueues {
 
 		/* Enqueue scripts & styles for cta creation page alone */
 		if ( $hook == 'post-new.php'){
-			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'js/admin/admin.post-new.js', array('jquery'), '1.0', true );
+			wp_enqueue_script('wp-cta-js-create-new', WP_CTA_URLPATH . 'assets/js/admin/admin.post-new.js', array('jquery'), '1.0', true );
 			wp_enqueue_style('wp-cta-css-post-new', WP_CTA_URLPATH . 'assets/css/admin-post-new.css');
 		}
 	}
@@ -183,26 +183,26 @@ class CTA_Enqueues {
 
 		wp_enqueue_script(array('jquery', 'editor', 'thickbox', 'media-upload'));
 		wp_dequeue_script('jquery-cookie');
-		wp_enqueue_script('jquery-cookie', WP_CTA_URLPATH . 'js/jquery.cookie.js');
+		wp_enqueue_script('jquery-cookie', WP_CTA_URLPATH . 'assets/js/jquery.cookie.js');
 		wp_enqueue_style( 'wp-admin' );
 		wp_admin_css('thickbox');
 		add_thickbox();
 
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
-		wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'js/admin/admin.post-edit.js');
+		wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
 		wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ) );
-		wp_enqueue_script('wp-cta-frontend-editor-js', WP_CTA_URLPATH . 'js/customizer.save.js');
+		wp_enqueue_script('wp-cta-frontend-editor-js', WP_CTA_URLPATH . 'assets/js/customizer.save.js');
 
 		//jpicker - color picker
-		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'js/libraries/jpicker/jpicker-1.1.6.min.js');
-		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH.'js/libraries/jpicker/images/' ));
-		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker-1.1.6.min.css');
-		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'js/libraries/jpicker/css/jPicker.css');
+		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js');
+		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/' ));
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css');
+		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker.css');
 		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'assets/css/customizer.frontend.css');
 		wp_dequeue_script('form-population');
 		wp_dequeue_script('inbound-analytics');
-		wp_enqueue_script('jquery-easing', WP_CTA_URLPATH . 'js/jquery.easing.min.js');
+		wp_enqueue_script('jquery-easing', WP_CTA_URLPATH . 'assets/js/jquery.easing.min.js');
 	}
 
 	public static function set_default_editor_mode() {

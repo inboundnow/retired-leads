@@ -1358,7 +1358,6 @@ if (!class_exists('Inbound_API')) {
 
 			/* Add lead to lists */
 			if (isset($args['add_lists']) && self::validate_parameter( $args['add_lists'] , 'add_lists' , 'array' ) ) {
-
 				foreach ( $args['add_lists'] as $list_id ) {
 					$Inbound_Leads->add_lead_to_list( $args['id'] , $list_id );
 				}

@@ -16,8 +16,7 @@ jQuery(document).ready(function ($) {
 	jQuery(changebutton).appendTo("#templates");
 	jQuery("#wp_cta_template_change a").removeClass("button-primary").addClass("button");
 
-	
-	/*jQuery("#postbox-container-1").html("<div class='postbox'><center><h3>Download Additional Templates</h3><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store'><img src='/wp-content/plugins/wp-call-to-actions/images/get-wordpress-templates.png'></a><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store' class='button new-wp-cta-button button-primary button-large'>Download Call to Action Templates</a></center></div><div class='postbox'><center><h3>Need Custom Template Design?</h3><a target='_blank' href='/wp-admin/edit.php?post_type=wp-call-to-action&page=wp_cta_store'><img src='/wp-content/plugins/wp-call-to-actions/images/get-custom-setup.png'></a><a target='_blank' href='http://www.inboundnow.com/wp-call-to-actions/custom-wordpress-wp-call-to-action-setup/' class='button new-wp-cta-button button-primary button-large'>Get Custom Template Setup</a></center></div>"); */
+
 	jQuery('.wp_cta_select_template').click(function(){
 	jQuery(".mceIframeContainer iframe#content_ifr").css("height", "100%");
 	jQuery("#wp-content-editor-container .mceStatusbar").css("display", "none");

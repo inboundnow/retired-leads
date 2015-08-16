@@ -80,7 +80,7 @@
 }
 #wp_cta_close
 {
-    background: #fff url(../css/images/close.gif) no-repeat 0;
+    background: #fff url(../asseets/css/images/close.gif) no-repeat 0;
     border: none;
     display: block;
     height: 13px;
