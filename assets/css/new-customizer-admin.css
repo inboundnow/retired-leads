@@ -188,12 +188,7 @@ display: block !important;
 margin-bottom: 5px;
 }
 .inbound-wysiwyg-option, .inbound-textarea-option {
-width: 106% !important; }
-.inbound-wysiwyg-option {
-margin-left: -17px !important;
-}
-.inbound-meta-box-option.inbound-wysiwyg-option {
-margin-left: -12px !important;
+    width: 99%;
 }
 .mceIframeContainer.mceFirst.mceLast iframe {
 	width: 90% !important;
