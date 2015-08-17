@@ -34,27 +34,27 @@ if (!class_exists('Inbound_Menus_Adminbar')) {
 		public static function hooks() {
 
 			/* load main hook */
-			add_action( 'admin_bar_menu', array( __CLASS__ , 'load_inboundnow_menu' ), 98);
+			add_action( 'admin_bar_menu', array(__CLASS__, 'load_inboundnow_menu' ), 98);
 
 			/* add filters here */
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_callstoaction') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_landingpages') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_leads') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_mailer') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_automation') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_forms') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_manage_templates') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_settings') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_analytics') , 10 );
-			add_filter('inboundnow_menu_primary' , array( __CLASS__ , 'load_seo') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_callstoaction') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_landingpages') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_leads') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_mailer') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_automation') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_forms') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_manage_templates') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_settings') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_analytics') , 10 );
+			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_seo') , 10 );
 
 
-			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_support') , 10 );
-			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_inbound_hq') , 10 );
-			add_filter('inboundnow_menu_secondary' , array( __CLASS__ , 'load_debug') , 10 );
+			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_support') , 10 );
+			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_inbound_hq') , 10 );
+			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_debug') , 10 );
 
 			/* Enqueue JS/CSS */
-			add_action('admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_js_css' ) );
+			add_action('admin_enqueue_scripts' , array(__CLASS__, 'enqueue_js_css' ) );
 
 		}
 

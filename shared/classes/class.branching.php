@@ -29,16 +29,16 @@ if ( !class_exists('Inbound_Branching')	) {
 		*/
 		private static function load_hooks() {
 			/* add controls */
-			add_filter('plugin_action_links', array( __CLASS__ ,  'add_plugin_options' ) , 20 , 2);
+			add_filter('plugin_action_links', array(__CLASS__,  'add_plugin_options' ) , 20 , 2);
 
 			/* enqueue js includes */
-			add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts' ) );
 
 			/* add js listeners */
-			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_js_css' ) );
+			add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_js_css' ) );
 
 			/* Adds listener to save email data */
-			add_action( 'wp_ajax_inbound_toggle_branch', array( __CLASS__ , 'toggle_branch' ) );
+			add_action( 'wp_ajax_inbound_toggle_branch', array(__CLASS__, 'toggle_branch' ) );
 		}
 
 

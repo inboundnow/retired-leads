@@ -107,14 +107,14 @@ if (!class_exists('Inbound_API')) {
 		 */
 		public function __construct() {
 			/* Create endpoint listeners */
-			add_action( 'init',                     array( __CLASS__ , 'add_endpoint'     ) );
+			add_action( 'init',                     array(__CLASS__, 'add_endpoint'     ) );
 
 			/* Build Query Router */
-			add_action( 'template_redirect',        array( __CLASS__ , 'process_api_query'    ), -1 );
-			add_action( 'template_redirect',        array( __CLASS__ , 'process_tracked_link'    ), -1 );
+			add_action( 'template_redirect',        array(__CLASS__, 'process_api_query'    ), -1 );
+			add_action( 'template_redirect',        array(__CLASS__, 'process_tracked_link'    ), -1 );
 
 			/* Listen for & execute api key commands */
-			add_action( 'inbound_process_api_key',  array( __CLASS__ , 'process_api_key'  ) );
+			add_action( 'inbound_process_api_key',  array(__CLASS__, 'process_api_key'  ) );
 
 			/* Determine if JSON_PRETTY_PRINT is available */
 			self::$pretty_print = defined( 'JSON_PRETTY_PRINT' ) ? JSON_PRETTY_PRINT : null;

@@ -110,7 +110,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*  Loads the correct .mo file for this plugin
 		*/
 		private static function load_text_domain_init() {
-			add_action( 'init' , array( __CLASS__ , 'load_text_domain' ) );
+			add_action( 'init' , array(__CLASS__, 'load_text_domain' ) );
 		}
 
 		public static function load_text_domain() {

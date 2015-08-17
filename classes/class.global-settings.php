@@ -25,8 +25,8 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_scripts' ) );
-			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array( __CLASS__ , 'plugin_action_links' ));
+			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ) );
+			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array(__CLASS__, 'plugin_action_links' ));
 		}
 
 		/**

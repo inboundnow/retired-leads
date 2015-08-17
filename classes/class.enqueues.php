@@ -18,8 +18,8 @@ class CTA_Enqueues {
 	*  Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		add_action('wp_enqueue_scripts', array( __CLASS__ , 'frontend_enqueues' ) );
-		add_action('admin_enqueue_scripts', array( __CLASS__ , 'backend_enqueues' ) );
+		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues' ) );
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues' ) );
 	}
 
 	/**
@@ -142,7 +142,7 @@ class CTA_Enqueues {
 		if ( isset($hooks) && $hook == 'post-new.php' || $hook == 'post.php') {
 
 			/* Set the default editor mode */
-			add_filter( 'wp_default_editor', array( __CLASS__ , 'set_default_editor_mode' ) );/* force visual editor to open in text mode */
+			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode' ) );/* force visual editor to open in text mode */
 
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');

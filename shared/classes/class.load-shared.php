@@ -146,7 +146,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		*  Hooks shared activation rules into admin_init
 		*/
 		public static function load_activation_rules() {
-			add_action('admin_init' , array( __CLASS__ , 'run_activation_rules') );
+			add_action('admin_init' , array(__CLASS__, 'run_activation_rules') );
 		}
 
 		/**

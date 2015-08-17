@@ -9,8 +9,8 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 
 		static function init() {
 			/* determines if in ajax mode */
-			add_action('admin_notices', array( __CLASS__ , 'inbound_notice'));
-			add_action('admin_init',  array( __CLASS__ , 'inbound_notice_ignore'));
+			add_action('admin_notices', array(__CLASS__, 'inbound_notice'));
+			add_action('admin_init',  array(__CLASS__, 'inbound_notice_ignore'));
 		}
 
 		/* Fix JavaScript Conflicts in WordPress */

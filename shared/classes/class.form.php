@@ -16,7 +16,7 @@ if (!class_exists('Inbound_Forms')) {
             add_action('wp_footer', array(__CLASS__, 'print_script'));
             add_action('wp_footer', array(__CLASS__, 'inline_my_script'));
             add_action( 'init',	array(__CLASS__, 'do_actions'));
-            add_filter( 'inbound_replace_email_tokens' , array( __CLASS__ , 'replace_tokens' ) , 10 , 3 );
+            add_filter( 'inbound_replace_email_tokens' , array(__CLASS__, 'replace_tokens' ) , 10 , 3 );
 
         }
 

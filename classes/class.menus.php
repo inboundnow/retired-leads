@@ -18,7 +18,7 @@ class CTA_Menus {
 	*  Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		add_action('admin_menu', array( __CLASS__ , 'add_sub_menus' ) );
+		add_action('admin_menu', array(__CLASS__, 'add_sub_menus' ) );
 	}
 
 	/**

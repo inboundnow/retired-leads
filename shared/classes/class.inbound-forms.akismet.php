@@ -12,7 +12,7 @@ if ( !class_exists('Inbound_Akismet') ) {
 		private function load_hooks() {
 			/* Load hooks if akismet filtering is enabled */
 			if (get_option('inbound_forms_enable_akismet' , '1' )) {
-				add_action( 'inbound_check_if_spam' , array( __CLASS__ , 'check_is_spam' ) , 10 , 2 );
+				add_action( 'inbound_check_if_spam' , array(__CLASS__, 'check_is_spam' ) , 10 , 2 );
 			} else {
 
 			}

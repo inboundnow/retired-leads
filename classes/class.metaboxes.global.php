@@ -24,10 +24,10 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 		*/
 		public static function load_hooks() {
 			/* Add metaboxes */
-			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );
+			add_action('add_meta_boxes', array(__CLASS__, 'load_metaboxes' ) );
 
 			/* Saves all all incoming POST data as meta pairs */
-			add_action( 'save_post' , array( __CLASS__ , 'save_data' ) );
+			add_action( 'save_post' , array(__CLASS__, 'save_data' ) );
 
 		}
 
@@ -74,7 +74,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 					add_meta_box(
 						'wp-cta-inert-to-post',
 						__( 'Insert Call to Action Template into Content' , 'cta' ) ,
-						array( __CLASS__ , 'display_cta_placement_metabox' ) ,
+						array(__CLASS__, 'display_cta_placement_metabox' ) ,
 						$value,
 						'normal',
 						$priority

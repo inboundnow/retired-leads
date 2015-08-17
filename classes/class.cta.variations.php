@@ -11,23 +11,23 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		public static function load_hooks() {
 
 			/* Delete variation listener */
-			add_action( 'admin_init' , array( __CLASS__ , 'add_listeners' ) );
+			add_action( 'admin_init' , array(__CLASS__, 'add_listeners' ) );
 
 			/* Builds variation object on CTA save */
-			add_action( 'save_post', array( __CLASS__ , 'save_variation_object_data' ) );
+			add_action( 'save_post', array(__CLASS__, 'save_variation_object_data' ) );
 
 			/* Filter to add variation id to end of meta key */
-			add_filter( 'wp_cta_prepare_input_id' , array( __CLASS__ , 'prepare_input_id' ) );
+			add_filter( 'wp_cta_prepare_input_id' , array(__CLASS__, 'prepare_input_id' ) );
 
 			/* Appends variation id to given url */
-			add_filter( 'wp_cta_customizer_customizer_link', array( __CLASS__ , 'append_variation_id_to_url') );
-			add_filter( 'post_type_link', array( __CLASS__ , 'append_variation_id_to_url') );
+			add_filter( 'wp_cta_customizer_customizer_link', array(__CLASS__, 'append_variation_id_to_url') );
+			add_filter( 'post_type_link', array(__CLASS__, 'append_variation_id_to_url') );
 
 			/* Records impression for cta */
-			add_action( 'wp_cta_record_impression' , array( __CLASS__ , 'record_impression' ) , 10, 2);
+			add_action( 'wp_cta_record_impression' , array(__CLASS__, 'record_impression' ) , 10, 2);
 
 			/* Records conversion for cta */
-			add_action( 'wp_cta_record_conversion' , array( __CLASS__ , 'record_conversion' ) , 10, 2);
+			add_action( 'wp_cta_record_conversion' , array(__CLASS__, 'record_conversion' ) , 10, 2);
 		}
 
 		/* Listens for commands */

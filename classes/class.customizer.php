@@ -106,7 +106,7 @@ class CTA_Customizer {
 		global $post;
 
 		$page_id = $post->ID;
-		$permalink = get_permalink( $page_id );
+		$permalink = get_permalink($page_id);
 
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
 		$wp_cta_variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';

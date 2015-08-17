@@ -31,12 +31,12 @@ class Inbound_Customizer {
             /* Enqueue preview window css */
             wp_enqueue_style('inbound_iframe_preview_css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
             /* Loads Preview Iframe in wp_head */
-            add_action('wp_head', array( __CLASS__ , 'iframe_preview_window_header' ) );
+            add_action('wp_head', array(__CLASS__, 'iframe_preview_window_header' ) );
         }
 
         /* Load customizer launch */
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer'] === 'true') {
-            add_filter('wp_head', array( __CLASS__ , 'launch_customizer' ) );
+            add_filter('wp_head', array(__CLASS__, 'launch_customizer' ) );
         }
 
         /* Load only when customizer customizer mode is on */

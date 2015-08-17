@@ -19,36 +19,36 @@ if (!class_exists('CTA_Metaboxes')) {
 
 		public static function load_hooks() {
 			/* Add metaboxes */
-			add_action('add_meta_boxes', array( __CLASS__ , 'load_metaboxes' ) );
+			add_action('add_meta_boxes', array(__CLASS__, 'load_metaboxes' ) );
 
 			/* Load template selector in background */
-			add_action('admin_notices', array( __CLASS__ , 'load_template_select_container' ) );
+			add_action('admin_notices', array(__CLASS__, 'load_template_select_container' ) );
 
 			/* Add ajax listeners for switching templates */
-			add_action( 'wp_ajax_nopriv_wp_cta_get_template_meta', array( __CLASS__ , 'switch_templates' ) );
-			add_action( 'wp_ajax_wp_cta_get_template_meta', array( __CLASS__ , 'switch_templates' )  );
+			add_action( 'wp_ajax_nopriv_wp_cta_get_template_meta', array(__CLASS__, 'switch_templates' ) );
+			add_action( 'wp_ajax_wp_cta_get_template_meta', array(__CLASS__, 'switch_templates' )  );
 
 			/* Add shortcode information */
-			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_shortcode_data' ) );
+			add_action( 'edit_form_after_title',	array(__CLASS__, 'add_shortcode_data' ) );
 
 			/* Add variation tabs */
-			add_action('edit_form_after_title', array( __CLASS__ , 'add_variation_tabs' ) , 5);
+			add_action('edit_form_after_title', array(__CLASS__, 'add_variation_tabs' ) , 5);
 
 			/* Add hidden inputs */
-			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_hidden_inputs' ) );
+			add_action( 'edit_form_after_title',	array(__CLASS__, 'add_hidden_inputs' ) );
 
 			/* Change default title placeholder */
-			add_filter( 'enter_title_here', array( __CLASS__ , 'change_title_placeholder_text' ) , 10, 2 );
+			add_filter( 'enter_title_here', array(__CLASS__, 'change_title_placeholder_text' ) , 10, 2 );
 
 			/* Add variation notes input box */
-			add_action( 'edit_form_after_title',	array( __CLASS__ , 'add_variation_notes' ) );
+			add_action( 'edit_form_after_title',	array(__CLASS__, 'add_variation_notes' ) );
 
 			/* Enqueue JS */
-			add_action( 'admin_enqueue_scripts', array( __CLASS__ , 'enqueue_admin_scripts' ) );
-			add_action( 'admin_print_footer_scripts', array( __CLASS__ , 'print_admin_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts' ) );
+			add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_admin_scripts' ) );
 
 			/* Saves all all incoming POST data as meta pairs */
-			add_action( 'save_post' , array( __CLASS__ , 'save_call_to_action_data' ) );
+			add_action( 'save_post' , array(__CLASS__, 'save_call_to_action_data' ) );
 
 			/* Remove WordPress SEO Metabox from wp-call-to-action post_type */
 			add_action( 'add_meta_boxes', array( __CLASS__  , 'remove_wp_seo' ) , 100000 );
@@ -82,7 +82,7 @@ if (!class_exists('CTA_Metaboxes')) {
 				add_meta_box(
 					"wp_cta_template_select_meta_box", // $id
 					"<small>$template_name ".__('Options:' , 'cta' ). "</small>",
-					array( __CLASS__ , 'show_template_settings' ), // $callback
+					array(__CLASS__, 'show_template_settings' ), // $callback
 					'wp-call-to-action', // post-type
 					'normal', // $context
 					'high',// $priority
@@ -110,7 +110,7 @@ if (!class_exists('CTA_Metaboxes')) {
 					add_meta_box(
 						"wp_cta_{$id}_custom_meta_box", // $id
 						"$name",
-						array( __CLASS__ , 'show_extension_metabox' ), // $callback
+						array(__CLASS__, 'show_extension_metabox' ), // $callback
 						'wp-call-to-action', // post-type
 						$position , // $context
 						$priority ,// $priority
@@ -124,7 +124,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_meta_box(
 				'wp_cta_tracking_metabox', // $id
 				__( 'Advanced Call to Action Options' , 'cta' ), // $title
-				array( __CLASS__ , 'show_advanced_settings' ), // $callback
+				array(__CLASS__, 'show_advanced_settings' ), // $callback
 				'wp-call-to-action', // $page
 				'normal', // $context
 				'low'
@@ -135,7 +135,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_meta_box(
 				'wp_cta_3_custom_css',
 				__( 'Custom CSS' , 'cta' ),
-				array( __CLASS__ , 'show_custom_css' ),
+				array(__CLASS__, 'show_custom_css' ),
 				'wp-call-to-action',
 				'normal',
 				'low'
@@ -145,7 +145,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_meta_box(
 				'wp_cta_3_custom_js',
 				__( 'Custom JS' , 'cta' ),
-				array( __CLASS__ , 'show_custom_js' ),
+				array(__CLASS__, 'show_custom_js' ),
 				'wp-call-to-action',
 				'normal',
 				'low'
@@ -155,7 +155,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_meta_box(
 				'wp_cta_ab_display_stats_metabox',
 				__( 'A/B Testing', 'cta' ),
-				array( __CLASS__ , 'show_stats_metabox'),
+				array(__CLASS__, 'show_stats_metabox'),
 				'wp-call-to-action' ,
 				'side',
 				'high'

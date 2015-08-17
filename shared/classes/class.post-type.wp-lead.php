@@ -17,18 +17,18 @@ if ( !class_exists('Inbound_Leads') ) {
 		*/
 		private function load_hooks() {
 			/* Register Leads Post Type */
-			add_action( 'init' , array( __CLASS__ , 'register_post_type' ));
-			add_action( 'init' , array( __CLASS__ , 'register_taxonomies' ));
+			add_action( 'init' , array(__CLASS__, 'register_post_type' ));
+			add_action( 'init' , array(__CLASS__, 'register_taxonomies' ));
 
 			/* Modify columns on lead list creation page */
-			add_filter( 'manage_edit-wplead_list_category_columns' , array( __CLASS__ , 'register_lead_list_columns' ));
-			add_filter( 'manage_wplead_list_category_custom_column' , array( __CLASS__ , 'support_lead_list_columns' ), 10, 3);
+			add_filter( 'manage_edit-wplead_list_category_columns' , array(__CLASS__, 'register_lead_list_columns' ));
+			add_filter( 'manage_wplead_list_category_custom_column' , array(__CLASS__, 'support_lead_list_columns' ), 10, 3);
 
 			if (is_admin()) {
-				add_action( 'edit_form_after_title', array( __CLASS__ , 'install_leads_prompt' ) );
+				add_action( 'edit_form_after_title', array(__CLASS__, 'install_leads_prompt' ) );
 
 				/* Remove lead tags menu item */
-				add_filter( 'admin_menu' , array( __CLASS__ , 'remove_menus' ) );
+				add_filter( 'admin_menu' , array(__CLASS__, 'remove_menus' ) );
 			}
 		}
 		/**
