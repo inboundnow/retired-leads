@@ -4,7 +4,6 @@
  */
 
 /* CSS for the Customizer Edit */
-:root:root:root .inbound-customizer {
-
-
+:root body.customize-support {
+    background: red !important;
 }

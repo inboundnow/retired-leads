@@ -402,7 +402,7 @@ display: inline-block;}
 			/* This will control the dequing */
 			/*
 			foreach ($scripts_queued as $key => $value) {
-				//echo $key . $value;
+
 				if (!in_array($value, $white_list_scripts)){
 				wp_dequeue_script( $value );
 				}

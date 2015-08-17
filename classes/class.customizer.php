@@ -38,6 +38,7 @@ class CTA_Customizer {
 		/* Load customizer Parent Window. 'inbound-editor' & 'inbound-preview' live inside */
 		if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
 			add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
+			add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
 		}
 
 		/* Load customizer editor */
@@ -100,7 +101,10 @@ class CTA_Customizer {
 		/* Way to toggle between Variations */
 	}
 
-
+	public static function customizer_parent_scripts() {
+		wp_enqueue_style('inbound-preview', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-parent.css');
+		/* todo enqueue script */
+	}
 	public static function launch_customizer() {
 
 		global $post;
