@@ -24,7 +24,9 @@ class Inbound_Customizer {
     public static function load_hooks() {
 
 
-        /* Load only on iframe container window */
+        /* Load generic iframe preview not in customizer
+            TODO: Move elsewhere
+        */
         if (isset($_GET['inbound_preview']))   {
             /* Enqueue preview window css */
             wp_enqueue_style('inbound_iframe_preview_css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
@@ -85,6 +87,12 @@ class Inbound_Customizer {
 
     }
 
+    add_filter('admin_body_class', 'add_body_classes');
+    public static function add_body_classes($classes) {
+            $classes[] = 'inbound-customizer';
+            return $classes;
+    }
+
     public static function add_hidden_inputs() {
         global $post, $CTA_Variations;
 
@@ -93,7 +101,7 @@ class Inbound_Customizer {
         }
 
         /*  Add hidden param for visual editor */
-        if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+        if(isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] == 'true') {
             echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
         }
 
@@ -125,7 +133,7 @@ class Inbound_Customizer {
         $preview_link = add_query_arg( array(  'cache_bust' => $random_string , 'live-preview-area' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
         $preview_link = apply_filters( 'wp_cta_customizer_preview_link', $preview_link );
 
-        $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
+        $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
         wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
         ?>

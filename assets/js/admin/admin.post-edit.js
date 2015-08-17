@@ -1,11 +1,11 @@
 jQuery(document).ready(function($) {
-	
+
 	/* Removes wp_content wysiwyg */
 	jQuery('#postdivrich').hide();
-	
+
 	/* Removes Permalink edit option */
 	jQuery('#edit-slug-box').hide();
-	
+
 	/* Removes handle from templates option box */
 	jQuery('#postbox-container-2 .handlediv').hide();
 
@@ -441,7 +441,7 @@ function getURLParameter(name) {
 		function do_reload_preview() {
 		var cache_bust =	generate_random_cache_bust(35);
 		var reload_url = parent.window.location.href;
-		reload_url = reload_url.replace('cta-template-customize=on','');
+		reload_url = reload_url.replace('inbound-customizer=on','');
 		//alert(reload_url);
 		var current_variation_id = jQuery("#wp-cta-current-view").text();
 

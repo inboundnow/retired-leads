@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * - Editor
+ * - Preview
+ * - Parent ( Customizer )
+ */
 
 class CTA_Customizer {
 
@@ -21,26 +25,28 @@ class CTA_Customizer {
 	*/
 	public static function load_hooks() {
 
-
-		/* Load only on iframe container window */
-		if (isset($_GET['wp_cta_iframe_window'])) 	{
+		/* Load generic iframe preview not in customizer
+		    TODO: Move elsewhere
+		*/
+		if (isset($_GET['inbound_preview'])) 	{
 			/* Enqueue Scripts  */
-			add_action( 'admin_enqueue_scripts' , array( __CLASS__ , 'enqueue_preview_container_scripts' ));
+			/* Enqueue customizer CSS */
+			wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
 
 			/* Loads Preview Iframe in wp_head */
 			add_action('wp_head', array( __CLASS__ , 'load_preview_iframe' ) );
 		}
 
-		/* Load customizer launch */
-		if (isset($_GET['cta-template-customize']) && $_GET['cta-template-customize']=='on') {
+		/* Load customizer Parent Window */
+		if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
 			add_filter('wp_head', array( __CLASS__ , 'launch_customizer' ) );
 		}
 
 		/* Load only on cta settings page when it customizer mode */
-		if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
+		if (isset($_GET['inbound-editor']) && $_GET['inbound-editor'] === 'true') {
 			/* Enqueue Scripts  */
 			add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_settings_scripts' ));
-			add_filter('admin_body_class', array(__CLASS__, 'add_body_classes'));
+			add_filter('admin_body_class', array(__CLASS__, 'add_editor_body_class'));
 		}
 
 
@@ -55,7 +61,7 @@ class CTA_Customizer {
 	}
 
 	/* Add customizer class to body for CSS overrides */
-	public static function add_body_classes($classes) {
+	public static function add_editor_body_class($classes) {
 			global $post;
 			$post_type = get_post_type( $post->ID );
 			$classes .= 'inbound-customizer';
@@ -66,17 +72,10 @@ class CTA_Customizer {
 	public static function add_hidden_inputs() {
 
 		/* Add hidden param for visual editor */
-		if((isset($_REQUEST['frontend']) && $_REQUEST['frontend'] === 'true')
-			|| isset($_GET['frontend']) && $_GET['frontend'] === 'true' ) {
+		if((isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] === 'true')
+			|| isset($_GET['inbound-editor']) && $_GET['inbound-editor'] === 'true' ) {
 			echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
 		}
-	}
-
-	public static function enqueue_preview_container_scripts() {
-
-		/* Enqueue customizer CSS */
-		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
-
 	}
 
 	public static function enqueue_preview_iframe_scripts() {
@@ -91,7 +90,7 @@ class CTA_Customizer {
 		//show_admin_bar( false ); // doesnt work
 		$screen = get_current_screen();
 		wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
-		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ){
+		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ) {
 			return;
 		}
 		wp_enqueue_script('cta-frontend-editor-js', WP_CTA_URLPATH . 'assets/js/customizer.save.js');
@@ -147,7 +146,7 @@ class CTA_Customizer {
 
 					splitURL = someURL.split('?');
 					someURL = splitURL[0];
-					new_url = someURL + "?wp-cta-variation-id=" + varaition_is + "&wp_cta_iframe_window=on&post_id=" + current_id;
+					new_url = someURL + "?wp-cta-variation-id=" + varaition_is + "&inbound_preview=on&post_id=" + current_id;
 					//console.log(new_url);
 					jQuery(parent.document).find("#TB_iframeContent").attr("src", new_url);
 				});
@@ -178,7 +177,7 @@ class CTA_Customizer {
 		$preview_link = apply_filters( 'wp_cta_customizer_preview_link' , $preview_link );
 
 		$admin_url = admin_url();
-		$customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'frontend' => 'true' ), admin_url() .'post.php?post='.$page_id );
+		$customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
 		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
 		?>

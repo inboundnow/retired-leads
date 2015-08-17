@@ -139,6 +139,10 @@ width: 432px !important;
 position: fixed !important;
 height: 484px !important;
 }
+#inboundnow-media-button {
+	padding-left: 0px !important;
+	padding-top: 5px;
+}
 .media-modal-backdrop {
 width: 600px;
 position: fixed !important;

@@ -1350,12 +1350,12 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             if (	( isset($post) && 'wp-call-to-action' == $post->post_type ) || ( isset($_REQUEST['post_type']) && $_REQUEST['post_type']=='wp-call-to-action' ) )
             {
-                $params['frontend'] = 'false';
-                if(isset($_GET['frontend']) && $_GET['frontend'] == 'true') {
-                    $params['frontend'] = 'true';
+                $params['inbound-editor'] = 'false';
+                if(isset($_GET['inbound-editor']) && $_GET['inbound-editor'] == 'true') {
+                    $params['inbound-editor'] = 'true';
                 }
-                if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
-                    $params['frontend'] = 'true';
+                if(isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] == 'true') {
+                    $params['inbound-editor'] = 'true';
                 }
                 $link = add_query_arg( $params, $link );
 

@@ -184,7 +184,7 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 							$this_link = get_permalink( $this_id );
 							$this_link = preg_replace('/\?.*/', '', $this_link); ?>
 
-							<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&wp_cta_iframe_window=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
+							<a class='thickbox cta-links-hidden' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 
 						<?php } ?>
 						<select multiple name='cta_display_list[]' id="cta_template_selection" style='display:none;'>

@@ -185,11 +185,11 @@ if (!class_exists('CTA_Metaboxes')) {
 			echo "<input type='hidden' name='wp_cta_wp-cta_custom_fields_nonce' value='".wp_create_nonce('wp-cta-nonce')."' />";
 
 			/* Display customizer launch button */
-			if ( !isset($_GET['frontend']) || $_GET['frontend'] == 'false' )  {
+			if ( !isset($_GET['inbound-editor']) || $_GET['inbound-editor'] == 'false' )  {
 
 				$post_link = CTA_Variations::get_variation_permalink( $post->ID , $vid = null );
 
-				echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary ' href='$post_link&cta-template-customize=on'>". __( 'Launch Visual Editor' ,'cta' ) ."</a>";
+				echo "<a rel='".$post_link."' id='cta-launch-front' class='button-primary ' href='$post_link&inbound-customizer=on'>". __( 'Launch Visual Editor' ,'cta' ) ."</a>";
 				echo "&nbsp;&nbsp;";
 			}
 			echo '<a class="button-primary" id="wp-cta-change-template-button">'. __( 'Choose Another Template' , 'cta' ) .'</a>';
@@ -315,7 +315,7 @@ if (!class_exists('CTA_Metaboxes')) {
 								<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play' , 'cta' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
 								<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 								<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&wp_cta_iframe_window=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 								<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete' , 'cta' ); ?></a></span>
 							</div>
 						</div>
@@ -713,7 +713,7 @@ if (!class_exists('CTA_Metaboxes')) {
 
 			/* Moved to customizer
 			Add hidden param for visual editor
-			if(isset($_REQUEST['frontend']) && $_REQUEST['frontend'] == 'true') {
+			if(isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] == 'true') {
 				echo '<input type="hidden" name="frontend" id="frontend-on" value="true" />';
 			}*/
 
