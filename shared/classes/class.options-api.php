@@ -13,7 +13,7 @@ if ( ! class_exists( 'Inbound_Options_API' ) ) {
 			if (!isset( $option[ $key ] )) {
 				add_option( $namespace , '', '', 'no' );
 				return $default;
-			} else { 
+			} else {
 				return $option[ $key ];
 			}
 		}
@@ -22,12 +22,13 @@ if ( ! class_exists( 'Inbound_Options_API' ) ) {
 		*  Updates option value in name space object
 		*/
 		public static function update_option( $namespace , $key , $value ) {
-
-			$options = json_decode( stripslashes( get_option( $namespace ) ) , true ) ;
+			$options = get_option( $namespace );
 
 			if (!$options) {
 				add_option( $namespace , '', '', 'no' );
 				$options = array();
+			} else {
+				$options = json_decode( stripslashes( $options ) , true ) ;
 			}
 
 			$options[$key] = $value;
