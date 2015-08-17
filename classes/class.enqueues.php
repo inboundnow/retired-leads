@@ -26,7 +26,7 @@ class CTA_Enqueues {
 	 *  Load Frontend Enqueues
 	 */
 	public static function frontend_enqueues() {
-		global $post , $wp_query;
+		global $post, $wp_query;
 
 		if (!isset($post)) {
 			return;
@@ -146,7 +146,7 @@ class CTA_Enqueues {
 
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
-			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
+			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID, 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
 
 			/* Enqueue supportive js for template switching */
 			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js');

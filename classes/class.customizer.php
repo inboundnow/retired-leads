@@ -30,7 +30,7 @@ class CTA_Customizer {
 		*/
 		if (isset($_GET['inbound_popup_preview'])) 	{
 			/* Enqueue Scripts  */
-			add_action( 'admin_enqueue_scripts' , array(__CLASS__,'popup_preview_scripts'));
+			add_action( 'admin_enqueue_scripts', array(__CLASS__,'popup_preview_scripts'));
 			/* Loads Preview Iframe in wp_head */
 			add_action('wp_head', array(__CLASS__, 'toggle_between_variations'));
 		}
@@ -113,11 +113,11 @@ class CTA_Customizer {
 
 		$params = '?wp-cta-variation-id='.$wp_cta_variation.'&cache_bust='.$randomString.'&inbound-preview='.$randomString;
 
-		$preview_link = add_query_arg( array(  'cache_bust' => $randomString , 'inbound-preview' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ));
-		$preview_link = apply_filters( 'wp_cta_customizer_preview_link' , $preview_link );
+		$preview_link = add_query_arg( array(  'cache_bust' => $randomString, 'inbound-preview' => 'true', 'wmode' => 'opaque'), get_permalink( $page_id ));
+		$preview_link = apply_filters( 'wp_cta_customizer_preview_link', $preview_link );
 
 		$admin_url = admin_url();
-		$customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
+		$customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation, 'action' => 'edit', 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
 		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
 		?>

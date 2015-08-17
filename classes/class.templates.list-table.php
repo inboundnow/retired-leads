@@ -28,7 +28,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 
 			foreach ($wp_cta_data as $key=>$data)
 			{
-				$array_core_templates = array('auto-focus' , 'thumbnail-cta' , 'breathing' , 'clean-cta' , 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
+				$array_core_templates = array('auto-focus', 'thumbnail-cta', 'breathing', 'clean-cta', 'blank-template','call-out-box','cta-one','demo', 'flat-cta', 'peek-a-boo', 'popup-ebook', 'facebook-like-button', 'facebook-like-to-download', 'feedburner-subscribe-to-download', 'linkedin-share-to-download', 'tweet-to-download', 'follow-to-download', 'ebook-call-out');
 
 				if ($key == 'wp-cta' || substr($key,0,4) == 'ext-' )
 					continue;

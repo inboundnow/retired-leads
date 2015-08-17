@@ -33,9 +33,9 @@ class CTA_Clone_Post {
 			return $actions;
 		}
 
-		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID , 'display', true ).'" title="'
-		. esc_attr(__( 'Clone this item' , 'cta' ))
-		. '">' .	__( 'Clone' , 'cta' ) . '</a>';
+		$actions['clone'] = '<a href="'. self::build_clone_link( $post->ID, 'display', true ).'" title="'
+		. esc_attr(__( 'Clone this item', 'cta' ))
+		. '">' .	__( 'Clone', 'cta' ) . '</a>';
 
 		return $actions;
 	}
@@ -61,7 +61,7 @@ class CTA_Clone_Post {
 		if ( !$post_type_object )
 		return;
 
-		return apply_filters( 'wp_cta_build_clone_link' , admin_url( "admin.php". $action ), $post->ID, $context );
+		return apply_filters( 'wp_cta_build_clone_link', admin_url( "admin.php". $action ), $post->ID, $context );
 	}
 
 	/**
