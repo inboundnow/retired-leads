@@ -29,7 +29,7 @@ if ( !class_exists('CTA_Activation') ) {
             add_action('admin_notices', array(__CLASS__, 'permastruct_check'));
 
             /** add listener for permlaink flush command  */
-            add_action('admin_init', array(__CLASS__, 'flush_permalinks' ) , 11 );
+            add_action('admin_init', array(__CLASS__, 'flush_permalinks'), 11 );
 
             /* Add listener for uncompleted upgrade routines */
             add_action( 'admin_init' , array( 'CTA_Activation' , 'run_upgrade_routine_checks'));
@@ -198,7 +198,7 @@ if ( !class_exists('CTA_Activation') ) {
                             __( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
                             __( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
                         ),
-                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
+                        'solution' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages'), self::$version_php )
                     )
                 );
             }
@@ -212,7 +212,7 @@ if ( !class_exists('CTA_Activation') ) {
                             __( 'WordPress Version' , 'landing-pages' ) => $wp_version,
                             __( 'Required WordPress Version' , 'landing-pages' ) => self::$version_wp
                         ),
-                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
+                        'solution' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages'), self::$version_wp )
                     )
                 );
             }
@@ -226,7 +226,7 @@ if ( !class_exists('CTA_Activation') ) {
                             __( 'Calls to Action Version' , 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
                             __( 'Required Calls to Action Version' , 'landing-pages' ) => self::$version_lp
                         ),
-                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
+                        'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages'), self::$version_lp )
                     )
                 );
             }
@@ -240,7 +240,7 @@ if ( !class_exists('CTA_Activation') ) {
                             __( 'Leads Version' , 'landing-pages' ) => WPL_CURRENT_VERSION,
                             __( 'Required Leads Version' , 'landing-pages' ) => self::$version_leads
                         ),
-                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_leads )
+                        'solution' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages'), self::$version_leads )
                     )
                 );
             }

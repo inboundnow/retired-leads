@@ -18,7 +18,7 @@ class CTA_Clone_Post {
 	public static function load_hooks() {
 
 		/* Adds quick actions to row */
-		add_filter('post_row_actions', array(__CLASS__, 'add_row_actions' ) ,8,2);
+		add_filter('post_row_actions', array(__CLASS__, 'add_row_actions'),8,2);
 
 		/* Add listener for processing clone request */
 		add_action('admin_action_cta_clone_post', array(__CLASS__, 'clone_post'));

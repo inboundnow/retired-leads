@@ -10,7 +10,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 		public static function load_hooks() {
 
-			add_filter('wpl_lead_activity_tabs', array(__CLASS__, 'create_nav_tabs' ) , 10, 1);
+			add_filter('wpl_lead_activity_tabs', array(__CLASS__, 'create_nav_tabs'), 10, 1);
 			add_action('wpleads_after_activity_log' , array(__CLASS__, 'show_cta_click_content'));
 
 		}

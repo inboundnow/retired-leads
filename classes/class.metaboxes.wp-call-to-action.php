@@ -32,13 +32,13 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_action( 'edit_form_after_title', array(__CLASS__, 'add_shortcode_data'));
 
 			/* Add variation tabs */
-			add_action('edit_form_after_title', array(__CLASS__, 'add_variation_tabs' ) , 5);
+			add_action('edit_form_after_title', array(__CLASS__, 'add_variation_tabs'), 5);
 
 			/* Add hidden inputs */
 			add_action( 'edit_form_after_title', array(__CLASS__, 'add_hidden_inputs'));
 
 			/* Change default title placeholder */
-			add_filter( 'enter_title_here', array(__CLASS__, 'change_title_placeholder_text' ) , 10, 2 );
+			add_filter( 'enter_title_here', array(__CLASS__, 'change_title_placeholder_text'), 10, 2 );
 
 			/* Add variation notes input box */
 			add_action( 'edit_form_after_title', array(__CLASS__, 'add_variation_notes'));
@@ -51,7 +51,7 @@ if (!class_exists('CTA_Metaboxes')) {
 			add_action( 'save_post' , array(__CLASS__, 'save_call_to_action_data'));
 
 			/* Remove WordPress SEO Metabox from wp-call-to-action post_type */
-			add_action( 'add_meta_boxes', array(__CLASS__, 'remove_wp_seo' ) , 100000 );
+			add_action( 'add_meta_boxes', array(__CLASS__, 'remove_wp_seo'), 100000 );
 
 		}
 

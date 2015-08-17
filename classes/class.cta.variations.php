@@ -24,10 +24,10 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 			add_filter( 'post_type_link', array(__CLASS__, 'append_variation_id_to_url'));
 
 			/* Records impression for cta */
-			add_action( 'wp_cta_record_impression' , array(__CLASS__, 'record_impression' ) , 10, 2);
+			add_action( 'wp_cta_record_impression' , array(__CLASS__, 'record_impression'), 10, 2);
 
 			/* Records conversion for cta */
-			add_action( 'wp_cta_record_conversion' , array(__CLASS__, 'record_conversion' ) , 10, 2);
+			add_action( 'wp_cta_record_conversion' , array(__CLASS__, 'record_conversion'), 10, 2);
 		}
 
 		/* Listens for commands */

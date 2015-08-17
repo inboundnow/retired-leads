@@ -73,8 +73,8 @@ if (!class_exists('CTA_Metaboxes_Global')) {
 				if (!in_array($value,$exclude)) {
 					add_meta_box(
 						'wp-cta-inert-to-post',
-						__( 'Insert Call to Action Template into Content' , 'cta' ) ,
-						array(__CLASS__, 'display_cta_placement_metabox' ) ,
+						__( 'Insert Call to Action Template into Content' , 'cta'),
+						array(__CLASS__, 'display_cta_placement_metabox'),
 						$value,
 						'normal',
 						$priority
