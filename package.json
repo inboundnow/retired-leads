@@ -44,6 +44,7 @@
     "karma-jasmine": "~0.2.0",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-spec-reporter": "0.0.13",
+    "postcss-focus": "^0.1.1",
     "postcss-mixins": "^0.4.0",
     "postcss-nested": "^0.3.2",
     "postcss-simple-vars": "^0.3.0"
