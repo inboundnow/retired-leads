@@ -72,7 +72,6 @@ if (!class_exists('Inbound_Menu')) {
 				'meta'  => array( 'class' => 'inbound-nav-marketing', 'title' => 'Inbound Marketing Admin' )
 			) );
 
-			//print_r($primary_menu_items);exit;
 
 			/** Add Primary Menu Items */
 			foreach ( $primary_menu_items as $id => $menu_item ) {

@@ -333,7 +333,7 @@ if (!class_exists('Inbound_API')) {
 			}
 
 			if( ! defined( 'INBOUND_DOING_API' ) ) {
-				define( 'INBOUND_DOING_API', true );
+				define('INBOUND_DOING_API', true );
 			}
 
 			/* Determine the kind of query */
