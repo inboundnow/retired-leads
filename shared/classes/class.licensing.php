@@ -29,14 +29,14 @@ if ( ! class_exists( 'Inbound_License' ) )
 		private $master_license_key;
 		private $remote_api_url;
 
-		function __construct( $plugin_file , $plugin_label , $plugin_slug , $plugin_version , $remote_download_slug )
+		function __construct( $plugin_file, $plugin_label, $plugin_slug, $plugin_version, $remote_download_slug )
 		{
 			$this->plugin_basename = plugin_basename( $plugin_file );
 			$this->plugin_slug = $plugin_slug;
 			$this->plugin_label = $plugin_label;
 			$this->plugin_version = $plugin_version;
 			$this->remote_download_slug = $remote_download_slug;
-			$this->master_license_key = get_option('inboundnow_master_license_key' , '');
+			$this->master_license_key = get_option('inboundnow_master_license_key', '');
 			$this->remote_api_url = INBOUNDNOW_STORE_URL;
 
 			$this->hooks();
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( '%1$s' , $this->plugin_label ),
+					'label' => sprintf( '%1$s', $this->plugin_label ),
 					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 					'type' => 'inboundnow-license-key',
 					'default'  => $this->master_license_key
@@ -87,7 +87,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 				'id' => $this->plugin_slug,
 				'slug' => $this->plugin_slug,
 				'remote_download_slug' => $this->remote_download_slug,
-				'label' => sprintf( '%1$s' , $this->plugin_label ),
+				'label' => sprintf( '%1$s', $this->plugin_label ),
 				'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 				'type' => 'inboundnow-license-key',
 				'default'  => ''
@@ -103,7 +103,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 					'id' => $this->plugin_slug,
 					'slug' => $this->plugin_slug,
 					'remote_download_slug' => $this->remote_download_slug,
-					'label' => sprintf( '%1$s' , $this->plugin_label ),
+					'label' => sprintf( '%1$s', $this->plugin_label ),
 					'description' => 'Head to http://www.inboundnow.com/ to retrieve your license key for '.$this->plugin_label,
 					'type' => 'inboundnow-license-key',
 					'default'  => $this->master_license_key
@@ -121,7 +121,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 			{
 
 				$field['id']  = "inboundnow-license-keys-".$field['slug'];
-				$field['value'] =  get_option('inboundnow_master_license_key' , '');
+				$field['value'] =  get_option('inboundnow_master_license_key', '');
 
 				echo '<input  type="hidden" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$field['value'].'" size="30" />';
 
@@ -268,7 +268,7 @@ if ( ! class_exists( 'Inbound_License' ) )
 			}
 			elseif ( empty($master_license_key) )
 			{
-				update_option($field_id , '' );
+				update_option($field_id, '' );
 				update_option('inboundnow_license_status_'.$this->plugin_slug, 'inactive');
 			}
 		}

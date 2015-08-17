@@ -21,7 +21,7 @@ if (!class_exists('LeadStorage')) {
 			add_action('wp_ajax_nopriv_inbound_lead_store', array(__CLASS__, 'inbound_lead_store'), 10, 1);
 
 			/* filters name data to build a more comprehensive data set */
-			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10 , 1);
+			add_filter( 'inboundnow_store_lead_pre_filter_data',	array(__CLASS__, 'improve_lead_name'), 10, 1);
 		}
 
 		/**
@@ -396,7 +396,7 @@ if (!class_exists('LeadStorage')) {
 			/* Update mappable fields that have a value associated with them */
 			$lead_fields = Leads_Field_Map::build_map_array();
 			foreach ( $lead_fields as $key => $value ) {
-				$shortkey = str_replace('wpleads_' , '' , $key );
+				$shortkey = str_replace('wpleads_', '', $key );
 				if (!empty($lead[$shortkey]) && $lead[$shortkey] !== 0 ) {
 					update_post_meta( $lead['id'], $key, $lead[$shortkey] );
 				}
@@ -410,7 +410,7 @@ if (!class_exists('LeadStorage')) {
 		static function store_geolocation_data( $lead ) {
 
 			$ip_addresses = get_post_meta( $lead['id'], 'wpleads_ip_address', true );
-			$ip_addresses = json_decode( stripslashes($ip_addresses) , true);
+			$ip_addresses = json_decode( stripslashes($ip_addresses), true);
 
 			if (!$ip_addresses) {
 				$ip_addresses = array();
@@ -446,13 +446,13 @@ if (!class_exists('LeadStorage')) {
 
 			$raw_post_data = get_post_meta($lead['id'],'wpleads_raw_post_data', true);
 			$a1 = json_decode( $raw_post_data, true );
-			parse_str($lead['raw_params'] , $a2 );
+			parse_str($lead['raw_params'], $a2 );
 			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
 			$lead_mapping_fields = Leads_Field_Map::build_map_array();
 
 			foreach ($a2 as $key=>$value)
 			{
-				if (array_key_exists( $key , $exclude_array )) {
+				if (array_key_exists( $key, $exclude_array )) {
 					unset($a2[$key]);
 					continue;
 				}
@@ -505,7 +505,7 @@ if (!class_exists('LeadStorage')) {
 
 			/* if last name empty and full name present */
 			if ( empty($lead['last_name']) && $lead['name'] ) {
-				$parts = explode(' ' , $lead['name']);
+				$parts = explode(' ', $lead['name']);
 
 				/* Set first name */
 				$lead['first_name'] = $parts[0];
@@ -517,7 +517,7 @@ if (!class_exists('LeadStorage')) {
 			}
 			/* if last name empty and first name present */
 			else if (empty($lead['last_name']) && $lead['first_name'] ) {
-				$parts = explode(' ' , $lead['first_name']);
+				$parts = explode(' ', $lead['first_name']);
 
 				/* Set First Name */
 				$lead['first_name'] = $parts[0];
@@ -639,7 +639,7 @@ if (!class_exists('LeadStorage')) {
 * @param BOOL $return set to true to disable printing of lead id
 */
 if (!function_exists('inbound_store_lead')) {
-	function inbound_store_lead( $args , $return = true	) {
+	function inbound_store_lead( $args, $return = true	) {
 		global $user_ID, $wpdb;
 
 		if (!is_array($args)) {
@@ -647,14 +647,14 @@ if (!function_exists('inbound_store_lead')) {
 		}
 
 		/* Mergs $args with POST request for support of ajax and direct calls */
-		$args = array_merge( $args , $_POST );
+		$args = array_merge( $args, $_POST );
 
 		/* wpleads_email_address becomes wpleads_email */
 		$args['email'] = $args['wpleads_email_address'];
 
 		/* loop through and remove wpleads_ (we will add them back in the new method ) */
 		foreach ($args as $key => $value) {
-			$newkey = str_replace( 'wpleads_' , '' , $key );
+			$newkey = str_replace( 'wpleads_', '', $key );
 			unset($args[$key]);
 			$args[$newkey] = $value;
 		}
@@ -687,7 +687,7 @@ if (!function_exists('inbound_store_lead')) {
 *  @param ARRAY dataset of lead informaiton
 */
 if (!function_exists('inbound_add_conversion_to_lead')) {
-	function inbound_add_conversion_to_lead( $lead_id , $lead_data ) {
+	function inbound_add_conversion_to_lead( $lead_id, $lead_data ) {
 
 
 		if ( $lead_data['page_id'] ) {

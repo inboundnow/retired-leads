@@ -37,21 +37,21 @@ if (!class_exists('Inbound_Menu')) {
 			add_action( 'admin_bar_menu', array(__CLASS__, 'load_inboundnow_menu' ), 98);
 
 			/* add filters here */
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_callstoaction') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_landingpages') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_leads') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_mailer') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_automation') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_forms') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_manage_templates') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_settings') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_analytics') , 10 );
-			add_filter('inboundnow_menu_primary' , array(__CLASS__, 'load_seo') , 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_callstoaction'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_landingpages'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_leads'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_mailer'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_automation'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_forms'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_manage_templates'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_settings'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_analytics'), 10 );
+			add_filter('inboundnow_menu_primary', array(__CLASS__, 'load_seo'), 10 );
 
 
-			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_support') , 10 );
-			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_inbound_hq') , 10 );
-			add_filter('inboundnow_menu_secondary' , array(__CLASS__, 'load_debug') , 10 );
+			add_filter('inboundnow_menu_secondary', array(__CLASS__, 'load_support'), 10 );
+			add_filter('inboundnow_menu_secondary', array(__CLASS__, 'load_inbound_hq'), 10 );
+			add_filter('inboundnow_menu_secondary', array(__CLASS__, 'load_debug'), 10 );
 		}
 
 
@@ -61,8 +61,8 @@ if (!class_exists('Inbound_Menu')) {
 		public static function load_inboundnow_menu() {
 			global $wp_admin_bar;
 
-			$primary_menu_items = apply_filters( 'inboundnow_menu_primary' , array() );
-			$secondary_menu_items = apply_filters( 'inboundnow_menu_secondary' , array() );
+			$primary_menu_items = apply_filters( 'inboundnow_menu_primary', array() );
+			$secondary_menu_items = apply_filters( 'inboundnow_menu_secondary', array() );
 
 			/* Add Parent Nav Menu - Inbound Marketing*/
 			$wp_admin_bar->add_menu( array(
@@ -150,7 +150,7 @@ if (!class_exists('Inbound_Menu')) {
 			);
 
 			/* 1.1 - Leads search form */
-			$leads_search_text = __( 'Search All Leads' , INBOUNDNOW_TEXT_DOMAIN );
+			$leads_search_text = __( 'Search All Leads', INBOUNDNOW_TEXT_DOMAIN );
 			$menu_items['inbound-leads-search'] = array(
 				'parent' => $leads_key,
 				'title' => '<form id="inbound-menu-form" method="get" action="'.admin_url( 'edit.php?post_type=wp-lead' ).'" class=" " target="_blank">
@@ -563,7 +563,7 @@ if (!class_exists('Inbound_Menu')) {
 				'parent' => self::$inboundnow_menu_secondary_group_key,
 				'title'  => __( 'Support Forum', 'inbound-pro' ),
 				'href'   => 'https://www.inboundnow.com/support/',
-				'meta'   => array( 'target' => '_blank' , 'title' => __( 'Support Forum', 'inbound-pro' ) )
+				'meta'   => array( 'target' => '_blank', 'title' => __( 'Support Forum', 'inbound-pro' ) )
 			);
 
 			/* 1 - Documentation */
@@ -683,9 +683,9 @@ if (!class_exists('Inbound_Menu')) {
 			  'meta'   => array( 'title' =>  __( 'Click here to remove broken javascript to fix issues', 'inbound-pro' ) )
 			);
 
-			return apply_filters('inbound_menu_debug' , $secondary_menu_items , $debug_key );
+			return apply_filters('inbound_menu_debug', $secondary_menu_items, $debug_key );
 		}
 	}
 
-	add_action('init' , array( 'Inbound_Menu' , 'init' ) );
+	add_action('init', array( 'Inbound_Menu', 'init' ) );
 }

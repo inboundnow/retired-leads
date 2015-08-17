@@ -67,7 +67,7 @@ class Inbound_Customizer {
     }
     /* TODO @Hudson Standardize meta data across A/B testing post types */
     public static function get_post_variations($id, $post_type) {
-            $variations = json_decode( get_post_meta( $id ,'inbound-variations', true) , true );
+            $variations = json_decode( get_post_meta( $id ,'inbound-variations', true), true );
             $variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active' ) );
 
             /* unset unneeded   variation data if $vid is specified */
@@ -109,7 +109,7 @@ class Inbound_Customizer {
         $vid = CTA_Variations::get_current_variation_id();
 
         /* Add variation status */
-        $variations_status = $CTA_Variations->get_variation_status( $post->ID , $vid );
+        $variations_status = $CTA_Variations->get_variation_status( $post->ID, $vid );
         echo '<input type="hidden" name="wp-cta-variation-status['.$vid.']" value = "'.$variations_status .'">';
 
         /* Add variation id */
@@ -130,10 +130,10 @@ class Inbound_Customizer {
 
         $params = '?wp-cta-variation-id='.$variation_id.'&cache_bust='.$random_string.'&inbound-preview='.$random_string;
 
-        $preview_link = add_query_arg( array(  'cache_bust' => $random_string , 'inbound-preview' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
+        $preview_link = add_query_arg( array(  'cache_bust' => $random_string, 'inbound-preview' => 'true', 'wmode' => 'opaque'), get_permalink( $page_id ) );
         $preview_link = apply_filters( 'wp_cta_customizer_preview_link', $preview_link );
 
-        $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
+        $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation, 'action' => 'edit', 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
 
         wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
         ?>
