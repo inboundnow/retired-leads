@@ -225,7 +225,7 @@ jQuery(document).ready(function($) {
 		var current_variation_id = jQuery("#current_variation_id").text();
 
 		// var reload = jQuery(parent.document).find("#wp-cta-live-preview").attr("src");
-		var new_reload = reload_url + "&live-preview-area=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
+		var new_reload = reload_url + "&inbound-preview=" + cache_bust + "&wp-cta-variation-id=" + current_variation_id;
 
 		jQuery(parent.document).find("#wp-cta-live-preview").attr("src", new_reload);
 

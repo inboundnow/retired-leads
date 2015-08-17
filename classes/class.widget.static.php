@@ -205,7 +205,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 
 					<input class="checkbox" type="checkbox" <?php checked(in_array( $cta->ID , $instance['cta_ids']  ), true ); ?> value="<?php _e($cta->ID); ?>" name="<?php echo $this->get_field_name('cta_ids'); ?>[]" />
 					<label for=""><?php _e($cta->post_title); ?>
-						<a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
+						<a class='thickbox cta-links-hidden cta-widget-preview-links' id="cta-<?php echo $this_id;?>" href='<?php echo $this_link;?>?wp-cta-variation-id=0&inbound_popup_preview=on&post_id=<?php echo $cta->ID; ?>&TB_iframe=true&width=640&height=703'>Preview</a>
 					</label>
 					<br />
 					<?php

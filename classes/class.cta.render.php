@@ -1296,7 +1296,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             echo '</head>';
 
-            (!isset($_GET['live-preview-area'])) ? $margin = 'margin-top:100px' : '';
+            (!isset($_GET['inbound-preview'])) ? $margin = 'margin-top:100px' : '';
 
             echo '<body style="backgorund-image:none;background-color:#fff;width:100%;">';
             echo '<div id="cta-preview-container" style="margin:auto;">';
@@ -1308,7 +1308,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
             echo "</div>";
 
-            if (!isset($_GET['live-preview-area']) && is_user_logged_in()) {
+            if (!isset($_GET['inbound-preview']) && is_user_logged_in()) {
                 ?>
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {

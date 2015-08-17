@@ -315,7 +315,7 @@ if (!class_exists('CTA_Metaboxes')) {
 								<span class='bab-stat-control-play'><a title="Turn this variation on" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=play-variation'><?php _e('Play' , 'cta' ); ?></a></span> <span class='bab-stat-seperator play-sep'>|</span>
 								<span class='bab-stat-menu-edit'><a title="Edit this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>'><?php _e('Edit' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 								<span class='bab-stat-menu-clone'><a title="Clone this variation" href='?post=<?php echo $post->ID; ?>&action=edit&new-variation=1&clone=<?php echo $vid; ?>&ab-action=clone&wp-cta-variation-id=<?php echo $next_available_variation_id; ?>'><?php _e('Clone' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
-								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
+								<span class='bab-stat-menu-preview'><a title="Preview this variation" class='thickbox' href='<?php echo $permalink; ?>&inbound_popup_preview=on&post_id=<?php echo $post->ID;?>&TB_iframe=true&width=1503&height=467' target='_blank'><?php _e('Preview' , 'cta' ); ?></a></span> <span class='bab-stat-seperator'>|</span>
 								<span class='bab-stat-control-delete'><a title="Delete this variation" href='?post=<?php echo $post->ID; ?>&action=edit&vid=<?php echo $vid; ?>&ab-action=delete-variation'><?php _e('Delete' , 'cta' ); ?></a></span>
 							</div>
 						</div>

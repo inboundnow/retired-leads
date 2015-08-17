@@ -24,10 +24,10 @@ class Inbound_Customizer {
     public static function load_hooks() {
 
 
-        /* Load generic iframe preview not in customizer
+        /* Load popup iframe preview not in customizer
             TODO: Move elsewhere
         */
-        if (isset($_GET['inbound_preview']))   {
+        if (isset($_GET['inbound_popup_preview']))   {
             /* Enqueue preview window css */
             wp_enqueue_style('inbound_iframe_preview_css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
             /* Loads Preview Iframe in wp_head */
@@ -128,9 +128,9 @@ class Inbound_Customizer {
         $random_string = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
         $variation_id = (isset($_GET['variation-id'])) ? $_GET['variation-id'] : '0';
 
-        $params = '?wp-cta-variation-id='.$variation_id.'&cache_bust='.$random_string.'&live-preview-area='.$random_string;
+        $params = '?wp-cta-variation-id='.$variation_id.'&cache_bust='.$random_string.'&inbound-preview='.$random_string;
 
-        $preview_link = add_query_arg( array(  'cache_bust' => $random_string , 'live-preview-area' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
+        $preview_link = add_query_arg( array(  'cache_bust' => $random_string , 'inbound-preview' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
         $preview_link = apply_filters( 'wp_cta_customizer_preview_link', $preview_link );
 
         $customizer_link = add_query_arg( array( 'wp-cta-variation-id' => $wp_cta_variation , 'action' => 'edit' , 'inbound-editor' => 'true' ), admin_url() .'post.php?post='.$page_id );
