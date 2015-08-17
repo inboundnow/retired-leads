@@ -37,12 +37,12 @@ class CTA_Customizer {
 
 		/* Load customizer Parent Window. 'inbound-editor' & 'inbound-preview' live inside */
 		if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
-			add_filter('wp_head', array(__CLASS__, 'launch_customizer' ));
+			add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
 		}
 
 		/* Load customizer editor */
 		if (isset($_GET['inbound-editor']) && $_GET['inbound-editor'] === 'true') {
-			add_action('admin_enqueue_scripts', array(__CLASS__, 'customizer_editor_scripts' ));
+			add_action('admin_enqueue_scripts', array(__CLASS__, 'customizer_editor_scripts'));
 			add_filter('admin_body_class', array(__CLASS__, 'add_editor_body_class'));
 		}
 		/* Load customizer preview */

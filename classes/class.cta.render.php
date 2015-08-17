@@ -87,7 +87,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_action( 'template_redirect', array( $this , 'preview_cta') , 2 );
 
             /* Modify admin URL for previews */
-            add_filter( 'admin_url', array( $this, 'modify_admin_url' ));
+            add_filter( 'admin_url', array( $this, 'modify_admin_url'));
 
         }
 
@@ -380,7 +380,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $global_cookie = get_option( 'wp-cta-main-global-cookie', 0 );
                 $global_cookie_length = get_option( 'wp-cta-main-global-cookie-length', 30 );
 
-                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array( 'jquery' ));
+                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array( 'jquery'));
                 wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'assets/lib/popup/magnific-popup.css');
 
                 $popup_params = array(	'timeout' => $pop_time_final,
@@ -457,7 +457,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                             case 'js':
                                 foreach ($file as $js)
                                 {
-                                    wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
+                                    wp_enqueue_script( md5($js) ,$js , array( 'jquery'));
                                     wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type));
                                 }
                                 break;

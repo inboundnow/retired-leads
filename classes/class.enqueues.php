@@ -18,8 +18,8 @@ class CTA_Enqueues {
 	*  Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues' ));
-		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues' ));
+		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues'));
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues'));
 	}
 
 	/**
@@ -109,7 +109,7 @@ class CTA_Enqueues {
 
 		/* Enqueue jpicker for color selectors  */
 		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js');
-		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/' ));
+		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/'));
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css');
 
 		/* Enqueue qtip support */
@@ -122,7 +122,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css');
 
 		/* Enqueues support for clear stat buttons */
-		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ));
+		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery'));
 		wp_localize_script( 'wp-cta-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'wp_call_to_action_clear_nonce' => wp_create_nonce('wp-call-to-action-clear-nonce') ));
 
 		/*  Enqueue supporting js for Global Settings page */
@@ -142,7 +142,7 @@ class CTA_Enqueues {
 		if ( isset($hooks) && $hook == 'post-new.php' || $hook == 'post.php') {
 
 			/* Set the default editor mode */
-			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode' ));/* force visual editor to open in text mode */
+			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode'));/* force visual editor to open in text mode */
 
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
@@ -196,7 +196,7 @@ class CTA_Enqueues {
 
 		//jpicker - color picker
 		wp_enqueue_script('jpicker', WP_CTA_URLPATH . 'assets/lib/jpicker/jpicker-1.1.6.min.js');
-		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/' ));
+		wp_localize_script( 'jpicker', 'jpicker', array( 'thispath' => WP_CTA_URLPATH . 'assets/lib/jpicker/images/'));
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker-1.1.6.min.css');
 		wp_enqueue_style('jpicker-css', WP_CTA_URLPATH . 'assets/lib/jpicker/css/jPicker.css');
 		wp_enqueue_style('wp-cta-customizer-frontend', WP_CTA_URLPATH . 'assets/css/customizer.frontend.css');

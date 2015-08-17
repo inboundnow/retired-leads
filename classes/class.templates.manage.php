@@ -15,7 +15,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*	Initializes class
 		*/
 		public function __construct() {
-			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ));
+			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts'));
 			/* prepare handler hook for uploads page */
 			add_action('admin_menu', array(__CLASS__, 'add_pages'));
 			add_action('admin_notices',  array(__CLASS__, 'dont_install_cta_templates_here'));
@@ -360,7 +360,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			}
 
 			if (($list = $zip->listContent()) == 0) {
-				die(__('There was a problem. Please try again!' , 'cta' ));
+				die(__('There was a problem. Please try again!' , 'cta'));
 			}
 
 			$is_template = false;
@@ -380,11 +380,11 @@ if ( !class_exists('CTA_Template_Manager') ) {
 
 			if (!$is_template) {
 				echo "<br><br><br><br>";
-				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'cta' ));
+				die(__( 'WARNING! This zip file does not seem to be a call to action template file! If you are trying to install an inbound now extension please use the Plugin\'s upload section! Please press the back button and try again!' , 'cta'));
 			}
 
 			if ($result = $zip->extract(PCLZIP_OPT_PATH, WP_CTA_UPLOADS_PATH ,  PCLZIP_OPT_REPLACE_NEWER  ) == 0) {
-				die(__( 'There was a problem. Please try again!' , 'cta' ));
+				die(__( 'There was a problem. Please try again!' , 'cta'));
 			} else 	{
 				unlink( $_FILES['templatezip']["tmp_name"]);
 				echo '<div class="updated"><p>'. __( 'Template uploaded successfully!' , 'cta' ) .'</div>';

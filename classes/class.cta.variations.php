@@ -11,13 +11,13 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		public static function load_hooks() {
 
 			/* Delete variation listener */
-			add_action( 'admin_init' , array(__CLASS__, 'add_listeners' ));
+			add_action( 'admin_init' , array(__CLASS__, 'add_listeners'));
 
 			/* Builds variation object on CTA save */
-			add_action( 'save_post', array(__CLASS__, 'save_variation_object_data' ));
+			add_action( 'save_post', array(__CLASS__, 'save_variation_object_data'));
 
 			/* Filter to add variation id to end of meta key */
-			add_filter( 'wp_cta_prepare_input_id' , array(__CLASS__, 'prepare_input_id' ));
+			add_filter( 'wp_cta_prepare_input_id' , array(__CLASS__, 'prepare_input_id'));
 
 			/* Appends variation id to given url */
 			add_filter( 'wp_cta_customizer_customizer_link', array(__CLASS__, 'append_variation_id_to_url'));
@@ -80,7 +80,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 
 			/* enqueue and localize scripts */
 			//wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
-			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array( 'jquery' ));
+			//wp_enqueue_script('wp-cta-ab-testing-admin-js', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit-ab-testing.js', array( 'jquery'));
 			//wp_localize_script( 'wp-cta-ab-testing-admin-js', 'variation', array( 'pid' => $_GET['post'], 'vid' => $current_variation_id	, 'new_variation' => $new_variation	, 'variations'=> $variations	));
 
 		}
@@ -210,7 +210,7 @@ if ( ! class_exists( 'CTA_Variations' ) ) {
 		public static function get_variations( $cta_id	, $vid = null ) {
 
 			$variations = json_decode( get_post_meta( $cta_id ,'wp-cta-variations', true) , true );
-			$variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active' ));
+			$variations = ( is_array( $variations ) ) ? $variations : array( 0 => array( 'status' => 'active'));
 
 			/* unset unneeded	variation data if $vid is specified */
 			if ($vid !== null ) {

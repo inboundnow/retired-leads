@@ -143,7 +143,7 @@ if ( !class_exists('CTA_Template_Manager_List') ) {
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 			if(is_array($this->template_data))
 			{
-				usort( $this->template_data, array( &$this, 'usort_reorder' ));
+				usort( $this->template_data, array( &$this, 'usort_reorder'));
 			}
 
 			$per_page = 25;

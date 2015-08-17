@@ -81,7 +81,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 						case 'js':
 							foreach ($file as $js)
 							{
-								wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
+								wp_enqueue_script( md5($js) ,$js , array( 'jquery'));
 								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,  'post_id' => $obj_id ));
 							}
 							break;

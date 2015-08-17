@@ -25,8 +25,8 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
-			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ));
-			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array(__CLASS__, 'plugin_action_links' ));
+			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts'));
+			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array(__CLASS__, 'plugin_action_links'));
 		}
 
 		/**
@@ -606,7 +606,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						if ($field['type']=='license-key')
 						{
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ));
+							$license = trim( get_option( 'edd_sample_license_key'));
 
 							// data to send in our API request
 							$api_params = array(
@@ -662,7 +662,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							}
 
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ));
+							$license = trim( get_option( 'edd_sample_license_key'));
 
 							// data to send in our API request
 							$api_params = array(
