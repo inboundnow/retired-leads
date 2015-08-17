@@ -195,7 +195,7 @@ class Inbound_Customizer {
 
         $width = get_post_meta($current_page_id, 'wp_cta_width-'.$version, true);
         $height = get_post_meta($current_page_id, 'wp_cta_height-'.$version, true);
-        //$replace = get_post_meta( 2112, 'wp_cta_global_bt_lists', true); // move to ext
+        /*$replace = get_post_meta( 2112, 'wp_cta_global_bt_lists', true); // move to ext */
 
         $correct_height = self::get_correct_dimensions($height, 'height');
         (!$correct_height) ? $correct_height = 'auto' : $correct_height = $correct_height;
@@ -212,7 +212,7 @@ class Inbound_Customizer {
 
         echo '      <td>';
         echo '          <iframe id="wp-cta-live-preview" scrolling="no" src="'.$preview_link.'" style="max-width: 68%; '.$correct_width.' height:1000px; left: 32%; position: fixed;  top: 20%; z-index: 1; border: none; overflow:hidden;
-        //background-image: linear-gradient(45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194)), linear-gradient(-45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194));
+            background-image: linear-gradient(45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194)), linear-gradient(-45deg, rgb(194, 194, 194) 25%, transparent 25%, transparent 75%, rgb(194, 194, 194) 75%, rgb(194, 194, 194));
          background-position: initial initial; background-repeat: initial initial;"></iframe>';
         echo '      </td>';
         echo '  </tr>';

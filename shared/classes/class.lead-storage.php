@@ -164,11 +164,11 @@ if (!class_exists('LeadStorage')) {
 				/* Store IP addresss & Store GEO Data */
 				if ($lead['ip_address']) {
                     update_post_meta( $lead['id'], 'wpleads_ip_address', $lead['ip_address'] );
-					//self::store_geolocation_data($lead);
+					/*self::store_geolocation_data($lead); */
 				}
 
 				/* store raw form data */
-				//self::store_raw_form_data($lead);
+				/*self::store_raw_form_data($lead); */
 
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
@@ -447,7 +447,7 @@ if (!class_exists('LeadStorage')) {
 			$raw_post_data = get_post_meta($lead['id'],'wpleads_raw_post_data', true);
 			$a1 = json_decode( $raw_post_data, true );
 			parse_str($lead['raw_params'], $a2 );
-			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); // add filter
+			$exclude_array = array('card_number','card_cvc','card_exp_month','card_exp_year'); /* add filter */
 			$lead_mapping_fields = Leads_Field_Map::build_map_array();
 
 			foreach ($a2 as $key=>$value)
@@ -457,7 +457,7 @@ if (!class_exists('LeadStorage')) {
 					continue;
 				}
 				if (preg_match("/\[\]/", $key)) {
-					$key = str_replace("[]", "", $key); // fix array value keys
+					$key = str_replace("[]", "", $key); /* fix array value keys */
 				}
 				if (array_key_exists($key, $lead_mapping_fields)) {
 					update_post_meta( $lead['id'], $key, $value );
@@ -477,7 +477,7 @@ if (!class_exists('LeadStorage')) {
 					update_post_meta( $lead['id'], 'wpleads_websites', $websites );
 				}
 			}
-			// Merge form fields if exist
+			/* Merge form fields if exist */
 			if (is_array($a1)) {
 				$new_raw_post_data = array_merge_recursive( $a1, $a2 );
 			} else {

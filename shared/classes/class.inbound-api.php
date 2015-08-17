@@ -11,7 +11,7 @@
  *
  */
 
-// Exit if accessed directly
+/* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if (!class_exists('Inbound_API')) {
@@ -163,7 +163,7 @@ if (!class_exists('Inbound_API')) {
 				self::missing_auth();
 			}
 
-			// Retrieve the user by public API key and ensure they exist
+			/* Retrieve the user by public API key and ensure they exist */
 			if ( ! ( $user = self::get_user( $_REQUEST['key'] ) ) ) {
 				self::invalid_key();
 			} else {
@@ -412,7 +412,7 @@ if (!class_exists('Inbound_API')) {
 		public static function get_query_type() {
 			global $wp_query;
 
-			// Whitelist our query options
+			/* Whitelist our query options */
 			$accepted = apply_filters( 'inbound_api_valid_query_types', array(
 				'v1/leads',
 				'v1/leads/add',
@@ -428,7 +428,7 @@ if (!class_exists('Inbound_API')) {
 
 			$query = isset( $wp_query->query_vars['inbound-api'] ) ? $wp_query->query_vars['inbound-api'] : null;
 
-			// Make sure our query is valid
+			/* Make sure our query is valid */
 			if ( ! in_array( $query, $accepted ) ) {
 				$error['error'] = __( 'Invalid endpoint: ' . $query, INBOUNDNOW_TEXT_DOMAIN );
 
@@ -496,7 +496,7 @@ if (!class_exists('Inbound_API')) {
 				$dates['year'] 		= date( 'Y', $startdate );
 				$dates['year_end'] 	= date( 'Y', $enddate );
 			} else {
-				// Modify dates based on predefined ranges
+				/* Modify dates based on predefined ranges */
 				switch ( $args['date'] ) :
 
 					case 'this_month' :
@@ -571,7 +571,7 @@ if (!class_exists('Inbound_API')) {
 
 							$dates['m_start'] 	= 10;
 							$dates['m_end']		= 12;
-							$dates['year']		= date( 'Y', $current_time ) - 1; // Previous year
+							$dates['year']		= date( 'Y', $current_time ) - 1; /* Previous year */
 
 						} else if ( $month_now <= 6 ) {
 
@@ -664,7 +664,7 @@ if (!class_exists('Inbound_API')) {
 
 				default :
 
-					// Allow other formats to be added via extensions
+					/* Allow other formats to be added via extensions */
 					do_action( 'inbound_api_output_' . $format, self::$data, $this );
 
 					break;

@@ -14,7 +14,7 @@ if (!class_exists('Inbound_Menu')) {
 		static $load_leads;
 
 		public static function init() {
-			 // Exit if admin bar not there
+			 /* Exit if admin bar not there */
 			if ( ! is_user_logged_in() || ! is_admin_bar_showing() || !current_user_can('activate_plugins') ) {
 			  return;
 			}
@@ -97,7 +97,7 @@ if (!class_exists('Inbound_Menu')) {
 				$wp_admin_bar->add_node( $menu_item );
 			}
 
-			//var_dump($wp_admin_bar);exit;
+			/*var_dump($wp_admin_bar);exit; */
 
 			/* Add Secondary Menu Item Group */
 			$wp_admin_bar->add_group( array(
