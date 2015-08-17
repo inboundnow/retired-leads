@@ -37,7 +37,7 @@ class CTA_Customizer {
 
 		/* Load customizer Parent Window. 'inbound-editor' & 'inbound-preview' live inside */
 		if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
-			add_filter('wp_head', array(__CLASS__, 'launch_customizer' ) );
+			add_filter('wp_head', array(__CLASS__, 'launch_customizer' ));
 		}
 
 		/* Load customizer editor */
@@ -113,7 +113,7 @@ class CTA_Customizer {
 
 		$params = '?wp-cta-variation-id='.$wp_cta_variation.'&cache_bust='.$randomString.'&inbound-preview='.$randomString;
 
-		$preview_link = add_query_arg( array(  'cache_bust' => $randomString , 'inbound-preview' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ) );
+		$preview_link = add_query_arg( array(  'cache_bust' => $randomString , 'inbound-preview' => 'true' , 'wmode' => 'opaque') , get_permalink( $page_id ));
 		$preview_link = apply_filters( 'wp_cta_customizer_preview_link' , $preview_link );
 
 		$admin_url = admin_url();

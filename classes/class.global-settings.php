@@ -25,7 +25,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 		*	Loads hooks and filters
 		*/
 		public static function add_hooks() {
-			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ));
 			add_filter( 'plugin_action_links_cta/calls-to-action.php',  array(__CLASS__, 'plugin_action_links' ));
 		}
 
@@ -395,7 +395,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 								break;
 							// wysiwyg
 							case 'wysiwyg':
-								wp_editor( $field['value'], $field['id'], $settings = array() );
+								wp_editor( $field['value'], $field['id'], $settings = array());
 								echo	'<span class="description">'.$field['description'].'</span><br><br>';
 								break;
 							// media
@@ -546,13 +546,13 @@ if ( !class_exists('CTA_Global_Settings') ) {
 			);
 
 			// Call the custom API.
-			$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+			$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 			if ( is_wp_error( $response ) ) {
 				return false;
 			}
 
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+			$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 			if( $license_data->license == 'valid' ) {
 				$newDate = date('Y-m-d', $license_data->expires );
@@ -606,7 +606,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 						if ($field['type']=='license-key')
 						{
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ) );
+							$license = trim( get_option( 'edd_sample_license_key' ));
 
 							// data to send in our API request
 							$api_params = array(
@@ -616,14 +616,14 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							);
 
 							// Call the custom API.
-							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 							// make sure the response came back okay
 							if ( is_wp_error( $response ) )
 								break;
 
 							// decode the license data
-							$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+							$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 							// $license_data->license will be either "active" or "inactive"
 							$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);
@@ -662,7 +662,7 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							}
 
 							// retrieve the license from the database
-							$license = trim( get_option( 'edd_sample_license_key' ) );
+							$license = trim( get_option( 'edd_sample_license_key' ));
 
 							// data to send in our API request
 							$api_params = array(
@@ -672,14 +672,14 @@ if ( !class_exists('CTA_Global_Settings') ) {
 							);
 
 							// Call the custom API.
-							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
+							$response = wp_remote_get( add_query_arg( $api_params, WP_CTA_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ));
 
 							// make sure the response came back okay
 							if ( is_wp_error( $response ) )
 								break;
 
 							// decode the license data
-							$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+							$license_data = json_decode( wp_remote_retrieve_body( $response ));
 
 							// $license_data->license will be either "active" or "inactive"
 							$license_status = update_option('wp_cta_license_status-'.$field['slug'], $license_data->license);

@@ -18,27 +18,27 @@ class CTA_Ajax_Listeners {
 	public static function load_hooks() {
 
 		/* Add listener to clear "all" CTA statistics */
-		add_action( 'wp_ajax_wp_cta_clear_all_cta_stats', array(__CLASS__, 'clear_all_stats') );
+		add_action( 'wp_ajax_wp_cta_clear_all_cta_stats', array(__CLASS__, 'clear_all_stats'));
 
 		/* Adds listener to clear CTA stats */
-		add_action( 'wp_ajax_wp_cta_clear_stats_action', array(__CLASS__, 'clear_stats' ) );
+		add_action( 'wp_ajax_wp_cta_clear_stats_action', array(__CLASS__, 'clear_stats' ));
 
 		/* Adds listener to clear CTA Variation stats	*/
-		add_action( 'wp_ajax_wp_cta_clear_variation_stats', array(__CLASS__, 'clear_variation_stats' ) );
+		add_action( 'wp_ajax_wp_cta_clear_variation_stats', array(__CLASS__, 'clear_variation_stats' ));
 
 		/* Adds listener to record CTA Variation impression */
-		add_action('wp_ajax_wp_cta_record_impressions', array(__CLASS__, 'record_impression' ) );
-		add_action('wp_ajax_nopriv_wp_cta_record_impressions', array(__CLASS__, 'record_impression' ) );
+		add_action('wp_ajax_wp_cta_record_impressions', array(__CLASS__, 'record_impression' ));
+		add_action('wp_ajax_nopriv_wp_cta_record_impressions', array(__CLASS__, 'record_impression' ));
 
 		/* Adds listener to record CTA variation conversions */
-		add_action('wp_ajax_wp_cta_record_conversion', array(__CLASS__, 'record_conversion' ) );
-		add_action('wp_ajax_nopriv_wp_cta_record_conversion', array(__CLASS__, 'record_conversion' ) );
+		add_action('wp_ajax_wp_cta_record_conversion', array(__CLASS__, 'record_conversion' ));
+		add_action('wp_ajax_nopriv_wp_cta_record_conversion', array(__CLASS__, 'record_conversion' ));
 
 		/* Adds listener to save CTA post meta */
-		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array(__CLASS__, 'save_meta' ) );
+		add_action( 'wp_ajax_wp_wp_call_to_action_meta_save', array(__CLASS__, 'save_meta' ));
 
 		/* Adds listener to serve next cta variation in line & update markers */
-		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_varition' ) );
+		add_action( 'wp_ajax_nopriv_cta_get_variation', array(__CLASS__, 'serve_varition' ));
 	}
 
 	/**

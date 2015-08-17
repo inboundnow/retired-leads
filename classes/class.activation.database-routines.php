@@ -81,7 +81,7 @@ if ( !class_exists('CTA_Activation_Update_Routines') ) {
 
 			$results = new WP_Query( array(
 				's' => __( 'A/B Testing Call To Action Example' , 'cta' )
-			) );
+			));
 
 			/* Make sure post does not exist before continuing */
 			if ( $results->have_posts() ) {

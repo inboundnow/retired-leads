@@ -72,7 +72,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_action( 'wp_enqueue_scripts' , array( $this , 'enqueue_scripts') , 20 );
 
             /* Apply custom JS & CSS for CTA */
-            add_action( 'wp_head', array( $this , 'load_custom_js_css') );
+            add_action( 'wp_head', array( $this , 'load_custom_js_css'));
 
             /* Add CTA Render to Content */
             add_filter( 'the_content' , array( $this , 'add_cta_to_post_content' ) , 10);
@@ -81,13 +81,13 @@ if ( !class_exists( 'CTA_Render' ) ) {
             add_filter( 'wp_cta_after_global_init' , array( $this , 'add_cta_to_dynamic_widget' ) , 10);
 
             /* Add Shortcode Support for CTA */
-            add_shortcode( 'cta', array( $this , 'process_shortcode_cta') );
+            add_shortcode( 'cta', array( $this , 'process_shortcode_cta'));
 
             /* Listen for CTA previews */
             add_action( 'template_redirect', array( $this , 'preview_cta') , 2 );
 
             /* Modify admin URL for previews */
-            add_filter( 'admin_url', array( $this, 'modify_admin_url' ) );
+            add_filter( 'admin_url', array( $this, 'modify_admin_url' ));
 
         }
 
@@ -368,7 +368,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
             }
 
             wp_enqueue_script( 'cta-load-variation' , WP_CTA_URLPATH . 'assets/js/cta-variation.js', array('jquery') , true );
-            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ) );
+            wp_localize_script( 'cta-load-variation', 'cta_variation', array('cta_id' => self::$instance->selected_cta['id'] , 'ajax_url' => $ajax_url , 'admin_url' => admin_url( 'admin-ajax.php' ) , 'home_url' => get_home_url() , 'disable_ajax' => self::$instance->disable_ajax ));
 
             /* If placement is popup load popup asset files */
             if ( self::$instance->cta_content_placement === 'popup') {
@@ -458,7 +458,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                                 foreach ($file as $js)
                                 {
                                     wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
-                                    wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type) );
+                                    wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => self::$instance->obj_id, 'post_type' => self::$instance->obj->post_type));
                                 }
                                 break;
                             case 'css':

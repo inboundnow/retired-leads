@@ -16,7 +16,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		function CTA_Static_Widget() {
 
 			/* Widget settings. */
-			$widget_ops = array( 'classname' => 'class_CTA_Static_Widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta') );
+			$widget_ops = array( 'classname' => 'class_CTA_Static_Widget', 'description' => __('Use this widget to manually display Calls to Action in sidebars.', 'cta'));
 
 			/* Widget control settings. */
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_static_widget' );
@@ -57,7 +57,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 			$cta_id = $selected_ctas[$rand_key];
 			$this->cta_id = $cta_id;
 
-			$selected_cta =  $CTA_Render->prepare_cta_dataset( array($cta_id) );
+			$selected_cta =  $CTA_Render->prepare_cta_dataset( array($cta_id));
 
 			if ( !isset($selected_cta['templates']) ) {
 				return;
@@ -82,7 +82,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 							foreach ($file as $js)
 							{
 								wp_enqueue_script( md5($js) ,$js , array( 'jquery' ));
-								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,  'post_id' => $obj_id ) );
+								wp_localize_script( md5($js) , $localized_template_id , array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ,  'post_id' => $obj_id ));
 							}
 							break;
 						case 'css':

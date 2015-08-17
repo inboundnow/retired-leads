@@ -26,13 +26,13 @@ if ( !class_exists('CTA_Activation') ) {
             }
 
             /* Add listener for unset permalinks  */
-            add_action('admin_notices', array(__CLASS__, 'permastruct_check' ) );
+            add_action('admin_notices', array(__CLASS__, 'permastruct_check' ));
 
             /** add listener for permlaink flush command  */
             add_action('admin_init', array(__CLASS__, 'flush_permalinks' ) , 11 );
 
             /* Add listener for uncompleted upgrade routines */
-            add_action( 'admin_init' , array( 'CTA_Activation' , 'run_upgrade_routine_checks' ) );
+            add_action( 'admin_init' , array( 'CTA_Activation' , 'run_upgrade_routine_checks' ));
         }
 
         /**
@@ -132,7 +132,7 @@ if ( !class_exists('CTA_Activation') ) {
             $remaining = array_diff( $updaters , $completed );
 
             if (count($remaining)>0) {
-                add_action( 'admin_notices', array(__CLASS__, 'display_upgrade_routine_notice' ) );
+                add_action( 'admin_notices', array(__CLASS__, 'display_upgrade_routine_notice' ));
             }
         }
 
@@ -276,8 +276,8 @@ if ( !class_exists('CTA_Activation') ) {
     }
 
     /* Add Activation Hook */
-    register_activation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'activate' ) );
-    register_deactivation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'deactivate' ) );
+    register_activation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'activate' ));
+    register_deactivation_hook( WP_CTA_FILE , array( 'CTA_Activation' , 'deactivate' ));
 
     new CTA_Activation;
 }

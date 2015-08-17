@@ -16,7 +16,7 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		function CTA_Dynamic_Widget() {
 
 			/* Widget settings. */
-			$widget_ops = array( 'classname' => 'class_CTA_Dynamic_Widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta') );
+			$widget_ops = array( 'classname' => 'class_CTA_Dynamic_Widget', 'description' => __('Use this widget to accept Calls to Action placements.', 'cta'));
 
 			/* Widget control settings. */
 			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'id_wp_cta_dynamic_widget' );
@@ -63,8 +63,8 @@ if (!class_exists('CTA_Dynamic_Widget')) {
 		<?php
 		}
 	}
-	
-	
+
+
 	/**
 	*  Loads the dynamic widget class
 	*/

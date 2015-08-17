@@ -18,8 +18,8 @@ class CTA_Enqueues {
 	*  Loads hooks and filters
 	*/
 	public static function load_hooks() {
-		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues' ) );
-		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues' ) );
+		add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_enqueues' ));
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'backend_enqueues' ));
 	}
 
 	/**
@@ -64,7 +64,7 @@ class CTA_Enqueues {
 		/* Add edit cta pills to rendered calls to action */
 		if ( current_user_can( 'manage_options' )) {
 			wp_enqueue_script('frontend-cta-admin', WP_CTA_URLPATH . 'assets/js/admin/frontend-admin-cta.js');
-			wp_localize_script( 'frontend-cta-admin', 'ctafrontend', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+			wp_localize_script( 'frontend-cta-admin', 'ctafrontend', array('ajax_url' => admin_url( 'admin-ajax.php' ) ));
 
 		}
 
@@ -122,8 +122,8 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-only-cpt-admin-css', WP_CTA_URLPATH . 'assets/css/admin-wp-cta-cpt-only-style.css');
 
 		/* Enqueues support for clear stat buttons */
-		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ) );
-		wp_localize_script( 'wp-cta-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'wp_call_to_action_clear_nonce' => wp_create_nonce('wp-call-to-action-clear-nonce') ) );
+		wp_enqueue_script( 'wp-cta-admin-clear-stats-ajax-request', WP_CTA_URLPATH . 'assets/js/ajax.clearstats.js', array( 'jquery' ));
+		wp_localize_script( 'wp-cta-admin-clear-stats-ajax-request', 'ajaxadmin', array( 'ajaxurl' => admin_url('admin-ajax.php'), 'wp_call_to_action_clear_nonce' => wp_create_nonce('wp-call-to-action-clear-nonce') ));
 
 		/*  Enqueue supporting js for Global Settings page */
 		if (isset($_GET['page']) && $_GET['page'] === 'wp_cta_global_settings') {
@@ -142,11 +142,11 @@ class CTA_Enqueues {
 		if ( isset($hooks) && $hook == 'post-new.php' || $hook == 'post.php') {
 
 			/* Set the default editor mode */
-			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode' ) );/* force visual editor to open in text mode */
+			add_filter( 'wp_default_editor', array(__CLASS__, 'set_default_editor_mode' ));/* force visual editor to open in text mode */
 
 			/* Enqueue UI assisting js */
 			wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
-			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ) );
+			wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'post_id' => $post->ID , 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce'), 'wp_call_to_action_template_nonce' => wp_create_nonce('wp-cta-nonce') ));
 
 			/* Enqueue supportive js for template switching */
 			wp_enqueue_script('wp-cta-js-metaboxes', WP_CTA_URLPATH . 'assets/js/admin/admin.metaboxes.js');
@@ -191,7 +191,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		wp_enqueue_script('wp-cta-post-edit-ui', WP_CTA_URLPATH . 'assets/js/admin/admin.post-edit.js');
-		wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ) );
+		wp_localize_script( 'wp-cta-post-edit-ui', 'wp_cta_post_edit_ui', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'wp_call_to_action_meta_nonce' => wp_create_nonce('wp-call-to-action-meta-nonce') ));
 		wp_enqueue_script('wp-cta-frontend-editor-js', WP_CTA_URLPATH . 'assets/js/customizer.save.js');
 
 		//jpicker - color picker

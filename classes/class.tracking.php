@@ -14,7 +14,7 @@ class CTA_Conversion_Tracking {
 	public static function load_hooks() {
 
 		/* track masked cta links */
-		add_action( 'inbound_track_link' , array(__CLASS__, 'track_link' ) );
+		add_action( 'inbound_track_link' , array(__CLASS__, 'track_link' ));
 
 		/* Track form submissions related to call to actions a conversions */
 		add_action('inboundnow_store_lead_pre_filter_data' , array(__CLASS__, 'set_form_submission_conversion' ) , 20 , 1 );
@@ -157,7 +157,7 @@ class CTA_Conversion_Tracking {
 
 
 		update_post_meta( $lead_id, 'wpleads_conversion_data', $conversion_data );
-		update_post_meta( $lead_id, 'wpl-lead-conversion-count', count($conversion_data) );
+		update_post_meta( $lead_id, 'wpl-lead-conversion-count', count($conversion_data));
 
 	}
 }

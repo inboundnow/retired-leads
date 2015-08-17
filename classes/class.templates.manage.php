@@ -15,9 +15,9 @@ if ( !class_exists('CTA_Template_Manager') ) {
 		*	Initializes class
 		*/
 		public function __construct() {
-			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts' , array(__CLASS__, 'enqueue_scripts' ));
 			/* prepare handler hook for uploads page */
-			add_action('admin_menu', array(__CLASS__, 'add_pages') );
+			add_action('admin_menu', array(__CLASS__, 'add_pages'));
 			add_action('admin_notices',  array(__CLASS__, 'dont_install_cta_templates_here'));
 		}
 
@@ -67,21 +67,21 @@ if ( !class_exists('CTA_Template_Manager') ) {
 			/** Template management page */
 			$hookname = get_plugin_page_hookname('wp_cta_manage_templates', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array(__CLASS__, 'display_management_page') );
+				add_action( $hookname , array(__CLASS__, 'display_management_page'));
 			}
 			$_registered_pages[$hookname] = true;
 
 			/** Template upload page */
 			$hookname = get_plugin_page_hookname('wp_cta_templates_upload', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array(__CLASS__, 'display_upload_page') );
+				add_action( $hookname , array(__CLASS__, 'display_upload_page'));
 			}
 			$_registered_pages[$hookname] = true;
 
 			/** Template search page */
 			$hookname = get_plugin_page_hookname('wp_cta_store', 'edit.php?post_type=wp-call-to-action');
 			if (!empty($hookname)) {
-				add_action( $hookname , array(__CLASS__, 'display_store_search') );
+				add_action( $hookname , array(__CLASS__, 'display_store_search'));
 			}
 			$_registered_pages[$hookname] = true;
 
@@ -276,7 +276,7 @@ if ( !class_exists('CTA_Template_Manager') ) {
 				'nature' 			=> 'template',
 			);
 
-			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+			$request = wp_remote_post( WP_CTA_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ));
 
 			if ( !is_wp_error( $request ) ):
 				$request = json_decode( wp_remote_retrieve_body( $request ), true );

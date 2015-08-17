@@ -125,7 +125,7 @@ Class WP_DB_Connect {
 			$dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
 			$this->_con = @new PDO($dsn, DB_USER, DB_PASSWORD);
 		} catch (PDOException $e) {
-			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage() );
+			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage());
 		}
 	}
 
@@ -137,14 +137,14 @@ Class WP_DB_Connect {
 	private function getFile() {
 		try {
 			$this->str = @file_get_contents($this->filePath);
-			
+
 			if ($this->str == false){
 				throw new Exception ('Failed to read file (' . $this->filePath . ') into string.');
 			}
 			$this->str = str_replace('"', "'", $this->str);
 			$this->str = str_replace(' ', "", $this->str);
 		} catch (Exception $e) {
-			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage() );
+			exit ('Error on line	' . $e->getLine(). ' in ' . $e->getFile() . ': ' . $e->getMessage());
 		}
 	}
 
@@ -336,7 +336,7 @@ class CTA_AJAX_Return_Variation {
 		}
 
 		if ($this->variations_array) {
-			foreach ($this->variations_array as $vid => $variation ){				
+			foreach ($this->variations_array as $vid => $variation ){
 				if (!isset($variation['status']) || $variation['status'] == 'active'  ){
 					$this->live_variations[] = $vid;
 				}
@@ -344,7 +344,7 @@ class CTA_AJAX_Return_Variation {
 		}
 	}
 
-	/** 
+	/**
 	*  Return variations
 	*/
 	function return_variation() {
