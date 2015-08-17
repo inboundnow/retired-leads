@@ -40,7 +40,7 @@ class CTA_Customizer {
 		if (isset($_GET['frontend']) && $_GET['frontend'] === 'true') {
 			/* Enqueue Scripts  */
 			add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_settings_scripts' ));
-
+			add_filter('admin_body_class', array(__CLASS__, 'add_body_classes'));
 		}
 
 
@@ -52,6 +52,14 @@ class CTA_Customizer {
 		/* Add hidden inputs */
 		add_action( 'edit_form_after_title', array(__CLASS__, 'add_hidden_inputs'));
 
+	}
+
+	/* Add customizer class to body for CSS overrides */
+	public static function add_body_classes($classes) {
+			global $post;
+			$post_type = get_post_type( $post->ID );
+			$classes .= 'inbound-customizer';
+	        return $classes;
 	}
 
 	/* Keep frontend True on post save */
