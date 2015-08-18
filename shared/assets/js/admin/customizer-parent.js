@@ -1,3 +1,4 @@
+/* This is the customizer parent window containing the editor and preview frames */
 var InboundCustomizerParent = (function () {
 
   var _privateMethod = function () {};
@@ -7,8 +8,11 @@ var InboundCustomizerParent = (function () {
         console.log('parent init');
         jQuery("#wp-admin-bar-edit a").text("Main Edit Screen");
     },
-    anotherMethod:  function () {
-
+    togglePreviewReload:  function () {
+        /* triggered from editor frame */
+        setTimeout(function() {
+            document.getElementById('wp-cta-live-preview').contentDocument.location.reload(true);
+        }, 1500);
     }
   };
 
@@ -19,15 +23,3 @@ var InboundCustomizerParent = (function () {
 jQuery(document).ready(function($) {
    InboundCustomizerParent.init();
 });
-
-
-
-var ModuleTwo = (function (Module) {
-
-    Module.extension = function () {
-        // another method!
-    };
-
-    return Module;
-
-})(InboundCustomizerParent || {});

@@ -1,5 +1,6 @@
 /* CSS for the Customizer Edit */
-:root {
+
+:root:root:root {
 
     body.customize-support, body {
         background-color: #eee !important;
@@ -11,6 +12,9 @@
     }
     #wpadminbar {
         z-index: 99999999999 !important;
+    }
+    #wp-admin-bar-customize, #wp-admin-bar-updates, #wp-admin-bar-comments {
+        display: none;
     }
     .inbound-customizer-preview {
         max-width: 68%;

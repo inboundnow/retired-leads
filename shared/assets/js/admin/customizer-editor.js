@@ -12,7 +12,11 @@ var InboundCustomizerEditor = (function () {
           setTimeout( function() {
             //parent.location.reload();
             jQuery(parent.document).find("#inbound-customizer-overlay").fadeIn(300);
+
+            window.parent.InboundCustomizerParent.togglePreviewReload();
+
           }, 100 );
+
 
         });
     },
