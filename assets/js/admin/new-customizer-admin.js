@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 
 	jQuery('body').on( 'submit' , 'form' , function() {
 		setTimeout( function() {
-			parent.location.reload();
+			//parent.location.reload();
 
 		}, 1000 );
 
