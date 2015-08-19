@@ -24,8 +24,15 @@
     .acf-field-google-map {
         width: 90%;
     }
+    .acf-gallery-toolbar select {
+        height: 29px !important;
+    }
     #post-body .nav-tab-special-active {
         background: #fff !important;
+        font-size: 23px;
+        padding-bottom: 6px;
+        padding-top: 7px;
+        vertical-align: bottom;
     }
     #post-body-content .a_b_tabs {
         margin-right: 0px;
@@ -49,6 +56,7 @@
     }
     .media-modal {
         top: 20px;
+        max-height: 600px;
     }
     .wp-editor-container {
         iframe, textarea {
@@ -82,8 +90,12 @@
             font-size: 17px !important;
         }
     }
-    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, label, .inbound-meta-box-label, .inbound-description-block-option {
+    .inbound-meta-box-label, label {
         width: 100%;
+    }
+    input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, .inbound-description-block-option {
+        width: 100%;
+        margin-bottom: 5px;
     }
     input[type="text"].wp-color-picker {
         width: 80px;
@@ -92,6 +104,7 @@
         font-weight: bold;
         margin-bottom: 5px;
         display: block;
+        font-size: 15px;
     }
 
 }

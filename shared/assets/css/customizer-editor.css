@@ -26,8 +26,15 @@
 :root:root:root .inbound-customizer .acf-field-google-map {
     width: 90%;
 }
+:root:root:root .inbound-customizer .acf-gallery-toolbar select {
+    height: 29px !important;
+}
 :root:root:root .inbound-customizer #post-body .nav-tab-special-active {
     background: #fff !important;
+    font-size: 23px;
+    padding-bottom: 6px;
+    padding-top: 7px;
+    vertical-align: bottom;
 }
 :root:root:root .inbound-customizer #post-body-content .a_b_tabs {
     margin-right: 0px;
@@ -50,6 +57,7 @@
 }
 :root:root:root .inbound-customizer .media-modal {
     top: 20px;
+    max-height: 600px;
 }
 :root:root:root .inbound-customizer .wp-editor-container iframe, :root:root:root .inbound-customizer .wp-editor-container textarea {
     height: 180px !important;
@@ -81,8 +89,12 @@
     height: 44px !important;
     font-size: 17px !important;
 }
-:root:root:root .inbound-customizer input[type="text"], :root:root:root .inbound-customizer input[type="email"], :root:root:root .inbound-customizer input[type="url"], :root:root:root .inbound-customizer input[type="number"], :root:root:root .inbound-customizer input[type="password"], :root:root:root .inbound-customizer textarea, :root:root:root .inbound-customizer label, :root:root:root .inbound-customizer .inbound-meta-box-label, :root:root:root .inbound-customizer .inbound-description-block-option {
+:root:root:root .inbound-customizer .inbound-meta-box-label, :root:root:root .inbound-customizer label {
     width: 100%;
+}
+:root:root:root .inbound-customizer input[type="text"], :root:root:root .inbound-customizer input[type="email"], :root:root:root .inbound-customizer input[type="url"], :root:root:root .inbound-customizer input[type="number"], :root:root:root .inbound-customizer input[type="password"], :root:root:root .inbound-customizer textarea, :root:root:root .inbound-customizer .inbound-description-block-option {
+    width: 100%;
+    margin-bottom: 5px;
 }
 :root:root:root .inbound-customizer input[type="text"].wp-color-picker {
     width: 80px;
@@ -91,4 +103,5 @@
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
+    font-size: 15px;
 }
