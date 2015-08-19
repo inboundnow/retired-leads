@@ -4,7 +4,7 @@
 }
 :root:root:root .inbound-customizer {
 
-    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button  {
+    #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button, #wp-cta-notes-area, #wp-cta-change-template-button  {
         display: none !important;
     }
     #wpbody {
@@ -97,6 +97,9 @@
         width: 100%;
         margin-bottom: 5px;
     }
+    .inbound-colorpicker-option input[type="text"] {
+        width: 80px;
+    }
     input[type="text"].wp-color-picker {
         width: 80px;
     }
@@ -105,6 +108,35 @@
         margin-bottom: 5px;
         display: block;
         font-size: 15px;
+    }
+
+    /* to be removed when new colorpicker arrives */
+    table.jPicker {
+        width: 430px !important;
+        .Grid {
+            display: none;
+        }
+        .Icon span.Color, .Icon span.Alpha  {
+            width: 97% !important;
+        }
+        .Title {
+            width: 254px;
+        }
+        .Button {
+           text-align: center;
+           padding: 0 4px;
+           width: 264px;
+           position: absolute;
+           border-bottom: none;
+           left: 0px;
+           bottom: 3px;
+           input {
+                   font-size: 18px !important;
+            }
+        }
+        hr {
+            display: none !important;
+        }
     }
 
 }
