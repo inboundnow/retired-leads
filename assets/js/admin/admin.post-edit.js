@@ -38,26 +38,14 @@ jQuery(document).ready(function($) {
 		cookie_notice();
 	}
 
-	if(which_editor === null){
-		setTimeout(function() {
-		//jQuery("#content-tmce").click();
-		//jQuery(".wp-switch-editor.switch-tmce").click();
-		}, 1000);
-
-	}
 
 	if(which_editor === 'editor'){
 		setTimeout(function() {
-		//jQuery("#content-tmce").click();
-		//jQuery(".wp-switch-editor.switch-tmce").click();
-		jQuery('.inbound-wysiwyg-option textarea').each(function(){
-			var chtml= "#" + jQuery(this).attr('id') + '-html';
-			var ctmce= "#" + jQuery(this).attr('id') + '-tmce';
-			var html_box = jQuery(chtml);
-			var tinymce_box = jQuery(ctmce);
-			jQuery('.wp-switch-editor.switch-tmce').click();
-			//switchEditors.switchto(tinymce_box[0]); // switch to tinymce
-		});
+
+            jQuery('.switch-tmce').each(function(){
+                jQuery(this).click();
+            });
+
 		}, 1000);
 	}
 
