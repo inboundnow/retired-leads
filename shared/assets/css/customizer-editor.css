@@ -8,7 +8,6 @@
     padding-left: 0px !important;
 }
 :root:root:root .inbound-customizer {
-
     /* to be removed when new colorpicker arrives */
 
 }
@@ -113,8 +112,14 @@
     display: block;
     font-size: 15px;
 }
+:root:root:root .inbound-customizer .jPicker.Container {
+    top: 50px !important;
+    left: 10px !important;
+    position: fixed !important;
+}
 :root:root:root .inbound-customizer table.jPicker {
     width: 430px !important;
+    max-height: 300px !important;
 }
 :root:root:root .inbound-customizer table.jPicker .Grid {
     display: none;
@@ -124,6 +129,9 @@
 }
 :root:root:root .inbound-customizer table.jPicker .Title {
     width: 254px;
+}
+:root:root:root .inbound-customizer table.jPicker .Move {
+    display: none;
 }
 :root:root:root .inbound-customizer table.jPicker .Button {
     text-align: center;

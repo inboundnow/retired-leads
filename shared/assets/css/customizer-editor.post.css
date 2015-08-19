@@ -109,10 +109,16 @@
         display: block;
         font-size: 15px;
     }
-
+    .jPicker.Container {
+        top: 50px !important;
+        left: 10px !important;
+        position: fixed !important;
+    }
     /* to be removed when new colorpicker arrives */
     table.jPicker {
         width: 430px !important;
+        max-height: 300px !important;
+
         .Grid {
             display: none;
         }
@@ -121,6 +127,9 @@
         }
         .Title {
             width: 254px;
+        }
+        .Move {
+            display: none;
         }
         .Button {
            text-align: center;

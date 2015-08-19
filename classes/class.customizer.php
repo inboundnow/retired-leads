@@ -52,40 +52,22 @@ class CTA_Customizer {
 
 		}
 		/* Add hidden inputs */
-		add_action( 'edit_form_after_title', array(__CLASS__, 'add_hidden_inputs'));
+		add_action( 'edit_form_after_title', array(__CLASS__, 'add_hidden_inputs_to_editor'));
 
 	}
+	/* Load Scripts for Iframe Popup Preview Window */
 	public static function popup_preview_scripts() {
-		wp_enqueue_style('wp_cta_ab_testing_customizer_css', WP_CTA_URLPATH . 'assets/css/customizer-ab-testing.css');
+		wp_enqueue_style('inbound-iframe-popup-preview', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
 	}
 	/* Load Scripts for Preview Window */
 	public static function customizer_preview_scripts() {
-		show_admin_bar( false );
-		wp_enqueue_style('inbound-preview', WP_CTA_URLPATH . 'assets/css/iframe-preview.css');
-		/*wp_register_script('inbound-customizer-load-js', WP_CTA_URLPATH . 'assets/js/iframe-preview.js', array('jquery'));
-			wp_enqueue_script('inbound-customizer-load-js');*/
+		show_admin_bar(false);
+		wp_enqueue_style('inbound-customizer-preview-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-preview.css');
+		wp_enqueue_script('inbound-customizer-preview-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-preview.js');
 
 	}
-
-	/* Add customizer class to body for CSS overrides */
-	public static function add_editor_body_class($classes) {
-			global $post;
-			$post_type = get_post_type( $post->ID );
-			$classes .= 'inbound-customizer';
-	        return $classes;
-	}
-
-	/* Keep Customizer Active on post save */
-	public static function add_hidden_inputs() {
-
-		if((isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] === 'true')
-			|| isset($_GET['inbound-editor']) && $_GET['inbound-editor'] === 'true' ) {
-			echo '<input type="hidden" name="inbound-editor" id="inbound-editor-status" value="true" />';
-		}
-	}
-
+	/* Load Scripts for Editor Window */
 	public static function customizer_editor_scripts() {
-
 		$screen = get_current_screen();
 		if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ) {
 			return;
@@ -95,8 +77,23 @@ class CTA_Customizer {
 		//wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
 
 	}
+	/* Add customizer class to body for Editor Window */
+	public static function add_editor_body_class($classes) {
+			global $post;
+			$post_type = get_post_type( $post->ID );
+			$classes .= 'inbound-customizer';
+	        return $classes;
+	}
+	/* Keep Customizer Active on post save */
+	public static function add_hidden_inputs_to_editor() {
 
-	/* Adds CTA Preview Iframe */
+		if((isset($_REQUEST['inbound-editor']) && $_REQUEST['inbound-editor'] === 'true')
+			|| isset($_GET['inbound-editor']) && $_GET['inbound-editor'] === 'true' ) {
+			echo '<input type="hidden" name="inbound-editor" id="inbound-editor-status" value="true" />';
+		}
+	}
+
+	/* Part of popup iframe */
 	public static function toggle_between_variations() {
 		/* Way to toggle between Variations */
 	}
@@ -106,8 +103,8 @@ class CTA_Customizer {
 		wp_enqueue_script('inbound-customizer-parent-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-parent.js');
 		/* todo enqueue script */
 	}
+	/* cta specific */
 	public static function launch_customizer() {
-
 		global $post;
 
 		$post_id = $post->ID;
@@ -115,34 +112,30 @@ class CTA_Customizer {
 		$permalink = get_permalink($post_id);
 
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-		$wp_cta_variation = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
 
-		$params = '?wp-cta-variation-id='.$wp_cta_variation.'&cache_bust='.$randomString.'&inbound-preview='.$randomString;
+		if($post_type === "wp-call-to-action") {
+			$vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
+		} elseif ($post_type === "landing-page") {
+			$vid = (isset($_GET['lp-variation-id'])) ? $_GET['lp-variation-id'] : '0';
+		} elseif ($post_type === "email") {
+			$vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
+		} else {
+			$vid = '0';
+		}
 
 		$preview_link = add_query_arg( array(  'cache_bust' => $randomString, 'inbound-preview' => 'true', 'wmode' => 'opaque'), $permalink);
 
 
 		$customizer_link = add_query_arg(
-								array( 'wp-cta-variation-id' => $wp_cta_variation,
+								array( 'wp-cta-variation-id' => $vid,
 										'action' => 'edit',
 										'inbound-editor' => 'true' ),
 										admin_url() .'post.php?post='.$post_id );
 
-		$version = $_GET['wp-cta-variation-id'];
-
-		/*$current_post_id = $wp_query->get_queried_object_id();*/
-
-		$width = get_post_meta($post_id, 'wp_cta_width-'.$version, true);
-		$height = get_post_meta($post_id, 'wp_cta_height-'.$version, true);
-
-		$correct_height = self::get_correct_dimensions($height, 'height');
-		$correct_height = (!$correct_height) ? 'auto' : $correct_height;
-		$correct_width = 'width:100%;';
-
 		?>
 		</head>
 		<!-- http://stackoverflow.com/questions/7816372/make-iframes-resizable-dynamically -->
-		<body>
+		<body class="<?php echo $post_type; ?>">
 			<div id="inbound-customizer-overlay" class="wp-cta-load-overlay"
 			style="display:none;"></div>
 
@@ -162,24 +155,6 @@ class CTA_Customizer {
 		<?php wp_footer(); ?>
 		</body>
 		<?php exit;
-	}
-
-	/**
-	*  Looks at user inputed width and height and prepares correct format
-	*/
-	public static function get_correct_dimensions($input, $css_prop) {
-
-		if (preg_match("/px/i", $input)){
-		   $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
-		} else if (preg_match("/%/", $input)) {
-		   $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
-		} else if (preg_match("/em/", $input)) {
-		   $input = (isset($input)) ? " ".$css_prop.": $input;" : '';
-		} else {
-		   $input = " ".$css_prop.": $input" . "px;";
- 		}
-
-		return $input;
 	}
 
 }
