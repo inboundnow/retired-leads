@@ -1,5 +1,7 @@
 /* CSS for the Customizer Edit */
-
+:root:root:root .auto-fold #wpcontent {
+    padding-left: 0px !important;
+}
 :root:root:root .inbound-customizer {
 
     #wpadminbar, #edit-slug-box, #post-status-info, #screen-options-link-wrap, #leads-table-container, .misc-pub-section, #minor-publishing, .misc-pub-section, .misc-pub-section.curtime, #delete-action, #convert-header, #wp-cta-tour, #view-post-btn, #launch-visual-editer, #adminmenuwrap, #lp_ab_display_stats_metabox, #wp-cta-thumbnail-sidebar-preview, #landing_page_categorydiv, #postimagediv, #leads-table-container-inside, .updated.below-h2 a, #cta_shortcode_form, .wp_cta_tooltip, #wp_cta_ab_display_stats_metabox, #wp_call_to_action_categorydiv, .new-save-wp-cta-frontend, #launch-feedback, .notice, .nav-tab-add-new-variation, #cta-launch-front, #wp-cta-change-template-button  {
@@ -12,13 +14,34 @@
             padding-top: 5px;
         }
     }
+    .wrap {
+        margin-right: 0px;
+    }
+    .postbox {
+        border: none;
 
+    }
+    .acf-field-google-map {
+        width: 90%;
+    }
+    #post-body .nav-tab-special-active {
+        background: #fff !important;
+    }
+    #post-body-content .a_b_tabs {
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: -12px;
+    }
     .wrap h1:first-of-type, .ed_button.button.button-small[value="more"], .ed_button.button.button-small[value="/ins"] {
         display: none;
     }
     .auto-fold {
         #wpfooter, #wpcontent {
             margin-left: 0px;
+
+            @media screen and (max-width: 782px) {
+                padding-left: 0px !important;
+            }
         }
     }
     .mce-container-body.mce-flow-layout {
@@ -40,7 +63,6 @@
         bottom: 0px !important;
         z-index: 999999 !important;
         width: 100% !important;
-        margin-left: -10px !important;
         padding-bottom: 10px !important;
         margin-bottom: 0px !important;
         .handlediv, .hndle {
@@ -62,6 +84,9 @@
     }
     input[type="text"], input[type="email"], input[type="url"], input[type="number"],  input[type="password"], textarea, label, .inbound-meta-box-label, .inbound-description-block-option {
         width: 100%;
+    }
+    input[type="text"].wp-color-picker {
+        width: 80px;
     }
     label {
         font-weight: bold;
