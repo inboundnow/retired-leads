@@ -24,6 +24,7 @@ var InboundCustomizerEditor = (function () {
     rewriteTabLinks: function() {
         jQuery('.nav-tab-wrapper.a_b_tabs a').each(function(){
             var permalink = jQuery(this).attr('data-permalink');
+            console.log(permalink);
             jQuery(this).attr('href', permalink + "&inbound-editor=true&inbound-customizer=on");
 
         });
