@@ -57,6 +57,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'legacy/functions.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
 
 			/* load admin only */
 			if (is_admin()) {
