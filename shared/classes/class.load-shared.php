@@ -30,8 +30,9 @@ if (!class_exists('Inbound_Load_Shared')) {
 			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
 			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
 			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
-			define('INBOUNDNOW_TEXT_DOMAIN', self::get_text_domain() );
-
+			if (!defined('INBOUNDNOW_TEXT_DOMAIN')) {
+				define('INBOUNDNOW_TEXT_DOMAIN', self::get_text_domain() );
+			}
 		}
 
 		/**
