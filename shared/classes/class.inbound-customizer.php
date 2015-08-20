@@ -54,7 +54,7 @@ class Inbound_Customizer {
 
         }
 
-
+        add_filter('redirect_post_location' , array( __CLASS__ , 'redirect_after_save' ) );
 
     }
     /* Load Scripts for Iframe Popup Preview Window */
@@ -70,10 +70,6 @@ class Inbound_Customizer {
     }
     /* Load Scripts for Editor Window */
     public static function customizer_editor_scripts() {
-        $screen = get_current_screen();
-        if ( ( isset($screen) && $screen->post_type != 'wp-call-to-action' ) ) {
-            return;
-        }
         wp_enqueue_script('inbound-customizer-editor-js', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/customizer-editor.js');
         wp_enqueue_style('inbound-customizer-editor-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/customizer-editor.css');
         //wp_enqueue_style('cta-customizer-admin', WP_CTA_URLPATH . 'assets/css/new-customizer-admin.css');
@@ -116,24 +112,33 @@ class Inbound_Customizer {
         $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
 
         if($post_type === "wp-call-to-action") {
+            $syntax = 'wp-cta-variation-id';
             $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
         } elseif ($post_type === "landing-page") {
+            $syntax = 'lp-variation-id';
             $vid = (isset($_GET['lp-variation-id'])) ? $_GET['lp-variation-id'] : '0';
             /* Fix email post type */
         } elseif ($post_type === "email") {
+            $syntax = 'email-variation-id';
             $vid = (isset($_GET['wp-cta-variation-id'])) ? $_GET['wp-cta-variation-id'] : '0';
         } else {
+            $syntax = 'na';
             $vid = '0';
         }
 
-        $preview_link = add_query_arg( array(  'cache_bust' => $randomString, 'inbound-preview' => 'true', 'wmode' => 'opaque'), $permalink);
+        $preview_link = add_query_arg(
+                array(  'cache_bust' => $randomString,
+                        $syntax => $vid,
+                        'inbound-preview' => 'true',
+                        'wmode' => 'opaque'),
+                $permalink);
 
 
         $customizer_link = add_query_arg(
-                                array( 'wp-cta-variation-id' => $vid,
-                                        'action' => 'edit',
-                                        'inbound-editor' => 'true' ),
-                                        admin_url() .'post.php?post='.$post_id );
+               array( $syntax => $vid,
+                      'action' => 'edit',
+                      'inbound-editor' => 'true' ),
+                      admin_url() .'post.php?post='.$post_id );
 
         ?>
         </head>
@@ -158,6 +163,16 @@ class Inbound_Customizer {
         <?php wp_footer(); ?>
         </body>
         <?php exit;
+    }
+
+    public static function redirect_after_save($url) {
+
+        if( !isset($_REQUEST['_wp_http_referer']) || !strstr( $_REQUEST['_wp_http_referer'] , 'inbound-editor' ) ) {
+            return $url;
+        }
+
+        return add_query_arg( array('inbound-editor' => 'true' ), $url );
+
     }
 
 }
