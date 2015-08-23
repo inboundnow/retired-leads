@@ -124,7 +124,9 @@
     table.jPicker {
         width: 430px !important;
         max-height: 300px !important;
-
+        td {
+            vertical-align: top;
+        }
         .Grid {
             display: none;
         }
@@ -144,10 +146,18 @@
            position: absolute;
            border-bottom: none;
            left: 0px;
-           bottom: 3px;
+           bottom: -22px;
+           background-color: #efefef;
+           border-right: 1px solid #000;
+           border-left: 1px solid #000;
+           border-bottom: 1px solid #000;
+           width: 100% !important;
            input {
                    font-size: 18px !important;
             }
+        }
+        .Green, .Red, .Blue, .Alpha, .Hex {
+            display: none !important;
         }
         hr {
             display: none !important;
