@@ -167,7 +167,7 @@ class Inbound_Customizer {
 
     public static function redirect_after_save($url) {
 
-        if( !isset($_REQUEST['_wp_http_referer']) || !strstr( $_REQUEST['_wp_http_referer'] , 'inbound-editor' ) ) {
+        if( !isset($_REQUEST['_wp_http_referer']) || strstr( $_REQUEST['_wp_http_referer'] , 'inbound-editor=false' ) ) {
             return $url;
         }
 
