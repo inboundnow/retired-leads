@@ -51,10 +51,9 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
-
         }
 
-        add_filter('redirect_post_location' , array( __CLASS__ , 'redirect_after_save' ) );
+        add_filter('redirect_post_location', array(__CLASS__,'redirect_after_save'));
 
     }
     /* Load Scripts for Iframe Popup Preview Window */
