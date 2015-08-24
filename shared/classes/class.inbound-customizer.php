@@ -166,11 +166,12 @@ class Inbound_Customizer {
 
     public static function redirect_after_save($url) {
 
-        if( !isset($_REQUEST['_wp_http_referer']) || strstr( $_REQUEST['_wp_http_referer'] , 'inbound-editor=false' ) ) {
+        $ref = $_REQUEST['_wp_http_referer'];
+        if( !isset($ref) || !strstr($ref, 'inbound-editor') || strstr($ref, 'inbound-editor=false')) {
             return $url;
         }
 
-        return add_query_arg( array('inbound-editor' => 'true' ), $url );
+        return add_query_arg(array('inbound-editor' => 'true'), $url );
 
     }
 
