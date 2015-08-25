@@ -51,10 +51,9 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
-
         }
 
-        add_filter('redirect_post_location' , array( __CLASS__ , 'redirect_after_save' ) );
+        add_filter('redirect_post_location', array(__CLASS__,'redirect_after_save'));
 
     }
     /* Load Scripts for Iframe Popup Preview Window */
@@ -167,11 +166,12 @@ class Inbound_Customizer {
 
     public static function redirect_after_save($url) {
 
-        if( !isset($_REQUEST['_wp_http_referer']) || !strstr( $_REQUEST['_wp_http_referer'] , 'inbound-editor' ) ) {
+        $ref = $_REQUEST['_wp_http_referer'];
+        if( !isset($ref) || !strstr($ref, 'inbound-editor') || strstr($ref, 'inbound-editor=false')) {
             return $url;
         }
 
-        return add_query_arg( array('inbound-editor' => 'true' ), $url );
+        return add_query_arg(array('inbound-editor' => 'true'), $url );
 
     }
 
