@@ -76,7 +76,7 @@ class Inbound_Shortcodes {
 			wp_enqueue_script('inbound-shortcodes-plugins', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes-plugins.js', array( 'jquery', 'jquery-cookie' ));
 
 			if (isset($post)&&post_type_supports($post->post_type,'editor')||isset($post)&&'wp-call-to-action' === $post->post_type) {
-				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ));
+				wp_enqueue_script('inbound-shortcodes', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/shortcodes.js', array( 'jquery', 'jquery-cookie' ), '1', true);
 				$form_id = (isset($_GET['post']) && is_int( $_GET['post'] )) ? $_GET['post'] : '';
 				wp_localize_script( 'inbound-shortcodes', 'inbound_shortcodes', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'adminurl' => admin_url(), 'inbound_shortcode_nonce' => wp_create_nonce('inbound-shortcode-nonce') , 'form_id' => $form_id ) );
 				wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/select2.min.js');
@@ -151,7 +151,7 @@ class Inbound_Shortcodes {
 	static function add_rich_plugins( $plugins ) {
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugins['Inbound_Shortcodes'] = INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/tinymce.js';
+		//$plugins['Inbound_Shortcodes'] = INBOUNDNOW_SHARED_URLPATH . 'shortcodes/js/tinymce.js';
 		return $plugins;
 
 	}

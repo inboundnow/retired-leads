@@ -45,25 +45,17 @@ $shortcode = new Inbound_Shortcodes_Fields( $popup );
         </div>
 
     </div>
-    <div id="popup-controls">
-        <a href="#" id="inbound_save_form" style="display:none;" class="button-primary">Save Form & Insert</a>
-        <a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
-        <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
+
+    <div id="popup-controls" style="z-index: 999999;">
+        <div id="shortcode-copy-paste" style="font-size: 15px;width: 99%;margin-left: 26px;margin-bottom: 15px;" >
+            <span style="font-size: 19px; display:block;margin-bottom:15px;">Copy and paste your shortcode into your content:</span>
+            <input onclick="select()" style="font-size: 15px; display:block; width:650px !important;" id="insert_new_shortcode_here" />
+        </div>
+        <!--<a href="#" id="inbound_save_form" style="display:none;" class="button-primary">Save Form & Insert</a>-->
+       <!--<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>-->
+        <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Close</a>
 
     </div>
-    <script type="text/javascript">
-    jQuery(document).ready(function($) {
 
-        jQuery('.child-clone-row').first().attr('id', 'row-1');
-        setTimeout(function() {
-                jQuery('#inbound-shortcodes-form input:visible').first().focus();
-        }, 500);
-
-    //jQuery("body").on('click', '.child-clone-row', function () {
-       // jQuery(".child-clone-row").toggle();
-       // jQuery(this).show();
-    //});
-    });
-</script>
 </body>
 </html>

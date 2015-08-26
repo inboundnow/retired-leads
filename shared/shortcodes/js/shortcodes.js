@@ -68,7 +68,8 @@ var InboundShortcodes = {
 
 		jQuery('#_inbound_shortcodes_newoutput').remove();
 		jQuery('#inbound-shortcodes-form-table').prepend('<textarea id="_inbound_shortcodes_newoutput" class="hidden">' + newoutput + '</textarea>');
-
+		/* new stuff */
+		jQuery("#insert_new_shortcode_here").val(newoutput);
 		InboundShortcodes.updatePreview();
 
 	},
@@ -111,7 +112,8 @@ var InboundShortcodes = {
 
 		jQuery('#_inbound_shortcodes_newoutput').remove();
 		jQuery('#inbound-shortcodes-form-table').prepend('<textarea id="_inbound_shortcodes_newoutput" class="hidden">' + parent_output + '</textarea>');
-
+		/* new stuff */
+		jQuery("#insert_new_shortcode_here").val(parent_output);
 		InboundShortcodes.updatePreview();
 
 	},
@@ -380,6 +382,8 @@ var InboundShortcodes = {
 												}
 												InboundShortcodes.fill_form_fields();
 												jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
+												/* new stuff */
+												jQuery("#insert_new_shortcode_here").val(obj.inbound_shortcode);
 													InboundShortcodes.generate();
 												InboundShortcodes.generateChild();
 										} else {
@@ -397,6 +401,8 @@ var InboundShortcodes = {
 										}
 										InboundShortcodes.fill_form_fields();
 										jQuery("#_inbound_shortcodes_newoutput").text(obj.inbound_shortcode);
+										/* new stuff */
+										jQuery("#insert_new_shortcode_here").val(obj.inbound_shortcode);
 										InboundShortcodes.generate();
 										InboundShortcodes.generateChild();
 									}
@@ -538,6 +544,8 @@ var InboundShortcodes = {
 						var align = jQuery('#inbound_shortcode_align').val();
 						setTimeout(function() {
 					jQuery("#_inbound_shortcodes_newoutput").html('[cta id="'+final_ids+'" align="'+align+'"]');
+					/* new stuff */
+					jQuery("#insert_new_shortcode_here").val('[cta id="'+final_ids+'" align="'+align+'"]');
 								}, 1000);
 						});
 		}
@@ -708,18 +716,9 @@ var InboundShortcodes = {
 							}
 							console.log(insert_to);
 							// window.tinymce.execInstanceCommand(insert_to, 'mceInsertContent', false, final_short_form);
-							window.send_to_editor(final_short_form);
+							//window.send_to_editor(final_short_form);
 							//window.tinymce.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
-							/* Fix for editor not recognizing shortcode' */
-							var chtml= jQuery('#' + insert_to + '-html');
-							var ctmce= jQuery('#' + insert_to + '-tmce');
-							switchEditors.switchto(chtml[0]); // switch to html
 
-							//tb_remove();
-							//jQuery('html, body').animate({
-							//		scrollTop: jQuery("#" + insert_to + "_InboundShortcodesButton_action").offset().top -200
-							//	}, 200);
-							switchEditors.switchto(ctmce[0]); // switch to tinymce
 						}
 
 						//jQuery(worked).appendTo(s_message);
@@ -859,6 +858,7 @@ var InboundShortcodes = {
 		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
 			window.tb_remove();
 			setTimeout(function() {
+			console.log(INTMCE);
 			setGlobaltinymce(INTMCE);
 			console.log('reset mce');
 			}, 300);
@@ -916,20 +916,9 @@ var InboundShortcodes = {
 						}
 						console.log('Insert into:', insert_to);
 						//window.tinymce.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
-						window.send_to_editor(output_cleaned);
+						//window.send_to_editor(output_cleaned);
 						//window.tinymce.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
-						/* Fix for editor not recognizing shortcode' */
-						var chtml= jQuery('#' + insert_to + '-html');
-						var ctmce= jQuery('#' + insert_to + '-tmce');
-						// console.log('obj', chtml);
-						// console.log('2nd', ctmce);
-						switchEditors.switchto(chtml[0]); // switch to html
 
-						//tb_remove();
-						//jQuery('html, body').animate({
-						//		scrollTop: jQuery("#" + insert_to + "_InboundShortcodesButton_action").offset().top -200
-						//	}, 200);
-						switchEditors.switchto(ctmce[0]); // switch to tinymce
 						setTimeout(function() {
 						setGlobaltinymce(INTMCE);
 						console.log('reset mce');
@@ -969,6 +958,7 @@ var InboundShortcodes = {
 	}
 
 };
+
 if (typeof (wp) != "undefined" && wp != null && wp != "") {
 	var INTMCE = wp;
 } else {
@@ -981,10 +971,14 @@ function setGlobaltinymce(retString){
 	wp = retString;
 }
 jQuery(document).ready( function() {
-	var wp = wp || {};
+
 	setTimeout(function() {
+		//console.log('wp', window.wp);
+		var wp = window.wp || {};
 		setGlobalwp(wp);
-	}, 300);
+		//console.log('set wp');
+		console.log(INTMCE);
+	}, 2000);
 
 	jQuery('#inbound-shortcodes-popup').livequery( function() {
 		InboundShortcodes.load();
