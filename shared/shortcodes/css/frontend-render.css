@@ -491,7 +491,7 @@ ul.inbound-tabs-nav li {
 }
 
 ul.inbound-tabs-nav li a {
-    background: #f2f2f2 url('images/gradient.png');
+    background: #f2f2f2;
     border: 1px solid #EBEBEA;
     border-right: none;
     -webkit-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.5);
