@@ -1586,7 +1586,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                         $links = explode(';', $field['value']);
                         $links = array_filter($links);
 
-                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <img src='" . WPL_URLPATH . "/assets/assets/images/add.png' title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'></span></div>";
+                        echo "<div style='position:relative;'><span class='add-new-link'>" . __('Add New Link') . " <span title='" . __('add link') . "' align='ABSMIDDLE' class='wpleads-add-link' 'id='{$id}-add-link'>+</span></div>";
                         echo "<div class='wpleads-links-container' id='{$id}-container'>";
 
                         $remove_icon = WPL_URLPATH . '/assets/images/remove.png';
