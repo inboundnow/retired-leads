@@ -716,7 +716,7 @@ var InboundShortcodes = {
 							}
 							console.log(insert_to);
 							// window.tinymce.execInstanceCommand(insert_to, 'mceInsertContent', false, final_short_form);
-							window.send_to_editor(final_short_form);
+							//window.send_to_editor(final_short_form);
 							//window.tinymce.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
 
 						}
@@ -858,6 +858,7 @@ var InboundShortcodes = {
 		jQuery("body").on('click', '.inbound-shortcodes-insert-cancel', function () {
 			window.tb_remove();
 			setTimeout(function() {
+			console.log(INTMCE);
 			setGlobaltinymce(INTMCE);
 			console.log('reset mce');
 			}, 300);
@@ -915,7 +916,7 @@ var InboundShortcodes = {
 						}
 						console.log('Insert into:', insert_to);
 						//window.tinymce.execInstanceCommand(insert_to, 'mceInsertContent', false, output_cleaned);
-						window.send_to_editor(output_cleaned);
+						//window.send_to_editor(output_cleaned);
 						//window.tinymce.activeEditor.execCommand('mceInsertContent', false, output_cleaned);
 
 						setTimeout(function() {
@@ -957,6 +958,7 @@ var InboundShortcodes = {
 	}
 
 };
+
 if (typeof (wp) != "undefined" && wp != null && wp != "") {
 	var INTMCE = wp;
 } else {
@@ -969,10 +971,14 @@ function setGlobaltinymce(retString){
 	wp = retString;
 }
 jQuery(document).ready( function() {
-	var wp = wp || {};
+
 	setTimeout(function() {
+		//console.log('wp', window.wp);
+		var wp = window.wp || {};
 		setGlobalwp(wp);
-	}, 300);
+		//console.log('set wp');
+		console.log(INTMCE);
+	}, 2000);
 
 	jQuery('#inbound-shortcodes-popup').livequery( function() {
 		InboundShortcodes.load();
