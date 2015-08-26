@@ -380,9 +380,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $global_cookie = get_option( 'wp-cta-main-global-cookie', 0 );
                 $global_cookie_length = get_option( 'wp-cta-main-global-cookie-length', 30 );
 
-                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array( 'jquery'));
-                wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'assets/lib/popup/magnific-popup.css');
-
                 $popup_params = array(	'timeout' => $pop_time_final,
                     'c_status' => $popup_cookie,
                     'c_length' => $popup_cookie_length,
@@ -391,10 +388,10 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     'global_c_length' => $global_cookie_length
                 );
 
-                wp_enqueue_style('magnific-popup-css', WP_CTA_URLPATH . 'assets/lib/popup/magnific-popup.css');
-                wp_enqueue_script('magnific-popup', WP_CTA_URLPATH . 'assets/lib/popup/jquery.magnific-popup.min.js', array('jquery'), true );
-                wp_localize_script( 'magnific-popup', 'wp_cta_popup', $popup_params );
-                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/lib/popup/cta-popup-onpage.js', array('jquery', 'magnific-popup'), true );
+                wp_enqueue_style('maginificient-popup-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
+                wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js',array('jquery'), true );
+                wp_localize_script( 'maginificient-popup', 'wp_cta_popup', $popup_params );
+                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/lib/popup/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), true );
             }
 
             /* If placement is slideout load slideout asset files */
@@ -1155,7 +1152,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 $content = $content . "<div class='below_content'>" . self::$instance->cta_template . "</div>";
 
             } elseif (self::$instance->cta_content_placement=='popup') {
-                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'></button>" . self::$instance->cta_template . "</div>";
+                $content = $content . "<a id='cta-no-show' class='popup-modal' href='#wp-cta-popup'>Open modal</a><div id='wp-cta-popup' class='mfp-hide white-popup-block' style='display:none;'><button title='Close (Esc)' type='button' class='mfp-close'>&times;</button>" . self::$instance->cta_template . "</div>";
 
                 foreach (self::$instance->cta_width as $key => $value) {
                     $content .= "<span class='data-vid-w-".$key."' data-width='" . $value ."'></span>";
