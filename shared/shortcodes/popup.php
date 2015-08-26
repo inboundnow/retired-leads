@@ -45,9 +45,14 @@ $shortcode = new Inbound_Shortcodes_Fields( $popup );
         </div>
 
     </div>
-    <div id="popup-controls">
-        <a href="#" id="inbound_save_form" style="display:none;" class="button-primary">Save Form & Insert</a>
-        <a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>
+
+    <div id="popup-controls" style="z-index: 999999;">
+        <div id="shortcode-copy-paste" style="font-size: 15px;width: 99%;margin-left: 26px;margin-bottom: 15px;" >
+            <span style="font-size: 19px; display:block;margin-bottom:15px;">Copy and paste your shortcode into your content:</span>
+            <span style="font-size: 15px; display:block; " id="insert_new_shortcode_here"></span>
+        </div>
+        <!--<a href="#" id="inbound_save_form" style="display:none;" class="button-primary">Save Form & Insert</a>-->
+       <!--<a href="#" id="inbound_insert_shortcode_two" class="button-primary inbound-shortcodes-insert-two"><?php _e('Insert Shortcode', 'leads'); ?></a>-->
         <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Cancel</a>
 
     </div>
