@@ -30,20 +30,21 @@ var MarketingButton = (function () {
             .waitUntilExists(function(){
                 if(!inbound_buttons_loaded) {
                     // do stuff with editor
-                    that.addButtons();
+                    that.addButtonsToACFNormal();
 
                     inbound_buttons_loaded = true;
                 }
             });
     },
-    addButtons: function(){
+    /* Add buttons to normal ACF */
+    addButtonsToACFNormal: function(){
         console.log('add buttons');
         jQuery('.acf_postbox .field_type-wysiwyg').each(function(){
             var $this = jQuery(this);
             var label = $this.find('label');
             var iframeID = $this.find('iframe').attr('id');
             console.log('iframe', iframeID);
-            var marButton = '<a data-editor="'+iframeID+'" href="" class="button inbound-marketing-button" title="Marketing" style="padding-left: .4em; margin-left:10px;"><span style="width: 20px;height: 25px;display: inline-block;vertical-align: bottom;" class="wp-media-buttons-icon" id="inboundnow-media-button"></span>New Button</a>';
+            var marButton = '<a data-editor="'+iframeID+'" href="#inbound-marketing-popup" class="button inbound-marketing-button open-marketing-button-popup" title="Marketing" style="padding-left: .4em; margin-left:10px;"><span style="width: 20px;height: 25px;display: inline-block;vertical-align: bottom;" class="wp-media-buttons-icon" id="inboundnow-media-button"></span>New Button</a>';
             jQuery(marButton).appendTo(label);
         });
 
@@ -55,7 +56,17 @@ var MarketingButton = (function () {
             var id = jQuery(this).attr('data-editor');
             var iframeTarget = document.getElementById(id).contentWindow.document.body;
             /*var pos = that.getCursorPosition(iframeTarget);*/
+
             /* Run popup here */
+            jQuery.magnificPopup.open({
+              items: {
+                src: '#inbound-marketing-popup', // can be a HTML string, jQuery object, or CSS selector
+                type: 'inline'
+              }
+            });
+
+            /* Mount react app here */
+
             setTimeout(function() {
                  that.insertContent('WOWOOOOOO', iframeTarget);
             }, 2000);
