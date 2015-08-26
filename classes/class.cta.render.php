@@ -391,7 +391,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                 wp_enqueue_style('maginificient-popup-css', INBOUNDNOW_SHARED_URLPATH . 'assets/css/magnific-popup.css');
                 wp_enqueue_script('maginificient-popup', INBOUNDNOW_SHARED_URLPATH . 'assets/js/global/jquery.magnific-popup.min.js',array('jquery'), true );
                 wp_localize_script( 'maginificient-popup', 'wp_cta_popup', $popup_params );
-                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/lib/popup/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), true );
+                wp_enqueue_script('cta-popup-onpage', WP_CTA_URLPATH . 'assets/js/cta-popup-onpage.js', array('jquery', 'maginificient-popup'), true );
             }
 
             /* If placement is slideout load slideout asset files */
