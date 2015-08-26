@@ -56,19 +56,6 @@ $shortcode = new Inbound_Shortcodes_Fields( $popup );
         <a href="#" id="shortcode_cancel" class="button inbound-shortcodes-insert-cancel">Close</a>
 
     </div>
-    <script type="text/javascript">
-    jQuery(document).ready(function($) {
 
-        jQuery('.child-clone-row').first().attr('id', 'row-1');
-        setTimeout(function() {
-                jQuery('#inbound-shortcodes-form input:visible').first().focus();
-        }, 500);
-
-    //jQuery("body").on('click', '.child-clone-row', function () {
-       // jQuery(".child-clone-row").toggle();
-       // jQuery(this).show();
-    //});
-    });
-</script>
 </body>
 </html>
