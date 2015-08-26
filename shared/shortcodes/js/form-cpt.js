@@ -15,7 +15,8 @@ jQuery(document).ready(function ($) {
     var build_form = ' <span id="view-form-builder" class="button view-form-builder">Build Form</span>';
     var view_leads_list = '<span id="view-leads-list" class="button view-leads-list">View Conversions</span>';
     var view_email_response = '<span id="view-email-response" class="button">Set Email Response</span>';
-    jQuery('.add-new-h2').after(build_form);
+    jQuery('.page-title-action').after(build_form); /* 4.3 + */
+    jQuery('.add-new-h2').after(build_form); /* <4.3 */
     jQuery('#view-form-builder').after(view_leads_list);
     jQuery('#view-leads-list').after(view_email_response);
 
