@@ -556,8 +556,8 @@ if ( !class_exists( 'CTA_Render' ) ) {
             preg_match_all('/{%+(.*?)%}/', $template, $php_tokens); // check for conditionals
 
             /* Get width and height */
-            (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $w = $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : $w = 'auto';
-            (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $h = $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : $h = 'auto';
+            $w = (isset($selected_cta['meta'][$vid]['wp_cta_width-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_width-'.$vid] : 'auto';
+            $h = (isset($selected_cta['meta'][$vid]['wp_cta_height-'.$vid])) ? $selected_cta['meta'][$vid]['wp_cta_height-'.$vid] : 'auto';
 
             /* validate/correct impropper css property value setup */
             $width = CTA_Render::validate_css_property_value($w, 'width');
