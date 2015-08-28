@@ -68,6 +68,11 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 8. Global placements via your sites sidebar
 
 == Changelog ==
+= 2.5.0 =
+* Updates to Metabox system for better usability
+* Refresh on visual editor for better UX
+* Update to shortcode setup in the system for better UX
+
 = 2.4.3 =
 * Temporarily disabling geolocation services
 
