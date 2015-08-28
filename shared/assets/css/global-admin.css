@@ -78,6 +78,9 @@
 :root:root:root .inbound-nav-marketing div:first-of-type {
     color: rgba(240, 245, 250, 1);
 }
+:root:root:root .field_type-wysiwyg .inbound-marketing-button.open-marketing-button-popup {
+    margin-left:10px;
+}
 :root:root:root .field_type-wysiwyg #inboundnow-media-button {
     display: inline-block;
     width: 23px;

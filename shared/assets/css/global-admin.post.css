@@ -90,6 +90,9 @@
         }
     }
     .field_type-wysiwyg {
+        .inbound-marketing-button.open-marketing-button-popup {
+            margin-left:10px;
+        }
         #inboundnow-media-button {
             display: inline-block;
             width: 23px;

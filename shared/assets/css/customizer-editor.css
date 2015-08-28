@@ -53,6 +53,15 @@
     max-width: 100px;
     line-height: 21px;
 }
+:root:root:root .inbound-customizer .field_type-wysiwyg .inbound-marketing-button.open-marketing-button-popup #inboundnow-media-button {
+    display: inline-block;
+    width: 23px;
+    height: 15px;
+    vertical-align: text-top;
+    margin: 0 2px;
+    margin-left: -10px;
+    margin-right: 2px;
+}
 :root:root:root .inbound-customizer .acf-gallery-toolbar select {
     height: 29px !important;
 }
