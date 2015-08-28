@@ -101,10 +101,10 @@ overflow: hidden;
 #inbound-shortcodes-preview {
 height: 495px; }
 #inbound-shortcodes-preview {
-width: 30.7%;
+width: 28.7%;
 	max-height: 100%;
 position: fixed;
-height:81%;
+height:75%;
 border-left: solid 1px #D0D0D0;
 }
 #popup-controls {

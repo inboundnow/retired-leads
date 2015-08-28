@@ -5,36 +5,90 @@ var MarketingButton = (function () {
 
   var _privateMethod = function () {};
 
-  var _once = function(fn, context){
-    var result;
-
-    return function() {
-        if(fn) {
-            result = fn.apply(context || this, arguments);
-            fn = null;
-        }
-
-        return result;
-    };
-  };
   var inbound_buttons_loaded = false;
   var Public = {
     init: function () {
         // add listeners to iframes
         this.waitForEditorLoad();
-        this.attachClickHandler();
+        this.attachHandlers();
+    },
+    attachHandlers: function(){
+        this.closePopupHandler();
+        this.triggerPopupHandler();
+        this.insertShortcodeHandler();
+        this.launchShortcodeWindow();
+        this.backButtonHandler();
+    },
+    triggerPopupHandler: function() {
+        var that = this;
+        jQuery("body").on('click', '.open-marketing-button-popup', function (e) {
+            e.preventDefault();
+            var id = jQuery(this).attr('data-editor');
+            jQuery('#iframe-target').attr('current-editor', id);
+
+            if(document.getElementById(id) && document.getElementById(id).parentNode.parentNode.parentNode.style.display !== "none") {
+                console.log('iframe display');
+            } else {
+                id = id.replace("_ifr", "");
+                jQuery('#iframe-target').attr('current-editor', id);
+                console.log('textarea display');
+            }
+
+            console.log('editor id', id);
+            /*var pos = that.getCursorPosition(iframeTarget);*/
+
+            /* Run popup here */
+            jQuery.magnificPopup.open({
+              items: {
+                src: '#inbound-marketing-popup', // can be a HTML string, jQuery object, or CSS selector
+                type: 'inline',
+                callbacks: {
+                    open: function() {
+                      jQuery('.inbound-short-list').show();
+                    },
+                    close: function() {
+                      jQuery("#iframe-target").html('');
+                    }
+                }
+              }
+            });
+
+        });
+        // on marketing button click, grab ID to insert to
     },
     waitForEditorLoad: function() {
         var that = this;
+        console.log('wait');
         jQuery(".acf_postbox .field_type-wysiwyg iframe")
             .waitUntilExists(function(){
+                console.log('wait');
                 if(!inbound_buttons_loaded) {
                     // do stuff with editor
+
                     that.addButtonsToACFNormal();
 
                     inbound_buttons_loaded = true;
                 }
             });
+    },
+    launchShortcodeWindow: function(){
+        jQuery(".launch-marketing-shortcode").on('click', function (e) {
+            var $this = jQuery(this);
+            var type = $this.attr('data-launch-sc');
+            var url = inbound_load.image_dir + 'popup.php?popup=' + type + '&width=' + 900 + "&path=" + encodeURIComponent(inbound_load.image_dir);
+            //$('shortcode-frame').attr('href', url);
+            // hide list
+            jQuery('.inbound-short-list').hide();
+            var iframe = "<iframe src="+url+">";
+            //$('#iframe-target').html('');
+            //$('#iframe-target').html(iframe);
+            jQuery.ajax({
+              url: url,
+              success:function(data){
+                jQuery('#iframe-target').html(data);
+              }
+            });
+        });
     },
     /* Add buttons to normal ACF */
     addButtonsToACFNormal: function(){
@@ -49,32 +103,50 @@ var MarketingButton = (function () {
         });
 
     },
-    attachClickHandler: function() {
+
+    insertShortcodeHandler: function() {
         var that = this;
-        jQuery("body").on('click', '.inbound-marketing-button', function (e) {
-            e.preventDefault();
-            var id = jQuery(this).attr('data-editor');
-            var iframeTarget = document.getElementById(id).contentWindow.document.body;
-            /*var pos = that.getCursorPosition(iframeTarget);*/
+        jQuery("body").on('click', '#marketing-insert-shortcode', function () {
+             console.log('Insert the shortcode dudddee');
+             // insert into content
+             var shortcode = jQuery('#_inbound_shortcodes_newoutput').html();
+             var id = jQuery('#iframe-target').attr('current-editor');
 
-            /* Run popup here */
-            jQuery.magnificPopup.open({
-              items: {
-                src: '#inbound-marketing-popup', // can be a HTML string, jQuery object, or CSS selector
-                type: 'inline'
-              }
-            });
+             if(id.indexOf("_ifr") > -1) {
+                var iframeTarget = document.getElementById(id).contentWindow.document.body;
+                var type = "iframe";
+             } else {
+                var iframeTarget = jQuery("#" + id);
+                var type = "textarea";
+             }
 
-            /* Mount react app here */
+             setTimeout(function() {
 
-            setTimeout(function() {
-                 that.insertContent('WOWOOOOOO', iframeTarget);
-            }, 2000);
+                  if(type === "iframe") {
+                    that.insertContent(shortcode, iframeTarget);
+                  } else {
+                    that.insertTextAreaContent(shortcode, iframeTarget);
+                  }
+
+                  jQuery.magnificPopup.close();
+
+             }, 300);
         });
-        // on marketing button click, grab ID to insert to
     },
-    onChangeHandler: function(){
-
+    closePopupHandler: function() {
+        var that = this;
+        jQuery("body").on('click', '#cancel_marketing_button', function () {
+                jQuery.magnificPopup.close();
+                jQuery("#iframe-target").html('');
+                jQuery('.inbound-short-list').show();
+        });
+    },
+    insertTextAreaContent(text, selector) {
+          var cursorPos = selector.prop('selectionStart');
+          var v = selector.val();
+          var textBefore = v.substring(0,  cursorPos );
+          var textAfter  = v.substring( cursorPos, v.length );
+          selector.val( textBefore + text + textAfter );
     },
     insertContent: function(text, iframe) {
                     var sel, range, html;
@@ -97,7 +169,15 @@ var MarketingButton = (function () {
                         console.log('run this again');
                         this.insertContent(text, iframe);
                     }
-     },
+    },
+    backButtonHandler: function() {
+        jQuery("body").on('click', '.marketing-back-button', function () {
+             // toggle display
+             jQuery("#iframe-target").html('');
+             jQuery('.select2-drop').remove();
+             jQuery('.inbound-short-list').show();
+        });
+    },
     getCursorPosition: function (iframe) {
         var caretOffset = 0,
         doc = iframe.ownerDocument || iframe.document,

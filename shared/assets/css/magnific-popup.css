@@ -412,10 +412,10 @@ position: relative;
 .shortcode-popup-block {
 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 background: #fff;
-padding: 40px;
+padding: 0px;
 text-align: left;
-max-width: 750px;
-margin: 40px auto;
+max-width: 85%;
+margin: 20px auto;
 position: relative;
 }
 .mfp-close {
