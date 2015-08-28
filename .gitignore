@@ -34,3 +34,8 @@ shared/languages/leads/_get-translations.bat
 # Grunt
 node_modules
 .idea/
+
+
+/shared/assets/plugins/advanced-custom-fields/lang/**.pot
+/shared/assets/plugins/advanced-custom-fields/lang/**.po
+/shared/assets/plugins/advanced-custom-fields/lang/**.mo
