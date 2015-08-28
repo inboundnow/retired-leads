@@ -82,7 +82,7 @@ class CTA_Enqueues {
 		wp_enqueue_style('wp-cta-admin-css', WP_CTA_URLPATH . 'assets/css/admin-style.css');
 
 		/* Enqueue select2 support */
-		wp_enqueue_script('select2', WP_CTA_URLPATH . 'assets/js/select2.min.js');
+		wp_enqueue_script('selectjs', INBOUNDNOW_SHARED_URLPATH . 'assets/js/admin/select2.min.js', array( 'jquery' ));
 
 		/* Load enqueues directly related to wp-call-to-action post type */
 		self::backend_cta_enqueues( $hook );
