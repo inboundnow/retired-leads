@@ -98,7 +98,7 @@ var MarketingButton = (function () {
             var label = $this.find('label');
             var iframeID = $this.find('iframe').attr('id');
             console.log('iframe', iframeID);
-            var marButton = '<a data-editor="'+iframeID+'" href="#inbound-marketing-popup" class="button inbound-marketing-button open-marketing-button-popup" title="Marketing" style="padding-left: .4em; margin-left:10px;"><span style="width: 20px;height: 25px;display: inline-block;vertical-align: bottom;" class="wp-media-buttons-icon" id="inboundnow-media-button"></span>New Button</a>';
+            var marButton = '<a data-editor="'+iframeID+'" href="#inbound-marketing-popup" class="button inbound-marketing-button open-marketing-button-popup" title="Marketing" style="padding-left: .4em; margin-left:10px;"><span style="width: 20px;height: 25px;display: inline-block;vertical-align: bottom;" class="wp-media-buttons-icon" id="inboundnow-media-button"></span>Marketing</a>';
             jQuery(marButton).appendTo(label);
         });
 

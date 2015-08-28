@@ -37,7 +37,7 @@ class Inbound_Marketing_Button {
             } else {
                 $img = '<span class="wp-media-buttons-icon" id="inboundnow-media-button"></span>';
             }
-            $output = '<a style="padding-left: 3px;" href="#inbound-marketing-popup" class="open-marketing-button-popup inbound-marketing-button button" data-editor="'.$editor_id.'_ifr" class="button">'.$img.'Marketing New</a>';
+            $output = '<a style="padding-left: 3px;" href="#inbound-marketing-popup" class="open-marketing-button-popup inbound-marketing-button button" data-editor="'.$editor_id.'_ifr" class="button">'.$img.'Marketing</a>';
         }
         echo $output;
     }
