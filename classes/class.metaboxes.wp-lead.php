@@ -250,14 +250,20 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $geodata = $array[$ip_address]['geodata'];
                 }
             } else {
-                $ip_address = $ip_addresses;
+				$array = array();
+                $ip_address = $ip_addresses;				
             }
-
+			
+			 if ($ip_address === "127.0.0.1") {
+                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
+				return;
+            }
+			
             if ( !isset($geodata[$ip_address]) && $ip_address  ) {
                 $geodata = wp_remote_get('http://www.geoplugin.net/php.gp?ip=' . $ip_address , array('timeout'=>'2'));
                 if (!is_wp_error($geodata)) {
                     $geodata = unserialize($geodata['body']);
-					$ip_addresses[$ip_address]['geodata'] = $geodata;
+					$array[$ip_address]['geodata'] = $geodata;
 					update_post_meta($post->ID, 'wpleads_ip_address', json_encode($ip_addresses));
                 }
             }
@@ -266,9 +272,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 echo "<h2>" . __('No Geo data collected', 'leads') . "</h2>";
                 return;
             }
-            if ($ip_address === "127.0.0.1") {
-                echo "<h3>" . __('Last conversion detected from localhost', 'leads') . "</h3>";
-            }
+          
             $latitude = (isset($geodata['geoplugin_latitude'])) ? $geodata['geoplugin_latitude'] : 'NA';
             $longitude = (isset($geodata['geoplugin_longitude'])) ? $geodata['geoplugin_longitude'] : 'NA';
 
