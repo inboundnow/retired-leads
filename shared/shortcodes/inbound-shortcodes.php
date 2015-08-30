@@ -530,30 +530,33 @@ class Inbound_Shortcodes {
 
 		return '<div id="inbound-list" class="inbound-list class-'.$num.' fa-list-'.$icon.'">'. do_shortcode($content).'</div>' . '<style type="text/css">
 			#inbound-list.class-'.$num.' li {
-			'.$final_text_color.'
-			list-style: none;
-			font-weight: 500;
-			font-size: '.$font_size.'px;
-			vertical-align: top;
-			margin-bottom: '.$bottom_margin.'px;
+				'.$final_text_color.'
+				list-style: none;
+				font-weight: 500;
+				font-size: '.$font_size.'px;
+				vertical-align: top;
+				margin-bottom: '.$bottom_margin.'px;
 			}
 			#inbound-list.class-'.$num.' li:before {
-			background: transparent;
-			border-radius: 50% 50% 50% 50%;
-			'.$final_icon_color.'
-			display: inline-block;
-			font-family: \'FontAwesome\';
-			font-size: '.$icon_size.'px;
-			line-height: '.$line_size.'px;
-			margin-right: 0.5em;
-			margin-top: 0;
-			text-align: center;
+				background: transparent;
+				border-radius: 50% 50% 50% 50%;
+				'.$final_icon_color.'
+				display: inline-block;
+				font-family: \'FontAwesome\';
+				font-size: '.$icon_size.'px;
+				line-height: '.$line_size.'px;
+				margin-right: 0.5em;
+				margin-top: 0;
+				text-align: center;
 			}
 			'.$column_css.'
 			@media only screen and (max-width: 580px) {
-			#inbound-list.class-'.$num.' li {
-				width:100%;
+				#inbound-list.class-'.$num.' li {
+					width:100%;
+				}
 			}
+			p:empty {
+				display:none;
 			}
 			</style>';
 	}
