@@ -54,9 +54,9 @@ class Inbound_Template_Utils {
     static function get_json() {
 
         //$keys = $_POST['acf_export_keys'];
-        $keys = array('group_55e23ad63ecc3');
+        //$keys = array('group_55e23ad63ecc3');
         //$keys = array('group_55d38b033048e');
-        //$keys = array('group_55d38b033048e');
+        $keys = array('group_55d26a506a990');
 
         // validate
         if( empty($keys) ) {
@@ -136,7 +136,7 @@ class Inbound_Template_Utils {
             <div id="options-available">
 
                 <?php
-                /*
+
                 // vars
                 $choices = array();
                 $field_groups_ids = acf_get_field_groups();
@@ -161,7 +161,7 @@ class Inbound_Template_Utils {
                     'toggle'    => true,
                     'choices'   => $choices,
                 ));
-                */
+
                 ?>
             </div>
 
@@ -198,9 +198,54 @@ class Inbound_Template_Utils {
                             <?php endwhile; ?>
                         <?php endif; ?>
 
+     <?php if(function_exists('have_rows')) :
+
+                if(have_rows('page_builder')) :
+
+                    while(have_rows('page_builder')) : the_row();
+
+                        switch(get_row_layout()) :
+
+                            case 'hero_1' :
+
+                                $image = get_sub_field('background_image');?>
+
+                                <?php break;
+
+                            case 'hero_2' :
+
+                                $content_alignment = get_sub_field('alignment'); ?>
+
+                                <?php break;
+                            case 'wysiwyg': ?>
+                                    <div class="content-module">
+
+                                        <div class="container">
+
+                                            <?php if($content = get_sub_field('content')) : ?>
+
+                                                <?php echo wpautop($content); ?>
+
+                                            <?php endif; ?>
+
+                                        </div>
+                                    </div>
+                            <?php break;
+
+                            endswitch;
+
+                                endwhile;
+
+                            endif;
+
+
                      */ ?>
     <p>This is generated output from your landing page options to copy/paste into your index.php</p>
-<textarea style="width:100%; height:500px;"><?php
+<textarea style="width:100%; height:500px;">
+<?php echo "\$post_id = get_the_ID();". "\r\n"; ?>
+<?php
+
+//print_r($field_groups); exit;
 foreach( $field_groups as $field_group ) {
 
 
@@ -217,8 +262,32 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
             echo '<!-- your markup here -->'."\r\n\r\n";
             echo '<?php endwhile; ?>'."\r\n\r\n";
             echo '<?php } /* end if have_rows */ ?>';
+        } else if($field['type'] === "flexible_content") {
+            echo "if(function_exists('have_rows')) :" ."\r\n";
+            echo "\tif(have_rows('page_builder')) :" ."\r\n";
+            echo "\t\t while(have_rows('page_builder')) : the_row();" ."\r\n";
+            echo "\t\t\t switch(get_row_layout()) :" ."\r\n";
+            foreach ($field['layouts'] as $layout) {
+                $layout['name'];
+                echo "\t\t\t case 'hero_1' : " ."\r\n";
+                foreach ($layout['sub_fields'] as $layout_subfield) {
+                echo "\t\t\t\t$".$layout_subfield['name']. " = " . "get_sub_field(\"".$layout_subfield['name']."\");"."\r\n";
+
+                }
+                echo "\t\t\t?>"."\r\n\r\n";
+                echo "\t\t\t<!-- your markup here -->"."\r\n\r\n";
+                echo "\t\t\t <?php break;" ."\r\n";
+            }
+            echo "\t\t\tendswitch; /* end switch statement */ "."\r\n";
+            echo "\t\tendwhile; /* end while statement */"."\r\n";
+            echo "\t endif; /* end have_rows */"."\r\n";
+            echo "endif;  /* end function_exists */"."\r\n";
+
         } else {
-            echo $field['name'] . "\r\n";
+            if($field['name']) {
+                echo "\t$".$field['name']. " = " . "get_field(\"".$field['name']."\");"."\r\n";
+            }
+
         }
     }
 
