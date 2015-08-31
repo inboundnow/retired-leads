@@ -71,6 +71,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.marketing-button.php');
+				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.template-utils.php');
 			}
 
 		}

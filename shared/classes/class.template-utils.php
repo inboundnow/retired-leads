@@ -33,30 +33,16 @@ class Inbound_Template_Utils {
             array( __CLASS__ , 'html' )
         );
     }
-    /* Inbound now */
-    static function custom_generate() {
 
-        // vars
-        $json = self::get_json();
-
-
-        // validate
-        if( $json === false ) {
-
-            acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
-            return;
-
-        }
-        $data = array();
-        $data['field_groups'] = $json;
-
-    }
     static function get_json() {
 
-        //$keys = $_POST['acf_export_keys'];
+        $keys = (isset($_GET['generate-template-id'])) ? array($_GET['generate-template-id']) : array();
+        //print_r($keys);
+        //exit;
+        //$keys = $_GET['acf_export_keys'];
         //$keys = array('group_55e23ad63ecc3');
         //$keys = array('group_55d38b033048e');
-        $keys = array('group_55d26a506a990');
+        //$keys = array('group_55d26a506a990');
 
         // validate
         if( empty($keys) ) {
@@ -114,56 +100,13 @@ class Inbound_Template_Utils {
 
     static function html($args) {
 
-        /* get the data */
-        $json = self::get_json();
 
-
-        // validate
-        if( $json === false ) {
-
-            acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
-            return;
-
-        }
-
-        // vars
-        $field_groups = $json;
         /* Todo intercept and update the special key here */
         //print_r($json); exit;
         ?>
         <div class="wrap acf-settings-wrap">
 
-            <div id="options-available">
 
-                <?php
-
-                // vars
-                $choices = array();
-                $field_groups_ids = acf_get_field_groups();
-
-
-                // populate choices
-                if( !empty($field_groups_ids) )
-                {
-                    foreach( $field_groups_ids as $field_group )
-                    {
-                        $choices[ $field_group['key'] ] = $field_group['title'];
-                    }
-                }
-
-
-                // render field
-                acf_render_field(array(
-                    'type'      => 'checkbox',
-                    'name'      => 'acf_export_keys',
-                    'prefix'    => false,
-                    'value'     => false,
-                    'toggle'    => true,
-                    'choices'   => $choices,
-                ));
-
-                ?>
-            </div>
 
             <h2><?php _e('Import / Export', 'acf'); ?></h2>
 
@@ -173,79 +116,117 @@ class Inbound_Template_Utils {
                 </div>
 
                 <div class="inner">
+                <script type="text/javascript">
+                function replaceUrlParam(url, paramName, paramValue){
+                    var pattern = new RegExp('('+paramName+'=).*?(&|$)')
+                    var newUrl=url
+                    if(url.search(pattern)>=0){
+                        newUrl = url.replace(pattern,'$1' + paramValue + '$2');
+                    }
+                    else{
+                        newUrl = newUrl + (newUrl.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue
+                    }
+                    return newUrl
+                }
+                jQuery(document).ready(function($) {
+                   // put all your jQuery goodness in here.
+                    jQuery("#generate_template").on('change', function () {
+                        var val = jQuery(this).val();
+                        var newUrl = replaceUrlParam(window.location.href, 'generate-template-id', val);
+                       window.location.href = newUrl;
+                    });
+                 });
+
+                </script>
+                <div id="options-available">
+                    <?php
+                    $choices = array('none' => "Choose template");
+                    $field_groups_ids = acf_get_field_groups();
+
+                    // populate choices
+                    if( !empty($field_groups_ids) ) {
+                        foreach( $field_groups_ids as $field_group ) {
+                            //print_r($field_group);
+                            $choices[ $field_group['key'] ] = $field_group['title'];
+                        }
+                    }
+                    echo "<label>Select the ACF options you wish to generate markup for</label>";
+                    // render field
+                    $acf_id = (isset($_GET['generate-template-id'])) ? $_GET['generate-template-id'] : false;
+                    acf_render_field(array(
+                        'type'      => 'select',
+                        'name'      => 'generate_template',
+                        'prefix'    => false,
+                        'value'     => $acf_id,
+                        'toggle'    => true,
+                        'choices'   => $choices,
+                    ));
+
+    /* get the data */
+    $json = self::get_json();
+    //print_r($json);
+
+    // validate
+    if( $json === false || empty($json)) {
+
+        acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
+        exit;
+
+    }
+
+    // vars
+    $field_groups = $json;
+                    ?>
+                </div>
                 <p>This page is for helping developing templating super simple.</p>
 
-                    <?php /*
-                        <?php $i = 0; if ( have_rows( 'sections' ) ) : ?>
-
-                            <?php while ( have_rows( 'sections' ) ) : the_row();
-
-                                $title = get_sub_field( 'title' );
-                                $content_title = get_sub_field( 'content_title' );
-                                $content = get_sub_field( 'content' );
-                                $image   = get_sub_field( 'background_image' );
-                                $selected = ($i === 0) ? "is-selected" : '';
-                                if ( $content && $image ) : ?>
-                                <li class="<?php echo $selected;?>"
-                                style="background-image:url('<?php echo $image['url'];?>');">
-                                    <a href="#0">
-                                        <h2><?php echo $title;?></h2>
-                                    </a>
-                                </li>
-
-                                <?php $i++; endif; ?>
-
-                            <?php endwhile; ?>
-                        <?php endif; ?>
-
-     <?php if(function_exists('have_rows')) :
-
-                if(have_rows('page_builder')) :
-
-                    while(have_rows('page_builder')) : the_row();
-
-                        switch(get_row_layout()) :
-
-                            case 'hero_1' :
-
-                                $image = get_sub_field('background_image');?>
-
-                                <?php break;
-
-                            case 'hero_2' :
-
-                                $content_alignment = get_sub_field('alignment'); ?>
-
-                                <?php break;
-                            case 'wysiwyg': ?>
-                                    <div class="content-module">
-
-                                        <div class="container">
-
-                                            <?php if($content = get_sub_field('content')) : ?>
-
-                                                <?php echo wpautop($content); ?>
-
-                                            <?php endif; ?>
-
-                                        </div>
-                                    </div>
-                            <?php break;
-
-                            endswitch;
-
-                                endwhile;
-
-                            endif;
+                <p>This is generated output from your landing page options to copy/paste into your index.php</p>
 
 
-                     */ ?>
-    <p>This is generated output from your landing page options to copy/paste into your index.php</p>
+
 <textarea style="width:100%; height:500px;">
-<?php echo "\$post_id = get_the_ID();". "\r\n"; ?>
+<?php echo "<?php
+/**
+* Template Name: Template Name
+* @package  WordPress Landing Pages
+* @author   Inbound Template Generator
+*/\r\n
+/* Declare Template Key */
+\$key = lp_get_parent_directory(dirname(__FILE__));
+\$path = LANDINGPAGES_UPLOADS_URLPATH .\"\$key/\";
+\$url = plugins_url();
+/* Define Landing Pages's custom pre-load hook for 3rd party plugin integration */
+do_action('wp_head');
+\$post_id = get_the_ID(); ";?>
+?>
+
 <?php
 
-//print_r($field_groups); exit;
+echo '<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>  <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>  <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <!--  Define page title -->
+    <title><?php wp_title(); ?></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="stylesheet" href="<?php echo $path; ?>css/css_file_name.css"> -->
+    <!-- <script src="<?php echo $path; ?>js/js_file_name.js"></script> -->
+
+<!-- Load Normal WordPress wp_head() function -->
+<?php wp_head(); ?>
+<!-- Load Landing Pages\'s custom pre-load hook for 3rd party plugin integration -->
+<?php do_action("lp_head"); ?>
+
+</head>'. "\r\n\r\n".
+'<body>'. "\r\n\r\n";
+ //print_r($field_groups); exit;
+if(isset($field_groups)) {
+echo "<?php ". "\r\n\r\n";
 foreach( $field_groups as $field_group ) {
 
 
@@ -297,9 +278,21 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
 
 
 }
+echo "?>"."\r\n\r\n";
+
+/* break; endwhile; endif; */
+echo "<?php "."\r\n";
+echo "do_action('lp_footer');"."\r\n";
+echo "do_action('wp_footer');"."\r\n";
+echo "?>"."\r\n";
+echo "</body>"."\r\n";
+echo "</html>"."\r\n";
+}
 ?>
 </textarea>
+<p>This is the config.php file</p>
 
+                    <?php /* TODO: add config begging output */ ?>
                     <textarea class="pre" readonly="true"><?php
 
                     echo "if( function_exists('acf_add_local_field_group') ):" . "\r\n" . "\r\n";
