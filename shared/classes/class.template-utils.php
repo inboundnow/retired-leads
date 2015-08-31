@@ -252,6 +252,7 @@ foreach( $field_groups as $field_group ) {
     foreach( $field_group['fields'] as $field ) {
 
         if($field['type'] === "repeater") {
+        echo "/* Start ".$field['name']." Repeater Output */" ."\r\n";
         echo '<?php if ( have_rows( "'.$field['name'].'" ) )  { ?>'. "\r\n\r\n";
         echo '<?php while ( have_rows( "'.$field['name'].'" ) ) : the_row();' . "\r\n";
             $count = count($field['sub_fields']);
@@ -262,14 +263,16 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
             echo '<!-- your markup here -->'."\r\n\r\n";
             echo '<?php endwhile; ?>'."\r\n\r\n";
             echo '<?php } /* end if have_rows */ ?>';
+            echo "/* End ".$field['name']." Repeater Output */" ."\r\n\r\n";
         } else if($field['type'] === "flexible_content") {
+            echo "/* Start ".$field['name']." Flexible Content Area Output */" ."\r\n";
             echo "if(function_exists('have_rows')) :" ."\r\n";
-            echo "\tif(have_rows('page_builder')) :" ."\r\n";
-            echo "\t\t while(have_rows('page_builder')) : the_row();" ."\r\n";
+            echo "\tif(have_rows('".$field['name']."')) :" ."\r\n";
+            echo "\t\t while(have_rows('".$field['name']."')) : the_row();" ."\r\n";
             echo "\t\t\t switch(get_row_layout()) :" ."\r\n";
             foreach ($field['layouts'] as $layout) {
                 $layout['name'];
-                echo "\t\t\t case 'hero_1' : " ."\r\n";
+                echo "\t\t\t case '".$layout['name']."' : " ."\r\n";
                 foreach ($layout['sub_fields'] as $layout_subfield) {
                 echo "\t\t\t\t$".$layout_subfield['name']. " = " . "get_sub_field(\"".$layout_subfield['name']."\");"."\r\n";
 
@@ -282,10 +285,11 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
             echo "\t\tendwhile; /* end while statement */"."\r\n";
             echo "\t endif; /* end have_rows */"."\r\n";
             echo "endif;  /* end function_exists */"."\r\n";
+            echo "/* End ".$field['name']." Flexible Content Area Output */" ."\r\n\r\n";
 
         } else {
             if($field['name']) {
-                echo "\t$".$field['name']. " = " . "get_field(\"".$field['name']."\");"."\r\n";
+                echo "\t$".$field['name']. " = " . "get_field(\"".$field['name']."\", \$post_id);"."\r\n";
             }
 
         }
