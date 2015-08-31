@@ -101,7 +101,38 @@ class Inbound_Template_Utils {
      There are two places the marketing button renders:
      in normal WP editors and via JS for ACF normal
      */
+    static function tabs($count) {
+        $tabs = "";
+        for ($i=0; $i < $count; $i++) {
+            $tabs .= "\t";
+        }
+        return $tabs;
+    }
+    static function inbound_repeater_output($field, $indent = 0, $wrap = true){
+        $sp = $indent;
+        $output = "";
+        if($wrap) {
+            $output = self::tabs(1 + $sp) . "<?php"."\r\n";
+        }
+        $output .= self::tabs(1 + $sp) ."/* Start ".$field['name']." Repeater Output */" ."\r\n";
+        $output .= self::tabs(1 + $sp) .'if ( have_rows( "'.$field['name'].'" ) )  { ?>'. "\r\n\r\n";
+        $output .= self::tabs(2 + $sp) .'<?php while ( have_rows( "'.$field['name'].'" ) ) : the_row();' . "\r\n";
 
+        foreach ($field['sub_fields'] as $sub) {
+            $output .= self::tabs(4 + $sp) ."$".$sub['name']. " = " . "get_sub_field(\"".$sub['name']."\");"."\r\n";
+        }
+
+        $output .= self::tabs(2 + $sp) .'?>'."\r\n\r\n";
+        $output .= self::tabs(2 + $sp) .'<!-- your markup here -->'."\r\n\r\n";
+        $output .= self::tabs(2 + $sp) .'<?php endwhile; ?>'."\r\n\r\n";
+        $output .= self::tabs(1 + $sp) .'<?php } /* end if have_rows('.$field['name'].') */'."\r\n";
+        $output .= self::tabs(1 + $sp) ."/* End ".$field['name']." Repeater Output */" ."\r\n";
+        if($wrap) {
+        $output .= self::tabs(1 + $sp) ."?>" ."\r\n\r\n";
+        }
+
+        return $output;
+    }
     static function html($args) {
 
         if (!function_exists('acf_get_field_groups')) {
@@ -112,8 +143,6 @@ class Inbound_Template_Utils {
         //print_r($json); exit;
         ?>
         <div class="wrap acf-settings-wrap">
-
-
 
             <h2><?php _e('Import / Export', 'acf'); ?></h2>
 
@@ -234,6 +263,9 @@ echo '<!DOCTYPE html>
 </head>'. "\r\n\r\n".
 '<body>'. "\r\n\r\n";
  //print_r($field_groups); exit;
+
+
+
 if(isset($field_groups)) {
 echo "<?php ". "\r\n\r\n";
 foreach( $field_groups as $field_group ) {
@@ -242,18 +274,8 @@ foreach( $field_groups as $field_group ) {
     foreach( $field_group['fields'] as $field ) {
 
         if($field['type'] === "repeater") {
-        echo "/* Start ".$field['name']." Repeater Output */" ."\r\n";
-        echo '<?php if ( have_rows( "'.$field['name'].'" ) )  { ?>'. "\r\n\r\n";
-        echo '<?php while ( have_rows( "'.$field['name'].'" ) ) : the_row();' . "\r\n";
-            $count = count($field['sub_fields']);
-            foreach ($field['sub_fields'] as $subfield) {
-echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");"."\r\n";
-            }
-            echo '?>'."\r\n\r\n";
-            echo '<!-- your markup here -->'."\r\n\r\n";
-            echo '<?php endwhile; ?>'."\r\n\r\n";
-            echo '<?php } /* end if have_rows */ ?>';
-            echo "/* End ".$field['name']." Repeater Output */" ."\r\n\r\n";
+            $repeater = self::inbound_repeater_output($field);
+            echo $repeater;
         } else if($field['type'] === "flexible_content") {
             echo "/* Start ".$field['name']." Flexible Content Area Output */" ."\r\n";
             echo "\tif(function_exists('have_rows')) :" ."\r\n";
@@ -267,7 +289,8 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
 
                 foreach ($layout['sub_fields'] as $layout_subfield) {
                     if($layout_subfield['type'] ==='repeater') {
-                        echo "\t\t\t\t\tDo additional repeater logic\n";
+                        $test = self::inbound_repeater_output($layout_subfield, 4, false);
+                        echo $test;
                     } else {
         echo "\t\t\t\t\t$".$layout_subfield['name']. " = " . "get_sub_field(\"".$layout_subfield['name']."\");"."\r\n";
                     }
