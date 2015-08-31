@@ -10,11 +10,11 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 *
 		 */
 		public static function init() {
+
 			/* Bail if shared files already loaded */
 			if (defined('INBOUNDNOW_SHARED')) {
 				return;
 			}
-
 			self::load_constants();
 			self::load_files();
 			self::load_activation_rules();
