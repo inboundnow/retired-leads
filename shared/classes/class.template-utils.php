@@ -36,6 +36,10 @@ class Inbound_Template_Utils {
 
     static function get_json() {
 
+        if (!function_exists('acf_get_field_group')) {
+            echo 'You need ACF activated to use this screen';
+            exit;
+        }
         $keys = (isset($_GET['generate-template-id'])) ? array($_GET['generate-template-id']) : array();
         //print_r($keys);
         //exit;
@@ -100,7 +104,10 @@ class Inbound_Template_Utils {
 
     static function html($args) {
 
-
+        if (!function_exists('acf_get_field_groups')) {
+            echo 'You need ACF activated to use this screen';
+            exit;
+        }
         /* Todo intercept and update the special key here */
         //print_r($json); exit;
         ?>
@@ -208,20 +215,22 @@ echo '<!DOCTYPE html>
 <!--[if IE 7]>  <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>  <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
 <head>
     <!--  Define page title -->
     <title><?php wp_title(); ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- include your assets -->
     <!-- <link rel="stylesheet" href="<?php echo $path; ?>css/css_file_name.css"> -->
     <!-- <script src="<?php echo $path; ?>js/js_file_name.js"></script> -->
 
-<!-- Load Normal WordPress wp_head() function -->
-<?php wp_head(); ?>
-<!-- Load Landing Pages\'s custom pre-load hook for 3rd party plugin integration -->
-<?php do_action("lp_head"); ?>
+    <!-- Load Normal WordPress wp_head() function -->
+    <?php wp_head(); ?>
 
+    <!-- Load Landing Pages\'s custom pre-load hook for 3rd party plugin integration -->
+    <?php do_action("lp_head"); ?>
 </head>'. "\r\n\r\n".
 '<body>'. "\r\n\r\n";
  //print_r($field_groups); exit;
