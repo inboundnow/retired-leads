@@ -26,8 +26,8 @@ class Inbound_Template_Utils {
     static function add_screen() {
         add_submenu_page(
             'edit.php?post_type=landing-page',
-            __( 'Generate Template' , 'leads' ),
-            __( 'Generate Template' , 'leads' ),
+            __( 'Developer Tools' , 'leads' ),
+            __( 'Developer Tools' , 'leads' ),
             'manage_options',
             'template_utils',
             array( __CLASS__ , 'html' )
@@ -256,25 +256,34 @@ echo "\t$".$subfield['name']. " = " . "get_sub_field(\"".$subfield['name']."\");
             echo "/* End ".$field['name']." Repeater Output */" ."\r\n\r\n";
         } else if($field['type'] === "flexible_content") {
             echo "/* Start ".$field['name']." Flexible Content Area Output */" ."\r\n";
-            echo "if(function_exists('have_rows')) :" ."\r\n";
-            echo "\tif(have_rows('".$field['name']."')) :" ."\r\n";
-            echo "\t\t while(have_rows('".$field['name']."')) : the_row();" ."\r\n";
-            echo "\t\t\t switch(get_row_layout()) :" ."\r\n";
+            echo "\tif(function_exists('have_rows')) :" ."\r\n";
+            echo "\t\tif(have_rows('".$field['name']."')) :" ."\r\n";
+            echo "\t\t\t while(have_rows('".$field['name']."')) : the_row();" ."\r\n";
+            echo "\t\t\t\t switch(get_row_layout()) :" ."\r\n";
             foreach ($field['layouts'] as $layout) {
-                $layout['name'];
-                echo "\t\t\t case '".$layout['name']."' : " ."\r\n";
+                //print_r($layout);
+                echo "\t\t\t\t/* start layout ".$layout['name']." */"."\r\n";
+                echo "\t\t\t\t case '".$layout['name']."' : " ."\r\n";
+
                 foreach ($layout['sub_fields'] as $layout_subfield) {
-                echo "\t\t\t\t$".$layout_subfield['name']. " = " . "get_sub_field(\"".$layout_subfield['name']."\");"."\r\n";
+                    if($layout_subfield['type'] ==='repeater') {
+                        echo "\t\t\t\t\tDo additional repeater logic\n";
+                    } else {
+        echo "\t\t\t\t\t$".$layout_subfield['name']. " = " . "get_sub_field(\"".$layout_subfield['name']."\");"."\r\n";
+                    }
+
 
                 }
                 echo "\t\t\t?>"."\r\n\r\n";
                 echo "\t\t\t<!-- your markup here -->"."\r\n\r\n";
-                echo "\t\t\t <?php break;" ."\r\n";
+                echo "\t\t\t<?php break;". "\r\n";
+                //echo "\t\t\t\t/* end layout ".$layout['name']." */"."\r\n";
+
             }
-            echo "\t\t\tendswitch; /* end switch statement */ "."\r\n";
-            echo "\t\tendwhile; /* end while statement */"."\r\n";
-            echo "\t endif; /* end have_rows */"."\r\n";
-            echo "endif;  /* end function_exists */"."\r\n";
+            echo "\t\t\t\tendswitch; /* end switch statement */ "."\r\n";
+            echo "\t\t\tendwhile; /* end while statement */"."\r\n";
+            echo "\t\t endif; /* end have_rows */"."\r\n";
+            echo "\tendif;  /* end function_exists */"."\r\n";
             echo "/* End ".$field['name']." Flexible Content Area Output */" ."\r\n\r\n";
 
         } else {
