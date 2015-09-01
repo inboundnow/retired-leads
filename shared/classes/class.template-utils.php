@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Inbound Marketing Button in editor
@@ -134,7 +133,10 @@ class Inbound_Template_Utils {
         return $output;
     }
     static function html($args) {
-
+        //print_r($_POST);
+        if(isset($_POST) && !empty($_POST)) {
+            return;
+        }
         if (!function_exists('acf_get_field_groups')) {
             echo 'You need ACF activated to use this screen';
             exit;
@@ -175,55 +177,69 @@ class Inbound_Template_Utils {
 
                 </script>
                 <div id="options-available">
-                    <?php
-                    $choices = array('none' => "Choose template");
-                    $field_groups_ids = acf_get_field_groups();
+                <?php
+                $choices = array('none' => "Choose template");
+                $field_groups_ids = acf_get_field_groups();
 
-                    // populate choices
-                    if( !empty($field_groups_ids) ) {
-                        foreach( $field_groups_ids as $field_group ) {
-                            //print_r($field_group);
-                            $choices[ $field_group['key'] ] = $field_group['title'];
-                        }
+                // populate choices
+                if( !empty($field_groups_ids) ) {
+                    foreach( $field_groups_ids as $field_group ) {
+                        //print_r($field_group);
+                        $choices[ $field_group['key'] ] = $field_group['title'];
                     }
-                    echo "<label>Select the ACF options you wish to generate markup for</label>";
-                    // render field
-                    $acf_id = (isset($_GET['generate-template-id'])) ? $_GET['generate-template-id'] : false;
-                    acf_render_field(array(
-                        'type'      => 'select',
-                        'name'      => 'generate_template',
-                        'prefix'    => false,
-                        'value'     => $acf_id,
-                        'toggle'    => true,
-                        'choices'   => $choices,
-                    ));
+                }
+                echo "<label>Select the ACF options you wish to generate markup for</label>";
+                // render field
+                $acf_id = (isset($_GET['generate-template-id'])) ? $_GET['generate-template-id'] : false;
+                $template_name = (isset($_GET['template-name'])) ? $_GET['template-name'] : '';
+                acf_render_field(array(
+                    'type'      => 'select',
+                    'name'      => 'generate_template',
+                    'prefix'    => false,
+                    'value'     => $acf_id,
+                    'toggle'    => true,
+                    'choices'   => $choices,
+                ));
 
-    /* get the data */
-    $json = self::get_json();
-    //print_r($json);
+                acf_render_field(array(
+                    'type'      => 'text',
+                    'name'      => 'template_name',
+                    'prefix'    => false,
+                    'value'     => $template_name,
+                    'placeholder' => "Template Name"
+                )); ?>
 
-    // validate
-    if( $json === false || empty($json)) {
 
-        acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
-        exit;
 
-    }
-
-    // vars
-    $field_groups = $json;
-                    ?>
                 </div>
                 <p>This page is for helping developing templating super simple.</p>
 
                 <p>This is generated output from your landing page options to copy/paste into your index.php</p>
 
+<?php
+/**
+ * Generate the template here
+ */
+/* get the data */
+$json = self::get_json();
+//print_r($json);
 
+// validate
+if( $json === false || empty($json)) {
+
+    acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
+    exit;
+
+}
+
+// vars
+$field_groups = $json;
+?>
 
 <textarea style="width:100%; height:500px;"  class="pre" readonly="true">
 <?php echo "<?php
 /**
-* Template Name: Template Name
+* Template Name: __TEMPLATE_NAME__
 * @package  WordPress Landing Pages
 * @author   Inbound Template Generator
 */\r\n
