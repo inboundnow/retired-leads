@@ -23,7 +23,7 @@
     .inbound-customizer-preview {
         max-width: 68%;
         width:100%;
-        height:1000px;
+        height:100%;
         left: 32%;
         position: fixed;
         top: 32px;
