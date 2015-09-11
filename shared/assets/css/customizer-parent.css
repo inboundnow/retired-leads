@@ -5,7 +5,14 @@
 
 /* CSS for the Customizer Edit */
 
-:root:root:root body.customize-support, :root:root:root body {
+:root:root:root body.customize-support.landing-page, :root:root:root body.landing-page {
+
+    background-color: transparent !important;
+
+    background-image: none !important;
+}
+
+:root:root:root body.customize-support.wp-call-to-action, :root:root:root body.wp-call-to-action  {
 
     background-color: #eee !important;
 
@@ -16,13 +23,6 @@
     background-size: 60px 60px !important;
 
     background-position: 0 0, 30px 30px !important;
-}
-
-:root:root:root body.customize-support.landing-page, :root:root:root body.landing-page {
-
-    background-color: transparent !important;
-
-    background-image: none !important;
 }
 
 :root:root:root #wpadminbar {
@@ -58,7 +58,7 @@
 
 :root:root:root .wp-call-to-action .inbound-customizer-preview {
 
-    top: 20%;
+    top: 10%;
 }
 
 :root:root:root #inbound-customizer-overlay {
