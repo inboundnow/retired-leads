@@ -38,6 +38,7 @@ class Inbound_Customizer {
         if (isset($_GET['inbound-customizer']) && $_GET['inbound-customizer']=='on') {
             add_filter('wp_head', array(__CLASS__, 'launch_customizer'));
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_parent_scripts'));
+
         }
 
         /* Load customizer editor */
@@ -51,29 +52,43 @@ class Inbound_Customizer {
         /* Load customizer preview */
         if (isset($_GET['inbound-preview'])) {
             add_action('wp_enqueue_scripts', array(__CLASS__, 'customizer_preview_scripts'));
+             // prep for better customizer visualizations
+            //add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
+            add_filter('acf/load_value', array(__CLASS__, 'filter_acf_load_field'), 12, 3 );
         }
 
         add_filter('redirect_post_location', array(__CLASS__,'redirect_after_save'));
 
-        // prep for better customizer visualizations
-       // add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
-
     }
 
-    public static function filter_acf_load_field( $field ) {
+    public static function filter_acf_load_field( $value, $post_id, $field ) {
         // make filter magic happen here...
 
-        if(isset($field) && isset($field['type'])) {
-            /*
-                echo "<pre>";
-                print_r($field);
-                print_r($field['type']);
+        if(isset($field) && isset($field['type']) && $field['type'] === "text") {
+            //*
+            //print_r($field); exit;
+                $style = "margin: 0 !important;
+                        padding: 0 !important;
+                        border: 0 !important;
+                        outline: 0 !important;
+                        color: inherit !important;
+                        font-weight: inherit !important;
+                        font-style: inherit !important;
+                        font-size: 100% !important;
+                        font-family: inherit !important;
+                        visibility:visible !important;
+                        vertical-align: baseline !important;";
+            $new_value = "<span style='$style' class='wrap-this' data-key='".$field['key']."'>";
+            $new_value .= $value;
+            //print_r($field);
+            //print_r($value);
+            $new_value .= "</span>";
+
+                return $new_value;
             /**/
-            if( $field['type'] === "wysiwyg") {
-                // wrap content here and return
-            }
+
         }
-        //return 'hi';
+        return $value;
     }
 
 
