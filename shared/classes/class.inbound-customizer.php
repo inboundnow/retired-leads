@@ -55,7 +55,28 @@ class Inbound_Customizer {
 
         add_filter('redirect_post_location', array(__CLASS__,'redirect_after_save'));
 
+        // prep for better customizer visualizations
+       // add_filter( 'acf/load_field',  array(__CLASS__,'filter_acf_load_field'), 10, 2 );
+
     }
+
+    public static function filter_acf_load_field( $field ) {
+        // make filter magic happen here...
+
+        if(isset($field) && isset($field['type'])) {
+            /*
+                echo "<pre>";
+                print_r($field);
+                print_r($field['type']);
+            /**/
+            if( $field['type'] === "wysiwyg") {
+                // wrap content here and return
+            }
+        }
+        //return 'hi';
+    }
+
+
     /* Load Scripts for Iframe Popup Preview Window */
     public static function popup_preview_scripts() {
         wp_enqueue_style('inbound-iframe-popup-preview', INBOUNDNOW_SHARED_URLPATH . 'assets/css/iframe-preview.css');
