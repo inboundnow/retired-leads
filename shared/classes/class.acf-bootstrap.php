@@ -17,10 +17,10 @@ class Inbound_Shared_ACF_BootStrap {
             include_once( INBOUNDNOW_SHARED_PATH . 'assets/plugins/advanced-custom-fields/acf.php');
 
             /* customize ACF path */
-            add_filter('acf/settings/path', array( __CLASS__ , 'define_acf_settings_path' ) );
+            add_filter('acf/settings/path', array( __CLASS__, 'define_acf_settings_path' ) );
 
             /* customize ACF URL path */
-            add_filter('acf/settings/dir', array( __CLASS__ , 'define_acf_settings_url' ) );
+            add_filter('acf/settings/dir', array( __CLASS__, 'define_acf_settings_url' ) );
 
             /* Hide ACF field group menu item */
             add_filter('acf/settings/show_admin', '__return_false');
