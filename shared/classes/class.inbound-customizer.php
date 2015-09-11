@@ -64,7 +64,9 @@ class Inbound_Customizer {
     public static function filter_acf_load_field( $value, $post_id, $field ) {
         // make filter magic happen here...
 
-        if(isset($field) && isset($field['type']) && $field['type'] === "text") {
+        if(isset($field) && isset($field['type'])) {
+
+            if($field['type'] === "text" || $field['type'] === "wysiwyg") {
             //*
             //print_r($field); exit;
                 $style = "margin: 0 !important;
@@ -78,13 +80,15 @@ class Inbound_Customizer {
                         font-family: inherit !important;
                         visibility:visible !important;
                         vertical-align: baseline !important;";
-            $new_value = "<span style='$style' class='wrap-this' data-key='".$field['key']."'>";
-            $new_value .= $value;
-            //print_r($field);
-            //print_r($value);
-            $new_value .= "</span>";
+                $new_value = "<span style='$style' class='wrap-this' data-key='".$field['key']."'>";
+                $new_value .= $value;
+                //print_r($field);
+                //echo "<pre>";
+                //print_r($value);
+                $new_value .= "</span>";
 
                 return $new_value;
+            }
             /**/
 
         }

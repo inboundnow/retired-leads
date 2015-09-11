@@ -63,8 +63,9 @@ var InboundCustomizerEditor = (function () {
     attachHoverListeners: function(){
         var that = this;
         jQuery('.acf-field').each(function(){
-            var $this = jQuery(this);
-            if($this.attr('data-type') === "text") {
+            var $this = jQuery(this),
+            type = $this.attr('data-type');
+            if(type === "text" || type === "wysiwyg") {
                 that.onMouseOver($this);
                 that.onMouseLeave($this);
             }
