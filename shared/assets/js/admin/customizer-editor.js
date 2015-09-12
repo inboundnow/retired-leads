@@ -5,6 +5,17 @@ var InboundCustomizerEditor = (function () {
     init:  function () {
         this.handleEditorSave();
         this.rewriteTabLinks();
+
+        // Scroll handler to save scroll position
+
+        var scrollPoint = localStorage.getItem('inbound-scroll');
+
+        setTimeout(function() {
+              window.scrollTo(0, scrollPoint);
+        }, 300);
+
+
+        window.addEventListener('scroll', this.onScroll, false);
     },
     /* when options saved */
     handleEditorSave: function() {
@@ -72,6 +83,11 @@ var InboundCustomizerEditor = (function () {
 
         });
     },
+
+    onScroll: function(e) {
+      console.log(window.pageYOffset);
+      localStorage.setItem('inbound-scroll', window.pageYOffset);
+    },
     onMouseOver: function(label){
         label.on('mouseenter', function () {
             console.log('hover');
@@ -123,3 +139,6 @@ jQuery(document).ready(function($) {
     /* show area that is being edited in preview window */
     InboundCustomizerEditor.attachHoverListeners();
 });
+
+
+
