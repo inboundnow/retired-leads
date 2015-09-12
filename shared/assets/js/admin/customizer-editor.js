@@ -12,7 +12,7 @@ var InboundCustomizerEditor = (function () {
 
         setTimeout(function() {
               window.scrollTo(0, scrollPoint);
-        }, 300);
+        }, 100);
 
 
         window.addEventListener('scroll', this.onScroll, false);

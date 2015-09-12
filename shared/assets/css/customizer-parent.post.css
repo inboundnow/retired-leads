@@ -13,7 +13,16 @@
         background-size: 60px 60px !important;
         background-position: 0 0, 30px 30px !important;
     }
-
+    .inbound-loading {
+        position: relative;
+        height: 100%;
+        text-align: center;
+        svg {
+             position: relative;
+             top: 50%;
+             transform: translateY(-50%);
+           }
+    }
     #wpadminbar {
         z-index: 99999999999 !important;
     }

@@ -14,6 +14,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     copy = require('gulp-copy'),
     markdox = require("gulp-markdox"),
+    stripCssComments = require('gulp-strip-css-comments'),
     //phplint = require('phplint').lint,
     package = require('./package.json');
 
@@ -66,6 +67,7 @@ var postcss = require('gulp-postcss'),
 
 gulp.task('css', function() {
   return gulp.src('./shared/assets/css/*.post.css')
+    .pipe(stripCssComments())
     .pipe(postcss(processors))
     .pipe(rename(function (path) {
         path.basename = path.basename.replace('.post', '');

@@ -37,6 +37,7 @@
     "gulp-plumber": "~0.6.2",
     "gulp-postcss": "^5.1.10",
     "gulp-rename": "~1.1.0",
+    "gulp-strip-css-comments": "^1.2.0",
     "gulp-uglify": "~0.3.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.16",
