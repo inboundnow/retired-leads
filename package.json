@@ -4,7 +4,8 @@
   "description": "call to action plugin",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "commit": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,11 @@
     "postcss-focus": "^0.1.1",
     "postcss-mixins": "^0.4.0",
     "postcss-nested": "^0.3.2",
-    "postcss-simple-vars": "^0.3.0"
+    "postcss-simple-vars": "^0.3.0",
+    "commitizen": "1.0.4",
+    "cz-conventional-changelog": "1.1.0"
+  },
+  "czConfig": {
+     "path": "node_modules/cz-conventional-changelog"
   }
 }
