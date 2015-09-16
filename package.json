@@ -4,7 +4,8 @@
   "description": "call to action plugin",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "commit": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "gulp-plumber": "~0.6.2",
     "gulp-postcss": "^5.1.10",
     "gulp-rename": "~1.1.0",
+    "gulp-strip-css-comments": "^1.2.0",
     "gulp-uglify": "~0.3.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.16",
@@ -47,6 +49,11 @@
     "postcss-focus": "^0.1.1",
     "postcss-mixins": "^0.4.0",
     "postcss-nested": "^0.3.2",
-    "postcss-simple-vars": "^0.3.0"
+    "postcss-simple-vars": "^0.3.0",
+    "commitizen": "1.0.4",
+    "cz-conventional-changelog": "1.1.0"
+  },
+  "czConfig": {
+     "path": "node_modules/cz-conventional-changelog"
   }
 }
