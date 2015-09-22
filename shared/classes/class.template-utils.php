@@ -248,9 +248,9 @@ $field_groups = $json;
 \$key = basename(dirname(__FILE__));
 
 /* discover the absolute path of where this template is located. Core templates are loacted in /wp-content/plugins/landing-pages/templates/ while custom templates belong in /wp-content/uploads/landing-pages/tempaltes/ */
-\$path = (preg_match(\"/uploads/\", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . \$key .'/' : LANDINGPAGES_URLPATH.'templates/'.\$key.'/';
+\$path = (preg_match(\"/uploads/\", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_PATH . \$key .'/' : LANDINGPAGES_PATH.'templates/'.\$key.'/';
 
-\$url = plugins_url();
+\$urlpath = (preg_match(\"/uploads/\", dirname(__FILE__))) ? LANDINGPAGES_UPLOADS_URLPATH . \$key .'/' : LANDINGPAGES_URLPATH.'templates/'.\$key.'/';
 
 /* Include ACF Field Definitions  */
 include_once(\$path .'config.php');
@@ -275,8 +275,8 @@ echo '<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- include your assets -->
-    <!-- <link rel="stylesheet" href="<?php echo $path; ?>css/css_file_name.css"> -->
-    <!-- <script src="<?php echo $path; ?>js/js_file_name.js"></script> -->
+    <!-- <link rel="stylesheet" href="<?php echo $urlpath; ?>css/css_file_name.css"> -->
+    <!-- <script src="<?php echo $urlpath; ?>js/js_file_name.js"></script> -->
 
     <!-- Load Normal WordPress wp_head() function -->
     <?php wp_head(); ?>
