@@ -923,6 +923,7 @@ if (!class_exists('Inbound_Forms')) {
 
             $headers	= "From: " . $from_name . " <" . $from_email . ">\n";
             $headers .= 'Content-type: text/html';
+            $headers = apply_filters( 'inbound_email_response/headers' , $headers);
 
             wp_mail( $lead_email, $confirm_subject, $confirm_email_message, $headers );
 
