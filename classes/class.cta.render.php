@@ -279,14 +279,19 @@ if ( !class_exists( 'CTA_Render' ) ) {
             @$doc->loadHTML( $variation_html );
 
             foreach($doc->getElementsByTagName('a') as $anchor) {
-
                 /* skip links with do-not-track in class */
                 $class = $anchor->getAttribute('class');
+
                 if (strstr( $class, 'do-not-track' )) {
                     continue;
                 }
 
                 $href = $anchor->getAttribute('href');
+
+                /* if not a valid link move on */
+                if ( !strstr( $href , '.' ) ) {
+                    continue;
+                }
 
                 $link = Inbound_API::analytics_track_links( array(
                     'cta_id' => $selected_cta['id'],
@@ -298,7 +303,6 @@ if ( !class_exists( 'CTA_Render' ) ) {
 
                 $variation_html = str_replace( $href, $link['url'], $variation_html);
             }
-
             return $variation_html;
         }
 
