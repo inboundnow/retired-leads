@@ -63,12 +63,12 @@ a.downloadButton.active{
                jQuery("#feedburnerform").removeClass('wpl-track-me');
                jQuery(".downloadButton").removeAttr('href');
                jQuery(".downloadButton").addClass('prevent-default');
-                }, 1000);
+            }, 1000);
 
       jQuery("body").on('click', '.prevent-default', function (event) {
           event.preventDefault();
           console.log('clicked');
-          });
+      });
       $('#tweetLink').tweetAction({
               text:       '{{$share_text}}',
               url:        '{{$share_url}}',
