@@ -64,9 +64,6 @@ tbody.hidden-form-settings {
 	color:blue;
 }
 
-.show-advanced-fields:hover, .hide-advanced-options:hover {
-	text-decoration: underline;
-}
 /* Form Wrap -------------------------- */
 #inbound-shortcodes-form-wrap{
 	width:65%;
