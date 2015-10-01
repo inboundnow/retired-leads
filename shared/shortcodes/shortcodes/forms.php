@@ -285,10 +285,10 @@ $shortcodes_config['forms'] = array(
                 'type' => 'checkbox',
                 'std' => '0',
                 'class' => '',
-            ), 
+            ),
             'helper' => array(
                 'name' => __('Field Description <span class="small-optional-text">(optional)</span>',  INBOUNDNOW_TEXT_DOMAIN ),
-                'desc' => __('<span class="show-advanced-fields">Show advanced options</span>',  INBOUNDNOW_TEXT_DOMAIN ),
+                'desc' => __('<span class="show-advanced-fields button">Show advanced options</span>',  INBOUNDNOW_TEXT_DOMAIN ),
                 'type' => 'helper-block',
                 'std' => '',
                 'class' => '',
