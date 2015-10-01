@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
 Tested up to: 4.1
-Stable Tag: 1.7.1
+Stable Tag: 1.8.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -84,6 +84,16 @@ We built Lead Management as a framework! You can use our extendable framework to
 4. Get Notified on Lead Conversions
 
 == Changelog ==
+
+= 1.8.1 =
+* Restoring geolocation services and offloading their processing to the lead profile open event instead of the new lead creation event.
+* Improved impression/conversion reporting on Lead listing page.
+* Restoring 'Set Email Response' button in Inbound Form management.
+* Restoring Lead 'logs' tab.
+* Refactoring admin enqueues into their respective classes.
+* Refactoring all assets into /assets/ folder
+* Refactoring select components into OOP.
+
 
 = 1.7.1 =
 * Attention Leads users, if you used the email templating features to customize email responses or customize core WordPress email templates please head here to restore your original setup, these features have been backed out of our Leads plugin. https://wordpress.org/plugins/leads-edit-core-email-templates/
