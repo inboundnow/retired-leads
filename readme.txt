@@ -85,8 +85,6 @@ The plugin is also fully extendable and has a number of actions, filters, and ho
 * Code refactoring. Moved many files into /assets/ folder.
 * Better support for WordPress 4.3
 
-
-
 = 2.4.3 =
 * Temporarily disabling geolocation services
 
