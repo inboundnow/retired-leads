@@ -43,7 +43,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		    global $pagenow;
 		    global $current_user;
 
-		    $post_types = array('landing-page','wp-call-to-action','wp-lead');
+		    $post_types = array('landing-page');
 
 		    $type = get_post_type( get_the_ID() );
 		    $user_id = $current_user->ID;
@@ -78,7 +78,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 							</li>
 						</ul>
 	                  </p>
-                     <a class="button button-primary button-large" href="?inbound_template_update_ignore=0">' . __( 'Sounds great, Thanks! Dismiss this message', INBOUNDNOW_TEXT_DOMAIN ) .'</a>
+                     <a class="button button-primary button-large" href="?inbound_new_template_ignore=0">' . __( 'Sounds great, Thanks! Dismiss this message', INBOUNDNOW_TEXT_DOMAIN ) .'</a>
                      &nbsp; &nbsp;
                      <a target="_blank" class="button primary button-large" href="http://support.inboundnow.com">' . __( 'Feedback/Support for new template changes', INBOUNDNOW_TEXT_DOMAIN ) .'</a>
                      <br><br>
@@ -90,6 +90,7 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 		public static function inbound_notice_ignore() {
 		    global $current_user;
 		    $user_id = $current_user->ID;
+
 	        if (isset($_GET['inbound_translate_ignore']) && '0' == $_GET['inbound_translate_ignore'] ) {
 	             add_user_meta($user_id, 'inbound_translate_ignore', 'true', true);
 	    	}
@@ -104,4 +105,3 @@ if ( ! class_exists( 'Inbound_Notices' ) ) {
 Inbound_Notices::init();
 
 }
-
