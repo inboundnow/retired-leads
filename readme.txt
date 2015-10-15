@@ -94,7 +94,6 @@ We built Lead Management as a framework! You can use our extendable framework to
 * Refactoring all assets into /assets/ folder
 * Refactoring select components into OOP.
 
-
 = 1.7.1 =
 * Attention Leads users, if you used the email templating features to customize email responses or customize core WordPress email templates please head here to restore your original setup, these features have been backed out of our Leads plugin. https://wordpress.org/plugins/leads-edit-core-email-templates/
 * Temporarily disabling geolocation services
