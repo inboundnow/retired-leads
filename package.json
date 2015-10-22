@@ -4,7 +4,9 @@
   "description": "Leads plugin",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "clean-tests": "rm -fr assets/tests",
+    "deploy": "npm run clean-tests && sh ./deploy.sh"
   },
   "repository": {
     "type": "git",
