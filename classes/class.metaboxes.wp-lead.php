@@ -41,6 +41,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* Enqueue JS */
             add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
             add_action('admin_print_footer_scripts', array(__CLASS__, 'print_admin_scripts'));
+
         }
 
         /**
@@ -544,26 +545,25 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $klout_score = (isset($person_obj['digitalFootprint']['scores'][0]['value'])) ? $person_obj['digitalFootprint']['scores'][0]['value'] : "N/A";
 
-            //echo "<img src='" . $image . "'><br>";
-            //echo "<h2>Extra social Data <span class='confidence-level'>".$confidence_level."</span></h2>";
-            //echo $fullname;
 
-            // Get All Photos associated with the person
+            /* Get All Photos associated with the person */
             if ($type === 'photo' && isset($photos) && is_array($photos)) {
                 foreach ($photos as $photo) {
                     //print_r($photo);
                     echo $photo['url'] . " from " . $photo['typeName'] . "<br>";
                 }
-            } // Get All Websites associated with the person
-            elseif ($type === 'website' && isset($websites) && is_array($websites)) {
+            }
+            /* Get All Websites associated with the person */
+            else if ($type === 'website' && isset($websites) && is_array($websites)) {
                 echo "<div id='lead-websites'><h4>" . __('Websites', 'leads') . "</h4>";
                 //print_r($websites);
                 foreach ($websites as $site) {
                     echo "<a href='" . $site['url'] . "' target='_blank'>" . $site['url'] . "</a><br>";
                 }
                 echo "</div>";
-            } // Get All Social Media Account associated with the person
-            elseif ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
+            }
+            /* Get All Social Media Account associated with the person */
+            else if ($type === 'social' && isset($social_profiles) && is_array($social_profiles)) {
                 echo "<div id='lead-social-profiles'><h4>" . __('Social Media Profiles', 'leads') . "</h4>";
                 //print_r($social_profiles);
                 foreach ($social_profiles as $profiles) {
@@ -573,8 +573,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     echo "<a href='" . $profiles['url'] . "' target='_blank'>" . $profiles['typeName'] . "</a> " . $echo_val . "<br>";
                 }
                 echo "</div>";
-            } // Get All Work Organizations associated with the person
-            elseif ($type === 'work' && isset($organizations) && is_array($organizations)) {
+            }
+            /* Get All Work Organizations associated with the person */
+            else if ($type === 'work' && isset($organizations) && is_array($organizations)) {
                 echo "<div id='lead-work-history'>";
 
                 foreach ($organizations as $org) {
@@ -587,8 +588,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     echo "<span class='lead-work-label " . $hideclass . "'>" . $title . " at " . $org_name . "</span>";
                 }
                 echo "<span id='show-work-history'>" . __('View past work', 'leads') . "</span></div>";
-            } // Get All demo graphic info associated with the person
-            elseif ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
+            }
+            /* Get All demo graphic info associated with the person */
+            else if ($type === 'demographics' && isset($demographics) && is_array($demographics)) {
                 echo "<div id='lead-demographics'><h4>" . __('Demographics', 'leads') . "</h4>";
                 $location = (isset($demographics['locationGeneral'])) ? $demographics['locationGeneral'] : "";
                 $age = (isset($demographics['age'])) ? $demographics['age'] : "";
@@ -596,7 +598,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 $gender = (isset($demographics['gender'])) ? $demographics['gender'] : "";
                 echo $gender . " in " . $location;
                 echo "</div>";
-            } // Get All Topics associated with the person
+            }
+            /*  Get All Topics associated with the person */
             elseif ($type === 'topics' && isset($interested_in) && is_array($interested_in)) {
                 echo "<div id='lead-topics'><h4>" . __('Interests', 'leads') . "</h4>";
                 foreach ($interested_in as $topic) {
@@ -943,10 +946,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         /**
          *    Display conversion activity
          */
-        public static function activity_conversions() {
+        public static function activity_form_submissions() {
 
             echo '<div id="lead-conversions" class="lead-activity">';
-            echo '	<h2>' . __('Conversions', 'leads') . '</h2>';
+            echo '	<h2>' . __('Form Submissions', 'leads') . '</h2>';
 
 
             if (!isset(self::$conversions) || !is_array(self::$conversions)) {
@@ -980,9 +983,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                 $conversion_clean_date = $conversion_date_raw->format('Y-m-d H:i:s');
 
                 // Display Data
-                echo '	<div class="lead-timeline recent-conversion-item landing-page-conversion" data-date="' . $conversion_clean_date . '">
+                echo '	<div class="lead-timeline recent-conversion-item form-conversion" data-date="' . $conversion_clean_date . '">
 							<a class="lead-timeline-img" href="#non">
-								<img src="/wp-content/plugins/leads/assets/images/page-view.png" alt="" width="50" height="50" />
+								<!--<i class="lead-timeline-img page-views"></i>-->
 							</a>
 
 							<div class="lead-timeline-body">
@@ -1261,7 +1264,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function display_lead_activity() {
             echo '<div id="activity-data-display">';
             self::activity_navigation();
-            self::activity_conversions();
+            self::activity_form_submissions();
             self::activity_comments();
             //self::activity_searches();
             self::activity_pageviews();

@@ -1029,10 +1029,6 @@ a.lead-timeline-img {
 	display: none;
 }
 
-#wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text	{
-	border: none;
-	padding: 0px;
-}
 #wpleads_lead_events_tab .lead-timeline .lead-event-text, #lead-conversions .lead-timeline .lead-event-text, #lead-page-views .lead-timeline .lead-event-text, .lead-event-text.lead-comment-div {
 
 padding-top: 6px;
