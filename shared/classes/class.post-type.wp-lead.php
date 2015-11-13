@@ -461,11 +461,11 @@ if ( !class_exists('Inbound_Leads') ) {
 				return;
 			}
 
-			//print_r($submenu);exit;
-			// This needs to be set to the URL for the admin menu section (aka "Menu Page")
+
+			/* This needs to be set to the URL for the admin menu section (aka "Menu Page") */
 			$menu_page = 'edit.php?post_type=wp-lead';
 
-			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
+			/* This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page") */
 			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
 
 			if ( !isset($submenu[$menu_page]) ) {

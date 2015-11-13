@@ -31,6 +31,10 @@ class Inbound_Events {
         /* listen for Inbound Form submissions and record event to events table */
         add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
 
+        /* listen for Inbound Mailer send event and record to events table
+         * I think we can pull this infromation directly from Mandril
+        add_action('inbound_mandrill_send_event' , array( __CLASS__ , 'store_email_send'), 10 , 2);
+        */
     }
 
     /**
@@ -104,6 +108,25 @@ class Inbound_Events {
     }
 
     /**
+     * Stores email send event into events table
+     * @param $args
+     */
+    public static function store_email_send( $message , $send_at ) {
+
+        $args = array(
+            'event_name' => 'inbound_email_send',
+            'email_id' => $message['metadata']['email_id'],
+            'variation_id' => $message['metadata']['variation_id'],
+            'lead_id' => $args['urlparams']['lead_id'],
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
+            'event_details' => json_encode($args['urlparams']),
+            'datetime' => $args['datetime']
+        );
+
+        self::store_event($args);
+    }
+
+    /**
      * Stores inbound email click event into events table
      * @param $args
      */
@@ -111,7 +134,7 @@ class Inbound_Events {
         global $wp_query;
 
         $current_page_id = $wp_query->get_queried_object_id();
-        error_log($current_page_id);
+
         $args = array(
             'event_name' => 'inbound_email_click',
             'page_id' => $current_page_id,
