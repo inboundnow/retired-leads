@@ -175,7 +175,7 @@ class Inbound_Events {
         );
 
         $args = array_merge( $defaults , $args );
-        error_log(print_r($args,true));
+
         $wpdb->insert(
             $table_name,
             $args
