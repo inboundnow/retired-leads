@@ -305,7 +305,7 @@ if ( !class_exists( 'CTA_Render' ) ) {
                     'tracking_id' => __( sprintf( 'Call to Action Click (cta_id:%s) (vid:%s)', $selected_cta['id'], $vid ), 'cta' ) /* required but not being used atm */
                 ));
 
-                /* standardize amerstand */
+                /* standardize & symbol */
                 $link['url'] = str_replace('&', '&amp;' , $link['url'] );
                 $href = str_replace('&', '&amp;' , $href );
 
