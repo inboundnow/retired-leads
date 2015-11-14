@@ -48,6 +48,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				/* Admin Includes */
 				include_once( WPL_PATH . 'classes/class.activation.php');
 				include_once( WPL_PATH . 'classes/class.activation.upgrade-routines.php');
+				include_once( WPL_PATH . 'classes/class.batch-processing.php');
 				include_once( WPL_PATH . 'classes/class.post-type.wp-lead.php');
 				include_once( WPL_PATH . 'classes/class.metaboxes.wp-lead.php');
 				include_once( WPL_PATH . 'classes/class.lead-management.php');
