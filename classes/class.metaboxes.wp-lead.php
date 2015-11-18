@@ -10,6 +10,8 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         static $full_contact;
         static $page_views;
         static $conversions;
+        static $form_submissions;
+        static $custom_event_data;
         static $comments;
         static $searches;
         static $custom_events;
@@ -816,7 +818,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
         /**
-         *    Gets number of conversion events
+         *  Leagacy -  Gets number of conversion events
          */
         public static function get_conversion_count() {
             global $post;
@@ -824,6 +826,17 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $conversion_count = count(self::$conversions);
 
             return $conversion_count;
+        }
+
+        /**
+         *    Gets number of form submission events
+         */
+        public static function get_form_submissions_count() {
+            global $post;
+
+            $form_submissions = count(self::$form_submissions);
+
+            return $form_submissions;
         }
 
         /**
@@ -868,9 +881,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function get_custom_events_count() {
             global $post;
 
-            $custom_events = get_post_meta($post->ID, 'inbound_custom_events', true);
-            self::$custom_events = json_decode($custom_events, true);
-
             if (isset(self::$custom_events) && is_array(self::$custom_events)) {
                 return count(self::$custom_events);
             } else {
@@ -884,12 +894,14 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         public static function activity_navigation() {
             global $post;
 
+            self::$form_submissions = Inbound_Events::get_form_submissions( $post->ID );
+            self::$custom_events = Inbound_Events::get_custom_event_data( $post->ID );
 
             $nav_items = array(
                 array(
-                    'id' => 'lead-conversions',
-                    'label' => __('Conversions', 'leads'),
-                    'count' => self::get_conversion_count()
+                    'id' => 'lead-form-submissions',
+                    'label' => __('Form Submissions', 'leads'),
+                    'count' => self::get_form_submissions_count()
                 ),
                 array(
                     'id' => 'lead-page-views',
@@ -944,56 +956,66 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
         /**
-         *    Display conversion activity
+         *   Display form submission activity
          */
         public static function activity_form_submissions() {
+            global $post;
 
-            echo '<div id="lead-conversions" class="lead-activity">';
+            echo '<div id="lead-form-submissions" class="lead-activity">';
             echo '	<h2>' . __('Form Submissions', 'leads') . '</h2>';
 
 
-            if (!isset(self::$conversions) || !is_array(self::$conversions)) {
-                echo "	<span id='wpl-message-none'>" . __('No conversions found!', 'leads') . "</span>";
+            if (!isset(self::$form_submissions) || !is_array(self::$form_submissions)) {
+                echo "	<span id='wpl-message-none'>" . __('No submissions found!', 'leads') . "</span>";
                 echo '</div>';
                 return;
             }
 
-            //uasort(self::$conversions , array( __CLASS__ ,	'datetime_sort' ) ); // Date sort
 
-            $i = count(self::$conversions);
-            foreach (self::$conversions as $key => $value) {
+            $i = count(self::$form_submissions);
+            foreach (self::$form_submissions as $key => $event) {
 
-                if (!isset($value['id']) || !isset($value['datetime'])) {
+                if (!isset($event['id']) || !isset($event['datetime'])) {
                     continue;
                 }
 
-                $converted_page_id = $value['id'];
+                $form_id = ($event['form_id']) ? $event['form_id']  : __('undefined','leads');
+                $form_name = ($event['form_id']) ? get_the_title($event['form_id'])  : __('undefined','leads');
+                $converted_page_id = $event['page_id'];
                 $converted_page_permalink = get_permalink($converted_page_id);
                 $converted_page_title = get_the_title($converted_page_id);
+                $date_raw = new DateTime($event['datetime']);
+                $datetime = $date_raw->format('F jS, Y \a\t g:ia (l)');
 
-                if (array_key_exists('datetime', $value)) {
-                    $converted_page_time = $value['datetime'];
-                } else {
-                    $converted_page_time = $wordpress_date_time;
-                }
-
-                $conversion_date_raw = new DateTime($converted_page_time);
-                //$date_of_conv = $conversion_date_raw->format('F jS, Y \a\t g:ia (l)');
-                $date_of_conv = $conversion_date_raw->format('F jS, Y	g:ia (l)');
-                $conversion_clean_date = $conversion_date_raw->format('Y-m-d H:i:s');
 
                 // Display Data
-                echo '	<div class="lead-timeline recent-conversion-item form-conversion" data-date="' . $conversion_clean_date . '">
-							<a class="lead-timeline-img" href="#non">
-								<!--<i class="lead-timeline-img page-views"></i>-->
-							</a>
+                ?>
+                <div class="lead-timeline recent-conversion-item form-conversion" data-date="<?php echo $event['datetime']; ?>">
+                        <a class="lead-timeline-img" href="#non">
+                            <!--<i class="lead-timeline-img page-views"></i>-->
+                        </a>
 
-							<div class="lead-timeline-body">
-								<div class="lead-event-text">
-									<p><span class="lead-item-num">' . $i . '.</span><span class="lead-helper-text">Converted on landing page/form: </span><a href="' . $converted_page_permalink . '" id="lead-session-' . $i . '" rel="' . $i . '" target="_blank">' . $converted_page_title . '</a><span class="conversion-date">' . $date_of_conv . '</span> <!--<a rel="' . $i . '" href="#view-session-"' . $i . '">(' . __('view visit path', 'leads') . ')</a>--></p>
-								</div>
-							</div>
-						</div>';
+                        <div class="lead-timeline-body">
+                            <div class="lead-event-text">
+                                <p>
+                                    <span class="lead-item-num"><?php echo $i; ?></span>
+                                    <span class="conversion-date"><b><?php echo $datetime; ?></b></span>
+                                    <br>
+                                    <span class="lead-helper-text" style="padding-left:6px;">
+                                        <?php
+                                        _e(' Converted on page','leads');
+                                        ?>
+                                    </span>
+                                    <a href="<?php echo $converted_page_permalink; ?>" id="lead-session-<?php echo $i; ?>" rel="<?php echo $i; ?>" target="_blank"><?php echo $converted_page_title; ?></a>
+                                     <?php
+                                        _e('using the form ','leads');
+                                        echo '<a href="'.admin_url('post.php?post='.$event['form_id'].'&action=edit').'" target="_blank" title="'. ( $event['form_id'] ? __('This is the form the user submitted their data through','leads') : __( 'Submission was processed through a 3rd party form tool or event data is incomplete.' , 'leads') ).'">'.$form_name.'</a>';
+                                     ?>
+                                </p>
+                            </div>
+                        </div>
+				</div>
+				<?php
                 $i--;
 
             }
@@ -1223,7 +1245,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $count = 1;
 
                     foreach (self::$custom_events as $key => $event) {
-                        $id = $event['tracking_id'];
+                        $id = $event['session_id'];
 
                         /* skip events without dates */
                         if (!self::$custom_events[$key]['datetime']) {
@@ -1238,10 +1260,19 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 									<a class="lead-timeline-img" href="#non">
 										<!--<i class="lead-icon-target"></i>-->
 									</a>
-
-									<div class="lead-timeline-body">
-										<div class="lead-event-text">
-											<p><span class="lead-item-num">' . $key . '. </span><span class="lead-helper-text">' . sprintf(__('Tracked %s activity', 'leads'), $event['event_type']) . ' </span>	- <strong>Tracking ID: <span class="campaing-id">' . $event['tracking_id'] . '</span></strong>	<span class="conversion-date">' . $date_of_conversion . '</span> </p>
+                                    <div class="lead-timeline-body">
+                                       <div class="lead-event-text">
+                                            <p>
+                                                <span class="lead-item-num">' . $count . ' </span>
+                                                <span class="conversion-date"><b>' . $date_of_conversion .'</b></span><br>
+											    <span class="lead-helper-text"><strong>' . $event['event_name'] .' - '. __('Tracking ID' , 'leads') .': <span class="campaing-id">' . ( $event['session_id'] ? $event['session_id'] : __('undefined','leads')) . '</span></strong>
+											    <br>
+											    <span class="custom-details">
+											        <i>
+											        ' . ( $event['event_details'] ?  $event['event_details'] : '' ) .'
+											        </i>
+											    </span>
+											</p>
 										</div>
 									</div>
 								</div>';
