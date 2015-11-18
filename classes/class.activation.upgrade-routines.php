@@ -65,7 +65,7 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 		 * @details: Moving form submissions, cta clicks, custom events into events table.
 		 * @details: 112015 represents date added in
 		 */
-		public static function batch_import_event_data_11205() {
+		public static function batch_import_event_data_112015() {
 
 			/* lets make sure the inbound_events table is created */
 			Inbound_Events::create_events_table();
