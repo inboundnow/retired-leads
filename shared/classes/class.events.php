@@ -44,7 +44,6 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
-
         $charset_collate = '';
 
         if ( ! empty( $wpdb->charset ) ) {
@@ -149,6 +148,20 @@ class Inbound_Events {
         self::store_event($args);
     }
 
+    /**
+     * Stores inbound mailer unsubscribe event into events table
+     * @param $args
+     */
+    public static function store_unsubscribe_event( $args ){
+        global $wp_query;
+
+        $args = array(
+            'event_name' => 'inbound_unsubscribe'
+        );
+
+        self::store_event($args);
+    }
+
     public static function store_event( $args ) {
         global $wpdb;
 
@@ -180,6 +193,62 @@ class Inbound_Events {
             $table_name,
             $args
         );
+    }
+
+    /**
+     * Get all form submission events related to lead ID
+     */
+    public static function get_form_submissions( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all cta click events related to lead ID
+     */
+    public static function get_cta_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all unsubscribe events given a lead id
+     */
+    public static function get_unsubscribes( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_unsubscribe" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all all custo event data
+     */
+    public static function get_custom_event_data( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` NOT LIKE "inbound_%" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
     }
 }
 
