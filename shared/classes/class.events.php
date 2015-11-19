@@ -224,6 +224,20 @@ class Inbound_Events {
     }
 
     /**
+     * Get all email click events related to lead ID
+     */
+    public static function get_email_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_email_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
      * Get all unsubscribe events given a lead id
      */
     public static function get_unsubscribes( $lead_id ){
