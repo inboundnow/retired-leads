@@ -85,7 +85,8 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 = 2.0.1 = 
-* migrating all events into inbound_events table
+* migrating events into inbound_events table
+* adding support for custom events, unsubscribe events
 
 = 1.8.1 =
 * Restoring geolocation services and offloading their processing to the lead profile open event instead of the new lead creation event.

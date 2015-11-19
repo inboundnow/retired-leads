@@ -1216,7 +1216,15 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
 						<div class="lead-timeline-body">
 							<div class="lead-event-text">
-								<p><span class="lead-item-num"></span><span class="lead-helper-text">Viewed page: </span><a href="' . $page_permalink . '" id="lead-session" rel="" target="_blank">' . $page_title . '</a><span class="conversion-date">' . date_format($date_print, 'F jS, Y \a\t g:i:s a') . '</span></p>
+								<p>
+								<span class="lead-item-num"></span>
+								<span class="lead-helper-text">
+								    <b>' . __( 'Viewed page' , 'leads' ) . ' :</b>
+								    <span class="conversion-date"><b>' . date_format($date_print, 'F jS, Y \a\t g:ia (l)') . '</b></span>
+								    <br>
+								</span>
+								<a href="' . $page_permalink . '" id="lead-session" rel="" target="_blank">' . $page_title . '</a>
+								</p>
 							</div>
 						</div>
 					</div>';
@@ -1264,7 +1272,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                                        <div class="lead-event-text">
                                             <p>
                                                 <span class="lead-item-num">' . $count . ' </span>
-                                                <span class="conversion-date"><b>' . $date_of_conversion .'</b></span><br>
+                                                <span class="conversion-date"><b>'. __('Custom Event ' , 'leads' ) . ' - ' . $date_of_conversion .'</b></span><br>
 											    <span class="lead-helper-text"><strong>' . $event['event_name'] .' - '. __('Tracking ID' , 'leads') .': <span class="campaing-id">' . ( $event['session_id'] ? $event['session_id'] : __('undefined','leads')) . '</span></strong>
 											    <br>
 											    <span class="custom-details">
