@@ -63,7 +63,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 								<div class="lead-event-text">
 									<p>
 										<span class="lead-item-num"><?php echo $count; ?></span>
-										<span class="conversion-date"><b><?php echo $datetime; ?></b></span>
+										<span class="conversion-date"><b><?php echo __('CTA Click', 'cta'). ' - ' .$datetime; ?></b></span>
 										<br>
                                     <span class="lead-helper-text" style="padding-left:6px;">
                                         <?php
