@@ -220,7 +220,7 @@ class Leads_Post_Type {
             (isset($_GET[$tax_slug])) ? $current = $_GET[$tax_slug] : $current = 0;
             wp_dropdown_categories(array('show_option_all' => __($tax_obj->label), 'taxonomy' => $tax_slug, 'name' => $tax_obj->name, 'orderby' => 'name', 'selected' => $current, 'hierarchical' => $tax_obj->hierarchical, 'show_count' => true, 'hide_empty' => false));
         }
-       
+
     }
 
     /**
