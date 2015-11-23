@@ -44,7 +44,6 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
-
         $charset_collate = '';
 
         if ( ! empty( $wpdb->charset ) ) {
@@ -133,18 +132,20 @@ class Inbound_Events {
     public static function store_email_click( $args ){
         global $wp_query;
 
-        $current_page_id = $wp_query->get_queried_object_id();
 
-        $args = array(
-            'event_name' => 'inbound_email_click',
-            'page_id' => $current_page_id,
-            'email_id' => $args['id'],
-            'variation_id' => $args['urlparams']['inbvid'],
-            'lead_id' => $args['urlparams']['lead_id'],
-            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
-            'event_details' => json_encode($args['urlparams']),
-            'datetime' => $args['datetime']
-        );
+        $args['event_name'] = 'inbound_email_click';
+
+        self::store_event($args);
+    }
+
+    /**
+     * Stores inbound mailer unsubscribe event into events table
+     * @param $args
+     */
+    public static function store_unsubscribe_event( $args ){
+        global $wp_query;
+
+        $args['event_name'] = 'inbound_unsubscribe';
 
         self::store_event($args);
     }
@@ -162,24 +163,163 @@ class Inbound_Events {
         }
 
         $defaults = array(
-            'page_id' => null,
-            'variation_id' => null,
-            'form_id' => null,
-            'cta_id' => null,
-            'email_id' => null,
+            'page_id' => '',
+            'variation_id' => '',
+            'form_id' => '',
+            'cta_id' => '',
+            'email_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
-            'session_id' => null,
-            'event_details' => null,
+            'session_id' => '',
+            'event_name' => $args['event_name'],
+            'event_details' => '',
             'datetime' => $wordpress_date_time
         );
 
         $args = array_merge( $defaults , $args );
-        error_log(print_r($args,true));
+
+
+        /* unset non db ready keys */
+        foreach ($args as $key => $value) {
+            if (!isset($defaults[$key])) {
+                unset($args[$key]);
+            }
+        }
+
+        /* add event to event table */
         $wpdb->insert(
             $table_name,
             $args
         );
+    }
+
+    /**
+     * Get all form submission events related to lead ID
+     */
+    public static function get_form_submissions( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_form_submission" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all cta click events related to lead ID
+     */
+    public static function get_cta_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all email click events related to lead ID
+     */
+    public static function get_email_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_email_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all unsubscribe events given a lead id
+     */
+    public static function get_unsubscribes( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_unsubscribe" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all all custom event data
+     */
+    public static function get_custom_event_data( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` NOT LIKE "inbound_%" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+
+    /**
+     * Get date of latest activity
+     * @param $lead_id
+     * @param string $activity
+     * @return datetime or null
+     */
+    public static function get_last_activity($lead_id , $activity = 'any' ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($activity) {
+            case 'any':
+                $query = 'SELECT `datetime` FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime` DESC LIMIT 1';
+                $results = $wpdb->get_results( $query , ARRAY_A );
+                break;
+            default:
+                $query = 'SELECT `datetime` FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'" ORDER BY `datetime` DESC LIMIT 1';
+                $results = $wpdb->get_results( $query , ARRAY_A );
+                break;
+        }
+
+        /* return latest activity if recorded */
+        if (isset($results[0]['datetime'])) {
+            return $results[0]['datetime'];
+        }
+
+        /* return null if nothing there */
+        return null;
+    }
+
+    /**
+     * Get date of latest activity
+     * @param $lead_id
+     * @param string $activity
+     * @return datetime or null
+     */
+    public static function get_total_activity($lead_id , $activity = 'any' ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($activity) {
+            case 'any':
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" ORDER BY `datetime`';
+                break;
+            default:
+                $query = 'SELECT count(*) FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "'.$activity.'" ORDER BY `datetime` ';
+                break;
+        }
+
+        /* return latest activity if recorded */
+        $count = $wpdb->get_var( $query , ARRAY_A );
+
+        /* return null if nothing there */
+        return $count;
     }
 }
 
