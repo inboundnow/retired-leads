@@ -10,8 +10,8 @@ Once you have downloaded the two files, please follow these steps:
 > 1. Install the file `inbound-premium-template-support.zip` like a normal plugin, and activate it
 > 2. Go to the dashboard menu `Landing Pages > Manage Templates`
 > 3. Click on `Add New Template` at the top of the page, and install the template file.
-> 3.1. DON'T try to install the file `inbound-premium-template-support.zip` as a new template. Doing so will break the plugin
-> 4. Enjoy your new premium template
+> 4. DON'T try to install the file `inbound-premium-template-support.zip` as a new template. Doing so will break the plugin
+> 5. Enjoy your new premium template
 
 **Note 1:** If you have already a premium template installed and working you can skip step 1 because the support extension is already installed.
 
