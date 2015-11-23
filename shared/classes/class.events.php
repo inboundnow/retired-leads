@@ -132,18 +132,8 @@ class Inbound_Events {
     public static function store_email_click( $args ){
         global $wp_query;
 
-        $current_page_id = $wp_query->get_queried_object_id();
 
-        $args = array(
-            'event_name' => 'inbound_email_click',
-            'page_id' => $current_page_id,
-            'email_id' => $args['id'],
-            'variation_id' => $args['urlparams']['inbvid'],
-            'lead_id' => $args['urlparams']['lead_id'],
-            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
-            'event_details' => json_encode($args['urlparams']),
-            'datetime' => $args['datetime']
-        );
+        $args['event_name'] = 'inbound_email_click';
 
         self::store_event($args);
     }
@@ -155,9 +145,7 @@ class Inbound_Events {
     public static function store_unsubscribe_event( $args ){
         global $wp_query;
 
-        $args = array(
-            'event_name' => 'inbound_unsubscribe'
-        );
+        $args['event_name'] = 'inbound_unsubscribe';
 
         self::store_event($args);
     }
@@ -175,20 +163,30 @@ class Inbound_Events {
         }
 
         $defaults = array(
-            'page_id' => null,
-            'variation_id' => null,
-            'form_id' => null,
-            'cta_id' => null,
-            'email_id' => null,
+            'page_id' => '',
+            'variation_id' => '',
+            'form_id' => '',
+            'cta_id' => '',
+            'email_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : null ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
-            'session_id' => null,
-            'event_details' => null,
+            'session_id' => '',
+            'event_name' => $args['event_name'],
+            'event_details' => '',
             'datetime' => $wordpress_date_time
         );
 
         $args = array_merge( $defaults , $args );
 
+
+        /* unset non db ready keys */
+        foreach ($args as $key => $value) {
+            if (!isset($defaults[$key])) {
+                unset($args[$key]);
+            }
+        }
+
+        /* add event to event table */
         $wpdb->insert(
             $table_name,
             $args
@@ -218,6 +216,20 @@ class Inbound_Events {
         $table_name = $wpdb->prefix . "inbound_events";
 
         $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_cta_click" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all email click events related to lead ID
+     */
+    public static function get_email_clicks( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_email_click" ORDER BY `datetime` DESC';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
