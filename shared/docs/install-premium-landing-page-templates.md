@@ -14,6 +14,7 @@ Once you have downloaded the two files, please follow these steps:
 > 4. Enjoy your new premium template
 
 **Note 1:** If you have already a premium template installed and working you can skip step 1 because the support extension is already installed.
+
 **Note 2:** If you have bought and installed the plugin ACF PRO in your website you can skip step 1 because you don't need the support extension.
 
 That's all there is to it. Our premium templates are made for people that don't know how or don't have time to write code. You'll be able to create complex and professional landing pages by combining sections in the order and number that you want like Lego blocks, each section with different colors, text and pictures.
