@@ -101,7 +101,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		private static function load_shared_files() {
 			if (!defined('INBOUND_PRO_PATH')) {
 				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
-				include_once( WPL_PATH . 'shared/classes/class.load-shared.php');
+				include_once( WP_CTA_PATH . 'shared/classes/class.load-shared.php');
 			}
 		}
 
