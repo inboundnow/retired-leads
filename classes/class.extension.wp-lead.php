@@ -48,6 +48,7 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 
 					foreach(self::$cta_clicks as $key=>$event) {
 						$cta_id = ($event['cta_id']) ? $event['cta_id']  : __('undefined','cta');
+						$variation_id = ($event['variation_id']) ? $event['variation_id']  : 0;
 						$cta_name = ($event['cta_id']) ? get_the_title($event['cta_id'])  : __('undefined','cta');
 						$converted_page_id = ($event['page_id']) ? $event['page_id']  : 0;
 						$converted_page_permalink = ($converted_page_id) ? get_permalink($converted_page_id) : '';
@@ -74,10 +75,10 @@ if ( !class_exists('CTA_WordPress_Leads') ) {
 										_e(' Clicked on page','leads');
 										?>
                                     </span>
-										<a href="<?php echo $converted_page_permalink; ?>" id="lead-session-<?php echo $count; ?>" rel="<?php echo $count; ?>" target="_blank"  title="<?php echo ( $event['cta_id'] ? __('This is the page the call to action was placed on.','cta') : __( 'Event data is incomplete. ' , 'cta') )?>"><?php echo $converted_page_title; ?></a>
+										<a href="<?php echo $converted_page_permalink; ?>" id="lead-session-<?php echo $count; ?>" rel="<?php echo $count; ?>" target="_blank"  title="<?php echo ( $cta_id ? __('This is the page the call to action was placed on.','cta') : __( 'Event data is incomplete. ' , 'cta') )?>"><?php echo $converted_page_title; ?></a>
 										<?php
 										_e('through the call to action ','leads');
-										echo '<a href="'.admin_url('post.php?post='.$event['cta_id'].'&action=edit&inbound-editor=false&wp-cta-variation-id='.$event['varaition_id']).'" target="_blank" title="'. ( $event['cta_id'] ? __('This is the call to action the user clicked a link on.','cta') : __( 'Event data is incomplete.' , 'cta') ).'">'.$cta_name.' ('. __('variation id:','cta'). $event['variation_id'].')</a>';
+										echo '<a href="'.admin_url('post.php?post='.$cta_id.'&action=edit&inbound-editor=false&wp-cta-variation-id='.$variation_id).'" target="_blank" title="'. ( $cta_id ? __('This is the call to action the user clicked a link on.','cta') : __( 'Event data is incomplete.' , 'cta') ).'">'.$cta_name.' ('. __('variation id:','cta'). $variation_id.')</a>';
 										?>
 									</p>
 								</div>
