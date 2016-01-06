@@ -739,6 +739,9 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* redirect now */
                 if ($redirect != "") {
+                    if (!preg_match("~^(?:f|ht)tps?://~i", $redirect)) {
+                         $redirect = "http://" . $redirect;
+                    }
                     wp_redirect( $redirect );
                     exit();
                 }
