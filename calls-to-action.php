@@ -3,7 +3,7 @@
 Plugin Name: Calls to Action
 Plugin URI: http://www.inboundnow.com/cta/
 Description: Display Targeted Calls to Action on your WordPress site.
-Version: 2.5.1
+Version: 2.5.2
 Author: InboundNow
 Author URI: http://www.inboundnow.com/
 Text Domain: cta
@@ -30,7 +30,7 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		*/
 		private static function define_constants() {
 
-			define('WP_CTA_CURRENT_VERSION', '2.5.1' );
+			define('WP_CTA_CURRENT_VERSION', '2.5.2' );
 			define('WP_CTA_URLPATH', plugins_url( '/' , __FILE__ ) );
 			define('WP_CTA_PATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 			define('WP_CTA_SLUG', plugin_basename( dirname(__FILE__) ) );
@@ -99,12 +99,10 @@ if (!class_exists('Inbound_Calls_To_Action_Plugin')) {
 		 *  Loads components shared between Inbound Now plugins
 		 */
 		private static function load_shared_files() {
-            if (defined('INBOUND_PRO_PATH')) {
-                include_once( INBOUND_PRO_PATH . 'core/shared/classes/class.load-shared.php' );
-            } else {
-                require_once('shared/classes/class.load-shared.php');
-            }
-			add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
+			if (!defined('INBOUND_PRO_PATH')) {
+				add_action( 'plugins_loaded', array( 'Inbound_Load_Shared' , 'init') , 1 );
+				include_once( WP_CTA_PATH . 'shared/classes/class.load-shared.php');
+			}
 		}
 
 		/**
