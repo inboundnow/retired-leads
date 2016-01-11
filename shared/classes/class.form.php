@@ -427,13 +427,15 @@ if (!class_exists('Inbound_Forms')) {
                         $form .=	'<input type="range" min="'.$options[0].'" max="'.$options[1].'" step="'.$options[2].'" class="inbound-input inbound-input-range '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'text')  {
-
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
                         $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                        if ( $dynamic_value ) {
+                            $fill_value = $dynamic_value;
+                        }
 
                         $input_type = ( $email_input ) ? 'email' : 'text';
-                        $form .=	'<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
+                        $form .= '<input type="'.$input_type .'" class="inbound-input inbound-input-text '.$formatted_label . $input_classes.' '.$field_input_class.'" name="'.$field_name.'" '.$form_placeholder.' id="'.$field_name.'" value="'.$fill_value.'" '.$data_mapping_attr.$et_output.' '.$req.'/>';
 
                     } else if ($type === 'hidden')  {
 
@@ -737,6 +739,9 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* redirect now */
                 if ($redirect != "") {
+                    if (!preg_match("~^(?:f|ht)tps?://~i", $redirect)) {
+                         $redirect = "http://" . $redirect;
+                    }
                     wp_redirect( $redirect );
                     exit();
                 }
