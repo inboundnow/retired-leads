@@ -202,6 +202,8 @@ class Leads_Post_Type {
         $columns['status'] = 'status';
         $columns['company'] = 'company';
         $columns['modified']	= 'modified';
+        $columns['action-count']	= 'action-count';
+        $columns['page-views']	= 'page-views';
         if (isset($_GET['wp_leads_filter_field'])) {
             $the_val = $_GET['wp_leads_filter_field'];
             $columns['custom'] = $the_val;
@@ -250,7 +252,7 @@ class Leads_Post_Type {
 
     public static function process_column_sorting(  $pieces, $query ) {
 
-        global $wpdb;
+        global $wpdb, $table_prefix;
 
         if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead') {
             return $pieces;
@@ -288,10 +290,30 @@ class Leads_Post_Type {
                     $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
 
                     break;
+
+                case 'page-views':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+
+                case 'action-count':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+
+                    $pieces[ 'groupby' ] = " {$wpdb->posts}.ID ";
+
+                    $pieces[ 'orderby' ] = "COUNT(ee.lead_id) $order ";
+
+                    break;
             }
         } else {
             $pieces[ 'orderby' ] = " post_modified  DESC , " . $pieces[ 'orderby' ];
         }
+
 
         return $pieces;
     }
