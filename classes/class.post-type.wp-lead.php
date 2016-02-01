@@ -151,7 +151,10 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
+                $lead_status = ( $lead_status ) ? $lead_status : __('New Lead' , 'leads');
+                echo '<label class="lead-status-pill lead-status-'.str_replace(' ' , '-' , $lead_status ).'">';
                 echo $lead_status;
+                echo '</label>';
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
