@@ -451,7 +451,7 @@ if (!class_exists('Inbound_Forms')) {
 							'.$icon_insert.''.$submit_button.$inner_button.'</button></div><input data-ignore-form-field="true" type="hidden" name="inbound_submitted" value="1">';
                 /* <!--<input type="submit" '.$submit_button_type.' class="button" value="'.$submit_button.'" name="send" id="inbound_form_submit" />--> */
 
-                $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
+                $form .= '<input type="hidden" name="inbound_form_n" class="inbound_form_n" value="'.$form_name.'"><input type="hidden" name="inbound_form_lists" id="inbound_form_lists" value="'.$lists.'" data-map-form-field="inbound_form_lists"><input type="hidden" name="inbound_form_id" class="inbound_form_id" value="'.$id.'"><input type="hidden" name="inbound_current_page_url" value="'.$current_page.'"><input type="hidden" name="page_id" value="'.( isset($post->ID) ? $post->ID : '0' ) .'"><input type="hidden" name="inbound_furl" value="'. base64_encode($redirect) .'"><input type="hidden" name="inbound_notify" value="'. base64_encode($notify) .'"><input type="hidden" class="inbound_params" name="inbound_params" value=""></form></div>';
                 $form .= "<style type='text/css'>.inbound-button-submit{ {$font_size} }</style>";
                 $form = preg_replace('/<br class="inbr".\/>/', '', $form); /* remove editor br tags */
 
@@ -622,7 +622,12 @@ if (!class_exists('Inbound_Forms')) {
 
             /* replace core tokens */
             $content = str_replace('{{site-name}}', get_bloginfo( 'name' ), $content);
-            /*$content = str_replace('{{form-name}}', $form_data['inbound_form_n']		, $content); */
+            $content = str_replace('{{form-name}}', $form_data['inbound_form_n'], $content);
+
+            /* clean possible encoding issues */
+            $von = array("ä","ö","ü","ß","Ä","Ö","Ü","é");  //to correct double whitepaces as well
+            $zu  = array("&auml;","&ouml;","&uuml;","&szlig;","&Auml;","&Ouml;","&Uuml;","&#233;");
+            $content = str_replace($von, $zu, $content);
 
             foreach ($form_data as $key => $value) {
                 $token_key = str_replace('_','-', $key);
@@ -630,6 +635,14 @@ if (!class_exists('Inbound_Forms')) {
 
                 $content = str_replace( '{{'.trim($token_key).'}}', $value, $content );
             }
+
+            foreach ($_POST as $key => $value) {
+                $token_key = str_replace('_','-', $key);
+                $token_key = str_replace('inbound-','', $token_key);
+
+                $content = str_replace( '{{'.trim($token_key).'}}', $value, $content );
+            }
+
 
             return $content;
         }
@@ -722,6 +735,7 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* redirect now */
                 if ($redirect != "") {
+                    $redirect = str_replace('%3F', '/', html_entity_decode($redirect));
                     wp_redirect( $redirect );
                     exit();
                 }

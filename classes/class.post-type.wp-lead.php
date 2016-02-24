@@ -22,6 +22,7 @@ class Leads_Post_Type {
 
         /* setup column sorting */
         add_filter("manage_edit-wp-lead_sortable_columns", array( __CLASS__ , 'define_sortable_columns' ));
+        add_action( 'posts_clauses', array( __CLASS__ , 'process_column_sorting' ) , 1 , 2 );
 
         /* modify row actions */
         add_filter('post_row_actions', array( __CLASS__ , 'filter_row_actions' ), 10, 2);
@@ -85,7 +86,7 @@ class Leads_Post_Type {
             "status" => __( 'Status' , 'leads' ),
             'action-count' => __( 'Actions' , 'leads' ),
             "page-views" => __( 'Page Views' , 'leads' ),
-            "date" => __( 'Created' , 'leads' )
+            "modified" => __( 'Updated' , 'leads' )
         );
 
         /* not sure about this, needs documentation - H */
@@ -116,30 +117,7 @@ class Leads_Post_Type {
 
         switch ($column) {
             case "lead-picture":
-                $email = get_post_meta($post_id, 'wpleads_email_address', true);
-                $size = 50;
-                $url = site_url();
-                $default = WPL_URLPATH . '/assets/images/gravatar_default_50.jpg'; // doesn't work for some sites
-
-                $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
-                $extra_image = get_post_meta($post_id, 'lead_main_image', true);
-                /*
-                Super expensive call. Need more elegant solution
-                 $response = get_headers($gravatar);
-                if ($response[0] === "HTTP/1.0 302 Found"){
-                    $gravatar = $url . '/wp-content/plugins/leads/assets/images/gravatar_default_50.jpg';
-                } else {
-                    $gravatar = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-                }
-                */
-                // Fix for localhost view
-                if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
-                    $gravatar = $default;
-                }
-                if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
-                    $gravatar = $extra_image;
-                    $gravatar2 = $extra_image;
-                }
+                $gravatar = self::get_gravatar( $post->ID );
                 echo '<img class="lead-grav-img" width="50" height="50" src="' . $gravatar . '">';
                 break;
             case "first-name":
@@ -158,7 +136,10 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
+                $lead_status = ( $lead_status ) ? $lead_status : __('New Lead' , 'leads');
+                echo '<label class="lead-status-pill lead-status-'.str_replace(' ' , '-' , $lead_status ).'">';
                 echo $lead_status;
+                echo '</label>';
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
@@ -182,6 +163,15 @@ class Leads_Post_Type {
                 $company = get_post_meta($post_id, 'wpleads_company_name', true);
                 echo $company;
                 break;
+            case 'modified':
+                $m_orig		= get_post_field( 'post_modified', $post_id, 'raw' );
+                $m_stamp	= strtotime( $m_orig );
+                $modified	= date('n/j/y g:i a', $m_stamp );
+
+                echo '<p class="mod-date">';
+                echo '<em>'.$modified.'</em><br />';
+                echo '</p>';
+                break;
         }
     }
 
@@ -196,10 +186,15 @@ class Leads_Post_Type {
         $columns['last-name'] = 'last-name';
         $columns['status'] = 'status';
         $columns['company'] = 'company';
+        $columns['modified']	= 'modified';
+        $columns['action-count']	= 'action-count';
+        $columns['page-views']	= 'page-views';
         if (isset($_GET['wp_leads_filter_field'])) {
             $the_val = $_GET['wp_leads_filter_field'];
             $columns['custom'] = $the_val;
         }
+
+
         return $columns;
     }
 
@@ -238,6 +233,74 @@ class Leads_Post_Type {
         unset($actions['inline hide-if-no-js']);
 
         return $actions;
+    }
+
+    public static function process_column_sorting(  $pieces, $query ) {
+
+        global $wpdb, $table_prefix;
+
+        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead') {
+            return $pieces;
+        }
+
+        if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
+            $order = strtoupper( $query->get( 'order' ) );
+
+            if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
+                $order = 'ASC';
+            }
+
+            switch( $orderby ) {
+
+                case 'first-name':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_first_name'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'last-name':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_last_name'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'status':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wp_lead_status'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+                case 'page-views':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'wpleads_page_view_count'";
+
+                    $pieces[ 'orderby' ] = " wp_rd.meta_value $order , " . $pieces[ 'orderby' ];
+
+                    break;
+
+
+                case 'action-count':
+
+                    $pieces[ 'join' ] .= " LEFT JOIN {$table_prefix}inbound_events ee ON ee.lead_id = {$wpdb->posts}.ID ";
+
+                    $pieces[ 'groupby' ] = " {$wpdb->posts}.ID ";
+
+                    $pieces[ 'orderby' ] = "COUNT(ee.lead_id) $order ";
+
+                    break;
+            }
+        } else {
+            $pieces[ 'orderby' ] = " post_modified  DESC , " . $pieces[ 'orderby' ];
+        }
+
+
+        return $pieces;
     }
 
     /**
@@ -646,6 +709,7 @@ class Leads_Post_Type {
      */
     public static function setup_admin_menu() {
         if ( !current_user_can('manage_options') ) {
+            remove_menu_page( 'edit.php?post_type=wp-lead' );
             return;
         }
 
@@ -683,6 +747,30 @@ class Leads_Post_Type {
 
     }
 
+    /**
+     *
+     */
+    public static function get_gravatar($lead_id , $size = 50 ) {
+        $email = get_post_meta($lead_id, 'wpleads_email_address', true);
+
+        $size = ($size) ? $size : 50;
+
+        $default = WPL_URLPATH . '/assets/images/gravatar_default_50.jpg'; // doesn't work for some sites
+
+        $gravatar = "//www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default) . "&s=" . $size;
+        $extra_image = get_post_meta($lead_id, 'lead_main_image', true);
+
+        // Fix for localhost view
+        if (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
+            $gravatar = $default;
+        }
+
+        if (preg_match("/gravatar_default_/", $gravatar) && $extra_image != "") {
+            $gravatar = $extra_image;
+        }
+
+        return $gravatar;
+    }
     /**
      * Enqueue scripts and styles for admin
      */
@@ -748,30 +836,30 @@ class Leads_Post_Type {
     /**
      * Ajax listener to mark lead as unread
      */
-     public static function ajax_mark_lead_as_unread() {
-         global $wpdb;
+    public static function ajax_mark_lead_as_unread() {
+        global $wpdb;
 
-         $newrules = "New Lead";
+        $newrules = "New Lead";
 
-         $post_id = mysql_real_escape_string($_POST['page_id']);
+        $post_id = mysql_real_escape_string($_POST['page_id']);
 
-         add_post_meta($post_id, 'wp_lead_status', 'New Lead', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
-         header('HTTP/1.1 200 OK');
-         exit;
-     }
+        add_post_meta($post_id, 'wp_lead_status', 'New Lead', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        header('HTTP/1.1 200 OK');
+        exit;
+    }
 
-     /**
-      * Ajax listener to automatically mark a lead as read when the lead is opened for the first time
-      */
-     public static function ajax_auto_mark_as_read() {
-         global $wpdb;
+    /**
+     * Ajax listener to automatically mark a lead as read when the lead is opened for the first time
+     */
+    public static function ajax_auto_mark_as_read() {
+        global $wpdb;
 
-         $newrules = "Read";
-         $post_id = mysql_real_escape_string($_POST['page_id']);
+        $newrules = "Read";
+        $post_id = intval($_POST['page_id']);
 
-         add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
-         header('HTTP/1.1 200 OK');
-     }
+        add_post_meta($post_id, 'wp_lead_status', 'Read', true) or update_post_meta($post_id, 'wp_lead_status', $newrules);
+        header('HTTP/1.1 200 OK');
+    }
 }
 
 new Leads_Post_Type;
