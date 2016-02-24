@@ -1,7 +1,7 @@
 === WordPress Leads ===
 
 Contributors: Hudson Atwell, David Wells, Giulio Dapreala 
-Donate link: mailto:marketplace@inboundnow.com
+Donate link: mailto:hudson@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
