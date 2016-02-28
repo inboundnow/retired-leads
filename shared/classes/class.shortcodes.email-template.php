@@ -64,7 +64,7 @@ class Inbound_Email_Template_Shortcodes {
 
 		/* filter params */
 		$post_params = apply_filters('inbound_email_response/post_params' , $post_params);
-
+		
 		foreach ($post_params as $key => $value ) {
 
 			$name = str_replace(array('-','_'),' ', $key);
