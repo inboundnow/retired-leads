@@ -86,9 +86,6 @@ We built Lead Management as a framework! You can use our extendable framework to
 == Changelog ==
 
 = 2.1.2 = 
-* Debugging issues with PHP7
-
-= 2.1.1 = 
 * Preparing for Inbound Pro
 * UI improvements
 
