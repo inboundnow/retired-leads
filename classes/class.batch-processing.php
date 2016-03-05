@@ -77,11 +77,8 @@ class Leads_Batch_Processor {
         echo '<div class="wrap">';
 
         /* run the method */
-        if (version_compare(phpversion(), '7', '<')) {
-            self::$args['method']($args);
-        } else {
-            self::{$args['method']}($args);
-        }
+        self::$args['method']($args);
+
 
         echo '</div>';
 
