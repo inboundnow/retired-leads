@@ -822,13 +822,13 @@ if (!class_exists('Leads_Manager')) {
 				//get all keys
 				foreach ( (array) $_REQUEST['ids'] as $post_id ) {
 					$this_lead_data = get_post_custom($post_id);
-					unset($this_lead_data['page_views']);
 					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
 					unset($this_lead_data['wpleads_referral_data']);
-					unset($this_lead_data['wpleads_conversion_data']);
 					unset($this_lead_data['wpleads_raw_post_data']);
-					unset($this_lead_data['wpleads_ip_address']);
 					unset($this_lead_data['call_to_action_clicks']);
+					//unset($this_lead_data['wpleads_ip_address']);
+					//unset($this_lead_data['wpleads_conversion_data']);
+					//unset($this_lead_data['page_views']);
 
 					foreach ($this_lead_data as $key => $val) {
 						$lead_meta_pairs[$key] = $key;
@@ -845,11 +845,12 @@ if (!class_exists('Leads_Manager')) {
 					unset($this_row_data);
 
 					$this_lead_data = get_post_custom($post_id);
-					unset($this_lead_data['page_views']);
 					unset($this_lead_data['wpleads_inbound_form_mapped_data']);
 					unset($this_lead_data['wpleads_referral_data']);
-					unset($this_lead_data['wpleads_conversion_data']);
 					unset($this_lead_data['wpleads_raw_post_data']);
+					unset($this_lead_data['call_to_action_clicks']);
+					//unset($this_lead_data['wpleads_conversion_data']);
+					//unset($this_lead_data['page_views']);
 
 					foreach ($lead_meta_pairs as $key => $val) {
 
