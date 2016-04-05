@@ -395,7 +395,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		 */
 		public static function get_lead_status( $lead_id ) {
 			$status = get_post_meta( $lead_id , 'wp_lead_status' , true );
-			return ($status) ? 'status' : 'new';
+			return ($status) ? $status : 'new';
 		}
 
 		/**

@@ -115,7 +115,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             $first_name = get_post_meta($post->ID, 'wpleads_first_name', true);
             $last_name = get_post_meta($post->ID, 'wpleads_last_name', true);
             $statuses = Inbound_Leads::get_lead_statuses();
-            $status = Inbound_Leads::get_lead_status( $post->ID );
+            $lead_status = Inbound_Leads::get_lead_status( $post->ID );
 
             if (empty ($post) || 'wp-lead' !== get_post_type($GLOBALS['post'])) {
                 return;
@@ -124,7 +124,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             echo "<div id='lead-top-area'>";
             echo "<div id='lead-header'><h1>" . $first_name . ' ' . $last_name . "</h1></div>";
-            
+
             ?>
 				<!-- REWRITE FOR FILTERS -->
 				<div id='lead-status'>
@@ -133,7 +133,9 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                     echo '<select name="wp_lead_status" id="wp_lead_status">';
                     foreach( $statuses as $status)  {
-                        $selected = $status['key'] == ($status) ? ' selected ' : '';
+                        error_log($status['key']);
+                        error_log($lead_status);
+                        $selected = $status['key'] == ($lead_status) ? ' selected ' : '';
                         echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '>' . $status['label'] .  '</option>';
                     }
                     echo "</select>";
