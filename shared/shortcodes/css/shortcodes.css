@@ -233,7 +233,7 @@ float: left;
 #inbound-shortcodes-form-table input[type="url"],
 #inbound-shortcodes-form-table input[type="number"],
 #inbound-shortcodes-form-table input[type="password"],
-#inbound-shortcodes-form-table input[type="textarea"] {
+#inbound-shortcodes-form-table input[type="textarea"]{
 	padding:5px 6px;
 	margin:0 0 0px 0;
     width: 100%;
