@@ -49,8 +49,6 @@ jQuery(document).ready(function($) {
 	rawData.show();
 	jQuery("#raw-data-display").append(rawData);
 
-	jQuery('#wplead_list_category-add-toggle').hide();
-
 	jQuery('.row-actions').each(function() {
 		var jQuerylist = jQuery(this);
 		var jQueryfirstChecked = jQuerylist.parent().parent().find('.column-first-name');
