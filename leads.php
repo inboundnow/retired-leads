@@ -6,8 +6,6 @@ Description: Track website visitor activity, manage incoming leads, and send col
 Author: Inbound Now
 Version: 2.1.7
 Author URI: http://www.inboundnow.com/
-Text Domain: leads
-Domain Path: lang
 */
 
 if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
