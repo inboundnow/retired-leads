@@ -342,4 +342,15 @@ jQuery(document).ready(function($) {
 
 	}
 
+
+	jQuery('.lead_status_dropdown option').click(function() {
+		jQuery('.lead_status_dropdown option').each(function() {
+			if (jQuery(this).hasClass('selected')) {
+				jQuery(this).removeClass('selected');
+			}
+		});
+		jQuery(this).addClass('selected');
+		jQuery('.dropdown h1').html($(this).html()).removeClass().addClass('selected-' + (jQuery(this).index() + 1));
+	});
+
 });

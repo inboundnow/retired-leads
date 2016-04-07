@@ -405,39 +405,53 @@ if ( !class_exists('Inbound_Leads') ) {
 		public static function get_lead_statuses( ) {
 			$default = array(
 				array(
+					'priority' => 1,
 					'key' => 'new',
 					'label' => __('New Lead' , 'inbound-pro'),
-					'color' => '#f0ad4e'
+					'color' => '#f0ad4e',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 2,
 					'key' => 'read',
 					'label' => __('Read' , 'inbound-pro'),
-					'color' => '#27ae60'
+					'color' => '#27ae60',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 3,
 					'key' => 'needs-attention',
 					'label' => __('Needs Attention' , 'inbound-pro'),
-					'color' => '#ffcc33'
+					'color' => '#ffcc33',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 4,
 					'key' => 'lost',
 					'label' => __('Lost' , 'inbound-pro'),
-					'color' => '#05022E'
+					'color' => '#05022E',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 5,
 					'key' => 'active',
 					'label' => __('Active' , 'inbound-pro'),
-					'color' => '#FE984E'
+					'color' => '#FE984E',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 6,
 					'key' => 'customer',
 					'label' => __('Customer' , 'inbound-pro'),
-					'color' => '#48F7A1'
+					'color' => '#48F7A1',
+					'nature' => 'core'
 				),
 				array(
+					'priority' => 7,
 					'key' => 'archive',
 					'label' => __('Archive' , 'inbound-pro'),
-					'color' => '#7A3068'
+					'color' => '#7A3068',
+					'nature' => 'core'
 				),
 			);
 

@@ -131,12 +131,10 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 					<label for="wp_lead_status"><?php _e('Lead Status:', 'leads'); ?></label>
                     <?php
 
-                    echo '<select name="wp_lead_status" id="wp_lead_status">';
+                    echo '<select name="wp_lead_status" id="wp_lead_status" class="lead_status_dropdown">';
                     foreach( $statuses as $status)  {
-                        error_log($status['key']);
-                        error_log($lead_status);
                         $selected = $status['key'] == ($lead_status) ? ' selected ' : '';
-                        echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '>' . $status['label'] .  '</option>';
+                        echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '> ' . $status['label'] .  '</option>';
                     }
                     echo "</select>";
                     ?>

@@ -136,10 +136,7 @@ class Leads_Post_Type {
                 break;
             case "status":
                 $lead_status = get_post_meta($post_id, 'wp_lead_status', true);
-                $lead_status = ($lead_status) ? $lead_status : __('New Lead', 'leads');
-                echo '<label class="lead-status-pill lead-status-' . str_replace(' ', '-', $lead_status) . '">';
-                echo $lead_status;
-                echo '</label>';
+                Inbound_Lead_Statuses::print_status_pill($lead_status);
                 break;
             case "action-count":
                 $actions = Inbound_Events::get_total_activity($post_id);
@@ -213,7 +210,11 @@ class Leads_Post_Type {
         echo '<select name="wp_lead_status">';
         echo '<option value="0">'.__('Lead Status','inbound-pro').'</option>';
         foreach( $statuses as $status)  {
-            $selected = $status['key'] == $_GET['wp_lead_status'] ? ' selected ' : '';
+            if (isset($_GET['wp_lead_status'])) {
+                $selected = $status['key'] == $_GET['wp_lead_status'] ? ' selected ' : '';
+            } else {
+                $selected = '';
+            }
             echo '<option value="'.$status['key'].'" data-color="'.$status['color'].'" ' .  $selected . '>' . $status['label'] .  '</option>';
         }
         echo "</select>";
