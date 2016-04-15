@@ -67,13 +67,15 @@ if (!class_exists('Inbound_Ajax')) {
 				} else {
 
 					/* check if user doubled back to the first page to convert */
-					if ( count($stored_views) > 1  && $stored_views[0] == $page_id ){
+					$funnel_count = count($stored_views);
+					$last_key = $funnel_count - 1;
+					if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
 						$stored_views[] = $page_id;
 					}
 
 				}
 			}
-			error_log(print_r($stored_views,true));
+
 			setcookie( 'inbound_page_views' , 	json_encode($stored_views) , time()+3600 , "/" );
 
 			/* update lead data */
