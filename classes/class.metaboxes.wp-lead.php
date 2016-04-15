@@ -156,13 +156,13 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 echo '<select name="wp_lead_status" id="wp_lead_status" class="lead_status_dropdown">';
                 foreach ($statuses as $status) {
-                    $selected = $status['key'] == (self::$lead_metadata['wpleads_lead_status']) ? ' selected ' : '';
+                    $selected = $status['key'] == (self::$lead_metadata['wp_lead_status']) ? ' selected ' : '';
                     echo '<option value="' . $status['key'] . '" data-color="' . $status['color'] . '" ' . $selected . '> ' . $status['label'] . '</option>';
                 }
                 echo "</select>";
                 ?>
             </div>
-            <span id="current-lead-status" style="display:none;"><?php echo self::$lead_metadata['wpleads_lead_status']; ?></span>
+            <span id="current-lead-status" style="display:none;"><?php echo self::$lead_metadata['wp_lead_status']; ?></span>
             </div>
             <?php
         }
@@ -857,7 +857,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                 <?php
                 $user = get_user_by( 'email', self::$lead_metadata['wpleads_email_address'] );
-                if (!$user) {
+                if (isset($user->ID)) {
                     ?>
                     <div id='show-edit-user'>
                         <a href="<?php echo get_edit_user_link($user->ID); ?>">
