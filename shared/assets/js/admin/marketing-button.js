@@ -58,7 +58,6 @@ var MarketingButton = (function () {
     },
     waitForEditorLoad: function() {
         var that = this;
-        console.log('wait');
         jQuery(".acf_postbox .field_type-wysiwyg iframe")
             .waitUntilExists(function(){
                 console.log('wait');
@@ -141,7 +140,7 @@ var MarketingButton = (function () {
                 jQuery('.inbound-short-list').show();
         });
     },
-    insertTextAreaContent(text, selector) {
+    insertTextAreaContent: function(text, selector) {
           var cursorPos = selector.prop('selectionStart');
           var v = selector.val();
           var textBefore = v.substring(0,  cursorPos );
@@ -210,7 +209,6 @@ var MarketingButton = (function () {
 })();
 
 jQuery(document).ready(function($) {
-    console.log('Markeint buttons gooooo')
     MarketingButton.init();
 
 });
