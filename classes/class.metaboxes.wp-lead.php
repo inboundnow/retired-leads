@@ -64,7 +64,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             $screen = get_current_screen();
 
-            if (!isset($screen) || $screen->id != 'wp-lead') {
+            if (!isset($screen) || $screen->id != 'wp-lead' || !isset($_GET['post'])) {
                 return;
             }
 
@@ -77,6 +77,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* create first name and last name if not present */
             self::$lead_metadata['wpleads_first_name'] = (isset(self::$lead_metadata['wpleads_first_name'])) ? self::$lead_metadata['wpleads_first_name'] : '';
             self::$lead_metadata['wpleads_last_name'] = (isset(self::$lead_metadata['wpleads_last_name'])) ? self::$lead_metadata['wpleads_last_name']: '';
+            self::$lead_metadata['wp_lead_status'] = (isset(self::$lead_metadata['wp_lead_status'])) ? self::$lead_metadata['wp_lead_status']: 'new';
 
         }
 
@@ -1726,7 +1727,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                         $is_json = self::is_json($field['value']);
 
-                        if ($is_json) {
+                        if ($is_json ) {
                              echo "<textarea name='" . $id . "' id='" . $id . "' rows='" . $rows . "' style='' readonly>" . $field['value'] . "</textarea>";
                         } else {
                           echo '<textarea name="' . $id . '" id="' . $id . '" rows=' . $rows . '" style="" >' . $field['value'] . '</textarea>';
@@ -1739,7 +1740,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
                         $is_json = self::is_json($field['value']);
 
-                        if ($is_json) {
+                        if ($is_json ) {
                             echo "<input type='text' name='" . $id . "' id='" . $id . "' value='" . $field['value'] . "' size='" . $size . "' readonly/>";
                         } else {
                             echo '<input type="text" name="' . $id . '" id="' . $id . '" value="' . $field['value'] . '" size="' . $size . '" />';
@@ -2213,6 +2214,11 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
         }
 
         public static function  is_json($string) {
+
+            if (!$string) {
+                return false;
+            }
+
             json_decode($string);
             return (json_last_error() == JSON_ERROR_NONE);
         }
