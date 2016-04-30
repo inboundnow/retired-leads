@@ -98,7 +98,7 @@ class Inbound_Events {
             'variation_id' =>  $lead['variation'],
             'form_id' => (isset($raw_params['inbound_form_id'])) ? $raw_params['inbound_form_id'] : '',
             'lead_id' => $lead['id'],
-            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => '',
             'event_details' => json_encode($details),
             'datetime' => $lead['wordpress_date_time']
@@ -127,7 +127,7 @@ class Inbound_Events {
             'email_id' => $message['metadata']['email_id'],
             'variation_id' => $message['metadata']['variation_id'],
             'lead_id' => $args['urlparams']['lead_id'],
-            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : null ),
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'event_details' => json_encode($args['urlparams']),
             'datetime' => $args['datetime'],
             'form_id' => ''
@@ -185,7 +185,7 @@ class Inbound_Events {
             'event_name' => $args['event_name'],
             'event_details' => '',
             'datetime' => $wordpress_date_time,
-            'funnel' => ( isset($_COOKIE['inbound_page_views']) ? $_COOKIE['inbound_page_views'] : '' ),
+            'funnel' => ( isset($_SESSION['inbound_page_views']) ? $_SESSION['inbound_page_views'] : '' ),
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );
 
