@@ -93,6 +93,10 @@ class Inbound_Events {
      */
     public static function store_form_submission( $lead ){
 
+        if (! isset($lead['raw_params']) )  {
+            return;
+        }
+
         parse_str($lead['raw_params'] , $raw_params );
         $details = array_merge($raw_params,$lead);
         $args = array(
@@ -221,6 +225,8 @@ class Inbound_Events {
     }
 
     public static function delete_related_events( $post_id ) {
+        global $wpdb;
+
         $post = get_post($post_id);
 
         $table_name = $wpdb->prefix . "inbound_events";
@@ -233,7 +239,7 @@ class Inbound_Events {
                 break;
             case  'wp-lead':
                 $where = array(
-                    'email_id' => $post_id
+                    'lead_id' => $post_id
                 );
                 break;
             default:
@@ -243,8 +249,8 @@ class Inbound_Events {
                 break;
         }
 
-
         $wpdb->delete( $table_name, $where, $where_format = null );
+
     }
 
     /**
