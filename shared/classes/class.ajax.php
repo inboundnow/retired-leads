@@ -53,6 +53,7 @@ if (!class_exists('Inbound_Ajax')) {
 
 
 			$page_views = json_decode(stripslashes($_POST['page_views']));
+			$page_views = ($page_views) ? $page_views : array();
 
 			/* update funnel cookie */
 			if (isset($_COOKIE['inbound_page_views'])) {
@@ -60,6 +61,7 @@ if (!class_exists('Inbound_Ajax')) {
 			} else {
 				$stored_views = array();
 			}
+
 
 			foreach ($page_views as $page_id => $visits ) {
 				if (!in_array($page_id, $stored_views)) {
@@ -76,7 +78,7 @@ if (!class_exists('Inbound_Ajax')) {
 				}
 			}
 
-			setcookie( 'inbound_page_views' , 	json_encode($stored_views) , time()+3600 , "/" );
+			$_SESSION['inbound_page_views'] = json_encode($stored_views);
 
 			/* update lead data */
 			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {
