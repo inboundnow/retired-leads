@@ -198,9 +198,9 @@ if (!class_exists('Inbound_Forms')) {
                     $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
                     $dynamic_value = (!$dynamic_value && isset($_COOKIE[$hidden_param])) ? $_COOKIE[$hidden_param] : $dynamic_value;
 
-
-                    $form .= '<div class="inbound-field ' . $div_chk_req . $main_layout . ' label-' . $form_labels_class . ' ' . $form_labels_class . ' ' . $field_container_class . '">';
-
+                    if ($type != 'honeypot') {
+                        $form .= '<div class="inbound-field ' . $div_chk_req . $main_layout . ' label-' . $form_labels_class . ' ' . $form_labels_class . ' ' . $field_container_class . '">';
+                    }
                     if ($show_labels && $form_labels != "bottom" || $type === "radio") {
                         $form .= '<label for="' . $field_name . '" class="inbound-label ' . $formatted_label . ' ' . $form_labels_class . ' inbound-input-' . $type . '" style="' . $font_size . '">' . html_entity_decode($matches[3][$i]['label']) . $req_label . '</label>';
                     }
@@ -369,7 +369,7 @@ if (!class_exists('Inbound_Forms')) {
                         /*wp_editor(); /* call wp editor */
                     } else if ($type === 'honeypot') {
 
-                        $form .= '<input type="hidden" name="stop_dirty_subs" class="stop_dirty_subs" value="">';
+                        $form .= '<input style="display:none" name="phone_xoxo" class="phone_xoxo" value="">';
 
                     } else if ($type === 'datetime-local') {
 
@@ -441,8 +441,9 @@ if (!class_exists('Inbound_Forms')) {
                     if ($description_block != "" && $type != 'hidden') {
                         $form .= "<div class='inbound-description'>" . $description_block . "</div>";
                     }
-
-                    $form .= '</div>';
+                    if ($type != 'honeypot') {
+                        $form .= '</div>';
+                    }
                 }
                 /* End Loop */
 
@@ -558,14 +559,14 @@ if (!class_exists('Inbound_Forms')) {
 						if( jQuery(\'.checkbox-required\')[0] && jQuery(\'.checkbox-required input[type=checkbox]:checked\').length==0)
 						{
 							jQuery(\'.checkbox-required input[type=checkbox]:first\').focus();
-							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', INBOUNDNOW_TEXT_DOMAIN) . '");
+							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') . '");
 							e.preventDefault();
 							e.stopImmediatePropagation();
 						}
 						jQuery(this).find("input").each(function(){
 							if(!jQuery(this).prop("required")){
 							} else if (!jQuery(this).val()) {
-							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', INBOUNDNOW_TEXT_DOMAIN) . '");
+							alert("' . __('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') . '");
 
 							e.preventDefault();
 							e.stopImmediatePropagation();
@@ -684,7 +685,7 @@ if (!class_exists('Inbound_Forms')) {
 
             if (isset($_POST['inbound_submitted']) && $_POST['inbound_submitted'] === '1') {
                 $form_post_data = array();
-                if (isset($_POST['stop_dirty_subs']) && $_POST['stop_dirty_subs'] != "") {
+                if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
                     wp_die($message = 'Die You spam bastard');
                     return false;
                 }
@@ -912,7 +913,7 @@ if (!class_exists('Inbound_Forms')) {
 
             /* add default subject if empty */
             if (!$confirm_subject) {
-                $confirm_subject = __('Thank you!', INBOUNDNOW_TEXT_DOMAIN);
+                $confirm_subject = __('Thank you!', 'inbound-pro');
             }
 
             $confirm_email_message = $Inbound_Templating_Engine->replace_tokens($confirm_email_message, array($form_post_data, $form_meta_data));
@@ -998,11 +999,11 @@ if (!class_exists('Inbound_Forms')) {
                                  <td  align="left" width="600" style="-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; color: #fff; font-weight: bold; text-decoration: none; font-family: Helvetica, Arial, sans-serif; display: block;">
                                   <h1 style="font-size: 30px; display: inline-block;margin-top: 15px;margin-left: 10px; margin-bottom: 0px; letter-spacing: 0px; word-spacing: 0px; font-weight: 300;">' . __('Lead Information', 'inbound-pro') . '</h1>
                                   <div style="float:right; margin-top: 5px; margin-right: 15px;"><!--[if mso]>
-                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:130px;font-size:18px;" arcsize="10%" stroke="f" fillcolor="#ffffff">
+                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:130px;font-size:18px;" arcsize="10%" stroke="f" fillcolor="#ffffff">
                                       <w:anchorlock/>
                                       <center>
                                     <![endif]-->
-                                        <a href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}"
+                                        <a href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}"
                                   style="background-color:#ffffff;border-radius:4px;color:#3A9FD1;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none;">' . __('View Lead', 'inbound-pro') . '</a>
                                     <!--[if mso]>
                                       </center>
@@ -1028,15 +1029,15 @@ if (!class_exists('Inbound_Forms')) {
                     <tbody valign="top">
                      <tr valign="top" border="0">
                       <td width="160" height="50" align="center" valign="top" border="0">
-                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_conversions">' . __('View Lead Activity', 'inbound-pro') . '</a></h3>
+                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}&tab=tabs-wpleads_lead_tab_conversions">' . __('View Lead Activity', 'inbound-pro') . '</a></h3>
                       </td>
 
                       <td width="160" height="50" align="center" valign="top" border="0">
-                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&scroll-to=wplead_metabox_conversion">' . __('Pages Viewed', 'inbound-pro') . '</a></h3>
+                         <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}&scroll-to=wplead_metabox_conversion">' . __('Pages Viewed', 'inbound-pro') . '</a></h3>
                       </td>
 
                      <td width="160" height="50" align="center" valign="top" border="0">
-                        <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}&tab=tabs-wpleads_lead_tab_raw_form_data">' . __('View Form Data', 'inbound-pro') . '</a></h3>
+                        <h3 style="color:#2e2e2e;font-size:15px;"><a style="text-decoration: none;" href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}&tab=tabs-wpleads_lead_tab_raw_form_data">' . __('View Form Data', 'inbound-pro') . '</a></h3>
                      </td>
                      </tr>
                     </tbody></table>
@@ -1046,11 +1047,11 @@ if (!class_exists('Inbound_Forms')) {
                          <tbody><tr>
                           <td align="center" width="250" height="30" cellpadding="5">
                              <div><!--[if mso]>
-                               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#7490af" fillcolor="#3A9FD1">
+                               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" strokecolor="#7490af" fillcolor="#3A9FD1">
                                  <w:anchorlock/>
                                  <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">' . __('View Lead', 'inbound-pro') . '</center>
                                </v:roundrect>
-                             <![endif]--><a href="{{admin-url}}edit.php?post_type=wp-lead&lead-email-redirect={{lead-email-address}}"
+                             <![endif]--><a href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}"
                              style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="' . __('View the full Lead details in WordPress', 'inbound-pro') . '">' . __('View Full Lead Details', 'inbound-pro') . '</a>
                            </div>
                           </td>
@@ -1129,18 +1130,18 @@ if (!class_exists('Inbound_Forms')) {
 
                 case 'months':
                     return array(
-                        '01' => __('Jan', INBOUNDNOW_TEXT_DOMAIN),
-                        '02' => __('Feb', INBOUNDNOW_TEXT_DOMAIN),
-                        '03' => __('Mar', INBOUNDNOW_TEXT_DOMAIN),
-                        '04' => __('Apr', INBOUNDNOW_TEXT_DOMAIN),
-                        '05' => __('May', INBOUNDNOW_TEXT_DOMAIN),
-                        '06' => __('Jun', INBOUNDNOW_TEXT_DOMAIN),
-                        '07' => __('Jul', INBOUNDNOW_TEXT_DOMAIN),
-                        '08' => __('Aug', INBOUNDNOW_TEXT_DOMAIN),
-                        '09' => __('Sep', INBOUNDNOW_TEXT_DOMAIN),
-                        '10' => __('Oct', INBOUNDNOW_TEXT_DOMAIN),
-                        '11' => __('Nov', INBOUNDNOW_TEXT_DOMAIN),
-                        '12' => __('Dec', INBOUNDNOW_TEXT_DOMAIN)
+                        '01' => __('Jan', 'inbound-pro'),
+                        '02' => __('Feb', 'inbound-pro'),
+                        '03' => __('Mar', 'inbound-pro'),
+                        '04' => __('Apr', 'inbound-pro'),
+                        '05' => __('May', 'inbound-pro'),
+                        '06' => __('Jun', 'inbound-pro'),
+                        '07' => __('Jul', 'inbound-pro'),
+                        '08' => __('Aug', 'inbound-pro'),
+                        '09' => __('Sep', 'inbound-pro'),
+                        '10' => __('Oct', 'inbound-pro'),
+                        '11' => __('Nov', 'inbound-pro'),
+                        '12' => __('Dec', 'inbound-pro')
                     );
                     break;
                 case 'days' :
@@ -1170,255 +1171,255 @@ if (!class_exists('Inbound_Forms')) {
          */
         public static function get_countries_array() {
             return array(
-                __('AF', 'leads') => __('Afghanistan', INBOUNDNOW_TEXT_DOMAIN),
-                __('AX', 'leads') => __('Aland Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('AL', 'leads') => __('Albania', INBOUNDNOW_TEXT_DOMAIN),
-                __('DZ', 'leads') => __('Algeria', INBOUNDNOW_TEXT_DOMAIN),
-                __('AS', 'leads') => __('American Samoa', INBOUNDNOW_TEXT_DOMAIN),
-                __('AD', 'leads') => __('Andorra', INBOUNDNOW_TEXT_DOMAIN),
-                __('AO', 'leads') => __('Angola', INBOUNDNOW_TEXT_DOMAIN),
-                __('AI', 'leads') => __('Anguilla', INBOUNDNOW_TEXT_DOMAIN),
-                __('AQ', 'leads') => __('Antarctica', INBOUNDNOW_TEXT_DOMAIN),
-                __('AG', 'leads') => __('Antigua and Barbuda', INBOUNDNOW_TEXT_DOMAIN),
-                __('AR', 'leads') => __('Argentina', INBOUNDNOW_TEXT_DOMAIN),
-                __('AM', 'leads') => __('Armenia', INBOUNDNOW_TEXT_DOMAIN),
-                __('AW', 'leads') => __('Aruba', INBOUNDNOW_TEXT_DOMAIN),
-                __('AU', 'leads') => __('Australia', INBOUNDNOW_TEXT_DOMAIN),
-                __('AT', 'leads') => __('Austria', INBOUNDNOW_TEXT_DOMAIN),
-                __('AZ', 'leads') => __('Azerbaijan', INBOUNDNOW_TEXT_DOMAIN),
-                __('BS', 'leads') => __('Bahamas', INBOUNDNOW_TEXT_DOMAIN),
-                __('BH', 'leads') => __('Bahrain', INBOUNDNOW_TEXT_DOMAIN),
-                __('BD', 'leads') => __('Bangladesh', INBOUNDNOW_TEXT_DOMAIN),
-                __('BB', 'leads') => __('Barbados', INBOUNDNOW_TEXT_DOMAIN),
-                __('BY', 'leads') => __('Belarus', INBOUNDNOW_TEXT_DOMAIN),
-                __('BE', 'leads') => __('Belgium', INBOUNDNOW_TEXT_DOMAIN),
-                __('BZ', 'leads') => __('Belize', INBOUNDNOW_TEXT_DOMAIN),
-                __('BJ', 'leads') => __('Benin', INBOUNDNOW_TEXT_DOMAIN),
-                __('BM', 'leads') => __('Bermuda', INBOUNDNOW_TEXT_DOMAIN),
-                __('BT', 'leads') => __('Bhutan', INBOUNDNOW_TEXT_DOMAIN),
-                __('BO', 'leads') => __('Bolivia', INBOUNDNOW_TEXT_DOMAIN),
-                __('BA', 'leads') => __('Bosnia and Herzegovina', INBOUNDNOW_TEXT_DOMAIN),
-                __('BW', 'leads') => __('Botswana', INBOUNDNOW_TEXT_DOMAIN),
-                __('BV', 'leads') => __('Bouvet Island', INBOUNDNOW_TEXT_DOMAIN),
-                __('BR', 'leads') => __('Brazil', INBOUNDNOW_TEXT_DOMAIN),
-                __('IO', 'leads') => __('British Indian Ocean Territory', INBOUNDNOW_TEXT_DOMAIN),
-                __('BN', 'leads') => __('Brunei Darussalam', INBOUNDNOW_TEXT_DOMAIN),
-                __('BG', 'leads') => __('Bulgaria', INBOUNDNOW_TEXT_DOMAIN),
-                __('BF', 'leads') => __('Burkina Faso', INBOUNDNOW_TEXT_DOMAIN),
-                __('BI', 'leads') => __('Burundi', INBOUNDNOW_TEXT_DOMAIN),
-                __('KH', 'leads') => __('Cambodia', INBOUNDNOW_TEXT_DOMAIN),
-                __('CM', 'leads') => __('Cameroon', INBOUNDNOW_TEXT_DOMAIN),
-                __('CA', 'leads') => __('Canada', INBOUNDNOW_TEXT_DOMAIN),
-                __('CV', 'leads') => __('Cape Verde', INBOUNDNOW_TEXT_DOMAIN),
-                __('BQ', 'leads') => __('Caribbean Netherlands ', INBOUNDNOW_TEXT_DOMAIN),
-                __('KY', 'leads') => __('Cayman Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('CF', 'leads') => __('Central African Republic', INBOUNDNOW_TEXT_DOMAIN),
-                __('TD', 'leads') => __('Chad', INBOUNDNOW_TEXT_DOMAIN),
-                __('CL', 'leads') => __('Chile', INBOUNDNOW_TEXT_DOMAIN),
-                __('CN', 'leads') => __('China', INBOUNDNOW_TEXT_DOMAIN),
-                __('CX', 'leads') => __('Christmas Island', INBOUNDNOW_TEXT_DOMAIN),
-                __('CC', 'leads') => __('Cocos (Keeling) Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('CO', 'leads') => __('Colombia', INBOUNDNOW_TEXT_DOMAIN),
-                __('KM', 'leads') => __('Comoros', INBOUNDNOW_TEXT_DOMAIN),
-                __('CG', 'leads') => __('Congo', INBOUNDNOW_TEXT_DOMAIN),
-                __('CD', 'leads') => __('Congo, Democratic Republic of', INBOUNDNOW_TEXT_DOMAIN),
-                __('CK', 'leads') => __('Cook Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('CR', 'leads') => __('Costa Rica', INBOUNDNOW_TEXT_DOMAIN),
-                __('CI', 'leads') => __('Cote d\'Ivoire', INBOUNDNOW_TEXT_DOMAIN),
-                __('HR', 'leads') => __('Croatia', INBOUNDNOW_TEXT_DOMAIN),
-                __('CU', 'leads') => __('Cuba', INBOUNDNOW_TEXT_DOMAIN),
-                __('CW', 'leads') => __('Curacao', INBOUNDNOW_TEXT_DOMAIN),
-                __('CY', 'leads') => __('Cyprus', INBOUNDNOW_TEXT_DOMAIN),
-                __('CZ', 'leads') => __('Czech Republic', INBOUNDNOW_TEXT_DOMAIN),
-                __('DK', 'leads') => __('Denmark', INBOUNDNOW_TEXT_DOMAIN),
-                __('DJ', 'leads') => __('Djibouti', INBOUNDNOW_TEXT_DOMAIN),
-                __('DM', 'leads') => __('Dominica', INBOUNDNOW_TEXT_DOMAIN),
-                __('DO', 'leads') => __('Dominican Republic', INBOUNDNOW_TEXT_DOMAIN),
-                __('EC', 'leads') => __('Ecuador', INBOUNDNOW_TEXT_DOMAIN),
-                __('EG', 'leads') => __('Egypt', INBOUNDNOW_TEXT_DOMAIN),
-                __('SV', 'leads') => __('El Salvador', INBOUNDNOW_TEXT_DOMAIN),
-                __('GQ', 'leads') => __('Equatorial Guinea', INBOUNDNOW_TEXT_DOMAIN),
-                __('ER', 'leads') => __('Eritrea', INBOUNDNOW_TEXT_DOMAIN),
-                __('EE', 'leads') => __('Estonia', INBOUNDNOW_TEXT_DOMAIN),
-                __('ET', 'leads') => __('Ethiopia', INBOUNDNOW_TEXT_DOMAIN),
-                __('FK', 'leads') => __('Falkland Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('FO', 'leads') => __('Faroe Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('FJ', 'leads') => __('Fiji', INBOUNDNOW_TEXT_DOMAIN),
-                __('FI', 'leads') => __('Finland', INBOUNDNOW_TEXT_DOMAIN),
-                __('FR', 'leads') => __('France', INBOUNDNOW_TEXT_DOMAIN),
-                __('GF', 'leads') => __('French Guiana', INBOUNDNOW_TEXT_DOMAIN),
-                __('PF', 'leads') => __('French Polynesia', INBOUNDNOW_TEXT_DOMAIN),
-                __('TF', 'leads') => __('French Southern Territories', INBOUNDNOW_TEXT_DOMAIN),
-                __('GA', 'leads') => __('Gabon', INBOUNDNOW_TEXT_DOMAIN),
-                __('GM', 'leads') => __('Gambia', INBOUNDNOW_TEXT_DOMAIN),
-                __('GE', 'leads') => __('Georgia', INBOUNDNOW_TEXT_DOMAIN),
-                __('DE', 'leads') => __('Germany', INBOUNDNOW_TEXT_DOMAIN),
-                __('GH', 'leads') => __('Ghana', INBOUNDNOW_TEXT_DOMAIN),
-                __('GI', 'leads') => __('Gibraltar', INBOUNDNOW_TEXT_DOMAIN),
-                __('GR', 'leads') => __('Greece', INBOUNDNOW_TEXT_DOMAIN),
-                __('GL', 'leads') => __('Greenland', INBOUNDNOW_TEXT_DOMAIN),
-                __('GD', 'leads') => __('Grenada', INBOUNDNOW_TEXT_DOMAIN),
-                __('GP', 'leads') => __('Guadeloupe', INBOUNDNOW_TEXT_DOMAIN),
-                __('GU', 'leads') => __('Guam', INBOUNDNOW_TEXT_DOMAIN),
-                __('GT', 'leads') => __('Guatemala', INBOUNDNOW_TEXT_DOMAIN),
-                __('GG', 'leads') => __('Guernsey', INBOUNDNOW_TEXT_DOMAIN),
-                __('GN', 'leads') => __('Guinea', INBOUNDNOW_TEXT_DOMAIN),
-                __('GW', 'leads') => __('Guinea-Bissau', INBOUNDNOW_TEXT_DOMAIN),
-                __('GY', 'leads') => __('Guyana', INBOUNDNOW_TEXT_DOMAIN),
-                __('HT', 'leads') => __('Haiti', INBOUNDNOW_TEXT_DOMAIN),
-                __('HM', 'leads') => __('Heard and McDonald Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('HN', 'leads') => __('Honduras', INBOUNDNOW_TEXT_DOMAIN),
-                __('HK', 'leads') => __('Hong Kong', INBOUNDNOW_TEXT_DOMAIN),
-                __('HU', 'leads') => __('Hungary', INBOUNDNOW_TEXT_DOMAIN),
-                __('IS', 'leads') => __('Iceland', INBOUNDNOW_TEXT_DOMAIN),
-                __('IN', 'leads') => __('India', INBOUNDNOW_TEXT_DOMAIN),
-                __('ID', 'leads') => __('Indonesia', INBOUNDNOW_TEXT_DOMAIN),
-                __('IR', 'leads') => __('Iran', INBOUNDNOW_TEXT_DOMAIN),
-                __('IQ', 'leads') => __('Iraq', INBOUNDNOW_TEXT_DOMAIN),
-                __('IE', 'leads') => __('Ireland', INBOUNDNOW_TEXT_DOMAIN),
-                __('IM', 'leads') => __('Isle of Man', INBOUNDNOW_TEXT_DOMAIN),
-                __('IL', 'leads') => __('Israel', INBOUNDNOW_TEXT_DOMAIN),
-                __('IT', 'leads') => __('Italy', INBOUNDNOW_TEXT_DOMAIN),
-                __('JM', 'leads') => __('Jamaica', INBOUNDNOW_TEXT_DOMAIN),
-                __('JP', 'leads') => __('Japan', INBOUNDNOW_TEXT_DOMAIN),
-                __('JE', 'leads') => __('Jersey', INBOUNDNOW_TEXT_DOMAIN),
-                __('JO', 'leads') => __('Jordan', INBOUNDNOW_TEXT_DOMAIN),
-                __('KZ', 'leads') => __('Kazakhstan', INBOUNDNOW_TEXT_DOMAIN),
-                __('KE', 'leads') => __('Kenya', INBOUNDNOW_TEXT_DOMAIN),
-                __('KI', 'leads') => __('Kiribati', INBOUNDNOW_TEXT_DOMAIN),
-                __('KW', 'leads') => __('Kuwait', INBOUNDNOW_TEXT_DOMAIN),
-                __('KG', 'leads') => __('Kyrgyzstan', INBOUNDNOW_TEXT_DOMAIN),
-                __('LA', 'leads') => __('Lao People\'s Democratic Republic', INBOUNDNOW_TEXT_DOMAIN),
-                __('LV', 'leads') => __('Latvia', INBOUNDNOW_TEXT_DOMAIN),
-                __('LB', 'leads') => __('Lebanon', INBOUNDNOW_TEXT_DOMAIN),
-                __('LS', 'leads') => __('Lesotho', INBOUNDNOW_TEXT_DOMAIN),
-                __('LR', 'leads') => __('Liberia', INBOUNDNOW_TEXT_DOMAIN),
-                __('LY', 'leads') => __('Libya', INBOUNDNOW_TEXT_DOMAIN),
-                __('LI', 'leads') => __('Liechtenstein', INBOUNDNOW_TEXT_DOMAIN),
-                __('LT', 'leads') => __('Lithuania', INBOUNDNOW_TEXT_DOMAIN),
-                __('LU', 'leads') => __('Luxembourg', INBOUNDNOW_TEXT_DOMAIN),
-                __('MO', 'leads') => __('Macau', INBOUNDNOW_TEXT_DOMAIN),
-                __('MK', 'leads') => __('Macedonia', INBOUNDNOW_TEXT_DOMAIN),
-                __('MG', 'leads') => __('Madagascar', INBOUNDNOW_TEXT_DOMAIN),
-                __('MW', 'leads') => __('Malawi', INBOUNDNOW_TEXT_DOMAIN),
-                __('MY', 'leads') => __('Malaysia', INBOUNDNOW_TEXT_DOMAIN),
-                __('MV', 'leads') => __('Maldives', INBOUNDNOW_TEXT_DOMAIN),
-                __('ML', 'leads') => __('Mali', INBOUNDNOW_TEXT_DOMAIN),
-                __('MT', 'leads') => __('Malta', INBOUNDNOW_TEXT_DOMAIN),
-                __('MH', 'leads') => __('Marshall Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('MQ', 'leads') => __('Martinique', INBOUNDNOW_TEXT_DOMAIN),
-                __('MR', 'leads') => __('Mauritania', INBOUNDNOW_TEXT_DOMAIN),
-                __('MU', 'leads') => __('Mauritius', INBOUNDNOW_TEXT_DOMAIN),
-                __('YT', 'leads') => __('Mayotte', INBOUNDNOW_TEXT_DOMAIN),
-                __('MX', 'leads') => __('Mexico', INBOUNDNOW_TEXT_DOMAIN),
-                __('FM', 'leads') => __('Micronesia, Federated States of', INBOUNDNOW_TEXT_DOMAIN),
-                __('MD', 'leads') => __('Moldova', INBOUNDNOW_TEXT_DOMAIN),
-                __('MC', 'leads') => __('Monaco', INBOUNDNOW_TEXT_DOMAIN),
-                __('MN', 'leads') => __('Mongolia', INBOUNDNOW_TEXT_DOMAIN),
-                __('ME', 'leads') => __('Montenegro', INBOUNDNOW_TEXT_DOMAIN),
-                __('MS', 'leads') => __('Montserrat', INBOUNDNOW_TEXT_DOMAIN),
-                __('MA', 'leads') => __('Morocco', INBOUNDNOW_TEXT_DOMAIN),
-                __('MZ', 'leads') => __('Mozambique', INBOUNDNOW_TEXT_DOMAIN),
-                __('MM', 'leads') => __('Myanmar', INBOUNDNOW_TEXT_DOMAIN),
-                __('NA', 'leads') => __('Namibia', INBOUNDNOW_TEXT_DOMAIN),
-                __('NR', 'leads') => __('Nauru', INBOUNDNOW_TEXT_DOMAIN),
-                __('NP', 'leads') => __('Nepal', INBOUNDNOW_TEXT_DOMAIN),
-                __('NC', 'leads') => __('New Caledonia', INBOUNDNOW_TEXT_DOMAIN),
-                __('NZ', 'leads') => __('New Zealand', INBOUNDNOW_TEXT_DOMAIN),
-                __('NI', 'leads') => __('Nicaragua', INBOUNDNOW_TEXT_DOMAIN),
-                __('NE', 'leads') => __('Niger', INBOUNDNOW_TEXT_DOMAIN),
-                __('NG', 'leads') => __('Nigeria', INBOUNDNOW_TEXT_DOMAIN),
-                __('NU', 'leads') => __('Niue', INBOUNDNOW_TEXT_DOMAIN),
-                __('NF', 'leads') => __('Norfolk Island', INBOUNDNOW_TEXT_DOMAIN),
-                __('KP', 'leads') => __('North Korea', INBOUNDNOW_TEXT_DOMAIN),
-                __('MP', 'leads') => __('Northern Mariana Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('NO', 'leads') => __('Norway', INBOUNDNOW_TEXT_DOMAIN),
-                __('OM', 'leads') => __('Oman', INBOUNDNOW_TEXT_DOMAIN),
-                __('PK', 'leads') => __('Pakistan', INBOUNDNOW_TEXT_DOMAIN),
-                __('PW', 'leads') => __('Palau', INBOUNDNOW_TEXT_DOMAIN),
-                __('PS', 'leads') => __('Palestinian Territory, Occupied', INBOUNDNOW_TEXT_DOMAIN),
-                __('PA', 'leads') => __('Panama', INBOUNDNOW_TEXT_DOMAIN),
-                __('PG', 'leads') => __('Papua New Guinea', INBOUNDNOW_TEXT_DOMAIN),
-                __('PY', 'leads') => __('Paraguay', INBOUNDNOW_TEXT_DOMAIN),
-                __('PE', 'leads') => __('Peru', INBOUNDNOW_TEXT_DOMAIN),
-                __('PH', 'leads') => __('Philippines', INBOUNDNOW_TEXT_DOMAIN),
-                __('PN', 'leads') => __('Pitcairn', INBOUNDNOW_TEXT_DOMAIN),
-                __('PL', 'leads') => __('Poland', INBOUNDNOW_TEXT_DOMAIN),
-                __('PT', 'leads') => __('Portugal', INBOUNDNOW_TEXT_DOMAIN),
-                __('PR', 'leads') => __('Puerto Rico', INBOUNDNOW_TEXT_DOMAIN),
-                __('QA', 'leads') => __('Qatar', INBOUNDNOW_TEXT_DOMAIN),
-                __('RE', 'leads') => __('Reunion', INBOUNDNOW_TEXT_DOMAIN),
-                __('RO', 'leads') => __('Romania', INBOUNDNOW_TEXT_DOMAIN),
-                __('RU', 'leads') => __('Russian Federation', INBOUNDNOW_TEXT_DOMAIN),
-                __('RW', 'leads') => __('Rwanda', INBOUNDNOW_TEXT_DOMAIN),
-                __('BL', 'leads') => __('Saint Barthelemy', INBOUNDNOW_TEXT_DOMAIN),
-                __('SH', 'leads') => __('Saint Helena', INBOUNDNOW_TEXT_DOMAIN),
-                __('KN', 'leads') => __('Saint Kitts and Nevis', INBOUNDNOW_TEXT_DOMAIN),
-                __('LC', 'leads') => __('Saint Lucia', INBOUNDNOW_TEXT_DOMAIN),
-                __('VC', 'leads') => __('Saint Vincent and the Grenadines', INBOUNDNOW_TEXT_DOMAIN),
-                __('MF', 'leads') => __('Saint-Martin (France)', INBOUNDNOW_TEXT_DOMAIN),
-                __('SX', 'leads') => __('Saint-Martin (Pays-Bas)', INBOUNDNOW_TEXT_DOMAIN),
-                __('WS', 'leads') => __('Samoa', INBOUNDNOW_TEXT_DOMAIN),
-                __('SM', 'leads') => __('San Marino', INBOUNDNOW_TEXT_DOMAIN),
-                __('ST', 'leads') => __('Sao Tome and Principe', INBOUNDNOW_TEXT_DOMAIN),
-                __('SA', 'leads') => __('Saudi Arabia', INBOUNDNOW_TEXT_DOMAIN),
-                __('SN', 'leads') => __('Senegal', INBOUNDNOW_TEXT_DOMAIN),
-                __('RS', 'leads') => __('Serbia', INBOUNDNOW_TEXT_DOMAIN),
-                __('SC', 'leads') => __('Seychelles', INBOUNDNOW_TEXT_DOMAIN),
-                __('SL', 'leads') => __('Sierra Leone', INBOUNDNOW_TEXT_DOMAIN),
-                __('SG', 'leads') => __('Singapore', INBOUNDNOW_TEXT_DOMAIN),
-                __('SK', 'leads') => __('Slovakia (Slovak Republic)', INBOUNDNOW_TEXT_DOMAIN),
-                __('SI', 'leads') => __('Slovenia', INBOUNDNOW_TEXT_DOMAIN),
-                __('SB', 'leads') => __('Solomon Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('SO', 'leads') => __('Somalia', INBOUNDNOW_TEXT_DOMAIN),
-                __('ZA', 'leads') => __('South Africa', INBOUNDNOW_TEXT_DOMAIN),
-                __('GS', 'leads') => __('South Georgia and the South Sandwich Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('KR', 'leads') => __('South Korea', INBOUNDNOW_TEXT_DOMAIN),
-                __('SS', 'leads') => __('South Sudan', INBOUNDNOW_TEXT_DOMAIN),
-                __('ES', 'leads') => __('Spain', INBOUNDNOW_TEXT_DOMAIN),
-                __('LK', 'leads') => __('Sri Lanka', INBOUNDNOW_TEXT_DOMAIN),
-                __('PM', 'leads') => __('St. Pierre and Miquelon', INBOUNDNOW_TEXT_DOMAIN),
-                __('SD', 'leads') => __('Sudan', INBOUNDNOW_TEXT_DOMAIN),
-                __('SR', 'leads') => __('Suriname', INBOUNDNOW_TEXT_DOMAIN),
-                __('SJ', 'leads') => __('Svalbard and Jan Mayen Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('SZ', 'leads') => __('Swaziland', INBOUNDNOW_TEXT_DOMAIN),
-                __('SE', 'leads') => __('Sweden', INBOUNDNOW_TEXT_DOMAIN),
-                __('CH', 'leads') => __('Switzerland', INBOUNDNOW_TEXT_DOMAIN),
-                __('SY', 'leads') => __('Syria', INBOUNDNOW_TEXT_DOMAIN),
-                __('TW', 'leads') => __('Taiwan', INBOUNDNOW_TEXT_DOMAIN),
-                __('TJ', 'leads') => __('Tajikistan', INBOUNDNOW_TEXT_DOMAIN),
-                __('TZ', 'leads') => __('Tanzania', INBOUNDNOW_TEXT_DOMAIN),
-                __('TH', 'leads') => __('Thailand', INBOUNDNOW_TEXT_DOMAIN),
-                __('NL', 'leads') => __('The Netherlands', INBOUNDNOW_TEXT_DOMAIN),
-                __('TL', 'leads') => __('Timor-Leste', INBOUNDNOW_TEXT_DOMAIN),
-                __('TG', 'leads') => __('Togo', INBOUNDNOW_TEXT_DOMAIN),
-                __('TK', 'leads') => __('Tokelau', INBOUNDNOW_TEXT_DOMAIN),
-                __('TO', 'leads') => __('Tonga', INBOUNDNOW_TEXT_DOMAIN),
-                __('TT', 'leads') => __('Trinidad and Tobago', INBOUNDNOW_TEXT_DOMAIN),
-                __('TN', 'leads') => __('Tunisia', INBOUNDNOW_TEXT_DOMAIN),
-                __('TR', 'leads') => __('Turkey', INBOUNDNOW_TEXT_DOMAIN),
-                __('TM', 'leads') => __('Turkmenistan', INBOUNDNOW_TEXT_DOMAIN),
-                __('TC', 'leads') => __('Turks and Caicos Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('TV', 'leads') => __('Tuvalu', INBOUNDNOW_TEXT_DOMAIN),
-                __('UG', 'leads') => __('Uganda', INBOUNDNOW_TEXT_DOMAIN),
-                __('UA', 'leads') => __('Ukraine', INBOUNDNOW_TEXT_DOMAIN),
-                __('AE', 'leads') => __('United Arab Emirates', INBOUNDNOW_TEXT_DOMAIN),
-                __('GB', 'leads') => __('United Kingdom', INBOUNDNOW_TEXT_DOMAIN),
-                __('US', 'leads') => __('United States', INBOUNDNOW_TEXT_DOMAIN),
-                __('UM', 'leads') => __('United States Minor Outlying Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('UY', 'leads') => __('Uruguay', INBOUNDNOW_TEXT_DOMAIN),
-                __('UZ', 'leads') => __('Uzbekistan', INBOUNDNOW_TEXT_DOMAIN),
-                __('VU', 'leads') => __('Vanuatu', INBOUNDNOW_TEXT_DOMAIN),
-                __('VA', 'leads') => __('Vatican', INBOUNDNOW_TEXT_DOMAIN),
-                __('VE', 'leads') => __('Venezuela', INBOUNDNOW_TEXT_DOMAIN),
-                __('VN', 'leads') => __('Vietnam', INBOUNDNOW_TEXT_DOMAIN),
-                __('VG', 'leads') => __('Virgin Islands (British)', INBOUNDNOW_TEXT_DOMAIN),
-                __('VI', 'leads') => __('Virgin Islands (U.S.)', INBOUNDNOW_TEXT_DOMAIN),
-                __('WF', 'leads') => __('Wallis and Futuna Islands', INBOUNDNOW_TEXT_DOMAIN),
-                __('EH', 'leads') => __('Western Sahara', INBOUNDNOW_TEXT_DOMAIN),
-                __('YE', 'leads') => __('Yemen', INBOUNDNOW_TEXT_DOMAIN),
-                __('ZM', 'leads') => __('Zambia', INBOUNDNOW_TEXT_DOMAIN),
-                __('ZW', 'leads') => __('Zimbabwe', INBOUNDNOW_TEXT_DOMAIN)
+                __('AF', 'inbound-pro' ) => __('Afghanistan', 'inbound-pro'),
+                __('AX', 'inbound-pro' ) => __('Aland Islands', 'inbound-pro'),
+                __('AL', 'inbound-pro' ) => __('Albania', 'inbound-pro'),
+                __('DZ', 'inbound-pro' ) => __('Algeria', 'inbound-pro'),
+                __('AS', 'inbound-pro' ) => __('American Samoa', 'inbound-pro'),
+                __('AD', 'inbound-pro' ) => __('Andorra', 'inbound-pro'),
+                __('AO', 'inbound-pro' ) => __('Angola', 'inbound-pro'),
+                __('AI', 'inbound-pro' ) => __('Anguilla', 'inbound-pro'),
+                __('AQ', 'inbound-pro' ) => __('Antarctica', 'inbound-pro'),
+                __('AG', 'inbound-pro' ) => __('Antigua and Barbuda', 'inbound-pro'),
+                __('AR', 'inbound-pro' ) => __('Argentina', 'inbound-pro'),
+                __('AM', 'inbound-pro' ) => __('Armenia', 'inbound-pro'),
+                __('AW', 'inbound-pro' ) => __('Aruba', 'inbound-pro'),
+                __('AU', 'inbound-pro' ) => __('Australia', 'inbound-pro'),
+                __('AT', 'inbound-pro' ) => __('Austria', 'inbound-pro'),
+                __('AZ', 'inbound-pro' ) => __('Azerbaijan', 'inbound-pro'),
+                __('BS', 'inbound-pro' ) => __('Bahamas', 'inbound-pro'),
+                __('BH', 'inbound-pro' ) => __('Bahrain', 'inbound-pro'),
+                __('BD', 'inbound-pro' ) => __('Bangladesh', 'inbound-pro'),
+                __('BB', 'inbound-pro' ) => __('Barbados', 'inbound-pro'),
+                __('BY', 'inbound-pro' ) => __('Belarus', 'inbound-pro'),
+                __('BE', 'inbound-pro' ) => __('Belgium', 'inbound-pro'),
+                __('BZ', 'inbound-pro' ) => __('Belize', 'inbound-pro'),
+                __('BJ', 'inbound-pro' ) => __('Benin', 'inbound-pro'),
+                __('BM', 'inbound-pro' ) => __('Bermuda', 'inbound-pro'),
+                __('BT', 'inbound-pro' ) => __('Bhutan', 'inbound-pro'),
+                __('BO', 'inbound-pro' ) => __('Bolivia', 'inbound-pro'),
+                __('BA', 'inbound-pro' ) => __('Bosnia and Herzegovina', 'inbound-pro'),
+                __('BW', 'inbound-pro' ) => __('Botswana', 'inbound-pro'),
+                __('BV', 'inbound-pro' ) => __('Bouvet Island', 'inbound-pro'),
+                __('BR', 'inbound-pro' ) => __('Brazil', 'inbound-pro'),
+                __('IO', 'inbound-pro' ) => __('British Indian Ocean Territory', 'inbound-pro'),
+                __('BN', 'inbound-pro' ) => __('Brunei Darussalam', 'inbound-pro'),
+                __('BG', 'inbound-pro' ) => __('Bulgaria', 'inbound-pro'),
+                __('BF', 'inbound-pro' ) => __('Burkina Faso', 'inbound-pro'),
+                __('BI', 'inbound-pro' ) => __('Burundi', 'inbound-pro'),
+                __('KH', 'inbound-pro' ) => __('Cambodia', 'inbound-pro'),
+                __('CM', 'inbound-pro' ) => __('Cameroon', 'inbound-pro'),
+                __('CA', 'inbound-pro' ) => __('Canada', 'inbound-pro'),
+                __('CV', 'inbound-pro' ) => __('Cape Verde', 'inbound-pro'),
+                __('BQ', 'inbound-pro' ) => __('Caribbean Netherlands ', 'inbound-pro'),
+                __('KY', 'inbound-pro' ) => __('Cayman Islands', 'inbound-pro'),
+                __('CF', 'inbound-pro' ) => __('Central African Republic', 'inbound-pro'),
+                __('TD', 'inbound-pro' ) => __('Chad', 'inbound-pro'),
+                __('CL', 'inbound-pro' ) => __('Chile', 'inbound-pro'),
+                __('CN', 'inbound-pro' ) => __('China', 'inbound-pro'),
+                __('CX', 'inbound-pro' ) => __('Christmas Island', 'inbound-pro'),
+                __('CC', 'inbound-pro' ) => __('Cocos (Keeling) Islands', 'inbound-pro'),
+                __('CO', 'inbound-pro' ) => __('Colombia', 'inbound-pro'),
+                __('KM', 'inbound-pro' ) => __('Comoros', 'inbound-pro'),
+                __('CG', 'inbound-pro' ) => __('Congo', 'inbound-pro'),
+                __('CD', 'inbound-pro' ) => __('Congo, Democratic Republic of', 'inbound-pro'),
+                __('CK', 'inbound-pro' ) => __('Cook Islands', 'inbound-pro'),
+                __('CR', 'inbound-pro' ) => __('Costa Rica', 'inbound-pro'),
+                __('CI', 'inbound-pro' ) => __('Cote d\'Ivoire', 'inbound-pro'),
+                __('HR', 'inbound-pro' ) => __('Croatia', 'inbound-pro'),
+                __('CU', 'inbound-pro' ) => __('Cuba', 'inbound-pro'),
+                __('CW', 'inbound-pro' ) => __('Curacao', 'inbound-pro'),
+                __('CY', 'inbound-pro' ) => __('Cyprus', 'inbound-pro'),
+                __('CZ', 'inbound-pro' ) => __('Czech Republic', 'inbound-pro'),
+                __('DK', 'inbound-pro' ) => __('Denmark', 'inbound-pro'),
+                __('DJ', 'inbound-pro' ) => __('Djibouti', 'inbound-pro'),
+                __('DM', 'inbound-pro' ) => __('Dominica', 'inbound-pro'),
+                __('DO', 'inbound-pro' ) => __('Dominican Republic', 'inbound-pro'),
+                __('EC', 'inbound-pro' ) => __('Ecuador', 'inbound-pro'),
+                __('EG', 'inbound-pro' ) => __('Egypt', 'inbound-pro'),
+                __('SV', 'inbound-pro' ) => __('El Salvador', 'inbound-pro'),
+                __('GQ', 'inbound-pro' ) => __('Equatorial Guinea', 'inbound-pro'),
+                __('ER', 'inbound-pro' ) => __('Eritrea', 'inbound-pro'),
+                __('EE', 'inbound-pro' ) => __('Estonia', 'inbound-pro'),
+                __('ET', 'inbound-pro' ) => __('Ethiopia', 'inbound-pro'),
+                __('FK', 'inbound-pro' ) => __('Falkland Islands', 'inbound-pro'),
+                __('FO', 'inbound-pro' ) => __('Faroe Islands', 'inbound-pro'),
+                __('FJ', 'inbound-pro' ) => __('Fiji', 'inbound-pro'),
+                __('FI', 'inbound-pro' ) => __('Finland', 'inbound-pro'),
+                __('FR', 'inbound-pro' ) => __('France', 'inbound-pro'),
+                __('GF', 'inbound-pro' ) => __('French Guiana', 'inbound-pro'),
+                __('PF', 'inbound-pro' ) => __('French Polynesia', 'inbound-pro'),
+                __('TF', 'inbound-pro' ) => __('French Southern Territories', 'inbound-pro'),
+                __('GA', 'inbound-pro' ) => __('Gabon', 'inbound-pro'),
+                __('GM', 'inbound-pro' ) => __('Gambia', 'inbound-pro'),
+                __('GE', 'inbound-pro' ) => __('Georgia', 'inbound-pro'),
+                __('DE', 'inbound-pro' ) => __('Germany', 'inbound-pro'),
+                __('GH', 'inbound-pro' ) => __('Ghana', 'inbound-pro'),
+                __('GI', 'inbound-pro' ) => __('Gibraltar', 'inbound-pro'),
+                __('GR', 'inbound-pro' ) => __('Greece', 'inbound-pro'),
+                __('GL', 'inbound-pro' ) => __('Greenland', 'inbound-pro'),
+                __('GD', 'inbound-pro' ) => __('Grenada', 'inbound-pro'),
+                __('GP', 'inbound-pro' ) => __('Guadeloupe', 'inbound-pro'),
+                __('GU', 'inbound-pro' ) => __('Guam', 'inbound-pro'),
+                __('GT', 'inbound-pro' ) => __('Guatemala', 'inbound-pro'),
+                __('GG', 'inbound-pro' ) => __('Guernsey', 'inbound-pro'),
+                __('GN', 'inbound-pro' ) => __('Guinea', 'inbound-pro'),
+                __('GW', 'inbound-pro' ) => __('Guinea-Bissau', 'inbound-pro'),
+                __('GY', 'inbound-pro' ) => __('Guyana', 'inbound-pro'),
+                __('HT', 'inbound-pro' ) => __('Haiti', 'inbound-pro'),
+                __('HM', 'inbound-pro' ) => __('Heard and McDonald Islands', 'inbound-pro'),
+                __('HN', 'inbound-pro' ) => __('Honduras', 'inbound-pro'),
+                __('HK', 'inbound-pro' ) => __('Hong Kong', 'inbound-pro'),
+                __('HU', 'inbound-pro' ) => __('Hungary', 'inbound-pro'),
+                __('IS', 'inbound-pro' ) => __('Iceland', 'inbound-pro'),
+                __('IN', 'inbound-pro' ) => __('India', 'inbound-pro'),
+                __('ID', 'inbound-pro' ) => __('Indonesia', 'inbound-pro'),
+                __('IR', 'inbound-pro' ) => __('Iran', 'inbound-pro'),
+                __('IQ', 'inbound-pro' ) => __('Iraq', 'inbound-pro'),
+                __('IE', 'inbound-pro' ) => __('Ireland', 'inbound-pro'),
+                __('IM', 'inbound-pro' ) => __('Isle of Man', 'inbound-pro'),
+                __('IL', 'inbound-pro' ) => __('Israel', 'inbound-pro'),
+                __('IT', 'inbound-pro' ) => __('Italy', 'inbound-pro'),
+                __('JM', 'inbound-pro' ) => __('Jamaica', 'inbound-pro'),
+                __('JP', 'inbound-pro' ) => __('Japan', 'inbound-pro'),
+                __('JE', 'inbound-pro' ) => __('Jersey', 'inbound-pro'),
+                __('JO', 'inbound-pro' ) => __('Jordan', 'inbound-pro'),
+                __('KZ', 'inbound-pro' ) => __('Kazakhstan', 'inbound-pro'),
+                __('KE', 'inbound-pro' ) => __('Kenya', 'inbound-pro'),
+                __('KI', 'inbound-pro' ) => __('Kiribati', 'inbound-pro'),
+                __('KW', 'inbound-pro' ) => __('Kuwait', 'inbound-pro'),
+                __('KG', 'inbound-pro' ) => __('Kyrgyzstan', 'inbound-pro'),
+                __('LA', 'inbound-pro' ) => __('Lao People\'s Democratic Republic', 'inbound-pro'),
+                __('LV', 'inbound-pro' ) => __('Latvia', 'inbound-pro'),
+                __('LB', 'inbound-pro' ) => __('Lebanon', 'inbound-pro'),
+                __('LS', 'inbound-pro' ) => __('Lesotho', 'inbound-pro'),
+                __('LR', 'inbound-pro' ) => __('Liberia', 'inbound-pro'),
+                __('LY', 'inbound-pro' ) => __('Libya', 'inbound-pro'),
+                __('LI', 'inbound-pro' ) => __('Liechtenstein', 'inbound-pro'),
+                __('LT', 'inbound-pro' ) => __('Lithuania', 'inbound-pro'),
+                __('LU', 'inbound-pro' ) => __('Luxembourg', 'inbound-pro'),
+                __('MO', 'inbound-pro' ) => __('Macau', 'inbound-pro'),
+                __('MK', 'inbound-pro' ) => __('Macedonia', 'inbound-pro'),
+                __('MG', 'inbound-pro' ) => __('Madagascar', 'inbound-pro'),
+                __('MW', 'inbound-pro' ) => __('Malawi', 'inbound-pro'),
+                __('MY', 'inbound-pro' ) => __('Malaysia', 'inbound-pro'),
+                __('MV', 'inbound-pro' ) => __('Maldives', 'inbound-pro'),
+                __('ML', 'inbound-pro' ) => __('Mali', 'inbound-pro'),
+                __('MT', 'inbound-pro' ) => __('Malta', 'inbound-pro'),
+                __('MH', 'inbound-pro' ) => __('Marshall Islands', 'inbound-pro'),
+                __('MQ', 'inbound-pro' ) => __('Martinique', 'inbound-pro'),
+                __('MR', 'inbound-pro' ) => __('Mauritania', 'inbound-pro'),
+                __('MU', 'inbound-pro' ) => __('Mauritius', 'inbound-pro'),
+                __('YT', 'inbound-pro' ) => __('Mayotte', 'inbound-pro'),
+                __('MX', 'inbound-pro' ) => __('Mexico', 'inbound-pro'),
+                __('FM', 'inbound-pro' ) => __('Micronesia, Federated States of', 'inbound-pro'),
+                __('MD', 'inbound-pro' ) => __('Moldova', 'inbound-pro'),
+                __('MC', 'inbound-pro' ) => __('Monaco', 'inbound-pro'),
+                __('MN', 'inbound-pro' ) => __('Mongolia', 'inbound-pro'),
+                __('ME', 'inbound-pro' ) => __('Montenegro', 'inbound-pro'),
+                __('MS', 'inbound-pro' ) => __('Montserrat', 'inbound-pro'),
+                __('MA', 'inbound-pro' ) => __('Morocco', 'inbound-pro'),
+                __('MZ', 'inbound-pro' ) => __('Mozambique', 'inbound-pro'),
+                __('MM', 'inbound-pro' ) => __('Myanmar', 'inbound-pro'),
+                __('NA', 'inbound-pro' ) => __('Namibia', 'inbound-pro'),
+                __('NR', 'inbound-pro' ) => __('Nauru', 'inbound-pro'),
+                __('NP', 'inbound-pro' ) => __('Nepal', 'inbound-pro'),
+                __('NC', 'inbound-pro' ) => __('New Caledonia', 'inbound-pro'),
+                __('NZ', 'inbound-pro' ) => __('New Zealand', 'inbound-pro'),
+                __('NI', 'inbound-pro' ) => __('Nicaragua', 'inbound-pro'),
+                __('NE', 'inbound-pro' ) => __('Niger', 'inbound-pro'),
+                __('NG', 'inbound-pro' ) => __('Nigeria', 'inbound-pro'),
+                __('NU', 'inbound-pro' ) => __('Niue', 'inbound-pro'),
+                __('NF', 'inbound-pro' ) => __('Norfolk Island', 'inbound-pro'),
+                __('KP', 'inbound-pro' ) => __('North Korea', 'inbound-pro'),
+                __('MP', 'inbound-pro' ) => __('Northern Mariana Islands', 'inbound-pro'),
+                __('NO', 'inbound-pro' ) => __('Norway', 'inbound-pro'),
+                __('OM', 'inbound-pro' ) => __('Oman', 'inbound-pro'),
+                __('PK', 'inbound-pro' ) => __('Pakistan', 'inbound-pro'),
+                __('PW', 'inbound-pro' ) => __('Palau', 'inbound-pro'),
+                __('PS', 'inbound-pro' ) => __('Palestinian Territory, Occupied', 'inbound-pro'),
+                __('PA', 'inbound-pro' ) => __('Panama', 'inbound-pro'),
+                __('PG', 'inbound-pro' ) => __('Papua New Guinea', 'inbound-pro'),
+                __('PY', 'inbound-pro' ) => __('Paraguay', 'inbound-pro'),
+                __('PE', 'inbound-pro' ) => __('Peru', 'inbound-pro'),
+                __('PH', 'inbound-pro' ) => __('Philippines', 'inbound-pro'),
+                __('PN', 'inbound-pro' ) => __('Pitcairn', 'inbound-pro'),
+                __('PL', 'inbound-pro' ) => __('Poland', 'inbound-pro'),
+                __('PT', 'inbound-pro' ) => __('Portugal', 'inbound-pro'),
+                __('PR', 'inbound-pro' ) => __('Puerto Rico', 'inbound-pro'),
+                __('QA', 'inbound-pro' ) => __('Qatar', 'inbound-pro'),
+                __('RE', 'inbound-pro' ) => __('Reunion', 'inbound-pro'),
+                __('RO', 'inbound-pro' ) => __('Romania', 'inbound-pro'),
+                __('RU', 'inbound-pro' ) => __('Russian Federation', 'inbound-pro'),
+                __('RW', 'inbound-pro' ) => __('Rwanda', 'inbound-pro'),
+                __('BL', 'inbound-pro' ) => __('Saint Barthelemy', 'inbound-pro'),
+                __('SH', 'inbound-pro' ) => __('Saint Helena', 'inbound-pro'),
+                __('KN', 'inbound-pro' ) => __('Saint Kitts and Nevis', 'inbound-pro'),
+                __('LC', 'inbound-pro' ) => __('Saint Lucia', 'inbound-pro'),
+                __('VC', 'inbound-pro' ) => __('Saint Vincent and the Grenadines', 'inbound-pro'),
+                __('MF', 'inbound-pro' ) => __('Saint-Martin (France)', 'inbound-pro'),
+                __('SX', 'inbound-pro' ) => __('Saint-Martin (Pays-Bas)', 'inbound-pro'),
+                __('WS', 'inbound-pro' ) => __('Samoa', 'inbound-pro'),
+                __('SM', 'inbound-pro' ) => __('San Marino', 'inbound-pro'),
+                __('ST', 'inbound-pro' ) => __('Sao Tome and Principe', 'inbound-pro'),
+                __('SA', 'inbound-pro' ) => __('Saudi Arabia', 'inbound-pro'),
+                __('SN', 'inbound-pro' ) => __('Senegal', 'inbound-pro'),
+                __('RS', 'inbound-pro' ) => __('Serbia', 'inbound-pro'),
+                __('SC', 'inbound-pro' ) => __('Seychelles', 'inbound-pro'),
+                __('SL', 'inbound-pro' ) => __('Sierra Leone', 'inbound-pro'),
+                __('SG', 'inbound-pro' ) => __('Singapore', 'inbound-pro'),
+                __('SK', 'inbound-pro' ) => __('Slovakia (Slovak Republic)', 'inbound-pro'),
+                __('SI', 'inbound-pro' ) => __('Slovenia', 'inbound-pro'),
+                __('SB', 'inbound-pro' ) => __('Solomon Islands', 'inbound-pro'),
+                __('SO', 'inbound-pro' ) => __('Somalia', 'inbound-pro'),
+                __('ZA', 'inbound-pro' ) => __('South Africa', 'inbound-pro'),
+                __('GS', 'inbound-pro' ) => __('South Georgia and the South Sandwich Islands', 'inbound-pro'),
+                __('KR', 'inbound-pro' ) => __('South Korea', 'inbound-pro'),
+                __('SS', 'inbound-pro' ) => __('South Sudan', 'inbound-pro'),
+                __('ES', 'inbound-pro' ) => __('Spain', 'inbound-pro'),
+                __('LK', 'inbound-pro' ) => __('Sri Lanka', 'inbound-pro'),
+                __('PM', 'inbound-pro' ) => __('St. Pierre and Miquelon', 'inbound-pro'),
+                __('SD', 'inbound-pro' ) => __('Sudan', 'inbound-pro'),
+                __('SR', 'inbound-pro' ) => __('Suriname', 'inbound-pro'),
+                __('SJ', 'inbound-pro' ) => __('Svalbard and Jan Mayen Islands', 'inbound-pro'),
+                __('SZ', 'inbound-pro' ) => __('Swaziland', 'inbound-pro'),
+                __('SE', 'inbound-pro' ) => __('Sweden', 'inbound-pro'),
+                __('CH', 'inbound-pro' ) => __('Switzerland', 'inbound-pro'),
+                __('SY', 'inbound-pro' ) => __('Syria', 'inbound-pro'),
+                __('TW', 'inbound-pro' ) => __('Taiwan', 'inbound-pro'),
+                __('TJ', 'inbound-pro' ) => __('Tajikistan', 'inbound-pro'),
+                __('TZ', 'inbound-pro' ) => __('Tanzania', 'inbound-pro'),
+                __('TH', 'inbound-pro' ) => __('Thailand', 'inbound-pro'),
+                __('NL', 'inbound-pro' ) => __('The Netherlands', 'inbound-pro'),
+                __('TL', 'inbound-pro' ) => __('Timor-Leste', 'inbound-pro'),
+                __('TG', 'inbound-pro' ) => __('Togo', 'inbound-pro'),
+                __('TK', 'inbound-pro' ) => __('Tokelau', 'inbound-pro'),
+                __('TO', 'inbound-pro' ) => __('Tonga', 'inbound-pro'),
+                __('TT', 'inbound-pro' ) => __('Trinidad and Tobago', 'inbound-pro'),
+                __('TN', 'inbound-pro' ) => __('Tunisia', 'inbound-pro'),
+                __('TR', 'inbound-pro' ) => __('Turkey', 'inbound-pro'),
+                __('TM', 'inbound-pro' ) => __('Turkmenistan', 'inbound-pro'),
+                __('TC', 'inbound-pro' ) => __('Turks and Caicos Islands', 'inbound-pro'),
+                __('TV', 'inbound-pro' ) => __('Tuvalu', 'inbound-pro'),
+                __('UG', 'inbound-pro' ) => __('Uganda', 'inbound-pro'),
+                __('UA', 'inbound-pro' ) => __('Ukraine', 'inbound-pro'),
+                __('AE', 'inbound-pro' ) => __('United Arab Emirates', 'inbound-pro'),
+                __('GB', 'inbound-pro' ) => __('United Kingdom', 'inbound-pro'),
+                __('US', 'inbound-pro' ) => __('United States', 'inbound-pro'),
+                __('UM', 'inbound-pro' ) => __('United States Minor Outlying Islands', 'inbound-pro'),
+                __('UY', 'inbound-pro' ) => __('Uruguay', 'inbound-pro'),
+                __('UZ', 'inbound-pro' ) => __('Uzbekistan', 'inbound-pro'),
+                __('VU', 'inbound-pro' ) => __('Vanuatu', 'inbound-pro'),
+                __('VA', 'inbound-pro' ) => __('Vatican', 'inbound-pro'),
+                __('VE', 'inbound-pro' ) => __('Venezuela', 'inbound-pro'),
+                __('VN', 'inbound-pro' ) => __('Vietnam', 'inbound-pro'),
+                __('VG', 'inbound-pro' ) => __('Virgin Islands (British)', 'inbound-pro'),
+                __('VI', 'inbound-pro' ) => __('Virgin Islands (U.S.)', 'inbound-pro'),
+                __('WF', 'inbound-pro' ) => __('Wallis and Futuna Islands', 'inbound-pro'),
+                __('EH', 'inbound-pro' ) => __('Western Sahara', 'inbound-pro'),
+                __('YE', 'inbound-pro' ) => __('Yemen', 'inbound-pro'),
+                __('ZM', 'inbound-pro' ) => __('Zambia', 'inbound-pro'),
+                __('ZW', 'inbound-pro' ) => __('Zimbabwe', 'inbound-pro')
             );
         }
 

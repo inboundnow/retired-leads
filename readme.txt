@@ -85,7 +85,10 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 2.1.9 = 
+= 2.2.0 =
+* Updating Shared Folder. No real changes.
+
+= 2.1.9 =
 * UI Improvements
 
 = 2.1.8 = 
