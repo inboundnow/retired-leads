@@ -52,7 +52,7 @@
 
 .mfp-inline-holder .mfp-content,
 .mfp-ajax-holder .mfp-content {
-  width: 100%;
+  width: 50%;
   cursor: auto; }
 
 .mfp-ajax-cur {
@@ -128,12 +128,14 @@ button::-moz-focus-inner {
   border: 0; }
 
 .mfp-close {
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  background-color: #000!important;
+  border-radius: 100%;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -12px;
+  top: -12px;
   text-decoration: none;
   text-align: center;
   opacity: 0.65;

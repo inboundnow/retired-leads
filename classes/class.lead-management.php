@@ -51,6 +51,9 @@ if (!class_exists('Leads_Manager')) {
             add_action('wp_ajax_leads_ajax_load_more_leads', array(__CLASS__, 'ajax_load_more_leads'));
             /* ajax listener for deleting lead from list */
             add_action('wp_ajax_leads_delete_from_list', array(__CLASS__, 'ajax_delete_from_list'));
+            /* ajax listener export opration */
+            add_action('wp_ajax_leads_export_list', array(__CLASS__, 'leads_export_list'));
+           
 
         }
 
@@ -128,9 +131,12 @@ if (!class_exists('Leads_Manager')) {
             wp_enqueue_script('modernizr');
             wp_enqueue_script('tablesort', WPL_URLPATH . '/assets/js/management/tablesort.min.js');
             wp_enqueue_script('jquery-dropdown', WPL_URLPATH . '/assets/js/management/jquery.dropdown.js');
+            wp_enqueue_script('jquery-ui', WPL_URLPATH . '/assets/js/management/jquery-ui.js');
             wp_enqueue_script('bulk-manage-leads', WPL_URLPATH . '/assets/js/management/admin.js');
+
             wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies));
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . '/assets/css/admin-management.css');
+            wp_enqueue_style('jquery-ui-css', WPL_URLPATH . '/assets/css/jquery-ui.css');
             wp_admin_css('thickbox');
             add_thickbox();
         }
@@ -162,6 +168,7 @@ if (!class_exists('Leads_Manager')) {
             self::display_row_actions();
 
         }
+
 
         /**
          *  display notifications
@@ -473,6 +480,12 @@ if (!class_exists('Leads_Manager')) {
                          */
                         public static function display_row_actions() {
                         ?>
+                        </tbody>
+                        </table>
+                        </div>
+                        
+
+                        
                         <div id="all-actions" class="tablenav">
 
                             <div id="inbound-lead-management">
@@ -484,13 +497,10 @@ if (!class_exists('Leads_Manager')) {
                                     ?>
                                 </div>
                                 <div id="lead-action-triggers">
+                                        <a href="#lead-export-process" class="manage-remove button-primary button export-leads-csv button-primary button"  title="<?php _e('Exports selected leads into a CSV format.', 'inbound-pro' ); ?>"> <?php _e('Exports selected as CSV', 'inbound-pro' ); ?></a>
 
-
-                                    <div class="action" id="lead-export">
-                                        <input type="submit" class="manage-remove button-primary button" name="export_leads" value="<?php _e('Export Leads as CSV', 'inbound-pro' ); ?>" title="<?php _e('Exports selected leads into a CSV format.', 'inbound-pro' ); ?>"/>
-
-                                    </div>
-
+                                         <a style="visibility: hidden;" id="export-leads" href="#lead-export-process"> <?php _e('Exports selected as CSV', 'inbound-pro' ); ?></a>
+  
                                     <div class="action" id="lead-update-lists">
                                         <label for="lead-update-lists"><?php _e('Choose List:', 'inbound-pro' ); ?></label>
                                         <?php
@@ -545,8 +555,28 @@ if (!class_exists('Leads_Manager')) {
                             <?php
                             self::display_hidden_action_fields();
                             ?>
-            </form>
+            
         </div>
+        </form>
+        <div id="lead-export-process" style="display: none;">
+         <table id="progress-table" class="widefat">
+            <thead>
+                <tr>
+                    <th width="50%" scope="col" class="">Count</th>
+                    <th width="50%" scope="col" class="">Progress</th>
+                </tr>
+            </thead>
+            <tbody id="the-progress-list" class="ui-selectable">
+            </tbody>
+        </table>  
+          <div class="download-leads-csv"></div>
+        </div>
+
+        </div>
+
+
+
+        
         <?php
     }
 
@@ -867,6 +897,137 @@ if (!class_exists('Leads_Manager')) {
             die("Invalid action.");
 
         }
+        function leads_export_list(){
+
+            $returnArray = array();
+
+            if(!isset($_POST) || empty($_POST)){
+                $returnArray = array(
+                                    'status' => 0,
+                                    'error' => 'Empty post values!!.',
+                                    'url' => ''
+                                );
+               die(json_encode($returnArray)); 
+
+            }
+            if(empty($_POST['data']['ids'])){
+                $returnArray = array(
+                                    'status' => 0,
+                                    'error' => 'Please select leads to export!!.',
+                                    'url' => ''
+                                );
+                die(json_encode($returnArray)); 
+
+            }
+
+            
+            //handle posted data
+            $ids      = $_POST['data']['ids']; 
+            $limit    = $_POST['data']['limit'];
+            $offset   = $_POST['data']['offset'];
+            $total    = $_POST['data']['total'];  
+            $is_first = $_POST['data']['is_first'];  
+
+            $upload_dir = wp_upload_dir(); 
+            $file_folder = 'leads/csv';
+            //GETTING CORRECT FILE PATH            
+            $path = $upload_dir['path'].'/'.$file_folder.'/';
+            $blogtime = current_time( 'mysql' ); 
+            list( $today_year, $today_month, $today_day, $hour, $minute, $second ) = preg_split( '([^0-9])', $blogtime );
+            $path = str_replace($today_year.'/'.$today_month.'/','',$path);
+            if(file_exists($path)){
+                if($is_first == 1){
+                      unlink($path."/".date("m.d.y").".csv");
+                }
+            } else {
+             mkdir($path, 0777, true);
+            }
+            $exported = 0;
+           
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header('Content-Description: File Transfer');
+            header("Content-type: text/csv");
+            header("Content-Disposition: attachment; filename=".$path."/".date("m.d.y").".csv");
+            header("Expires: 0");
+            header("Pragma: public");
+                 
+            $file = @fopen($path."/".date("m.d.y").".csv","a");
+
+            if(!$file){
+                $returnArray = array(
+                                    'status' => 0,
+                                    'error' => 'Unable to create file. Please check you uploads folder permission!!.',
+                                    'url' => ''
+                                );
+                die(json_encode($returnArray));  
+            }
+            
+            //get all keys
+             for($i = $offset;  $i < $limit; $i++)
+             {
+                $this_lead_data = get_post_custom($ids[$i]);
+                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
+                unset($this_lead_data['wpleads_referral_data']);
+                unset($this_lead_data['wpleads_raw_post_data']);
+                unset($this_lead_data['call_to_action_clicks']);
+
+                foreach ($this_lead_data as $key => $val) {
+                    $lead_meta_pairs[$key] = $key;
+                }
+            }
+            if($is_first == 1){
+                // Add a header row if it hasn't been added yet
+                fputcsv($file, array_keys($lead_meta_pairs));
+                $headerDisplayed = true;
+            }
+
+           for($j = $offset;  $j < $limit; $j++)
+             {
+                unset($this_row_data);
+
+                $this_lead_data = get_post_custom($ids[$j]);
+                unset($this_lead_data['wpleads_inbound_form_mapped_data']);
+                unset($this_lead_data['wpleads_referral_data']);
+                unset($this_lead_data['wpleads_raw_post_data']);
+                unset($this_lead_data['call_to_action_clicks']);
+   
+                foreach ($lead_meta_pairs as $key => $val) {
+
+                    if (isset($this_lead_data[$key])) {
+                        $val = $this_lead_data[$key];
+                        if (is_array($val))
+                            $val = implode(';', $val);
+                    } else {
+                        $val = "";
+                    }
+
+                    $this_row_data[$key] = $val;
+                }
+
+                fputcsv($file, $this_row_data);
+                $exported++;
+            }
+                // Close the file
+            fclose($file);
+            if($limit == $total){
+                 $url = content_url().'/uploads/'.$file_folder.'/'.date("m.d.y").'.csv';
+                 $returnArray = array(
+                                        'status' => 1,
+                                        'error' => '',
+                                        'url' => $url
+                                );
+            }else{
+                $returnArray = array(
+                                        'status' => 1,
+                                        'error' => '',
+                                        'url' => ''
+                                );
+            }
+
+            die(json_encode($returnArray)); 
+        }
+
+
 
 
         /**
