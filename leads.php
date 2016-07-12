@@ -64,7 +64,6 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 				include_once( WPL_PATH . 'classes/class.post-type.wp-lead.php');
 				include_once( WPL_PATH . 'classes/class.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
-				include_once( WPL_PATH . 'modules/module.enqueue-frontend.php');
 				include_once( WPL_PATH . 'classes/class.tracking.php');
 
 			}

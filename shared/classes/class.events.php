@@ -175,7 +175,7 @@ class Inbound_Events {
     public static function store_mute_event( $args ){
         global $wp_query;
 
-        $args['event_name'] = 'mute';
+        $args['event_name'] = 'inbound_mute';
 
         self::store_event($args);
     }
@@ -208,18 +208,52 @@ class Inbound_Events {
             'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
         );
 
-
         $args = array_merge( $defaults , $args );
 
         /* prepare funnel array */
         if ($args['funnel']) {
-
             /* check if valid json or if slashes need to be stripepd out */
             if (!self::isJson($args['funnel'])) {
                 $args['funnel'] = stripslashes($args['funnel']);
             }
 
+            /* decode into array for modification */
+            $funnel = json_decode( $args['funnel'] , true);
+
+            $stored_views = array();
+            foreach ($funnel as $page_id => $visits ) {
+
+                if (!is_numeric($page_id)) {
+                    continue;
+                }
+
+                if (!in_array($page_id, $stored_views)) {
+                    $stored_views[] = strval($page_id);
+                } else {
+                    /* check if user doubled back to the first page to convert */
+                    $funnel_count = count($stored_views);
+                    $last_key = $funnel_count - 1;
+                    if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
+                        $stored_views[] = strval($page_id);
+                    }
+                }
+            }
+
+            /* add original funnel with timestamps to event details */
+            if (is_array($args['event_details'])) {
+                $args['event_details']['funnel'] = $funnel;
+            }
+
+            /* clean funnel of timestamps */
+            $args['funnel'] = json_encode($stored_views);
+
         }
+
+        /* json encode event details if array */
+        if ($args['event_details'] && is_array($args['event_details'])) {
+            $args['event_details'] = json_encode($args['event_details']);
+        }
+
 
         /* unset non db ready keys */
         foreach ($args as $key => $value) {
@@ -457,6 +491,63 @@ class Inbound_Events {
 
 
     }
+    /**
+     * Get all mute events given a lead id
+     */
+    public static function get_mutes( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_mute" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all mute events given an email id
+     */
+    public static function get_mutes_by_email( $email_id, $vid = null  ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"';
+
+        if ($vid>-1) {
+            $query .= 'AND `variation_id` = "'.$vid.'"';
+        }
+        $query .= 'AND `event_name` = "inbound_mute"';
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all mute events given an email id
+     */
+    public static function get_mutes_count_by_email_id( $email_id , $vid = null ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT count(*) FROM '.$table_name.' WHERE `email_id` = "'.$email_id.'"';
+
+        if ($vid>-1) {
+            $query .= 'AND `variation_id` = "'.$vid.'"';
+        }
+
+        $query .= 'AND `event_name` = "inbound_mute"';
+
+        $count = $wpdb->get_var( $query , 0, 0 );
+
+        /* return null if nothing there */
+        return ($count) ? $count : 0;
+
+    }
+
 
     /**
      * Get custom event data by lead id

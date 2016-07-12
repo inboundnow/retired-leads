@@ -9,8 +9,8 @@ jQuery(document).ready(function($) {
 	    var ids = jQuery("#lead-manage-table").find("input.lead-select-checkbox:checked").map(function () {
   					return this.value;
 		}).get();
-		var batches = 4;
-		var count_process = Math.ceil(total_records / batches);
+		var batch_limit = 100;
+		var count_process = Math.ceil(total_records / batch_limit);
 		var text = "";
 		var i;
 
@@ -27,11 +27,11 @@ jQuery(document).ready(function($) {
 		jQuery("#progress-table #the-progress-list").html(text);
 
 		$( "#export-leads" ).trigger( "click" );
-		 exportCsv(batches, 0, total_records, 0, ids);
+		 exportCsv(batch_limit, 0, total_records, 0, ids);
 		 e.preventDefault();
 		 return false;
 	});
-	
+
 	jQuery("#export-leads").magnificPopup({
 		type: 'inline',
 		preloader: false,
@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
 
 	function exportCsv(cnt, offset, tot, i, ids){
 
-	    var cnt_init = 4;
+	    var cnt_init = 100;
 	    if(i == 0){
 	    	 var is_first = 1;
 	    }else{
