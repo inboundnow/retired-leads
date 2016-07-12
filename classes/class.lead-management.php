@@ -826,7 +826,8 @@ if (!class_exists('Leads_Manager')) {
             die("Invalid action.");
 
         }
-        function ajax_leads_export_list(){
+
+        public static function ajax_leads_export_list(){
 
             $returnArray = array();
 
@@ -868,7 +869,7 @@ if (!class_exists('Leads_Manager')) {
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
                 if($is_first == 1){
-                    unlink($path."/".$filename.".csv");
+                    //unlink($path."/".$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);
@@ -896,6 +897,10 @@ if (!class_exists('Leads_Manager')) {
             //get all keys
             for($i = $offset;  $i < $limit; $i++)
             {
+                if (!isset($ids[$i])) {
+                    continue;
+                }
+
                 $this_lead_data = get_post_custom($ids[$i]);
                 unset($this_lead_data['wpleads_inbound_form_mapped_data']);
                 unset($this_lead_data['wpleads_referral_data']);
