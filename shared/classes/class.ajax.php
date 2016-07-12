@@ -44,41 +44,23 @@ if (!class_exists('Inbound_Ajax')) {
 
 			global $wpdb;
 
-			(isset(	$_POST['wp_lead_id'] )) ? $lead_data['lead_id'] = $_POST['wp_lead_id'] : $lead_data['lead_id'] = '';
-			(isset(	$_POST['nature'] )) ? $lead_data['nature'] = $_POST['nature'] : $lead_data['nature'] = 'non-conversion'; /* what is nature? */
-			(isset(	$_POST['json'] )) ? $lead_data['json'] = addslashes($_POST['json']) : $lead_data['json'] = 0;
-			(isset(	$_POST['wp_lead_uid'] )) ? $lead_data['wp_lead_uid'] = $_POST['wp_lead_uid'] : $lead_data['wp_lead_uid'] = 0;
-			(isset(	$_POST['page_id'] )) ? $lead_data['page_id'] = $_POST['page_id'] : $lead_data['page_id'] = 0;
-			(isset(	$_POST['current_url'] )) ? $lead_data['current_url'] = $_POST['current_url'] : $lead_data['current_url'] = 'notfound';
+			$lead_data['lead_id'] = (isset(	$_POST['wp_lead_id'] )) ?  $_POST['wp_lead_id'] : '';
+			$lead_data['nature'] = (isset(	$_POST['nature'] )) ? $_POST['nature'] : 'non-conversion'; /* what is nature? */
+			$lead_data['json'] = (isset( $_POST['json'] )) ? addslashes($_POST['json']) : 0;
+			$lead_data['wp_lead_uid'] =  (isset( $_POST['wp_lead_uid'] )) ? $_POST['wp_lead_uid'] : 0;
+			$lead_data['page_id'] = (isset(	$_POST['page_id'] )) ? $_POST['page_id'] :  0;
+			$lead_data['current_url'] = (isset(	$_POST['current_url'] )) ? $_POST['current_url'] : 'notfound';
 
 
-			$page_views = json_decode(stripslashes($_POST['page_views']));
-			$page_views = ($page_views) ? $page_views : array();
+			$page_views = stripslashes($_POST['page_views']);
+			$page_views = ($page_views) ? $page_views : '';
 
 			/* update funnel cookie */
-			if (isset($_COOKIE['inbound_page_views'])) {
-				$stored_views = json_decode(stripslashes($_COOKIE['inbound_page_views']), true);
+			if (isset($_COOKIE['inbound_page_views']) && !$page_views ) {
+				$_SESSION['inbound_page_views'] = stripslashes($_COOKIE['inbound_page_views']);
 			} else {
-				$stored_views = array();
+				$_SESSION['inbound_page_views'] = $page_views;
 			}
-
-
-			foreach ($page_views as $page_id => $visits ) {
-				if (!in_array($page_id, $stored_views)) {
-					$stored_views[] = $page_id;
-				} else {
-
-					/* check if user doubled back to the first page to convert */
-					$funnel_count = count($stored_views);
-					$last_key = $funnel_count - 1;
-					if ( $funnel_count > 1  && $stored_views[0] == $page_id && $stored_views[$last_key] != $page_id ){
-						$stored_views[] = $page_id;
-					}
-
-				}
-			}
-
-			$_SESSION['inbound_page_views'] = json_encode($stored_views);
 
 			/* update lead data */
 			if(isset($_POST['wp_lead_id']) && function_exists('wp_leads_update_page_view_obj') ) {
