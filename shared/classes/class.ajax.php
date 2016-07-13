@@ -50,10 +50,16 @@ if (!class_exists('Inbound_Ajax')) {
 			$lead_data['wp_lead_uid'] = (isset($_POST['wp_lead_uid'])) ? $_POST['wp_lead_uid'] : 0;
 			$lead_data['page_id'] = (isset($_POST['page_id'])) ? $_POST['page_id'] : 0;
 			$lead_data['current_url'] = (isset($_POST['current_url'])) ? $_POST['current_url'] : 'notfound';
+			$lead_data['variation_id'] = (isset($_POST['variation_id'])) ? $_POST['variation_id'] : '0';
 
+			$timezone_format = 'Y-m-d G:i:s T';
+			$lead_data['datetime'] =  date_i18n($timezone_format);
 
 			$page_views = stripslashes($_POST['page_views']);
+
 			$page_views = ($page_views) ? $page_views : '';
+			$lead_data['event_details']['funnel'] = json_decode($page_views,true);
+			$lead_data['funnel'] = $page_views;
 
 			/* update funnel cookie */
 			if (isset($_COOKIE['inbound_page_views']) && !$page_views) {
@@ -63,13 +69,16 @@ if (!class_exists('Inbound_Ajax')) {
 			}
 
 			/* update lead data */
+
 			if ($lead_data['lead_id']) {
 				self::update_page_view_obj($lead_data);
 				self::set_current_lists($lead_data['lead_id']);
 			}
 
-			/* update content data */
+			/* create page_view event */
+			Inbound_Events::store_page_view( $lead_data );
 
+			/* update content data */
 			do_action('lp_record_impression', $lead_data['page_id'], $_POST['post_type'], $_POST['variation_id']);
 
 			die();

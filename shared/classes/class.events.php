@@ -124,6 +124,15 @@ class Inbound_Events {
     }
 
     /**
+     * Stores page_view into events table
+     * @param $args
+     */
+    public static function store_page_view( $args ) {
+        $args['event_name'] = 'inbound_page_view';
+        self::store_event($args);
+    }
+
+    /**
      * Stores email send event into events table
      * @param $args
      */
@@ -377,6 +386,43 @@ class Inbound_Events {
                 break;
         }
 
+
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get page view events related to lead ID
+     */
+    public static function get_page_views( $lead_id ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get page view events given conditions
+     *
+     */
+    public static function get_page_views_by( $nature = 'lead_id' ,  $params ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        switch ($nature) {
+            case 'lead_id':
+                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `lead_id` = "'.$params['lead_id'].'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+                break;
+            case 'page_id':
+                $query = 'SELECT * FROM '.$table_name.' WHERE datetime >= "'.$params['start_date'].'" AND  datetime <= "'.$params['end_date'].'" AND `page_id` = "'.$params['page_id'].'" AND `event_name` = "inbound_page_view" ORDER BY `datetime` DESC';
+                break;
+        }
 
         $results = $wpdb->get_results( $query , ARRAY_A );
 
