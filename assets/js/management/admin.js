@@ -81,9 +81,14 @@ jQuery(document).ready(function($) {
 		    		return false;
 		    	}
 		        jQuery( "#progressbar"+i ).progressbar({ value: 100 });
-		        jQuery( "#progress"+i ).text(offset+" - "+ cnt + " of "+tot);
+		        if(tot < cnt){
+		        	jQuery( "#progress"+i ).text(offset+" - "+ tot + " of "+tot);
+		        }else{
+		        	jQuery( "#progress"+i ).text(offset+" - "+ cnt + " of "+tot);
+		        }
+		        
 
-		        if(cnt == tot && jsonParse.url!=""){
+		        if(cnt >= tot && jsonParse.url!=""){
 
 		    		jQuery(".download-leads-csv").html('<p><a href="'+jsonParse.url+'" download>Download CSV</a></p> <p>Please note that this file is also available in <strong>wp-content/uploads/leads/csv/</strong></p></a>');
 		    	}
