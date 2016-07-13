@@ -949,7 +949,7 @@ if (!class_exists('Leads_Manager')) {
             }
             // Close the file
             fclose($file);
-            if($limit == $total){
+            if($limit >= $total){
                 $url = content_url().'/uploads/'.$uploads_path.'/'.$filename.'.csv';
                 $returnArray = array(
                     'status' => 1,
