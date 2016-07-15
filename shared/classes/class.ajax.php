@@ -76,7 +76,9 @@ if (!class_exists('Inbound_Ajax')) {
 			}
 
 			/* create page_view event */
-			Inbound_Events::store_page_view( $lead_data );
+			if ($lead_data['page_id']) {
+				Inbound_Events::store_page_view($lead_data);
+			}
 
 			/* update content data */
 			do_action('lp_record_impression', $lead_data['page_id'], $_POST['post_type'], $_POST['variation_id']);

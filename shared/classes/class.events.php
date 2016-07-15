@@ -22,6 +22,9 @@ class Inbound_Events {
         /* create events table if does not exist */
         add_action('inbound_shared_activate' , array( __CLASS__ , 'create_events_table' ));
 
+        /* create page_views table if does not exist */
+        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_veiws_table' ));
+
         /* listen for cta clicks and record event to events table */
         add_action('inbound_tracked_cta_click' , array( __CLASS__ , 'store_cta_click'), 10 , 1);
 
@@ -87,6 +90,41 @@ class Inbound_Events {
         }
     }
 
+
+    /**
+     * Creates inbound_events
+     */
+    public static function create_page_views_table(){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+        $charset_collate = '';
+
+        if ( ! empty( $wpdb->charset ) ) {
+            $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+        }
+        if ( ! empty( $wpdb->collate ) ) {
+            $charset_collate .= " COLLATE {$wpdb->collate}";
+        }
+
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+			  `page_id` mediumint(20) NOT NULL,
+			  `variation_id` mediumint(9) NOT NULL,
+			  `lead_id` mediumint(20) NOT NULL,
+			  `lead_uid` varchar(255) NOT NULL,
+			  `session_id` varchar(255) NOT NULL,
+			  `source` text NOT NULL,
+			  `datetime` datetime NOT NULL,
+
+			  UNIQUE KEY id (id)
+			) $charset_collate;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+
+    }
+
     /**
      * Stores a form submission event into events table
      * @param $lead
@@ -120,15 +158,6 @@ class Inbound_Events {
      */
     public static function store_cta_click( $args ) {
         $args['event_name'] = 'inbound_cta_click';
-        self::store_event($args);
-    }
-
-    /**
-     * Stores page_view into events table
-     * @param $args
-     */
-    public static function store_page_view( $args ) {
-        $args['event_name'] = 'inbound_page_view';
         self::store_event($args);
     }
 
@@ -209,7 +238,7 @@ class Inbound_Events {
             'email_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
-            'session_id' => '',
+            'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
             'event_name' => $args['event_name'],
             'event_details' => '',
             'datetime' => $wordpress_date_time,
@@ -284,6 +313,50 @@ class Inbound_Events {
                     self::create_events_table();
                     break;
             }
+        }
+
+    }
+
+    /**
+     * Stores page view event int inbound_page_views table
+     * @param $args
+     */
+    public static function store_page_view( $args ) {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_page_views";
+        $timezone_format = 'Y-m-d G:i:s T';
+        $wordpress_date_time =  date_i18n($timezone_format);
+
+        $defaults = array(
+            'page_id' => '',
+            'variation_id' => '',
+            'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
+            'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
+            'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
+            'datetime' => $wordpress_date_time,
+            'source' => ( isset($_COOKIE['inbound_referral_site']) ? $_COOKIE['inbound_referral_site'] : '' )
+        );
+
+        $args = array_merge( $defaults , $args );
+
+
+        /* unset non db ready keys */
+        foreach ($args as $key => $value) {
+            if (!isset($defaults[$key])) {
+                unset($args[$key]);
+            }
+        }
+
+        /* add event to event table */
+        $wpdb->insert(
+            $table_name,
+            $args
+        );
+
+        /* check error messages for broken tables */
+        if (isset($wpdb->last_error)) {
+           self::create_page_views_table();
         }
 
     }
