@@ -23,7 +23,7 @@ class Inbound_Events {
         add_action('inbound_shared_activate' , array( __CLASS__ , 'create_events_table' ));
 
         /* create page_views table if does not exist */
-        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_veiws_table' ));
+        add_action('inbound_shared_activate' , array( __CLASS__ , 'create_page_views_table' ));
 
         /* listen for cta clicks and record event to events table */
         add_action('inbound_tracked_cta_click' , array( __CLASS__ , 'store_cta_click'), 10 , 1);
@@ -31,8 +31,11 @@ class Inbound_Events {
         /* listen for Inbound Form submissions and record event to events table */
         add_action('inbound_store_lead_post' , array( __CLASS__ , 'store_form_submission'), 10 , 1);
 
-        /* listen for Inbound Form submissions and record event to events table */
+        /* listen for Email Clicks and record event to events table */
         add_action('inbound_email_click_event' , array( __CLASS__ , 'store_email_click'), 10 , 1);
+
+        /* listen for list add events and record event to events table */
+        add_action('add_lead_to_lead_list' , array( __CLASS__ , 'store_list_add_event'), 10 , 2);
 
         /* Saves all all incoming POST data as meta pairs */
         add_action('before_delete_post', array(__CLASS__, 'delete_related_events'));
@@ -67,6 +70,7 @@ class Inbound_Events {
 			  `form_id` mediumint(20) NOT NULL,
 			  `cta_id` mediumint(20) NOT NULL,
 			  `email_id` mediumint(20) NOT NULL,
+			  `list_id` mediumint(20) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `session_id` varchar(255) NOT NULL,
@@ -81,13 +85,6 @@ class Inbound_Events {
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
-        /* add new columns to legacy table */
-        $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table_name}' AND column_name = 'source'"  );
-        if(empty($row)){
-            // do your stuff
-            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `funnel` text NOT NULL" );
-            $wpdb->get_results( "ALTER TABLE {$table_name} ADD `source` text NOT NULL" );
-        }
     }
 
 
@@ -144,7 +141,6 @@ class Inbound_Events {
             'form_id' => (isset($raw_params['inbound_form_id'])) ? $raw_params['inbound_form_id'] : '',
             'lead_id' => $lead['id'],
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
-            'session_id' => '',
             'event_details' => json_encode($details),
             'datetime' => $lead['wordpress_date_time']
         );
@@ -210,6 +206,27 @@ class Inbound_Events {
      * Stores inbound mailer mute event into events table
      * @param $args
      */
+    public static function store_list_add_event( $lead_id , $list_id ){
+        global $wp_query;
+
+        $args['event_name'] = 'inbound_list_add';
+        $args['lead_id'] = $lead_id;
+
+        if (is_array($list_id)) {
+            foreach($list_id as $id) {
+                $args['list_id'] = $id;
+                self::store_event($args);
+            }
+        } else {
+            $args['list_id'] = $list_id;
+            self::store_event($args);
+        }
+    }
+
+    /**
+     * Stores inbound mailer mute event into events table
+     * @param $args
+     */
     public static function store_mute_event( $args ){
         global $wp_query;
 
@@ -236,6 +253,7 @@ class Inbound_Events {
             'form_id' => '',
             'cta_id' => '',
             'email_id' => '',
+            'list_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
             'session_id' => ( isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : session_id() ),
@@ -500,6 +518,37 @@ class Inbound_Events {
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
+    }
+
+    /**
+     * Get all cta click events related to lead ID
+     */
+    public static function get_events(){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT DISTINCT(event_name) FROM '.$table_name.' ORDER BY `event_name` DESC';
+        $results = $wpdb->get_results( $query , ARRAY_A );
+
+        return $results;
+    }
+
+    /**
+     * Get all mute events given an email id
+     */
+    public static function get_events_count( $event_name ){
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . "inbound_events";
+
+        $query = 'SELECT count(*) FROM '.$table_name.' WHERE `event_name` = "'.$event_name.'"';
+
+        $count = $wpdb->get_var( $query , 0, 0 );
+
+        /* return null if nothing there */
+        return ($count) ? $count : 0;
+
     }
 
     /**
