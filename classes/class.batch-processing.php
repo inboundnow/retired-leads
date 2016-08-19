@@ -273,6 +273,8 @@ class Leads_Batch_Processor {
         self::get_leads( $args );
         echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
+        /* create inbound_page_views table if it does not exist. */
+        Inbound_Events::create_page_views_table();
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
