@@ -284,8 +284,6 @@ if (!class_exists('LeadStorage')) {
 						Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
 					}
 
-					error_log(print_r($inbound_settings,true));
-
 				}
 
 			}
@@ -664,6 +662,14 @@ if (!class_exists('LeadStorage')) {
 				}
 			}
 			return $ip;
+		}
+
+		/**
+		 * Create a lead from a user id
+		 * @param $user_id
+		 */
+		public static function create_lead_from_user( $user_id ) {
+
 		}
 
 	}

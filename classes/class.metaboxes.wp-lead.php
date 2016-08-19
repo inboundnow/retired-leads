@@ -185,7 +185,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             /* lead status */
             if (isset($_POST['wp_lead_status'])) {
-                update_post_meta($post_id, 'wp_lead_status', $_POST['wp_lead_status']);
+                update_post_meta($post_id, 'wp_lead_status', sanitize_text_field($_POST['wp_lead_status']));
             }
 
             /* Loop through mappable fields and save data */
@@ -474,7 +474,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
             /* get open tab */
             self::$active_tab = 'wpleads_lead_tab_main';
             if (isset($_REQUEST['open-tab'])) {
-                self::$active_tab = $_REQUEST['open-tab'];
+                self::$active_tab = sanitize_text_field($_REQUEST['open-tab']);
             }
 
             /* Set hidden input for active tab */
@@ -1237,10 +1237,6 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     $loop++;
                 }
             }
-
-            // Merge conversion and page view json objects
-            //uasort($new_array, array( __CLASS__ , 'datetime_sort_reverse') ); // Date sort
-
 
             $new_key_array = array();
             $num = 0;

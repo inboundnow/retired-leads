@@ -85,6 +85,12 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
+= 2.2.5 =
+* Added inbound_page_views & now monitoring page view reports.
+* Added better sanitation of _GET, _REQUEST, & POST variables.
+* Better CSV exporting (supports batching)
+* Prevent non admins from managing lead lists inside their profile.
+
 = 2.2.0 =
 * Updating Shared Folder. No real changes.
 

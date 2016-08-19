@@ -15,7 +15,7 @@ class Leads_Batch_Processor {
      * Load hooks and filters
      */
     public static function load_hooks(){
-        add_action( 'admin_menu' , array( __CLASS__ , 'init_listener'));
+        add_action( 'admin_menu' , array( __CLASS__ , 'init_listener') , 30);
     }
 
 
@@ -29,18 +29,20 @@ class Leads_Batch_Processor {
             return;
         }
 
+
         /* Temporarily create admin page for visualizing batch processing */
         add_submenu_page(
             'edit.php?post_type=wp-lead',
-            __( 'Batch Processing', 'leads' ),
-            __( 'Batch Processing', 'leads' ),
+            __( 'RESUME DATA MIGRATION', 'inbound-pro' ),
+            __( 'RESUME DATA MIGRATION', 'inbound-pro' ),
             'manage_options',
             'leads-batch-processing',
             array( __CLASS__ , 'process_batches' )
         );
 
         /* Do not let user escape until all leads have been processed */
-        if (!isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) {
+        if ( ( !isset($_GET['page']) || $_GET['page'] != 'leads-batch-processing' ) && !get_transient('batch_processing_started') ) {
+            set_transient('batch_processing_started' , true , 1 * HOUR_IN_SECONDS );
             header('Location: ' . admin_url('edit.php?post_type=wp-lead&page=leads-batch-processing'));
             exit;
         }
@@ -67,17 +69,51 @@ class Leads_Batch_Processor {
     }
 
     /**
+     * Checks if string is json format
+     * @param $string
+     * @return bool
+     */
+    public static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    /**
+     * Prepares legacy funnel correctly for consuption
+     * @param $array
+     */
+    public static function rebuild_funnel( $array ) {
+        $dates_array = array();
+        foreach ( $array as $page_id => $dates ) {
+            foreach ($dates as $date) {
+                $date = date("c", strtotime($date));
+                $dates_array[$date] = $page_id;
+            }
+        }
+
+        ksort($dates_array);
+
+        $corrected_funnel = array();
+        foreach ($dates_array as $datetime=>$page_id) {
+            $corrected_funnel[] = strval($page_id);
+        }
+
+        return array_values(array_unique($corrected_funnel));
+    }
+
+    /**
      * Run the batch processing method stored in leads_batch_processing option
      */
     public static function process_batches() {
 
         /* load batch processing data into variable */
-        $args = get_option('leads_batch_processing');
+        $jobs = get_option('leads_batch_processing');
 
-        echo '<h1>' . __( 'Processing Batches!' , 'leads' ) .'</h1>';
+        echo '<h1>' . __( 'Processing Batches!' , 'inbound-pro' ) .'</h1>';
         echo '<div class="wrap">';
 
         /* run the method */
+        $args = array_shift($jobs);
         call_user_func(
             array(__ClASS__, $args['method']),
             $args
@@ -87,8 +123,21 @@ class Leads_Batch_Processor {
 
     }
 
-    public static function delete_flag() {
-        delete_option('leads_batch_processing');
+    /**
+     * Removes complete job and deletes leads_batch_processing if all jobs are complete else updates and returns true.
+     * @return bool
+     */
+    public static function delete_flag( $args ) {
+        $jobs = get_option('leads_batch_processing');
+        unset($jobs[$args['method']]);
+
+        if ($jobs) {
+            update_option('leads_batch_processing', $jobs);
+            return true;
+        } else {
+            delete_option('leads_batch_processing');
+            return false;
+        }
     }
 
     /**
@@ -101,14 +150,22 @@ class Leads_Batch_Processor {
 
         /* let the user know the processing status */
         self::get_leads( $args );
-        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'leads' ) , $args['offset'] , $pages );
+        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
 
 
         /* if all leads are processed echo complete and delete batch job */
         if (!self::$leads || $args['offset'] > $pages ) {
-            self::delete_flag();
+            $has_more_jobs = self::delete_flag( $args );
             echo '<br>';
             _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
             exit;
         }
 
@@ -191,7 +248,10 @@ class Leads_Batch_Processor {
 
         /* update batch data with next job */
         $args['offset'] = $args['offset'] + 1;
-        update_option('leads_batch_processing' , $args );
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs , false );
+
 
         /* redirect page */
         ?>
@@ -201,6 +261,90 @@ class Leads_Batch_Processor {
         <?php
     }
 
+    /**
+     * Loops through all leads and imports events stored in metapairs into inbound_events table
+     */
+    public static function import_event_data_07132016( $args ) {
+
+        $total = wp_count_posts('wp-lead');
+        $pages = ceil( $total->publish / $args['posts_per_page'] );
+
+        /* let the user know the processing status */
+        self::get_leads( $args );
+        echo  sprintf( __(  '%s of %s steps complete. Please wait...' , 'inbound-pro' ) , $args['offset'] , $pages );
+
+        /* create inbound_page_views table if it does not exist. */
+        Inbound_Events::create_page_views_table();
+
+        /* if all leads are processed echo complete and delete batch job */
+        if (!self::$leads || $args['offset'] > $pages ) {
+            $has_more_jobs = self::delete_flag( $args );
+            echo '<br>';
+            _e( 'All done!' , 'inbound-pro' );
+            if ($has_more_jobs) {
+                /* redirect page */
+                ?>
+                <script type="text/javascript">
+                    document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+                </script>
+                <?php
+            }
+            exit;
+        }
+
+        echo '<br><br>';
+        echo '<img src="'.admin_url('images/spinner-2x.gif').'">';
+
+        foreach (self::$leads as $ID => $lead) {
+
+            /* import form submission events into inbound_events table */
+            $page_views = get_post_meta($lead->ID, 'page_views', true);
+
+            if (!$page_views) {
+                continue;
+            }
+            $session_id = uniqid();
+            $page_views = json_decode($page_views, true);
+
+
+            if (!is_array($page_views)) {
+                continue;
+            }
+
+            foreach ($page_views as $page_id => $times) {
+
+                if (!$page_id || !is_numeric($page_id) ) {
+                    continue;
+                }
+
+                foreach ($times as $key => $time) {
+                    /* assume the rest are form submissions */
+                    Inbound_Events::store_page_view(array(
+                        'page_id' => $page_id,
+                        'variation_id' => 0,
+                        'session_id' => $session_id,
+                        'lead_id' => $lead->ID,
+                        'lead_uid' => '',
+                        'datetime' => $time
+                    ));
+                }
+            }
+        }
+
+        /* update batch data with next job */
+        $args['offset'] = $args['offset'] + 1;
+        $jobs = get_option('leads_batch_processing');
+        $jobs[$args['method']] = $args;
+        update_option('leads_batch_processing' , $jobs , false );
+
+
+        /* redirect page */
+        ?>
+        <script type="text/javascript">
+            document.location.href = "edit.php?post_type=wp-lead&page=leads-batch-processing";
+        </script>
+        <?php
+    }
 }
 
 new Leads_Batch_Processor();

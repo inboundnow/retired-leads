@@ -145,7 +145,7 @@ class Leads_Post_Type {
                 echo $custom_val;
                 break;
             case "page-views":
-                $page_view_count = get_post_meta($post_id, 'wpleads_page_view_count', true);
+                $page_view_count = Inbound_Metaboxes_Leads::get_page_view_count($post_id);
                 echo($page_view_count ? $page_view_count : 0);
                 break;
             case "company":
@@ -507,24 +507,18 @@ class Leads_Post_Type {
     public static function redirect_email_profile_links() {
         global $wpdb;
 
-        if (!isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] != '') {
+        if (!isset($_GET['lead-email-redirect']) || $_GET['lead-email-redirect'] == '') {
             return;
         }
 
-        $lead_id = $_GET['lead-email-redirect'];
-        $query = $wpdb->prepare('SELECT ID FROM ' . $wpdb->posts . '
-            WHERE post_title = %s
-            AND post_type = \'wp-lead\'', $lead_id);
+        $lead_id = LeadStorage::lookup_lead_by_email($_GET['lead-email-redirect']);
 
-        $wpdb->query($query);
-
-        if ($wpdb->num_rows) {
-            $lead_ID = $wpdb->get_var($query);
-            $url = admin_url();
-            $redirect = $url . 'post.php?post=' . $lead_ID . '&action=edit';
+        if ($lead_id) {
+            $redirect = 'post.php?post=' . $lead_ID . '&action=edit';
             wp_redirect($redirect, 301);
             exit;
         }
+
 
     }
 
@@ -696,7 +690,7 @@ class Leads_Post_Type {
             return;
         }
 
-        $wp_lead_id = $_POST['wp_lead_id'];
+        $wp_lead_id = intval($_POST['wp_lead_id']);
         if (isset($wp_lead_id) && is_numeric($wp_lead_id)) {
             global $wpdb;
             $data = array();

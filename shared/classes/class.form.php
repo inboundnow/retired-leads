@@ -49,7 +49,7 @@ if (!class_exists('Inbound_Forms')) {
 
 
             if (!$id && isset($_GET['post'])) {
-                $id = $_GET['post'];
+                $id = intval($_GET['post']);
             }
 
 
@@ -195,7 +195,7 @@ if (!class_exists('Inbound_Forms')) {
                     /* prepare dynamic values if exists */
                     $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                     $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                    $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                    $dynamic_value = (isset($_GET[$hidden_param])) ? sanitize_text_field($_GET[$hidden_param]) : '';
                     $dynamic_value = (!$dynamic_value && isset($_COOKIE[$hidden_param])) ? $_COOKIE[$hidden_param] : $dynamic_value;
 
                     if ($type != 'honeypot') {
@@ -411,7 +411,7 @@ if (!class_exists('Inbound_Forms')) {
 
                         $hidden_param = (isset($matches[3][$i]['dynamic'])) ? $matches[3][$i]['dynamic'] : '';
                         $fill_value = (isset($matches[3][$i]['default'])) ? $matches[3][$i]['default'] : '';
-                        $dynamic_value = (isset($_GET[$hidden_param])) ? $_GET[$hidden_param] : '';
+                        $dynamic_value = (isset($_GET[$hidden_param])) ? sanitize_text_field($_GET[$hidden_param]) : '';
 
                         $form .= '<input type="range" min="' . $options[0] . '" max="' . $options[1] . '" step="' . $options[2] . '" class="inbound-input inbound-input-range ' . $formatted_label . $input_classes . ' ' . $field_input_class . '" name="' . $field_name . '" ' . $form_placeholder . ' id="' . $field_name . '" value="' . $fill_value . '" ' . $data_mapping_attr . $et_output . ' ' . $req . '/>';
 
@@ -1421,6 +1421,29 @@ if (!class_exists('Inbound_Forms')) {
                 __('ZM', 'inbound-pro' ) => __('Zambia', 'inbound-pro'),
                 __('ZW', 'inbound-pro' ) => __('Zimbabwe', 'inbound-pro')
             );
+        }
+
+        /**
+         *
+         */
+        public static function get_inbound_forms() {
+            $args = array(
+                'posts_per_page'  => -1,
+                'post_type'=> 'inbound-forms'
+            );
+
+            $form_list = get_posts($args);
+            $form_array = array();
+
+            foreach ( $form_list as $form ) {
+                $this_id = $form->ID;
+                $this_link = get_permalink( $this_id );
+                $title = $form->post_title;
+                $form_array[$form->ID] = $form->post_title;
+
+            }
+
+            return $form_array;
         }
 
         /**

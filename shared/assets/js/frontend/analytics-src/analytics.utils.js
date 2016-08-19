@@ -322,6 +322,11 @@ var _inboundUtils = (function(_inbound) {
 
             /* Set Param Cookies */
             for (var k in urlParams) {
+                /* account for wordpress media uploader bug */
+                if (k == 'action') {
+                    continue;
+                }
+
                 if (typeof urlParams[k] == "object") {
                     for (var k2 in urlParams[k])
                         this.createCookie(k2, urlParams[k][k2], 30);

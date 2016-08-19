@@ -27,9 +27,6 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			if (is_admin()) {
 				add_action( 'edit_form_after_title', array(__CLASS__, 'install_leads_prompt' ) );
-
-				/* Remove lead tags menu item */
-				add_filter( 'admin_menu', array(__CLASS__, 'remove_menus' ) );
 			}
 		}
 		/**
@@ -114,7 +111,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register lead lists */
 			$list_labels = array(
-				'name'						=> __( 'Lead Lists', 'inbound-pro' ),
+				'name'						=> __( 'Lists', 'inbound-pro' ),
 				'singular_name'				=> __( 'Lead List', 'inbound-pro' ),
 				'search_items'				=> __( 'Search Lead Lists', 'inbound-pro' ),
 				'popular_items'				=> __( 'Popular Lead Lists', 'inbound-pro' ),
@@ -148,7 +145,7 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			/* Register Lead Tags Taxonomy */
 			$labels = array(
-				'name'						=> _x( 'Lead Tags', 'taxonomy general name' ),
+				'name'						=> _x( 'Tags', 'taxonomy general name' ),
 				'singular_name'				=> _x( 'Lead Tag', 'taxonomy singular name' ),
 				'search_items'				=> __( 'Search Lead Tags' ),
 				'popular_items'				=> __( 'Popular Lead Tags' ),
@@ -552,32 +549,6 @@ if ( !class_exists('Inbound_Leads') ) {
 
 			return sprintf( __( '%d leads', 'inbound-pro' ), $count );
 
-		}
-
-		public static function remove_menus() {
-			global $submenu;
-
-			if (!current_user_can('activate_plugins') ) {
-				return;
-			}
-
-			//print_r($submenu);exit;
-			// This needs to be set to the URL for the admin menu section (aka "Menu Page")
-			$menu_page = 'edit.php?post_type=wp-lead';
-
-			// This needs to be set to the URL for the admin menu option to remove (aka "Submenu Page")
-			$taxonomy_admin_page = 'edit-tags.php?taxonomy=lead-tags&amp;post_type=wp-lead';
-
-			if ( !isset($submenu[$menu_page]) ) {
-				return;
-			}
-
-			// This removes the menu option but doesn't disable the taxonomy
-			foreach($submenu[$menu_page] as $index => $submenu_item) {
-				if ($submenu_item[2]==$taxonomy_admin_page) {
-					unset($submenu[$menu_page][$index]);
-				}
-			}
 		}
 
 	}
