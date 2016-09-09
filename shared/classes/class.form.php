@@ -582,12 +582,12 @@ if (!class_exists('Inbound_Forms')) {
 							buttonWidth = jQuery(target).css("width"),
 							scale = jQuery(target).css("font-size");
 							scale = scale.replace("px", "");
-							scale = scale / 32;
+							scale = scale / 40;
 						
 
 						//spinner
 						var opts = {
-							  lines: 7 // The number of lines to draw
+							  lines: 8 // The number of lines to draw
 							, length: 0 // The length of each line
 							, width: 7 // The line thickness
 							, radius: 25 // The radius of the inner circle
