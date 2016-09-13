@@ -245,7 +245,7 @@ class Leads_Post_Type {
 
         global $wpdb, $table_prefix;
 
-        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead') {
+        if (!isset($_GET['post_type']) || $_GET['post_type'] != 'wp-lead' || isset($_GET['page'])) {
             return $pieces;
         }
 
