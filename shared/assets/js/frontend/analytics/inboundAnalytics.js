@@ -857,7 +857,7 @@ var _inboundUtils = (function(_inbound) {
 
             /* Set Param Cookies */
             for (var k in urlParams) {
-
+                /* account for wordpress media uploader bug */
                 if (k == 'action') {
                     continue;
                 }
@@ -1510,6 +1510,7 @@ var InboundForms = (function(_inbound) {
                     return false;
                 }
             }
+                 
             /* Loop through all match possiblities */
             for (i = 0; i < FieldMapArray.length; i++) {
                 //for (var i = FieldMapArray.length - 1; i >= 0; i--) {
@@ -1529,7 +1530,6 @@ var InboundForms = (function(_inbound) {
 
                 /* look for name attribute match */
                 if (input_name && input_name.toLowerCase().indexOf(lookingFor) > -1) {
-
                     found = true;
                     _inbound.deBugger('forms', 'Found matching name attribute for -> ' + lookingFor);
 
@@ -1565,7 +1565,7 @@ var InboundForms = (function(_inbound) {
                 }
 
             }
-
+            
             return inbound_data;
 
         },
@@ -1837,6 +1837,21 @@ var InboundForms = (function(_inbound) {
             var page_views = _inbound.totalStorage('page_views') || {};
             var urlParams = _inbound.totalStorage('inbound_url_params') || {};
 
+            /* check if redirect url is empty */
+            var formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])');
+            var inbound_form_is_ajax = false;
+            if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+                var inbound_form_is_ajax = true;
+            }
+
+            /* get form id */
+            var inbound_form_id = form.querySelectorAll('input[value][type="hidden"][name="inbound_form_id"]');
+            if(inbound_form_id.length > 0 ){
+                inbound_form_id = inbound_form_id[0]['value'];
+            } else {
+                inbound_form_id = 0;
+            }
+
             var inboundDATA = {
                 'email': email
             };
@@ -1886,7 +1901,9 @@ var InboundForms = (function(_inbound) {
                 'post_type': post_type,
                 'page_id': page_id,
                 'variation': variation,
-                'source': utils.readCookie("inbound_referral_site")
+                'source': utils.readCookie("inbound_referral_site"),
+                'inbound_submitted': inbound_form_is_ajax,
+                'inbound_form_id': inbound_form_id,
             };
 
             callback = function(leadID) {
@@ -2841,6 +2858,67 @@ var _inboundEvents = (function(_inbound) {
     return _inbound;
 
 })(_inbound || {});
+
+
+function inboundFormNoRedirect(){
+	/*button == the button that was clicked, form == the form that button belongs to, formRedirectUrl == the link that the form redirects to, if set*/
+	
+	/*Get the button...*/
+	/*If not an iframe*/
+	if(window.frames.frameElement == null){
+		var button = document.querySelectorAll('button.inbound-button-submit[disabled]')[0];
+	}
+	/*If it is an iframe*/
+	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
+		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
+	}
+
+    if ( typeof button == 'undefined' ) {
+       return;
+    }
+
+	var	form = button.form,
+		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])');
+
+	/*If the redirect link is not set, or there is a single space in it, the form isn't supposed to redirect. So set the action for void*/
+	if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+		form.action = 'javascript:void(0)';
+	}
+}
+
+_inbound.add_action( 'form_before_submission', inboundFormNoRedirect, 10 );
+
+function inboundFormNoRedirectContent(){
+	
+	/*If not an iframe*/
+	if(window.frames.frameElement == null){
+		var button = document.querySelectorAll('button.inbound-button-submit[disabled]')[0];
+	}
+	/*If it is an iframe*/
+	else if(window.frames.frameElement.tagName.toLowerCase() == "iframe"){
+		var button = window.frames.frameElement.contentWindow.document.querySelectorAll('button.inbound-button-submit')[0];
+    }
+
+
+    if ( typeof button == 'undefined' ) {
+        return;
+    }
+
+	var	form = button.form,
+		formRedirectUrl = form.querySelectorAll('input[value][type="hidden"][name="inbound_furl"]:not([value=""])'),
+		btnBackground = jQuery(button).css('background'),
+		btnFontColor = jQuery(button).css('color'),
+		btnHeight = jQuery(button).css('height'),
+		spinner = button.getElementsByClassName('inbound-form-spinner');
+		
+	if(formRedirectUrl.length == 0 || formRedirectUrl[0]['value'] == 'IA=='){
+		jQuery(spinner).remove();
+		jQuery(button).prepend('<div id="redir-check"><i class="fa fa-check-square" aria-hidden="true" style="background='+ btnBackground +'; color='+ btnFontColor +'; font-size:calc('+ btnHeight +' * .42);"></i></div>');
+	}
+}
+
+_inbound.add_action( 'form_after_submission', inboundFormNoRedirectContent, 10 );
+
 /* LocalStorage Component */
 var InboundTotalStorage = (function (_inbound){
 

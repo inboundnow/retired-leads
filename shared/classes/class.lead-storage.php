@@ -91,6 +91,7 @@ if (!class_exists('LeadStorage')) {
 				$mappedData = array();
 			}
 
+
 			$mappedData = self::improve_mapping($mappedData, $lead , $args);
 
 			/* prepate lead lists */
@@ -131,7 +132,9 @@ if (!class_exists('LeadStorage')) {
 					$Inbound_Leads->add_lead_to_list($lead['id'], $lead['lead_lists']);
 
 					/* store lead list cookie */
-					Leads_Tracking::cookie_lead_lists($lead['id']);
+					if (class_exists('Leads_Tracking')) {
+						Leads_Tracking::cookie_lead_lists($lead['id']);
+					}
 				}
 
 
@@ -734,7 +737,7 @@ if (!function_exists('inbound_add_conversion_to_lead')) {
 			$lead_data['wordpress_date_time'] = date("Y-m-d G:i:s T", $time);
 			$conversion_data = get_post_meta( $lead_id, 'wpleads_conversion_data', TRUE );
 			$conversion_data = json_decode($conversion_data,true);
-			$variation = $lead_data['variation'];
+			$variation = (isset($lead_data['variation'])) ? $lead_data['variation']:0;
 
 			if ( is_array($conversion_data)) {
 				$c_count = count($conversion_data) + 1;
