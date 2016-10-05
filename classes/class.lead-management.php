@@ -142,9 +142,6 @@ if (!class_exists('Leads_Manager')) {
         public static function display_ui() {
             global $wpdb;
 
-            /* Load only our scripts */
-            Inbound_Compatibility::inbound_compatibilities_mode();
-
             /* listen for and display notications */
             self::display_notifications();
             /* display header */
