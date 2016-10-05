@@ -85,8 +85,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 2.6.9 =
+= 2.7.0 =
 * Fixing broken 'Bulk Actions' page.
+* Fixing CSV Export Issue. 
 
 = 2.6.8 =
 * Updating shared files.
