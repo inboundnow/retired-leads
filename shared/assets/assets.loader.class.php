@@ -141,9 +141,9 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			}
 
 			/* If page tracking on */
-			$lead_page_view_tracking = get_option( 'wpl-main-page-view-tracking', 1);
-			$lead_search_tracking = get_option( 'wpl-main-search-tracking', 1);
-			$lead_comment_tracking = get_option( 'wpl-main-comment-tracking', 1);
+			$lead_page_view_tracking = Leads_Settings::get_setting( 'wpl-main-page-view-tracking', 1);
+			$lead_search_tracking = Leads_Settings::get_setting( 'wpl-main-search-tracking', 1);
+			$lead_comment_tracking = Leads_Settings::get_setting( 'wpl-main-comment-tracking', 1);
 			if (!$lead_search_tracking) {
 				$search_tracking = 'off';
 			}
@@ -161,8 +161,8 @@ if (!class_exists('Inbound_Asset_Loader')) {
 			$lead_data_array['lead_uid'] = ($lead_uid) ? $lead_uid : null;
 			$time = current_time( 'timestamp', 0 ); /* Current wordpress time from settings */
 			$wordpress_date_time = date("Y/m/d G:i:s", $time);
-			$inbound_track_include = get_option( 'wpl-main-tracking-ids');
-			$inbound_track_exclude = get_option( 'wpl-main-exclude-tracking-ids');
+			$inbound_track_include = Leads_Settings::get_setting( 'wpl-main-tracking-ids' , '');
+			$inbound_track_exclude = Leads_Settings::get_setting( 'wpl-main-exclude-tracking-ids' , '');
 
 			/* get variation id */
 			if (class_exists('Landing_Pages_Variations')) {
