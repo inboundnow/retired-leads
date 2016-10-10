@@ -23,8 +23,14 @@ if ( !class_exists('Inbound_Akismet') ) {
 		*/
 		public static function check_is_spam( $is_spam = false,  $lead_data ) {
 
-			if (!Leads_Settings::get_setting('inbound_forms_enable_akismet', '1' )) {
-				return;
+			if (class_exists('Leads_Settings')) {
+				if (!Leads_Settings::get_setting('inbound_forms_enable_akismet', '1' )) {
+					return;
+				}
+			} else {
+				if (!get_option('inbound_forms_enable_akismet', '1' )) {
+					return;
+				}
 			}
 
 			$api_key = Inbound_Akismet::get_api_key();
@@ -163,8 +169,8 @@ if ( !class_exists('Inbound_Akismet') ) {
 	}
 
 	/**
-	*  	Load Inbound Akismet
-	*/
+	 *  	Load Inbound Akismet
+	 */
 	$GLOBALS['Inbound_Akismet'] = new Inbound_Akismet();
 
 }

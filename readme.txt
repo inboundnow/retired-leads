@@ -85,7 +85,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 2.7.4 =
+= 2.7.5 =
 * [fix] Fixing "Fatal error: Class ‘Leads_Settings’ not found" error.
 
 = 2.7.3 =
