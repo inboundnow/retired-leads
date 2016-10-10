@@ -982,7 +982,7 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function get_new_lead_email_template() {
 
-            if (Leads_Settings::get_setting('inbound_admin_notification_inboundnow_link',true)) {
+            if (get_option('inbound_admin_notification_inboundnow_link',true)) {
                 $credit = '<tr>
                         <td valign="middle" width="30" style="color:#272727">&nbsp;</td>
                           <td width="50" height="40" valign="middle" align="left" style="color:#272727">
