@@ -4,7 +4,7 @@ Plugin Name: Leads
 Plugin URI: http://www.inboundnow.com/leads/
 Description: Track website visitor activity, manage incoming leads, and send collected emails to your email service provider.
 Author: Inbound Now
-Version: 2.7.5
+Version: 2.7.7
 Author URI: http://www.inboundnow.com/
 */
 
@@ -24,7 +24,7 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 		*  Setup plugin constants
 		*/
 		private static function define_constants() {
-			define('WPL_CURRENT_VERSION', '2.7.5' );
+			define('WPL_CURRENT_VERSION', '2.7.7' );
 			define('WPL_URLPATH',  plugins_url( '/', __FILE__ ) );
 			define('WPL_PATH', WP_PLUGIN_DIR."/".dirname( plugin_basename( __FILE__ ) ) . '/' );
 			define('WPL_CORE', plugin_basename( __FILE__ ) );
@@ -61,10 +61,12 @@ if ( ! class_exists( 'Inbound_Leads_Plugin' ) ) {
 
 			} else {
 				/* Frontend Includes */
+				include_once( WPL_PATH . 'classes/class.settings.php');
 				include_once( WPL_PATH . 'classes/class.post-type.wp-lead.php');
 				include_once( WPL_PATH . 'classes/class.form-integrations.php');
 				include_once( WPL_PATH . 'classes/class.login.php');
 				include_once( WPL_PATH . 'classes/class.tracking.php');
+				include_once( WPL_PATH . 'classes/class.inbound-forms.akismet.php');
 
 			}
 
