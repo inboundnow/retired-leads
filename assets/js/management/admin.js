@@ -70,7 +70,7 @@ jQuery(document).ready(function($) {
 						limit: cnt,
 						offset: offset,
 						total: tot,
-						ids: ids,
+						ids: JSON.stringify(ids),
 						is_first: is_first
 					},
 		    }, 
