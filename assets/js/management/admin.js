@@ -266,6 +266,7 @@ jQuery(document).ready(function($) {
 			year_end: jQuery('#year_end').val(),
 			t: jQuery('#t').val(),
 			paged: parseInt(jQuery('#paged-current').text()) + 1,
+			wp_lead_status : jQuery('#wp_lead_status').val()
 		}
 
 		for ( tax in bulk_manage_leads.taxonomies ) {
@@ -273,7 +274,9 @@ jQuery(document).ready(function($) {
 				data[tax] = jQuery('#' + tax).val();
 			}
 		}
-        console.log(data);
+
+		console.log(data);
+
 		jQuery.ajax({
 			type: 'POST',
 			context: this,

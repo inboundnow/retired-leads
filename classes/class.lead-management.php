@@ -25,6 +25,7 @@ if (!class_exists('Leads_Manager')) {
         static $keyword;
         static $query; /* query object */
         static $taxonomies; /* array of wp-lead taxonomies */
+        static $statuses; /* array of wp-lead taxonomies */
 
         /**
          *  Initiate class
@@ -99,6 +100,9 @@ if (!class_exists('Leads_Manager')) {
             self::$keyword = (isset($_REQUEST['s'])) ? sanitize_text_field($_REQUEST['s']) : '';
 
             self::$taxonomies = get_object_taxonomies('wp-lead', 'objects');
+
+            self::$statuses = Inbound_Leads::get_lead_statuses();
+
         }
 
         /**
@@ -126,7 +130,7 @@ if (!class_exists('Leads_Manager')) {
             wp_enqueue_script('jquery-ui', WPL_URLPATH . 'assets/js/management/jquery-ui.js');
             wp_enqueue_script('bulk-manage-leads', WPL_URLPATH . 'assets/js/management/admin.js' );
 
-            wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies));
+            wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies ));
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . '/assets/css/admin-management.css');
             wp_enqueue_style('jquery-ui-css', WPL_URLPATH . '/assets/css/jquery-ui.css');
             wp_admin_css('thickbox');
@@ -228,19 +232,26 @@ if (!class_exists('Leads_Manager')) {
                         <div id="top-filters"><?php
                             foreach (self::$taxonomies as $key => $taxonomy) {
                                 if (!$taxonomy->hierarchical) {
-                                    continue;
+                                    //continue;
                                 }
                                 ?>
 
                                 <div id="inbound-filter">
                                     <div class="filter-label">
-                                        <label for="taxonomy"><?php _e(sprintf('Select By %s:', $taxonomy->labels->singular_name), 'inbound-pro' ); ?></label>
+                                        <label for="taxonomy"><?php _e(sprintf('Select by %s:', $taxonomy->labels->singular_name), 'inbound-pro' ); ?></label>
                                     </div>
                                     <?php echo self::build_taxonomy_select($taxonomy, 'multiple'); ?>
                                 </div>
                                 <?php
                             }
                             ?>
+                            <div id="inbound-filter">
+                                <div class="filter-label">
+                                    <label for="wp_lead_status"><?php _e('Select by Status:', 'inbound-pro' ); ?>
+                                    </label>
+                                </div>
+                                <?php echo self::build_lead_status_select(); ?>
+                            </div>
                             <div id="inbound-filter">
                                 <div class="filter-label">
                                     <label for="orderby"><?php _e('Match Condition:', 'inbound-pro' ); ?></label></div>
@@ -632,14 +643,13 @@ if (!class_exists('Leads_Manager')) {
             );
 
 
-
             /* set tax_query_relation */
             $tax_query = array('relation' => $_REQUEST['relation']);
 
             /* loop through taxonomies and check for filter */
             foreach (self::$taxonomies as $key => $taxonomy) {
                 if (!$taxonomy->hierarchical) {
-                    continue;
+                    //continue;
                 }
 
                 if (!isset($_REQUEST[$taxonomy->name]) || !$_REQUEST[$taxonomy->name] || $_REQUEST[$taxonomy->name][0] == 'all') {
@@ -661,10 +671,31 @@ if (!class_exists('Leads_Manager')) {
                 $args['tax_query'] = $tax_query;
             }
 
-            // Add tag to query
+            /* Add tag to query */
             if ((isset($_REQUEST['t'])) && $_REQUEST['t'] != "") {
                 $args['tag'] = $_REQUEST['t'];
             }
+
+            /* set meta_query */
+            if (isset($_REQUEST['wp_lead_status']) && $_REQUEST['wp_lead_status'] ) {
+                $meta_query = array('relation' => $_REQUEST['relation']);
+                foreach ($_REQUEST['wp_lead_status'] as $status) {
+
+                    if ($status == 'all') {
+                       continue;
+                    } else {
+                        error_log($status);
+                        $meta_query[] = array(
+                            'key' => 'wp_lead_status',
+                            'value' => $status,
+                            'meta_compare' => '='
+                        );
+                    }
+                }
+
+                $args['meta_query'] = $meta_query;
+            }
+
 
             if ((isset($_REQUEST['paged'])) && $_REQUEST['paged'] != "1") {
                 $args['paged'] = self::$paged;
@@ -705,6 +736,39 @@ if (!class_exists('Leads_Manager')) {
                 jQuery("#<?php echo $taxonomy->name; ?>").select2({
                     allowClear: true,
                     placeholder: '<?php _e(sprintf('Select %s From List', $taxonomy->labels->singular_name), 'inbound-pro' ); ?>'
+                });
+
+            </script>
+            <?php
+
+        }
+
+        /**
+         *  get status select html
+         */
+        public static function build_lead_status_select() {
+
+            /* create the select input */
+            echo '<select name="wp_lead_status[]" id="wp_lead_status" multiple class="select2 form-control">';
+
+            /* get selected taxonomies */
+            $status_array = (isset($_REQUEST['wp_lead_status'])) ? $_REQUEST['wp_lead_status'] : array();
+
+            /* print the first option */
+            echo '<option class="" value="all" ' . (isset($_REQUEST['wp_lead_status']) && $_REQUEST['wp_lead_status'][0] === 'all' ? 'selected="selected"' : '') . '>' . __('All ', 'inbound-pro' ) . '</option>';
+
+            /* loop through terms and create options */
+            foreach (self::$statuses as $key=>$status) {
+                echo '<option class="" value="' . $key . '" ' . (isset($_REQUEST['wp_lead_status']) && in_array($key, $status_array) ? 'selected="selected"' : '') . '>' . $status['label'] . ' (' . Inbound_Leads::get_status_lead_count($key) . ')</option>';
+            }
+
+            /* end select input */
+            echo '</select>';
+            ?>
+            <script type='text/javascript'>
+                jQuery("#wp_lead_status").select2({
+                    allowClear: true,
+                    placeholder: '<?php _e('Select Status From List', 'inbound-pro' ); ?>'
                 });
 
             </script>
