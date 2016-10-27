@@ -25,6 +25,7 @@ if (!class_exists('Leads_Manager')) {
         static $keyword;
         static $query; /* query object */
         static $taxonomies; /* array of wp-lead taxonomies */
+        static $statuses; /* array of wp-lead taxonomies */
 
         /**
          *  Initiate class
@@ -45,8 +46,8 @@ if (!class_exists('Leads_Manager')) {
             add_action('admin_init', array(__CLASS__, 'load_static_vars'));
             /* load admin scripts */
             add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
-            /* perform lead manage actions */
-            add_action('admin_action_lead_action', array(__CLASS__, 'perform_actions'));
+			/* perform lead manage actions by ajax*/
+			add_action('wp_ajax_perform_actions', array(__CLASS__, 'ajax_perform_actions'));
             /* ajax listener for loading more leads */
             add_action('wp_ajax_leads_ajax_load_more_leads', array(__CLASS__, 'ajax_load_more_leads'));
             /* ajax listener for deleting lead from list */
@@ -94,14 +95,14 @@ if (!class_exists('Leads_Manager')) {
             self::$what = (isset($_REQUEST['what'])) ? sanitize_text_field($_REQUEST['what']) : "";
 
             self::$relation = (isset($_REQUEST['relation'])) ? sanitize_text_field($_REQUEST['relation']) : "AND";
-
-            self::$on = (isset($_REQUEST['on'])) ? sanitize_text_field($_REQUEST['on']) : "";
-
             self::$tag = (isset($_REQUEST['t'])) ? sanitize_text_field($_REQUEST['t']) : '';
 
             self::$keyword = (isset($_REQUEST['s'])) ? sanitize_text_field($_REQUEST['s']) : '';
 
             self::$taxonomies = get_object_taxonomies('wp-lead', 'objects');
+
+            self::$statuses = Inbound_Leads::get_lead_statuses();
+
         }
 
         /**
@@ -129,7 +130,7 @@ if (!class_exists('Leads_Manager')) {
             wp_enqueue_script('jquery-ui', WPL_URLPATH . 'assets/js/management/jquery-ui.js');
             wp_enqueue_script('bulk-manage-leads', WPL_URLPATH . 'assets/js/management/admin.js' );
 
-            wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies));
+            wp_localize_script('bulk-manage-leads', 'bulk_manage_leads', array('admin_url' => admin_url('admin-ajax.php'), 'taxonomies' => self::$taxonomies ));
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . '/assets/css/admin-management.css');
             wp_enqueue_style('jquery-ui-css', WPL_URLPATH . '/assets/css/jquery-ui.css');
             wp_admin_css('thickbox');
@@ -180,7 +181,7 @@ if (!class_exists('Leads_Manager')) {
                     $message = sprintf(__("Removed %d posts from the list '%s'.", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'tag':
-                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo; on $on.", 'inbound-pro' ), self::$num, self::$what);
+                    $message = sprintf(__("Tagged %d posts with &ldquo; %s &rdquo;", 'inbound-pro' ), self::$num, self::$what);
                     break;
                 case 'untag':
                     $message = sprintf(__("Untagged %d posts with '%s'", 'inbound-pro' ), self::$num, self::$what);
@@ -231,19 +232,26 @@ if (!class_exists('Leads_Manager')) {
                         <div id="top-filters"><?php
                             foreach (self::$taxonomies as $key => $taxonomy) {
                                 if (!$taxonomy->hierarchical) {
-                                    continue;
+                                    //continue;
                                 }
                                 ?>
 
                                 <div id="inbound-filter">
                                     <div class="filter-label">
-                                        <label for="taxonomy"><?php _e(sprintf('Select By %s:', $taxonomy->labels->singular_name), 'inbound-pro' ); ?></label>
+                                        <label for="taxonomy"><?php _e(sprintf('Select by %s:', $taxonomy->labels->singular_name), 'inbound-pro' ); ?></label>
                                     </div>
                                     <?php echo self::build_taxonomy_select($taxonomy, 'multiple'); ?>
                                 </div>
                                 <?php
                             }
                             ?>
+                            <div id="inbound-filter">
+                                <div class="filter-label">
+                                    <label for="wp_lead_status"><?php _e('Select by Status:', 'inbound-pro' ); ?>
+                                    </label>
+                                </div>
+                                <?php echo self::build_lead_status_select(); ?>
+                            </div>
                             <div id="inbound-filter">
                                 <div class="filter-label">
                                     <label for="orderby"><?php _e('Match Condition:', 'inbound-pro' ); ?></label></div>
@@ -385,6 +393,13 @@ if (!class_exists('Leads_Manager')) {
             ?>
             <form method="post" id="man-table" action="<?php echo admin_url('admin.php'); ?>">
                 <input type="hidden" name="action" value="lead_action"/>
+                <?php
+                if (isset($_GET['wplead_list_category'])){
+                    foreach($_GET['wplead_list_category'] as $list_id) {
+                        echo '<input type="hidden" name="wplead_list_category[]" value="'.$list_id.'"/>';
+                    }
+                }
+                ?>
                 <div id="posts">
 
                     <table class="widefat" id="lead-manage-table">
@@ -627,13 +642,6 @@ if (!class_exists('Leads_Manager')) {
                 'posts_per_page' => self::$per_page,
             );
 
-            /* listen for on request - not sure what this does */
-            if (isset($_REQUEST['on'])) {
-                $on_val = explode(",", $on);
-                $args['post__in'] = $on_val;
-                $args['order'] = 'DESC';
-                $args['orderby'] = 'date';
-            }
 
             /* set tax_query_relation */
             $tax_query = array('relation' => $_REQUEST['relation']);
@@ -641,7 +649,7 @@ if (!class_exists('Leads_Manager')) {
             /* loop through taxonomies and check for filter */
             foreach (self::$taxonomies as $key => $taxonomy) {
                 if (!$taxonomy->hierarchical) {
-                    continue;
+                    //continue;
                 }
 
                 if (!isset($_REQUEST[$taxonomy->name]) || !$_REQUEST[$taxonomy->name] || $_REQUEST[$taxonomy->name][0] == 'all') {
@@ -663,10 +671,31 @@ if (!class_exists('Leads_Manager')) {
                 $args['tax_query'] = $tax_query;
             }
 
-            // Add tag to query
+            /* Add tag to query */
             if ((isset($_REQUEST['t'])) && $_REQUEST['t'] != "") {
                 $args['tag'] = $_REQUEST['t'];
             }
+
+            /* set meta_query */
+            if (isset($_REQUEST['wp_lead_status']) && $_REQUEST['wp_lead_status'] ) {
+                $meta_query = array('relation' => $_REQUEST['relation']);
+                foreach ($_REQUEST['wp_lead_status'] as $status) {
+
+                    if ($status == 'all') {
+                       continue;
+                    } else {
+                        error_log($status);
+                        $meta_query[] = array(
+                            'key' => 'wp_lead_status',
+                            'value' => $status,
+                            'meta_compare' => '='
+                        );
+                    }
+                }
+
+                $args['meta_query'] = $meta_query;
+            }
+
 
             if ((isset($_REQUEST['paged'])) && $_REQUEST['paged'] != "1") {
                 $args['paged'] = self::$paged;
@@ -715,113 +744,111 @@ if (!class_exists('Leads_Manager')) {
         }
 
         /**
+         *  get status select html
+         */
+        public static function build_lead_status_select() {
+
+            /* create the select input */
+            echo '<select name="wp_lead_status[]" id="wp_lead_status" multiple class="select2 form-control">';
+
+            /* get selected taxonomies */
+            $status_array = (isset($_REQUEST['wp_lead_status'])) ? $_REQUEST['wp_lead_status'] : array();
+
+            /* print the first option */
+            echo '<option class="" value="all" ' . (isset($_REQUEST['wp_lead_status']) && $_REQUEST['wp_lead_status'][0] === 'all' ? 'selected="selected"' : '') . '>' . __('All ', 'inbound-pro' ) . '</option>';
+
+            /* loop through terms and create options */
+            foreach (self::$statuses as $key=>$status) {
+                echo '<option class="" value="' . $key . '" ' . (isset($_REQUEST['wp_lead_status']) && in_array($key, $status_array) ? 'selected="selected"' : '') . '>' . $status['label'] . ' (' . Inbound_Leads::get_status_lead_count($key) . ')</option>';
+            }
+
+            /* end select input */
+            echo '</select>';
+            ?>
+            <script type='text/javascript'>
+                jQuery("#wp_lead_status").select2({
+                    allowClear: true,
+                    placeholder: '<?php _e('Select Status From List', 'inbound-pro' ); ?>'
+                });
+
+            </script>
+            <?php
+
+        }
+
+        /**
          *  Perform lead actions
          */
-        public static function perform_actions() {
+        public static function ajax_perform_actions() {
             global $Inbound_Leads;
 
+            /*permission check*/
             if (!current_user_can('level_9')) {
                 die (__('User does not have admin level permissions.'));
             }
 
-            check_admin_referer('lead_management-edit');
-
-            $_POST = stripslashes_deep($_POST);
-            $_REQUEST = stripslashes_deep($_REQUEST);
-
-            /* bail if no ids to process */
-            if (!isset($_REQUEST['ids']) || !$_REQUEST['ids']) {
-                return;
+            if(empty($_POST) || empty($_POST['data']['action'])){
+                die();
             }
 
-            /* prepare array */
-            $pass_ids = (is_array($_REQUEST['ids'])) ? implode(',', $_REQUEST['ids']) : $_REQUEST['ids'];
+            /*assemble the vars*/
+            $action       = $_POST['data']['action']; //what kind of lead action is being taken.
+            $limit        = $_POST['data']['limit']; //limit of how  many leads are being processed. eg. 100   //will be incremented on each pass
+            $offset       = $_POST['data']['offset'];//lead progress pointer
+            $total        = $_POST['data']['total'];  //total leads being dealt with
+            $ids          = json_decode(stripslashes($_POST['data']['ids']));//the lead ids
+            $lead_list_id = $_POST['data']['lead_list_id'];//the id of the lead list where the actions are taking place
+            $tags         = $_POST['data']['tags'];//tags to be added, removed or replaced
 
 
-            self::$num = count($_REQUEST['ids']);
+            /*find out what the action is...*/
+            if($action == 'add'){
 
-            if (!empty($_REQUEST['wplead_list_category_action'])) {
-                $list_id = intval($_REQUEST['wplead_list_category_action']);
-                $query = '&cat=' . $list_id;
+                for($offset; $offset < $limit; $offset++) {
+                    $Inbound_Leads->add_lead_to_list(intval($ids[$offset]), $lead_list_id); // add to list
+                }
+
+            } elseif($action == 'remove'){
+
+                for($offset; $offset < $limit; $offset++) {
+                    $Inbound_Leads->remove_lead_from_list(intval($ids[$offset]), $lead_list_id);
+                }
+
+            } elseif($action == 'tag'){
+                $tags = explode(',', $tags);
+
+                for($offset; $offset < $limit; $offset++) {
+                    $Inbound_Leads->add_tag_to_lead(intval($ids[$offset]), $tags);
+                }
+
+            } elseif($action == 'untag'){
+                $tags = explode(',', $tags);
+
+                for($offset; $offset < $limit; $offset++) {
+                    $Inbound_Leads->remove_tag_from_lead(intval($ids[$offset]), $tags);
+                }
+
+            } elseif($action == 'replace_tags'){
+                $tags = explode(',', $tags);
+
+                for($offset; $offset < $limit; $offset++) {
+                    wp_set_object_terms($ids[$offset], $tags, 'lead-tags');
+                }
+
+            } elseif($action == 'delete_leads'){
+
+                for($offset; $offset < $limit; $offset++) {
+                    wp_delete_post(intval($ids[$offset]), true);
+                }
+
+            } else{
+                /*if it wasn't on the list... die*/
+                die(__('ERROR: unknown action'));
             }
 
-            if (!empty($_REQUEST['s'])) {
-                $query = '&s=' . sanitize_text_field($_REQUEST['s']);
-            }
-
-            if (!empty($_REQUEST['t'])) {
-                $query = '&t=' . sanitize_text_field($_REQUEST['t']);
-            }
-
-            $term = get_term($_REQUEST['wplead_list_category_action'], 'wplead_list_category');
-            $name = (is_object($term) && isset($term->slug) ) ? $term->slug : '';
-            $this_tax = "wplead_list_category";
-
-            /* We've been told to tag these posts with the given category. */
-            if (!empty($_REQUEST['add'])) {
-
-                foreach ($_REQUEST['ids'] as $id) {
-                    $fid = intval($id);
-                    $Inbound_Leads->add_lead_to_list($fid, $list_id); // add to list
-                }
-
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=add&what=" . $name . "&num=" . self::$num . $query);
-                die;
-            } /* We've been told to remove these posts from the given category. */
-            elseif (!empty($_REQUEST['remove'])) {
-
-                foreach ((array)$_REQUEST['ids'] as $id) {
-                    $Inbound_Leads->remove_lead_from_list(intval($id), $list_id);
-                }
-
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=remove&what=" . $name . "&num=" . self::$num);
-                die;
-            } /* We've been told to tag these posts */
-            elseif (!empty($_REQUEST['tag']) || !empty($_REQUEST['replace_tags'])) {
-                $tags = $_REQUEST['tags'];
-
-                foreach ((array)$_REQUEST['ids'] as $id) {
-                    $Inbound_Leads->add_tag_to_lead(intval($id), $tags);
-                }
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=tag&what=$tags&num=self::$num$query&on=$pass_ids");
-                die;
-            } /* We've been told to untag these posts */
-            elseif (!empty($_REQUEST['untag'])) {
-                $tags = explode(',', $_REQUEST['tags']);
-
-                foreach ((array)$_REQUEST['ids'] as $id) {
-                    $id = intval($id);
-                    $existing = wp_get_post_tags($id);
-                    $new = array();
-
-                    foreach ((array)$existing as $_tag) {
-                        foreach ((array)$tags as $tag) {
-                            if ($_tag->name != $tag) {
-                                $new[] = $_tag->name;
-                            }
-                        }
-                    }
-                    wp_set_post_tags($id, $new);
-                }
-
-                $tags = join(', ', $tags);
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=untag&what=$tags&num=self::$num$query");
-                die;
-            } /* Delete selected leads */
-            elseif (!empty($_REQUEST['delete_leads'])) {
-                foreach ((array)$_REQUEST['ids'] as $id) {
-                    $id = intval($id);
-                    wp_delete_post($id, true);
-                }
-
-                wp_redirect(get_option('siteurl') . "/wp-admin/edit.php?post_type=wp-lead&page=lead_management&done=delete_leads&what=" . $name . "&num=self::$num$query");
-                die;
-
-            }
-
-
-            die("Invalid action.");
-
+            $err = print_r(error_get_last(), true);
+            echo json_encode($err);
+            die();
         }
 
         public static function ajax_leads_export_list(){
@@ -853,8 +880,13 @@ if (!class_exists('Leads_Manager')) {
             $limit    = $_POST['data']['limit'];
             $offset   = $_POST['data']['offset'];
             $total    = $_POST['data']['total'];
-            $is_first = (!isset($_POST['data']['is_first'])) ? 0 : 1;
+            $is_first = (!isset($_POST['data']['is_first']) || !$_POST['data']['is_first'] ) ? 0 : 1;
             $fields = Leads_Field_Map::build_map_array();
+
+            /* add lead status & date created */
+            $fields['wp_lead_status'] = __("Lead Status","inbound-pro");
+            $fields['wpleads_last_updated'] = __("Last Updated","inbound-pro");
+            $fields['wpleads_date_created'] = __("Date Created","inbound-pro");
 
             $upload_dir = wp_upload_dir();
             $uploads_path = 'leads/csv';
@@ -869,7 +901,7 @@ if (!class_exists('Leads_Manager')) {
             $path = str_replace($today_year.'/'.$today_month.'/','',$path);
             if(file_exists($path)){
                 if($is_first == 1){
-                    //unlink($path."/".$filename.".csv");
+                    unlink($path."/".$filename.".csv");
                 }
             } else {
                 mkdir($path, 0755, true);
@@ -909,6 +941,7 @@ if (!class_exists('Leads_Manager')) {
                     continue;
                 }
 
+                $lead = get_post($ids[$j]);
                 $this_lead_data = get_post_custom($ids[$j]);
 
 
@@ -921,6 +954,11 @@ if (!class_exists('Leads_Manager')) {
                         }
                     } else {
                         $val = "";
+                    }
+
+                    /* account for date created */
+                    if ($key == 'wpleads_date_created') {
+                        $val = $lead->post_date;
                     }
 
                     $this_row_data[$key] = $val;
