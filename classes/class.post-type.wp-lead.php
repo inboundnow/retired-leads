@@ -38,7 +38,6 @@ class Leads_Post_Type {
         add_action('load-edit.php', array(__CLASS__, 'process_bulk_actions'));
 
          /* record last time a piece of meta data was updated */
-        add_action('added_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
         add_action('updated_post_meta', array(__CLASS__, 'record_meta_update'), 10, 4);
 
         /* redirect lead notification email links to lead profile */
@@ -59,6 +58,9 @@ class Leads_Post_Type {
 
         /* enqueue scripts and styles in admin  */
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
+
+        /* delete events when lead deleted */
+        add_action('delete_post' , array( __CLASS__ , 'delete_lead_stats'));
 
     }
 
@@ -131,7 +133,7 @@ class Leads_Post_Type {
                 self::display_status_pill($lead_status);
                 break;
             case "action-count":
-                $actions = Inbound_Events::get_total_activity($lead_id);
+                $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add'));
                 echo $actions;
                 break;
             case "custom":
@@ -394,18 +396,12 @@ class Leads_Post_Type {
         <script type="text/javascript">
             jQuery(document).ready(function () {
 
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action']");
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action2']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'inbound-pro' ) ?>').appendTo("select[name='action']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'inbound-pro' ) ?>').appendTo("select[name='action2']");
 
                 jQuery(document).on('change', 'select[name=action]', function () {
                     var this_id = jQuery(this).val();
-                    if (this_id.indexOf("export-csv") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("export-xml") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("add-to-list") >= 0) {
+                    if (this_id.indexOf("add-to-list") >= 0) {
                         var html = "<?php echo $html; ?>";
 
                         jQuery("select[name='action']").after(html);
@@ -700,6 +696,26 @@ class Leads_Post_Type {
             wp_enqueue_style('wpleads-list-css', WPL_URLPATH . 'assets/css/wpl.leads-list.css');
             return;
         }
+    }
+
+    /**
+     * Deletes page_views and events related to deleted lead
+     * @param $lead_id
+     */
+    public static function delete_lead_stats( $lead_id ) {
+        if (did_action( 'delete_post' ) > 1) {
+            return;
+        }
+
+        if (get_post_type($lead_id) != 'wp-lead') {
+            return;
+        }
+
+        global $wpdb;
+
+        $wpdb->delete( $wpdb->prefix . "inbound_page_views", array( 'lead_id' => $lead_id ) );
+        $wpdb->delete( $wpdb->prefix . "inbound_events", array( 'lead_id' => $lead_id ) );
+
     }
 
     /**
