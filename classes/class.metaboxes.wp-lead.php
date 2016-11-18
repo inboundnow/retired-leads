@@ -457,7 +457,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
 
             foreach ($mapped_fields as $key => $field) {
 
-                if ($field['enable'] == 'off') {
+                if (isset($field['enable']) && $field['enable'] == 'off') {
                     continue;
                 }
 
