@@ -133,7 +133,7 @@ class Leads_Post_Type {
                 self::display_status_pill($lead_status);
                 break;
             case "action-count":
-                $actions = Inbound_Events::get_total_activity($lead_id);
+                $actions = Inbound_Events::get_total_activity($lead_id , 'any' , array('inbound_list_add'));
                 echo $actions;
                 break;
             case "custom":
@@ -396,18 +396,12 @@ class Leads_Post_Type {
         <script type="text/javascript">
             jQuery(document).ready(function () {
 
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action']");
-                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'lp') ?>').appendTo("select[name='action2']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'inbound-pro' ) ?>').appendTo("select[name='action']");
+                jQuery('<option>').val('add-to-list').text('<?php _e('Add to Contact List', 'inbound-pro' ) ?>').appendTo("select[name='action2']");
 
                 jQuery(document).on('change', 'select[name=action]', function () {
                     var this_id = jQuery(this).val();
-                    if (this_id.indexOf("export-csv") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("export-xml") >= 0) {
-                        jQuery('#posts-filter').prop('target', '_blank');
-                    }
-                    else if (this_id.indexOf("add-to-list") >= 0) {
+                    if (this_id.indexOf("add-to-list") >= 0) {
                         var html = "<?php echo $html; ?>";
 
                         jQuery("select[name='action']").after(html);
