@@ -385,7 +385,7 @@ class Leads_Settings {
 
             /* loop through fields and save the data */
             foreach ($wpleads_global_settings[$key]['settings'] as $field) {
-                error_log(print_r($field,true));
+
                 $field['id'] = $key.'-'.$field['id'];
 
                 if (array_key_exists('option_name',$field) && $field['option_name'] ) {
