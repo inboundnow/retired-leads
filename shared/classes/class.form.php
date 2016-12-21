@@ -551,7 +551,7 @@ if (!class_exists('Inbound_Forms')) {
             /* TODO remove this */
             ?>
             <script type="text/javascript">
-                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 10);
+                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
 
                 function inbound_additional_checks( data ) {
                     /* make sure event is defined */
@@ -560,14 +560,17 @@ if (!class_exists('Inbound_Forms')) {
                         event.target = data.event;
                     }
 
-                    /* added below condition for check any of checkbox checked or not by kirit dholakiya */
-                    if( jQuery('.checkbox-required')[0] && jQuery('.checkbox-required input[type=checkbox]:checked').length==0) {
-                        jQuery('.checkbox-required input[type=checkbox]:first').focus();
+                  	/*make sure all of this form's required checkboxes are checked*/
+                    var checks = jQuery(event.target).find('.checkbox-required');
+                    for(var a = 0; a < checks.length; a++){
+                      if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
+                        jQuery(jQuery(checks[a]).find('input')).focus();
                         alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
-                        throw new Error('<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>');
+                        throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
+                      }
                     }
 
-                    jQuery(this).find("input").each(function(){
+                  jQuery(this).find("input").each(function(){
                         if(!jQuery(this).prop("required")){
                         } else if (!jQuery(this).val()) {
                             alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");
@@ -795,6 +798,13 @@ if (!class_exists('Inbound_Forms')) {
          */
         public static function send_conversion_admin_notification($form_post_data, $form_meta_data) {
 
+            /* Get Lead Email Address */
+            $lead_email = self::get_email_from_post_data($form_post_data);
+
+            if (!$lead_email) {
+                return;
+            }
+
             if ($template = self::get_new_lead_email_template()) {
 
                 add_filter('wp_mail_content_type', 'inbound_set_html_content_type');
@@ -909,25 +919,7 @@ if (!class_exists('Inbound_Forms')) {
             }
 
             /* Get Lead Email Address */
-            $lead_email = false;
-            foreach ($form_post_data as $key => $value) {
-                if (preg_match('/email|e-mail/i', $key)) {
-                    $lead_email = $form_post_data[$key];
-                }
-            }
-
-            /* Redundancy */
-            if (!$lead_email) {
-                if (isset($form_post_data['email'])) {
-                    $lead_email = $form_post_data['email'];
-                } else if (isset($form_post_data['e-mail'])) {
-                    $lead_email = $form_post_data['e-mail'];
-                } else if (isset($form_post_data['wpleads_email_address'])) {
-                    $lead_email = $form_post_data['wpleads_email_address'];
-                } else {
-                    $lead_email = 'null map email field';
-                }
-            }
+            $lead_email = self::get_email_from_post_data($form_post_data);
 
             if (!$lead_email) {
                 return;
@@ -977,8 +969,37 @@ if (!class_exists('Inbound_Forms')) {
 
         }
 
+        public static function get_email_from_post_data( $form_post_data ) {
+            /* Get Lead Email Address */
+            $lead_email = '';
+            foreach ($form_post_data as $key => $value) {
+                if (preg_match('/email|e-mail/i', $key)) {
+                    $lead_email = $form_post_data[$key];
+                }
+            }
+
+            /* Redundancy */
+            if (!$lead_email) {
+                if (isset($form_post_data['email'])) {
+                    $lead_email = $form_post_data['email'];
+                } else if (isset($form_post_data['e-mail'])) {
+                    $lead_email = $form_post_data['e-mail'];
+                } else if (isset($form_post_data['wpleads_email_address'])) {
+                    $lead_email = $form_post_data['wpleads_email_address'];
+                }
+            }
+
+            $lead_email = str_replace('%40' , '@' , $lead_email);
+
+            if ($lead_email == 'false') {
+                $lead_email = false;
+            }
+            return $lead_email;
+        }
+
         /**
          *  Get Email Template for New Lead Notification
+         *
          */
         static function get_new_lead_email_template() {
 
@@ -1098,7 +1119,7 @@ if (!class_exists('Inbound_Forms')) {
                                  <w:anchorlock/>
                                  <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">' . __('View Lead', 'inbound-pro') . '</center>
                                </v:roundrect>
-                             <![endif]--><a href="{{admin-url}}edit.php?post_type=wp-lead&s={{lead-email-address}}"
+                             <![endif]--><a href="{{admin-url}}edit.php?post_status=all&post_type=wp-lead&s={{lead-email-address}}"
                              style="background-color:#3A9FD1;border:1px solid #7490af;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:18px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:250px;-webkit-text-size-adjust:none;mso-hide:all;" title="' . __('View the full Lead details in WordPress', 'inbound-pro') . '">' . __('View Full Lead Details', 'inbound-pro') . '</a>
                            </div>
                           </td>
