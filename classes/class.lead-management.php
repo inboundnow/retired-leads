@@ -477,7 +477,7 @@ if (!class_exists('Leads_Manager')) {
                             echo '<td>' . $post->ID . '</td>';
                                 
                             /*add custom row content*/
-                            echo apply_filters('inbound_bulk_lead_action_list_item', $post);
+                            do_action('inbound_bulk_lead_action_list_item', $post);
                                 
                             echo '</tr>';
                             $loop_count++;
@@ -562,7 +562,7 @@ if (!class_exists('Leads_Manager')) {
                                 <input type="submit" class="manage-remove button-primary button" name="delete_leads" value="<?php _e('Permanently Delete Selected Leads', 'inbound-pro' ) ?>" title="<?php _e('This will delete the selected leads from your database. There is no undo.', 'inbound-pro' ); ?>"/>
 
                             </div>
-                            <?php  echo do_action('inbound_bulk_lead_action_triggers');?>
+                            <?php do_action('inbound_bulk_lead_action_triggers');?>
                         </div>
                     </div>
 
@@ -607,7 +607,7 @@ if (!class_exists('Leads_Manager')) {
                         <option value="lead-update-lists" class="action-symbol lead-update-lists-symbol db-drop-label"><?php _e('Add or Remove Selected Leads from Lists', 'inbound-pro' ); ?></option>
                         <option value="lead-update-tags" class="action-symbol lead-update-tags-symbol db-drop-label"><?php _e('Add or Remove Tags to Selected Leads', 'inbound-pro' ); ?></option>
                         <option value="lead-delete" class="action-symbol lead-update-delete-symbol db-drop-label"><?php _e('Permanently Delete Selected Leads', 'inbound-pro' ); ?></option>
-                        <?php echo do_action('inbound_bulk_lead_action_controls');?>
+                        <?php do_action('inbound_bulk_lead_action_controls');?>
                     </select>
                 </div>
             </section>
@@ -1063,7 +1063,7 @@ if (!class_exists('Leads_Manager')) {
                 echo '<td>' . $post->ID . '</td>';
                 
                 /*add custom row content*/
-                echo apply_filters('inbound_bulk_lead_action_list_item', $post);
+                do_action('inbound_bulk_lead_action_list_item', $post);
                     
                 echo '</tr>';
                 $loop_count++;
