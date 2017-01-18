@@ -40,9 +40,13 @@ class Leads_Activation {
 
 		/* Activate shared components */
 		self::activate_shared();
+        
+        /* Create List Double Optin Page */
+        self::create_double_optin_page();
 
 		/* Mark Active */
 		add_option( 'Leads_Activated' , true );
+
 	}
 
 	/**
@@ -70,7 +74,7 @@ class Leads_Activation {
 			$completed[] = $updater;
 
 		}
-
+            
 		/* Update this transient value with list of completed upgrade processes */
 		update_option( 'leads_completed_upgrade_routines' , $completed );
 
@@ -147,6 +151,46 @@ class Leads_Activation {
 		exit;
 	}
 
+    /**
+     * Creates the "Confirm Double Optin Page" if the double optin page id is empty
+     */
+    public static function create_double_optin_page(){
+        $title = __( 'Confirm Double Opt In' , 'inbound-pro' );
+
+        /*get the double optin confirm page id*/
+        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+            $double_optin_page_id = get_option('list-double-optin-page-id', '');
+        }else{
+            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+            $double_optin_page_id = $settings['leads']['list-double-optin-page-id'];
+        }
+
+        // If the confirm page id isn't set
+        if(empty($double_optin_page_id)) {
+
+            /**check by name to see if the confirm page exists, if it doesn't create it**/
+            if(null == get_page_by_title( $title )){
+                // Set the page ID so that we know the post was created successfully
+                $page_id = wp_insert_post(array(
+                                            'comment_status'    =>  'closed',
+                                            'ping_status'       =>  'closed',
+                                            'post_title'        =>  $title,
+                                            'post_status'       =>  'publish',
+                                            'post_type'         =>  'page',
+                                            'post_content'      =>  '[inbound-list-confirm-double-optin]'
+                ));
+            }else{
+            /*if the confirm page does exist, set the page id to its id*/
+                $page_id = get_page_by_title( $title );
+            }
+            update_option('list-double-optin-page-id', $page_id);
+            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings');
+            $settings['leads']['list-double-optin-page-id'] = $page_id;
+            Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+        }
+        
+    }
+
 
 	/* Checks if plugin is compatible with current server PHP version */
 	public static function run_version_checks() {
@@ -212,6 +256,7 @@ class Leads_Activation {
 
 
 	}
+    
 }
 
 /* Add Activation Hook */

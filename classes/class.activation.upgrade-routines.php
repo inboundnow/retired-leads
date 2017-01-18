@@ -149,5 +149,4 @@ if ( !class_exists('Leads_Activation_Update_Routines') ) {
 			}
 		}
 	}
-
 }

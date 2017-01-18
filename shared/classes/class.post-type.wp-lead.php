@@ -25,9 +25,17 @@ if ( !class_exists('Inbound_Leads') ) {
 			add_filter( 'manage_edit-wplead_list_category_columns', array(__CLASS__, 'register_lead_list_columns' ));
 			add_filter( 'manage_wplead_list_category_custom_column', array(__CLASS__, 'support_lead_list_columns' ), 10, 3);
 
+            /* Add the setting saver and getter */
+            add_action('wplead_list_category_edit_form', array(__CLASS__, 'lead_list_save_settings'));
+            add_action('wplead_list_category_edit_form', array(__CLASS__, 'lead_list_do_settings'));
+
 			if (is_admin()) {
 				add_action( 'edit_form_after_title', array(__CLASS__, 'install_leads_prompt' ) );
 			}
+            
+            /**AJAX**/
+            /* Save the settings to the term meta */
+            add_action('wp_ajax_lead_list_save_settings', array(__CLASS__, 'ajax_lead_list_save_settings'));
 		}
 		/**
 		*	Register wp-lead post type
@@ -179,12 +187,13 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 
 		/**
-		 *  Adds ID column to lead-tags WP List Table
+		 *  Adds ID and Double Opt In columns to lead-tags WP List Table
 		 */
 		public static function register_lead_list_columns( $cols ) {
 			$new_columns = array(
 				'cb' => '<input type="checkbox" />',
 				'lead_id' => __('ID', 'inbound-pro' ),
+				'double_optin' => __('Double Opt In', 'inbound-pro'),
 				'name' => __('Name', 'inbound-pro' ),
 				'description' => __('Description', 'inbound-pro' ),
 				'slug' => __('Slug', 'inbound-pro' ),
@@ -194,18 +203,133 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 
 		/**
-		 *  Helps ID column display lead list ID
+		 *  Displays the list id and double option status in the lead-tags WP List Table
 		 */
 		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
-			if ($column_name != 'lead_id' ) {
-				return $out;
+			
+			switch($column_name){
+				case 'lead_id':
+					echo $term_id;
+				break;
+				
+				case 'double_optin':
+                    /*get the double optin waiting list id*/
+                    if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+                        $double_optin_list_id = get_option('list-double-optin-list-id', '');
+                    }else{
+                        $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                        $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                    }
+                    /*if the current term isn't the double optin list, display the double optin status*/
+                    if($term_id != $double_optin_list_id){
+                        $settings = get_term_meta($term_id, 'wplead_lead_list_meta_settings');
+                        if(!empty($settings[0]['double_optin']) &&  $settings[0]['double_optin'] == 1){
+                            echo '<span>' . __('on', 'inbound-pro') . '</span>';
+                        }else{
+                            echo '<span>' . __('off', 'inbound-pro') . '</span>';
+                        }
+                    }
+				break;
+			
 			}
-
-			$out .= $term_id;
-
-			return $out;
 		}
+        
+        /**
+         * Gets the values of all inboundnow-lead-list-option class inputs, and sends them to ajax_lead_list_save_settings for saving.
+         * The element attribute "name" is the key for the settings.
+         */
+        public static function lead_list_save_settings($list){
+            ?>
+            <script>
+                jQuery(document).ready(function(){
+                    jQuery('input#submit').on('click', function(){
+                        var settingData = {};
+                        var id = "<?php echo $list->term_id; ?>";
+                        /*get the value of all inboundnow lead list options*/
+                        jQuery('.inboundnow-lead-list-option').each(function(){
+                            settingData[jQuery(this).attr("name")] = jQuery(this).val();
+                        });
 
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: ajaxurl,
+                            data: {
+                                action: 'lead_list_save_settings',
+                                id: id,
+                                data: settingData,
+                            },
+                            success: function(response){
+                                console.log(JSON.parse(response));
+                            },
+                        });
+                        
+                    });
+                });
+            </script>
+            <?php
+        }        
+        
+        /**
+         * Sets the inboundnow-lead-list-option class inputs to the values stored in the term meta.
+         * The elements are selected by the "name" attribute, which is also the setting key.
+         */
+        public static function lead_list_do_settings($list){
+            $settings = get_term_meta($list->term_id, 'wplead_lead_list_meta_settings', true);
+                /*remove the email text input, the editor info is supplied as the editor default. Also quotes make the json parse fail*/
+                unset($settings['is_html_inbound-email-response-text-data-input']);
+            ?>
+            
+            <script>
+                jQuery(document).ready(function(){
+                    var settings = jQuery.parseJSON('<?php echo json_encode($settings, JSON_FORCE_OBJECT); ?>');
+                    console.log(settings);
+                    for(var a in settings){
+                        jQuery('.inboundnow-lead-list-option[name="' + a + '"]').val(settings[a]);
+                    }
+                });
+            
+            </script>
+            <?php
+        }        
+
+        /**
+         * Saves form options to the term meta
+         * is_html_ is a token for passing html to the settings.
+         * To use it, prefix the html "name" value with it.
+         * So <input name="inbound-html"> becomes <input name="is_html_inbound_html">
+         */
+        public static function ajax_lead_list_save_settings(){
+            $data = stripslashes_deep($_POST['data']);
+            $cleaned = array();
+            foreach($data as $key => $value){
+                /*if html has been passed*/
+                if(substr($key, 0, 8) == 'is_html_'){
+                    /*add the cleaned html string to the array of cleaned values*/
+                    $cleaned[sanitize_text_field($key)] = wp_kses_post($value);
+                }else{
+                    $cleaned[sanitize_text_field($key)] = sanitize_text_field($value);	
+                }
+            }			
+            
+            /*get the existing stored settings*/
+            $meta = get_term_meta((int)$_POST['id'], 'wplead_lead_list_meta_settings', true);
+            
+            /**if the settings aren't empty, add each cleaned setting to the settings**/
+            if(!empty($meta)){
+                foreach($cleaned as $setting_name => $setting_value){
+                    $meta[$setting_name] = $setting_value;
+                }
+            }else{
+            /*if the settings are empty, just push the cleaned data*/
+                $meta = $cleaned;
+            }
+            
+            update_term_meta((int)$_POST['id'], 'wplead_lead_list_meta_settings', $meta);
+
+            echo json_encode(__('Settings Updated!', 'inbound-pro'));
+            die();
+        }        
+        
 		/**
 		*	Make sure that all list ids are intval
 		*
@@ -479,6 +603,13 @@ if ( !class_exists('Inbound_Leads') ) {
 					'key' => 'archive',
 					'label' => __('Archive' , 'inbound-pro'),
 					'color' => '#7A3068',
+					'nature' => 'core'
+				),
+				'double-optin' => array(
+					'priority' => 7,
+					'key' => 'double-optin',
+					'label' => __('Waiting for Double Opt-in Confirmation' , 'inbound-pro'),
+					'color' => '#0333b9',
 					'nature' => 'core'
 				),
 			);

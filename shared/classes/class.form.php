@@ -907,7 +907,6 @@ if (!class_exists('Inbound_Forms')) {
          */
         public static function send_conversion_lead_notification($form_post_data, $form_meta_data) {
 
-
             /* If Notifications Are Off Then Exit */
             if (!isset($form_meta_data['inbound_email_send_notification'][0]) || $form_meta_data['inbound_email_send_notification'][0] != 'on') {
                 return;
