@@ -151,7 +151,7 @@ class Leads_Settings {
                 ),
                 array(
                     'id'  => 'confirm-form-shortcode',
-                    'label'  => __('Confirmation Form Shortcode:', 'inbound-pro' ),
+                    'label'  => __('List double opt in confirmation form shortcode:', 'inbound-pro' ),
                     'description'  => __( 'This shortcode is used to produce the form for leads to confirm being put on a lead list. Inbound Now automatically creates a Confirm Double Opt In page with this shortcode on activation.' , 'inbound-pro' ),
                     'type'  => 'text',
                     'readonly'  => true,
@@ -159,11 +159,11 @@ class Leads_Settings {
                 ),
                 array(
                     'id'  => 'confirm-link-shortcode',
-                    'label'  => __('Confirmation Link Shortcode:', 'inbound-pro' ),
+                    'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
                     'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
                     'type'  => 'text',
                     'readonly'  => true,
-                    'default'  => '[inbound-list-double-optin-link]',
+                    'default'  => '[inbound-list-double-optin-link link_text=&quot;' . __('Please confirm being put on our mailing list', 'inbound-pro') . '&quot;]',
                 ),
                 array(
                     'id'  => 'list-double-optin-page-id',
@@ -324,7 +324,7 @@ class Leads_Settings {
                     'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
                     'type'  => 'text',
                     'readonly'  => true,
-                    'default'  => '[inbound-list-double-optin-link link_text="Please confirm being put on our mailing list"]',
+                    'default'  => '[inbound-list-double-optin-link link_text=&quot;' . __('Please confirm being put on our mailing list', 'inbound-pro') . '&quot;]',
                 ),
                 array(
                     'id'  => 'list-double-optin-page-id',
