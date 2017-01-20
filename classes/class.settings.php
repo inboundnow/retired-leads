@@ -142,7 +142,70 @@ class Leads_Settings {
                     'type'  => 'radio',
                     'default'  => '0',
                     'options' => array('1'=>'On','0'=>'Off')
-                )
+                ),
+                array(
+                    'id'  => 'list-double-optin-options',
+                    'type'  => 'sub-header',
+                    'default'  => __('List Double Opt In Options', 'inbound-pro' ),
+                    'options' => null
+                ),
+                array(
+                    'id'  => 'confirm-form-shortcode',
+                    'label'  => __('List double opt in confirmation form shortcode:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to produce the form for leads to confirm being put on a lead list. Inbound Now automatically creates a Confirm Double Opt In page with this shortcode on activation.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-confirm-double-optin]',
+                ),
+                array(
+                    'id'  => 'confirm-link-shortcode',
+                    'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-double-optin-link link_text=&quot;' . __('Please confirm being put on our mailing list', 'inbound-pro') . '&quot;]',
+                ),
+                array(
+                    'id'  => 'list-double-optin-page-id',
+                    'label'  => __('Confirmation Page Location', 'inbound-pro' ),
+                    'description'  => __( 'Where to send readers to confirm being added to a list. We auto create a confirmation page on activation, but you can use our shortcode on any page [inbound-list-confirm-double-optin]. ' , 'inbound-pro' ),
+                    'type'  => 'dropdown',
+                    'default'  => '',
+                    'options' => self::leads_get_pages_array(),
+                ),                
+                array(
+                    'id'  => 'list-double-optin-button-text',
+                    'option_name'  => 'list-double-optin-button-text',
+                    'label' => __('Confirm button text.' , 'inbound-pro' ),
+                    'description' => __("Use this to set the text for the button in the double opt in confirmation form." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __('Confirm List Opt In', 'inbound-pro'),
+                ),
+                array(
+                    'id'  => 'list-double-optin-confirmed-message',
+                    'option_name'  => 'list-double-optin-confirmed-message',
+                    'label' => __('Double opt in confirmation message.' , 'inbound-pro' ),
+                    'description' => __("This is the message that's displayed after a lead has confirmed being put on a list." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __( 'Thank You!', 'inbound-pro'),
+                ),  
+                array(
+                    'id'  => 'list-double-optin-all-list-text',
+                    'option_name'  => 'list-double-optin-all-list-text',
+                    'label' => __('All lists option label.' , 'inbound-pro' ),
+                    'description' => __("This is the label text for the option to opt into all availible lists." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __( 'All Lists' , 'inbound-pro' ),
+                ),  
+                array(
+                    'id'  => 'list-double-optin-show-lists',
+                    'option_name'  => 'list-double-optin-show-lists',
+                    'label' => __('Show all lists waiting to be opted into.' , 'inbound-pro' ),
+                    'description' => __("This is the option to choose the lists to be opted into. Setting this to Off will hide the lists on the confirmation page. When a lead the lead clicks the confirm button, all lists waiting for confirmation will be confirmed " , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => 'on',
+                    'options' => array('on'=>'On','off'=>'Off'),
+                ),            
             )
 
         );
@@ -246,7 +309,65 @@ class Leads_Settings {
                     'type'  => 'radio',
                     'default'  => '0',
                     'options' => array('1'=>'On','0'=>'Off')
-                )
+                ),
+                array(
+                    'id'  => 'confirm-form-shortcode',
+                    'label'  => __('List double opt in confirmation form shortcode:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to produce the form for leads to confirm being put on a lead list. Inbound Now automatically creates a Confirm Double Opt In page with this shortcode on activation.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-confirm-double-optin]',
+                ),
+                array(
+                    'id'  => 'confirm-link-shortcode',
+                    'label'  => __('List double opt in confirmation link:', 'inbound-pro' ),
+                    'description'  => __( 'This shortcode is used to add a special link to emails requesting list double opt in confirmation. The link contains coded information required for the lead to confirm being added to a list.' , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'readonly'  => true,
+                    'default'  => '[inbound-list-double-optin-link link_text=&quot;' . __('Please confirm being put on our mailing list', 'inbound-pro') . '&quot;]',
+                ),
+                array(
+                    'id'  => 'list-double-optin-page-id',
+                    'label'  => __('Confirmation Page Location', 'inbound-pro' ),
+                    'description'  => __( 'Where to send readers to confirm being added to a list. We auto create a confirmation page on activation, but you can use our shortcode on any page [inbound-list-confirm-double-optin]. ' , 'inbound-pro' ),
+                    'type'  => 'dropdown',
+                    'default'  => '',
+                    'options' => self::leads_get_pages_array(),
+                ), 
+                array(
+                    'id'  => 'list-double-optin-button-text',
+                    'option_name'  => 'list-double-optin-button-text',
+                    'label' => __('Confirm button text.' , 'inbound-pro' ),
+                    'description' => __("Use this to set the text for the button in the double opt in confirmation form." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __('Confirm List Opt In', 'inbound-pro'),
+                ),
+                array(
+                    'id'  => 'list-double-optin-confirmed-message',
+                    'option_name'  => 'list-double-optin-confirmed-message',
+                    'label' => __('Double opt in confirmation message.' , 'inbound-pro' ),
+                    'description' => __("This is the message that's displayed after a lead has confirmed being put on a list." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __( 'Thank You!', 'inbound-pro'),
+                ),  
+                array(
+                    'id'  => 'list-double-optin-all-list-text',
+                    'option_name'  => 'list-double-optin-all-list-text',
+                    'label' => __('All lists option label.' , 'inbound-pro' ),
+                    'description' => __("This is the label text for the option to opt into all availible lists." , 'inbound-pro' ),
+                    'type'  => 'text',
+                    'default'  => __( 'All Lists' , 'inbound-pro' ),
+                ),  
+                array(
+                    'id'  => 'list-double-optin-show-lists',
+                    'option_name'  => 'list-double-optin-show-lists',
+                    'label' => __('Show all lists waiting to be opted into.' , 'inbound-pro' ),
+                    'description' => __("This is the option to choose the lists to be opted into. Setting this to Off will hide the lists on the confirmation page. When a lead the lead clicks the confirm button, all lists waiting for confirmation will be confirmed " , 'inbound-pro' ),
+                    'type'  => 'radio',
+                    'default'  => 'on',
+                    'options' => array('on'=>'On','off'=>'Off'),
+                ),  
+       
             );
 
 
@@ -289,6 +410,21 @@ class Leads_Settings {
 
 
         return $wpleads_global_settings;
+    }
+    
+    /**
+    *  Gets array of pages with ID => Label format
+    */
+    public static function leads_get_pages_array() {
+        $pages = get_pages();
+
+        $pages_array = array() ;
+
+        foreach ($pages as $page) {
+            $pages_array[ $page->ID ] = $page->post_title;
+        }
+
+        return $pages_array;
     }
 
     /**

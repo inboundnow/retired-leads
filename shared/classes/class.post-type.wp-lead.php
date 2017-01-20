@@ -24,7 +24,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			/* Modify columns on lead list creation page */
 			add_filter( 'manage_edit-wplead_list_category_columns', array(__CLASS__, 'register_lead_list_columns' ));
 			add_filter( 'manage_wplead_list_category_custom_column', array(__CLASS__, 'support_lead_list_columns' ), 10, 3);
-            
+
             /* Add the setting saver and getter */
             add_action('wplead_list_category_edit_form', array(__CLASS__, 'lead_list_save_settings'));
             add_action('wplead_list_category_edit_form', array(__CLASS__, 'lead_list_do_settings'));
@@ -193,7 +193,7 @@ if ( !class_exists('Inbound_Leads') ) {
 			$new_columns = array(
 				'cb' => '<input type="checkbox" />',
 				'lead_id' => __('ID', 'inbound-pro' ),
-                'double_optin' => __('Double Opt In', 'inbound-pro'),
+				'double_optin' => __('Double Opt In', 'inbound-pro'),
 				'name' => __('Name', 'inbound-pro' ),
 				'description' => __('Description', 'inbound-pro' ),
 				'slug' => __('Slug', 'inbound-pro' ),
@@ -207,7 +207,7 @@ if ( !class_exists('Inbound_Leads') ) {
 		 */
 		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
 			
-            switch($column_name){
+			switch($column_name){
 				case 'lead_id':
 					echo $term_id;
 				break;
@@ -290,7 +290,7 @@ if ( !class_exists('Inbound_Leads') ) {
             
             </script>
             <?php
-        }
+        }        
 
         /**
          * Saves form options to the term meta
@@ -309,7 +309,7 @@ if ( !class_exists('Inbound_Leads') ) {
                 }else{
                     $cleaned[sanitize_text_field($key)] = sanitize_text_field($value);	
                 }
-            }
+            }			
             
             /*get the existing stored settings*/
             $meta = get_term_meta((int)$_POST['id'], 'wplead_lead_list_meta_settings', true);
@@ -328,8 +328,8 @@ if ( !class_exists('Inbound_Leads') ) {
 
             echo json_encode(__('Settings Updated!', 'inbound-pro'));
             die();
-        }
-
+        }        
+        
 		/**
 		*	Make sure that all list ids are intval
 		*

@@ -102,7 +102,7 @@ td.last-name {
 }
 
 
-.row-actions .mark-read ,.row-actions  .mark-unread {
+.row-actions .mark-read ,.row-actions  .mark-unread ,.row-actions .stop-waiting-for-optin {
     font-size: 14px;
     padding: 0px 5px;
     color: #fff;
@@ -129,6 +129,12 @@ td.last-name {
     color:#fff;
 }
 
+.row-actions .stop-waiting-for-optin, .row-actions .stop-waiting-for-optin:hover{
+    background: #0333b9;
+    padding: 0px 5px; 
+    color:#fff;
+    display: none;
+}
 
 .row-actions .trash a {
     background: #2ea2cc;

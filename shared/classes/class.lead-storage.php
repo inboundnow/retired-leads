@@ -248,7 +248,7 @@ if (!class_exists('LeadStorage')) {
 
 				/* set unset pageviews to lead using lead_uid */
 				self::update_pageviews($lead);
-
+				
 				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
 					echo $lead['id'];
