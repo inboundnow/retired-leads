@@ -41,8 +41,11 @@ class Leads_Activation {
 		/* Activate shared components */
 		self::activate_shared();
         
-        /* Create List Double Optin Page */
+        /* Create Double Optin Page */
         self::create_double_optin_page();
+
+        /* Create Double Optin List */
+        self::create_double_optin_list();
 
 		/* Mark Active */
 		add_option( 'Leads_Activated' , true );
@@ -107,6 +110,28 @@ class Leads_Activation {
 		}
 	}
 
+
+	/* Checks if plugin is compatible with current server PHP version */
+	public static function run_version_checks() {
+
+		global $wp_version;
+
+		/* Check PHP Version */
+		if ( version_compare( phpversion(), self::$version_php, '<' ) ) {
+			self::abort_activation(
+				array(
+					'title' => 'Installation aborted',
+					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
+					'details' => array(
+						__( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
+						__( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
+					),
+					'solultion' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
+				)
+			);
+		}
+	}
+
 	public static function display_upgrade_routine_notice() {
 		?>
 		<div class="error">
@@ -155,15 +180,11 @@ class Leads_Activation {
      * Creates the "Confirm Double Optin Page" if the double optin page id is empty
      */
     public static function create_double_optin_page(){
-        $title = __( 'Confirm Double Opt In' , 'inbound-pro' );
+		global $inbound_settings;
 
-        /*get the double optin confirm page id*/
-        if(!defined('INBOUND_PRO_CURRENT_VERSION')){
-            $double_optin_page_id = get_option('list-double-optin-page-id', '');
-        }else{
-            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
-            $double_optin_page_id = $settings['leads']['list-double-optin-page-id'];
-        }
+        $title = __( 'Confirm Subscription' , 'inbound-pro' );
+
+		$double_optin_page_id = self::get_double_optin_page_id();
 
         // If the confirm page id isn't set
         if(empty($double_optin_page_id)) {
@@ -172,91 +193,131 @@ class Leads_Activation {
             if(null == get_page_by_title( $title )){
                 // Set the page ID so that we know the post was created successfully
                 $page_id = wp_insert_post(array(
-                                            'comment_status'    =>  'closed',
-                                            'ping_status'       =>  'closed',
-                                            'post_title'        =>  $title,
-                                            'post_status'       =>  'publish',
-                                            'post_type'         =>  'page',
-                                            'post_content'      =>  '[inbound-list-confirm-double-optin]'
-                ));
+					'comment_status'    =>  'closed',
+					'ping_status'       =>  'closed',
+					'post_title'        =>  $title,
+					'post_status'       =>  'publish',
+					'post_type'         =>  'page',
+					'post_content'      =>  __('Thank you!' , 'inbound-pro')
+				));
             }else{
             /*if the confirm page does exist, set the page id to its id*/
                 $page_id = get_page_by_title( $title );
             }
-            update_option('list-double-optin-page-id', $page_id);
-            $settings = Inbound_Options_API::get_option('inbound-pro', 'settings');
-            $settings['leads']['list-double-optin-page-id'] = $page_id;
-            Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+
+			self::save_double_optin_page_id($page_id);
         }
         
     }
 
-
-	/* Checks if plugin is compatible with current server PHP version */
-	public static function run_version_checks() {
-
-		global $wp_version;
-
-		/* Check PHP Version */
-		if ( version_compare( phpversion(), self::$version_php, '<' ) ) {
-			self::abort_activation(
-				array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
-									__( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
-								),
-					'solultion' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
-				)
-			);
+	/**
+	 * Creates a maintenance list
+	 */
+	public static function create_double_optin_list() {
+		/*get the double optin waiting list id*/
+		if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+			$double_optin_list_id = get_option('list-double-optin-list-id', '');
+		} else {
+			$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+			$double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
 		}
 
-		/* Check WP Version */
-		if ( version_compare( $wp_version , self::$version_wp, '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'WordPress Version' , 'landing-pages' ) => $wp_version,
-									__( 'Required WordPress Version' , 'landing-pages' ) => self::$version_wp
-								),
-					'solultion' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
-				)
-			);
+		// If the list doesn't already exist, create it
+		if (false == get_term_by('id', $double_optin_list_id, 'wplead_list_category')) {
+
+			/* create/get maintenance lists */
+			$parent = self::create_lead_list( array(
+				'name' => __( 'Maintenance' , 'inbound-pro' )
+			));
+
+			/* createget spam lists */
+			$term = self::create_lead_list( array(
+				'name' => __( 'Unconfirmed' , 'inbound-pro' ),
+				'parent' =>$parent['id']
+			));
+
+			/*get the double optin waiting list id*/
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+				update_option('list-double-optin-list-id', $term['id']);
+			} else {
+				$settings = Inbound_Options_API::get_option('inbound-pro', 'settings');
+				$settings['leads']['list-double-optin-list-id'] = $term['id'];
+				Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+			}
+
 		}
-
-		/* Check Landing Pages Version */
-		if ( defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION , self::$version_lp , '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Leads Version' , 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
-									__( 'Required Leads Version' , 'landing-pages' ) => self::$version_lp
-								),
-					'solultion' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
-				)
-			);
-		}
-
-		/* Check Calls to Action Version */
-		if ( defined('WP_CTA_CURRENT_VERSION') && version_compare( WP_CTA_CURRENT_VERSION , self::$version_cta , '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads Plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Calls to Action Version' , 'landing-pages' ) => WPL_CURRENT_VERSION,
-									__( 'Required Calls to Action Version' , 'landing-pages' ) => self::$version_cta
-								),
-					'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_cta )
-				)
-			);
-		}
-
-
 	}
-    
+
+	/**
+	 * Retrieves double opt in page id
+	 * @return mixed
+	 */
+	public static function get_double_optin_page_id() {
+		global $inbound_settings;
+		/*get the double optin confirm page id*/
+		if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+			$double_optin_page_id = get_option('list-double-optin-page-id', '');
+		}else{
+			$double_optin_page_id = $inbound_settings['leads']['list-double-optin-page-id'];
+		}
+
+		return $double_optin_page_id;
+	}
+
+	/**
+	 * Save Double Optin Page ID
+	 * @param $page_id
+	 */
+	public static function save_double_optin_page_id( $page_id ) {
+		global $inbound_settings;
+
+		if(!defined('INBOUND_PRO_CURRENT_VERSION')) {
+			update_option('list-double-optin-page-id', $page_id);
+		} else {
+			$inbound_settings['leads']['list-double-optin-page-id'] = $page_id;
+			Inbound_Options_API::update_option('inbound-pro', 'settings', $settings);
+		}
+	}
+
+	/**
+	 *  Adds a new lead list.
+	 *  @developer-note: This function is also located in Inbound_Leads class, but it's currently unreachable.
+	 */
+	public static function create_lead_list( $args ) {
+
+		$params = array();
+
+		/* if no list name is present then return null */
+		if ( !isset( $args['name'] )) {
+			return null;
+		}
+
+		if (isset( $args['description'] )) {
+			$params['description'] = $args['description'];
+		}
+
+		if (isset( $args['parent'] )) {
+			$params['parent'] = $args['parent'];
+		} else {
+			$params['parent'] = 0;
+		}
+
+		$term = term_exists(  $args['name'], 'wplead_list_category', $params['parent'] );
+
+		/* if term does not exist then create it */
+		if ( !$term ) {
+			$term = wp_insert_term(	$args['name'], 'wplead_list_category', $params );
+		}
+
+		if ( is_array($term) && isset( $term['term_id'] ) ) {
+			return array( 'id' => $term['term_id'] );
+		} else if ( is_numeric($term) ) {
+			return array( 'id' => $term );
+		} else {
+			return $term;
+		}
+	}
+
 }
 
 /* Add Activation Hook */

@@ -198,7 +198,7 @@ if (!class_exists('Inbound_Metaboxes_Leads')) {
                     <li class="tabs"><a href="#<?php echo $tax_name; ?>-all"><?php echo $taxonomy->labels->all_items; ?></a></li>
                     <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-pop"><?php _e( 'Most Used' ); ?></a></li>
                     <?php if(!empty($double_optin_lists) && is_array($double_optin_lists)){ ?>
-                    <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-need-double-optin"><?php _e( 'Double Opt In' ); ?></a></li>
+                    <li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-need-double-optin"><?php _e( 'Unconfirmed' ); ?></a></li>
                     <?php } ?>
                 </ul>
          

@@ -37,11 +37,11 @@ jQuery(document).ready(function ($) {
 
         var mark_as_read = '<span class="mark-read button" title="Mark lead as viewed">Mark as read</span>';
         var mark_as_unread = '<span class="mark-unread button" title="Mark lead as unread">Mark as unread</span>';
-        var stop_waiting_for_optin = '<span class="stop-waiting-for-optin button" title="Remove the lead from the double opt in waiting list">Stop waiting for opt in</span>';
+        //var stop_waiting_for_optin = '<span class="stop-waiting-for-optin button" title="Remove the lead from the double opt in waiting list">Stop waiting for opt in</span>';
         //jQuery(mark_as_read).appendTo(".row-actions");
         jQuery(mark_as_read).appendTo(".edit");
         jQuery(mark_as_unread).appendTo(".edit");
-        jQuery(stop_waiting_for_optin).appendTo(".edit");
+        //jQuery(stop_waiting_for_optin).appendTo(".edit");
 
         jQuery('.mark-read, .mark-unread, .stop-waiting-for-optin').each(function () {
             var this_lead = jQuery(this).parent().parent().parent().parent().attr("id");

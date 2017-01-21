@@ -142,7 +142,7 @@ if (!class_exists('LeadStorage')) {
 					}
                     
                     /*remove any groups that the lead is already on from the double optin groups*/
-                    if(!empty(array_filter($double_optin_lists))){
+                    if(array_filter($double_optin_lists)){
                         $existing_lists = wp_get_post_terms( $lead['id'], 'wplead_list_category');
                         foreach($existing_lists as $existing_list){
                             if(in_array($existing_list->term_id, $double_optin_lists)){
@@ -152,7 +152,7 @@ if (!class_exists('LeadStorage')) {
                         }
                     }
 
-					if(!empty(array_filter($double_optin_lists))){
+					if(array_filter($double_optin_lists)){
                         /*get the double optin waiting list id*/
                         if(!defined('INBOUND_PRO_CURRENT_VERSION')){
                             $double_optin_list_id = get_option('list-double-optin-list-id', '');
@@ -248,7 +248,7 @@ if (!class_exists('LeadStorage')) {
 
 				/* set unset pageviews to lead using lead_uid */
 				self::update_pageviews($lead);
-				
+
 				/* send data back and perform action hooks */
 				if ( self::$is_ajax ) {
 					echo $lead['id'];

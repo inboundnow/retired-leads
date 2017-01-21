@@ -15,116 +15,39 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
          */
         public static function add_hooks(){
 
-        /* Add processing listener */
-        add_action( 'init' , array( __class__, 'process_double_optin' ), 20 );        
-        
-        /* Shortcode for displaying list double opt in confirmation form */
-        add_shortcode( 'inbound-list-confirm-double-optin' , array( __CLASS__, 'display_double_optin_form' ), 1 );
-        
-		/* Process shortcode to produce the confirmation link,
-         * the name is different from the one the user uses to prevent early rendering */
-		add_shortcode( 'list-double-optin-link', array( __CLASS__, 'process_list_confirm_link' ) );        
-            
+            /* Shortcode for displaying list double opt in confirmation form */
+            add_action( 'init' , array( __CLASS__, 'process_confrimation' ), 20 );
+
+            /* Process shortcode to produce the confirmation link,
+             * the name is different from the one the user uses to prevent early rendering */
+            add_shortcode( 'list-double-optin-link', array( __CLASS__, 'render_confirm_link' ) );
+
         }
+
 
         /**
-         *  Listens for the user to confirm being opted into a list
+         * @param $atts
+         * @return string
          */
-        public static function process_double_optin(){
- 
-            if (!isset($_POST['action']) || $_POST['action'] != 'inbound_confirm_event' ) {
-                return;
-            }
-            /* determine if anything is selected */
-            if (!isset($_POST['list_ids']) && !isset($_POST['lists_all'])) {
-                return;
-            }
- 
-            /* decode token */
-            $params = self::decode_confirm_token( $_POST['token'] );
-            /* prepare all token */
-            $all = (isset($_POST['lists_all']) && $_POST['lists_all']  ) ? true : false;
-            
-            /*if all isn't selected*/
-            if($all === false){
-                /*map the list ids to the selected inputs*/
-                $params['list_ids'] = array_map(function($id){ $id = (int)$id;  if($id && $id > 0){ return $id; }}, $_POST['list_ids']);
-            }
-
-            if(isset($_POST['confirm'])){
-                self::confirm_being_added_to_lists($params, $all);
-            }
-        }
-
-        public static function display_double_optin_form($atts){
+        public static function process_confrimation(){
             global $inbound_settings;
 
-            if(!defined('INBOUND_PRO_CURRENT_VERSION')){
-                $confirm_button_text = get_option('list-double-optin-button-text', __( 'Confirm List Opt In', 'inbound-pro'));
-                $confirm_show_lists = get_option('list-double-optin-show-lists', 'on');
-                $lead_confirmed_confirmation_message = get_option('list-double-optin-confirmed-message', __( 'Thank You!', 'inbound-pro'));
-                $all_lists = get_option('list-double-optin-all-list-text', __( 'All Lists' , 'inbound-pro' ));
-            }else{
-                $confirm_button_text = (isset($inbound_settings['leads']['list-double-optin-button-text'])) ? $inbound_settings['leads']['list-double-optin-button-text'] : __( 'Confirm List Opt In', 'inbound-pro');
-                $confirm_show_lists = (isset($inbound_settings['leads']['list-double-optin-show-lists'])) ? $inbound_settings['leads']['list-double-optin-show-lists'] : 'on';
-                $lead_confirmed_confirmation_message = (isset($inbound_settings['leads']['list-double-optin-confirmed-message'])) ? $inbound_settings['leads']['list-double-optin-confirmed-message'] : __( 'Thank You!', 'inbound-pro');
-                $all_lists = (isset($inbound_settings['leads']['list-double-optin-all-list-text'])) ? $inbound_settings['leads']['list-double-optin-all-list-text'] : __( 'All Lists' , 'inbound-pro' );
-               
+            if (!isset($_REQUEST['inbound-action']) || $_REQUEST['inbound-action'] != 'confirm' ) {
+                return;
             }
-            
-            
-            if ( isset( $_GET['confirmed'] ) ) {
-                $confirm =  "<span class='confirmed-message'>". $lead_confirmed_confirmation_message ."</span>";
-                $confirm = apply_filters( 'wpleads/list-double-optin/confirmation-html' , $confirm );
-                return $confirm;
-            }
-            
-            if ( !isset( $_GET['token'] ) ) {
-                return __( 'Invalid token' , 'inbound-pro' );
-            }
+
             /* get all lead lists */
             $lead_lists = Inbound_Leads::get_lead_lists_as_array();
+
             /* decode token */
             $params = self::decode_confirm_token( sanitize_text_field($_GET['token']) );
-            if ( !isset( $params['lead_id'] ) ) {
-                return __( 'Oops. Something is wrong with the confirmation link. Are you logged in?' , 'inbound-pro' );
-            }
-            /* Begin confirm html inputs */
-            $html = "<form action='?confirmed=true' name='confirm' method='post'>";
-            $html .= "<input type='hidden' name='token' value='".strip_tags($_GET['token'])."' >";
-            $html .= "<input type='hidden' name='action' value='inbound_confirm_event' >";
 
-            /* loop through lists and show confirm inputs */ // uncommenting this shows only the lists that are encoded in the token
-//            if ( isset($params['list_ids']) && $confirm_show_lists == 'on' ) {
-//                foreach ($params['list_ids'] as $list_id ) {
-            /*get all lists that the lead is waiting to opt into*/
-            $lists_to_opt_into = get_post_meta($params['lead_id'], 'double_optin_lists', true);
-            if ( !empty($lists_to_opt_into) && $confirm_show_lists == 'on' ) {
-                foreach($lists_to_opt_into as $list_id){
-                    if ($list_id == '-1' || !$list_id ) {
-                        continue;
-                    }
-                    /* make sure not to reveal unrelated lists */
-                    if (!has_term($list_id, 'wplead_list_category' , $params['lead_id'] )) {
-                        $html .= "<span class='confirm-span'><label class='lead-list-label'><input type='checkbox' name='list_ids[]' value='" . $list_id . "' class='lead-list-class'> " . $lead_lists[$list_id] . '</label></span><br />';
-                    }
-                }
+
+            if ( !isset( $params['lead_id'] ) ) {
+                return;
             }
-            $html .= "<span class='confirm-span' style=" . ( $confirm_show_lists == 'off' ? 'display:none;' : '' ) . "><label class='lead-list-label'><input name='lists_all' type='checkbox' value='all' ". ( $confirm_show_lists == 'off' ? 'checked="true"' : '' ) ."> " . $all_lists . "</label></span>";
-            $html .= "<div class='confirm-div confirm-options'>";
-            $html .= "	<span class='confirm-action-label'>".$confirm_button_text .":</span>";
-            $html .= "	<div class='confirm-button'>";
-            $html .= "		<span class='unsub-span'>
-                                <label class='confirm-label'>
-                                    <input name='confirm' type='submit' value='". $confirm_button_text ."' class='inbound-button-submit inbound-submit-action'>
-                                </label>
-                            </span>";
-            $html .= "	</div>";
-            $html .= "</div>";
-            $html .= "</form>";
-            return $html;
-                
-                
+
+            self::confirm_being_added_to_lists($params, $all);
         }
 
 
@@ -135,12 +58,12 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
         * Then it gets rendered.
         * The reason for this is so the shorcode isn't rendered until the atts have been added to it.
         */
-        public static function process_list_confirm_link( $params ) {
+        public static function render_confirm_link( $params ) {
+
             $params = shortcode_atts( array(
                 'lead_id' => '',
                 'list_ids' => '-1',
-                'email_id' => '-1',
-                'link_text' => '',
+                'email_id' => '-1'
             ), $params, 'list-double-optin-link');
             /* check to see if lead id is set as a REQUEST */
             if ( isset($params['lead_id']) ) {
@@ -152,9 +75,10 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             }
             /* Add variation id to confirm link */
             $params['variation_id'] = ( isset($_REQUEST['inbvid']) )  ? intval($_REQUEST['inbvid']) : intval(0);
+
             /* generate confirm link */
             $confirm_link =  self::generate_confirm_link( $params );
-            return '<a href="'. $confirm_link . '">'. sanitize_text_field($params['link_text']) .'</a>';
+            return $confirm_link;
         }
 
 
@@ -184,11 +108,13 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
             } 
     
             if ( empty($double_optin_page_id) )  {
-                $post = get_page_by_title( __( 'Confirm Double Opt In' , 'inbound-pro' ) );
+                $post = get_page_by_title( __( 'Confirm Subscription' , 'inbound-pro' ) );
                 $double_optin_page_id =  $post->ID;
             }
+
             $base_url = get_permalink( $double_optin_page_id  );
-            return add_query_arg( array( 'token'=>$token ) , $base_url );
+
+            return add_query_arg( array( 'token'=>$token , 'inbound-action' => 'confirm' ) , $base_url );
         }
         
         
@@ -289,5 +215,3 @@ if(!class_exists('Inbound_Confirm_Double_Optin')){
     new Inbound_Confirm_Double_Optin;
 
 }
-
-?>

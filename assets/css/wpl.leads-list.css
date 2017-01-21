@@ -130,10 +130,11 @@ td.last-name {
 }
 
 .row-actions .stop-waiting-for-optin, .row-actions .stop-waiting-for-optin:hover{
-    background: #0333b9;
+    background: #6495ED;
     padding: 0px 5px; 
     color:#fff;
     display: none;
+    font-size: 12px !important;
 }
 
 .row-actions .trash a {
