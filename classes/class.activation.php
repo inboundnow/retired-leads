@@ -43,6 +43,7 @@ class Leads_Activation {
 
 		/* Mark Active */
 		add_option( 'Leads_Activated' , true );
+
 	}
 
 	/**
@@ -70,7 +71,7 @@ class Leads_Activation {
 			$completed[] = $updater;
 
 		}
-
+            
 		/* Update this transient value with list of completed upgrade processes */
 		update_option( 'leads_completed_upgrade_routines' , $completed );
 
@@ -85,7 +86,7 @@ class Leads_Activation {
 		/* Listen for a manual upgrade call */
 		if (isset($_GET['plugin_action']) && $_GET['plugin_action'] == 'upgrade_routines' && $_GET['plugin'] =='leads' ) {
 			self::run_updates();
-			wp_redirect(admin_url('edit.php?post_type=wp-lead'));
+			wp_redirect(wp_get_referer());
 			exit;
 		}
 
@@ -100,6 +101,28 @@ class Leads_Activation {
 
 		if (count($remaining)>0) {
 			add_action( 'admin_notices', array( __CLASS__ , 'display_upgrade_routine_notice' ) );
+		}
+	}
+
+
+	/* Checks if plugin is compatible with current server PHP version */
+	public static function run_version_checks() {
+
+		global $wp_version;
+
+		/* Check PHP Version */
+		if ( version_compare( phpversion(), self::$version_php, '<' ) ) {
+			self::abort_activation(
+				array(
+					'title' => 'Installation aborted',
+					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
+					'details' => array(
+						__( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
+						__( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
+					),
+					'solultion' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
+				)
+			);
 		}
 	}
 
@@ -147,71 +170,6 @@ class Leads_Activation {
 		exit;
 	}
 
-
-	/* Checks if plugin is compatible with current server PHP version */
-	public static function run_version_checks() {
-
-		global $wp_version;
-
-		/* Check PHP Version */
-		if ( version_compare( phpversion(), self::$version_php, '<' ) ) {
-			self::abort_activation(
-				array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Server PHP Version' , 'landing-pages' ) => phpversion(),
-									__( 'Required PHP Version' , 'landing-pages' ) => self::$version_php
-								),
-					'solultion' => sprintf( __( 'Please contact your hosting provider to upgrade PHP to %s or greater' , 'landing-pages' ) , self::$version_php )
-				)
-			);
-		}
-
-		/* Check WP Version */
-		if ( version_compare( $wp_version , self::$version_wp, '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'WordPress Version' , 'landing-pages' ) => $wp_version,
-									__( 'Required WordPress Version' , 'landing-pages' ) => self::$version_wp
-								),
-					'solultion' => sprintf( __( 'Please update landing pages to version %s or greater.' , 'landing-pages' ) , self::$version_wp )
-				)
-			);
-		}
-
-		/* Check Landing Pages Version */
-		if ( defined('LANDINGPAGES_CURRENT_VERSION') && version_compare( LANDINGPAGES_CURRENT_VERSION , self::$version_lp , '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Leads Version' , 'landing-pages' ) => LANDINGPAGES_CURRENT_VERSION,
-									__( 'Required Leads Version' , 'landing-pages' ) => self::$version_lp
-								),
-					'solultion' => sprintf( __( 'Please update Leads to version %s or greater.' , 'landing-pages' ) , self::$version_lp )
-				)
-			);
-		}
-
-		/* Check Calls to Action Version */
-		if ( defined('WP_CTA_CURRENT_VERSION') && version_compare( WP_CTA_CURRENT_VERSION , self::$version_cta , '<' ) ) {
-			self::abort_activation( array(
-					'title' => 'Installation aborted',
-					'message' => __('Leads Plugin could not be installed' , 'landing-pages'),
-					'details' => array(
-									__( 'Calls to Action Version' , 'landing-pages' ) => WPL_CURRENT_VERSION,
-									__( 'Required Calls to Action Version' , 'landing-pages' ) => self::$version_cta
-								),
-					'solution' => sprintf( __( 'Please update Calls to Action to version %s or greater.' , 'landing-pages' ) , self::$version_cta )
-				)
-			);
-		}
-
-
-	}
 }
 
 /* Add Activation Hook */

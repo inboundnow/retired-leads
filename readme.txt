@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
-Tested up to: 4.6.1
-Stable Tag: 2.8.1
+Tested up to: 4.7.1
+Stable Tag: 3.0.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -67,7 +67,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 [Follow Development on GitHub ](https://github.com/inboundnow/leads "Follow & Contribute to core development on GitHub")
  |
-[Follow Development on Twitter ](https://twitter.com/gitleads "See our latest development commits on Twitter")
+[Follow Development on Twitter ](https://twitter.com/inboundnow "Follow us for notifications")
 
 == Installation ==
 
@@ -85,13 +85,18 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
+= 3.0.1 =
+* [new] Adding double optin to lead support.
+* [refactor] General code improvements for speed and memory usage.
+* [UI] Updated styling
+
 = 2.8.1 =
 * [fix] Restore ability to delete leads from lead listing page via bulk actions.
 * [tweak] Maintenance work on Full Contact integration with Lead profile
-* [tweak] Improved UI inside Lead Profile. 
-* [tweak] removing inbound_add_list events from action totals. 
+* [tweak] Improved UI inside Lead Profile.
+* [tweak] removing inbound_add_list events from action totals.
 * [fix] Fixed broken page views in Lead Activity section. Now pulls from inbound_page_views table.
-* [fix] Fixed broken Conversion Paths section. Now pulls from inbound_events table. 
+* [fix] Fixed broken Conversion Paths section. Now pulls from inbound_events table.
 * [refactor] Now pulling lead sources from inbound_events table
 * [enhancement] Better support for checklist and radio custom fields
 * [enhancement] No lead tracking within admin

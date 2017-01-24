@@ -28,6 +28,11 @@ if ( !class_exists('Inbound_Leads') ) {
 			if (is_admin()) {
 				add_action( 'edit_form_after_title', array(__CLASS__, 'install_leads_prompt' ) );
 			}
+
+			/* add activation scripts for double optin support */
+			add_action('inbound_shared_activate' , array(__CLASS__ , 'create_double_optin_list') );
+			add_action('inbound_shared_activate' , array(__CLASS__ , 'create_double_optin_page') );
+
 		}
 		/**
 		*	Register wp-lead post type
@@ -179,12 +184,13 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 
 		/**
-		 *  Adds ID column to lead-tags WP List Table
+		 *  Adds ID and Double Opt In columns to lead-tags WP List Table
 		 */
 		public static function register_lead_list_columns( $cols ) {
 			$new_columns = array(
 				'cb' => '<input type="checkbox" />',
 				'lead_id' => __('ID', 'inbound-pro' ),
+                'double_optin' => __('Double Opt In', 'inbound-pro'),
 				'name' => __('Name', 'inbound-pro' ),
 				'description' => __('Description', 'inbound-pro' ),
 				'slug' => __('Slug', 'inbound-pro' ),
@@ -194,17 +200,41 @@ if ( !class_exists('Inbound_Leads') ) {
 		}
 
 		/**
-		 *  Helps ID column display lead list ID
+		 *  Displays the list id and double option status in the lead-tags WP List Table
 		 */
 		public static function support_lead_list_columns( $out, $column_name, $term_id ) {
-			if ($column_name != 'lead_id' ) {
-				return $out;
+			
+            switch($column_name){
+				case 'lead_id':
+					echo $term_id;
+				break;
+				
+				case 'double_optin':
+                    /*get the double optin waiting list id*/
+                    if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+                        $double_optin_list_id = get_option('list-double-optin-list-id', '');
+                    }else{
+                        $settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+                        $double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+                    }
+                    /*if the current term isn't the double optin list, display the double optin status*/
+                    if($term_id != $double_optin_list_id){
+                        $settings = get_term_meta($term_id, 'wplead_lead_list_meta_settings');
+                        if(!empty($settings[0]['double_optin']) &&  $settings[0]['double_optin'] == 1){
+                            echo '<span>' . __('on', 'inbound-pro') . '</span>';
+                        }else{
+                            echo '<span>' . __('off', 'inbound-pro') . '</span>';
+                        }
+                    }
+				break;
+			
 			}
-
-			$out .= $term_id;
-
-			return $out;
 		}
+        
+
+
+
+
 
 		/**
 		*	Make sure that all list ids are intval
@@ -481,6 +511,13 @@ if ( !class_exists('Inbound_Leads') ) {
 					'color' => '#7A3068',
 					'nature' => 'core'
 				),
+				'double-optin' => array(
+					'priority' => 7,
+					'key' => 'double-optin',
+					'label' => __('Unconfirmed' , 'inbound-pro'),
+					'color' => '#6495ED',
+					'nature' => 'core'
+				),
 			);
 
 			return apply_filters('leads/statuses' , $default );
@@ -571,12 +608,115 @@ if ( !class_exists('Inbound_Leads') ) {
 
 		}
 
+		/**
+		 * Creates the "Confirm Double Optin Page" if the double optin page id is empty
+		 */
+		public static function create_double_optin_page(){
+
+			$title = __( 'Confirm Subscription' , 'inbound-pro' );
+
+			$double_optin_page_id = self::get_double_optin_page_id();
+
+			// If the confirm page id isn't set
+			if(empty($double_optin_page_id)) {
+
+				/**check by name to see if the confirm page exists, if it doesn't create it**/
+				if(null == get_page_by_title( $title )){
+					// Set the page ID so that we know the post was created successfully
+					$page_id = wp_insert_post(array(
+						'comment_status'    =>  'closed',
+						'ping_status'       =>  'closed',
+						'post_title'        =>  $title,
+						'post_status'       =>  'publish',
+						'post_type'         =>  'page',
+						'post_content'      =>  __('Thank you!' , 'inbound-pro')
+					));
+				}else{
+					/*if the confirm page does exist, set the page id to its id*/
+					$page_id = get_page_by_title( $title );
+				}
+
+				self::save_double_optin_page_id($page_id);
+			}
+
+		}
+
+		/**
+		 * Creates a maintenance list
+		 */
+		public static function create_double_optin_list() {
+			global $inbound_settings;
+
+			/*get the double optin waiting list id*/
+			if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+				$double_optin_list_id = get_option('list-double-optin-list-id', '');
+			} else {
+				$settings = Inbound_Options_API::get_option('inbound-pro', 'settings', array());
+				$double_optin_list_id = $settings['leads']['list-double-optin-list-id'];
+			}
+
+			// If the list doesn't already exist, create it
+			if (false == get_term_by('id', $double_optin_list_id, 'wplead_list_category')) {
+
+				/* create/get maintenance lists */
+				$parent = self::create_lead_list( array(
+					'name' => __( 'Maintenance' , 'inbound-pro' )
+				));
+
+				/* createget spam lists */
+				$term = self::create_lead_list( array(
+					'name' => __( 'Unconfirmed' , 'inbound-pro' ),
+					'parent' =>$parent['id']
+				));
+
+				/*get the double optin waiting list id*/
+				if (!defined('INBOUND_PRO_CURRENT_VERSION')) {
+					update_option('list-double-optin-list-id', $term['id']);
+				} else {
+					$inbound_settings['leads']['list-double-optin-list-id'] = $term['id'];
+					Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
+				}
+
+			}
+		}
+
+		/**
+		 * Retrieves double opt in page id
+		 * @return mixed
+		 */
+		public static function get_double_optin_page_id() {
+			global $inbound_settings;
+			/*get the double optin confirm page id*/
+			if(!defined('INBOUND_PRO_CURRENT_VERSION')){
+				$double_optin_page_id = get_option('list-double-optin-page-id', '');
+			}else{
+				$double_optin_page_id = $inbound_settings['leads']['list-double-optin-page-id'];
+			}
+
+			return $double_optin_page_id;
+		}
+
+		/**
+		 * Save Double Optin Page ID
+		 * @param $page_id
+		 */
+		public static function save_double_optin_page_id( $page_id ) {
+			global $inbound_settings;
+
+			if(!defined('INBOUND_PRO_CURRENT_VERSION')) {
+				update_option('list-double-optin-page-id', $page_id);
+			} else {
+				$inbound_settings['leads']['list-double-optin-page-id'] = $page_id;
+				Inbound_Options_API::update_option('inbound-pro', 'settings', $inbound_settings);
+			}
+		}
+
 	}
 
 	/**
 	*  	Register 'wp-lead' CPT
 	*/
-	$GLOBALS['Inbound_Leads'] = new Inbound_Leads();
+	new Inbound_Leads();
 
 
 }
