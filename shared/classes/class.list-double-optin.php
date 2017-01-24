@@ -145,9 +145,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
 
         /**
          * Saves form options to the term meta
-         * is_html_ is a token for passing html to the settings.
-         * To use it, prefix the html "name" value with it.
-         * So <input name="inbound-html"> becomes <input name="is_html_inbound_html">
          */
         public static function ajax_lead_list_save_settings(){
             $data = stripslashes_deep($_POST['data']);
@@ -173,7 +170,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
 
             echo json_encode(__('Settings Updated!', 'inbound-pro'));
 
-            print_r($meta);
             die();
         }
 
@@ -228,7 +224,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
             /* get settings */
             $settings = get_term_meta($list->term_id, 'wplead_lead_list_meta_settings', true);
             $settings['double_optin'] = (isset($settings['double_optin'])) ? $settings['double_optin'] : 0;
-            $settings['double_optin_send_notification'] = (isset($settings['double_optin_send_notification'])) ? $settings['double_optin_send_notification'] : 1;
             $settings['double_optin_email_template'] = (isset($settings['double_optin_email_template'])) ? $settings['double_optin_email_template'] : __('Please confirm your subscription' , 'inbound-pro' );
             $settings['double_optin_email_confirmation_logo'] = (isset($settings['double_optin_email_confirmation_logo'])) ? $settings['double_optin_email_confirmation_logo'] : '';
             $settings['double_optin_email_confirmation_subject'] = (isset($settings['double_optin_email_confirmation_subject'])) ? $settings['double_optin_email_confirmation_subject'] : __('Please confirm your subscription' , 'inbound-pro' );
@@ -239,7 +234,11 @@ if (!class_exists('Inbound_List_Double_Optin')) {
             /* get email templates */
             $emails = array();
             if (defined('INBOUND_PRO_CURRENT_VERSION')) {
-                $emails = Inbound_Mailer_Post_Type::get_automation_emails_as('ARRAY');
+
+                if(class_exists('Inbound_Mailer_Post_Type')){
+                    $emails = Inbound_Mailer_Post_Type::get_automation_emails_as('ARRAY');
+                }
+
                 $emails = ($emails) ? $emails : array(__('No Automation emails detected. ', 'inbound-pro'));
             }
             ?>
@@ -254,25 +253,13 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                     </select>
                 </td>
             </tr>
-            <tr class="form-field double-optin-enabled">
-                <th valign="top" scope="row">
-                    <label><?php _e('Send Confirmation Email', 'inbound-pro'); ?></label>
-                </th>
-                <td>
-                    <select name="double_optin_send_notification" id="double_optin_send_notification" class="double-optin-setting"  title="<?php _e('Select whether this list should send a double opt in request email to leads. If you use multiple double opt in enabled lists on the same Inbound form, you may want to only have one of those lists send the request email.', 'inbound-pro'); ?>">
-                        <option value="0"  <?php selected($settings['double_optin_send_notification'], 0); ?>><?php _e('No' , 'inbound-pro'); ?></option>
-                        <option value="1"  <?php selected($settings['double_optin_send_notification'], 1); ?>><?php _e('Yes' , 'inbound-pro'); ?></option>
-                    </select>
-
-                </td>
-            </tr>
             <tr class="form-field double-optin-enabled " id="double-optin-email-template">
                 <th valign="top" scope="row">
                     <label><?php _e('Select Email Template', 'inbound-pro'); ?></label>
                 </th>
                 <td>
                     <select name="double_optin_email_template" id="double_optin_email_template" class="double-optin-setting" >
-                        <option value='default-email-template' <?php selected($settings['double_optin_email_template'], $id); ?>>
+                        <option value='default-email-template' <?php selected($settings['double_optin_email_template'], 'default-email-template'); ?>>
                             <?php _e('Use the default email templates.', 'inbound-pro'); ?>
                         </option>
                         <?php
@@ -362,7 +349,12 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                         if (jQuery('#double_optin_toggle').val() != '1') {
                             jQuery('.double-optin-enabled').css({'display': 'none'});
                         } else {
-                            jQuery('.double-optin-enabled').css({'display': 'init'});
+                            jQuery('.double-optin-enabled').css({'display': 'table-row'});
+
+
+
+
+
                         }
                     });
 
@@ -377,26 +369,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                         }
                     });
 
-
-                    /*if "send double optin confirmation email" has changed*/
-                    jQuery('#double_optin_send_notification').on('change', function () {
-                        /*if to notify has been selected*/
-                        if (jQuery('#double_optin_send_notification').val() == '1') {
-
-                            /*display the email template selector*/
-                            jQuery('#double-optin-email-template').css({'display': 'table-row'});
-
-                            /* show default template settings */
-                            if (jQuery('#double_optin_email_template').val() == 'default-email-template') {
-                                jQuery('.default-email-setting').css({'display': 'table-row'});
-                            }
-
-                        } else {
-                            /*if no notification is to be sent, hide the inputs*/
-                            jQuery('#double-optin-email-template,.default-email-setting').css({'display': 'none'});
-                        }
-                    });
-
                     /*if the email template to send has changed*/
                     jQuery('#double_optin_email_template').on('change', function () {
 
@@ -404,16 +376,17 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                         if (jQuery('#double_optin_email_template').val() == 'default-email-template') {
                             jQuery('.default-email-setting').css({'display': 'table-row'});
                         } else {
-                           jQuery('.default-email-setting').css({'display': 'none'});
+                            jQuery('.default-email-setting').css({'display': 'none'});
                         }
                     });
 
                     /*trigger a refresh of the email inputs just after the page is loaded*/
                     setTimeout(function () {
-                        jQuery('#double_optin_send_notification').trigger('change');
                         jQuery('#double_optin_email_template').trigger('change');
+                        jQuery('#double_optin_toggle').trigger('change');
 
-                    }, 250);
+
+                    }, 350);
 
                 });
             </script>
@@ -442,10 +415,6 @@ if (!class_exists('Inbound_List_Double_Optin')) {
             foreach ($lists as $list_id) {
                 $list_settings = get_term_meta((int)$list_id, 'wplead_lead_list_meta_settings', true);
 
-                /*skip the current list if it isn't supposed to send notifications*/
-                if ($list_settings['double_optin_send_notification'] != '1') {
-                    continue;
-                }
 
                 /* if there is a double optin email template and its not a custom one */
                 if (!empty($list_settings['double_optin_email_template']) && $list_settings['double_optin_email_template'] != 'default-email-template') {
@@ -455,7 +424,7 @@ if (!class_exists('Inbound_List_Double_Optin')) {
                         'email_id' => $list_settings['double_optin_email_template'],
                         'vid' => $vid,
                         'email_address' => $lead['email'],
-                        'lead_id' => $lead_data['id'],
+                        'lead_id' => $lead['id'],
                         'tags' => array('inbound-forms'),
                         'lead_lists' => $lists,
                     );
@@ -552,9 +521,9 @@ if (!class_exists('Inbound_List_Double_Optin')) {
             for ($i = 0; $i < count($matches[0]); $i++) {
                 /*if the current shortcode is inbound-inbound-list-double-optin-link*/
                 if ($matches[2][$i] == 'inbound-list-double-optin-link') {
-                        /*if no link text has been specified*/
-                        $replacement_shortcode = '[list-double-optin-link lead_id=' . (int)$args['lead_id'] . ' list_ids=' . implode(',', $args['list_ids']) . ' email_id=' . sanitize_email($args['email_id']) . ' ]';
-                        $content = str_replace($matches[0][$i], $replacement_shortcode, $content);
+                    /*if no link text has been specified*/
+                    $replacement_shortcode = '[list-double-optin-link lead_id=' . (int)$args['lead_id'] . ' list_ids=' . implode(',', $args['list_ids']) . ' email_id=' . sanitize_email($args['email_id']) . ' ]';
+                    $content = str_replace($matches[0][$i], $replacement_shortcode, $content);
                 }
             }
 
