@@ -39,9 +39,9 @@ if ( !class_exists('Inbound_Upgrade_Routines') ) {
                 'callback' => array( __CLASS__ , 'alter_events_table_1')
             );
 
-            /* alter page view table */
-            self::$routines['events-table-1'] = array(
-                'id' => 'events-table-1',
+            /* alter automation queue table */
+            self::$routines['automation-queue-table-1'] = array(
+                'id' => 'automation-queue-table-1',
                 'scope' => 'shared',
                 'introduced' => '1.0.3',
                 'callback' => array( __CLASS__ , 'alter_automation_queue_table_1')
