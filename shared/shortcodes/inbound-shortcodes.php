@@ -152,8 +152,11 @@ class Inbound_Shortcodes {
 			'url' => '',
 			'target' => ''
 		), $atts));
+
+
 		$style = 'default'; // default setting
 		$class = "inbound-button inbound-special-class";
+
 		if (preg_match("/#/", $color)){
 			$color = (isset($color)) ? "background-color: $color;" : '';
 		} else {
