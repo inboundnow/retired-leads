@@ -37,7 +37,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 		 */
 		public static function load_constants() {
 			define('INBOUNDNOW_SHARED', 'loaded' );
-			define('INBOUNDNOW_SHARED_DBRV', '1.0.2' );
+			define('INBOUNDNOW_SHARED_DBRV', '1.0.3' );
 			define('INBOUNDNOW_SHARED_PATH', self::get_shared_path() );
 			define('INBOUNDNOW_SHARED_URLPATH', self::get_shared_urlpath() );
 			define('INBOUNDNOW_SHARED_FILE', self::get_shared_file() );
@@ -68,7 +68,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.ajax.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-customizer.php');
-			include_once( INBOUNDNOW_SHARED_PATH . 'assets/assets.loader.class.php');
+			include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.load-assets.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'shortcodes/inbound-shortcodes.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'functions/legacy.php');
 			include_once( INBOUNDNOW_SHARED_PATH . 'functions/shared.php');
@@ -78,7 +78,7 @@ if (!class_exists('Inbound_Load_Shared')) {
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.database-routines.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.licensing.php');
 				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.master-license.php');
-				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.promote.php');
+				include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.notifications.php');
 				/* include_once( INBOUNDNOW_SHARED_PATH . 'classes/class.feedback.php'); */
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-key-generation.php');
 				require_once( INBOUNDNOW_SHARED_PATH . 'classes/class.inbound-api.api-keys-table.php');
