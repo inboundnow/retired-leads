@@ -78,12 +78,30 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Screenshots ==
 
-1. Lead Management Custom Post Type
-2. View and Edit Customer(Lead) Information
-3. View Conversion Funnel Log for Each Customer(Lead)
-4. Get Notified on Lead Conversions
+1. Leads Plugin is shipped with a series of dashboard widgets that provide insightful information about your inbound marketing campaign.
+2. Pick and choose which lead lists to monitor performance on.
+3. Inbound Pro Subscribers can view expanded data about lead page views.
+4. Inbound Pro Subscribers can view expanded data about lead action events.
+5. Leads are powered by WordPress custom post types. Here we see a general leads listing page.
+6. Lead profiles are automatically created through Inbound Form submissions. They can also be manually created. Here we look at some of our mappable fields.
+7. Inside our lead profile we collect various lead stats. Inbound Pro subscribers can view expanded statistics inside a popup.
+8. Sources are recorded for a lead if they are available. Multiple sources can be collected.
+9. In this screenshot we are still inside a lead profile. Set lead lists, tags, and view geolocation information if available.
+10. Inbound Forms are our main tools for in-sourcing leads. We also have extensions that support Ninja Forms and Gravity Forms.
+11. Here we see our administrative options, like what lead lists to add submissions to, what lead tags, and who should we notify via email?
+12. When we setup our form fields we want to make sure our inputs are mapped to a lead profile.
+13. Our Inbound Forms comes with limited styling options.
+14. Leads plugin provides it’s own bulk processing interface for performing mass searches and actions on leads.
+15. Here are a few of our bulk action options. Notice where we can export as CSV. Pretty cool!
+16. After a successful lead submission the site administrator is sent a notification email.
+17. Here’s a better look at our new lead notification email sent to administrators.
 
 == Changelog ==
+
+= 3.0.6 =
+* Updating readme screenshots
+* Adding input for class name into Inbound Form styling options
+* Adding sources to CSV export
 
 = 3.0.5 =
 * Removing geolocation box from core
