@@ -98,6 +98,11 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
+= 3.0.6 =
+* Updating readme screenshots
+* Adding input for class name into Inbound Form styling options
+* Adding sources to CSV export
+
 = 3.0.5 =
 * Removing geolocation box from core
 * Adding 'source' field to lead retrieval calls inside Leads API
