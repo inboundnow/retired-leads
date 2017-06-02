@@ -98,7 +98,7 @@ We built Lead Management as a framework! You can use our extendable framework to
 
 == Changelog ==
 
-= 3.1.1 =
+= 3.1.2 =
 * Delete automation rules on lead trash.
 * Updating shared database tables
 * Removing include and exclude 3rd party form options as we now support major 3rd party forms through extensions.
