@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
 Tested up to: 4.7.3
-Stable Tag: 3.0.9
+Stable Tag: 3.1.1
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -97,6 +97,12 @@ We built Lead Management as a framework! You can use our extendable framework to
 17. Here’s a better look at our new lead notification email sent to administrators.
 
 == Changelog ==
+
+= 3.1.1 =
+* Delete automation rules on lead trash.
+* Updating shared database tables
+* Removing include and exclude 3rd party form options as we now support major 3rd party forms through extensions.
+* Fixing issue with CTA list not populating inside of marketing button popup.
 
 = 3.0.9 =
 * Better Avada theme support
