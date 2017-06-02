@@ -333,31 +333,43 @@ var _inboundPageTracking = (function(_inbound) {
         },
         storePageView: function() {
 
-			if ( inbound_settings.page_tracking == 'off' ) {
+            /* ignore if page tracking off and page is not a landing page */
+			if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
 				return;
 			}
 
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
+            jQuery(document).ready(function() {
+                setTimeout(function(){
+                    var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
+                    var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                    var ctas = _inbound.totalStorage('wp_cta_loaded');
 
-            var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
-            var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                    var data = {
+                        action: 'inbound_track_lead',
+                        wp_lead_uid: lead_uid,
+                        wp_lead_id: leadID,
+                        page_id: inbound_settings.post_id,
+                        variation_id: inbound_settings.variation_id,
+                        post_type: inbound_settings.post_type,
+                        current_url: window.location.href,
+                        page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
+                        ctas : JSON.stringify(ctas),
+                        json: '0'
+                    };
 
-            var data = {
-                action: 'inbound_track_lead',
-                wp_lead_uid: lead_uid,
-                wp_lead_id: leadID,
-                page_id: inbound_settings.post_id,
-                variation_id: inbound_settings.variation_id,
-                post_type: inbound_settings.post_type,
-                current_url: window.location.href,
-                page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                json: '0'
-            };
+                    var firePageCallback = function(leadID) {
+                        //_inbound.Events.page_view_saved(leadID);
+                    };
+                    //_inbound.Utils.doAjax(data, firePageCallback);
 
-            var firePageCallback = function(leadID) {
-                //_inbound.Events.page_view_saved(leadID);
-            };
-            //_inbound.Utils.doAjax(data, firePageCallback);
-            _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+                    _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+
+                } , 400 );
+
+
+            });
+
 
         }
         /*! GA functions

@@ -66,6 +66,8 @@ class Inbound_Events {
 			  `form_id` mediumint(20) NOT NULL,
 			  `cta_id` mediumint(20) NOT NULL,
 			  `email_id` mediumint(20) NOT NULL,
+			  `rule_id` mediumint(20) NOT NULL,
+			  `job_id` mediumint(20) NOT NULL,
 			  `list_id` mediumint(20) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
@@ -102,7 +104,7 @@ class Inbound_Events {
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-			  `page_id` mediumint(20) NOT NULL,
+			  `page_id` varchar(20) NOT NULL,
 			  `variation_id` mediumint(9) NOT NULL,
 			  `lead_id` mediumint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
@@ -269,6 +271,8 @@ class Inbound_Events {
             'form_id' => '',
             'cta_id' => '',
             'email_id' => '',
+            'rule_id' => '',
+            'job_id' => '',
             'list_id' => '',
             'lead_id' => ( isset($_COOKIE['wp_lead_id']) ? $_COOKIE['wp_lead_id'] : '' ),
             'lead_uid' => ( isset($_COOKIE['wp_lead_uid']) ? $_COOKIE['wp_lead_uid'] : '' ),
