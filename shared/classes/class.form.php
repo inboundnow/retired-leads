@@ -265,19 +265,19 @@ if (!class_exists('Inbound_Forms')) {
                         $years = self::get_date_selectons('years');
 
                         $form .= '<div class="dateSelector">';
-                        $form .= '	<select id="formletMonth" name="' . $field_name . '[month]" >';
+                        $form .= '	<select id="formletMonth" class="formletMonth" name="' . $field_name . '[month]" >';
                         foreach ($months as $key => $value) {
                             ($m == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
                         }
                         $form .= '	</select>';
-                        $form .= '	<select id="formletDays" name="' . $field_name . '[day]" >';
+                        $form .= '	<select id="formletDays" class="formletDays" name="' . $field_name . '[day]" >';
                         foreach ($days as $key => $value) {
                             ($d == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
                         }
                         $form .= '	</select>';
-                        $form .= '	<select id="formletYears" name="' . $field_name . '[year]" >';
+                        $form .= '	<select id="formletYears" class="formletYears" name="' . $field_name . '[year]" >';
                         foreach ($years as $key => $value) {
                             ($y == $key) ? $sel = 'selected="selected"' : $sel = '';
                             $form .= '<option value="' . $key . '" ' . $sel . '>' . $value . '</option>';
@@ -285,32 +285,43 @@ if (!class_exists('Inbound_Forms')) {
                         $form .= '	</select>';
                         $form .= '</div>';
                         $form .= '<script>
-                                    function inbf_daysInMonth(month,year) {
-                                         return new Date(year, month, 0).getDate();
+                                    if (typeof inbf_daysInMonth != "function") {
+
+                                        function inbf_minTwoDigits(n) {
+                                          return (n < 10 ? \'0\' : \'\') + n;
+                                        }
+
+                                        function inbf_daysInMonth(month,year) {
+                                             return new Date(year, month, 0).getDate();
+                                        }
+
+                                        jQuery("body").on("change", ".formletMonth, .formletYears" ,function() {
+
+                                             /* get current selected day */
+                                             var selected_date = jQuery(this).parent().find( "#formletDays" ).find(":selected").val();
+
+                                             /* remove day options */
+                                             jQuery(this).parent().find( "#formletDays" ).find("option").remove();
+
+                                             /* get more supportive variables  */
+                                             var month = jQuery(this).parent().find("#formletMonth option:selected").val();
+                                             var year = jQuery(this).parent().find("#formletYears option:selected").val();
+                                             var days_in_month = inbf_daysInMonth(month,year);
+
+
+                                             /* build new option set */
+                                             for (var i = 1; i <= days_in_month; i++) {
+                                                  jQuery(this).parent().find( ".formletDays" ).append(jQuery("<option></option>").attr("value", i).text(inbf_minTwoDigits(i)));
+                                             }
+
+                                             /* set date to original selection */
+                                             jQuery(this).parent().find(".formletDays option[value="+selected_date+"]").prop("selected", true)
+                                        });
+
                                     }
 
-                                    jQuery("#formletMonth, #formletYears").on("change",function() {
-
-                                         /* get current selected day */
-                                         var selected_date = jQuery( "#formletDays" ).find(":selected").val();
-
-                                         /* remove day options */
-                                         jQuery("#formletDays").find("option").remove();
-
-                                         /* get more supportive variables  */
-                                         var month = jQuery("#formletMonth").find(":selected").val();
-                                         var year = jQuery("#formletYears").find(":selected").val();
-                                         var days_in_month = inbf_daysInMonth(month,year);
-
-                                         /* build new option set */
-                                         for (var i = 1; i <= days_in_month; i++) {
-                                              jQuery("#formletDays").append(jQuery("<option></option>").attr("value", i).text(i));
-                                         }
-
-                                         /* set date to original selection */
-                                         jQuery("#formletDays option[value="+selected_date+"]").prop("selected", true)
-                                    });
-
+                                     /* trigger update to set day value correctly */
+                                    jQuery(".formletYears:last-child").trigger("change");
                                    </script>';
 
                     } else if ($type === 'date') {
@@ -622,7 +633,6 @@ if (!class_exists('Inbound_Forms')) {
             /* TODO remove this */
             ?>
             <script type="text/javascript">
-                _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
 
                 function inbound_additional_checks( data ) {
                     /* make sure event is defined */
@@ -631,17 +641,17 @@ if (!class_exists('Inbound_Forms')) {
                         event.target = data.event;
                     }
 
-                  	/*make sure all of this form's required checkboxes are checked*/
+                    /*make sure all of this form's required checkboxes are checked*/
                     var checks = jQuery(event.target).find('.checkbox-required');
                     for(var a = 0; a < checks.length; a++){
-                      if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
-                        jQuery(jQuery(checks[a]).find('input')).focus();
-                        alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
-                        throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
-                      }
+                        if( checks[a] && jQuery(checks[a]).find('input[type=checkbox]:checked').length==0){
+                            jQuery(jQuery(checks[a]).find('input')).focus();
+                            alert("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?> ");
+                            throw new Error("<?php _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro') ; ?>");
+                        }
                     }
 
-                  jQuery(this).find("input").each(function(){
+                    jQuery(this).find("input").each(function(){
                         if(!jQuery(this).prop("required")){
                         } else if (!jQuery(this).val()) {
                             alert("<?php  _e('Oops! Looks like you have not filled out all of the required fields!', 'inbound-pro'); ?>");
@@ -697,6 +707,10 @@ if (!class_exists('Inbound_Forms')) {
 
                 /* Adding helpful listeners - may need to move all this into the analytics engine */
                 jQuery(document).ready(function($){
+
+                    /* add checkbox requirement checks */
+                    _inbound.add_action( 'form_before_submission', inbound_additional_checks, 9);
+
                     /* remove br tags */
                     jQuery("#inbound_form_submit br").remove();
 
