@@ -339,11 +339,15 @@ var _inboundPageTracking = (function(_inbound) {
 			}
 
             /* Let's try and fire this last - also defines what constitutes a bounce -  */
-            jQuery(document).ready(function() {
+            document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function(){
                     var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
                     var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
-                    var ctas = _inbound.totalStorage('wp_cta_loaded');
+                    var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
+                    var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+
+                    /* now reset impressions */
+                    _inbound.totalStorage('wp_cta_impressions' , {} );
 
                     var data = {
                         action: 'inbound_track_lead',
@@ -354,7 +358,8 @@ var _inboundPageTracking = (function(_inbound) {
                         post_type: inbound_settings.post_type,
                         current_url: window.location.href,
                         page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                        ctas : JSON.stringify(ctas),
+                        cta_impressions : JSON.stringify(ctas_impressions),
+                        cta_history : JSON.stringify(ctas_loaded),
                         json: '0'
                     };
 
@@ -365,7 +370,7 @@ var _inboundPageTracking = (function(_inbound) {
 
                     _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
 
-                } , 400 );
+                } , 200 );
 
 
             });
