@@ -49,6 +49,12 @@ class Inbound_Events {
         global $wpdb;
 
         $table_name = $wpdb->prefix . "inbound_events";
+
+        /* if table already created then bail */
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+            return;
+        }
+
         $charset_collate = '';
 
         if ( ! empty( $wpdb->charset ) ) {
@@ -82,7 +88,6 @@ class Inbound_Events {
 			) $charset_collate;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        
         $results = dbDelta( $sql );
 
     }
@@ -252,7 +257,7 @@ class Inbound_Events {
     }
 
     /**
-     * Stores comment made events into the events table
+     * Stores search made events into the events table
      * @param $args
      */
     public static function store_search_event( $args ){
@@ -274,7 +279,7 @@ class Inbound_Events {
 
         self::store_event($args);
     }
-
+    
     /**
      * Add event to inbound_events table
      * @param $args
@@ -378,6 +383,7 @@ class Inbound_Events {
                 case "Unknown column 'funnel' in 'field list'":
                     self::create_events_table();
                     break;
+                                
                 case "Unknown column 'comment_id' in 'field list'":
                     self::create_events_table();
                     break;
@@ -968,7 +974,7 @@ class Inbound_Events {
         if (isset($params['offset']) && $params['offset']) {
             $query .= ' OFFSET '.$params['offset'].' ';
         }
-        
+
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;
@@ -1451,7 +1457,7 @@ class Inbound_Events {
         /* return null if nothing there */
         return ($count) ? $count : 0;
     }
-    
+ 
     /**
      * Checks to see if a comment has already been logged in the events table
      * @param $comment_id
@@ -1486,7 +1492,7 @@ class Inbound_Events {
                 $comment_id
             )
         );
-    }
+   }
    
     public static function isJson($string) {
         json_decode($string);
