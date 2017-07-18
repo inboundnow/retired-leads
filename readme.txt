@@ -1,6 +1,6 @@
 === WordPress Leads ===
 
-Contributors: Hudson Atwell, David Wells, Giulio Dapreala, ahmedkaludi 
+Contributors: Hudson Atwell, David Wells, Giulio Dapreala, ahmedkaludi, Matt Bissett
 Donate link: mailto:hudson@inboundnow.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
